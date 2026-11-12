@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+<rect width="1000" height="560" fill="#FFFFFF"/>
+<rect x="20" y="20" width="960" height="520" rx="14" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
+<text x="46" y="68" font-size="34" font-weight="bold">Legend — Table Relationship Diagram</text>
+<text x="46" y="118" font-size="28" font-weight="bold">name</text>
+<text x="140" y="118" font-size="28">= primary key (PK; bold + underlined)</text>
+<line x1="46" y1="124" x2="130" y2="124" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="46" y="164" font-size="28">[FK] = foreign key (target table shown after →)</text>
+<line x1="46" y1="206" x2="130" y2="206" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="150" y1="186" x2="150" y2="226" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="175" y="206" font-size="28">= one</text>
+<line x1="330" y1="206" x2="430" y2="206" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="430" y1="206" x2="500" y2="186" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="430" y1="206" x2="500" y2="226" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="525" y="206" font-size="28">= many (crow's foot)</text>
+<text x="46" y="258" font-size="26">LEGACY card: dashed border + LEGACY tag = historical rows only</text>
+<text x="46" y="306" font-size="26">assessment, assessment_concept, assessment_question, assessment_blueprint</text>
+<text x="46" y="372" font-size="30" font-weight="bold">41 tables · 293 columns · 59 foreign keys · 19 migrations</text>
+<text x="46" y="420" font-size="24">Split across 5 consecutive pages: 10 / 11 / 7 / 7 / 6 table cards.</text>
+<text x="46" y="458" font-size="24">Cross-page FK stub: → target(columns) · pN on the source page;</text>
+<text x="46" y="492" font-size="24">← source(columns) · pN on the target page.</text>
+</g>
+</svg>

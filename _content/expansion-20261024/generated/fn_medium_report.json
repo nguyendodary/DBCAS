@@ -1,0 +1,46 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\fn_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:47:46.401698+00:00",
+  "questions": [
+    {
+      "key": "fn-medium-plainto-vs-phraseto",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-FTS"
+      ],
+      "status": "validated",
+      "question_id": 592,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-medium-tsquery-operators",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-FTS"
+      ],
+      "status": "validated",
+      "question_id": 593,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-medium-websearch-to-tsquery",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-FTS"
+      ],
+      "status": "validated",
+      "question_id": 594,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:47:47.550576+00:00",
+  "summary": {
+    "validated": 3
+  }
+}

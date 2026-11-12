@@ -1,0 +1,307 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3440" height="2080" viewBox="0 0 3440 2080">
+<rect width="3440" height="2080" fill="#FFFFFF"/>
+<rect x="43" y="45" width="795" height="1274" fill="#B8B8B8"/>
+<rect x="893" y="45" width="795" height="570" fill="#B8B8B8"/>
+<rect x="1743" y="45" width="795" height="384" fill="#B8B8B8"/>
+<rect x="2593" y="45" width="795" height="446" fill="#B8B8B8"/>
+<rect x="43" y="1379" width="795" height="532" fill="#B8B8B8"/>
+<rect x="893" y="1379" width="795" height="446" fill="#B8B8B8"/>
+<rect x="1743" y="1379" width="795" height="532" fill="#B8B8B8"/>
+<rect x="40" y="42" width="795" height="1274" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="116" x2="835" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="262" x2="834" y2="262" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="324" x2="834" y2="324" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="386" x2="834" y2="386" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="448" x2="834" y2="448" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="510" x2="834" y2="510" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="572" x2="834" y2="572" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="634" x2="834" y2="634" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="696" x2="834" y2="696" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="758" x2="834" y2="758" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="820" x2="834" y2="820" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="882" x2="834" y2="882" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="944" x2="834" y2="944" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1006" x2="834" y2="1006" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1068" x2="834" y2="1068" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1130" x2="834" y2="1130" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1192" x2="834" y2="1192" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1254" x2="834" y2="1254" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="42" width="795" height="570" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="116" x2="1685" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="178" x2="1684" y2="178" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="240" x2="1684" y2="240" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="302" x2="1684" y2="302" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="364" x2="1684" y2="364" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="426" x2="1684" y2="426" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="488" x2="1684" y2="488" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="550" x2="1684" y2="550" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="42" width="795" height="384" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="116" x2="2535" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="178" x2="2534" y2="178" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="240" x2="2534" y2="240" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="302" x2="2534" y2="302" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="364" x2="2534" y2="364" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2590" y="42" width="795" height="446" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2591.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="2590" y1="116" x2="3385" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2591" y1="178" x2="3384" y2="178" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="240" x2="3384" y2="240" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="302" x2="3384" y2="302" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="364" x2="3384" y2="364" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="426" x2="3384" y2="426" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="40" y="1376" width="795" height="532" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="1377.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="1450" x2="835" y2="1450" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="1512" x2="834" y2="1512" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1598" x2="834" y2="1598" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1660" x2="834" y2="1660" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1722" x2="834" y2="1722" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1784" x2="834" y2="1784" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1846" x2="834" y2="1846" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="1376" width="795" height="446" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="1377.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="1450" x2="1685" y2="1450" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="1512" x2="1684" y2="1512" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1574" x2="1684" y2="1574" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1636" x2="1684" y2="1636" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1698" x2="1684" y2="1698" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1760" x2="1684" y2="1760" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="1376" width="795" height="532" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="1377.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="1450" x2="2535" y2="1450" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="1512" x2="2534" y2="1512" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1598" x2="2534" y2="1598" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1660" x2="2534" y2="1660" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1722" x2="2534" y2="1722" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1784" x2="2534" y2="1784" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1846" x2="2534" y2="1846" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="61" y1="146.5" x2="241" y2="146.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="911" y1="164.5" x2="1091" y2="164.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="912" y1="226.5" x2="1000" y2="226.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1761" y1="164.5" x2="1905" y2="164.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2612" y1="164.5" x2="2746" y2="164.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="62" y1="1498.5" x2="154" y2="1498.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="911" y1="1498.5" x2="1069" y2="1498.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1761" y1="1498.5" x2="1863" y2="1498.5" stroke="#1A1A1A" stroke-width="2"/>
+<g fill="none" stroke="#1A1A1A" stroke-width="2.5">
+<line x1="1740" y1="195" x2="1728" y2="209"/>
+<line x1="1740" y1="209" x2="1728" y2="209"/>
+<line x1="1740" y1="223" x2="1728" y2="209"/>
+<line x1="1728" y1="209" x2="1728" y2="1325"/>
+<line x1="1728" y1="1325" x2="847" y2="1325"/>
+<line x1="847" y1="1325" x2="847" y2="136"/>
+<line x1="847" y1="136" x2="835" y2="136"/>
+<line x1="845" y1="126" x2="845" y2="146"/>
+<line x1="40" y1="961" x2="28" y2="975"/>
+<line x1="40" y1="975" x2="28" y2="975"/>
+<line x1="40" y1="989" x2="28" y2="975"/>
+<line x1="28" y1="975" x2="28" y2="1331"/>
+<line x1="28" y1="1331" x2="23" y2="1331"/>
+<line x1="23" y1="1331" x2="23" y2="157.2"/>
+<line x1="23" y1="157.2" x2="40" y2="157.2"/>
+<line x1="30" y1="147.2" x2="30" y2="167.2"/>
+<line x1="890" y1="133" x2="873" y2="147"/>
+<line x1="890" y1="147" x2="873" y2="147"/>
+<line x1="890" y1="161" x2="873" y2="147"/>
+<line x1="873" y1="147" x2="873" y2="1337"/>
+<line x1="873" y1="1337" x2="857" y2="1337"/>
+<line x1="857" y1="1337" x2="857" y2="178.4"/>
+<line x1="857" y1="178.4" x2="835" y2="178.4"/>
+<line x1="845" y1="168.4" x2="845" y2="188.4"/>
+<line x1="2590" y1="195" x2="2578" y2="209"/>
+<line x1="2590" y1="209" x2="2578" y2="209"/>
+<line x1="2590" y1="223" x2="2578" y2="209"/>
+<line x1="2578" y1="209" x2="2578" y2="1343"/>
+<line x1="2578" y1="1343" x2="862" y2="1343"/>
+<line x1="862" y1="1343" x2="862" y2="199.6"/>
+<line x1="862" y1="199.6" x2="835" y2="199.6"/>
+<line x1="845" y1="189.6" x2="845" y2="209.6"/>
+<line x1="40" y1="1677" x2="18" y2="1691"/>
+<line x1="40" y1="1691" x2="18" y2="1691"/>
+<line x1="40" y1="1705" x2="18" y2="1691"/>
+<line x1="18" y1="1691" x2="18" y2="1349"/>
+<line x1="18" y1="1349" x2="13" y2="1349"/>
+<line x1="13" y1="1349" x2="13" y2="220.8"/>
+<line x1="13" y1="220.8" x2="40" y2="220.8"/>
+<line x1="30" y1="210.8" x2="30" y2="230.8"/>
+<line x1="890" y1="1529" x2="858" y2="1543"/>
+<line x1="890" y1="1543" x2="858" y2="1543"/>
+<line x1="890" y1="1557" x2="858" y2="1543"/>
+<line x1="858" y1="1543" x2="858" y2="1355"/>
+<line x1="858" y1="1355" x2="872" y2="1355"/>
+<line x1="872" y1="1355" x2="872" y2="242"/>
+<line x1="872" y1="242" x2="835" y2="242"/>
+<line x1="845" y1="232" x2="845" y2="252"/>
+</g>
+<rect x="2590" y="1376" width="795" height="432" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2616" y1="1472" x2="2680" y2="1472" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1474" x2="2685" y2="1474" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1542" x2="2695" y2="1542" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2710" y1="1525" x2="2710" y2="1559" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2614" y1="1582" x2="2695" y2="1582" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2695" y1="1582" x2="2760" y2="1564" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2695" y1="1582" x2="2760" y2="1600" stroke="#1A1A1A" stroke-width="2.5"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
+<text x="437.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">question</text>
+<text x="60" y="140" font-size="32" font-weight="bold" fill="#1A1A1A">question_id</text>
+<text x="535" y="140" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="815" y="140" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from assessment_question (p1)</text>
+<text x="60" y="196" font-size="24" font-weight="regular" fill="#0B6B3A">from attempt (p4)</text>
+<text x="60" y="226" font-size="24" font-weight="regular" fill="#0B6B3A">from question_candidate (p2)</text>
+<text x="411" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from question_concept (p2)</text>
+<text x="411" y="196" font-size="24" font-weight="regular" fill="#0B6B3A">from session_question_plan (p4)</text>
+<text x="60" y="304" font-size="32" font-weight="regular" fill="#1A1A1A">question_type</text>
+<text x="815" y="304" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(10) NOT NULL</text>
+<text x="60" y="366" font-size="32" font-weight="regular" fill="#1A1A1A">prompt</text>
+<text x="815" y="366" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NOT NULL</text>
+<text x="60" y="428" font-size="32" font-weight="regular" fill="#1A1A1A">reference_answer</text>
+<text x="815" y="428" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NULL</text>
+<text x="60" y="490" font-size="32" font-weight="regular" fill="#1A1A1A">difficulty_level</text>
+<text x="815" y="490" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">smallint NOT NULL</text>
+<text x="60" y="552" font-size="32" font-weight="regular" fill="#1A1A1A">points</text>
+<text x="815" y="552" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">numeric(5,2) NOT NULL</text>
+<text x="60" y="614" font-size="32" font-weight="regular" fill="#1A1A1A">source</text>
+<text x="815" y="614" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(15) NOT NULL</text>
+<text x="60" y="676" font-size="32" font-weight="regular" fill="#1A1A1A">status</text>
+<text x="815" y="676" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="60" y="738" font-size="32" font-weight="bold" fill="#1A1A1A">created_by</text>
+<text x="535" y="738" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="738" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="251" y="738" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="60" y="800" font-size="32" font-weight="regular" fill="#1A1A1A">created_at</text>
+<text x="815" y="800" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="60" y="862" font-size="32" font-weight="regular" fill="#1A1A1A">updated_at</text>
+<text x="815" y="862" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="60" y="924" font-size="32" font-weight="regular" fill="#1A1A1A">ai_review</text>
+<text x="815" y="924" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NULL</text>
+<text x="60" y="986" font-size="32" font-weight="bold" fill="#1A1A1A">family_id</text>
+<text x="535" y="986" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="986" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="60" y="1048" font-size="32" font-weight="regular" fill="#1A1A1A">version_no</text>
+<text x="815" y="1048" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="1110" font-size="32" font-weight="regular" fill="#1A1A1A">explanation</text>
+<text x="815" y="1110" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NULL</text>
+<text x="60" y="1172" font-size="32" font-weight="regular" fill="#1A1A1A">tags</text>
+<text x="815" y="1172" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text[] NOT NULL</text>
+<text x="60" y="1234" font-size="32" font-weight="regular" fill="#1A1A1A">source_refs</text>
+<text x="815" y="1234" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="60" y="1296" font-size="32" font-weight="regular" fill="#1A1A1A">original_locale</text>
+<text x="815" y="1296" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(16) NOT NULL</text>
+<text x="1287.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">question_translation</text>
+<text x="910" y="158" font-size="32" font-weight="bold" fill="#1A1A1A">question_id</text>
+<text x="1385" y="158" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK, FK]</text>
+<text x="1665" y="158" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="910" y="220" font-size="32" font-weight="bold" fill="#1A1A1A">locale</text>
+<text x="1385" y="220" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="1665" y="220" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(16) NOT NULL</text>
+<text x="910" y="282" font-size="32" font-weight="regular" fill="#1A1A1A">source_hash</text>
+<text x="1665" y="282" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(64) NOT NULL</text>
+<text x="910" y="344" font-size="32" font-weight="regular" fill="#1A1A1A">prompt</text>
+<text x="1665" y="344" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NOT NULL</text>
+<text x="910" y="406" font-size="32" font-weight="regular" fill="#1A1A1A">explanation</text>
+<text x="1665" y="406" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NULL</text>
+<text x="910" y="468" font-size="32" font-weight="regular" fill="#1A1A1A">option_texts</text>
+<text x="1665" y="468" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="910" y="530" font-size="32" font-weight="regular" fill="#1A1A1A">rubrics</text>
+<text x="1665" y="530" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="910" y="592" font-size="32" font-weight="regular" fill="#1A1A1A">updated_at</text>
+<text x="1665" y="592" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="2137.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">mcq_option</text>
+<text x="1760" y="158" font-size="32" font-weight="bold" fill="#1A1A1A">option_id</text>
+<text x="2235" y="158" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="2515" y="158" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1927" y="158" font-size="24" font-weight="regular" fill="#0B6B3A">from attempt (p4)</text>
+<text x="1760" y="220" font-size="32" font-weight="bold" fill="#1A1A1A">question_id</text>
+<text x="2235" y="220" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="220" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1760" y="282" font-size="32" font-weight="regular" fill="#1A1A1A">option_label</text>
+<text x="2515" y="282" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(5) NOT NULL</text>
+<text x="1760" y="344" font-size="32" font-weight="regular" fill="#1A1A1A">option_text</text>
+<text x="2515" y="344" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NOT NULL</text>
+<text x="1760" y="406" font-size="32" font-weight="regular" fill="#1A1A1A">is_correct</text>
+<text x="2515" y="406" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bool NOT NULL</text>
+<text x="2987.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">rubric</text>
+<text x="2610" y="158" font-size="32" font-weight="bold" fill="#1A1A1A">rubric_id</text>
+<text x="3085" y="158" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="3365" y="158" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="220" font-size="32" font-weight="bold" fill="#1A1A1A">question_id</text>
+<text x="3085" y="220" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="3365" y="220" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="282" font-size="32" font-weight="regular" fill="#1A1A1A">level_name</text>
+<text x="3365" y="282" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(30) NOT NULL</text>
+<text x="2610" y="344" font-size="32" font-weight="regular" fill="#1A1A1A">min_score</text>
+<text x="3365" y="344" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">numeric(5,2) NOT NULL</text>
+<text x="2610" y="406" font-size="32" font-weight="regular" fill="#1A1A1A">max_score</text>
+<text x="3365" y="406" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">numeric(5,2) NOT NULL</text>
+<text x="2610" y="468" font-size="32" font-weight="regular" fill="#1A1A1A">criteria</text>
+<text x="3365" y="468" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NOT NULL</text>
+<text x="437.5" y="1426" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">selection_log</text>
+<text x="60" y="1492" font-size="32" font-weight="bold" fill="#1A1A1A">log_id</text>
+<text x="535" y="1492" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="815" y="1492" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="1536" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="535" y="1536" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="1536" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="1562" font-size="24" font-weight="regular" fill="#1F3A93">to assessment_session (p4)</text>
+<text x="60" y="1640" font-size="32" font-weight="regular" fill="#1A1A1A">seq_no</text>
+<text x="815" y="1640" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">smallint NOT NULL</text>
+<text x="60" y="1702" font-size="32" font-weight="bold" fill="#1A1A1A">question_id</text>
+<text x="535" y="1702" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="1702" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="1764" font-size="32" font-weight="regular" fill="#1A1A1A">is_fallback</text>
+<text x="815" y="1764" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bool NOT NULL</text>
+<text x="60" y="1826" font-size="32" font-weight="regular" fill="#1A1A1A">decision_detail</text>
+<text x="815" y="1826" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NULL</text>
+<text x="60" y="1888" font-size="32" font-weight="regular" fill="#1A1A1A">created_at</text>
+<text x="815" y="1888" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="1287.5" y="1426" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">sql_test_dataset</text>
+<text x="910" y="1492" font-size="32" font-weight="bold" fill="#1A1A1A">dataset_id</text>
+<text x="1385" y="1492" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="1665" y="1492" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="910" y="1554" font-size="32" font-weight="bold" fill="#1A1A1A">question_id</text>
+<text x="1385" y="1554" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="1554" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="910" y="1616" font-size="32" font-weight="regular" fill="#1A1A1A">dataset_name</text>
+<text x="1665" y="1616" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(100) NOT NULL</text>
+<text x="910" y="1678" font-size="32" font-weight="regular" fill="#1A1A1A">setup_sql</text>
+<text x="1665" y="1678" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NOT NULL</text>
+<text x="910" y="1740" font-size="32" font-weight="regular" fill="#1A1A1A">expected_result</text>
+<text x="1665" y="1740" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="910" y="1802" font-size="32" font-weight="regular" fill="#1A1A1A">is_edge_case</text>
+<text x="1665" y="1802" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bool NOT NULL</text>
+<text x="2137.5" y="1426" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">competency_gap</text>
+<text x="1760" y="1492" font-size="32" font-weight="bold" fill="#1A1A1A">gap_id</text>
+<text x="2235" y="1492" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="2515" y="1492" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1760" y="1536" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="2235" y="1536" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="1536" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1760" y="1562" font-size="24" font-weight="regular" fill="#1F3A93">to assessment_session (p4)</text>
+<text x="1760" y="1640" font-size="32" font-weight="bold" fill="#1A1A1A">concept_id</text>
+<text x="2235" y="1640" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="1640" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1952" y="1640" font-size="24" font-weight="regular" fill="#1F3A93">to concept (p2)</text>
+<text x="1760" y="1702" font-size="32" font-weight="regular" fill="#1A1A1A">llm_explanation</text>
+<text x="2515" y="1702" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NULL</text>
+<text x="1760" y="1764" font-size="32" font-weight="regular" fill="#1A1A1A">status</text>
+<text x="2515" y="1764" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="1760" y="1826" font-size="32" font-weight="regular" fill="#1A1A1A">created_at</text>
+<text x="2515" y="1826" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="1760" y="1888" font-size="32" font-weight="regular" fill="#1A1A1A">explanation_context_hash</text>
+<text x="2515" y="1888" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(64) NULL</text>
+<text x="2614" y="1420" font-size="30" font-weight="bold" fill="#1A1A1A">Legend</text>
+<text x="2614" y="1464" font-size="26" font-weight="bold" fill="#1A1A1A">name</text>
+<text x="2700" y="1464" font-size="26" font-weight="regular" fill="#1A1A1A">= primary key</text>
+<text x="2614" y="1504" font-size="22" font-weight="regular" fill="#1A1A1A">[FK] = foreign key</text>
+<text x="2760" y="1542" font-size="26" font-weight="regular" fill="#1A1A1A">= one</text>
+<text x="2820" y="1582" font-size="26" font-weight="regular" fill="#1A1A1A">= many</text>
+<text x="2614" y="1626" font-size="22" font-weight="regular" fill="#1A1A1A">LEGACY (dashed card) = legacy table, historical rows only</text>
+<text x="2614" y="1682" font-size="24" font-weight="bold" fill="#1A1A1A">41 tables · 293 columns · 59 FKs · 19 migrations</text>
+<text x="2614" y="1724" font-size="19" font-weight="regular" fill="#1A1A1A">Cross-page FK: "to table (pN)" on source row; "from table (pM)" on target row</text>
+<text x="2614" y="1776" font-size="24" font-weight="bold" fill="#1A1A1A">Page 3 of 5</text>
+</g>
+</svg>

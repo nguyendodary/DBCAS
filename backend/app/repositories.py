@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import case, func, select, text, delete
+from sqlalchemy import case, func, select, text, delete, tuple_, update
 from sqlalchemy.orm import Session, selectinload, joinedload
 
 from .models import (
@@ -18,6 +18,7 @@ from .models import (
     AccountRole,
     Assessment,
     AssessmentConcept,
+    AssessmentQuestion,
     AssessmentSession,
     Attempt,
     CloConcept,
@@ -28,6 +29,8 @@ from .models import (
     CourseLearningOutcome,
     LlmCache,
     McqOption,
+    PasswordResetAudit,
+    PasswordResetToken,
     Question,
     QuestionCandidate,
     QuestionConcept,
@@ -145,9 +148,18 @@ class AccountRepository:
         return list(self.db.scalars(select(AccountRoleAudit)
             .order_by(AccountRoleAudit.audit_id.desc()).offset(offset).limit(limit)))
 
-    def create_learner(self, email: str, password_hash: str, full_name: str) -> Account:
-        """UC01: account + profile + Learner role, always status=active."""
-        account = Account(email=email, password_hash=password_hash, status="active")
+    def create_learner(
+        self, email: str, password_hash: str, full_name: str, *, password_set: bool = True
+    ) -> Account:
+        """UC01: account + profile + Learner role, always status=active.
+
+        OAuth sign-ups pass ``password_set=False``: their hash is random and
+        unknown to the user, so the account has no usable local credential
+        until a reset deliberately sets one."""
+        account = Account(
+            email=email, password_hash=password_hash, status="active",
+            password_set=password_set,
+        )
         account.profile = UserProfile(full_name=full_name)
         role = self.get_role("Learner")
         if role is None:
@@ -177,13 +189,15 @@ class ReadinessRepository:
         self.db = db
 
     def check_schema(self):
+        self.db.execute(text("SELECT token_hash,family_id FROM refresh_session LIMIT 0"))
+        self.db.execute(text("SELECT assessment_id,question_id FROM assessment_question LIMIT 0"))
         self.db.execute(text("SELECT can_manage_roles FROM account LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_role_audit LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM account_identity LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM concept_dependency LIMIT 0"))
         self.db.execute(text("SELECT question_snapshot, draft_answer, grading_status FROM attempt LIMIT 0"))
         self.db.execute(text("SELECT config_snapshot FROM assessment_session LIMIT 0"))
-        self.db.execute(text("SELECT family_id, version_no FROM question LIMIT 0"))
+        self.db.execute(text("SELECT family_id, version_no, original_locale FROM question LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM oauth_handoff LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM grading_job LIMIT 0"))
         self.db.execute(text("SELECT result_release_policy,release_status,review_revision FROM assessment_session LIMIT 0"))
@@ -192,6 +206,9 @@ class ReadinessRepository:
         self.db.execute(text("SELECT 1 FROM result_release_event LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM session_question_plan LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM session_start_request LIMIT 0"))
+        self.db.execute(text("SELECT password_set, password_changed_at FROM account LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM password_reset_token LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM password_reset_audit LIMIT 0"))
         return True
 
 
@@ -365,6 +382,9 @@ class AssessmentRepository:
         for target in assessment.targets:
             self.upsert_target(cloned.assessment_id, target.concept_id, min_d=target.min_difficulty,
                                max_d=target.max_difficulty, target_pct=target.target_pct)
+        for qid in self.db.scalars(select(AssessmentQuestion.question_id).where(
+                AssessmentQuestion.assessment_id == assessment.assessment_id)):
+            self.db.add(AssessmentQuestion(assessment_id=cloned.assessment_id, question_id=qid))
         return self.get_assessment(cloned.assessment_id)
 
     def assessment_version_count(self, assessment_id: int) -> int:
@@ -436,7 +456,7 @@ class AssessmentRepository:
 
     def create_session(
         self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
-        result_release_policy="IMMEDIATE", start_request_id=None
+        result_release_policy="HUMAN_VERIFIED", start_request_id=None, blueprint_id=None
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
@@ -444,7 +464,7 @@ class AssessmentRepository:
             expires_at=expires_at,
             locale=locale,
             result_release_policy=result_release_policy, release_status="unsubmitted",
-            start_request_id=start_request_id,
+            start_request_id=start_request_id, blueprint_id=blueprint_id,
         )
         if started_at is not None:
             session.started_at = started_at
@@ -486,6 +506,15 @@ class AssessmentRepository:
             .order_by(Attempt.seq_no.desc())
         )
 
+    def confirmed_clo_context(self, concept_ids: set[int]) -> list[dict]:
+        if not concept_ids:
+            return []
+        rows = self.db.execute(select(CourseLearningOutcome.clo_id, CourseLearningOutcome.clo_code,
+            CourseLearningOutcome.title).join(CloConcept, CloConcept.clo_id == CourseLearningOutcome.clo_id)
+            .where(CloConcept.concept_id.in_(concept_ids), CloConcept.status == "confirmed",
+                   CourseLearningOutcome.status == "active").distinct().order_by(CourseLearningOutcome.clo_id))
+        return [{"clo_id": row.clo_id, "clo_code": row.clo_code, "title": row.title} for row in rows]
+
     def eligible_questions(
         self, assessment: Assessment, served_ids: set[int], *, opening_only=False
     ) -> list[Question]:
@@ -502,6 +531,7 @@ class AssessmentRepository:
         if not opening_only:
             payloads.extend([selectinload(Question.datasets), selectinload(Question.rubrics)])
         opening_filter = [Question.question_type == "mcq", Question.difficulty_level <= 2] if opening_only else []
+        curated = select(AssessmentQuestion.question_id).where(AssessmentQuestion.assessment_id == getattr(assessment, "assessment_id", None))
         return list(
             self.db.scalars(
                 select(Question)
@@ -512,6 +542,7 @@ class AssessmentRepository:
                     QuestionConcept.confirmed.is_(True),
                     QuestionConcept.concept_id.in_(target_ids),
                     Question.question_id.not_in(served_ids or {0}),
+                    (~curated.exists()) | Question.question_id.in_(curated),
                     *opening_filter,
                 )
                 .distinct()
@@ -978,8 +1009,17 @@ class QuestionRepository:
         status: Optional[str] = None,
         q: Optional[str] = None,
         tag: Optional[str] = None,
+        clo_id: Optional[int] = None,
+        topic: Optional[str] = None,
     ) -> list[Question]:
         stmt = select(Question).options(*self._detail_loads())
+        stmt = stmt.where(func.coalesce(Question.ai_review["purpose"].astext, "") != "learner_practice")
+        if clo_id is not None:
+            linked = select(CloConcept.concept_id).where(CloConcept.clo_id == clo_id, CloConcept.status == "confirmed")
+            stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(linked) & QuestionConcept.confirmed.is_(True)))
+        if topic:
+            concepts = select(Concept.concept_id).where(Concept.subject_area == topic)
+            stmt = stmt.where(Question.concept_tags.any(QuestionConcept.concept_id.in_(concepts)))
         if concept_id is not None:
             stmt = stmt.where(
                 Question.concept_tags.any(
@@ -1007,6 +1047,22 @@ class QuestionRepository:
             .where(Question.question_id == question_id)
         )
 
+    def matching_prompt_ids(self, query: str, question_ids: list[int],
+                            reviewed_keys: list[tuple[int, str]]) -> set[int]:
+        """Search source and verified display prose with existing ILIKE semantics.
+
+        The service supplies only current translation keys. Stale translation
+        text must never create a match that the administrator cannot see.
+        """
+        pattern = f"%{query}%"
+        translated = Question.translations.any(
+            tuple_(QuestionTranslation.question_id, QuestionTranslation.locale).in_(reviewed_keys)
+            & QuestionTranslation.prompt.ilike(pattern)
+        )
+        return set(self.db.scalars(select(Question.question_id).where(
+            Question.question_id.in_(question_ids), Question.prompt.ilike(pattern) | translated,
+        )))
+
     def lock_question(self, question_id: int) -> Optional[Question]:
         root = self.db.scalar(select(func.coalesce(Question.family_id, Question.question_id))
                               .where(Question.question_id == question_id))
@@ -1020,7 +1076,7 @@ class QuestionRepository:
         next_version = int(self.db.scalar(select(func.max(Question.version_no)).where(
             func.coalesce(Question.family_id, Question.question_id) == root)) or 1) + 1
         cloned = self.create(**{key: getattr(question, key) for key in (
-            "question_type", "prompt", "reference_answer", "difficulty_level", "points", "source", "created_by", "ai_review")},
+            "question_type", "prompt", "original_locale", "reference_answer", "difficulty_level", "points", "source", "created_by", "ai_review")},
             tags=list(question.tags), source_refs=[dict(ref) for ref in question.source_refs],
             status="draft", family_id=root, version_no=next_version)
         for tag in self.tags_for(question.question_id):
@@ -1042,6 +1098,7 @@ class QuestionRepository:
         return self.get_detail(cloned.question_id)
 
     def create(self, **fields) -> Question:
+        SecurityRepository(self.db).lock("question-bank-publication")
         question = Question(**fields)
         self.db.add(question)
         self.db.flush()
@@ -1150,6 +1207,8 @@ class QuestionRepository:
         AI candidate that promoted into this question)."""
         from .models import SessionQuestionPlan
         checks = {
+            "adaptive_inventory": select(func.count()).select_from(AssessmentSession).where(
+                AssessmentSession.config_snapshot.contains({"adaptive_inventory_ids": [question_id]})),
             "session_question_plan": select(func.count()).select_from(SessionQuestionPlan).where(
                 SessionQuestionPlan.question_id == question_id),
             "attempt": select(func.count()).select_from(Attempt).where(
@@ -1187,6 +1246,7 @@ class QuestionRepository:
             select(QuestionCandidate)
             .options(selectinload(QuestionCandidate.concept))
             .where(QuestionCandidate.candidate_id == candidate_id)
+            .execution_options(populate_existing=True)
         )
 
     def list_candidates(
@@ -1271,10 +1331,11 @@ class SecurityRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def lock(self, identity: str):
+    def lock(self, identity: str, *, shared=False):
         import hashlib
         key = int.from_bytes(hashlib.sha256(identity.encode()).digest()[:8], "big", signed=True)
-        self.db.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": key})
+        statement = "SELECT pg_advisory_xact_lock_shared(:key)" if shared else "SELECT pg_advisory_xact_lock(:key)"
+        self.db.execute(text(statement), {"key": key})
 
     def store_handoff(self, jti: str, account_id: int, expires_at):
         import hashlib
@@ -1323,6 +1384,60 @@ class SecurityRepository:
         self.db.execute(delete(LoginThrottleRecord).where(LoginThrottleRecord.key_hash == key_hash))
 
 
+class PasswordResetRepository:
+    """Hashed single-use reset tokens plus their immutable audit trail."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def store_token(self, token_hash: str, account_id: int, expires_at) -> None:
+        """Only one live token per account: issuing revokes older ones."""
+        self.db.execute(
+            update(PasswordResetToken)
+            .where(
+                PasswordResetToken.account_id == account_id,
+                PasswordResetToken.used_at.is_(None),
+                PasswordResetToken.revoked_at.is_(None),
+            )
+            .values(revoked_at=func.now())
+        )
+        self.db.add(
+            PasswordResetToken(
+                token_hash=token_hash, account_id=account_id, expires_at=expires_at
+            )
+        )
+        self.db.flush()
+
+    def prune(self) -> None:
+        self.db.execute(
+            delete(PasswordResetToken).where(
+                PasswordResetToken.expires_at < func.now()
+            )
+        )
+
+    def lock_token(self, token_hash: str) -> Optional[PasswordResetToken]:
+        return self.db.scalar(
+            select(PasswordResetToken)
+            .where(PasswordResetToken.token_hash == token_hash)
+            .with_for_update()
+        )
+
+    def revoke_others(self, account_id: int, keep_hash: str) -> None:
+        self.db.execute(
+            update(PasswordResetToken)
+            .where(
+                PasswordResetToken.account_id == account_id,
+                PasswordResetToken.token_hash != keep_hash,
+                PasswordResetToken.used_at.is_(None),
+                PasswordResetToken.revoked_at.is_(None),
+            )
+            .values(revoked_at=func.now())
+        )
+
+    def audit(self, account_id: int, event: str) -> None:
+        self.db.add(PasswordResetAudit(account_id=account_id, event=event))
+
+
 _FINALIZED = ("completed", "timed_out")
 
 
@@ -1339,7 +1454,8 @@ class AnalyticsRepository:
         self, assessment_id: Optional[int] = None
     ) -> list[AssessmentSession]:
         stmt = select(AssessmentSession).where(
-            AssessmentSession.status.in_(_FINALIZED)
+            AssessmentSession.status.in_(_FINALIZED),
+            AssessmentSession.release_status == "published",
         )
         if assessment_id is not None:
             stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
@@ -1385,7 +1501,8 @@ class AnalyticsRepository:
             AssessmentSession,
             AssessmentSession.session_id == ConceptCompetency.session_id,
         ).where(
-            AssessmentSession.status.in_(_FINALIZED)
+            AssessmentSession.status.in_(_FINALIZED),
+            AssessmentSession.release_status == "published",
         )
         if assessment_id is not None:
             latest = latest.where(
@@ -1424,7 +1541,7 @@ class AnalyticsRepository:
         stmt = select(
             func.count(func.distinct(AssessmentSession.learner_id)),
             func.count(),
-        ).where(AssessmentSession.status.in_(_FINALIZED))
+        ).where(AssessmentSession.status.in_(_FINALIZED), AssessmentSession.release_status == "published")
         if assessment_id is not None:
             stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
         learners, sessions = self.db.execute(stmt).one()
@@ -1477,3 +1594,25 @@ class AnalyticsRepository:
                 Role.role_name == "Learner",
             )
         )
+
+
+class StatisticsRepository:
+    def __init__(self, db):
+        self.db = db
+
+    def published_sessions(self, learner_id=None, assessment_id=None):
+        return self._finished_sessions(learner_id, assessment_id, published=True)
+
+    def pending_sessions(self, learner_id=None, assessment_id=None):
+        return self._finished_sessions(learner_id, assessment_id, published=False)
+
+    def _finished_sessions(self, learner_id, assessment_id, *, published):
+        release_filter = (AssessmentSession.release_status == "published") if published else (
+            AssessmentSession.release_status != "published")
+        stmt = select(AssessmentSession).where(AssessmentSession.status != "in_progress",
+                                              release_filter)
+        if learner_id is not None:
+            stmt = stmt.where(AssessmentSession.learner_id == learner_id)
+        if assessment_id is not None:
+            stmt = stmt.where(AssessmentSession.assessment_id == assessment_id)
+        return list(self.db.scalars(stmt.order_by(AssessmentSession.started_at, AssessmentSession.session_id)))

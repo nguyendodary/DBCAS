@@ -1,0 +1,98 @@
+# Independent DN development stack; never combine with the other compose files.
+name: dbcas-dn
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      POSTGRES_DB: ${POSTGRES_DB:?required}
+    volumes: [dn-db-data:/var/lib/postgresql/data]
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  sandbox:
+    build: ./sandbox
+    environment:
+      POSTGRES_PASSWORD: ${SANDBOX_POSTGRES_PASSWORD:?required}
+      SANDBOX_LEARNER_PASSWORD: ${SANDBOX_LEARNER_PASSWORD:?required}
+    networks: [sandbox]
+    mem_limit: 256m
+    cpus: 1
+    pids_limit: 200
+    security_opt: [no-new-privileges:true]
+  init:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    env_file: .env
+    environment:
+      DEPLOYMENT_MODE: development
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    command: [python, -m, app.init_db, --seed-development]
+    networks: [database]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: 'no'
+  app:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    env_file: .env
+    environment:
+      DEPLOYMENT_MODE: development
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SANDBOX_URL: postgresql://learner_ro:${SANDBOX_LEARNER_PASSWORD}@sandbox:5432/postgres
+      SANDBOX_ADMIN_URL: postgresql://postgres:${SANDBOX_POSTGRES_PASSWORD}@sandbox:5432/postgres
+      LLM_API_KEY: ''
+      LLM_BASE_URL: ''
+      LLM_MODEL: ''
+      SANDBOX_MODE: ephemeral
+    volumes: ['/var/run/docker.sock:/var/run/docker.sock']
+    group_add: ['${DN_DOCKER_GID:-0}']
+    ports: ['127.0.0.1:${DN_API_PORT:-18000}:8000']
+    networks:
+      database: {}
+      sandbox: {}
+      web: {aliases: [backend]}
+    depends_on:
+      init: {condition: service_completed_successfully}
+      sandbox: {condition: service_started}
+      executor-image: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readiness',timeout=10)"]
+      interval: 5s
+      timeout: 12s
+      retries: 10
+  executor-image:
+    image: dbcas-sql-ephemeral:local
+    build: {context: ., dockerfile: sandbox/Dockerfile.ephemeral}
+    entrypoint: ['true']
+    network_mode: none
+  ai-worker:
+    profiles: [ai-worker]
+    build: {context: ., dockerfile: backend/Dockerfile}
+    env_file: .env
+    environment:
+      DEPLOYMENT_MODE: development
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SANDBOX_MODE: ephemeral
+    command: [python, -m, app.worker, --allow-provider-calls]
+    volumes: ['/var/run/docker.sock:/var/run/docker.sock']
+    group_add: ['${DN_DOCKER_GID:-0}']
+    networks: [database, web]
+    depends_on:
+      init: {condition: service_completed_successfully}
+      executor-image: {condition: service_completed_successfully}
+  frontend:
+    profiles: [ui]
+    build: {context: ., dockerfile: frontend/Dockerfile}
+    ports: ['127.0.0.1:${DN_WEB_PORT:-18080}:8080']
+    networks: [web]
+    depends_on:
+      app: {condition: service_healthy}
+networks:
+  database: {internal: true}
+  sandbox: {internal: true}
+  web: {}
+volumes:
+  dn-db-data: {}

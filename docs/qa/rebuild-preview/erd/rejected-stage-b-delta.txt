@@ -1,0 +1,14 @@
+Stage A -> Stage B content delta: ERD (Chen)
+Stage A: 17 entities / 24 diamonds / 17 keys
+Stage B: 16 entities / 21 diamonds / 16 keys
+
+kept core entities: Account, Assessment, AssessmentSession, Attempt, CompetencyGap, Concept, ConceptCompetency, CourseLearningOutcome, MCQOption, Question, Role, UserProfile
+removed from ERD (TRD-only): LLMCache, QuestionCandidate, Rubric, SQLTestDataset, SelectionLog
+added: AssessmentBlueprint, AssessmentConcept, AssessmentQuestion, SystemSetting
+
+core diamonds (15): assigned, has, defines, takes, tagged with, offers, selected in, records, yields, measured by, diagnosed, targets, versions (Question self), updates, requires
+legacy diamonds (6): configures, targets, pools, versions, instantiates, uses
+all legacy entities dashed + LEGACY tag: Assessment, AssessmentConcept, AssessmentQuestion, AssessmentBlueprint
+
+Stage B intentionally re-lays out the ERD; geometry is not a clone. The unchanged content is the entity/key/diamond set above, and the rule-8 checker proves no text/text or text/line overlap.
+RESULT: PASS (content delta only; see docs/qa/rebuild-preview/erd/report.md and checker-final.txt)

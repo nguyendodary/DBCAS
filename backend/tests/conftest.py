@@ -8,30 +8,30 @@ init phase (its temporary bootstrap server). We wait for a TCP connection
 from the host instead — that only works once the real server is up.
 """
 
-import atexit
 import os
 import shutil
-import subprocess
+import sys
 import time
 import uuid
 from pathlib import Path
 
 import pytest
+from docker_runtime import docker_command, create_owned
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / "db" / "schema.sql"
 OWNED_CONTAINERS = []
+TEST_RUN_ID = os.environ.setdefault("DBCAS_TEST_RUN_ID", uuid.uuid4().hex)
 
 
 def _docker_ok() -> bool:
     if not shutil.which("docker"):
         return False
     try:
-        subprocess.run(
-            ["docker", "info"], capture_output=True, timeout=15, check=True
-        )
+        docker_command("info", timeout=15)
         return True
-    except Exception:
+    except Exception as exc:
+        print(f"Docker readiness failed: {exc}", file=sys.stderr)
         return False
 
 
@@ -44,10 +44,9 @@ def _run_postgres_container(
     """
     import psycopg
 
-    args = ["docker", "run", "-d", "--name", name]
-    if os.environ.get("DBCAS_TEST_RUN_ID"):
-        args += ["--label", f"dbcas.test-run={os.environ['DBCAS_TEST_RUN_ID']}"]
-        args += ["--tmpfs", "/var/lib/postgresql/data:rw,size=256m"]
+    args = ["--name", name,
+            "--label", f"dbcas.test-run={TEST_RUN_ID}",
+            "--tmpfs", "/var/lib/postgresql/data:rw,size=256m"]
     if image == "dbcas-sandbox-test":
         args += ["--memory", "256m", "--cpus", "1", "--pids-limit", "200"]
     for key, value in env.items():
@@ -60,16 +59,17 @@ def _run_postgres_container(
         "-p", f"{host}:0:5432",
         image,
     ]
-    subprocess.run(args, check=True, capture_output=True)
-    OWNED_CONTAINERS.append(name)
-    atexit.register(
-        lambda: subprocess.run(["docker", "rm", "-f", name], capture_output=True)
-    )
+    if image == "postgres:17":
+        # WAL lives on the same 256 MB tmpfs; the default 1 GB max_wal_size
+        # lets the full suite exhaust it before a timed checkpoint runs.
+        args += ["-c", "max_wal_size=96MB", "-c", "min_wal_size=32MB",
+                 "-c", "checkpoint_timeout=60s"]
+    # Register the intended name before create: a client timeout can occur
+    # after the daemon creates the container. Cleanup still verifies its label.
+    receipt = ROOT.parent / "_review" / "docker-tests" / f"{TEST_RUN_ID}.json"
+    create_owned(name, TEST_RUN_ID, OWNED_CONTAINERS, receipt, args)
     port = (
-        subprocess.run(
-            ["docker", "port", name, "5432/tcp"],
-            check=True, capture_output=True, text=True,
-        )
+        docker_command("port", name, "5432/tcp", text=True)
         .stdout.strip()
         .rsplit(":", 1)[-1]
     )
@@ -78,9 +78,12 @@ def _run_postgres_container(
     # Host TCP only succeeds once the final server (not the init bootstrap) is up.
     for _ in range(90):
         try:
-            psycopg.connect(dsn, connect_timeout=2).close()
+            with psycopg.connect(dsn, connect_timeout=2) as conn:
+                version = int(conn.execute("SHOW server_version_num").fetchone()[0])
+                if version // 10000 != 17:
+                    raise RuntimeError("Disposable database must run PostgreSQL 17")
             break
-        except Exception:
+        except psycopg.Error:
             time.sleep(1)
     else:
         raise RuntimeError(f"{image} did not become ready")
@@ -89,18 +92,18 @@ def _run_postgres_container(
 
 def _start_test_db() -> str:
     """Start postgres:17 on a random localhost port; returns a libpq DSN."""
+    import psycopg
+
     name = f"dbcas-test-{uuid.uuid4().hex[:8]}"
     dsn = _run_postgres_container(
         name, "postgres:17", {"POSTGRES_DB": "dbcas_test"}, "dbcas_test"
     )
-    subprocess.run(
-        [
-            "docker", "exec", "-i", name, "psql",
-            "-v", "ON_ERROR_STOP=1", "-U", "postgres", "-d", "dbcas_test",
-        ],
-        stdin=open(SCHEMA, "rb"),
-        check=True, capture_output=True,
-    )
+    # Use the same host connection whose PostgreSQL 17 readiness was verified.
+    # Docker's exec stdin/attach transport can stall independently of PostgreSQL
+    # under Windows/WSL. Execute the complete real schema, failing on any error.
+    with psycopg.connect(dsn, connect_timeout=5, autocommit=True) as conn:
+        conn.execute("SET statement_timeout = '30s'")
+        conn.execute(SCHEMA.read_text(encoding="utf-8"), prepare=False)
     return dsn
 
 
@@ -108,11 +111,7 @@ def _start_test_sandbox() -> str:
     """Build the real sandbox image and run it; returns the admin DSN."""
     import psycopg
 
-    subprocess.run(
-        ["docker", "build", "-q", "-t", "dbcas-sandbox-test", str(ROOT / "sandbox")],
-        check=True,
-        capture_output=True,
-    )
+    docker_command("build", "-q", "-t", "dbcas-sandbox-test", str(ROOT / "sandbox"), timeout=180)
     name = f"dbcas-sandbox-{uuid.uuid4().hex[:8]}"
     admin_dsn = _run_postgres_container(
         name, "dbcas-sandbox-test", {"SANDBOX_LEARNER_PASSWORD": "test"}, "postgres"
@@ -146,6 +145,11 @@ if _docker_ok():
     os.environ["LLM_API_KEY"] = ""
     os.environ["LLM_BASE_URL"] = ""
     os.environ["LLM_MODEL"] = ""
+    # Password-reset tests inject a fake mailer; keep the real default
+    # unconfigured. release_server sets real values before importing this
+    # module, and setdefault preserves them for the Mailpit E2E gate.
+    os.environ.setdefault("SMTP_HOST", "")
+    os.environ.setdefault("SMTP_FROM", "")
     DOCKER_DB = True
 else:
     raise RuntimeError("Docker is required: release-critical database and sandbox tests cannot be skipped")
@@ -182,10 +186,11 @@ def clean_db():
     try:
         for table in (
             "account_role_audit",
+            "password_reset_audit", "password_reset_token",
             "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",
-            "assessment_session",
+            "assessment_session", "assessment_blueprint",
             "assessment_concept", "assessment",
             "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
             "question_concept", "concept_dependency", "clo_concept",
@@ -210,9 +215,13 @@ def clean_db():
 @pytest.fixture(autouse=True)
 def reset_login_throttle():
     """Module-level throttle state must not leak between tests."""
-    from app.services.login_throttle import get_login_throttle
+    from app.services.login_throttle import (
+        get_login_throttle,
+        get_password_reset_throttle,
+    )
 
     get_login_throttle().reset()
+    get_password_reset_throttle().reset()
     yield
 
 

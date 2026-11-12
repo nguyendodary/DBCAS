@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-25T06:23:05.820116+00:00",
+  "canonical_entries": 271,
+  "fresh_import_entries": 271,
+  "id_differences": 199,
+  "identical_assignments": 72,
+  "examples": [
+    {
+      "key": "pilot-db-3nf-mcq",
+      "canonical_id": 451,
+      "fresh_import_id": 647
+    },
+    {
+      "key": "pilot-db-fd-sql",
+      "canonical_id": 452,
+      "fresh_import_id": 648
+    },
+    {
+      "key": "pilot-db-3nf-essay",
+      "canonical_id": 453,
+      "fresh_import_id": 649
+    },
+    {
+      "key": "db-easy-weak-entity",
+      "canonical_id": 454,
+      "fresh_import_id": 451
+    },
+    {
+      "key": "db-easy-one-to-many-fk",
+      "canonical_id": 455,
+      "fresh_import_id": 452
+    },
+    {
+      "key": "db-easy-deletion-anomaly",
+      "canonical_id": 456,
+      "fresh_import_id": 453
+    },
+    {
+      "key": "db-easy-update-anomaly",
+      "canonical_id": 457,
+      "fresh_import_id": 454
+    },
+    {
+      "key": "db-easy-multivalued-skill",
+      "canonical_id": 458,
+      "fresh_import_id": 455
+    },
+    {
+      "key": "db-easy-normalization-goal",
+      "canonical_id": 459,
+      "fresh_import_id": 456
+    },
+    {
+      "key": "db-easy-total-participation",
+      "canonical_id": 460,
+      "fresh_import_id": 457
+    }
+  ],
+  "conclusion": "Canonical question_id values do not survive a fresh spec import because the canonical bank was built in multiple passes. Any translation or review import must resolve each draft by its JSON key and the activation manifest, never by the stored canonical question_id.",
+  "canonical_id_range": [
+    451,
+    721
+  ],
+  "fresh_import_id_range": [
+    451,
+    721
+  ]
+}

@@ -1,10 +1,18 @@
 # Testing and release gates
 
+Current operational guidance: [local Docker/WSL troubleshooting](local-integration-troubleshooting.md)
+and [draft translation verification](draft-question-translation.md). The full
+Docker suite remains mandatory; isolated command/mock checks do not replace it.
+
 The supervisor acceptance suites are `tests/test_supervisor_requirements.py`,
 `src/test/SupervisorWorkflows.test.jsx` and `e2e/supervisor.spec.js`. They cover
-strict formal/practice selection, frozen plans, UUID/concurrent starts, release
+strict formal/practice selection, practice frozen plans, UUID/concurrent starts, release
 confidentiality, human review/correction, failed-grade retry, manual takeover
-with late-worker fencing and published cumulative evidence. The browser suite
+with late-worker fencing and published cumulative evidence. Formal adaptive
+delivery adds `tests/test_formal_band_policy.py` and `tests/test_formal_ai_adaptive.py`
+(band start/movement/clamping, opener and phase guarantees, shortage preflight,
+AI-mode fail-closed) as described in
+[formal adaptive delivery](formal-adaptive-delivery-20261029.md). The browser suite
 includes both release policies and narrow-screen single-topic practice.
 
 Use `DBCAS_E2E_OUTPUT` for a separate report directory and optionally
@@ -294,11 +302,25 @@ JSON environment values through batch-wrapper quoting. Never substitute
 developer credentials. The release stack itself keeps ordinary Docker/Compose
 commands. A local image test does not deploy externally or verify public TLS.
 
-`.github/workflows/release-gate.yml` configures the full backend/frontend and
-Chromium/Firefox/WebKit browser gates on Python 3.13/Node 24, without live
-provider keys. It runs on `pull_request` and `workflow_dispatch`, so a direct
-push to `main` does not trigger it — dispatch it explicitly to verify a
-published revision. Load/image measurements remain explicit local gates;
+There is no hosted automation for this project. The complete release gate is
+executed manually on a workstation, and the commands in this document are the
+gate. Run them in this order on Python 3.13/Node 24 with Docker available and
+without live provider keys:
+
+1. Frontend: `npm ci`, `npm test`, `npm run build`, `npm audit`.
+2. Backend: `.venv/Scripts/python.exe -m pytest -q`, `-m compileall -q app/`,
+   `-c "from app.main import app"`, `-m pip check`.
+3. Compose syntax: `docker compose config -q` and
+   `docker compose --env-file deploy/release.env.example -f docker-compose.release.yml config --no-env-resolution -q`.
+4. Browser journeys: `npm run test:e2e` with `DBCAS_BROWSER` set to
+   `chromium`, then `firefox`, then `webkit`.
+
+Before a release, verify the published revision by checking out the exact
+commit under review and running the gate there; a green run on a different
+revision is not evidence for it. GitHub remains the source-code collaboration
+platform, but no workflow automatically tests or validates a pull request, so
+the reviewer who requests changes is responsible for the local run and must
+record its result. Load/image measurements remain explicit local gates;
 preserve their reports for review.
 
 Run SQL at separately bounded concurrency appropriate for the 256 MB sandbox;
@@ -327,3 +349,38 @@ DML/DDL knowledge assessed through MCQ/essay on 11 October 2026; see
 requirements-decisions.md. Keep the safer sandbox rule; shared-database learner
 mutations are never enabled. The supplementary bank regression verifies that
 its learner reference queries remain SELECT.
+
+## Original-language question regression — 23 October 2026
+
+Run from `backend` using the existing disposable PostgreSQL 17 Docker fixtures:
+
+```powershell
+.venv/Scripts/python.exe -m pytest -q tests/test_question_original_locale.py tests/test_question_localization.py tests/test_admin_questions.py tests/test_migrations.py tests/test_rbac.py tests/test_role_management.py
+```
+
+Run from `frontend`:
+
+```powershell
+npm test
+npm run build
+npm run test:e2e -- question-authoring.spec.js
+```
+
+The new tests cover English/Vietnamese originals without translations, reviewed
+translations, independent edits, stale fallback, original-language metadata,
+stable answer labels, SQL identifier/data preservation, original essay criteria,
+old and used snapshots, concept/difficulty validation, preview, and editor
+accessibility at 390/768/1024/1440 px. Full existing backend and browser suites
+remain required. No live AI calls are allowed. Native PostgreSQL 18 supplemental
+checks do not replace the PostgreSQL 17 Docker/sandbox gates. Actual results and
+environment limitations are recorded in the [dated audit](ux-simplification-audit-20261023.md).
+
+
+## 23 October 2026 follow-up
+
+[Bilingual UX / architecture follow-up and actual current checks](bilingual-architecture-completion-20261023.md). Earlier dated observations and test results remain historical;
+the follow-up records subsequent changes and unresolved gates.
+
+## Final integration acceptance follow-up - 23 October 2026
+
+See [the final integration acceptance record](final-integration-acceptance-20261023.md) for subsequent PostgreSQL 17 migration/browser checks, the verified backup, and the remaining Docker gates. Earlier dated results above remain historical. Migration 012 is still not applied to persistent development data.

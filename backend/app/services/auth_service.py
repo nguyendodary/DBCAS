@@ -33,7 +33,6 @@ def to_summary(account: Account) -> AccountSummary:
         full_name=account.profile.full_name if account.profile else None,
         roles=sorted(r.role_name for r in account.roles),
         status=account.status,
-        avatar_url=getattr(account, "avatar_data_url", None),
     )
 
 
@@ -67,7 +66,10 @@ def login(db: Session, payload: LoginRequest, settings: Settings) -> tuple[str, 
     if account.status != "active":
         raise AppError(403, "account_disabled", "Account is not active")
     roles = sorted(r.role_name for r in account.roles)
-    token, expires_in = create_access_token(account.account_id, roles, settings, token_version=account.token_version)
+    token, expires_in = create_access_token(
+        account.account_id, roles, settings,
+        password_changed_at=account.password_changed_at,
+    )
     return token, expires_in, to_summary(account)
 
 

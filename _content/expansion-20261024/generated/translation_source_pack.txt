@@ -1,0 +1,1550 @@
+################ SPEC db_easy.py (10)
+
+--- db-easy-weak-entity [mcq d2]
+P: In an ER model, a dependent entity can exist only while its owning entity exists, and its identifying key includes the owner's primary key. Which relational mapping is correct?
+A. Give the dependent table its own surrogate primary key and omit the owner key, because a surrogate key makes the owner unnecessary.
+B. Add a nullable foreign key to the owner and allow dependent rows that reference no owner, because NULL means 'not yet assigned'.
+C. Store the dependent rows as a comma-separated list in a column of the owner table, because the dependency is one-to-many.
+D* Use a composite primary key made of the owner's primary key plus the dependent entity's partial key, with a foreign key to the owner.
+E: A weak entity is identified through its owner: the owner key is part of the weak entity's primary key and also a foreign key. The composite key prevents two owners from sharing partial-key values, and the foreign key plus deletion rules preserve existence dependence. A surrogate key alone does not encode the identifying relationship; a delimited list is non-atomic; and a nullable foreign key contradicts the stated existence dependency.
+
+--- db-easy-one-to-many-fk [mcq d2]
+P: An order must belong to exactly one customer, and a customer may place zero or more orders. Where should the foreign key be placed to represent this one-to-many relationship?
+A* In the orders table, as a NOT NULL customer_id referencing the customer primary key.
+B. In the customer table, as order_id referencing orders, so that a customer row points at its latest order.
+C. In a separate junction table keyed by customer_id and order_id, because every relationship needs its own table.
+D. In the orders table, as duplicated customer_name and customer_city columns instead of a key.
+E: On the many side, each order stores one customer key, so customer_id in orders can be NOT NULL and reference customer. Putting order_id in customer would allow at most one order per customer and creates a circular dependency. A junction table is needed for many-to-many, not one-to-many. Duplicating descriptive customer columns reintroduces update anomalies and does not enforce the relationship.
+
+--- db-easy-deletion-anomaly [mcq d2]
+P: A supplier and the parts it supplies are stored in part(part_id, part_name, supplier_id, supplier_name, supplier_city). Deleting the last part supplied by a supplier also erases the only record of that supplier's name and city. Which anomaly is this?
+A. An insert anomaly, because a new supplier cannot be recorded without a part.
+B* A deletion anomaly, because deleting a part row destroys unrelated supplier facts.
+C. An update anomaly, because the supplier city is stored more than once.
+D. A phantom-read anomaly, because a concurrent transaction sees a row that was never committed.
+E: The row mixes two entities, part and supplier. Deleting the last part necessarily deletes the supplier information that has no separate home: that is a deletion anomaly. Insert anomalies and update anomalies are related redundancy problems, but the stated symptom is loss of facts on deletion. A phantom read is a transaction-isolation phenomenon and has nothing to do with schema design.
+
+--- db-easy-update-anomaly [mcq d2]
+P: An orders table repeats customer_phone on every order row. When a customer changes phone number, the application must update many rows, and a missed row leaves contradictory values. Which anomaly does this describe?
+A. A deletion anomaly caused by removing the last order.
+B* An update anomaly caused by storing the same fact in multiple places.
+C. An insert anomaly caused by adding an order without a phone number.
+D. A serialization anomaly caused by concurrent transactions.
+E: The same customer fact is repeated across rows, so one logical change needs many physical updates; missing one creates inconsistency. That is the definition of an update anomaly. Deletion and insert anomalies concern losing facts or being unable to record facts; serialization anomalies belong to concurrency control, not to the schema's redundancy.
+
+--- db-easy-multivalued-skill [mcq d1]
+P: An employee may have several skills. Which design both models the relationship correctly and keeps attribute values atomic?
+A* A junction table employee_skill(employee_id, skill_id) whose primary key is (employee_id, skill_id), with foreign keys to both parent tables.
+B. Three columns skill_1, skill_2 and skill_3, leaving unused columns NULL.
+C. A skills TEXT column containing values such as 'SQL,Python,Go'.
+D. A JSONB array column on employee, because PostgreSQL can index array elements.
+E: A multivalued attribute becomes its own relation whose key combines the owner key and the value key; each cell then holds one value. A delimited string and a JSONB array both store several values in one cell, which is not atomic in the relational model even though PostgreSQL permits those types. Fixed skill_1..skill_3 columns are a repeating group and impose an arbitrary limit.
+
+--- db-easy-normalization-goal [mcq d1]
+P: Which statement best describes the purpose of normalization?
+A. It removes the need for joins by placing every fact in one table.
+B* It organizes attributes into relations so that redundancy and the resulting update anomalies are reduced while dependencies are preserved.
+C. It duplicates frequently read columns so that queries avoid aggregation.
+D. It guarantees that every query uses an index.
+E: Normalization decomposes relations according to functional dependencies so that each fact is stored once, reducing insertion, update and deletion anomalies. It does not eliminate joins (good decompositions often require them), it is the opposite of adding redundant columns, and indexes are a physical performance concern unrelated to normal-form correctness.
+
+--- db-easy-total-participation [mcq d2]
+P: Every loan must be associated with exactly one member, while a member may have no loans. Which relational constraint expresses the mandatory participation of loan in the relationship?
+A. A UNIQUE member_id in the loan table, because every loan needs a distinct member.
+B* A NOT NULL member_id foreign key in the loan table referencing member.
+C. A foreign key from member to loan, so that each member row points at a loan.
+D. CHECK (member_id > 0) on the loan table.
+E: Mandatory participation on the many side is enforced by making the foreign key NOT NULL: every loan row must name an existing member. UNIQUE would incorrectly restrict each member to one loan. Putting the foreign key in member reverses the relationship and cannot represent several loans per member. A numeric CHECK says nothing about existence of the referenced member.
+
+--- db-easy-repeating-group [mcq d2]
+P: The table contact(customer_id, phone_1, phone_2, phone_3) stores up to three phone numbers per customer and leaves unused columns NULL. Which normal form is most directly violated, and why?
+A. Second normal form, because phone_2 depends on only part of a composite key.
+B* First normal form, because the phone_1..phone_3 columns form a repeating group rather than atomic single-valued attributes.
+C. Third normal form, because phone_3 is transitively dependent on the key.
+D. Boyce-Codd normal form, because a non-superkey determinant exists.
+E: 1NF requires each attribute position to hold one atomic value and forbids repeating groups. Numbered columns are a repeating group and also cap the number of phones. The table's key is the single attribute customer_id, so partial dependency (2NF) cannot arise here, and no transitive or non-superkey determinant is described; the defect is at the atomicity level.
+
+--- db-easy-city-customer-count [sql d2]
+P: Table customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT) stores one row per customer. Return one row per city with columns city (TEXT) and customers (BIGINT), counting the customers in that city. Include a group for NULL city. Order by city ascending with NULLs last.
+REF: SELECT city, count(*) AS customers FROM customer GROUP BY city ORDER BY city NULLS LAST
+E: GROUP BY city forms one group per distinct non-NULL value and one group for all NULLs; count(*) counts rows in each group, not distinct customers, which is correct because customer_id is the primary key. NULLS LAST makes the NULL group deterministic. The empty dataset returns no rows, which is the correct result rather than an error.
+
+--- db-easy-order-owner-left-join [sql d2]
+P: Table customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL) and table orders(order_id INT PRIMARY KEY, customer_id INT, amount NUMERIC(10,2)). Return order_id (INT), name (TEXT) and amount for every order. If an order's customer_id has no matching customer, return the order with a NULL name. Order by order_id ascending.
+REF: SELECT o.order_id, c.name, o.amount FROM orders o LEFT JOIN customer c ON c.customer_id = o.customer_id ORDER BY o.order_id
+E: The relationship is optional from the order side in this dataset, so a LEFT JOIN keeps every order and produces NULL when no customer matches, including an orphan key and a NULL key. Duplicate customer names are not a problem because the join uses the key. With no orders the result is empty, and the column set is still determined by the SELECT list.
+
+################ SPEC db_hard.py (13)
+
+--- db-hard-bcnf-dependency-loss [mcq d4]
+P: Relation R(A,B,C,D) has functional dependencies AB -> CD and D -> A. A BCNF decomposition produces R1(A,D) and R2(B,C,D). Which statement is correct?
+A* The decomposition is lossless but does not preserve AB -> CD.
+B. The decomposition is lossless and preserves AB -> CD.
+C. The decomposition is lossy because A and B are placed in different relations.
+D. No BCNF decomposition of this relation exists, so the question is ill-posed.
+E: The candidate keys are AB and BD: AB+ is all attributes, and BD+ reaches A through D -> A and then C through AB -> C. D -> A violates BCNF. The split has common attribute D, and D -> A makes D a key of R1, so the join is lossless. R2 has no nontrivial projected dependency, but AB -> CD cannot be checked inside either relation because it needs A from R1 and B,C,D from R2. BCNF decompositions therefore need not preserve dependencies.
+
+--- db-hard-four-candidate-keys [mcq d5]
+P: Relation R(A,B,C,D,E) satisfies AB -> C, C -> D, D -> E and E -> B. Which set is exactly the set of candidate keys?
+A* {AB, AC, AD, AE}
+B. {AB, AC}
+C. {AB}
+D. {AB, AC, AD, AE, BC}
+E: AB+ = {A,B,C,D,E}. AC+ reaches D through C -> D, E through D -> E, and B through E -> B, so AC is a key. AD+ reaches E through D -> E, B through E -> B, and C through AB -> C, so AD is a key. AE+ reaches B through E -> B, C through AB -> C, and D through C -> D, so AE is a key. No pair without A determines all attributes: BC+ lacks A and every other pair is smaller. Hence exactly AB, AC, AD and AE are minimal keys.
+
+--- db-hard-3nf-synthesis [mcq d4]
+P: Relation R(A,B,C,D,E) has functional dependencies AB -> C, C -> D and D -> E. The only candidate key is AB. Which set of relations is a correct 3NF synthesis of R?
+A. R1(A,C), R2(B,D), R3(C,E).
+B. R1(A,B), R2(C,D,E).
+C. R(A,B,C,D,E) unchanged, because the dependencies form a chain.
+D* R1(A,B,C), R2(C,D), R3(D,E).
+E: The given FDs form a minimal cover, so synthesis creates one relation per dependency: (A,B,C), (C,D), (D,E). The candidate key AB is contained in R1, so no extra key relation is needed. Each relation's determinant is a key of that relation, so the result is in BCNF, lossless and dependency-preserving. Option B loses AB -> C; the unchanged relation is not in 3NF because C -> D and D -> E are transitive; option A does not preserve any of the original dependencies.
+
+--- db-hard-lossless-key-test [mcq d4]
+P: Relation R(A,B,C) satisfies B -> C and is decomposed into R1(A,B) and R2(B,C). Which functional dependency is the reason the decomposition is lossless?
+A. A -> B, because A must determine the other side.
+B. No functional dependency is needed; every binary decomposition that keeps all attributes is lossless.
+C. C -> A, because A and C must be related.
+D* B -> C, because B is then a key of R2.
+E: The common attribute is B. Losslessness requires the common attributes to be a superkey of at least one projection. B -> C means B determines every attribute of R2(B,C), so B is a key of R2 and the join cannot invent tuples. Attribute preservation alone does not guarantee losslessness, and no dependency on A or C is given.
+
+--- db-hard-array-1nf [mcq d4]
+P: A PostgreSQL table stores tags TEXT[] with several tag values in one row. Relationally, which statement is correct?
+A* The column holds a non-atomic value; relational 1NF requires a child table such as tag(entity_id, tag), even though PostgreSQL accepts and indexes arrays.
+B. The table is in 1NF because PostgreSQL arrays are a defined column type with element-level operators.
+C. The table violates 2NF because each tag depends on part of a composite primary key.
+D. The table is automatically in 3NF because array elements cannot participate in functional dependencies.
+E: 1NF is a relational-model property: each attribute position holds a single value. PostgreSQL's array type is a deliberate extension that permits non-1NF storage, not evidence of atomicity. A child relation with one tag per row restores 1NF and supports constraints, joins and dependency reasoning. There is no composite key described here, and array use neither implies nor prevents 3NF.
+
+--- db-hard-specialization-mapping [mcq d4]
+P: Person is specialized into Employee and Contractor. A person may be both, and every person must be at least one of the two. Which mapping enforces the model most faithfully in PostgreSQL?
+A* Create person(person_id PK), employee(person_id PK/FK REFERENCES person) and contractor(person_id PK/FK REFERENCES person); the separate subtype rows allow overlap, while total participation needs a trigger or a role table because plain foreign keys cannot require at least one subtype row.
+B. Create employee and contractor tables that each repeat all person attributes, with no shared person table.
+C. Create one person table with nullable employee and contractor columns, which allows a person to be both.
+D. Create person_role(person_id, role) with UNIQUE(person_id) so each person has exactly one role.
+E: Shared attributes belong in the supertype, and each subtype table references it with the same primary key, so a person can appear in both subtype tables (overlapping specialization). A foreign key from subtype to supertype enforces that subtype rows have a person, but SQL cannot enforce the reverse 'every person has a subtype' constraint; that requires a trigger, assertion-like check, or a role table. Duplicated subtype tables lose identity; nullable role columns cannot represent both roles independently; the UNIQUE constraint in option D forbids overlap.
+
+--- db-hard-2nf-decomposition [mcq d4]
+P: Relation R(student_id, course_id, student_name, course_title, grade) has primary key (student_id, course_id), with student_id -> student_name and course_id -> course_title. Which decomposition reaches 2NF and preserves both dependencies and the join?
+A. Keep R unchanged, because every non-key attribute depends on the whole key.
+B. student_course(student_id, course_id), names(student_id, student_name, course_title).
+C. enrollment(student_id, course_id, grade) and attributes(student_id, course_id, student_name, course_title).
+D* student(student_id, student_name), course(course_id, course_title), enrollment(student_id, course_id, grade).
+E: Both non-prime attributes depend on a proper subset of the composite key, so 2NF requires removing each partial dependency into its own relation. The enrollment relation keeps the full-key dependency grade. Joining back on student_id and course_id is lossless because each common attribute is a key of its reference relation, and all three original dependencies are enforceable inside one relation each. Option C repeats the attributes and does not normalize; option A is the original 1NF relation.
+
+--- db-hard-overlapping-keys-bcnf [mcq d4]
+P: Relation R(Student, Course, Teacher) has functional dependencies (Student, Course) -> Teacher and Teacher -> Course. Its candidate keys are (Student, Course) and (Student, Teacher). Which statement is correct?
+A* R is in 3NF but not BCNF; the BCNF decomposition into (Student, Teacher) and (Teacher, Course) is lossless but loses (Student, Course) -> Teacher.
+B. R is already in BCNF because both determinants are candidate keys.
+C. R violates 2NF because Teacher -> Course depends on part of a candidate key.
+D. The decomposition is lossy because Course appears in only one relation.
+E: Teacher -> Course has a non-superkey determinant, so BCNF fails. Course is prime (it appears in the candidate key (Student, Course)), so 3NF's prime-attribute exception applies and R is in 3NF. Splitting on Teacher is lossless because Teacher is a key of (Teacher, Course). The dependency (Student, Course) -> Teacher requires both Student and Course, which no single decomposed relation contains, so it is not preserved. 2NF is about partial dependencies by non-prime attributes; Course is prime.
+
+--- db-hard-weak-entity-key [mcq d4]
+P: Payment numbers are unique only within a loan, and a payment cannot exist without its loan. Which primary-key definition correctly maps this weak entity?
+A. payment(payment_id PK) with a nullable loan_id foreign key, because each payment still needs a globally unique identifier.
+B. payment(payment_id PK, loan_id, payment_no) with a UNIQUE constraint on payment_no alone.
+C. payment(payment_no, amount) with primary key (payment_no, amount), because the pair is unique.
+D* payment(loan_id, payment_no, amount, paid_at) with primary key (loan_id, payment_no) and loan_id REFERENCES loan ON DELETE CASCADE.
+E: The identifying owner key loan_id plus the partial key payment_no forms the weak entity's composite primary key. The foreign key enforces existence dependence, and ON DELETE CASCADE removes payments when their loan disappears. A nullable owner key permits orphans; adding amount to the key changes identity; and uniqueness on payment_no alone contradicts the statement that numbers repeat across loans.
+
+--- db-hard-prime-attribute-3nf [mcq d5]
+P: Relation R(A,B,C,D) satisfies AB -> C, C -> D and D -> B. Its candidate keys are AB, AC and AD. Which statement is correct?
+A. R is in BCNF because every attribute is prime.
+B. R violates 1NF because D occurs on both sides of a dependency.
+C. R is only in 2NF because D -> B is a partial dependency on candidate key AD.
+D* R is in 3NF but not BCNF because C -> D and D -> B have non-superkey determinants whose dependent attributes are prime.
+E: Every attribute is prime (A, B, C and D each occur in at least one candidate key), but BCNF cares about determinants, not whether attributes are prime. C and D are not superkeys, so C -> D and D -> B violate BCNF. Because D and B are prime, 3NF's exception applies and the relation is in 3NF. 2NF is satisfied because the key is composite and no non-prime attribute depends on a proper subset; 1NF concerns atomic values.
+
+--- db-hard-category-tree [sql d4]
+P: Table category(category_id INT PRIMARY KEY, name TEXT NOT NULL, parent_id INT) represents a self-referencing one-to-many relationship; NULL parent_id marks a root. Assuming no cycles, return category_id, name, depth (INT, 0 for roots) and root_name (TEXT, the name of the top-level ancestor) for every category reachable from a root. Rows whose parent chain never reaches a root are not returned. Order by depth ascending, then category_id ascending.
+REF: WITH RECURSIVE tree AS (SELECT category_id, name, 0 AS depth, name AS root_name FROM category WHERE parent_id IS NULL UNION ALL SELECT c.category_id, c.name, t.depth + 1, t.root_name FROM category c JOIN tree t ON c.parent_id = t.category_id) SELECT category_id, name, depth, root_name FROM tree ORDER BY depth, category_id
+E: The recursive term starts from roots and adds one level per iteration while carrying the root name, which implements the parent-child relationship without assuming a fixed depth. In the edge dataset the two roots are returned with the same name, which is legal because names are not keys, and the orphan whose parent does not exist is unreachable and therefore excluded. ORDER BY makes the result deterministic across executions.
+
+--- db-hard-transitive-audit [sql d4]
+P: Table employee(employee_id INT PRIMARY KEY, dept_id INT, dept_name TEXT) may contain transitive-dependency violations. Return dept_id, name_variants (BIGINT: distinct non-NULL dept_name values) and employees (BIGINT: rows in the department) for every non-NULL dept_id that has more than one distinct non-NULL dept_name. Order by name_variants descending, then dept_id ascending.
+REF: SELECT dept_id, count(DISTINCT dept_name) AS name_variants, count(*) AS employees FROM employee WHERE dept_id IS NOT NULL GROUP BY dept_id HAVING count(DISTINCT dept_name) > 1 ORDER BY name_variants DESC, dept_id
+E: If dept_id -> dept_name held, each department would have one distinct non-NULL name. The HAVING clause surfaces only departments where that is false. NULL department names are not counted as a variant, so a department with several NULLs and one real name is consistent; rows with NULL dept_id belong to no department and are excluded. The edge dataset contains no violation and returns no rows.
+
+--- db-hard-ternary-decomposition [essay d4]
+P: A supply chain records supply(supplier_id, supplier_name, supplier_city, part_id, part_name, project_id, project_name, quantity). The functional dependencies are: supplier_id -> supplier_name, supplier_city; part_id -> part_name; project_id -> project_name; and (supplier_id, part_id, project_id) -> quantity. (a) Identify the candidate key and prove it is minimal. (b) State the highest normal form and name every dependency that prevents the next form. (c) Decompose the relation into 3NF, listing primary and foreign keys. (d) Show that the decomposition is lossless-join and dependency-preserving.
+REF: (a) The candidate key is {supplier_id, part_id, project_id}. It determines quantity directly and all descriptive attributes through the three single-attribute determinants. Removing any attribute loses the ability to distinguish supply facts for different suppliers, parts or projects, so it is minimal. (b) The highest normal form is 1NF. 2NF fails because supplier_name and supplier_city depend on supplier_id alone, part_name depends on part_id alone, and project_name depends on project_id alone; each is a proper subset of the composite key. Since 2NF fails, 3NF and BCNF are not reached. (c) supplier(supplier_id PK, supplier_name, supplier_city); part(part_id PK, part_name); project(project_id PK, project_name); supply(supplier_id PK/FK REFERENCES supplier, part_id PK/FK REFERENCES part, project_id PK/FK REFERENCES project, quantity). (d) Each partial dependency is removed by joining on a common attribute that is a key of the reference relation (supplier_id, part_id, project_id), so every split is lossless by the common-attribute test. Every functional dependency is enforced inside exactly one relation: the three descriptive dependencies in supplier, part and project, and the quantity dependency in supply. The result is also in BCNF.
+RUB Incomplete: No candidate key or a key that omits quantity's determinant; no valid normal-form argument; the proposed decomposition loses the supply fact or cannot be joined back.
+RUB Partial: Names the triple key but misses at least one partial dependency or mislabels the highest normal form; the decomposition separates some entities but keys or foreign keys are incomplete.
+RUB Mostly Complete: Correct key and all four partial dependencies; decomposes into supplier, part, project and supply with keys, but the lossless or dependency-preservation argument is incomplete.
+RUB Complete: Fully correct: key {supplier_id, part_id, project_id} with a minimality proof; highest form 1NF because of four partial dependencies; decomposition supplier, part, project and supply with correct primary and foreign keys; lossless by the common-attribute-key test; dependency-preserving because each dependency is enforced inside one relation.
+E: The triple is the key because quantity is meaningful only for a supplier-part-project combination. Partial dependencies on each single key attribute keep the original relation in 1NF. Splitting into supplier, part, project and supply removes them, preserves each dependency in one relation and joins back through keys, so the decomposition is both lossless and dependency-preserving.
+
+################ SPEC db_medium.py (15)
+
+--- db-medium-closure [mcq d3]
+P: Relation R(A,B,C,D) satisfies the functional dependencies A -> B and B -> C. Which statement is correct?
+A. A is a candidate key because it determines B and C.
+B. The closure A+ is {A,B,C,D} because transitivity propagates to every attribute of the relation.
+C* The closure A+ is {A,B,C}, so A does not determine D and is not a superkey.
+D. D -> A must hold because A is not a candidate key.
+E: Compute the attribute closure: start with {A}; A -> B adds B; B -> C adds C; no dependency has a left side contained in {A,B,C} that produces D. Therefore A+ = {A,B,C}, A is not a superkey, and no dependency implies D -> A. A candidate key must determine every attribute, which A does not.
+
+--- db-medium-candidate-keys [mcq d3]
+P: Relation R(A,B,C,D) has functional dependencies AB -> C, C -> D and D -> A. Which set is exactly the set of candidate keys?
+A. {AB}
+B* {AB, BC, BD}
+C. {AB, BC}
+D. {AB, AC}
+E: AB+ = {A,B,C,D}, so AB is a key and neither A nor B alone is. BC+ = {B,C,D,A}, so BC is a key. BD+ = {B,D,A,C}: D -> A adds A, then AB -> C adds C, so BD is also a key. AC+ = {A,C,D} and does not contain B, so AC is not a key. The three keys are minimal because no single attribute of any of them determines all four attributes.
+
+--- db-medium-partial-dependency [mcq d3]
+P: The relation enrollment(student_id, course_id, course_title, grade) has primary key (student_id, course_id) and the functional dependency course_id -> course_title. Which statement identifies the 2NF violation and its correct repair?
+A. There is no violation, because course_title is determined by the full primary key through course_id.
+B. The relation is already in 3NF because every non-key attribute depends on the primary key.
+C. grade depends on the full key, so grade must be moved to its own relation to achieve 2NF.
+D* course_title depends on course_id, a proper subset of the composite key; move (course_id, course_title) to a course relation and keep (student_id, course_id, grade) in enrollment.
+E: 2NF forbids a non-prime attribute from depending on part of a candidate key. course_title is non-prime and depends on course_id alone, a proper subset of {student_id, course_id}. Removing that partial dependency yields course(course_id, course_title) and enrollment(student_id, course_id, grade). Depending on the full key is exactly what is allowed; grade is not the problem.
+
+--- db-medium-3nf-not-bcnf [mcq d3]
+P: Relation R(A,B,C) has functional dependencies AB -> C and C -> B. The candidate keys are AB and AC. Which statement is correct?
+A* The relation is in 3NF but not BCNF because C -> B has a non-superkey determinant and B is prime.
+B. The relation is in BCNF because every attribute is prime.
+C. The relation violates 2NF because C -> B is a partial dependency.
+D. The relation violates 1NF because B appears on both sides of a functional dependency.
+E: 3NF permits a functional dependency X -> Y when X is a superkey or every attribute of Y is prime. C is not a superkey, but B is part of candidate key AB, so the dependency is allowed by 3NF. BCNF has no prime-attribute exception, so C -> B violates BCNF. 2NF concerns dependencies on part of a composite key by non-prime attributes; B is prime, and 1NF is about atomic values, not repeated symbols.
+
+--- db-medium-nonatomic-list [mcq d3]
+P: The relation order_item(order_id, items) stores a value such as 'pen,notebook,stapler' in items. Which statement is correct?
+A* The relation violates 1NF; model it as order_line(order_id, product_id, quantity) with primary key (order_id, product_id).
+B. 1NF holds because each row contains one string value in the items column.
+C. The relation violates 2NF only, because product names depend on part of the key.
+D. The relation violates 3NF because item names are transitively dependent on order_id.
+E: A value that packs several items into one cell is not atomic, so the relation is not in 1NF regardless of the string type. The repair is a child relation with one row per order-product pair, keyed by both identifiers. 2NF and 3NF presuppose 1NF and concern dependencies among attributes, not multiple values hidden inside one attribute.
+
+--- db-medium-one-to-one-mapping [mcq d3]
+P: Every laptop must be assigned to exactly one employee, and an employee has at most one laptop. Laptop participation is total. Which mapping avoids a nullable unique foreign key?
+A. Give employee a nullable UNIQUE laptop_id referencing laptop.
+B* Give laptop a NOT NULL UNIQUE employee_id referencing employee.
+C. Merge employee and laptop into one table whose laptop columns are nullable.
+D. Create a junction table employee_laptop keyed by both employee_id and laptop_id.
+E: The foreign key belongs on the side with total participation: laptop.employee_id NOT NULL guarantees every laptop has an owner, and UNIQUE guarantees an employee owns at most one laptop. Placing the key on employee makes it nullable for employees without a laptop. Merging imposes wide nullable columns and mixes entities; a junction table models many-to-many and would allow several owners per laptop.
+
+--- db-medium-lossless-common-attribute [mcq d3]
+P: Relation R(A,B,C) satisfies B -> A and is decomposed into R1(A,B) and R2(B,C). Is the decomposition lossless, and why?
+A. It is always lossless because the decomposition preserves all three attribute names.
+B. It is lossless only if B -> C also holds.
+C. It is lossy because A and C end up in different relations.
+D* It is lossless because the common attribute B is a key of R1: B -> A holds in R1.
+E: For a binary decomposition, the join is lossless if the common attributes form a superkey of at least one side. The common attribute is B, and B -> A means B determines every attribute of R1(A,B), so B is a key of R1. Therefore projecting onto {A,B} and {B,C} and joining back cannot create spurious tuples. Attribute preservation is not the same property as losslessness, and B -> C is irrelevant.
+
+--- db-medium-ternary-association [mcq d3]
+P: A supplier supplies parts to projects. Quantity is recorded for a specific supplier, part and project, and one supplier-part pair can supply several projects. Which schema represents this relationship correctly?
+A* A relation supply(supplier_id, part_id, project_id, quantity) with a composite primary key over the three keys and a foreign key to each parent.
+B. Three binary relations supplier_part, part_project and supplier_project, none of which can hold quantity for the triple.
+C. Add project_id to the part table and repeat each part row once per project.
+D. Store a list of project identifiers in an array column on supplier.
+E: The fact 'this supplier supplied this quantity of this part to this project' depends on all three entities, so the associative relation's key is the triple. Binary tables cannot record a quantity that is meaningful only for the triple. Repeating parts per project duplicates part facts, and an array hides a multivalued relationship in a non-atomic value.
+
+--- db-medium-augmentation [mcq d3]
+P: Given only the functional dependency A -> B, which dependency follows by the augmentation axiom?
+A. B -> A
+B. C -> B
+C. A -> C
+D* AC -> BC
+E: Augmentation says that if X -> Y holds, then XZ -> YZ holds for any attribute set Z. Adding C to both sides of A -> B yields AC -> BC. B -> A would require a different dependency; A -> C cannot be inferred because C appears nowhere in the premise; C -> B is not implied either.
+
+--- db-medium-3nf-synthesis [mcq d3]
+P: Which statement about 3NF synthesis and BCNF decomposition is correct?
+A* A 3NF synthesis can be lossless and dependency-preserving, while a BCNF decomposition is lossless but may lose a functional dependency.
+B. Every BCNF decomposition preserves all functional dependencies.
+C. 3NF forbids partial dependencies but intentionally allows transitive dependencies among non-prime attributes.
+D. BCNF allows a non-superkey determinant whenever the dependent attribute is prime.
+E: The 3NF synthesis algorithm produces a lossless, dependency-preserving decomposition. BCNF is stricter and a lossless BCNF decomposition may split a dependency across relations, so dependency preservation is not guaranteed. 3NF also forbids transitive dependencies of non-prime attributes on a non-superkey; BCNF has no prime-attribute exception at all.
+
+--- db-medium-email-audit [sql d3]
+P: Table customer_email(row_id INT PRIMARY KEY, customer_id INT NOT NULL, email TEXT) records contact rows, and the same customer may appear more than once. Return email (TEXT), copies (BIGINT: rows with that email) and ids (BIGINT: distinct customer IDs with that email) for every non-NULL email used by more than one distinct customer. Order by copies descending, then email ascending.
+REF: SELECT email, count(*) AS copies, count(DISTINCT customer_id) AS ids FROM customer_email WHERE email IS NOT NULL GROUP BY email HAVING count(DISTINCT customer_id) > 1 ORDER BY copies DESC, email
+E: The audit looks for one email attached to several customers, which is evidence that email is not a key and that the relation stores redundant contact facts. count(*) counts rows, while count(DISTINCT customer_id) counts customers; the edge dataset has three rows but two customers, so both numbers are needed. NULL emails are excluded because a NULL is not a shared value.
+
+--- db-medium-customer-order-totals [sql d3]
+P: Table customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL) and table orders(order_id INT PRIMARY KEY, customer_id INT, amount NUMERIC(10,2)). Return customer_id, name, order_count (BIGINT) and total (NUMERIC, 0 when there are no orders or all amounts are NULL) for every customer, including customers with no orders. Order by customer_id ascending.
+REF: SELECT c.customer_id, c.name, count(o.order_id) AS order_count, coalesce(sum(o.amount), 0) AS total FROM customer c LEFT JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.customer_id, c.name ORDER BY c.customer_id
+E: A LEFT JOIN keeps customers without orders. count(o.order_id) ignores the NULL produced by the join, so the count is 0, while count(*) would incorrectly return 1. sum ignores NULL amounts, and coalesce turns the all-NULL or no-row sum into 0. Grouping by both customer_id and name keeps the query valid even though names are not unique.
+
+--- db-medium-library-normalization [essay d3]
+P: A library stores loans in loan(member_id, member_name, member_city, book_id, book_title, book_author, loan_date, due_date). The functional dependencies are: member_id -> member_name, member_city; book_id -> book_title, book_author; and (member_id, book_id, loan_date) -> due_date. A member may borrow the same book again on a different date. (a) Identify the candidate key. (b) Determine the highest normal form and name each dependency that prevents the next form. (c) Decompose the relation into 3NF, listing keys and foreign keys. (d) Explain why the decomposition is lossless-join and dependency-preserving.
+REF: (a) The candidate key is {member_id, book_id, loan_date}. It determines due_date directly and determines the member and book attributes through member_id and book_id; each proper subset loses at least one attribute, so it is minimal. (b) The highest normal form is 1NF. 2NF fails because the non-prime attributes member_name and member_city depend on member_id alone, and book_title and book_author depend on book_id alone; both are proper subsets of the composite key. Because 2NF fails, 3NF is not reached. (c) member(member_id PK, member_name, member_city); book(book_id PK, book_title, book_author); loan(member_id PK/FK REFERENCES member, book_id PK/FK REFERENCES book, loan_date PK, due_date). (d) Each split removes a partial dependency and joins back on a common attribute that is a key of one side (member_id in member, book_id in book), so each step is lossless by the common-attribute test. Dependency preservation holds because member_id -> name, city is enforced in member; book_id -> title, author is enforced in book; and the key dependency on all three attributes is enforced in loan.
+RUB Incomplete: Identifies no candidate key or a key missing loan_date, and gives no valid normal-form argument; the decomposition, if present, is unusable or loses the loan fact.
+RUB Partial: Names a plausible key but omits at least one partial dependency or mislabels the highest normal form; the decomposition separates some but not all entity facts, or keys and foreign keys are missing.
+RUB Mostly Complete: Correct key and identifies both partial dependencies; decomposes into member, book and loan with correct keys, but the lossless or dependency-preservation justification is incomplete.
+RUB Complete: Fully correct: key {member_id, book_id, loan_date} with a minimality argument; highest form 1NF because of the partial dependencies member_id -> member attributes and book_id -> book attributes; decomposition member, book and loan with correct primary and foreign keys; lossless by the common-attribute-key test on each split; dependency-preserving because every functional dependency is enforced inside a single relation.
+E: The composite key includes the loan date because the same member can borrow the same book again. Partial dependencies on member_id and book_id keep the original relation in 1NF only. Separating member, book and loan removes them; the common attributes are keys of the reference relations, so the decomposition is lossless, and each dependency is enforceable inside one relation.
+
+--- db-medium-optional-self-reference [mcq d3]
+P: A customer may have been referred by another customer, but many customers have no referrer. Which schema models this optional self-referencing relationship correctly?
+A* customer(customer_id PK, name, referred_by_id INT NULL REFERENCES customer(customer_id)).
+B. customer(customer_id PK, name, referred_by_id INT NOT NULL REFERENCES customer).
+C. customer(customer_id PK, name, referred_by_name TEXT).
+D. A referrer table with two NOT NULL foreign keys, where every customer must appear.
+E: Optional participation permits NULL, so the self-referencing foreign key must be nullable; roots simply store NULL. A NOT NULL self-reference makes the first customer impossible to insert. Storing a name instead of a key loses identity and reintroduces update anomalies. A mandatory referrer table contradicts the statement that many customers have no referrer.
+
+--- db-medium-residual-transitive [mcq d3]
+P: A relation is in 2NF but not in 3NF because a non-prime attribute depends on another non-prime attribute. Which operational problem remains?
+A. A non-prime attribute depends on only part of a composite key.
+B. A single cell can contain several values, so the relation is not atomic.
+C* The dependent fact is repeated for every determinant value, so changing it can require several updates and missed rows create inconsistency.
+D. No problem remains, because 2NF and 3NF are equivalent whenever the key is composite.
+E: The transitive dependency is redundancy: the dependent fact is stored once per determinant occurrence, creating update, insert and delete anomalies. Non-atomic values are a 1NF problem; dependence on part of a composite key is the 2NF problem already removed; and 2NF does not imply 3NF for any key shape.
+
+################ SPEC df_easy.py (4)
+
+--- df-easy-generated-net [sql d2]
+P: The setup creates order_line(order_id INT PRIMARY KEY, unit_price NUMERIC(8,2) NOT NULL, qty INT NOT NULL, discount NUMERIC(8,2), net NUMERIC(10,2) GENERATED ALWAYS AS (unit_price * qty - discount) STORED). Return order_id and net for every row, ordered by order_id ascending. A NULL discount must produce a NULL net.
+REF: SELECT order_id, net FROM order_line ORDER BY order_id
+E: A stored generated column is computed by the database from the generation expression on every insert and update, so the SELECT reads a stored value rather than recomputing it. Because the expression uses ordinary arithmetic, a NULL discount makes the whole subtraction NULL: orders 2 and the edge rows report NULL, while order 1 reports 20.00 and order 3 reports 9.00. The column cannot be written directly.
+
+--- df-easy-defaults-and-identity [sql d2]
+P: The setup creates account(account_id INT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY, code TEXT NOT NULL DEFAULT 'PENDING', opened_on DATE NOT NULL DEFAULT '2024-01-01') and inserts rows that sometimes name code and opened_on. Return account_id, code and opened_on for every row, ordered by account_id ascending.
+REF: SELECT account_id, code, opened_on FROM account ORDER BY account_id
+E: The identity column fills account_id from its sequence, so the INSERT statements never supply it and the generated values are 1, 2 and 3. Omitting code applies 'PENDING' and omitting opened_on applies 2024-01-01, while explicitly supplied values replace the defaults. The edge dataset exercises each default separately: one row supplies only code and receives the default date, and one row supplies only opened_on and receives the default code.
+
+--- df-easy-partition-pruning [mcq d2]
+P: A table is declared PARTITION BY RANGE (created_on) with one partition per month. Which statement is correct?
+A. Rows are stored in the parent table and the partitions are only secondary indexes used for lookups.
+B* Rows are stored in the partitions, not in the parent, and a query whose WHERE clause constrains created_on can scan only the matching partitions.
+C. PostgreSQL automatically creates a new partition whenever an insert arrives for a range that has no partition yet.
+D. The primary key must consist of created_on alone, because the partition key cannot be combined with other columns.
+E: With declarative partitioning the parent is a logical table with no storage of its own; inserted rows are routed to the partition whose bounds contain the partition key, and an insert with no matching partition fails unless a default partition exists. The planner can prune partitions when the query constrains the partition key. A primary key or unique constraint on a partitioned table must include the partition key, but may include additional columns; partitions are not created automatically.
+
+--- df-easy-materialized-view [essay d2]
+P: Explain what a materialized view is in PostgreSQL, how it differs from an ordinary view, and how REFRESH MATERIALIZED VIEW keeps it current. State what the REFRESH ... CONCURRENTLY variant requires and why a materialized view can return stale data.
+REF: An ordinary view stores only a query and is evaluated each time it is referenced, so it always reflects current base-table data. A materialized view executes its query once and stores the resulting rows on disk, so reads are fast but reflect the data as of the last refresh. REFRESH MATERIALIZED VIEW re-executes the defining query and replaces the stored contents; until the next refresh the materialized view can return stale rows after base tables change. REFRESH MATERIALIZED VIEW CONCURRENTLY is intended to keep the view readable while it refreshes, and it requires the materialized view to have a unique index that covers all rows, so that the old and new contents can be compared. It cannot be used on a materialized view created WITH NO DATA that has never been populated, and it is slower than a plain refresh.
+RUB Incomplete: Treats a materialized view as an ordinary view, or says it updates automatically; no mention of refresh.
+RUB Partial: Correctly says the rows are stored and refreshed, but omits staleness or the CONCURRENTLY requirement.
+RUB Mostly Complete: Explains storage, refresh and staleness, but only vaguely describes CONCURRENTLY or the unique-index requirement.
+RUB Complete: Fully correct: stored result set versus stored query, explicit refresh, stale reads between refreshes, and CONCURRENTLY requiring a unique index while keeping the view readable.
+E: The answer must distinguish stored results from a stored query, describe REFRESH as re-running the query, and explain staleness. It must state that CONCURRENTLY needs a unique index and permits reads during refresh.
+
+################ SPEC df_hard.py (6)
+
+--- df-hard-composite-primary-key [mcq d4]
+P: Table enrolment is created with PRIMARY KEY (student_id, course_id). Which statement is correct?
+A. NULL is allowed in either column as long as the non-NULL pair is unique.
+B. Each column is individually unique because it participates in the primary key.
+C* The pair must be unique and both columns are NOT NULL, but student_id alone may repeat for different courses.
+D. The constraint is enforced only for rows inserted after the table is created, not for existing rows.
+E: A primary key is a composite unique constraint plus NOT NULL on every participating column. Uniqueness applies to the combination, not to each column separately, so one student may enrol in many courses. NULLs are rejected in primary-key columns, and a constraint is part of the table definition from creation onward.
+
+--- df-hard-updatable-view [mcq d4]
+P: Which statement about automatically updatable views is correct?
+A* A view over one base table without DISTINCT, GROUP BY, HAVING, LIMIT, OFFSET or set operations is auto-updatable, and WITH CHECK OPTION rejects inserts or updates that would make the row invisible through the view.
+B. Every view is auto-updatable; INSTEAD OF triggers are only an optimization.
+C. WITH CHECK OPTION validates only the data types of the affected columns, not the view's WHERE condition.
+D. A view containing GROUP BY is auto-updatable as long as the base table has a unique index.
+E: PostgreSQL makes a view automatically updatable when it selects from exactly one table or updatable view and contains no DISTINCT, GROUP BY, HAVING, LIMIT, OFFSET, set operation, aggregate, window or set-returning function. WITH CHECK OPTION adds a guard: an insert or update through the view is rejected if the resulting row would not satisfy the view's own WHERE clause. Views with GROUP BY require an INSTEAD OF trigger to be modified.
+
+--- df-hard-refresh-concurrently [mcq d4]
+P: What does REFRESH MATERIALIZED VIEW CONCURRENTLY require, and how does it differ from a plain refresh?
+A. It requires a primary key on the base table and blocks readers until the new contents are swapped in.
+B. It requires no additional objects and updates only the rows whose base data changed since the last refresh.
+C* It requires a unique index on the materialized view and keeps the view readable while refreshing, whereas a plain refresh blocks readers.
+D. It requires the materialized view to be created WITH NO DATA, because the unique index is built during the first refresh.
+E: REFRESH MATERIALIZED VIEW CONCURRENTLY compares the old and new contents, so it needs a unique index that covers every row of the materialized view, and it allows concurrent reads while it runs. The plain form takes an exclusive lock that blocks readers. Neither form performs incremental updates: the defining query is re-executed in full. The view must already be populated, so a view created WITH NO DATA cannot be refreshed concurrently before its first normal refresh.
+
+--- df-hard-table-inheritance [mcq d4]
+P: When a child table is created with INHERITS (parent), which statement is correct?
+A. It inherits all indexes, primary keys and foreign keys, so the parent's constraints also protect child rows.
+B* It inherits the parent's columns and CHECK/NOT NULL constraints, but not its indexes, primary key, unique constraints or foreign keys, and a query on the parent includes child rows unless ONLY is used.
+C. A query on the parent returns only parent rows; child rows appear only when the child table is named explicitly.
+D. The child must redeclare every parent column, because inheritance only shares physical storage between the tables.
+E: Table inheritance copies column definitions and check/not-null constraints into the child, but indexes, primary keys, unique constraints and foreign keys are not inherited. By default a SELECT on the parent includes rows from descendant tables; ONLY parent restricts it to the parent. Each table stores its own rows; there is no shared storage.
+
+--- df-hard-generated-revenue [sql d4]
+P: The setup creates sale(sale_id INT PRIMARY KEY, region TEXT NOT NULL, unit_price NUMERIC(8,2) NOT NULL, qty INT NOT NULL, net NUMERIC(10,2) GENERATED ALWAYS AS (unit_price * qty) STORED). Return region and sum(net) aliased revenue for every region, ordered by region ascending.
+REF: SELECT region, sum(net) AS revenue FROM sale GROUP BY region ORDER BY region
+E: Each row stores its generated net value: 20, 15, 32 and 5. Grouping by region sums those stored values to 35 for north and 37 for south, in region order. The empty dataset produces no groups, so the aggregate query correctly returns no rows rather than a single NULL row.
+
+--- df-hard-duplicate-candidate-key [sql d4]
+P: The setup creates payment(payment_id INT PRIMARY KEY, customer_id INT NOT NULL, paid_on DATE NOT NULL, amount NUMERIC(8,2) NOT NULL). The pair (customer_id, paid_on) is being considered as a candidate key. Return customer_id, paid_on and count(*) aliased payments for every pair that occurs more than once, ordered by customer_id then paid_on ascending.
+REF: SELECT customer_id, paid_on, count(*) AS payments FROM payment GROUP BY customer_id, paid_on HAVING count(*) > 1 ORDER BY customer_id, paid_on
+E: A candidate key must be unique, so the audit groups by the proposed key columns and keeps only groups with more than one row. Customer 1 has three payments on 2024-01-05 and therefore cannot be identified by (customer_id, paid_on) alone; the result reports that pair with a count of 3. In the edge dataset every pair is unique, so HAVING removes all groups and the result is empty.
+
+################ SPEC df_medium.py (2)
+
+--- df-medium-generated-subtotal [sql d3]
+P: The setup creates invoice(invoice_id INT PRIMARY KEY, unit_price NUMERIC(8,2) NOT NULL, qty INT NOT NULL, discount NUMERIC(8,2), subtotal NUMERIC(10,2) GENERATED ALWAYS AS (unit_price * qty - discount) STORED). Return invoice_id and subtotal for every invoice whose stored subtotal is at least 10, ordered by invoice_id ascending. Rows whose subtotal is NULL must not appear.
+REF: SELECT invoice_id, subtotal FROM invoice WHERE subtotal >= 10 ORDER BY invoice_id
+E: subtotal is a stored generated column, so the predicate can reference it directly; the database computed it from the base columns. Invoice 1 stores 15.00 and invoice 4 stores 16.00, so both qualify; invoice 3 stores 8.00 and is filtered out. Invoice 2 and every edge row have a NULL discount, which makes the subtraction NULL, and NULL >= 10 is unknown, so those rows are excluded rather than returned.
+
+--- df-medium-order-total-view [sql d3]
+P: The setup creates orders, order_line and the view order_total, whose stored query groups order_line by order and sums qty * unit_price as total. Return order_id and total for every order whose total is at least 20, ordered by order_id ascending.
+REF: SELECT order_id, total FROM order_total WHERE total >= 20 ORDER BY order_id
+E: The view stores an aggregate query, so querying it returns one row per order with the computed total. Order 1 totals 20.00 and order 3 totals 24.00, while order 2 totals 15.00 and is removed by the WHERE clause on total. In the edge dataset order_line is empty, so the inner join produces no groups and the view returns no rows. Filtering on total is valid because total is an output column of the view.
+
+################ SPEC dm_easy.py (9)
+
+--- dm-easy-default-values [mcq d2]
+P: Table session_log(session_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, started_at TEXT NOT NULL DEFAULT 'unknown', note TEXT) is empty. The statement INSERT INTO session_log DEFAULT VALUES; is executed. What is stored?
+A. No row, because DEFAULT VALUES requires at least one explicit column value.
+B* One row with a generated session_id, started_at = 'unknown' and note = NULL.
+C. One row with every column set to NULL.
+D. An error, because an identity column cannot be combined with DEFAULT VALUES.
+E: DEFAULT VALUES inserts a row in which every column receives its default. The identity column generates a value, started_at takes its declared default, and note has no default and is nullable, so it becomes NULL. The statement is valid whenever every NOT NULL column can be satisfied by a default or identity.
+
+--- dm-easy-insert-select [mcq d2]
+P: The statement INSERT INTO archive (sale_id, amount) SELECT sale_id, amount FROM sale WHERE status = 'closed'; is executed. Which rows are added to archive?
+A* One archive row for every sale row whose status is 'closed'.
+B. One archive row per column of sale, because SELECT is evaluated per column.
+C. All sale rows regardless of status, because INSERT copies the whole source table.
+D. No rows unless archive is empty, because INSERT refuses to append to a non-empty table.
+E: INSERT ... SELECT inserts one row for every row the SELECT returns, so the WHERE clause decides which sales are archived. The source can be non-empty and the target can already hold rows; nothing prevents appending.
+
+--- dm-easy-update-null-flag [mcq d2]
+P: Table account has a nullable verified BOOLEAN column. The statement UPDATE account SET verified = FALSE WHERE verified IS NULL; is executed twice in a row. What is the effect?
+A. Each run changes every row, because UPDATE always rewrites the whole table.
+B* The first run changes the rows whose verified is NULL; the second run changes no rows.
+C. The second run restores NULL values, because WHERE is re-evaluated against the original snapshot.
+D. The statement fails the second time because FALSE is not a valid boolean.
+E: The WHERE clause selects only rows whose value is NULL, so the first run sets them to FALSE. After that no row satisfies the predicate, so the second run updates zero rows. UPDATE never rewrites rows that fail the WHERE clause.
+
+--- dm-easy-insert-returning [mcq d2]
+P: Table task(task_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, title TEXT) is used with INSERT INTO task (title) VALUES ('write report') RETURNING task_id; What does the statement return?
+A. Every task_id currently stored in the table.
+B. An empty result, because RETURNING applies only to UPDATE and DELETE.
+C* One row containing the generated task_id of the inserted row.
+D. The text 'write report' instead of a number.
+E: RETURNING is available on INSERT as well as UPDATE and DELETE and reports values from the rows the statement affected. Here it surfaces the identity value generated for the new row, so the client learns the key without a second query.
+
+--- dm-easy-merge-purpose [mcq d2]
+P: What is MERGE used for?
+A. Combining two result sets into one output, like UNION.
+B. Merging two tables into a single physical file on disk.
+C. Concatenating the text columns of two tables.
+D* Applying conditional insert, update or delete actions to a target table from rows of a source in one statement.
+E: MERGE compares source rows with target rows using an ON condition and runs the action of the first matching WHEN clause, so one statement can update matched rows, insert unmatched source rows and, in PostgreSQL 17, delete target rows with no source match. It is not a storage or set-operation command.
+
+--- dm-easy-multi-row-atomicity [mcq d2]
+P: INSERT INTO tag (tag_id, label) VALUES (1, 'a'), (1, 'b'); is run on tag(tag_id INT PRIMARY KEY, label TEXT), and no row with tag_id = 1 exists yet. What is the outcome?
+A. Both rows are stored, because a primary key is checked after the statement.
+B. The first row is stored and only the second row is rejected.
+C* The whole statement fails and no row is stored, because the second row violates the primary key.
+D. The second row replaces the first one silently.
+E: A single INSERT statement is atomic: the primary key is checked for each proposed row, and a violation aborts the statement, so the first row is not kept either. MySQL-style per-row continuation and silent replacement both require different syntax and are not PostgreSQL behaviour.
+
+--- dm-easy-inserted-state [sql d2]
+P: The setup creates shipment(shipment_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, carrier TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending', note TEXT) and then runs the INSERT statements shown in the dataset. Return shipment_id, carrier, status and note for every stored row, ordered by shipment_id ascending.
+REF: SELECT shipment_id, carrier, status, note FROM shipment ORDER BY shipment_id
+E: Each INSERT stores exactly the columns it names; an identity column fills its own value and any column omitted from the column list receives its default or NULL. The first dataset therefore has status 'pending' and note NULL everywhere, while the second contrasts an explicit status, a defaulted status and an explicitly inserted NULL note. Because the id is GENERATED ALWAYS, the statements cannot supply shipment_id themselves.
+
+--- dm-easy-insert-select-rows [sql d2]
+P: The setup creates sale(sale_id INT PRIMARY KEY, status TEXT, amount INT) and archive(sale_id INT PRIMARY KEY, amount INT), inserts rows into sale and leaves archive empty. The next step is INSERT INTO archive (sale_id, amount) SELECT sale_id, amount FROM sale WHERE status = 'closed'; Writing the INSERT itself is not possible in the sandbox, so return exactly the sale_id and amount rows that this statement would add to archive, ordered by sale_id ascending.
+REF: SELECT sale_id, amount FROM sale WHERE status = 'closed' ORDER BY sale_id
+E: INSERT ... SELECT copies one row per row returned by its SELECT, so the archived rows are exactly the 'closed' sales: 1, 3 and 4, including sale 3 whose NULL amount is copied unchanged. The second dataset has no closed sales, so the INSERT would add nothing and the correct result is empty.
+
+--- dm-easy-returning [essay d2]
+P: Explain RETURNING in PostgreSQL INSERT, UPDATE and DELETE. State what values it exposes, give one example of INSERT ... RETURNING and one of DELETE ... RETURNING, and explain why returning the affected rows inside the same statement is preferable to issuing a follow-up SELECT.
+REF: RETURNING computes an output row for every row the statement inserted, updated or deleted, and may reference that row's columns. For INSERT INTO task (title) VALUES ('x') RETURNING task_id, the generated identity value is returned. For DELETE FROM task WHERE task_id = 7 RETURNING *, the deleted row's contents are returned, which is useful for archiving. UPDATE ... RETURNING reports the values after the update. Because the rows are returned by the same statement, the client avoids a second query that could see different data if another session changed the rows in between, and it avoids guessing which row was affected. The values correspond exactly to the rows this statement modified, inside the same transactional snapshot.
+RUB Incomplete: Says RETURNING exists only for SELECT-like queries or gives no example; no atomicity argument.
+RUB Partial: Correct basic examples but confuses which statement's rows are returned, or claims RETURNING replaces a WHERE clause.
+RUB Mostly Complete: Correct semantics and examples, but the atomicity/race argument is missing or vague.
+RUB Complete: Fully correct: RETURNING exposes affected-row values for INSERT, UPDATE and DELETE with valid examples, notes that UPDATE reports post-update values, and explains that a follow-up SELECT can see changed data whereas RETURNING reports exactly the affected rows in the same statement.
+E: The answer must define RETURNING across the three statements, give a valid example, and justify atomicity: the returned rows are exactly the affected rows in the same statement, so a follow-up SELECT can race.
+
+################ SPEC dm_hard.py (11)
+
+--- dm-hard-merge-returning [mcq d5]
+P: PostgreSQL 17 executes MERGE INTO stock s USING feed f ON s.item = f.item WHEN MATCHED THEN UPDATE SET qty = f.qty WHEN NOT MATCHED THEN INSERT (item, qty) VALUES (f.item, f.qty) RETURNING merge_action(), s.item; What does RETURNING produce?
+A. Only the inserted rows, because RETURNING on MERGE is limited to INSERT actions.
+B. One row per source row, regardless of whether it matched.
+C* One row per affected target row with the action performed ('INSERT', 'UPDATE' or 'DELETE') and the item.
+D. An error, because RETURNING is not supported on MERGE in PostgreSQL 17.
+E: PostgreSQL 17 adds RETURNING to MERGE. The output covers every row inserted, updated or deleted by the command, and merge_action() reports which action ran for that row. Rows skipped because no WHEN clause applied are not reported.
+
+--- dm-hard-merge-not-matched-by-source [mcq d5]
+P: MERGE INTO product p USING feed f ON f.product_id = p.product_id WHEN MATCHED THEN UPDATE SET price = f.price WHEN NOT MATCHED BY SOURCE THEN DELETE; is executed. Which rows does the NOT MATCHED BY SOURCE clause act on?
+A. All target rows, because BY SOURCE overrides the ON condition.
+B. Source rows that have no matching target row.
+C. Target rows that matched but whose price is NULL.
+D* Target rows that have no matching source row; the clause deletes them.
+E: WHEN NOT MATCHED BY SOURCE is a PostgreSQL extension that addresses rows of the target which the source never matched, so it is the natural place to delete products no longer present in the feed. Source rows with no target match are the ordinary NOT MATCHED [BY TARGET] case, which inserts.
+
+--- dm-hard-merge-duplicate-match [mcq d5]
+P: A MERGE source table contains two rows with the same join key, and both match one target row through an unconditional WHEN MATCHED THEN UPDATE. What happens?
+A* The target row is modified by one candidate change row, and a later attempt to modify the same row raises an error, so the join must produce at most one source row per target row.
+B. The target row is updated twice and the second value wins.
+C. The two source rows are merged into one automatically.
+D. The WHEN MATCHED clause is skipped for that target row and the statement commits.
+E: MERGE requires at most one candidate change row per target row. When several source rows match, only one is used to modify the target and any later attempt to modify the same row errors, so the whole statement fails. Deduplicating or aggregating the source before the MERGE is the standard fix.
+
+--- dm-hard-cte-move-upsert [mcq d4]
+P: WITH pulled AS (DELETE FROM inbox WHERE processed RETURNING *) INSERT INTO archive (id, body) SELECT id, body FROM pulled ON CONFLICT (id) DO NOTHING; is executed. What is the result?
+A. The processed inbox rows are deleted only for archive rows that were actually inserted.
+B* The processed inbox rows are deleted once, and archive receives the rows whose id is not already present.
+C. The statement fails, because a data-modifying CTE cannot feed an INSERT with ON CONFLICT.
+D. Each processed inbox row is moved even if archive already has the same id, creating duplicates.
+E: The DELETE in the CTE runs once and its RETURNING rows feed the INSERT. Because ON CONFLICT (id) DO NOTHING is evaluated on the target, ids already archived are skipped, while the source rows are deleted regardless. The combination does not fail, and no duplicate id can be created because archive enforces uniqueness.
+
+--- dm-hard-multi-column-subquery [mcq d4]
+P: UPDATE account a SET (tier, score) = (SELECT m.tier, m.score FROM metrics m WHERE m.account_id = a.account_id); is executed, and one account has no metrics row. What happens to that account?
+A. The account is left unchanged, because no metrics row matched.
+B* Both tier and score are set to NULL, because the scalar subquery returns no row.
+C. The statement fails because a row is missing from metrics.
+D. Only score becomes NULL; tier keeps its old value.
+E: A multi-column assignment with a subquery sets every listed column from the subquery's single row. When the subquery yields no row, the row value is NULL, so every assigned column becomes NULL. All target rows are updated, which is why a WHERE EXISTS guard is usually added when unmatched rows should keep their values.
+
+--- dm-hard-cte-evaluated-once [mcq d4]
+P: WITH changed AS (UPDATE task SET done = TRUE RETURNING task_id) SELECT (SELECT count(*) FROM changed) AS updated, (SELECT count(*) FROM changed) AS total; is executed. What do the two subqueries report?
+A. The UPDATE runs twice, once per reference.
+B. The first reports the updated rows and the second reports their doubled count.
+C. The second reports zero, because a CTE can be consumed only once.
+D* Both report the same count, because the CTE is executed once and both references read the same rows.
+E: A WITH query is evaluated once per statement even when referenced several times; both subqueries therefore see the same set of rows returned by the UPDATE's RETURNING clause. There is no double execution and no restriction on referencing the CTE more than once.
+
+--- dm-hard-overriding-system-value [mcq d5]
+P: Table invoice(invoice_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, total INT) already contains ids 1 to 5, and the statement INSERT INTO invoice (invoice_id, total) OVERRIDING SYSTEM VALUE VALUES (100, 50); is executed. What is the consequence?
+A. The statement fails, because GENERATED ALWAYS identity columns never accept explicit values.
+B* The explicit id 100 is stored, and the identity sequence is not advanced, so a later default insert can collide once the sequence reaches 100.
+C. The value 100 is ignored and an id from the sequence is used.
+D. The sequence is automatically set to 101, preventing any future collision.
+E: OVERRIDING SYSTEM VALUE is exactly the escape hatch that lets an explicit value into a GENERATED ALWAYS identity column, so the statement succeeds. The sequence itself is not synchronized by the insert, which leaves a future collision unless the sequence is advanced or restarted manually. Option D describes behaviour that PostgreSQL does not perform automatically.
+
+--- dm-hard-self-join-delete [mcq d4]
+P: DELETE FROM price p USING price older WHERE p.product_id = older.product_id AND older.valid_from < p.valid_from; is executed. What does it do?
+A. The statement is invalid, because a table cannot reference itself in USING.
+B. It deletes every price row for products that appear more than once.
+C. It deletes both the newer and the older row for each product.
+D* It deletes every price row that has an older row for the same product, keeping the rows with the earliest valid_from.
+E: The target and the USING table are the same table under different aliases, which PostgreSQL allows. A row is deleted when a row with the same product_id and a smaller valid_from exists, so only rows that are not the earliest are removed; equal valid_from values do not delete each other because the comparison is strict.
+
+--- dm-hard-update-from-changes [sql d4]
+P: The setup creates account(account_id INT PRIMARY KEY, email TEXT) and staging(account_id INT PRIMARY KEY, email TEXT). The next step is UPDATE account a SET email = s.email FROM staging s WHERE s.account_id = a.account_id AND s.email IS DISTINCT FROM a.email; Writing the UPDATE is not possible in the sandbox, so return the rows the statement would change with columns account_id, old_email and new_email, ordered by account_id ascending.
+REF: SELECT a.account_id, a.email AS old_email, s.email AS new_email FROM account a JOIN staging s ON s.account_id = a.account_id WHERE s.email IS DISTINCT FROM a.email ORDER BY a.account_id
+E: UPDATE ... FROM changes each target row whose join partner supplies a value that is distinct from the stored one, and IS DISTINCT FROM treats NULL as a comparable value. Account 1 is equal and skipped; account 2 changes from NULL to 'b@x.edu'; account 3 changes from 'c@x.edu' to NULL; account 4 has no staging row and is untouched; staging id 5 has no target row and changes nothing. The already-in-sync dataset yields no changes.
+
+--- dm-hard-merge-by-source-delete [sql d4]
+P: The setup creates product(product_id INT PRIMARY KEY, name TEXT NOT NULL) and feed(product_id INT PRIMARY KEY, price INT). The next step is MERGE INTO product p USING feed f ON f.product_id = p.product_id WHEN NOT MATCHED BY SOURCE THEN DELETE; Writing the MERGE is not possible in the sandbox, so return the target rows it would delete with columns product_id and name, ordered by product_id ascending.
+REF: SELECT p.product_id, p.name FROM product p WHERE NOT EXISTS (SELECT 1 FROM feed f WHERE f.product_id = p.product_id) ORDER BY p.product_id
+E: WHEN NOT MATCHED BY SOURCE addresses target rows for which the ON condition matched no source row, so the delete set is the anti-join of product against feed. In the first dataset only product 2 is absent from the feed; feed row 4 is a source-only row, which this clause does not address. The second dataset is fully matched, so the correct result is empty.
+
+--- dm-hard-merge-versus-upsert [essay d5]
+P: Compare INSERT ... ON CONFLICT with MERGE in PostgreSQL 17 for a data-loading job. Address which statements can express which actions, how each treats a source that yields several rows per target key, what RETURNING offers in each, transaction and locking behaviour, and when you would choose one over the other.
+REF: ON CONFLICT is an INSERT extension: it can skip or update a conflicting row, using a unique index as arbiter, but it cannot delete and it cannot update rows that the incoming set does not mention. MERGE can express INSERT, UPDATE and DELETE, including PostgreSQL 17's WHEN NOT MATCHED BY SOURCE for target rows absent from the source, and PostgreSQL 17 adds RETURNING with merge_action(). Both require at most one incoming row per target row; duplicates make ON CONFLICT DO UPDATE raise an error about affecting a row twice, and make MERGE raise an error when it would modify the same target row again, so the source must be deduplicated. Both run as a single statement inside the caller's transaction and take row locks on the rows they change; ON CONFLICT relies on the unique index for arbitration, while MERGE performs a join between source and target, so its plan and locking depend on that join. Choose ON CONFLICT for simple keyed upserts where only conflicting keys matter; choose MERGE when the job must also delete target rows missing from the source or apply different actions to different classes of rows in one statement.
+RUB Incomplete: Treats the two as synonyms, or claims MERGE cannot delete. No discussion of duplicate source rows.
+RUB Partial: Correct action coverage but misses the duplicate-source rule or the arbiter requirement, and the choice rule is vague.
+RUB Mostly Complete: Correct actions, arbiter and duplicate rule, but RETURNING, locking or the selection guidance is incomplete.
+RUB Complete: Fully correct: ON CONFLICT is an INSERT extension needing a unique arbiter and able only to skip/update conflicts; MERGE can insert, update, delete and (17+) delete unmatched target rows, with RETURNING and merge_action(); both require one source row per target row and fail on duplicates; both are single-statement, transactional and lock the changed rows; the choice rule follows from the required actions.
+E: The answer must distinguish action coverage (upsert versus insert/update/delete), name the unique index as arbiter for ON CONFLICT, describe the single-source-row-per-target rule for both, mention PostgreSQL 17 MERGE RETURNING/NOT MATCHED BY SOURCE, and give a defensible selection rule.
+
+################ SPEC dm_medium.py (9)
+
+--- dm-medium-on-conflict-update-where [mcq d3]
+P: The statement INSERT INTO stock (item, qty) VALUES ('bolt', 5) ON CONFLICT (item) DO UPDATE SET qty = EXCLUDED.qty WHERE stock.qty < EXCLUDED.qty is executed, and the stored qty for 'bolt' is 9. What happens?
+A. The insert occurs and a second 'bolt' row is added.
+B* Neither the update nor the insert occurs; the row is skipped because the DO UPDATE condition is false.
+C. The update occurs anyway, and the WHERE clause is ignored for DO UPDATE.
+D. The stored qty is set to 5 and then to 9.
+E: A WHERE clause attached to DO UPDATE is a condition on the update itself. When it is false, the conflicting row is left unchanged and the proposed row is not inserted either, so the statement simply skips that row. It never turns a conflict into an insert.
+
+--- dm-medium-merge-clause-order [mcq d3]
+P: A MERGE statement has two WHEN MATCHED clauses, the first guarded by AND s.priority = 'high' and the second unconditional. A target row matches a source row whose priority is 'low'. Which clause runs?
+A. Both clauses run, applying two updates.
+B* The second, unconditional WHEN MATCHED clause, because clauses are evaluated in order and the first condition is false.
+C. Neither clause runs, because a guarded clause disables the rest.
+D. The statement is rejected because only one WHEN MATCHED clause is allowed.
+E: MERGE evaluates WHEN clauses in the order written and runs the first one whose condition holds; later clauses are not applied to the same row. Several WHEN MATCHED clauses are legal, which is how priority-dependent actions are expressed.
+
+--- dm-medium-data-modifying-cte [mcq d3]
+P: The statement WITH moved AS (DELETE FROM inbox WHERE archived RETURNING *) INSERT INTO archive SELECT * FROM moved; is executed. What is the effect?
+A. The statement fails, because a CTE may not contain DELETE.
+B. The rows are copied into archive and remain in inbox until a separate DELETE runs.
+C* The matching inbox rows are deleted and the same rows are inserted into archive in one atomic statement.
+D. The DELETE runs once per row inserted into archive, duplicating the source.
+E: PostgreSQL allows data-modifying statements inside WITH. The DELETE runs once, and its RETURNING output is the row set the INSERT consumes, so the move is atomic within the statement. A CTE is executed once even if referenced more than once, and both operations see the same snapshot.
+
+--- dm-medium-returning-scope [mcq d3]
+P: In PostgreSQL 17, for UPDATE, what values does a RETURNING clause report?
+A* The values of each updated row after the update; in PostgreSQL 17 there is no OLD pseudo-row exposing the previous values.
+B. The values each updated row had before the update.
+C. Both the old and new values, in two parallel columns.
+D. Only rows whose value actually changed; unchanged rows are omitted.
+E: In PostgreSQL 17, RETURNING reports the row as it stands after the statement, so it shows the new values; there is no OLD relation in RETURNING. PostgreSQL 18 added OLD/NEW support, so version matters. Capturing previous values in 17 requires reading them beforehand or using a trigger. Rows matched by WHERE are reported even when the new value equals the old one.
+
+--- dm-medium-on-conflict-on-constraint [mcq d3]
+P: A unique expression index is defined on lower(email). Which conflict target lets INSERT ... ON CONFLICT resolve it explicitly?
+A. ON CONFLICT DO ANYTHING, which catches every unique index.
+B. ON CONFLICT (email), because the bare column is inferred from the expression.
+C* ON CONFLICT (lower(email)), repeating the index expression exactly.
+D. ON CONFLICT (lower), naming the function without its argument.
+E: The unique index is an expression index on lower(email), and an expression index is not a table constraint, so ON CONFLICT ON CONSTRAINT cannot name it. Column-list inference matches a unique index whose expressions equal the listed expressions, so the target must be (lower(email)); a bare email does not match an index on lower(email). DO ANYTHING is not PostgreSQL syntax, and a function name without its argument is not an expression.
+
+--- dm-medium-merge-values-source [mcq d3]
+P: Which MERGE statement correctly uses an inline VALUES list as its source?
+A. MERGE INTO stock s USING (VALUES (1, 'bolt')) ON s.item = item WHEN MATCHED THEN UPDATE SET id = 1;
+B. MERGE INTO stock s USING VALUES (1, 'bolt') ON s.item = item WHEN MATCHED THEN UPDATE SET id = 1;
+C* MERGE INTO stock s USING (VALUES (1, 'bolt'), (2, 'nut')) AS src (id, item) ON s.item = src.item WHEN MATCHED THEN UPDATE SET id = src.id;
+D. MERGE INTO stock s USING src VALUES (1, 'bolt') ON s.item = src.item WHEN MATCHED THEN UPDATE SET id = 1;
+E: A VALUES list used as a MERGE source must be a parenthesized subquery with a table alias and explicit column names, so that ON and the actions can refer to src.item. Without the alias and column list the source columns have no deterministic names. The other options are syntax that PostgreSQL does not accept.
+
+--- dm-medium-delete-using-returning [mcq d3]
+P: DELETE FROM stale s USING current c WHERE s.sale_id = c.sale_id RETURNING s.sale_id, s.amount; is executed. What does RETURNING contain?
+A. An error, because RETURNING cannot be combined with USING.
+B. One row for each current row matched by the USING clause.
+C. Columns from both stale and current.
+D* One row for each stale row deleted, with the deleted row's sale_id and amount.
+E: RETURNING reports the rows the DELETE removed, so it contains stale columns only. The USING table participates in the join but no row of current is deleted, and RETURNING with USING is valid.
+
+--- dm-medium-update-result [sql d3]
+P: The setup creates account(account_id INT PRIMARY KEY, balance INT) and inserts rows, some with a NULL balance. The next step is UPDATE account SET balance = balance + 100 WHERE balance IS NOT NULL; Writing the UPDATE is not possible in the sandbox, so return the rows the statement would leave with columns account_id and balance (the new value), ordered by account_id ascending.
+REF: SELECT account_id, balance + 100 AS balance FROM account WHERE balance IS NOT NULL ORDER BY account_id
+E: The UPDATE applies to rows whose balance is non-NULL, so the resulting rows are 1 -> 100, 3 -> 350 and 4 -> 60; account 2 is excluded because NULL IS NOT NULL is false, and its NULL balance is not treated as zero. The second dataset has no matching row, so the statement would update nothing and the correct result is empty.
+
+--- dm-medium-on-conflict-skips [sql d3]
+P: The setup creates customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL) and staging(customer_id INT PRIMARY KEY, name TEXT NOT NULL). The next step is INSERT INTO customer (customer_id, name) SELECT customer_id, name FROM staging ON CONFLICT (customer_id) DO NOTHING; Writing the INSERT is not possible in the sandbox, so return the staging rows that the statement would skip because their customer_id already exists in customer, with columns customer_id and name, ordered by customer_id ascending.
+REF: SELECT s.customer_id, s.name FROM staging s JOIN customer c ON c.customer_id = s.customer_id ORDER BY s.customer_id
+E: The conflict target is customer_id, so DO NOTHING skips exactly the staging rows whose key is already present. In the first dataset only customer_id 2 conflicts; 3 and 4 would be inserted. The join expresses that key overlap directly, and the second dataset has no overlap, so nothing would be skipped and the correct result is empty.
+
+################ SPEC dt_easy.py (3)
+
+--- dt-easy-json-carrier [sql d2]
+P: The setup creates shipment(order_id INT PRIMARY KEY, payload JSONB NOT NULL) and inserts JSON objects. Return order_id and the carrier value extracted from payload as text, aliased carrier, ordered by order_id ascending. Rows whose object has no carrier key, or whose carrier value is JSON null, must show NULL.
+REF: SELECT order_id, payload ->> 'carrier' AS carrier FROM shipment ORDER BY order_id
+E: The ->> operator extracts an object field as text, so the JSON string "dhl" becomes the SQL text dhl. A missing key and a JSON null both yield SQL NULL, which is why order 3 and the JSON-null row report NULL instead of an error or an empty string. Using -> instead would return a JSON value rather than text.
+
+--- dt-easy-range-overlap [sql d2]
+P: The setup creates booking(room_id INT PRIMARY KEY, period INT4RANGE NOT NULL) with half-open integer ranges. Return room_id for every booking whose period overlaps int4range(4, 6), ordered by room_id ascending.
+REF: SELECT room_id FROM booking WHERE period && int4range(4, 6) ORDER BY room_id
+E: The && operator tests whether two ranges have any common point. Because ranges are half-open, [1,5) and [5,9) both contain points that fall inside [4,6), while [10,12) does not. In the edge dataset [1,4) and [6,9) are merely adjacent to the test range and share no point with it, so the result is empty.
+
+--- dt-easy-domain-collation [essay d2]
+P: Explain what a PostgreSQL domain is and what a collation controls. For the domain, describe how a constraint attached to the domain is enforced across every column that uses it. For collation, explain how the choice between the C collation and a locale-aware collation can change ORDER BY results and comparisons.
+REF: A domain is a user-defined data type built on an existing base type, optionally with a DEFAULT, a NOT NULL constraint and CHECK constraints. For example CREATE DOMAIN positive_price AS numeric CHECK (VALUE > 0) creates a reusable type; every column declared with positive_price rejects values that violate the check, so the rule is defined once and enforced everywhere the domain is used. ALTER DOMAIN can add or drop constraints, and by default adding a CHECK validates existing column values. Casting a domain value to its base type produces an ordinary base-type value without the domain's constraints. A collation is the set of rules for comparing and sorting text. COLLATE selects it per expression or column, while the database and column defaults apply otherwise. The C collation compares byte values, so uppercase letters sort before lowercase letters and accents are not normalized, whereas a locale-aware collation such as en_US orders letters alphabetically, ignoring case and treating accented letters near their unaccented forms. The same text can therefore sort differently, and a unique index built with one collation can consider two strings equal that another collation considers distinct.
+RUB Incomplete: Identifies neither the domain-as-type idea nor collation as comparison rules; or describes both incorrectly.
+RUB Partial: Defines one of the two concepts correctly; for example explains a domain check but treats collation only as character encoding, or vice versa.
+RUB Mostly Complete: Defines both concepts correctly and gives one concrete consequence, but omits either domain reuse across columns or the effect of collation on sort/equality behavior.
+RUB Complete: Defines the domain as a reusable named type whose constraints are enforced in every column that uses it, and defines collation as comparison/sort rules; gives concrete consequences for both, including a C-versus-locale ORDER BY or equality difference.
+E: The answer must define a domain as a named type with optional constraints, explain that its CHECK/NOT NULL rules apply to every column of that domain, and define a collation as the comparison and sort rules for text. It must give at least one concrete consequence, such as a rejected out-of-range value or a different ORDER BY result under C versus a locale-aware collation.
+
+################ SPEC dt_hard.py (6)
+
+--- dt-hard-numeric-vs-float-round [mcq d4]
+P: In PostgreSQL, what do round(2.5::numeric) and round(2.5::float8) return?
+A. 3 for both, because round always rounds halves away from zero.
+B* 3 for numeric and 2 for float8, because numeric rounds halves away from zero while float8 rounds ties to the nearest even integer.
+C. 2 for both, because round always rounds halves to even.
+D. 2 for numeric and 3 for float8, because float8 carries more precision.
+E: numeric is exact decimal arithmetic and rounds a tie away from zero, so 2.5 becomes 3. float8 follows binary floating-point rules that round ties to the nearest even integer, so 2.5 becomes 2. This is a genuine semantic difference between the two families of numeric types, not a display artifact.
+
+--- dt-hard-date-difference [mcq d4]
+P: What does the expression DATE '2024-03-01' - DATE '2024-02-01' return?
+A. The integer 28, because February 2024 is counted as 28 days.
+B. The interval '29 days', because date arithmetic always returns an interval.
+C* The integer 29, because subtracting two dates returns a number of days.
+D. The timestamp 2024-02-29 00:00:00, because the later date is shifted backwards.
+E: The date - date operator returns an integer count of days, and 2024 is a leap year so February has 29 days. Subtracting two timestamps, by contrast, returns an interval. Neither subtraction produces a timestamp.
+
+--- dt-hard-bool-aggregate [mcq d4]
+P: The table flag(v BOOLEAN) contains the three rows TRUE, NULL and TRUE. What do SELECT bool_and(v) and SELECT bool_or(v) return?
+A. bool_and returns FALSE and bool_or returns TRUE, because NULL is treated as FALSE.
+B. bool_and returns NULL and bool_or returns TRUE, because any NULL input makes and-accumulation unknown.
+C. Both return NULL, because NULL propagates through aggregates.
+D* Both return TRUE, because the boolean aggregates ignore NULL inputs.
+E: Like other ordinary aggregates, bool_and and bool_or ignore NULL inputs rather than propagating them. The remaining values are all TRUE, so bool_and is TRUE and bool_or is TRUE. With only NULL inputs both aggregates return NULL, but that is not this dataset.
+
+--- dt-hard-char-concatenation [mcq d4]
+P: For the expression 'ab'::char(4) || 'cd', what does PostgreSQL return?
+A. An error, because a character(4) value cannot be concatenated with an untyped literal.
+B. 'ab  cd', because the stored padding spaces are preserved.
+C* 'abcd', because the trailing padding of the character value is not part of the concatenated text.
+D. 'abcd    ', because the result is padded to the combined declared width.
+E: A character(4) value is blank-padded in storage, but trailing spaces are removed when the value is converted to text for the concatenation operator, so 'ab' becomes 'ab' and the result is 'abcd'. Padding is a storage and comparison property of character(n), not content that the operator carries into the result.
+
+--- dt-hard-domain-constraints [mcq d4]
+P: A domain is defined as CREATE DOMAIN positive_int AS integer CHECK (VALUE > 0). Which statement about using it is correct?
+A. Casting a plain integer to positive_int skips the CHECK, because casts do not run domain constraints.
+B. The CHECK is copied only into the first column that uses the domain; later columns get plain integers.
+C. The CHECK is evaluated once when the domain is created and never again, so later inserts are unchecked.
+D* Every column declared with positive_int rejects zero and negative values, and casting a positive_int value to integer removes the domain constraint.
+E: A domain packages a base type with constraints, and those constraints are enforced whenever a value is stored in any column of that domain, so zero and negatives are rejected everywhere the domain is used. Casting a domain value to its base type yields an unconstrained base value, whereas casting a base value to the domain applies the domain's constraints.
+
+--- dt-hard-inet-containment [mcq d4]
+P: What do '192.168.1.5'::inet << '192.168.1.0/24'::inet and '192.168.1.0/24'::inet >> '192.168.1.5'::inet return?
+A. The first returns TRUE and the second returns FALSE, because >> compares only identical netmask lengths.
+B. Both return FALSE, because an address without a netmask cannot be compared with a network.
+C* Both return TRUE: << tests whether the left address or network is strictly contained by the right one, and >> is the reverse test.
+D. Both return the host address 192.168.1.5, because inet operators return addresses rather than booleans.
+E: The inet type stores an address optionally with a netmask. The << operator asks whether the left address or network is strictly contained by the right one, so a host address (/32) inside 192.168.1.0/24 qualifies; >> asks the symmetric question and is also true here. Identical netmasks make << false, since containment is strict. Both operators return boolean.
+
+################ SPEC dt_medium.py (2)
+
+--- dt-medium-boolean-input [mcq d3]
+P: A text value is cast to boolean. Which of these input strings is NOT accepted by PostgreSQL as a boolean value?
+A. '1'
+B. 'yes'
+C. 'on'
+D* 'enable'
+E: PostgreSQL accepts TRUE/FALSE, the spellings t/f, true/false, y/n, yes/no, on/off and 1/0, plus unique prefixes of true and false. 'enable' is none of these and no prefix rule makes it valid, so the cast fails. The other three options are documented synonyms for true.
+
+--- dt-medium-char-padding [mcq d3]
+P: Which statement correctly describes how character(n) and character varying(n) store and compare values?
+A. character(n) stores exactly the characters supplied and pads only when the value is displayed.
+B* character(n) is blank-padded to n characters, but trailing spaces are insignificant in comparison, so 'ab'::char(4) = 'ab'::char(2) is true.
+C. character varying(n) blank-pads every value to n, while character(n) stores the exact input length.
+D. Comparing character values of different declared lengths raises an error instead of returning a boolean.
+E: Values of type character(n) are physically padded with spaces to the declared width; trailing spaces are removed when the value is converted to another string type, and comparisons ignore them, so different declared widths can compare equal. character varying(n) stores the value without padding and only enforces the maximum length. Comparisons never raise an error merely because the declared lengths differ.
+
+################ SPEC fn_easy.py (2)
+
+--- fn-easy-tsvector [mcq d2]
+P: Which PostgreSQL type stores a document that has been parsed into searchable lexemes for full-text search?
+A. text
+B. tsquery
+C* tsvector
+D. jsonb
+E: to_tsvector parses a document into normalized lexemes and stores them, with positions, in a tsvector. A tsquery is the query side of the same search, built from search terms and operators. Plain text holds the original document, and jsonb is a structured document type, not a search representation.
+
+--- fn-easy-full-text-basics [essay d2]
+P: Explain the roles of tsvector and tsquery and the @@ operator in PostgreSQL full-text search. Show how a document is prepared and queried, describe what normalization does to words such as 'running', and explain why a LIKE '%term%' predicate is a poor substitute for full-text search.
+REF: to_tsvector('english', body) parses body into lexemes, lowercases them, removes stop words and stems them, so 'running' becomes the lexeme 'run'. to_tsquery('english', 'run') builds a tsquery from search terms, and body_vector @@ query returns TRUE when the document matches. Because both sides pass through the same dictionary, a search for 'running' matches a document containing 'runs'. A LIKE '%term%' predicate compares raw characters: it does not stem, so 'running' does not match 'run'; it cannot express phrase, AND/OR or negated term logic; and a leading wildcard prevents ordinary index use, whereas GIN/GiST indexes on tsvector support the @@ operator.
+RUB Incomplete: Confuses tsvector with tsquery, or claims full-text search compares raw substrings; no example of normalization.
+RUB Partial: Correct roles but no stemming example, or only one reason against LIKE.
+RUB Mostly Complete: Correct definitions and matching with a stemming example, but the index argument or the phrase/boolean logic argument is missing.
+RUB Complete: Fully correct: tsvector holds normalized lexemes with positions, tsquery expresses the search, @@ tests a match, stemming makes 'running' match 'run', and LIKE '%term%' fails on inflection, phrase/boolean logic and index support.
+E: The answer must define tsvector as the normalized document, tsquery as the normalized query, @@ as matching, and show stemming so that inflected forms match. It must state at least two concrete reasons why LIKE with a leading wildcard is worse.
+
+################ SPEC fn_hard.py (8)
+
+--- fn-hard-round-negative [mcq d4]
+P: What do round(-1.7) and trunc(-1.7) return for a numeric argument?
+A. round returns -1 and trunc returns -2.
+B. Both return -1, because negative values are rounded toward zero.
+C* round returns -2 and trunc returns -1.
+D. Both return -2, because trunc rounds to the nearest integer.
+E: round moves to the nearest integer, so -1.7 becomes -2. trunc discards the fractional part toward zero, so -1.7 becomes -1. On negative values the two functions therefore diverge; trunc is not a synonym for rounding.
+
+--- fn-hard-integer-division [mcq d4]
+P: Columns a and b are both declared INT. The expression a / b is evaluated with a = 7 and b = 2. What is the result, and how do you obtain 3.5?
+A. The result is 3.5, because division always produces a numeric value.
+B* The result is 3, because integer division truncates; cast an operand, for example a::numeric / b, to get 3.5.
+C. The result is an error, because the division is not exact.
+D. The result is 4, because integer division rounds to the nearest integer.
+E: Division between two integers performs integer division, which truncates the fractional part, so 7 / 2 is 3. Promoting one operand to numeric or double precision changes the operator to a fractional division and yields 3.5. No rounding and no error occurs.
+
+--- fn-hard-mod-sign [mcq d4]
+P: What does mod(-7, 3) return in PostgreSQL?
+A. 3
+B. 1
+C. 2
+D* -1
+E: mod returns the remainder of the division and takes the sign of the dividend, so -7 = (-3) * 3 + 2 does not describe the result; the truncating quotient is -2, leaving remainder -1. The positive counterpart mod(7, 3) is 1, which is why the sign must be checked explicitly when a non-negative remainder is required.
+
+--- fn-hard-concat-null [mcq d4]
+P: Given that the column middle_name is NULL, how do 'An' || middle_name || 'Le' and concat('An', middle_name, 'Le') differ?
+A. Both return NULL, because any NULL input propagates.
+B* The || expression evaluates to NULL, while concat returns 'AnLe' because it ignores NULL arguments.
+C. Both return 'AnLe', because both operators skip NULL.
+D. The || expression returns 'AnLe', while concat returns NULL.
+E: The || operator is NULL-propagating: a NULL operand makes the whole concatenation NULL. concat is a function that treats NULL arguments as empty strings, so it returns 'AnLe'. This difference matters when building labels from optional columns.
+
+--- fn-hard-char-length [mcq d4]
+P: For a UTF-8 database and the value name = 'é' (one character, two bytes), what do char_length(name) and octet_length(name) return?
+A. char_length returns 2 and octet_length returns 1.
+B. Both return 1, because length is measured in characters.
+C* char_length returns 1 and octet_length returns 2.
+D. Both return 2, because PostgreSQL stores strings as bytes.
+E: char_length counts characters, so the accented character counts once. octet_length counts bytes in the server encoding, and in UTF-8 'é' occupies two bytes. Neither function pads or trims the value.
+
+--- fn-hard-like-escape [mcq d4]
+P: Column code contains the value 'A_B'. Which LIKE pattern matches that literal underscore rather than treating it as the single-character wildcard?
+A. code LIKE 'A__B'
+B. code LIKE 'A_B'
+C* code LIKE 'A\_B' ESCAPE '\'
+D. code SIMILAR TO 'A_B'
+E: In LIKE, _ matches any single character, so 'A_B' also matches 'AXB'. Escaping the underscore with an ESCAPE character makes it literal. 'A__B' requires two extra characters, and SIMILAR TO keeps _ as a wildcard as well.
+
+--- fn-hard-like-is-whole-string [mcq d4]
+P: Which statement about pattern matching is correct?
+A. LIKE finds the pattern anywhere in the string, exactly like ~.
+B* LIKE must match the entire string, so 'PostgreSQL' LIKE 'Post' is false, whereas the regular-expression operator ~ finds a match anywhere unless anchored.
+C. The ~ operator always requires an anchor at both ends.
+D. ILIKE is case-sensitive and LIKE is case-insensitive.
+E: LIKE treats the pattern as a whole-string match unless % wildcards extend it, so 'Post' does not match 'PostgreSQL'. The ~ operator matches a substring anywhere unless the pattern is anchored with ^ and $. ILIKE is the case-insensitive counterpart of LIKE.
+
+--- fn-hard-date-plus-integer [mcq d4]
+P: Given today = DATE '2024-02-28', what is today + 1?
+A* DATE '2024-02-29', because adding an integer to a date advances it by that many days and the year is a leap year.
+B. An error, because an integer cannot be added to a date.
+C. TIMESTAMP '2024-02-28 00:00:01', because the integer is read as seconds.
+D. DATE '2024-03-01', because February always has 28 days.
+E: Adding an integer to a date advances the date by that number of days, and calendar rules apply, so 2024-02-28 plus one day is 2024-02-29 because 2024 is a leap year. Adding an interval would also work, but an integer is not interpreted as seconds.
+
+################ SPEC fn_medium.py (3)
+
+--- fn-medium-plainto-vs-phraseto [mcq d3]
+P: For the text 'database systems', which statement correctly contrasts plainto_tsquery and phraseto_tsquery?
+A. Both produce identical queries; they differ only in the dictionary used.
+B. plainto_tsquery requires adjacent terms, while phraseto_tsquery accepts them in any order.
+C* plainto_tsquery produces a query that requires both terms anywhere in the document, while phraseto_tsquery requires them adjacent and in order.
+D. phraseto_tsquery disables stemming, while plainto_tsquery applies it.
+E: plainto_tsquery turns the input into terms combined with AND (&), so each term may appear anywhere. phraseto_tsquery combines the terms with the phrase operator <->, which requires them to be adjacent and in the given order. Both run the words through the text search dictionary, so stemming is applied in both.
+
+--- fn-medium-tsquery-operators [mcq d3]
+P: In a tsquery, what does the expression 'alpha <-> beta' require?
+A* The lexeme alpha immediately followed by beta in the document.
+B. The lexeme alpha and beta anywhere in the document.
+C. Either alpha or beta, but not both.
+D. alpha within the same sentence as beta, in any order.
+E: The <-> operator is the phrase operator: it requires its operands to be adjacent and in the specified order. The & operator means both anywhere, | means either, and ! negates. Sentence proximity, not strict adjacency, would be expressed with a distance operator such as <N>.
+
+--- fn-medium-websearch-to-tsquery [mcq d3]
+P: What does websearch_to_tsquery('english', 'database or network -nosql') produce?
+A. A query that matches only the literal phrase 'database or network -nosql'.
+B* A query equivalent to database OR (network AND NOT nosql); the minus negates only nosql, and AND binds more tightly than OR.
+C. A syntax error, because websearch_to_tsquery does not accept the word or.
+D. A query that requires database AND network AND nosql.
+E: websearch_to_tsquery parses the input as 'databas' | 'network' & !'nosql' (terms are stemmed). The minus negates only the following term, and & binds more tightly than |, so the query means database OR (network AND NOT nosql). A document that contains database and nosql but not network still matches. The function never raises an error for such input, which is why it suits raw user text.
+
+################ SPEC gap_a2perf.py (5)
+
+--- a2-easy-index-tradeoff [mcq d2]
+P: A B-tree index is added on a frequently filtered column. Which statement best describes the effect?
+A. Every query on the table becomes faster because the planner must use the newest index.
+B* Lookups of matching rows can become faster, but the index uses storage and adds work to inserts, updates and deletes, and the planner may still choose a sequential scan.
+C. Write operations become faster because the index organizes new rows before they are stored.
+D. The index also guarantees that the column is unique.
+E: An index is a trade-off: it can make selective reads cheaper but consumes space and must be maintained on writes, so bulk changes can slow down. The planner compares costs and may ignore the index, for example when most rows match or the table is small. Only a UNIQUE index or constraint enforces uniqueness.
+
+--- a2-easy-composite-leftmost [mcq d2]
+P: A composite B-tree index is created on (customer_id, created_on). Which predicate can use it efficiently?
+A. Any filter on any column of the table, because the index covers the whole row.
+B. A filter on created_on alone, because it is part of the index.
+C* A filter on customer_id, or on customer_id together with a range on created_on, because the leading column is constrained.
+D. Only a filter that constrains both columns to equality; a range on created_on makes the index unusable.
+E: A B-tree on (customer_id, created_on) is ordered by customer_id first, then created_on within each customer. It can be used when customer_id is constrained, optionally with a range on created_on. A predicate on created_on alone cannot use the index efficiently because the leading column is unconstrained. Equality on both columns works, but a range on the trailing column is also supported.
+
+--- a2-easy-index-write-cost [mcq d1]
+P: Why does adding several indexes to a table slow down INSERT, UPDATE and DELETE statements?
+A. PostgreSQL rewrites every index from scratch after each write.
+B. Indexes lock the entire table on every write, so only one writer can proceed at a time.
+C* Every affected index must be updated to reflect the changed rows, so more indexes mean more maintenance work per write.
+D. Indexes copy the full table, so each write is duplicated once per index.
+E: Each index is a separate data structure keyed on its columns. An insert or a change to an indexed column requires an entry in every affected index, which adds I/O and CPU work. Writers are not serialized by a table-wide lock, indexes are updated incrementally rather than rebuilt, and an index stores keys and row references, not a copy of the table.
+
+--- a2-medium-expression-index [mcq d3]
+P: Queries run WHERE lower(email) = 'a@example.com' on a large table that has a plain B-tree index on email. Why is the index not used, and what helps?
+A. Nothing helps: PostgreSQL cannot index the result of any function.
+B. The index is not used because B-tree indexes never support text; only hash indexes do.
+C. The index is ignored only when email is nullable; adding NOT NULL makes lower(email) use the plain index.
+D* The expression lower(email) is not the indexed value, so an expression index on lower(email) is needed to match the predicate.
+E: A plain index on email stores email values, while the predicate compares lower(email). The planner would need an index whose key is the same expression, created as CREATE INDEX ... ON t (lower(email)). PostgreSQL supports expression indexes, and the function used must be immutable. Nullability and the B-tree text support are not the reason.
+
+--- a2-medium-partial-index [mcq d3]
+P: A status column is 'pending' for about 1% of rows, and almost all queries filter status = 'pending'. Which index is the best fit?
+A. No index at all, because a filter matching 1% of rows always uses a sequential scan.
+B. A full B-tree index on status, because partial indexes are not usable for equality filters.
+C. An index on every other column, because status has low cardinality and cannot be indexed.
+D* A partial index with WHERE status = 'pending', which stores only the matching rows and is maintained only when the predicate holds.
+E: A partial index is defined with a WHERE predicate; it contains only the rows satisfying that predicate, so it is much smaller than a full index and is only maintained for matching rows. Queries must include a predicate that implies the index predicate to use it. Low cardinality alone does not prevent indexing, and a highly selective filter is exactly where an index can help.
+
+################ SPEC gap_adm.py (4)
+
+--- adm-easy-wal-purpose [mcq d2]
+P: Why does PostgreSQL write changes to the write-ahead log (WAL)?
+A* WAL records are flushed before the corresponding data pages, so committed changes can be redone after a crash.
+B. WAL stores a copy of every query plan so that frequently used queries skip planning.
+C. WAL is only needed when streaming replication is enabled; a single server does not use it.
+D. WAL keeps recent rows in memory so that SELECT statements avoid reading table pages.
+E: WAL is the crash-recovery mechanism: change records are written and flushed before the modified data pages reach disk, so after a crash the server can replay committed changes. It exists independently of replication, although replication reuses the same stream. It is not a plan cache and not a row cache.
+
+--- adm-easy-streaming-standby [mcq d2]
+P: In streaming replication, what does a hot standby server receive from the primary and what can it do?
+A. It receives the SQL text of SELECT statements and returns their results to the primary.
+B. It receives only a full logical dump of each table at every checkpoint and cannot serve queries.
+C* It continuously receives WAL records and applies them, and it can serve read-only queries while possibly lagging behind the primary.
+D. It receives committed row versions directly through shared memory and is always exactly current.
+E: Streaming replication ships WAL records from the primary to the standby, which continuously applies them. A hot standby accepts read-only queries, and because applying can trail the primary, replica reads can be slightly stale. There is no shared-memory row transfer and no per-checkpoint logical dump.
+
+--- adm-hard-alter-system [mcq d4]
+P: What does ALTER SYSTEM SET work_mem = '16MB'; do?
+A. It changes only the current session and disappears when the session ends.
+B. It edits postgresql.conf in place and applies the value to every running session immediately.
+C* It writes the setting to postgresql.auto.conf; the new value takes effect according to the parameter's context, which may require a reload or a restart.
+D. It recreates the cluster so that the new value becomes the compiled default.
+E: ALTER SYSTEM stores the override in postgresql.auto.conf, which is read in addition to postgresql.conf. Whether the running server picks the value up after a reload or needs a restart depends on the parameter's context; work_mem is a user-context parameter, so new sessions see it, while some postmaster parameters require a restart. A session-level change would be SET, not ALTER SYSTEM, and the cluster is never recreated.
+
+--- adm-hard-pg-stat-activity [mcq d4]
+P: Which statement about the pg_stat_activity view is correct?
+A* It has one row per server process with the current state and query; an ordinary role generally sees other sessions' query text only when granted pg_read_all_stats or comparable privileges.
+B. It stores a permanent history of every statement ever executed on the server.
+C. It reports only the number of rows in each user table and nothing about sessions.
+D. It shows only autovacuum workers, because client backends are listed in a separate per-database view.
+E: pg_stat_activity is a live, one-row-per-backend view: it reports the state, wait event and current query of each server process. It is not historical; statement history requires an extension such as pg_stat_statements. For privacy, non-superusers see limited information about other users' sessions unless they have pg_read_all_stats. Client backends and autovacuum workers both appear in the same view.
+
+################ SPEC gap_perf.py (2)
+
+--- perf-easy-default-index-type [mcq d2]
+P: Which statement correctly contrasts the default PostgreSQL index type with the hash type?
+A. B-tree and hash support exactly the same operators, so the choice affects only index size.
+B. Hash is the default and supports range queries, while B-tree supports only equality.
+C. GIN is the default for all scalar columns, while B-tree is used only for full-text search.
+D* B-tree is the default and supports equality, range and ordering operations, while hash supports only equality comparisons.
+E: CREATE INDEX without a type creates a B-tree, which serves equality, range and ORDER BY-style comparisons. A hash index supports only equality. GIN is specialized for composite values such as arrays, jsonb and full-text lexemes, not the default for scalar columns. The operator support differs, not just the size.
+
+--- perf-easy-planner-statistics [mcq d2]
+P: What are the table statistics collected by ANALYZE used for?
+A* They let the planner estimate row counts and selectivity so it can choose between plans such as sequential scan and index scan.
+B. They enforce uniqueness and foreign-key rules at insert time.
+C. They cache the results of recent queries so repeated SELECTs skip execution.
+D. They record the disk space used by each index for reporting only.
+E: ANALYZE samples table contents and stores distributions such as most common values and histograms. The planner uses them to estimate how many rows a condition will match and to compare plan costs. If statistics are stale, estimates can be badly wrong and a poor plan may be chosen, which is why autovacuum and manual ANALYZE matter. Constraints and query results are unrelated.
+
+################ SPEC gap_sec.py (1)
+
+--- sec-easy-rls-basics [mcq d2]
+P: A table has row-level security enabled with no policies defined. What happens when an ordinary user selects from it?
+A. The statement fails with a syntax error until a policy is created.
+B. The user sees all rows, because row security filters only after a policy is added.
+C* The user sees no rows, because enabling row security without a policy denies access by default.
+D. The user sees every third row, because PostgreSQL applies a default sampling policy.
+E: Row-level security is deny-by-default: once ENABLE ROW LEVEL SECURITY is set and no policy grants access, ordinary users see no rows. Access is granted by CREATE POLICY expressions. The table owner bypasses row security unless FORCE ROW LEVEL SECURITY is set, but an ordinary user is filtered. There is no syntax error and no implicit sampling.
+
+################ SPEC gap_sp.py (2)
+
+--- sp-easy-procedure-basics [mcq d2]
+P: How is a PostgreSQL procedure created with CREATE PROCEDURE invoked, and how does it differ from an ordinary function?
+A* It is invoked with CALL and may execute transaction control statements, whereas a function is used in expressions and cannot commit or roll back.
+B. It is invoked with SELECT and must return a table, whereas a function cannot return rows.
+C. It is invoked with CALL but cannot accept parameters, whereas a function can accept parameters.
+D. It is invoked automatically by the planner whenever its name appears in a query.
+E: Procedures are called with the CALL statement and are designed for procedural work that may include transaction control. Functions return a value, can be used inside SQL expressions, and may not commit or roll back. Procedures accept parameters, and the planner never invokes them implicitly.
+
+--- sp-hard-call-transaction-control [mcq d4]
+P: A procedure contains a COMMIT statement. Under which condition can it execute that COMMIT?
+A. Only when the procedure was created with CREATE FUNCTION rather than CREATE PROCEDURE.
+B. Always, because procedures are allowed to commit even inside an explicit transaction block.
+C* Only when CALL runs in its own transaction, not when CALL is executed inside an explicit transaction block.
+D. Never, because SQL procedures cannot contain transaction control statements at all.
+E: The CALL documentation states that if CALL is executed in a transaction block, the called procedure cannot execute transaction control statements; they are allowed only when CALL runs in its own transaction. Procedures do support COMMIT and ROLLBACK, which is a key difference from functions, but an enclosing explicit transaction block removes that ability.
+
+################ SPEC qy_easy.py (1)
+
+--- qy-easy-recursive-cte [essay d2]
+P: Explain the structure of a WITH RECURSIVE query in PostgreSQL. Identify the base term and the recursive term, state what the recursive term must reference, and explain why a termination condition is required. Describe the difference between UNION and UNION ALL in this context.
+REF: A WITH RECURSIVE query defines a common table expression that can refer to itself. It has the form WITH RECURSIVE name AS (base term UNION [ALL] recursive term) SELECT ... FROM name. The base term runs once and produces the starting rows. The recursive term references the CTE name and is evaluated repeatedly, each time consuming the rows produced by the previous iteration, until an iteration returns no rows. Without a termination condition, such as a level counter or a join that stops at the root, the recursion never becomes empty and the query runs until it is cancelled or runs out of resources. UNION removes duplicate rows between iterations, which can stop a cycle in a cyclic graph; UNION ALL keeps duplicates and is faster but can loop forever on a cycle. A typical use is walking an employee table from a manager down through subordinates by joining the table to the CTE on the parent key.
+RUB Incomplete: Describes a recursive CTE as an ordinary subquery, or shows no base/recursive split and no termination reasoning.
+RUB Partial: Names the base and recursive parts but cannot explain how iteration stops, or confuses UNION with UNION ALL.
+RUB Mostly Complete: Explains the structure and termination, but the UNION versus UNION ALL distinction is incomplete or the cycle risk is not stated.
+RUB Complete: Fully correct: base term, self-referencing recursive term, iterative evaluation to an empty result, an explicit or naturally reached termination condition, and UNION deduplication versus UNION ALL with its cycle risk.
+E: The answer must identify the base term as the non-recursive starting rows, the recursive term as the part that references the CTE, and the repeated evaluation until no rows are produced. It must explain a termination condition and distinguish UNION (duplicate removal) from UNION ALL (duplicates kept, faster, cycle risk).
+
+################ SPEC qy_hard.py (8)
+
+--- qy-hard-case-no-else [mcq d4]
+P: The expression CASE WHEN rating >= 4 THEN 'high' WHEN rating >= 2 THEN 'mid' END is evaluated with rating = 1. What is the result?
+A. An error, because a CASE expression must always return a value.
+B. 'mid', because CASE falls back to the last branch when nothing matches.
+C. 'low', because CASE treats an unmatched value as the lowest category.
+D* NULL, because no WHEN condition is true and the CASE has no ELSE branch.
+E: A searched CASE evaluates its WHEN conditions in order and returns the result of the first one that is true; later branches are not evaluated. If none is true and there is no ELSE, the result is NULL. No implicit lowest category and no error occurs.
+
+--- qy-hard-distinct-rows-and-nulls [mcq d4]
+P: The table customer(city, state) contains the rows ('Hue', NULL), ('Hue', NULL) and ('Hue', 'Thua Thien Hue'). How many rows does SELECT DISTINCT city, state FROM customer return?
+A. An error, because DISTINCT cannot be used with nullable columns.
+B. Three, because NULL is never equal to NULL, so each NULL row is distinct.
+C. One, because DISTINCT keeps only the first city value.
+D* Two, because DISTINCT compares the whole row and treats the two NULL states as equal.
+E: DISTINCT operates on the complete selected row, not on one column. For the purpose of duplicate elimination, NULL values are considered equal, so the two ('Hue', NULL) rows collapse into one and the result has two rows. This differs from the = comparison, for which NULL = NULL is unknown.
+
+--- qy-hard-exponent-operator [mcq d4]
+P: What does the PostgreSQL expression 2 ^ 3 return?
+A. 6, because ^ is treated as multiplication by two.
+B. 1, because ^ is the bitwise exclusive-or operator.
+C. 9, because ^ is evaluated as 2 raised to the power 3 minus 1.
+D* 8, because ^ is exponentiation in PostgreSQL.
+E: In PostgreSQL, ^ is the exponentiation operator: 2 ^ 3 raises 2 to the third power and yields 8 (as a floating-point value). It is not exclusive-or and not multiplication. Unary minus binds more tightly than ^, so -2 ^ 2 means (-2) ^ 2 and yields 4; write -(2 ^ 2) to square first and then negate.
+
+--- qy-hard-limit-pagination-ties [mcq d4]
+P: A client pages through results with ORDER BY score DESC LIMIT 10 OFFSET n, and many rows share the same score. What is the correctness risk?
+A* Rows with equal scores can appear on more than one page or be skipped entirely, because their relative order is not deterministic; a unique tiebreaker in ORDER BY fixes this.
+B. OFFSET cannot be combined with LIMIT, so the query fails as soon as n is greater than zero.
+C. The second page necessarily continues exactly after the first, because ties are returned in physical insertion order.
+D. LIMIT counts only distinct scores, so pages can contain more than ten rows.
+E: LIMIT/OFFSET are applied to an ordered result, but an ORDER BY on a non-unique column leaves the order of tied rows unspecified and it may differ between executions. Separate executions can therefore place a tied row on two pages or on none. Adding a unique column, such as a primary key, as a final ORDER BY key makes paging deterministic. Keyset pagination is the scalable alternative.
+
+--- qy-hard-order-by-nulls [mcq d4]
+P: With a default sort, where do NULL values appear in ORDER BY score ASC and ORDER BY score DESC?
+A. First in ASC and last in DESC, because NULL sorts as the smallest value.
+B* Last in ASC and first in DESC, because NULL is treated as larger than any non-NULL value.
+C. In an unspecified position in both directions, because NULL has no order.
+D. NULL rows are removed from the result in both directions.
+E: PostgreSQL sorts NULLs as if they were larger than any non-NULL value, so ascending order places them last and descending order places them first. ORDER BY ... NULLS FIRST or NULLS LAST overrides the default explicitly; NULL rows are not removed.
+
+--- qy-hard-intersect-precedence [mcq d4]
+P: What does SELECT 1 UNION SELECT 2 INTERSECT SELECT 2 return?
+A* The rows 1 and 2, because INTERSECT binds more tightly than UNION and is evaluated first.
+B. Only the row 2, because UNION is evaluated first and the intersection then keeps 2.
+C. Only the row 1, because INTERSECT removes 2 from the union.
+D. A syntax error, because set operations must be parenthesized when they are mixed.
+E: INTERSECT has higher precedence than UNION and EXCEPT, so the intersection of the second and third SELECT is computed first and yields 2; the union with 1 then produces {1, 2}. Mixing set operations is legal, and parentheses can make a different grouping explicit. When in doubt, parenthesize.
+
+--- qy-hard-distinct-order-by-expression [mcq d4]
+P: Why does SELECT DISTINCT city FROM customer ORDER BY lower(city) fail in PostgreSQL?
+A. It fails because lower() cannot be used in ORDER BY at all.
+B. It does not fail: ORDER BY is evaluated after DISTINCT, so the expression is always allowed.
+C* For SELECT DISTINCT, ORDER BY expressions must appear in the select list, so lower(city) must be selected or ORDER BY city must be used.
+D. It fails because DISTINCT and ORDER BY can never be combined in one query.
+E: With DISTINCT, the output is a set of rows, and PostgreSQL requires each ORDER BY expression to match an output column. lower(city) is not in the select list, so the query is rejected with 'for SELECT DISTINCT, ORDER BY expressions must appear in select list'. Selecting lower(city) AS city_key or ordering by the selected city column avoids the error. DISTINCT and ORDER BY can otherwise be combined normally.
+
+--- qy-hard-alias-visibility [mcq d4]
+P: What happens when SELECT price * qty AS total FROM item WHERE total > 100 ORDER BY total is executed?
+A. It runs, but WHERE is applied after the multiplication only when the alias is also used in ORDER BY.
+B. It runs successfully because an output alias is visible in every clause of the query.
+C* It fails because total is an output alias and is not visible in WHERE, although the same alias is allowed in ORDER BY.
+D. It fails only if two selected columns are both named total.
+E: WHERE is evaluated before the select list, so an output alias does not exist at that point; the query raises 'column total does not exist'. ORDER BY, by contrast, may reference output column names and accepts total. Repeating price * qty in WHERE, or wrapping the query in a subquery that exposes total, resolves the problem.
+
+################ SPEC qy_medium.py (1)
+
+--- qy-medium-clause-order-limit [mcq d3]
+P: Consider SELECT dept, count(*) AS n FROM employee WHERE active GROUP BY dept HAVING count(*) > 2 ORDER BY n DESC LIMIT 3. Which statement about how the clauses interact is correct?
+A. ORDER BY n is invalid because an output alias cannot be used in ORDER BY when the query also has GROUP BY.
+B. WHERE runs after GROUP BY, so it can filter groups by their count.
+C. LIMIT is applied before ORDER BY, so it selects three arbitrary employees and then sorts them.
+D* WHERE filters individual rows before grouping, HAVING filters groups after aggregation, ORDER BY sorts the selected rows, and LIMIT keeps the first three rows of that sorted result.
+E: The logical processing order is FROM, WHERE, GROUP BY, HAVING, SELECT, then ORDER BY and LIMIT. WHERE therefore sees individual rows and cannot filter on an aggregate; HAVING is the aggregate filter. ORDER BY sorts the result of the select list, and LIMIT is applied last to that ordered result. An output alias such as n may be used in ORDER BY, but not in WHERE.
+
+################ SPEC sf_easy.py (10)
+
+--- sf-easy-alter-add-column [mcq d2]
+P: A table already holds production rows and must gain a new nullable column without losing data. Which statement does this?
+A* ALTER TABLE customer ADD COLUMN loyalty_code TEXT;
+B. CREATE TABLE customer ADD loyalty_code TEXT;
+C. UPDATE customer SET loyalty_code = NULL;
+D. INSERT INTO customer (loyalty_code) VALUES (NULL);
+E: ALTER TABLE ... ADD COLUMN extends an existing table in place; the new column is nullable by default and existing rows receive NULL. CREATE TABLE would try to create a second table, UPDATE cannot introduce a column, and INSERT adds rows rather than columns.
+
+--- sf-easy-delete-selected-rows [mcq d2]
+P: Which statement deletes selected rows from a table while keeping the table definition and all other rows?
+A. ALTER TABLE customer DROP COLUMN city;
+B. DROP TABLE customer;
+C* DELETE FROM customer WHERE city = 'Hue';
+D. TRUNCATE TABLE customer;
+E: DELETE removes the rows that satisfy its WHERE clause and leaves the table structure and the remaining rows intact. DROP TABLE removes the table itself, ALTER ... DROP COLUMN removes a column from every row, and TRUNCATE empties the whole table because it does not accept a WHERE clause.
+
+--- sf-easy-update-expression [mcq d2]
+P: The statement UPDATE product SET price = price * 2; is executed on a table where every row is non-NULL. What is the effect?
+A* Every row's price is doubled, using each row's current value.
+B. Only the first row's price is doubled.
+C. The statement fails because a column cannot appear on both sides of the assignment.
+D. A new column named price * 2 is added to the table.
+E: Without a WHERE clause the UPDATE applies to every row, and the right-hand expression is evaluated from the row's current value, so the new price is twice the old one. An UPDATE never adds columns, and referring to the column being assigned is valid.
+
+--- sf-easy-primary-key-guarantees [mcq d1]
+P: What does a PRIMARY KEY constraint on a column guarantee?
+A. Values are sorted physically in the table.
+B. Every value is unique but NULL is allowed many times.
+C. Every value is non-NULL but duplicates are allowed.
+D* Every value is non-NULL and unique, and a unique index supports the constraint.
+E: A primary key combines NOT NULL with uniqueness and is backed by a unique index. Allowing repeated NULLs is the behaviour of a plain UNIQUE constraint in PostgreSQL, not of a primary key. Physical row order is never guaranteed by any constraint.
+
+--- sf-easy-insert-omitted-column [mcq d2]
+P: Table note(note_id INT PRIMARY KEY, body TEXT, pinned BOOLEAN) has no defaults. The statement INSERT INTO note (note_id, body) VALUES (1, 'hello'); is executed. What is stored in pinned?
+A. An empty string, because PostgreSQL converts missing values to text.
+B. FALSE, because boolean columns default to false.
+C. An error, because every column must be listed in INSERT.
+D* NULL, because the column is omitted from the column list and has no default.
+E: Columns omitted from the INSERT column list receive their declared default; without a default the value is NULL. PostgreSQL has no implicit FALSE default for booleans, listing every column is not required, and no implicit text conversion occurs.
+
+--- sf-easy-drop-column [mcq d2]
+P: The statement ALTER TABLE customer DROP COLUMN nickname; is executed. What is the result?
+A* The column and the data it held are removed; the other columns and the remaining rows stay.
+B. The column is emptied but still exists with NULL values.
+C. Only the values in the column are deleted; the column definition remains.
+D. The whole table is removed.
+E: DROP COLUMN removes the column definition and its stored values from every row; the table and its other columns survive. Emptying a column without removing it is UPDATE ... SET col = NULL, not DROP COLUMN, and dropping a table is DROP TABLE.
+
+--- sf-easy-check-constraint [mcq d2]
+P: Table order_line(quantity INT) is created with the constraint CHECK (quantity > 0). What happens when an INSERT supplies quantity = 0?
+A. The row is stored with quantity set to NULL.
+B. The row is stored with quantity set to 1.
+C. The row is stored and a warning is logged.
+D* The statement is rejected because the row violates the check constraint.
+E: A CHECK constraint must evaluate to TRUE or NULL for every inserted or updated row; a row for which it evaluates to FALSE is rejected and the statement fails. PostgreSQL never silently repairs the value or downgrades the violation to a warning.
+
+--- sf-easy-multi-row-insert [mcq d1]
+P: Which statement inserts two rows into tag(tag_id, label) in a single command?
+A. INSERT INTO tag (tag_id, label) VALUES (1, 'sql') VALUES (2, 'db');
+B* INSERT INTO tag (tag_id, label) VALUES (1, 'sql'), (2, 'db');
+C. INSERT INTO tag (tag_id, label) SELECT 1, 'sql' AND 2, 'db';
+D. INSERT INTO tag VALUES (1, 'sql'); INSERT INTO tag VALUES (2, 'db');
+E: A multi-row VALUES list is the standard way to insert several rows in one statement. Repeating the VALUES keyword is a syntax error, SELECT 1, 'sql' AND 2, 'db' is not valid row construction, and the last option uses two statements rather than one command.
+
+--- sf-easy-view-rows [sql d2]
+P: The setup creates product(product_id INT PRIMARY KEY, name TEXT NOT NULL, price INT) and then the view cheap_product, whose stored query selects product_id, name and price from product where price < 100. Rows were inserted after the view was created. Return product_id, name and price for the rows the view exposes, ordered by product_id ascending.
+REF: SELECT product_id, name, price FROM cheap_product ORDER BY product_id
+E: A view stores a query, not a copy of the data, and rows inserted after CREATE VIEW are visible when the view is queried: the view's WHERE price < 100 keeps products 1 and 3 and drops 2 and 4. The empty dataset correctly returns no rows.
+
+--- sf-easy-identity-defaults [sql d2]
+P: The setup creates ticket(ticket_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, subject TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'open') and inserts rows, sometimes naming status and sometimes omitting it. Return ticket_id, subject and status for every row, ordered by ticket_id ascending.
+REF: SELECT ticket_id, subject, status FROM ticket ORDER BY ticket_id
+E: The identity column fills ticket_id automatically, so the INSERT statements never supply it and the generated values start at 1. Omitting status applies the declared 'open' default, while an explicit value such as 'closed' is stored as given. The second dataset therefore contrasts defaulted and explicit status values.
+
+################ SPEC sf_hard.py (13)
+
+--- sf-hard-merge-actions [mcq d5]
+P: PostgreSQL 17 executes MERGE INTO stock s USING delivery d ON s.item = d.item WHEN MATCHED THEN UPDATE SET qty = s.qty + d.qty WHEN NOT MATCHED THEN INSERT (item, qty) VALUES (d.item, d.qty). What does the statement guarantee?
+A* Each target row is changed at most once; matched rows are updated and unmatched source rows are inserted.
+B. A target row matched by several source rows is updated once per source row.
+C. The WHEN NOT MATCHED clause inserts only source rows that match no target row after the updates run.
+D. MERGE is not available in PostgreSQL 17 and the statement fails to parse.
+E: MERGE evaluates the source against the target and applies the first matching WHEN clause per target row, so a target row is modified at most once. WHEN NOT MATCHED refers to source rows with no target match and inserts them; the clause order does not create a second pass. MERGE was introduced in PostgreSQL 15 and extended in 17, so the statement is valid.
+
+--- sf-hard-on-conflict-expression-index [mcq d4]
+P: Table account has UNIQUE (lower(email)) as its only unique index on email. The statement INSERT INTO account (email) VALUES ('a@x.edu') ON CONFLICT (email) DO NOTHING; is executed. What happens?
+A* It fails, because ON CONFLICT (email) finds no unique index on the bare column; the target must be ON CONFLICT (lower(email)) or the index must be named with ON CONSTRAINT.
+B. It succeeds and skips the row, because PostgreSQL matches any unique index that involves email.
+C. It succeeds and inserts the row, because expression indexes are ignored by ON CONFLICT.
+D. It succeeds only when the email value has no uppercase letters.
+E: Inference for ON CONFLICT (column list) looks for a unique index whose expressions match the listed expressions exactly. An index on lower(email) does not match the bare expression email, so arbiter inference fails and the statement errors. Naming the expression or the constraint makes the arbiter explicit.
+
+--- sf-hard-on-conflict-duplicate-source [mcq d5]
+P: INSERT INTO account (account_id, email) SELECT account_id, email FROM staging ON CONFLICT (account_id) DO UPDATE SET email = EXCLUDED.email; is executed, and staging contains the same account_id twice. What happens?
+A* The statement fails: ON CONFLICT DO UPDATE cannot affect the same row a second time within one command.
+B. The statement succeeds and the last staging row wins.
+C. The statement succeeds and the first staging row wins.
+D. The statement succeeds and both staging rows are merged into one value by concatenation.
+E: ON CONFLICT DO UPDATE requires that each target row be touched at most once per statement; a duplicate key inside the incoming result set would touch the same row twice, so PostgreSQL raises an error. The fix is to deduplicate the source before the insert. There is no defined first/last winner and no automatic merging.
+
+--- sf-hard-deferrable-fk [mcq d4]
+P: Table line references header with a constraint declared DEFERRABLE INITIALLY DEFERRED. Inside one transaction, a line row is inserted before its header row. What happens?
+A* Both statements succeed; the foreign key is checked at COMMIT, by which time the header exists.
+B. The line insert fails immediately, because foreign keys are always checked per statement.
+C. Both statements succeed even at COMMIT, because DEFERRABLE disables the constraint permanently.
+D. The line insert fails at COMMIT, because the header insert cannot be rolled back.
+E: A constraint declared DEFERRABLE INITIALLY DEFERRED is checked at the end of the transaction rather than after each statement, so the temporarily missing header is acceptable while the header is inserted before COMMIT. It is still enforced at commit, so option C is wrong. NOT DEFERRABLE constraints, the default, are checked immediately.
+
+--- sf-hard-generated-stored [mcq d4]
+P: Table invoice(id INT, qty INT, unit_price INT, total INT GENERATED ALWAYS AS (qty * unit_price) STORED) is created. What happens when an INSERT supplies a value for total?
+A. The supplied value is stored and the expression is ignored.
+B* The statement is rejected; a stored generated column is computed from the row and cannot be written directly.
+C. The supplied value is stored, and the expression is applied only on UPDATE.
+D. The value is silently replaced by NULL.
+E: A stored generated column is maintained by the database: its value is computed on insert and on every update of the referenced columns, and only DEFAULT may be written for it. Supplying a literal is an error, because the database will not accept a value it cannot verify against the expression.
+
+--- sf-hard-alter-type-using [mcq d4]
+P: A column amount is declared TEXT and holds numeric text. The statement ALTER TABLE sale ALTER COLUMN amount TYPE INT; fails. Which change makes the conversion explicit and correct?
+A. ALTER TABLE sale ALTER COLUMN amount SET DATA TYPE INT CASCADE;
+B. ALTER TABLE sale ALTER COLUMN amount TYPE INT DEFAULT 0;
+C* ALTER TABLE sale ALTER COLUMN amount TYPE INT USING amount::INT;
+D. CREATE TABLE sale_new AS SELECT * FROM sale;
+E: Without a USING clause PostgreSQL only applies an assignment cast, and TEXT to INT is not one, so the statement fails. USING defines the per-row expression that produces the new value, here an explicit cast. A DEFAULT clause does not convert existing values, CASCADE is unrelated to type conversion, and CTAS creates a new table rather than altering this one.
+
+--- sf-hard-create-like-including [mcq d4]
+P: Which statement correctly contrasts CREATE TABLE copy (LIKE sale INCLUDING ALL) with CREATE TABLE copy AS SELECT * FROM sale?
+A. LIKE ... INCLUDING ALL copies the rows; CREATE TABLE AS copies only the definition.
+B. Both copy the rows and the constraints.
+C* LIKE ... INCLUDING ALL copies the definition and its constraints and indexes but no rows; CREATE TABLE AS copies rows with inferred columns but not constraints.
+D. CREATE TABLE AS copies neither rows nor column types.
+E: CREATE TABLE ... LIKE produces an empty table that inherits column definitions, and INCLUDING ALL adds defaults, constraints, indexes and identity properties. CREATE TABLE AS materializes the query result, so it copies rows and column types, but it does not carry primary keys, unique constraints or foreign keys.
+
+--- sf-hard-truncate-restart [mcq d4]
+P: Table ticket has an identity column, and table comment references ticket(ticket_id). The statement TRUNCATE TABLE ticket RESTART IDENTITY; is executed with no other options. What happens?
+A. It succeeds and truncates comment instead of ticket.
+B. It succeeds and resets the identity sequence; referencing rows are deleted automatically.
+C. It succeeds but leaves the identity sequence unchanged, because TRUNCATE never affects sequences.
+D* It fails, because another table references ticket; TRUNCATE CASCADE is required to truncate the referencing table too.
+E: TRUNCATE refuses to run when another table has a foreign key to the target unless that table is included with CASCADE. RESTART IDENTITY resets owned sequences, so the option is meaningful; it is not ignored. Referencing tables are never silently modified without CASCADE.
+
+--- sf-hard-updatable-view [mcq d5]
+P: Which view can PostgreSQL update automatically, without an INSTEAD OF trigger or rule?
+A* A view over one base table whose select list contains only plain columns, with no DISTINCT, grouping or aggregate.
+B. A view whose select list contains an aggregate such as count(*) grouped by department.
+C. A view that uses UNION of two base tables.
+D. A view that selects DISTINCT city from customer.
+E: A view is automatically updatable when it has exactly one base relation, no DISTINCT, GROUP BY, HAVING, set operation, aggregate or window function, and every output column maps to a base column. Aggregates, set operations and DISTINCT break the mapping, so those views need an INSTEAD OF trigger or rule to accept writes.
+
+--- sf-hard-fk-match-simple [mcq d5]
+P: Table line(order_id INT, product_id INT, FOREIGN KEY (order_id, product_id) REFERENCES order_item(order_id, product_id)) uses the default MATCH SIMPLE. The row (NULL, 99) is inserted. What happens?
+A. The row is accepted only if 99 also appears in order_item.
+B. The row is rejected, because product_id 99 has no matching order_item row.
+C* The row is accepted, because with MATCH SIMPLE a composite foreign key is not checked when any of its columns is NULL.
+D. The row is rejected, because a composite foreign key may not contain NULL.
+E: MATCH SIMPLE, the default, requires the foreign key condition to hold only when all key columns are non-NULL; a single NULL disables the check for that row. MATCH FULL would reject a partially NULL key, and no automatic lookup of product_id occurs in either mode.
+
+--- sf-hard-view-join-filter [sql d4]
+P: The setup creates customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL) and orders(order_id INT PRIMARY KEY, customer_id INT, status TEXT, qty INT, unit_price INT), then the view open_order_value whose stored query joins orders to customer, keeps rows with status 'open', and computes line_value = qty * unit_price. Return order_id, name and line_value for every view row, ordered by order_id ascending.
+REF: SELECT order_id, name, line_value FROM open_order_value ORDER BY order_id
+E: The view's stored query is evaluated when the view is read, so the join, the status filter and the multiplication all apply at query time. Orders 10 and 12 survive with computed values 100 and 60; the closed order 11 is filtered out, and order 13 disappears because its NULL customer_id matches no customer through the inner join. The dataset without open orders returns no rows.
+
+--- sf-hard-unique-null-groups [sql d4]
+P: The setup creates article(article_id INT PRIMARY KEY, code TEXT UNIQUE) using the default NULL treatment and inserts rows, including more than one row with a NULL code. Return code and copies (BIGINT) giving the number of rows stored per code, ordered by code ascending with NULL values last.
+REF: SELECT code, count(*) AS copies FROM article GROUP BY code ORDER BY code NULLS LAST
+E: UNIQUE compares with equality, and NULL is never equal to NULL, so all three NULL-coded rows are accepted and GROUP BY collects them into one group of three. Every non-NULL code is unique, so each has copies = 1. A UNIQUE NULLS NOT DISTINCT constraint would have rejected the second NULL insert instead.
+
+--- sf-hard-delete-truncate-drop [essay d5]
+P: Compare DELETE, TRUNCATE and DROP TABLE in PostgreSQL. Address (a) which rows or objects each removes, (b) filtering and WHERE, (c) transactional behaviour and rollback, (d) foreign-key dependencies and required options, (e) identity sequences and RESTART IDENTITY, and (f) the locking consequences you would weigh before running each in production.
+REF: DELETE is DML: it removes rows that satisfy an optional WHERE clause, leaves the table, its constraints and its sequences in place, and is fully transactional, so it can be rolled back and each deleted row is logged. TRUNCATE removes every row, accepts no WHERE clause, keeps the table definition, and in PostgreSQL is transactional, though it takes an ACCESS EXCLUSIVE lock on the table and is much cheaper than row-by-row deletion. It refuses to run when a foreign key references the table unless the referencing tables are included with CASCADE, and RESTART IDENTITY resets owned sequences. DROP TABLE removes the definition and all rows and is DDL; it is transactional but requires ownership and is blocked by dependent objects unless CASCADE, which can cascade far beyond the intended target. In production, DELETE is chosen for selective removal and lets concurrent readers continue, at the cost of bloat and vacuum work; TRUNCATE is chosen for emptying a whole table but blocks other access while it runs; DROP is chosen only when the object itself is no longer needed.
+RUB Incomplete: Treats the three commands as interchangeable, or claims TRUNCATE cannot be rolled back in PostgreSQL; no mention of foreign keys or locking.
+RUB Partial: Correct basic scope but confuses at least two properties, for example saying DROP can be filtered or that DELETE resets sequences. Locking is not discussed.
+RUB Mostly Complete: Correct scope, filtering, transactionality and foreign-key behaviour, but identity or locking detail is missing or stated imprecisely.
+RUB Complete: Fully correct: DELETE is filtered DML on rows, TRUNCATE empties the table with no WHERE and is transactional but takes a strong lock, DROP removes the object as DDL; foreign-key CASCADE requirements, RESTART IDENTITY, ownership and the production trade-offs are all stated accurately.
+E: The answer must separate the three commands by scope (rows versus all rows versus object), by filtering, by transactionality, by foreign-key behaviour, by identity handling and by locking, and must connect each to an appropriate production use.
+
+################ SPEC sf_medium.py (13)
+
+--- sf-medium-on-conflict-do-nothing [mcq d3]
+P: Table account(account_id INT PRIMARY KEY, email TEXT NOT NULL UNIQUE) already holds account_id = 7. The statement INSERT INTO account (account_id, email) VALUES (7, 'new@example.edu') ON CONFLICT (account_id) DO NOTHING; is executed. What is the result?
+A. The existing row's email is replaced with 'new@example.edu'.
+B* No new row is stored and the statement completes successfully.
+C. An error is raised because account_id already exists.
+D. A second row with account_id = 7 is inserted.
+E: ON CONFLICT (account_id) DO NOTHING names account_id as the arbiter; when a conflict with the existing key occurs, the proposed row is discarded and the command still succeeds. Replacing the email requires DO UPDATE, and a duplicate key is an error only when no conflict action is supplied.
+
+--- sf-medium-on-conflict-excluded [mcq d3]
+P: In INSERT INTO t (id, qty) VALUES (1, 5) ON CONFLICT (id) DO UPDATE SET qty = EXCLUDED.qty, what does EXCLUDED refer to?
+A. The unique index that detected the conflict.
+B. The row currently stored with id = 1.
+C. A copy of the whole table after the insert.
+D* The row proposed by the INSERT, whose qty is 5.
+E: EXCLUDED is the special relation holding the row that the INSERT attempted to add. Referring to it lets the update copy the proposed values; the stored row is referenced through the target table name, not through EXCLUDED.
+
+--- sf-medium-update-from [mcq d3]
+P: The statement UPDATE sale s SET amount = p.amount FROM price p WHERE p.sale_id = s.sale_id; is executed and a sale matches more than one price row. What does PostgreSQL guarantee?
+A. Every matching price row is inserted as a new sale row.
+B. The target row is updated once per matching price row, so the last match wins deterministically.
+C. The statement fails with a cardinality error.
+D* Each target row is updated at most once, using one of the matching price rows chosen arbitrarily.
+E: UPDATE ... FROM joins the target to the source, and a target row that matches several source rows is still updated only once; which match supplies the value is not defined. A deterministic result therefore requires the source side to be unique per key. No cardinality error is raised, and UPDATE never inserts rows.
+
+--- sf-medium-delete-using [mcq d3]
+P: The statement DELETE FROM sale s USING customer c WHERE c.customer_id = s.customer_id AND c.status = 'closed'; is executed. Which rows are deleted?
+A. Every customer row with status 'closed'.
+B* Sales whose customer exists in customer and has status 'closed'.
+C. All sales rows, because USING replaces the WHERE clause.
+D. Sales with no matching customer.
+E: DELETE ... USING names extra tables that the WHERE clause may reference; only rows of the deletion target (sale) that satisfy the join and filter are removed. Customer rows are never deleted by a DELETE targeting sale, and sales with no match fail the join condition and survive.
+
+--- sf-medium-identity-vs-serial [mcq d3]
+P: Which statement about identity columns compared with serial is correct in PostgreSQL?
+A. GENERATED ALWAYS AS IDENTITY accepts explicit values exactly like serial does.
+B. Identity columns store no sequence and generate unique values without any catalog object.
+C* GENERATED ALWAYS AS IDENTITY is SQL-standard, is backed by a sequence, and rejects an explicit value unless OVERRIDING SYSTEM VALUE is given.
+D. Serial columns are the standard syntax and identity columns are a deprecated compatibility feature.
+E: Identity columns are the standard replacement for serial. Both use a sequence, but GENERATED ALWAYS rejects an explicit insert value unless the statement says OVERRIDING SYSTEM VALUE; GENERATED BY DEFAULT accepts explicit values. Serial is the older, non-standard shorthand.
+
+--- sf-medium-fk-on-delete [mcq d3]
+P: Table order_line references order with ON DELETE RESTRICT, while table audit_note references order with ON DELETE CASCADE. An order that has rows in both tables is deleted. What happens?
+A. The order is deleted and only audit_note rows are removed.
+B. The order and all referencing rows in both tables are deleted.
+C* The DELETE is rejected because order_line rows would be orphaned; no order row is removed.
+D. The order is deleted and the referencing rows are set to NULL.
+E: Referential actions are enforced per constraint. RESTRICT prevents the deletion while a referencing row exists, and the whole statement fails atomically, so the order is not deleted and the CASCADE effect never happens. SET NULL applies only when the constraint declares ON DELETE SET NULL.
+
+--- sf-medium-unique-nulls [mcq d3]
+P: Table customer(email TEXT UNIQUE) uses the default NULL treatment. Two rows are inserted with email = NULL. What happens?
+A. The first NULL is replaced by the second NULL.
+B. The second insert is rejected, because NULL equals NULL for a unique constraint.
+C* Both rows are accepted, because a UNIQUE constraint treats NULL values as distinct.
+D. Both rows are accepted, and one NULL is converted to an empty string.
+E: A UNIQUE constraint compares values with equality, and NULL is never equal to NULL, so any number of NULLs may coexist. A constraint declared UNIQUE NULLS NOT DISTINCT would reject the second NULL. No value is rewritten.
+
+--- sf-medium-create-table-as [mcq d3]
+P: CREATE TABLE sale_backup AS SELECT * FROM sale; is executed. What does the new table contain?
+A* A copy of the current rows, with column types inferred but without the primary key or other constraints of sale.
+B. An empty table whose columns and constraints are copied from sale.
+C. A view over sale that always shows the latest rows.
+D. A table that stays synchronized with sale automatically.
+E: CREATE TABLE AS materializes the query result once; later changes to sale do not appear. Column names and types are derived from the query, but constraints such as primary keys, unique constraints and foreign keys are not copied. A view or a materialized view is a different object.
+
+--- sf-medium-constraint-not-valid [mcq d3]
+P: ALTER TABLE sale ADD CONSTRAINT sale_amount_ck CHECK (amount >= 0) NOT VALID; is executed on a table that already contains a negative amount. What is the effect?
+A. The constraint is added and the offending values are set to 0.
+B. The statement is rejected because existing rows violate the constraint.
+C. The constraint is added and the offending rows are deleted.
+D* The constraint is added without checking existing rows; new inserts and updates of any row must satisfy it.
+E: NOT VALID skips the initial scan of existing rows, which is why the statement succeeds despite the stored negative amount. The constraint is enforced for every new or changed row. Existing rows can be checked later with ALTER TABLE ... VALIDATE CONSTRAINT. Nothing is deleted or rewritten automatically.
+
+--- sf-medium-truncate [mcq d3]
+P: Which statement about TRUNCATE TABLE sale is correct in PostgreSQL?
+A. It removes selected rows when a WHERE clause is supplied.
+B. It removes every row and cannot be rolled back because it commits immediately.
+C* It removes every row, accepts no WHERE clause, and can be rolled back because it is transactional.
+D. It removes the table definition as well as its rows.
+E: TRUNCATE empties the table; it has no WHERE clause, so it cannot remove selected rows. In PostgreSQL TRUNCATE is transactional and rolls back with the transaction. It does not drop the table; DROP TABLE removes the definition.
+
+--- sf-medium-view-aggregate [sql d3]
+P: The setup creates dept(dept_id INT PRIMARY KEY, dept_name TEXT NOT NULL) and emp(emp_id INT PRIMARY KEY, dept_id INT, name TEXT), then the view dept_headcount whose stored query left-joins emp to dept and groups by department, producing dept_id, dept_name and headcount = count(emp.emp_id). Return dept_id, dept_name and headcount for every row of the view, ordered by dept_id ascending.
+REF: SELECT dept_id, dept_name, headcount FROM dept_headcount ORDER BY dept_id
+E: A view stores the query, so the aggregate is recomputed on every read. Because the view left-joins from dept, Sales has headcount 0 rather than disappearing, and the employee with a NULL dept_id matches no department and is not counted. The empty dataset returns no rows.
+
+--- sf-medium-insert-duplicates [sql d3]
+P: The setup creates note(note_id INT, body TEXT) with no primary key or unique constraint and inserts some note_id values more than once. Return note_id and copies (BIGINT) for the note_id values that are stored more than once, ordered by note_id ascending.
+REF: SELECT note_id, count(*) AS copies FROM note GROUP BY note_id HAVING count(*) > 1 ORDER BY note_id
+E: Without a primary key or unique constraint INSERT performs no duplicate checking, so the same note_id can be stored repeatedly. GROUP BY with HAVING count(*) > 1 surfaces those keys; note_id 1 appears twice and note_id 3 three times in the first dataset, and the clean dataset correctly returns no rows. Declaring note_id as a primary key would have rejected the repeated values instead.
+
+--- sf-medium-upsert [essay d3]
+P: Explain how INSERT ... ON CONFLICT works in PostgreSQL. Cover which object acts as the arbiter, the difference between DO NOTHING and DO UPDATE, the role of EXCLUDED, what happens when no unique index matches the conflict target, and why this is safer than a SELECT-then-INSERT sequence under concurrent writers.
+REF: ON CONFLICT requires an arbiter: a unique index or unique/Primary key constraint on the conflict target, either named with ON CONFLICT ON CONSTRAINT or inferred from a column list. DO NOTHING discards the proposed row silently; DO UPDATE applies an update whose SET expression may read EXCLUDED, the proposed row, and the existing row through the table name. If no matching unique index exists, PostgreSQL raises an error because it cannot detect the conflict. A SELECT followed by INSERT is a race: two sessions can both find no row and then both insert. ON CONFLICT resolves the conflict atomically inside the INSERT, so one statement succeeds and the intended action (skip or update) is applied without a window for a duplicate-key failure.
+RUB Incomplete: Describes ON CONFLICT as a generic INSERT flag without an arbiter, or cannot say what EXCLUDED means; no reference to unique indexes or concurrency.
+RUB Partial: Correct high-level idea but confuses DO NOTHING with DO UPDATE, or omits what happens when no unique index matches the target. Concurrency argument is vague.
+RUB Mostly Complete: Correct arbiter and action semantics with EXCLUDED explained, but one detail is missing, such as the error for a missing index or the race in check-then-insert.
+RUB Complete: Fully correct: names the unique index/constraint arbiter, distinguishes DO NOTHING and DO UPDATE, explains EXCLUDED as the proposed row, states the error when no matching index exists, and shows that ON CONFLICT resolves the conflict atomically while SELECT-then-INSERT can race.
+E: The answer must identify the unique index as the arbiter, contrast DO NOTHING with DO UPDATE, explain EXCLUDED, note the error when no matching index exists, and justify the concurrency advantage over check-then-insert.
+
+################ SPEC sq_easy.py (7)
+
+--- sq-easy-select-alias [mcq d1]
+P: Table customer(customer_id, name, city) has one row per customer. Which statement returns one row per customer with columns name and city_label, where city_label contains the city value?
+A. SELECT name AS city_label, city FROM customer;
+B. SELECT name, city, city_label FROM customer;
+C* SELECT name, city AS city_label FROM customer;
+D. SELECT name, city = city_label FROM customer;
+E: AS renames the output column without changing the value, so city AS city_label produces the requested label. Option B asks for a column named city_label that does not exist; option A assigns the label to name instead of city; option D is a comparison expression that references an undefined identifier.
+
+--- sq-easy-left-join-semantics [mcq d1]
+P: Which join returns every row of the left table and fills columns from the right table with NULL when no matching row exists?
+A. INNER JOIN
+B* LEFT JOIN
+C. RIGHT JOIN
+D. CROSS JOIN
+E: LEFT JOIN preserves the left input and NULL-extends unmatched rows. INNER JOIN discards unmatched rows on both sides. RIGHT JOIN preserves the right input, not the left. CROSS JOIN forms every pair with no matching condition.
+
+--- sq-easy-where-before-grouping [mcq d1]
+P: Which clause filters individual rows before grouping and therefore cannot contain an aggregate such as count(*)?
+A. ORDER BY
+B. HAVING
+C* WHERE
+D. SELECT
+E: WHERE runs on individual rows before groups exist, so aggregates are not available. HAVING runs after grouping and is the place for aggregate conditions. ORDER BY sorts the final result, and SELECT evaluates output expressions after grouping.
+
+--- sq-easy-group-count-star [mcq d1]
+P: The query SELECT region_id, count(*) FROM sales GROUP BY region_id returns one row per region. What does count(*) count inside each group?
+A. Every row in the whole table, not only the group.
+B. Only rows where region_id is not NULL.
+C. Only distinct combinations of all columns.
+D* Every row in the group, including rows whose other columns are NULL.
+E: count(*) counts rows in the current group and ignores no column values. NULL region_id rows form their own group when GROUP BY is used. count(region_id) would instead skip NULLs. The table-wide count would require removing GROUP BY; distinct counting requires count(DISTINCT ...).
+
+--- sq-easy-customer-name-length [sql d2]
+P: Table customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL, city TEXT). Return customer_id, name, and name_length (INT, the number of characters in name) for customers whose city is not NULL. Order by name ascending, then customer_id ascending.
+REF: SELECT customer_id, name, length(name) AS name_length FROM customer WHERE city IS NOT NULL ORDER BY name, customer_id
+E: length returns the character count and is labelled name_length. WHERE ... IS NOT NULL keeps only rows with a city; writing city <> 'x' would also drop NULL cities. The secondary sort key customer_id makes the order deterministic when names repeat, and the edge dataset correctly returns no rows.
+
+--- sq-easy-select-logical-order [essay d2]
+P: Explain the logical order in which the clauses FROM, WHERE, GROUP BY, HAVING, SELECT and ORDER BY are processed. Then explain why an output alias defined in SELECT cannot be referenced in WHERE but can be used in ORDER BY.
+REF: Logical processing starts with FROM (including joins), then WHERE filters individual rows, then GROUP BY forms groups, then HAVING filters groups, then SELECT computes the output expressions and aliases, and finally ORDER BY sorts the result (LIMIT/OFFSET apply after sorting). WHERE is evaluated before SELECT, so a SELECT alias does not exist yet and referencing it there is an error. ORDER BY is evaluated after SELECT, so PostgreSQL accepts output names there. The physical plan may reorder operations, but the logical order determines which names and aggregates are visible.
+RUB Incomplete: Lists clauses in an incorrect order or claims WHERE can see SELECT aliases; gives no coherent reason for alias visibility.
+RUB Partial: Gets some of the order right and states that WHERE runs before SELECT, but misplaces HAVING or cannot explain why ORDER BY can use an alias.
+RUB Mostly Complete: Correct order and alias explanation, but omits that HAVING operates on groups or that LIMIT applies after ORDER BY.
+RUB Complete: Correctly orders FROM, WHERE, GROUP BY, HAVING, SELECT and ORDER BY; explains that WHERE is evaluated before SELECT so aliases do not exist there, while ORDER BY is evaluated after SELECT and can use them; notes that this is logical, not necessarily physical, order.
+E: The key distinction is visibility: WHERE sees input columns but no output aliases or aggregates; HAVING sees grouped aggregates; ORDER BY sees the SELECT list. Naming the stages in the correct order and connecting them to alias visibility is the learning objective.
+
+--- sq-easy-join-null-fanout [essay d2]
+P: Compare INNER JOIN and LEFT JOIN. Explain what NULL extension means for unmatched left rows, and explain what happens to the row count when a row on the left matches several rows on the right.
+REF: INNER JOIN returns only pairs that satisfy the join condition: left rows without a match disappear, and right rows without a match also disappear. LEFT JOIN returns every left row; when no right row matches, the right-side columns are filled with NULL (NULL extension). The result is a bag, not a set: if one left row matches three right rows, it appears three times with the three right-side values, so joins can multiply rows. Aggregating after such a join can overcount unless the query pre-aggregates the many side or counts distinct keys.
+RUB Incomplete: Confuses INNER and LEFT behavior or says LEFT JOIN fills left columns with NULL; no mention of row multiplication.
+RUB Partial: Correctly distinguishes matched versus preserved rows but explains NULL extension imprecisely or omits join fan-out.
+RUB Mostly Complete: Correct semantics for both joins and NULL extension; mentions duplicates but does not connect them to incorrect aggregates.
+RUB Complete: Explains INNER as matched pairs only, LEFT as all left rows with NULL-extended unmatched columns, bag semantics with explicit one-to-many row multiplication, and the risk of inflated counts or sums when aggregating after the join.
+E: INNER JOIN is a match filter; LEFT JOIN preserves the left side and NULL-extends. Neither removes duplicates by itself, so a one-to-many join produces repeated left rows and can inflate counts and sums.
+
+################ SPEC sq_hard.py (12)
+
+--- sq-hard-distinct-on [mcq d4]
+P: Both statements below intend to return one row per region. Which statement about them is correct? (1) SELECT DISTINCT ON (region_id) region_id, sale_id, amount FROM sale ORDER BY region_id, amount DESC; (2) SELECT DISTINCT region_id, sale_id FROM sale;
+A. Statement 2 returns one row per region because DISTINCT removes all non-key columns automatically.
+B. Statement 1 fails, because DISTINCT ON requires the DISTINCT ON expression to appear in the SELECT list twice.
+C* Statement 1 returns the highest-amount sale per region because DISTINCT ON keeps the first row of each region in ORDER BY order; statement 2 returns one row per distinct (region_id, sale_id) pair, so it does not collapse to one row per region.
+D. Both statements return the same rows, because DISTINCT ON and DISTINCT are equivalent when the first ORDER BY key is the DISTINCT ON argument.
+E: DISTINCT ON keeps the first row of each group of rows that share the DISTINCT ON expressions, where 'first' is defined by the query's ORDER BY, which must begin with those expressions. DISTINCT, by contrast, compares entire output rows, so (region_id, sale_id) pairs are deduplicated, not regions. DISTINCT ON does not require the expression to appear twice, and it is not equivalent to DISTINCT.
+
+--- sq-hard-not-predicate-null [mcq d4]
+P: Table t(x INT) holds the rows 1, 2 and NULL. The statement SELECT x FROM t WHERE NOT (x > 5) is executed. Which result set does PostgreSQL return?
+A* The rows 1 and 2 only; the NULL row is excluded because NOT (UNKNOWN) is still UNKNOWN and WHERE keeps only TRUE.
+B. The rows 1 and 2, plus the NULL row, because NOT turns the unknown comparison into true.
+C. No rows at all, because a NULL value makes the whole predicate invalid.
+D. The NULL row only, because NOT (x > 5) is true whenever x is NULL.
+E: Comparing NULL with 5 yields UNKNOWN. NOT UNKNOWN is UNKNOWN, not TRUE, so WHERE discards the NULL row. Rows 1 and 2 both satisfy NOT (x > 5) because 1 > 5 and 2 > 5 are FALSE and NOT FALSE is TRUE. The common mistake is to read NOT (x > 5) as x <= 5, which would include NULL under an invalid two-valued reading.
+
+--- sq-hard-full-join-symmetric [mcq d4]
+P: Tables a(id) and b(id) have no NULL ids. Which query returns exactly the ids that appear in one table but not the other?
+A. SELECT id FROM a FULL JOIN b USING (id) WHERE a.id IS NOT NULL AND b.id IS NOT NULL;
+B* SELECT id FROM a FULL JOIN b USING (id) WHERE a.id IS NULL OR b.id IS NULL;
+C. SELECT id FROM a INNER JOIN b USING (id);
+D. SELECT id FROM a CROSS JOIN b WHERE a.id = b.id;
+E: A FULL JOIN emits matched rows plus one NULL-extended row for each unmatched row on either side. After USING (id) the join column is merged, but a.id and b.id still reveal which side was NULL-extended. Keeping rows where exactly one side is NULL therefore returns the symmetric difference. Option A keeps only matched rows, and options C and D are inner joins.
+
+--- sq-hard-grouping-sets [mcq d5]
+P: The statement SELECT region_id, count(*) AS n FROM sale GROUP BY GROUPING SETS ((region_id), ()) ORDER BY region_id NULLS LAST is executed on a non-empty table. What does it return?
+A. One row per row of sale, because grouping sets disable aggregation.
+B. One row per distinct region_id only, because an empty grouping set contributes no rows.
+C* One row per distinct region_id plus one grand-total row whose region_id is NULL.
+D. An error, because GROUP BY accepts only a column list, never grouping sets.
+E: A grouping set is the set of columns a single aggregate pass groups by. GROUPING SETS ((region_id), ()) runs two passes: one grouped by region_id and one over the whole table. The grand total therefore appears as an extra row, and columns that are not part of that grouping set are reported as NULL. The empty set is meaningful, not ignored, and GROUP BY does accept grouping sets in PostgreSQL.
+
+--- sq-hard-having-without-group [mcq d4]
+P: The table sale is currently empty. The statement SELECT count(*) AS n FROM sale HAVING count(*) > 0 is executed. What is the result?
+A. One row containing the value 0.
+B* No rows, because without GROUP BY the whole table forms one group and HAVING rejects that group when its condition is not true.
+C. One row containing NULL.
+D. A syntax error, because HAVING requires a GROUP BY clause.
+E: When a query has HAVING but no GROUP BY, the entire table is treated as a single group, so exactly one candidate row is produced before HAVING runs. count(*) on an empty table is 0, so the condition 0 > 0 is false and the group is discarded, leaving an empty result. PostgreSQL permits HAVING without GROUP BY; it is not a syntax error.
+
+--- sq-hard-exists-semi-join [mcq d4]
+P: customer(customer_id) has one row per customer, while orders may contain several rows per customer. Which query returns each customer with at least one order exactly once?
+A* SELECT c.customer_id FROM customer c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id);
+B. SELECT c.customer_id FROM customer c JOIN orders o ON o.customer_id = c.customer_id;
+C. SELECT c.customer_id FROM customer c WHERE EXISTS (SELECT 1 FROM orders);
+D. SELECT c.customer_id FROM customer c WHERE c.customer_id = (SELECT o.customer_id FROM orders o WHERE o.customer_id = c.customer_id);
+E: EXISTS is a semi-join: it answers a yes/no question per outer row and never duplicates that row, so several orders still produce one customer row. The plain JOIN multiplies the customer once per order. The uncorrelated EXISTS in option C is true for every customer as soon as orders is non-empty, and option D uses a scalar subquery that raises an error when the customer has more than one order.
+
+--- sq-hard-window-rank [mcq d5]
+P: Table score(player TEXT, points INT) contains ('a',100), ('b',100) and ('c',90). The statement SELECT player, points, row_number() OVER (ORDER BY points DESC) AS rn, rank() OVER (ORDER BY points DESC) AS rk, dense_rank() OVER (ORDER BY points DESC) AS dr FROM score is executed. Which pattern of values is produced?
+A. rn 1,1,2; rk 1,1,2; dr 1,1,2
+B. rn 1,1,2; rk 1,1,3; dr 1,1,2
+C* rn receives 1 and 2 for the two tied rows in an unspecified order, rk is 1 for both tied rows and then 3, and dr is 1 for both tied rows and then 2.
+D. rn, rk and dr all receive 1,2,3 because every window function numbers rows consecutively.
+E: row_number always assigns distinct integers, so the two tied rows get 1 and 2, but which player receives 1 is not defined because ORDER BY points DESC is not a total order. rank leaves a gap after ties and continues at 3, while dense_rank continues at 2. Options A and B wrongly give row_number a duplicate value, and option D wrongly assumes all three functions behave alike.
+
+--- sq-hard-lateral-from [mcq d5]
+P: Which statement about the LATERAL key word is correct?
+A* A subquery in FROM marked LATERAL may reference columns of FROM items that appear before it, which an ordinary FROM subquery may not do.
+B. LATERAL may appear only in the SELECT list, never in FROM.
+C. Without LATERAL, PostgreSQL still allows a FROM subquery to reference columns of earlier FROM items.
+D. LATERAL is needed only when the subquery returns more than one row.
+E: A FROM subquery is normally evaluated independently and cannot see other FROM items. LATERAL lifts that restriction, allowing the subquery to refer to columns of preceding items, which is how a per-row top-N lookup is expressed. LATERAL is valid in FROM, it is not a SELECT-list feature, and it has nothing to do with the number of rows returned.
+
+--- sq-hard-aggregate-filter [mcq d4]
+P: Table emp(dept_id INT, salary INT) has a nullable salary column. The query SELECT dept_id, count(*) AS all_rows, count(*) FILTER (WHERE salary > 5000) AS high FROM emp GROUP BY dept_id returns one row per department. What does the high column contain?
+A* The number of rows in that department whose salary > 5000 is TRUE; rows with NULL salary are not counted.
+B. The number of rows in the whole table whose salary > 5000, repeated on every department row.
+C. The number of rows in that department whose salary > 5000, treating NULL salary as high.
+D. It is invalid, because FILTER may be applied to sum but not to count.
+E: FILTER restricts the rows fed to one aggregate inside the current group. Comparing NULL salary with 5000 yields UNKNOWN, and only TRUE rows are fed to the aggregate, so NULL salaries are skipped while count(*) still counts them in all_rows. FILTER is general: it applies to any aggregate, including count.
+
+--- sq-hard-grouping-function [mcq d5]
+P: Table sale(region_id INT, amount INT) stores rows whose region_id may be NULL. The query SELECT region_id, GROUPING(region_id) AS g, count(*) AS n FROM sale GROUP BY ROLLUP (region_id) ORDER BY g, region_id is executed. How can the grand-total row be distinguished from the group formed by the rows whose region_id is NULL?
+A. ROLLUP discards rows whose region_id is NULL, so the ambiguity cannot arise.
+B. Both rows have GROUPING(region_id) = 0, so they cannot be told apart.
+C. The NULL-region group has GROUPING(region_id) = 1 and the grand total has GROUPING(region_id) = 0.
+D* The grand total has GROUPING(region_id) = 1, while the NULL-region group has GROUPING(region_id) = 0.
+E: ROLLUP (region_id) is shorthand for GROUPING SETS ((region_id), ()), so it produces per-region rows plus one grand total. Both can show NULL in region_id, which is why the GROUPING function exists: it returns 1 when the column was supplied by the grouping-set machinery rather than read from the data, and 0 when it is a real value. NULL regions are grouped normally, they are not discarded.
+
+--- sq-hard-top-sale-per-region [sql d5]
+P: Table sale(sale_id INT PRIMARY KEY, region_id INT, amount INT) records sales; amount is nullable and a region can have several sales. Return one row per region with the columns region_id (INT), sale_id (INT) and amount (INT): the sale with the greatest amount in that region, breaking ties by the lower sale_id. A region whose sales all have a NULL amount still gets a row, choosing the sale with the lowest sale_id. Order by region_id ascending.
+REF: SELECT DISTINCT ON (region_id) region_id, sale_id, amount FROM sale ORDER BY region_id, amount DESC NULLS LAST, sale_id
+E: DISTINCT ON keeps the first row per region in ORDER BY order. Within a region, amount DESC NULLS LAST ranks the largest amount first while placing NULL amounts last, and sale_id breaks the 500/500 tie in favour of sale 1. For region 3, where every amount is NULL, the sale_id key decides and sale 4 is chosen. The empty dataset correctly returns no rows.
+
+--- sq-hard-three-valued-reporting [essay d5]
+P: A reporting team writes: SELECT order_id FROM orders o WHERE amount <> 0   AND customer_id NOT IN (SELECT customer_id FROM blocked) Table orders has nullable amount and customer_id columns, and the blocked table may contain NULL. (a) Explain which rows the WHERE clause keeps and why NULL amounts or a NULL in the subquery silently remove rows. (b) Rewrite the exclusion so it is NULL-safe, using NOT EXISTS, and state which rows the rewrite now includes that the original dropped. (c) Explain how the same reasoning applies to HAVING with sum(amount) > 100 on a group whose amounts are all NULL, and state what you must decide explicitly.
+REF: (a) WHERE keeps only rows for which the whole predicate is TRUE. amount <> 0 evaluates to UNKNOWN when amount is NULL, so those rows are dropped even though the amount is not zero. NOT IN is a chain of <> comparisons: a NULL customer_id, or any NULL produced by the subquery, makes the comparison UNKNOWN, and UNKNOWN AND anything is never TRUE. The row therefore disappears silently, and the report under-counts without raising an error. (b) Rewrite: WHERE amount IS DISTINCT FROM 0 AND NOT EXISTS (SELECT 1 FROM blocked b WHERE b.customer_id = o.customer_id). IS DISTINCT FROM is the null-safe inequality, returning TRUE for a NULL amount against 0. NOT EXISTS is TRUE when no row satisfies the inner predicate; a NULL customer_id simply matches nothing, so the order is included. The rewrite therefore keeps rows the original dropped: orders with NULL amount, and orders with NULL customer_id. Whether a NULL customer should count as unblocked is a business decision that must be stated, not left implicit. (c) HAVING runs after aggregation and keeps groups whose predicate is TRUE. sum ignores NULL inputs, so a group whose amounts are all NULL produces NULL, sum(amount) > 100 is UNKNOWN, and the group is dropped. If the intended rule is that such a group counts as zero, write coalesce(sum(amount), 0) > 100; if it should be excluded, say so explicitly. count(*) is never NULL, so count-based HAVING conditions do not have this problem.
+RUB Incomplete: Claims that NULL compares equal, treats UNKNOWN as FALSE, or gives no rewrite; does not connect the WHERE behaviour to the HAVING question.
+RUB Partial: Recognises that NULL makes comparisons UNKNOWN and may state that rows are dropped, but the NOT EXISTS rewrite is missing or still NULL-sensitive, and HAVING is not addressed.
+RUB Mostly Complete: Correct explanation of NULL propagation through NOT IN and a correct NOT EXISTS rewrite, but the rows recovered by the rewrite are not identified, or the HAVING part is only partly right.
+RUB Complete: Fully correct: explains that only TRUE rows survive, that a NULL amount or a NULL in the subquery turns the predicate UNKNOWN, gives the NOT EXISTS rewrite with IS DISTINCT FROM or an explicit NULL rule, names the rows the rewrite recovers, and explains that SUM over an all-NULL group is NULL so coalesce or an explicit policy is required in HAVING.
+E: The answer must tie the behaviour to three-valued logic rather than to a vague 'NULL is special' claim. Part (a) should show that UNKNOWN is neither TRUE nor FALSE and that WHERE/HAVING keep only TRUE. Part (b) must give the NOT EXISTS form and identify the rows it recovers. Part (c) must note that SUM over an all-NULL group is NULL and that coalesce or an explicit exclusion rule is needed.
+
+################ SPEC sq_medium.py (14)
+
+--- sq-medium-alias-visibility [mcq d3]
+P: Which statement about an output alias introduced in the SELECT list is correct in PostgreSQL?
+A. The alias can be used in WHERE because WHERE is evaluated after SELECT.
+B* The alias can be used in ORDER BY but not in WHERE, because WHERE is evaluated before the SELECT list.
+C. The alias is visible in every clause, including HAVING and WHERE.
+D. The alias replaces the input column, so the original column is no longer accessible anywhere.
+E: Logical evaluation reaches WHERE before SELECT computes output expressions, so the alias does not exist yet. ORDER BY runs after SELECT and may refer to an output name. HAVING runs before SELECT as well, so aliases are not generally available there. An alias changes only the output name; input columns remain accessible by their own names.
+
+--- sq-medium-not-in-null [mcq d3]
+P: Table orders has a nullable customer_id, and the subquery SELECT customer_id FROM orders currently returns at least one NULL. Which query reliably returns customers that have no orders?
+A* SELECT c.id FROM customer c WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);
+B. SELECT id FROM customer WHERE id NOT IN (SELECT customer_id FROM orders);
+C. SELECT id FROM customer WHERE id <> ALL (SELECT customer_id FROM orders);
+D. SELECT id FROM customer WHERE NOT id IN (SELECT customer_id FROM orders);
+E: NOT IN is equivalent to a chain of <> comparisons. Comparing any value with NULL yields UNKNOWN, so a NULL in the subquery makes the predicate UNKNOWN for every customer and the query returns no rows. NOT EXISTS tests the absence of a matching row and is unaffected by NULL values. Option C has the same NULL sensitivity, and option D is not valid PostgreSQL syntax.
+
+--- sq-medium-left-join-filter [mcq d3]
+P: Which query returns only customers that have at least one order, although it is written with a LEFT JOIN?
+A. SELECT c.id FROM customer c LEFT JOIN orders o ON o.customer_id = c.id HAVING count(*) > 0;
+B. SELECT c.id FROM customer c LEFT JOIN orders o ON o.customer_id = c.id WHERE o.customer_id IS NULL;
+C* SELECT c.id FROM customer c LEFT JOIN orders o ON o.customer_id = c.id WHERE o.customer_id IS NOT NULL;
+D. SELECT c.id FROM customer c LEFT JOIN orders o ON o.customer_id = c.id AND o.amount > 0;
+E: A LEFT JOIN emits NULL-extended rows for unmatched customers. Filtering o.customer_id IS NOT NULL afterwards removes those rows, leaving only customers with at least one match. IS NULL is the anti-join and returns the opposite set. HAVING without GROUP BY does not filter per customer. Moving the condition into ON only restricts which orders match and still keeps unmatched customers.
+
+--- sq-medium-count-null [mcq d3]
+P: Table customer has a nullable email column. What does SELECT count(*), count(email) FROM customer return?
+A. Two equal counts, because count ignores NULL in both forms.
+B* count(*) counts all rows, while count(email) counts only rows where email is not NULL.
+C. count(email) counts all rows, while count(*) counts only non-NULL emails.
+D. The query raises an error because an aggregate without GROUP BY cannot mix the two forms.
+E: count(*) counts rows. count(expression) counts non-NULL values of that expression, so the two numbers can differ. The forms can be combined in one aggregate query without GROUP BY, which then produces exactly one row.
+
+--- sq-medium-where-having-order [mcq d3]
+P: Consider SELECT dept_id FROM emp WHERE salary > 1000 GROUP BY dept_id HAVING count(*) >= 2. What does the query return?
+A. All departments with at least two employees, regardless of salary.
+B* Departments with at least two employees whose salary is greater than 1000.
+C. Departments whose total salary is greater than 1000.
+D. Individual employees who earn more than 1000 and appear at least twice.
+E: WHERE removes employees with salary <= 1000 or NULL salary before grouping. GROUP BY then forms departments from the surviving rows, and HAVING keeps departments whose surviving row count is at least two. The filter is per employee before grouping, not a sum, and the result has one row per qualifying department.
+
+--- sq-medium-group-functional-dependency [mcq d3]
+P: Table dept has dept_id as its primary key and a dept_name column. Why does PostgreSQL accept SELECT d.dept_id, d.dept_name, count(*) FROM dept d JOIN emp e ON e.dept_id = d.dept_id GROUP BY d.dept_id?
+A. It is not accepted; every selected column must appear in GROUP BY.
+B. Because PostgreSQL always allows ungrouped columns and chooses an arbitrary value for them.
+C. Because dept_name is implicitly added to the GROUP BY list by the planner.
+D* Because dept_name is functionally dependent on the grouped primary key dept_id; ungrouped columns are otherwise rejected.
+E: PostgreSQL permits an ungrouped column when it is functionally dependent on the grouped columns, and a primary key determines the other columns of its table. The join does not break that dependency because dept_name comes from dept. Without such a dependency, each group could contain several dept_name values and PostgreSQL rejects the query instead of inventing an answer.
+
+--- sq-medium-join-fanout-sum [mcq d3]
+P: Each order has three rows in orders and two rows in items per order. The query SELECT sum(o.amount) FROM orders o JOIN items i ON i.order_id = o.order_id returns a total much larger than the sum of order amounts. Why?
+A* The join emits one row per order-item pair, so each order amount is repeated once per item and summed repeatedly.
+B. SUM counts duplicate values automatically, so every order amount is counted twice.
+C. NULL amounts are treated as zero, which increases the total.
+D. The join removes rows that have no items, which inflates the average but not a sum.
+E: A one-to-many join multiplies each order row by its number of item rows. SUM has no DISTINCT here, so the repeated amount contributes once per joined row. The repair is to aggregate items first or sum the order amounts in a separate subquery. SUM does not deduplicate on its own, NULLs are ignored rather than converted to zero, and removing rows cannot increase a sum of non-negative amounts.
+
+--- sq-medium-select-computed-column [mcq d3]
+P: Which select-list expression returns one row per sale with the original id and a computed column labelled gross, equal to amount multiplied by 1.1?
+A. SELECT id AS gross, amount * 1.1 FROM sales;
+B. SELECT id, gross = amount * 1.1 FROM sales;
+C. SELECT id, amount * 1.1 FROM sales AS gross;
+D* SELECT id, amount * 1.1 AS gross FROM sales;
+E: AS labels the computed expression gross without changing the row count. Option B is a boolean comparison with an undefined identifier; option C aliases the table rather than the output column and leaves the computed column unnamed; option A puts the gross label on id.
+
+--- sq-medium-where-null-exclusion [mcq d3]
+P: Column status is nullable. Which rows does WHERE status <> 'cancelled' return?
+A* Only rows whose status is a non-NULL value different from 'cancelled'; NULL rows are excluded because the comparison is UNKNOWN.
+B. Rows whose status is any value except 'cancelled', including NULL rows.
+C. All rows, because NULL is treated as an empty string.
+D. The query fails because <> cannot be used with a nullable column.
+E: In three-valued logic, NULL <> 'cancelled' evaluates to UNKNOWN, and WHERE keeps only TRUE. Rows with status NULL are therefore dropped. To include them, test status IS NULL OR status <> 'cancelled', or use IS DISTINCT FROM, which treats NULL as a comparable value. NULL is not an empty string.
+
+--- sq-medium-scalar-subquery-multirow [mcq d3]
+P: A scalar subquery appears in the SELECT list. What happens if that subquery returns more than one row at execution time?
+A. PostgreSQL returns the first row and ignores the rest.
+B. PostgreSQL automatically aggregates the rows into one value.
+C. PostgreSQL returns NULL for the extra rows.
+D* PostgreSQL raises an error because a scalar subquery must return at most one row.
+E: A scalar subquery is used where a single value is expected. Zero rows yield NULL, but more than one row is an error ('more than one row returned by a subquery used as an expression'). PostgreSQL does not silently choose a row or aggregate; the query must guarantee cardinality with an aggregate, LIMIT 1, or a correlated condition.
+
+--- sq-medium-customer-order-count [sql d3]
+P: Table customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL) and table orders(order_id INT PRIMARY KEY, customer_id INT, amount NUMERIC(10,2)). Return customer_id, name and order_count (BIGINT) for every customer, including customers with no orders. Order by order_count descending, then customer_id ascending.
+REF: SELECT c.customer_id, c.name, count(o.order_id) AS order_count FROM customer c LEFT JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.customer_id, c.name ORDER BY order_count DESC, c.customer_id
+E: The LEFT JOIN keeps customers without orders, and counting o.order_id rather than * turns the join's NULL placeholder into 0. Grouping by customer_id and name keeps the selected name valid. ORDER BY may use the output alias order_count; the tie-breaker on customer_id makes the result deterministic.
+
+--- sq-medium-order-customer-flag [sql d3]
+P: Table customer(customer_id INT PRIMARY KEY, name TEXT NOT NULL) and table orders(order_id INT PRIMARY KEY, customer_id INT). Return order_id (INT), name (TEXT) and has_customer (BOOLEAN) for every order. Orders with a customer_id that matches no customer are returned with NULL name and has_customer false; NULL customer_id is treated the same way. Order by order_id ascending.
+REF: SELECT o.order_id, c.name, (c.customer_id IS NOT NULL) AS has_customer FROM orders o LEFT JOIN customer c ON c.customer_id = o.customer_id ORDER BY o.order_id
+E: The LEFT JOIN preserves every order. c.customer_id IS NOT NULL is FALSE for both an orphan key and a NULL key, so the boolean flag distinguishes matched from unmatched orders without converting NULL to text. The edge dataset has no orders and correctly returns no rows.
+
+--- sq-medium-result-bag-join [essay d3]
+P: Explain how a SELECT statement that joins two tables and applies WHERE produces its result. Cover the select list, row filtering, bag semantics and duplicate multiplication. Give an example in which a one-to-many join changes the number of rows and explain when DISTINCT or pre-aggregation is the appropriate correction.
+REF: FROM builds the joined table, applying the ON condition to form pairs. WHERE then keeps rows for which the predicate is TRUE. The SELECT list evaluates expressions for each surviving row and labels them. SQL tables are bags: a left row matching three right rows produces three output rows, and no automatic deduplication occurs. If a customer has three orders, joining customer to orders yields three rows for that customer. SELECT DISTINCT removes duplicate whole result rows, which is appropriate when the question asks for distinct entities and the selected columns uniquely identify them. When the goal is one row per customer with an aggregate, pre-aggregating orders in a subquery and then joining is safer than DISTINCT, because DISTINCT would not repair an incorrect SUM inflated by fan-out.
+RUB Incomplete: Treats SQL results as sets with automatic deduplication, or cannot explain where rows are filtered; no example of row multiplication.
+RUB Partial: Describes FROM/WHERE/SELECT but claims joins remove duplicates, or suggests DISTINCT as a universal fix for inflated aggregates.
+RUB Mostly Complete: Correct logical order and bag semantics; gives an example, but the guidance on DISTINCT versus pre-aggregation is partial.
+RUB Complete: Correctly explains FROM/ON, WHERE, SELECT, bag semantics and one-to-many fan-out with a concrete example; distinguishes DISTINCT (duplicate whole rows) from pre-aggregation (correct per-entity totals) and chooses the right tool for each goal.
+E: The essential points are logical clause order, bag semantics, one-to-many row multiplication, and the distinction between DISTINCT as duplicate-row removal and pre-aggregation as a way to fix incorrect aggregates.
+
+--- sq-medium-join-aggregate-null [essay d3]
+P: Explain how INNER JOIN and LEFT JOIN affect count and sum aggregates. Address unmatched rows, NULL amounts, count(*) versus count(column), and row multiplication when the joined table has several matches. Give the rule you would use to count customers with zero orders correctly.
+REF: INNER JOIN keeps only matching pairs, so customers without orders disappear and cannot be counted as zero. LEFT JOIN keeps every left row and NULL-extends the right columns. count(*) counts the NULL-extended row as one, which is wrong for counting orders; count(o.order_id) counts only non-NULL matched keys and yields 0 for unmatched customers. sum ignores NULL amounts, so an unmatched customer or an order with NULL amount contributes nothing, which may be the desired numeric total but must be documented. If the right table has several matches per left row, each left row is repeated and count(*)/sum can be inflated; pre-aggregate the many side to one row per key before joining, or count distinct keys. For customers with zero orders: LEFT JOIN orders, GROUP BY customer key, and use count(o.order_id).
+RUB Incomplete: Uses INNER JOIN for zero-order customers or count(*) after a LEFT JOIN; does not discuss NULL aggregates or fan-out.
+RUB Partial: Knows LEFT JOIN preserves customers but mixes count(*) and count(column), or ignores row multiplication.
+RUB Mostly Complete: Correct treatment of NULLs and count(column), but the fan-out discussion or the final counting rule is incomplete.
+RUB Complete: Explains INNER versus LEFT preservation, NULL extension, count(*) versus count(column), sum's NULL behavior, one-to-many fan-out and pre-aggregation; states the zero-order rule as LEFT JOIN plus count(o.order_id) grouped by customer.
+E: The correct rule combines LEFT JOIN, grouping by customer, and count(o.order_id); count(*) after a LEFT JOIN counts the placeholder row and reports one instead of zero.

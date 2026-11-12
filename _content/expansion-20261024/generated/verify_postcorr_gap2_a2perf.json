@@ -1,0 +1,132 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_a2perf.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:16:29.957755+00:00",
+  "questions": [
+    {
+      "key": "a2b-easy-fk-no-index",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        650
+      ]
+    },
+    {
+      "key": "a2b-easy-constraint-index",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        651
+      ]
+    },
+    {
+      "key": "a2b-easy-order-by-index",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        652
+      ]
+    },
+    {
+      "key": "a2b-easy-selectivity",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        653
+      ]
+    },
+    {
+      "key": "a2b-easy-index-budget",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        654
+      ]
+    },
+    {
+      "key": "a2b-medium-concurrently",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        655
+      ]
+    },
+    {
+      "key": "a2b-medium-column-order",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        656
+      ]
+    },
+    {
+      "key": "a2b-medium-child-fk-delete",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        657
+      ]
+    },
+    {
+      "key": "a2b-medium-implicit-cast",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "a2b-medium-orders-index-strategy",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "IDX"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        659
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:16:32.229018+00:00",
+  "summary": {
+    "dry_run_ok": 1,
+    "skipped_existing_prompt": 9
+  }
+}

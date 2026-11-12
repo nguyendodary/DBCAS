@@ -1,0 +1,152 @@
+{
+  "origin": "http://127.0.0.1:5175",
+  "routes": [
+    {
+      "role": "learner",
+      "route": "/dashboard",
+      "width": 1280,
+      "heading": "Xin chào, Nguyễn An 👋"
+    },
+    {
+      "role": "learner",
+      "route": "/assessments",
+      "width": 1280,
+      "heading": "Tạo bài luyện tập"
+    },
+    {
+      "role": "learner",
+      "route": "/history",
+      "width": 1280,
+      "heading": "Lịch sử làm bài"
+    },
+    {
+      "role": "learner",
+      "route": "/competency",
+      "width": 1280,
+      "heading": "Đánh giá tổng thể"
+    },
+    {
+      "role": "learner",
+      "route": "/settings",
+      "width": 1280,
+      "heading": "Cài đặt"
+    },
+    {
+      "role": "learner",
+      "route": "/dashboard",
+      "width": 390,
+      "heading": "Xin chào, Nguyễn An 👋"
+    },
+    {
+      "role": "learner",
+      "route": "/assessments",
+      "width": 390,
+      "heading": "Tạo bài luyện tập"
+    },
+    {
+      "role": "learner",
+      "route": "/history",
+      "width": 390,
+      "heading": "Lịch sử làm bài"
+    },
+    {
+      "role": "learner",
+      "route": "/competency",
+      "width": 390,
+      "heading": "Đánh giá tổng thể"
+    },
+    {
+      "role": "learner",
+      "route": "/settings",
+      "width": 390,
+      "heading": "Cài đặt"
+    },
+    {
+      "role": "admin",
+      "route": "/admin",
+      "width": 1280,
+      "heading": "Tổng quan nhóm học viên"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/grading",
+      "width": 1280,
+      "heading": "Duyệt bài"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/accounts",
+      "width": 1280,
+      "heading": "Quản lý tài khoản"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/questions",
+      "width": 1280,
+      "heading": "Ngân hàng câu hỏi"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/curriculum",
+      "width": 1280,
+      "heading": "Chương trình học"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/system",
+      "width": 1280,
+      "heading": "Hệ thống"
+    },
+    {
+      "role": "admin",
+      "route": "/settings",
+      "width": 1280,
+      "heading": "Cài đặt"
+    },
+    {
+      "role": "admin",
+      "route": "/admin",
+      "width": 390,
+      "heading": "Tổng quan nhóm học viên"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/grading",
+      "width": 390,
+      "heading": "Duyệt bài"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/accounts",
+      "width": 390,
+      "heading": "Quản lý tài khoản"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/questions",
+      "width": 390,
+      "heading": "Ngân hàng câu hỏi"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/curriculum",
+      "width": 390,
+      "heading": "Chương trình học"
+    },
+    {
+      "role": "admin",
+      "route": "/admin/system",
+      "width": 390,
+      "heading": "Hệ thống"
+    },
+    {
+      "role": "admin",
+      "route": "/settings",
+      "width": 390,
+      "heading": "Cài đặt"
+    }
+  ],
+  "pageErrors": [],
+  "failedRequests": [],
+  "badResponses": []
+}

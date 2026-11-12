@@ -1,13 +1,16 @@
 -- DBCAS schema (PostgreSQL 17)
+-- Refresh-token storage is declared at the end, after account exists.
 
 CREATE TABLE account (
   account_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
+  -- FALSE only for accounts created through OAuth whose password hash is
+  -- an unusable random value; a password reset flips it to TRUE.
+  password_set BOOLEAN NOT NULL DEFAULT TRUE,
+  password_changed_at TIMESTAMPTZ,
   status VARCHAR(20) NOT NULL DEFAULT 'active',
   can_manage_roles BOOLEAN NOT NULL DEFAULT FALSE,
-  avatar_data_url TEXT,
-  token_version INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -202,7 +205,6 @@ CREATE TABLE attempt (
   question_id INT NOT NULL,
   seq_no SMALLINT NOT NULL,
   selected_option_id INT,
-  selected_option_ids JSONB,
   sql_answer TEXT,
   essay_answer TEXT,
   score NUMERIC(5,2),
@@ -343,6 +345,45 @@ CREATE TABLE IF NOT EXISTS login_throttle (
   expires_at TIMESTAMPTZ NOT NULL
 );
 CREATE INDEX IF NOT EXISTS login_throttle_expiry_idx ON login_throttle(expires_at);
+
+-- Self-service password recovery: only the SHA-256 digest of a reset
+-- token is stored; a row is redeemable while used_at/revoked_at are NULL
+-- and expires_at is in the future. Issuing a new token revokes older
+-- unredeemed tokens for the same account.
+CREATE TABLE IF NOT EXISTS password_reset_token (
+  token_hash VARCHAR(64) PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(account_id),
+  requested_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  used_at TIMESTAMPTZ,
+  revoked_at TIMESTAMPTZ,
+  CHECK (expires_at > requested_at)
+);
+CREATE INDEX IF NOT EXISTS password_reset_token_account_idx
+  ON password_reset_token(account_id, requested_at DESC);
+CREATE INDEX IF NOT EXISTS password_reset_token_expiry_idx
+  ON password_reset_token(expires_at);
+
+CREATE TABLE IF NOT EXISTS password_reset_audit (
+  audit_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(account_id),
+  event VARCHAR(20) NOT NULL CHECK (event IN ('requested', 'completed')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS password_reset_audit_account_idx
+  ON password_reset_audit(account_id, audit_id DESC);
+
+CREATE OR REPLACE FUNCTION preserve_password_reset_audit() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  RAISE EXCEPTION 'Password reset audit is immutable';
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='password_reset_audit'::regclass
+                 AND tgname='password_reset_audit_immutable') THEN
+    CREATE TRIGGER password_reset_audit_immutable BEFORE UPDATE OR DELETE ON password_reset_audit
+      FOR EACH ROW EXECUTE FUNCTION preserve_password_reset_audit();
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS grading_job (
   job_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -696,27 +737,173 @@ DO $$ BEGIN
   END IF;
 END $$;
 
--- Learner result release choice (migration 013).
--- A learner may choose the release mode once, while submitting their session.
--- Existing results, configuration snapshots and start requests are preserved.
-ALTER TABLE assessment_session ADD COLUMN IF NOT EXISTS release_policy_chosen_at TIMESTAMPTZ;
-
-CREATE OR REPLACE FUNCTION preserve_session_release_policy() RETURNS trigger LANGUAGE plpgsql AS $$
-BEGIN
-  IF NEW.start_request_id IS DISTINCT FROM OLD.start_request_id THEN
-    RAISE EXCEPTION 'Started assessment start request is immutable';
+-- Original-language question authoring (migration 012).
+-- Source prose has an explicit language. Existing source prose remains English.
+-- No questions, translations, attempts or historical snapshots are rewritten.
+ALTER TABLE question ADD COLUMN IF NOT EXISTS original_locale VARCHAR(16) NOT NULL DEFAULT 'en';
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='question'::regclass AND conname='question_original_locale_check') THEN
+    ALTER TABLE question ADD CONSTRAINT question_original_locale_check CHECK (original_locale IN ('en', 'vi'));
   END IF;
-  IF OLD.release_policy_chosen_at IS NOT NULL AND
-      NEW.release_policy_chosen_at IS DISTINCT FROM OLD.release_policy_chosen_at THEN
-    RAISE EXCEPTION 'Submitted result release choice is immutable';
-  END IF;
-  IF NEW.result_release_policy IS DISTINCT FROM OLD.result_release_policy OR
-      NEW.release_policy_chosen_at IS DISTINCT FROM OLD.release_policy_chosen_at THEN
-    IF NOT (OLD.status = 'in_progress' AND NEW.status = 'in_progress'
-            AND OLD.release_status = 'unsubmitted' AND NEW.release_status = 'unsubmitted'
-            AND OLD.release_policy_chosen_at IS NULL AND NEW.release_policy_chosen_at IS NOT NULL) THEN
-      RAISE EXCEPTION 'Result release choice can only be recorded once before submission';
-    END IF;
-  END IF;
-  RETURN NEW;
 END $$;
+
+-- Migration 007 excluded English because English was always the source.
+-- Locate that constraint by definition, including databases with renamed checks.
+DO $$ DECLARE item RECORD; BEGIN
+  FOR item IN SELECT conname FROM pg_constraint
+    WHERE conrelid='question_translation'::regclass AND contype='c'
+      AND pg_get_constraintdef(oid) LIKE '%locale%'
+      AND pg_get_constraintdef(oid) LIKE '%<>%'
+      AND pg_get_constraintdef(oid) LIKE '%en%'
+  LOOP
+    EXECUTE format('ALTER TABLE question_translation DROP CONSTRAINT %I', item.conname);
+  END LOOP;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='question_translation'::regclass AND conname='question_translation_supported_locale_check') THEN
+    ALTER TABLE question_translation ADD CONSTRAINT question_translation_supported_locale_check
+      CHECK (locale ~ '^[a-z]{2}(-[A-Z]{2})?$');
+  END IF;
+END $$;
+
+-- 013_assessment_blueprints.sql
+CREATE TABLE IF NOT EXISTS assessment_blueprint (
+  blueprint_id INT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  -- Blueprint history belongs to the assessment; the delete guard in the
+  -- application prevents deletion of assessments that have sessions, so a
+  -- cascade here never removes a version referenced by a session snapshot.
+  assessment_id INT NOT NULL REFERENCES assessment(assessment_id) ON DELETE CASCADE,
+  subject_area VARCHAR(100) NOT NULL,
+  difficulty_band VARCHAR(10) NOT NULL,
+  version_no INT NOT NULL DEFAULT 1,
+  status VARCHAR(20) NOT NULL DEFAULT 'approved',
+  max_questions SMALLINT NOT NULL,
+  target_mcq SMALLINT NOT NULL,
+  target_sql SMALLINT NOT NULL,
+  target_essay SMALLINT NOT NULL,
+  scoring JSONB NOT NULL DEFAULT '{}'::jsonb,
+  evidence_types JSONB NOT NULL DEFAULT '[]'::jsonb,
+  approval_basis TEXT NOT NULL,
+  approved_by INT REFERENCES account(account_id),
+  approved_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT assessment_blueprint_band_check
+    CHECK (difficulty_band IN ('EASY', 'MEDIUM', 'HARD')),
+  CONSTRAINT assessment_blueprint_status_check
+    CHECK (status IN ('approved', 'retired')),
+  CONSTRAINT assessment_blueprint_counts_check
+    CHECK (max_questions > 0 AND target_mcq >= 0 AND target_sql >= 0
+           AND target_essay >= 0 AND target_mcq + target_sql + target_essay = max_questions),
+  CONSTRAINT assessment_blueprint_version_check CHECK (version_no > 0),
+  CONSTRAINT assessment_blueprint_scoring_check
+    CHECK (jsonb_typeof(scoring) = 'object'),
+  CONSTRAINT assessment_blueprint_evidence_check
+    CHECK (jsonb_typeof(evidence_types) = 'array'),
+  CONSTRAINT assessment_blueprint_approval_check
+    CHECK (length(btrim(approval_basis)) > 0),
+  CONSTRAINT assessment_blueprint_version_unique
+    UNIQUE (assessment_id, subject_area, difficulty_band, version_no)
+);
+CREATE INDEX IF NOT EXISTS assessment_blueprint_lookup_idx
+  ON assessment_blueprint(assessment_id, subject_area, difficulty_band, version_no DESC);
+ALTER TABLE assessment_session
+  ADD COLUMN IF NOT EXISTS blueprint_id INT REFERENCES assessment_blueprint(blueprint_id);
+
+-- A new version is a new row. No version is ever rewritten; the rows that a
+-- published session snapshot references cannot be deleted without deleting
+-- that session first (assessment_session.blueprint_id FK).
+CREATE OR REPLACE FUNCTION preserve_assessment_blueprint() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  RAISE EXCEPTION 'Assessment blueprint versions are immutable; insert a new version';
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='assessment_blueprint'::regclass
+                 AND tgname='assessment_blueprint_immutable') THEN
+    CREATE TRIGGER assessment_blueprint_immutable
+      BEFORE UPDATE ON assessment_blueprint
+      FOR EACH ROW EXECUTE FUNCTION preserve_assessment_blueprint();
+  END IF;
+END $$;
+-- Optional adaptive practice adds evidence; no historical row is rewritten.
+-- Policy and inventory remain in the existing immutable session snapshot.
+CREATE TABLE IF NOT EXISTS adaptive_event (
+  session_id INT NOT NULL REFERENCES assessment_session(session_id),
+  round_no SMALLINT NOT NULL CHECK (round_no BETWEEN 1 AND 13),
+  event_type VARCHAR(16) NOT NULL CHECK (event_type IN ('batch', 'decision')),
+  payload JSONB NOT NULL CHECK (jsonb_typeof(payload) = 'object'),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (session_id, round_no, event_type)
+);
+
+CREATE OR REPLACE FUNCTION preserve_adaptive_event() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  RAISE EXCEPTION 'Adaptive selection and decision evidence is immutable';
+END $$;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgrelid='adaptive_event'::regclass AND tgname='adaptive_event_immutable') THEN
+    CREATE TRIGGER adaptive_event_immutable BEFORE UPDATE OR DELETE ON adaptive_event
+      FOR EACH ROW EXECUTE FUNCTION preserve_adaptive_event();
+  END IF;
+END $$;
+
+-- Refresh credentials are random bearer values; persist only their SHA-256 hash.
+CREATE TABLE IF NOT EXISTS refresh_session (
+  token_hash VARCHAR(64) PRIMARY KEY CHECK (token_hash ~ '^[0-9a-f]{64}$'),
+  family_id VARCHAR(32) NOT NULL CHECK (family_id ~ '^[0-9a-f]{32}$'),
+  account_id INT NOT NULL REFERENCES account(account_id) ON DELETE CASCADE,
+  credential_version BIGINT NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  consumed_at TIMESTAMPTZ,
+  revoked_at TIMESTAMPTZ,
+  CHECK (expires_at > created_at)
+);
+CREATE INDEX IF NOT EXISTS refresh_session_family_idx ON refresh_session(family_id);
+CREATE INDEX IF NOT EXISTS refresh_session_account_idx ON refresh_session(account_id);
+CREATE INDEX IF NOT EXISTS refresh_session_expiry_idx ON refresh_session(expires_at);
+
+-- Optional curated pool; an empty pool keeps existing concept-based selection.
+CREATE TABLE IF NOT EXISTS assessment_question (
+  assessment_id INT NOT NULL REFERENCES assessment(assessment_id) ON DELETE CASCADE,
+  question_id INT NOT NULL REFERENCES question(question_id),
+  PRIMARY KEY (assessment_id, question_id)
+);
+CREATE INDEX IF NOT EXISTS assessment_question_question_idx ON assessment_question(question_id);
+
+-- Historical assessment FKs remain valid; new practice sessions have no exam.
+ALTER TABLE assessment_session ALTER COLUMN assessment_id DROP NOT NULL;
+CREATE TABLE IF NOT EXISTS system_setting (
+  setting_key VARCHAR(80) PRIMARY KEY,
+  value JSONB NOT NULL,
+  updated_by INT REFERENCES account(account_id),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+INSERT INTO system_setting(setting_key, value) VALUES ('result_flow', '"IMMEDIATE"') ON CONFLICT DO NOTHING;
+CREATE TABLE IF NOT EXISTS evaluation_record (
+  evaluation_id SERIAL PRIMARY KEY,
+  learner_id INT NOT NULL REFERENCES account(account_id),
+  session_id INT REFERENCES assessment_session(session_id),
+  scope_key VARCHAR(80) NOT NULL,
+  input_hash VARCHAR(64) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','processing','ready')),
+  payload JSONB,
+  lease_until TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (learner_id, scope_key)
+);
+CREATE INDEX IF NOT EXISTS evaluation_record_jobs ON evaluation_record(status, updated_at);
+CREATE TABLE IF NOT EXISTS grade_edit_audit (
+  audit_id SERIAL PRIMARY KEY,
+  attempt_id INT NOT NULL REFERENCES attempt(attempt_id),
+  reviewer_id INT NOT NULL REFERENCES account(account_id),
+  old_score NUMERIC(5,2),
+  new_score NUMERIC(5,2) NOT NULL CHECK (new_score >= 0),
+  reason VARCHAR(1000) NOT NULL CHECK (length(trim(reason)) >= 3),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE OR REPLACE FUNCTION reject_grade_edit_mutation() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN RAISE EXCEPTION 'Grade edit audit is immutable'; END $$;
+DROP TRIGGER IF EXISTS grade_edit_audit_immutable ON grade_edit_audit;
+CREATE TRIGGER grade_edit_audit_immutable BEFORE UPDATE OR DELETE ON grade_edit_audit
+FOR EACH ROW EXECUTE FUNCTION reject_grade_edit_mutation();
+
+-- Preserve all historical FKs and snapshots; prebuilt exams cannot be started.
+UPDATE assessment SET status = 'closed' WHERE status = 'published';

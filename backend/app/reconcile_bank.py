@@ -15,7 +15,7 @@ from .repositories import AccountRepository, CurriculumRepository, QuestionRepos
 from .schemas import QuestionUpsertRequest
 from .services.question_service import get_question, _validation_missing
 from .services.question_localization import translation_is_current, normalized_translation
-from .services.sandbox_runner import SandboxRunner
+from .services.sandbox_runner import build_sandbox_runner
 
 
 def load_packs():
@@ -161,7 +161,7 @@ def main():
             admin = AccountRepository(db).find_by_email((args.admin_email or '').strip().lower())
             if admin is None:
                 raise SystemExit('Existing administrator required with --apply')
-            result = reconcile(db, admin, SandboxRunner(get_settings()))
+            result = reconcile(db, admin, build_sandbox_runner(get_settings()))
         else:
             result = preflight(db)
         print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -1,0 +1,1662 @@
+[
+ {
+  "table": 0,
+  "row": 0,
+  "cells": [
+   "Project acronym",
+   "DBCAS",
+   "DBCAS",
+   "DBCAS"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 1,
+  "cells": [
+   "Project Title",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+   "DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 2,
+  "cells": [
+   "Start Date",
+   "14/09/2026",
+   "End Date",
+   "26/12/2026"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 3,
+  "cells": [
+   "Lead Institution",
+   "International School, Duy Tan University",
+   "International School, Duy Tan University",
+   "International School, Duy Tan University"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 4,
+  "cells": [
+   "Project Mentor",
+   "MSc Viet, Huynh Duc",
+   "MSc Viet, Huynh Duc",
+   "MSc Viet, Huynh Duc"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 5,
+  "cells": [
+   "Scrum master / Project Leader & contact details",
+   "Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040",
+   "Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040",
+   "Thu, Nguyen Ngoc AnhEmail: 01258319907anhthu@gmail.comTel: 0919334040"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 6,
+  "cells": [
+   "Partner Organization",
+   "Duy Tan University",
+   "Duy Tan University",
+   "Duy Tan University"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 7,
+  "cells": [
+   "Project Web URL",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 0,
+  "row": 8,
+  "cells": [
+   "Team members",
+   "Name",
+   "Email",
+   "Tel"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 9,
+  "cells": [
+   "",
+   "Thu, Nguyen Ngoc Anh",
+   "01258319907anhthu@gmail.com",
+   "0919334040"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 10,
+  "cells": [
+   "",
+   "Nguyen, Nguyen Nhat",
+   "nhnguyen240602@gmail.com",
+   "0355772330"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 11,
+  "cells": [
+   "",
+   "Truong, Nguyen Quang",
+   "quangtruongtt8@gmail.com",
+   "0349039023"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 12,
+  "cells": [
+   "",
+   "Do, Nguyen Quoc",
+   "nguyenquocdodary@gmail.com",
+   "0388496885"
+  ]
+ },
+ {
+  "table": 0,
+  "row": 13,
+  "cells": [
+   "",
+   "Han, Nguyen Ngoc",
+   "Hannguyenngoc0506@gmail.com",
+   "0899455605"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 0,
+  "cells": [
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION",
+   "DOCUMENT INFORMATION"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 1,
+  "cells": [
+   "Document Title",
+   "Capstone Project Proposal Document",
+   "Capstone Project Proposal Document",
+   "Capstone Project Proposal Document"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 2,
+  "cells": [
+   "Author(s)",
+   "Do, Nguyen Quoc & C1SE.70 Team",
+   "Do, Nguyen Quoc & C1SE.70 Team",
+   "Do, Nguyen Quoc & C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 3,
+  "cells": [
+   "Role",
+   "Backend Developer",
+   "Backend Developer",
+   "Backend Developer"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 4,
+  "cells": [
+   "Date",
+   "08/11/2026",
+   "File name",
+   "DBCAS-Proposal-v1.2.docx"
+  ]
+ },
+ {
+  "table": 1,
+  "row": 5,
+  "cells": [
+   "URL",
+   "",
+   "",
+   ""
+  ]
+ },
+ {
+  "table": 1,
+  "row": 6,
+  "cells": [
+   "Access",
+   "Project and CMU Program",
+   "Project and CMU Program",
+   "Project and CMU Program"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 0,
+  "cells": [
+   "Thu, Nguyen Ngoc Anh - Student ID: 29209245799 - Project Manager / Scrum Master / Frontend Developer",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 1,
+  "cells": [
+   "Nguyen, Nguyen Nhat - Student ID: 26211227029 - Backend Developer / QA Tester",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 2,
+  "cells": [
+   "Truong, Nguyen Quang - Student ID: 29212730635 - Database Developer",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 3,
+  "cells": [
+   "Do, Nguyen Quoc - Student ID: 29211156881 - Backend Developer",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 2,
+  "row": 4,
+  "cells": [
+   "Han, Nguyen Ngoc - Student ID: 29204423268 - Frontend Developer / QA Tester",
+   "Signature",
+   "Date"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 0,
+  "cells": [
+   "Version",
+   "Date",
+   "Comments",
+   "Author"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 1,
+  "cells": [
+   "1.0",
+   "18/09/2026",
+   "Initial release",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 2,
+  "cells": [
+   "1.1",
+   "30/10/2026",
+   "Update",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 3,
+  "row": 3,
+  "cells": [
+   "1.2",
+   "08/11/2026",
+   "Correct project facts and diagrams",
+   "C1SE.70 Team"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 0,
+  "cells": [
+   "Team member and contact",
+   "Primary role",
+   "Key responsibilities"
+  ]
+ },
+ {
+  "table": 4,
+  "row": 1,
+  "cells": [
+   "1. Nguyen Ngoc Anh Thu ID: 29209245799 Email: 01258319907anhthu@gmail.com Phone: 0919334040",
+   "Project Manager, Scrum Master, Frontend Developer",
+   "Leads project planning, coordinates team meetings, tracks overall progress, manages project risks, and develops frontend user interfaces and interactive dashboards."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 2,
+  "cells": [
+   "2. Nguyen Nhat Nguyen ID: 26211227029 Email: nhnguyen240602@gmail.com Phone: 0355772330",
+   "Backend Developer, QA Tester",
+   "Supports backend API implementation and server-side logic, designs functional test cases, and performs system and user testing."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 3,
+  "cells": [
+   "3. Nguyen Quang Truong ID: 29212730635 Email: quangtruongtt8@gmail.com Phone: 0349039023",
+   "Database Developer",
+   "Designs relational database schemas, writes and optimizes SQL queries, and manages question banks, rubrics, and benchmark datasets."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 4,
+  "cells": [
+   "4. Nguyen Quoc Do ID: 29211156881 Email: nguyenquocdodary@gmail.com Phone: 0388496885",
+   "Backend Developer",
+   "Architects backend services, implements server APIs, configures secure execution environments, and writes core business logic."
+  ]
+ },
+ {
+  "table": 4,
+  "row": 5,
+  "cells": [
+   "5. Nguyen Ngoc Han ID: 29204423268 Email: Hannguyenngoc0506@gmail.com Phone: 0899455605",
+   "Frontend Developer, QA Tester",
+   "Supports frontend user interface development, prepares evaluation test sets, develops automated test scripts, and verifies grading consistency."
+  ]
+ },
+ {
+  "table": 5,
+  "row": 0,
+  "cells": [
+   "Full Name",
+   "Academic Title / Degree",
+   "Department / Division",
+   "Institution / Affiliation",
+   "Contact Email"
+  ]
+ },
+ {
+  "table": 5,
+  "row": 1,
+  "cells": [
+   "Huynh Duc Viet",
+   "Master of Science (MSc)",
+   "CSE Center",
+   "International School,Duy Tan University",
+   "huynhducviet@duytan.edu.vn"
+  ]
+ },
+ {
+  "table": 6,
+  "row": 0,
+  "cells": [
+   "No.",
+   "Learning Area / Topic",
+   "Common Difficulties Discussed Online",
+   "How DBCAS Solves It"
+  ]
+ },
+ {
+  "table": 6,
+  "row": 1,
+  "cells": [
+   "1",
+   "Single Overall Grades",
+   "Learners on learning forums often state that getting a single test score (such as 7 or 8 out of 10) tells them they passed, but gives them no idea which specific database concepts they actually mastered and which ones need review.",
+   "Calculates competency scores across core PostgreSQL concepts and displays an interactive visual radar chart of strengths and weaknesses."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 2,
+  "cells": [
+   "2",
+   "Database Normalization Rules",
+   "A common complaint on developer communities is that normalization rules (1NF, 2NF, 3NF, BCNF) feel too theoretical, and learners struggle to explain why a bad schema design leads to data duplication or update anomalies.",
+   "Provides short written conceptual questions evaluated using clear rubrics that explain why an answer is incomplete and how to fix the design."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 3,
+  "cells": [
+   "3",
+   "Complex SQL Queries (JOINs & Aggregates)",
+   "Learners frequently ask questions about multi-table joins, GROUP BY, and subqueries, finding it frustrating when existing practice sites only say 'Wrong Output' without helpful hints.",
+   "Runs queries in an isolated Docker container and checks both the query structure and returned rows to give helpful hints on mistakes."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 4,
+  "cells": [
+   "4",
+   "Lack of Diagnostic Explanations",
+   "Discussions show that standard multiple-choice quizzes only show correct or incorrect marks without explaining the underlying concept behind a wrong answer.",
+   "Identifies the core concept behind missed questions and provides clear written explanations to help learners understand why an answer was wrong."
+  ]
+ },
+ {
+  "table": 6,
+  "row": 5,
+  "cells": [
+   "5",
+   "One-Size-Fits-All Exams",
+   "A common frustration is that fixed exams give every learner the same question set, so strong learners waste effort on easy items while weaker learners face items far above their level, and neither group gets an accurate ability reading.",
+   "Freezes the learner's chosen concepts, difficulty bands, count and source before question one, then assembles and freezes a complete practice plan that is spread across the selected concepts as far as the count allows without repeating question families; SQL always comes from the validated bank."
+  ]
+ },
+ {
+  "table": 7,
+  "row": 0,
+  "cells": [
+   "Comparison Feature",
+   "Online Practice Sites (LeetCode)",
+   "Traditional LMS (Moodle/Canvas)",
+   "AI Chatbots (general-purpose)",
+   "Proposed DBCAS Platform"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 1,
+  "cells": [
+   "Multi-Format Questions (MCQ, SQL, Essay)",
+   "SQL queries only",
+   "MCQ supported; Essay requires manual grading",
+   "Free-form conversation only; no exam structure",
+   "Fully integrated: MCQ, read-only SQL sandbox, and short essays"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 2,
+  "cells": [
+   "Safe Live SQL Execution",
+   "Yes (proprietary cloud environment)",
+   "No (relies on file uploads or plain text)",
+   "No live database execution",
+   "Yes (isolated, read-only Docker PostgreSQL sandbox; SELECT queries only)"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 3,
+  "cells": [
+   "Concept-level Competency Profile",
+   "No (shows problem count only)",
+   "No (returns one overall grade)",
+   "No structured competency tracking",
+   "Yes (radar and bar charts across core PostgreSQL concepts, plus a cumulative view of published sessions)"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 4,
+  "cells": [
+   "Clear Competency Gap Diagnosis",
+   "No (shows failed test case only)",
+   "No (requires instructor explanation)",
+   "Basic text commentary only",
+   "Yes (explains weak concepts and ranks the topics to study by cumulative shortfall from target)"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 5,
+  "cells": [
+   "Personalized Question Selection",
+   "No (fixed question sets)",
+   "No (fixed assembled exams)",
+   "No (free-form chat only)",
+   "Yes (complete practice plan frozen at start from the learner's chosen concepts, difficulty bands, count and source; SQL always from the validated bank, MCQ/essay optionally AI-generated and validated)"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 6,
+  "cells": [
+   "Course Learning Outcome Alignment",
+   "Not supported",
+   "Basic question tagging only",
+   "Not supported",
+   "Direct mapping: Course Outcomes → Concepts → Questions"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 7,
+  "cells": [
+   "Consistent Scoring Rules",
+   "High (exact output matching)",
+   "High (rule-based MCQ; manual essay)",
+   "Low (unstable scores across repeated prompts)",
+   "High (deterministic rules; AI rubric assistance with administrator verification when required)"
+  ]
+ },
+ {
+  "table": 7,
+  "row": 8,
+  "cells": [
+   "Data Privacy & Standalone Setup",
+   "Commercial cloud tracking",
+   "Institutional server dependent",
+   "External cloud dependency",
+   "Fully standalone with learner data anonymization"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 0,
+  "cells": [
+   "SMART Dimension",
+   "Project Goal & Verification Method"
+  ]
+ },
+ {
+  "table": 8,
+  "row": 1,
+  "cells": [
+   "S – Specific",
+   "Design, build, and deploy the DBCAS web platform to evaluate learner competency across the Core PostgreSQL Knowledge Domain using personalized practice plans across multiple-choice, read-only SQL, and rubric-based essay items."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 2,
+  "cells": [
+   "M – Measurable",
+   "• Verify that every practice session spreads the plan across the selected concepts as far as the exact selected question count allows and meets that count, with SQL items always drawn from the validated bank. • Ensure automated essay scores match administrator grading on test answers. • Keep SQL sandbox query execution under 2 seconds (with a strict 3.0s statement timeout) while keeping execution environments secure. • Complete all planned features across the 5 development sprints."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 3,
+  "cells": [
+   "A – Achievable",
+   "Build the system using well-known, reliable open-source tools (React, FastAPI, PostgreSQL, Docker, and a provider-agnostic LLM API) along with sample datasets created by the team."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 4,
+  "cells": [
+   "R – Relevant",
+   "Helps learners understand their weaknesses, decide which topics to study first, and gives administrators clear evidence of progress on course learning goals."
+  ]
+ },
+ {
+  "table": 8,
+  "row": 5,
+  "cells": [
+   "T – Time-bound",
+   "Follow the 15-week Capstone 1 schedule from September to late December 2026, meeting all university deadlines: Status Reports 1 to 4, Midterm Demo, Final Report, and Capstone Defense."
+  ]
+ },
+ {
+  "table": 9,
+  "row": 0,
+  "cells": [
+   "Core Subject Area",
+   "Component Skills",
+   "Question Formats",
+   "Session Coverage"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 1,
+  "cells": [
+   "1. SQL Querying",
+   "• Core retrieval: SELECT, WHERE, ORDER BY, DISTINCT • Joins & aggregation: JOIN, GROUP BY, HAVING, Aggregate Functions • Advanced retrieval: Subqueries, CTE, Window Functions, Set Operations",
+   "• Multiple-choice questions • Read-only practical SQL tasks",
+   "MCQ + read-only SQL tasks (bank or AI-selected items by concept)"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 2,
+  "cells": [
+   "2. Data Manipulation & Definition",
+   "• DML statements: INSERT / UPDATE / DELETE • DDL statements: CREATE / ALTER / DROP • Core PostgreSQL data types • Views",
+   "• Multiple-choice questions • Conceptual essays",
+   "MCQ + conceptual essays (DML/DDL are assessed, never executed)"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 3,
+  "cells": [
+   "3. Constraints & Design Fundamentals",
+   "• Keys & constraints: Primary Key, Foreign Key, UNIQUE, CHECK, NOT NULL • Database design fundamentals (schema design and normalization basics) • Conceptual design explanations",
+   "• Multiple-choice questions • Conceptual design essays",
+   "MCQ + conceptual essays (bank or AI-selected items by concept)"
+  ]
+ },
+ {
+  "table": 9,
+  "row": 4,
+  "cells": [
+   "TOTAL PRACTICE SCOPE",
+   "Core PostgreSQL Knowledge Domain mapped to Course Learning Outcomes",
+   "Three formats: Multiple-choice, read-only SQL query, Essay",
+   "Learner-defined practice: 1–20 questions (default 5) in a 30-minute session Plan frozen before question one Source: bank or AI; SQL always from the validated bank"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 0,
+  "cells": [
+   "No.",
+   "System Feature / Module",
+   "Functional Scope & Capabilities",
+   "Target Users & Educational Value"
+  ]
+ },
+ {
+  "table": 10,
+  "row": 1,
+  "cells": [
+   "1",
+   "Course Outcomes & Concept Management",
+   "Enables administrators to define course learning goals, organize them into the Core PostgreSQL concept model with prerequisite relationships, assign difficulty levels, and review system-suggested mappings.",
+   "Administrator: Ensures tight alignment between assessments and university curriculum standards."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 2,
+  "cells": [
+   "2",
+   "Question Bank & Concept Tagging",
+   "Maintains an Administrator-approved, validated library of multiple-choice questions, read-only SQL tasks, and short essay prompts categorized by difficulty, tagged with specific PostgreSQL concepts, tracked through version families, and documented with explanations and source references.",
+   "Administrator: Saves time when curating the validated item pool and guarantees balanced topic coverage."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 3,
+  "cells": [
+   "3",
+   "Learner Assessment Portal",
+   "Provides a clean practice interface, with a persistent countdown, 10- and 5-minute warnings, forward-only navigation, autosaved answer drafts, an embedded SQL editor, and English/Vietnamese interface and theme preferences.",
+   "Learner: Delivers a smooth, distraction-free environment for answering coding and conceptual questions."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 4,
+  "cells": [
+   "4",
+   "Automated Multi-Method Scoring",
+   "Executes multi-format grading: instant verification for MCQs, isolated Docker execution for read-only SQL queries, and rubric-guided AI scoring for short essays. Every submission waits in an administrator review queue; the administrator checks SQL and essay evidence, adjusts scores if needed, and approves publication.",
+   "Learner & Administrator: Eliminates manual grading bottlenecks while delivering consistent results under administrator oversight."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 5,
+  "cells": [
+   "5",
+   "Visual Competency Profile Dashboard",
+   "Aggregates evidence across published sessions into radar and bar charts of PostgreSQL competency. After the charts, it shows a “What to study next” list of below-benchmark concepts ordered by shortfall from target, with the concept name and its description when available.",
+   "Learner & Administrator: Replaces a single vague score with a transparent breakdown of real abilities."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 6,
+  "cells": [
+   "6",
+   "Competency Gap Diagnosis & Study Guidance",
+   "Compares cumulative published concept scores with the platform's 70% passing target, flags gaps, and provides evidence-linked explanations. The learner's below-benchmark concepts appear after the profile as a ranked “What to study next” list.",
+   "Learner: Explains missed concepts and shows which weak topic to study first."
+  ]
+ },
+ {
+  "table": 10,
+  "row": 7,
+  "cells": [
+   "7",
+   "Personalized Practice Question Selection",
+   "Lets the learner choose the concepts, difficulty bands, question count (1–20, default 5) and source (validated bank or AI) before question one. The system assembles and freezes the complete plan at that moment, spreading it across the selected concepts as far as the exact count allows, with no repeated version families. With source AI, MCQ and essay items may be generated and validated before entering the plan, while SQL items always come from the validated bank; if AI cannot fill the plan, a single bank_mixed notice explains the substitution. A genuine bank shortage stops the start with an explicit explanation rather than a silently shortened session.",
+   "Learner: Measures ability with relevant questions and fewer surprises than a fixed exam."
+  ]
+ },
+ {
+  "table": 11,
+  "row": 0,
+  "cells": [
+   "FR ID",
+   "Requirement Name",
+   "Functional Description",
+   "Primary Actor / Component"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 1,
+  "cells": [
+   "FR-01",
+   "User Authentication",
+   "System authenticates users with JWT-based sessions and implements exactly two application roles: User (Learner) and Admin (Administrator). Email/password and OAuth 2.0 (Google, GitHub) sign-in are supported, together with self-service password recovery through a single-use, 15-minute emailed token stored only as a SHA-256 digest. Verified-email OAuth sign-up creates Learner accounts; linking an existing account preserves its roles.",
+   "Learner, Administrator"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 2,
+  "cells": [
+   "FR-02",
+   "Outcome & Concept Setup",
+   "System allows administrators to define course learning outcomes (CLOs), the Core PostgreSQL concept model, difficulty levels, and prerequisite relationships between concepts.",
+   "Administrator"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 3,
+  "cells": [
+   "FR-03",
+   "Outcome Mapping Assistance",
+   "System suggests connections between course outcomes and PostgreSQL concepts using assistive AI, requiring confirmation by the administrator.",
+   "Administrator, LLM Provider"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 4,
+  "cells": [
+   "FR-04",
+   "Question Bank Management",
+   "System enables administrators to approve AI-generated candidates after automated checks and curate the validated Question Bank: a pool of approved question items spanning multiple-choice, read-only SQL, and short essay formats across the Core PostgreSQL Knowledge Domain, with test data sets, reference answers, explanations, source references, and version lineage.",
+   "Administrator"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 5,
+  "cells": [
+   "FR-05",
+   "Question Concept Tagging",
+   "System analyzes question prompts and recommends relevant concept tags and evaluation criteria for administrator review.",
+   "Administrator, LLM Provider"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 6,
+  "cells": [
+   "FR-06",
+   "System Settings & Result Review",
+   "System exposes read-only runtime status (AI evaluator, prompt builder, database and pipeline) and a mandatory two-stage result workflow: AI grading first, then administrator review and approval. Administrators do not choose between automatic and reviewed release. Administrators do not create exams: every learner starts a learner-defined practice session by choosing concepts, difficulty bands (EASY 1–2, MEDIUM 3, HARD 4–5), an exact question count from 1 to 20 (default 5) and a source (validated bank or AI).",
+   "Administrator"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 7,
+  "cells": [
+   "FR-07",
+   "Learner Practice Interface",
+   "System provides learners with a clean practice interface featuring a persistent countdown, 10- and 5-minute remaining warnings, automatic submission at 00:00, a progress indicator, forward-only navigation, autosaved drafts, an embedded SQL code editor, and English/Vietnamese and theme preferences.",
+   "Learner"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 8,
+  "cells": [
+   "FR-08",
+   "Multiple-Choice Grading",
+   "System instantly evaluates submitted multiple-choice answers against the verified answer key.",
+   "DBCAS (Core System)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 9,
+  "cells": [
+   "FR-09",
+   "SQL Sandbox Execution",
+   "System runs read-only learner SQL (SELECT statements only) inside a secure, isolated PostgreSQL 17 sandbox and grades by semantic and result correctness — executing against multiple test datasets including edge cases and verifying required concept usage when the question mandates a technique — never by exact string matching. DML/DDL knowledge is assessed through MCQ and essay items and is never executed.",
+   "DBCAS (Core System)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 10,
+  "cells": [
+   "FR-10",
+   "Rubric-Guided Essay Scoring",
+   "System evaluates technical written explanations against administrator rubrics with LLM assistance, providing score breakdowns and constructive feedback. Every submission is reviewed by an administrator, who checks SQL and essay evidence, adjusts scores if needed, and approves publication.",
+   "DBCAS, LLM Provider, Administrator"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 11,
+  "cells": [
+   "FR-11",
+   "Evidence Storage",
+   "System stores standardized grading evidence for every answer in an organized record capturing the question, question type, PostgreSQL concept, difficulty, learner answer, grading result, and validation information, timestamped per session.",
+   "DBCAS (Core System)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 12,
+  "cells": [
+   "FR-12",
+   "Concept Competency Calculation",
+   "System calculates learner competency levels for each concept deterministically by comparing points earned against total points possible for that concept in a session, and pools point totals across all published sessions for the cumulative profile.",
+   "DBCAS (Core System)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 13,
+  "cells": [
+   "FR-13",
+   "Visual Competency Profiles",
+   "System renders interactive radar and bar charts showing the learner's mastery across core PostgreSQL concepts, including a cumulative view built only from published sessions.",
+   "Learner, Administrator"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 14,
+  "cells": [
+   "FR-14",
+   "Competency Gap Diagnosis & Study Guidance",
+   "System flags concepts below the expected standard using cumulative published evidence, then presents them after the competency profile as a “What to study next” list ordered by shortfall from target. Each item names the concept and shows its description when available; LLM assistance provides an evidence-linked explanation without changing scores or topic order.",
+   "Learner, DBCAS, LLM Provider"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 15,
+  "cells": [
+   "FR-15",
+   "Practice Plan Assembly",
+   "System freezes the selected concepts, difficulty bands, question count and source before question one, then assembles and stores the complete ordered plan, spreads it across the selected concepts as far as the count allows, meets the exact count, avoids duplicate version families, and serves only content-validated items (approved bank or auto-validated AI-source items) with confirmed concept tags. SQL items always come from the validated bank. With source AI, MCQ and essay items may be generated and must pass automated checks before entering the plan; Administrator approval is required only when a candidate is promoted into the validated bank; a single bank_mixed notice is shown when bank items fill part of an AI plan. An insufficient bank stops the start with an explicit shortage explanation instead of a reduced or relaxed session.",
+   "DBCAS (Core System)"
+  ]
+ },
+ {
+  "table": 11,
+  "row": 16,
+  "cells": [
+   "FR-16",
+   "User Registration & Role Management",
+   "System lets new users register with email/password or Google/GitHub OAuth (verified email) and creates a Learner account only. Administrator accounts are provisioned only by existing administrators, start disabled, and all role changes are recorded in an immutable audit log. A Learner may request promotion to Administrator; an existing administrator with role-management capability reviews and grants or denies the request through the audited role-management workflow (no self-service promotion endpoint).",
+   "Learner, Administrator"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 0,
+  "cells": [
+   "NFR ID",
+   "Quality Area",
+   "Target Requirement & Acceptance Standard",
+   "Technical Approach"
+  ]
+ },
+ {
+  "table": 12,
+  "row": 1,
+  "cells": [
+   "NFR-01",
+   "Response Time",
+   "Web pages load within 1.5 seconds; API endpoints respond within 500 milliseconds for standard requests.",
+   "FastAPI asynchronous routes and optimized frontend bundles."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 2,
+  "cells": [
+   "NFR-02",
+   "Sandbox Security",
+   "Learner SQL queries run inside a dedicated isolated container with a 3-second statement timeout and limited memory, preventing server overloads.",
+   "A dedicated Docker container running PostgreSQL with a read-only learner role that accepts SELECT statements only, enforced statement timeouts, disabled network access, and no access to production data."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 3,
+  "cells": [
+   "NFR-03",
+   "Service Reliability",
+   "Web platform maintains dependable uptime during scheduled learner practice sessions.",
+   "Containerized deployment with automatic health monitoring and restart policies."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 4,
+  "cells": [
+   "NFR-04",
+   "Ease of Use",
+   "Interface is intuitive and easy to navigate on standard learner laptops and desktop monitors.",
+   "Tailwind CSS responsive design with clear layouts and visual progress indicators."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 5,
+  "cells": [
+   "NFR-05",
+   "Scoring Consistency",
+   "Automated essay evaluation follows structured rubrics closely, yielding consistent results across repeated runs.",
+   "Structured prompt design with low temperature settings, fixed seeds, versioned prompts and rubrics, strict JSON schemas, and deterministic validation rules."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 6,
+  "cells": [
+   "NFR-06",
+   "Concurrent Learners",
+   "Platform easily handles a full class section of 100 learners taking a practice session at the same time.",
+   "Stateless backend design with PostgreSQL connection pooling."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 7,
+  "cells": [
+   "NFR-07",
+   "Learner Privacy",
+   "Learner names and identifying numbers are removed before any text is sent to external LLM Provider APIs for essay grading, mapping/tag suggestions, or gap explanations. Unpublished scores, provisional competency profiles and gap results are withheld from the learner until the administrator approves and publishes the session, and are visible only to authorized reviewers before that point.",
+   "Data sanitization gateway that strips personal details before external API requests; release-scoped read checks ensure only published results enter learner-facing profiles and analytics."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 8,
+  "cells": [
+   "NFR-08",
+   "Code Quality",
+   "Clean, well-documented source code with automated unit tests for core backend services.",
+   "Automated unit test suite (pytest) executed before merges with clear documentation."
+  ]
+ },
+ {
+  "table": 12,
+  "row": 9,
+  "cells": [
+   "NFR-09",
+   "Runtime Question Generation",
+   "In the default bank source, AI-generated question candidates never block or fail a practice session; automated checks and Administrator approval precede bank entry. In the optional AI source, a failed generation falls back to bank items with a single bank_mixed notice instead of serving an unvalidated item.",
+   "Generate-ahead pipeline with PostgreSQL-backed checks, Administrator approval, a frozen validated practice plan, a validated item pool for BANK mode, and fail-closed AI delivery with an audited notice."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 0,
+  "cells": [
+   "Category",
+   "Constraint / Assumption Item",
+   "Detailed Technical Scope & Rationale"
+  ]
+ },
+ {
+  "table": 13,
+  "row": 1,
+  "cells": [
+   "Technical Constraints",
+   "SQL Sandbox Resource Limits",
+   "Learner SQL queries run inside a dedicated Docker sandbox container with memory capped at 256 MB and execution capped at 3 seconds via statement_timeout to prevent server overloads or runaway queries. The sandbox accepts read-only SELECT statements only; DML/DDL are assessed through MCQ and essay."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 2,
+  "cells": [
+   "Technical Constraints",
+   "External LLM Provider Limits & Latency",
+   "External language model API calls are managed using PostgreSQL-backed response caching, durable asynchronous grading jobs in the FastAPI backend, and a cost-effective model from the configured provider to avoid delays."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 3,
+  "cells": [
+   "Technical Constraints",
+   "Modern Web Browser Compatibility",
+   "The web interface runs smoothly on standard modern browsers (Chrome, Edge, Firefox, Safari) using standard HTML5/CSS without requiring custom browser plugins."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 4,
+  "cells": [
+   "Technical Constraints",
+   "OAuth Provider Integration",
+   "Google/GitHub sign-in and sign-up use signed state, Google PKCE, verified email and a single-use handoff. Login and Register always show both choices; an unconfigured provider offers email sign-in. Matching verified emails link one account without changing roles. Both email and OAuth issue rotating access/refresh sessions; provider tokens are never stored or exposed to the browser."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 5,
+  "cells": [
+   "Academic & AI Ethics",
+   "Administrator-Configured Evaluation & Assistive AI",
+   "The external LLM Provider assists with essay scoring against administrator-configured rubrics and generates evidence-linked gap explanations; it does not determine final competency. Administrators configure essay rubrics and review every submission; the platform applies a 70% passing target per concept. DBCAS deterministically aggregates recorded answer evidence into concept scores and ranks below-benchmark concepts by shortfall; every submission requires administrator approval of SQL and essay scores before publication. Gap explanations cannot change scores or order."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 6,
+  "cells": [
+   "Academic Constraints",
+   "15-Week Capstone Timeline",
+   "All design, implementation, testing, and documentation must conclude within the university 15-week Capstone 1 timeframe, finishing with formal defense in late December 2026."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 7,
+  "cells": [
+   "Academic Constraints",
+   "Independent Benchmark Test Data",
+   "To avoid administrative delays obtaining live university student records, the team utilizes a self-contained benchmark dataset of sample questions, schemas, and answers."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 8,
+  "cells": [
+   "Project Assumptions",
+   "Learner Background Knowledge",
+   "Learners using the platform possess basic computer literacy and have attended introductory lectures on relational database concepts and basic SQL syntax."
+  ]
+ },
+ {
+  "table": 13,
+  "row": 9,
+  "cells": [
+   "Project Assumptions",
+   "Standard Computing Curriculum",
+   "The course syllabus adheres to standard ACM/IEEE computing curriculum guidelines covering relational modeling, SQL syntax, and normalization up to Third Normal Form."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 0,
+  "cells": [
+   "Stakeholder / Role",
+   "Background & Context",
+   "Current Needs & Frustrations",
+   "Value Provided by DBCAS"
+  ]
+ },
+ {
+  "table": 14,
+  "row": 1,
+  "cells": [
+   "Learner(Primary Human Actor)",
+   "Undergraduate Computer Science and Software Engineering students taking Database Systems coursework.",
+   "• Frustrated by single exam grades that do not explain mistakes. • Want fast feedback on coding and conceptual questions. • Need to know what to study first after seeing their weak areas. • Want practice that targets their own skills and difficulty.",
+   "• Visual competency profiles showing exact strengths and weaknesses. • Clear explanations of conceptual errors on homework and tests. • A prioritized list of weak topics to study next. • Personalized practice sessions, plus English/Vietnamese and theme preferences."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 2,
+  "cells": [
+   "Administrator(System Content Manager)",
+   "An authorized DBCAS Administrator responsible for the database course content, system settings, and the mandatory review and approval of results.",
+   "• Overwhelmed by the time needed to grade SQL queries and essays. • Difficult to see overall class performance across specific topics. • Hard to keep grading consistent across hundreds of written answers. • Need to review SQL and essay grades before releasing results.",
+   "• Automated grading saves hours of manual inspection. • Class-wide dashboards reveal topics where many learners struggle. • Easy-to-use question bank with reusable rubrics and CLO mappings. • A review-and-publish queue, role management, and immutable audit records."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 3,
+  "cells": [
+   "Academic Leader(Department Chair / Accreditation)",
+   "Academic leaders responsible for curriculum quality and program accreditation (ABET, AUN-QA).",
+   "• Hard to collect direct evidence measuring learner mastery of course goals.• Often reliant on subjective end-of-semester survey opinions.",
+   "• Direct, verifiable evidence tracking learner mastery of course outcomes.• Automated reports showing how well course learning goals are met."
+  ]
+ },
+ {
+  "table": 14,
+  "row": 4,
+  "cells": [
+   "Capstone Engineering Team(C1SE.70)",
+   "Final-year software engineering students designing and building the platform.",
+   "• Need to deliver a complete, high-quality software project on time.• Must demonstrate sound architecture and practical software value.",
+   "• Team experience building a modern full-stack web platform.• A solid, working capstone project ready for graduation defense."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 0,
+  "cells": [
+   "System Layer",
+   "Technology / Framework",
+   "Stable Version",
+   "Role in DBCAS & Technical Justification"
+  ]
+ },
+ {
+  "table": 15,
+  "row": 1,
+  "cells": [
+   "Presentation Layer (Frontend)",
+   "React.js + Vite (JavaScript / JSX) + i18next",
+   "React 19.3 / Vite 8.3.5 / i18next 26.4.3",
+   "Industry-standard component library using JavaScript (ES6+ / JSX) paired with Vite for fast build times, Hot Module Replacement (HMR), and a bilingual (English/Vietnamese) single-page interface."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 2,
+  "cells": [
+   "UI Styling & Visualization",
+   "Tailwind CSS & Chart.js",
+   "Tailwind 4.3 / Chart.js 4.5.1",
+   "Widely adopted utility CSS framework for clean layouts paired with a reliable charting library for interactive radar and bar charts."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 3,
+  "cells": [
+   "Backend API & Logic",
+   "FastAPI (Python)",
+   "FastAPI 0.141.1 (Python 3.13)",
+   "High-performance, widely supported Python asynchronous web framework for API endpoints, JWT authentication and OAuth 2.0 sign-in (Google, GitHub), and scoring logic."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 4,
+  "cells": [
+   "Database",
+   "PostgreSQL",
+   "PostgreSQL 17",
+   "Production-proven relational database for persistent storage of users, questions, scores, immutable evidence, review and release audit records, and cached LLM responses."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 5,
+  "cells": [
+   "Execution Sandbox",
+   "Docker Engine",
+   "Community Edition 29",
+   "Industry-standard container engine used to host a dedicated, isolated PostgreSQL sandbox for learner SQL queries with strict CPU and memory limits."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 6,
+  "cells": [
+   "AI Service Integration",
+   "External LLM Provider APIs(any provider)",
+   "Standard REST APIs (Stable)",
+   "Integration with external LLM provider APIs (provider-agnostic; no vendor lock-in) using structured JSON prompts for rubric-guided essay grading."
+  ]
+ },
+ {
+  "table": 15,
+  "row": 7,
+  "cells": [
+   "Version Control",
+   "Git & GitHub",
+   "Git 2.54+ / GitHub Platform",
+   "Standard version control system and hosting platform for team collaboration and code reviews."
+  ]
+ },
+ {
+  "table": 16,
+  "row": 0,
+  "cells": [
+   "Sprint / Milestone",
+   "Official Calendar Dates",
+   "Main Engineering Tasks & Deliverables",
+   "Lead Member(s)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 1,
+  "cells": [
+   "Preparation Phase",
+   "28/07/2026 – 14/08/2026",
+   "• Team formed (C1SE.70); set up code repositories and project management workspace.• Initial research into database assessment problems and project feasibility.",
+   "All Team Members(Thu Lead)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 2,
+  "cells": [
+   "Advisor Assignment",
+   "10/08/2026 – 16/08/2026",
+   "• Official faculty mentor assigned (MSc. Huynh Duc Viet).• First supervisory meeting to define scope, project expectations, and academic requirements.",
+   "Thu, Viet Huynh (Mentor)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 3,
+  "cells": [
+   "Proposal Drafting",
+   "17/08/2026 – 23/08/2026",
+   "• Define project title, problem statement, literature research findings, and SMART objectives.• Draft proposal text and create system architecture diagrams.",
+   "Thu, Nguyen, Han"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 4,
+  "cells": [
+   "Proposal Submission",
+   "24/08/2026 – 05/09/2026",
+   "• Finalize official proposal document in both PDF and Word (.docx) formats (C1SE.70 DBCAS Proposal Version 1.1).• Prepare presentation slides for the faculty review panel.",
+   "Thu (Submit) &All Members"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 5,
+  "cells": [
+   "Sprint 1(Architecture & Design)",
+   "14/09/2026 – 27/09/2026",
+   "• Set up Git repository, Docker environment, and project development baseline.• Research database curriculum, define the Core PostgreSQL concept model, and design PostgreSQL 17 schema.",
+   "Truong, Do, Nguyen"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 6,
+  "cells": [
+   "Sprint 2(Status Report 1)",
+   "28/09/2026 – 11/10/2026",
+   "• Build user authentication (JWT) and role-based permissions (Learner / Administrator).• Develop rule-based MCQ scoring, integrate interactive SQL query editor, and submit Status Report 1 (03/10).",
+   "Do, Nguyen, Thu"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 7,
+  "cells": [
+   "Sprint 3(Status Report 2)",
+   "12/10/2026 – 25/10/2026",
+   "• Build Docker SQL execution sandbox with timeout/memory limits and safety validation.• Integrate LLM API for essay scoring with 4-level rubrics; assemble question bank and submit Status Report 2 (17/10).",
+   "Do, Truong, Nguyen"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 8,
+  "cells": [
+   "Midterm Preparation (Buffer Week)",
+   "26/10/2026 – 31/10/2026",
+   "• Polish the end-to-end prototype and fix integration defects. • Prepare and rehearse the midterm demonstration.",
+   "All Team Members (Thu Lead)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 9,
+  "cells": [
+   "Midterm Review(Official Milestone 1)",
+   "01/11/2026 – 07/11/2026",
+   "• Demonstrate working end-to-end prototype to faculty review committee (MCQ, SQL sandbox, and AI essay scoring).• Present system architecture, database design, and initial test results.",
+   "All Team Members(Thu Lead)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 10,
+  "cells": [
+   "Sprint 4(Status Report 3)",
+   "08/11/2026 – 22/11/2026",
+   "• Build competency scoring engine across the PostgreSQL concept model.• Develop the learner radar chart dashboard, competency gap detection, and the ranked “What to study next” list; submit Status Report 3 (20/11).",
+   "Do, Thu, Han"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 11,
+  "cells": [
+   "Sprint 5(Status Report 4)",
+   "23/11/2026 – 06/12/2026",
+   "• Develop the personalized plan assembly engine with difficulty bands, format quotas, and validated-bank coverage logic. • Build administrator cohort overview API; conduct system integration testing and submit Status Report 4 (05/12).",
+   "Do, Nguyen, Han"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 12,
+  "cells": [
+   "Final Submission(Official Delivery)",
+   "10/12/2026 – 13/12/2026",
+   "• Conduct performance optimization, security checks, and code freeze.• Submit complete Capstone 1 documentation in PDF and Word formats, source code, and demonstration video.",
+   "All Team Members(Thu Lead)"
+  ]
+ },
+ {
+  "table": 16,
+  "row": 13,
+  "cells": [
+   "Capstone Defense(Official Milestone 2)",
+   "17/12/2026 – 26/12/2026",
+   "• Rehearse defense presentation, prepare live software demonstration, and finalize slide deck.• Defend Capstone Project 1 before the faculty academic committee.",
+   "All Team Members(Thu Lead)"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 0,
+  "cells": [
+   "Major Project Deliverable / Task",
+   "Thu",
+   "Nguyen",
+   "Truong",
+   "Do",
+   "Han"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 1,
+  "cells": [
+   "Project Coordination, Scrum Meetings & Backlog",
+   "A / R",
+   "C",
+   "I",
+   "I",
+   "C"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 2,
+  "cells": [
+   "Requirements Gathering & Software Specifications",
+   "A",
+   "R",
+   "C",
+   "C",
+   "R"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 3,
+  "cells": [
+   "Relational Database Architecture & Queries",
+   "I",
+   "C",
+   "A / R",
+   "C",
+   "I"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 4,
+  "cells": [
+   "Frontend UI Development & Visual Dashboards",
+   "A / R",
+   "I",
+   "I",
+   "C",
+   "R"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 5,
+  "cells": [
+   "Docker SQL Execution Sandbox Setup",
+   "C",
+   "R",
+   "I",
+   "A / R",
+   "I"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 6,
+  "cells": [
+   "Rubric Essay Grading & AI Integration",
+   "I",
+   "R",
+   "C",
+   "A / R",
+   "C"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 7,
+  "cells": [
+   "Concept Competency Calculation Logic",
+   "C",
+   "R",
+   "C",
+   "A / R",
+   "C"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 8,
+  "cells": [
+   "Question Banks, Rubrics & Benchmark Data",
+   "I",
+   "I",
+   "A / R",
+   "I",
+   "R"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 9,
+  "cells": [
+   "System Testing, Quality Assurance & User Feedback",
+   "C",
+   "R",
+   "C",
+   "C",
+   "A / R"
+  ]
+ },
+ {
+  "table": 17,
+  "row": 10,
+  "cells": [
+   "Final Report Writing & Presentation Preparation",
+   "A / R",
+   "R",
+   "R",
+   "R",
+   "R"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 0,
+  "cells": [
+   "No.",
+   "Prompt Design Principle",
+   "Technical Implementation in DBCAS",
+   "Quality & Fairness Safeguard"
+  ]
+ },
+ {
+  "table": 18,
+  "row": 1,
+  "cells": [
+   "1",
+   "Deterministic Scoring Controls",
+   "API temperature is set to a low value (temperature = 0.1) with fixed seeds across repeated calls.",
+   "Prevents random score variations and ensures identical learner answers receive consistent grades."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 2,
+  "cells": [
+   "2",
+   "Strict JSON Output Schema",
+   "Language model output is constrained to a predefined JSON schema containing numeric scores, rubric levels, and cited text.",
+   "Enables reliable automated parsing by the FastAPI backend and prevents free-form text hallucinations."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 3,
+  "cells": [
+   "3",
+   "Rubric-Guided Few-Shot Prompts",
+   "Prompts include explicit rubric level definitions (Complete, Mostly Complete, Partial, Incomplete) with concrete grading examples.",
+   "Ensures the AI acts strictly as an objective rubric evaluator rather than an unconstrained chatbot."
+  ]
+ },
+ {
+  "table": 18,
+  "row": 4,
+  "cells": [
+   "4",
+   "Administrator-Configured Evaluation Rules",
+   "Administrators configure essay rubrics and review every submission, apply the platform's 70% passing target, and approve AI-generated question candidates before bank entry. The LLM provides rubric-assisted essay scores and evidence-linked gap explanations. DBCAS applies fixed rules to recorded answer evidence to compute concept competency and rank gaps by shortfall; gap explanations do not change scores or order. Every submission requires administrator approval of SQL and essay scores before publication.",
+   "Keeps evaluation rules and validated question content under Administrator control, with defined system rules for scores and rankings and human sign-off where required."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 0,
+  "cells": [
+   "Risk ID & Category",
+   "Specific Risk Description",
+   "Likelihood & Impact",
+   "Mitigation Strategy"
+  ]
+ },
+ {
+  "table": 19,
+  "row": 1,
+  "cells": [
+   "RSK-01Technical / Security",
+   "Learners writing harmful SQL queries or infinite loops that could overload the server.",
+   "Likelihood: LowImpact: High",
+   "• Enforce a strict 3-second statement timeout and a 256 MB memory limit on the sandbox container. • Run queries in an isolated, unprivileged container under a read-only role and accept SELECT statements only; DML/DDL are assessed through MCQ and essay. • Roll back every learner transaction and reset the sandbox schema between assessment sessions."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 2,
+  "cells": [
+   "RSK-02AI Consistency",
+   "Language model giving slightly different scores or inaccurate feedback on written essay answers.",
+   "Likelihood: MediumImpact: Medium",
+   "• Use low temperature settings and require structured JSON output. • Grade using detailed rubrics that require citing specific sentences from learner answers. • Route every session through the administrator review queue and publish only after approval."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 3,
+  "cells": [
+   "RSK-03API Cost & Latency",
+   "External LLM Provider fees or slow network responses during busy assessment sessions.",
+   "Likelihood: MediumImpact: Medium",
+   "• Use a fast, cost-effective model from the chosen LLM provider. • Cache identical evaluation queries in a PostgreSQL table and process grading as durable asynchronous jobs."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 4,
+  "cells": [
+   "RSK-04Dataset Access",
+   "Limited access to real university learner exam archives due to school privacy policies.",
+   "Likelihood: HighImpact: Medium",
+   "• Build a self-contained benchmark dataset of realistic, difficulty-tagged sample questions, schemas, and answers large enough to support personalized plan assembly. • Include common learner mistakes to test the evaluation pipeline thoroughly."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 5,
+  "cells": [
+   "RSK-05Schedule Delays",
+   "Sprint tasks running behind schedule, risking university review deadlines.",
+   "Likelihood: MediumImpact: High",
+   "• Follow strict two-week sprints with velocity tracking at every retrospective.• Focus on completing core features first for a solid Midterm demonstration."
+  ]
+ },
+ {
+  "table": 19,
+  "row": 6,
+  "cells": [
+   "RSK-06 Personalized Plan Quality",
+   "A personalized selection repeatedly over-samples narrow or poorly matched questions, producing an inaccurate ability estimate.",
+   "Likelihood: LowImpact: Medium",
+   "• Spread the plan across the selected concepts as far as the count allows: freeze the complete practice plan before serving and disclose any widening to related concepts or bands. • Log every selection decision and use validated fallback items so no session waits for AI generation."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 0,
+  "cells": [
+   "No.",
+   "Deliverable Item",
+   "Detailed Description of Artifact",
+   "Delivery Format"
+  ]
+ },
+ {
+  "table": 20,
+  "row": 1,
+  "cells": [
+   "1",
+   "Working DBCAS Web Application",
+   "A deployed web platform featuring OAuth and email/password sign-in, role management, personalized practice sessions, a read-only SQL sandbox, radar competency charts, cumulative gap reports with a ranked “What to study next” list, and administrator portals for curriculum, question bank, result review and approval, and cohort performance.",
+   "Deployed online application with live demonstration URL and setup guide."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 2,
+  "cells": [
+   "2",
+   "Complete Source Code Repository",
+   "Clean, modular source code for the React frontend (JavaScript / JSX), FastAPI backend, Docker sandbox scripts, and evaluation modules, following standard coding guidelines.",
+   "GitHub repository containing documentation, Docker Compose setup, and build scripts."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 3,
+  "cells": [
+   "3",
+   "Benchmark Datasets & Rubrics",
+   "• Standard database course learning outcomes and PostgreSQL concept taxonomy.• Question bank with multiple-choice, SQL query, and short essay items tagged by concept and difficulty level.• Clear grading rubrics and sample learner answers for testing.",
+   "Structured JSON, CSV, and SQL seed files stored in the project repository."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 4,
+  "cells": [
+   "4",
+   "Technical Documentation Suite",
+   "• Software Requirements Specification (SRS) following standard IEEE guidelines.• Software Design Document (SDD) with architecture diagrams and database schemas.• Test plan and test execution report with automated test results.• Learner user guide and administrator management manual.",
+   "Standardized PDF and Word (.docx) documents included in the project release."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 5,
+  "cells": [
+   "5",
+   "Capstone 1 Academic Report",
+   "Comprehensive academic thesis document formatted according to Duy Tan University guidelines, explaining the problem, architecture, evaluation methods, and testing results.",
+   "Official PDF and Word (.docx) documents submitted to the review committee."
+  ]
+ },
+ {
+  "table": 20,
+  "row": 6,
+  "cells": [
+   "6",
+   "Presentation Slides & Defense Materials",
+   "• Comprehensive slide deck prepared for the capstone defense before the faculty academic committee.• Live demonstration environment showcasing core learner assessment and administrator management workflows.",
+   "Presentation slides in PowerPoint and PDF formats, accompanied by demo walkthrough notes."
+  ]
+ }
+]

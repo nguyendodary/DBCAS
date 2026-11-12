@@ -1,0 +1,1355 @@
+[
+  {
+    "id": 2,
+    "type": "mcq",
+    "prompt": "Which clause filters rows in a SELECT statement?",
+    "ref": null,
+    "expl": null,
+    "diff": 1,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "WHERE",
+        true
+      ],
+      [
+        "B",
+        "ORDER BY",
+        false
+      ],
+      [
+        "C",
+        "GROUP BY",
+        false
+      ],
+      [
+        "D",
+        "LIMIT",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Trong câu lệnh SELECT, mệnh đề nào dùng để lọc các dòng?",
+        null,
+        {
+          "A": "WHERE",
+          "B": "ORDER BY",
+          "C": "GROUP BY",
+          "D": "LIMIT"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 3,
+    "type": "mcq",
+    "prompt": "Which join returns only matching rows from both tables?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "INNER JOIN",
+        true
+      ],
+      [
+        "B",
+        "LEFT JOIN",
+        false
+      ],
+      [
+        "C",
+        "CROSS JOIN",
+        false
+      ],
+      [
+        "D",
+        "FULL JOIN",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Phép JOIN nào chỉ trả về các dòng có bản ghi khớp ở cả hai bảng?",
+        null,
+        {
+          "A": "INNER JOIN",
+          "B": "LEFT JOIN",
+          "C": "CROSS JOIN",
+          "D": "FULL JOIN"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 4,
+    "type": "sql",
+    "prompt": "Write a query that returns all customer names from the customers table.",
+    "ref": "SELECT name FROM customers",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "basic",
+        false,
+        {
+          "rows": [
+            [
+              "Alice"
+            ]
+          ],
+          "columns": [
+            "name"
+          ]
+        }
+      ],
+      [
+        "edge",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "name"
+          ]
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Hãy viết truy vấn liệt kê tên của tất cả khách hàng trong bảng customers.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 5,
+    "type": "essay",
+    "prompt": "Explain why indexes speed up reads but slow down writes.",
+    "ref": null,
+    "expl": null,
+    "diff": 3,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [
+      [
+        "Missing",
+        "0.00",
+        "0.00",
+        "No relevant content"
+      ],
+      [
+        "Partial",
+        "1.00",
+        "3.00",
+        "Mentions lookup benefit OR write cost"
+      ],
+      [
+        "Complete",
+        "4.00",
+        "5.00",
+        "Covers B-tree lookup cost and write amplification"
+      ]
+    ],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Giải thích vì sao chỉ mục (index) giúp tăng tốc độ đọc dữ liệu nhưng làm chậm thao tác ghi.",
+        null,
+        {},
+        {
+          "Missing": {
+            "label": "Thiếu nội dung",
+            "criteria": "Không có nội dung liên quan."
+          },
+          "Partial": {
+            "label": "Đạt một phần",
+            "criteria": "Nêu được lợi ích của việc tra cứu hoặc chi phí ghi dữ liệu."
+          },
+          "Complete": {
+            "label": "Đáp ứng đầy đủ",
+            "criteria": "Trình bày được chi phí tra cứu bằng B-tree và hiện tượng tăng khối lượng ghi do phải cập nhật chỉ mục (write amplification)."
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "id": 6,
+    "type": "mcq",
+    "prompt": "Which SELECT clause chooses the returned attributes?",
+    "ref": null,
+    "expl": null,
+    "diff": 1,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "The projection list after SELECT",
+        true
+      ],
+      [
+        "B",
+        "The ORDER BY clause",
+        false
+      ],
+      [
+        "C",
+        "The HAVING clause",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Mệnh đề SELECT chọn những thuộc tính nào trong kết quả trả về?",
+        null,
+        {
+          "A": "Danh sách thuộc tính ngay sau SELECT",
+          "B": "Mệnh đề ORDER BY",
+          "C": "Mệnh đề HAVING"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 7,
+    "type": "mcq",
+    "prompt": "Which condition excludes a row whose amount is NULL?",
+    "ref": null,
+    "expl": null,
+    "diff": 1,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "amount IS NULL",
+        false
+      ],
+      [
+        "B",
+        "amount IS NOT DISTINCT FROM NULL",
+        false
+      ],
+      [
+        "C",
+        "amount >= 20",
+        true
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Điều kiện nào loại khỏi kết quả những dòng có amount bằng NULL?",
+        null,
+        {
+          "A": "amount IS NULL",
+          "B": "amount IS NOT DISTINCT FROM NULL",
+          "C": "amount >= 20"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 8,
+    "type": "mcq",
+    "prompt": "What does an INNER JOIN return when a row has no matching key?",
+    "ref": null,
+    "expl": null,
+    "diff": 1,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "It creates a matching record",
+        false
+      ],
+      [
+        "B",
+        "It excludes the unmatched row",
+        true
+      ],
+      [
+        "C",
+        "It always produces a NULL-extended row",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Nếu một dòng không có khóa khớp, INNER JOIN sẽ trả về gì?",
+        null,
+        {
+          "A": "Tạo thêm một dòng khớp",
+          "B": "Loại dòng không khớp khỏi kết quả",
+          "C": "Luôn tạo một dòng có các giá trị NULL được bổ sung"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 9,
+    "type": "mcq",
+    "prompt": "What does GROUP BY region_id establish for SUM(amount)?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "One aggregate result per region_id",
+        true
+      ],
+      [
+        "B",
+        "A sort order for individual sales",
+        false
+      ],
+      [
+        "C",
+        "A unique primary key on the table",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Khi tính SUM(amount), GROUP BY region_id tạo ra điều gì?",
+        null,
+        {
+          "A": "Một kết quả tổng hợp cho mỗi region_id",
+          "B": "Thứ tự sắp xếp cho từng giao dịch bán hàng",
+          "C": "Khóa chính duy nhất cho bảng"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 10,
+    "type": "mcq",
+    "prompt": "When is HAVING evaluated relative to grouping?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "Before WHERE filters rows",
+        false
+      ],
+      [
+        "B",
+        "Only before the join",
+        false
+      ],
+      [
+        "C",
+        "After groups and aggregates are formed",
+        true
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "HAVING được đánh giá ở thời điểm nào so với bước gom nhóm?",
+        null,
+        {
+          "A": "Trước khi WHERE lọc các dòng",
+          "B": "Chỉ trước phép nối",
+          "C": "Sau khi các nhóm và giá trị tổng hợp đã được tạo"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 11,
+    "type": "mcq",
+    "prompt": "What happens when a scalar aggregate subquery computes AVG on no non-NULL values?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "It inserts a missing value",
+        false
+      ],
+      [
+        "B",
+        "It returns NULL",
+        true
+      ],
+      [
+        "C",
+        "It always returns zero",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Điều gì xảy ra nếu một truy vấn con vô hướng tính AVG nhưng không có giá trị nào khác NULL?",
+        null,
+        {
+          "A": "Chèn vào một giá trị còn thiếu",
+          "B": "Trả về NULL",
+          "C": "Luôn trả về 0"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 12,
+    "type": "mcq",
+    "prompt": "How is a many-to-many relationship mapped to relational tables?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "Use a junction table referencing both entity keys",
+        true
+      ],
+      [
+        "B",
+        "Place a comma-separated key list in one column",
+        false
+      ],
+      [
+        "C",
+        "Merge every entity into a single row",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Cách nào ánh xạ một mối quan hệ nhiều-nhiều thành các bảng quan hệ?",
+        null,
+        {
+          "A": "Dùng bảng kết hợp tham chiếu đến khóa của cả hai thực thể",
+          "B": "Lưu danh sách khóa phân tách bằng dấu phẩy trong một cột",
+          "C": "Gộp mọi thực thể vào cùng một dòng"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 13,
+    "type": "mcq",
+    "prompt": "Which change addresses a repeating multivalued attribute?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "Store the values as a longer delimited string",
+        false
+      ],
+      [
+        "B",
+        "Duplicate every unrelated attribute",
+        false
+      ],
+      [
+        "C",
+        "Move its values into a related relation with atomic attributes",
+        true
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Thay đổi nào xử lý thuộc tính đa trị lặp lại?",
+        null,
+        {
+          "A": "Lưu các giá trị thành một chuỗi phân tách dài hơn",
+          "B": "Sao chép mọi thuộc tính không liên quan",
+          "C": "Chuyển các giá trị sang một quan hệ liên quan có các thuộc tính nguyên tố"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 14,
+    "type": "mcq",
+    "prompt": "What does the dependency student_id -> email mean?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "The attributes must be equal",
+        false
+      ],
+      [
+        "B",
+        "Each student_id determines at most one email value",
+        true
+      ],
+      [
+        "C",
+        "Each email must determine a student_id",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Phụ thuộc student_id -> email có nghĩa là gì?",
+        null,
+        {
+          "A": "Hai thuộc tính phải có giá trị bằng nhau",
+          "B": "Mỗi student_id xác định nhiều nhất một giá trị email",
+          "C": "Mỗi email phải xác định một student_id"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 15,
+    "type": "mcq",
+    "prompt": "Which representation satisfies atomic attribute values?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "One enrollment record per student and course",
+        true
+      ],
+      [
+        "B",
+        "A course column containing a list of course IDs",
+        false
+      ],
+      [
+        "C",
+        "Repeating course_1, course_2, course_3 columns",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Cách biểu diễn nào đáp ứng yêu cầu mỗi thuộc tính chứa một giá trị nguyên tố?",
+        null,
+        {
+          "A": "Mỗi dòng đăng ký ứng với một sinh viên và một học phần",
+          "B": "Lưu danh sách course ID trong một cột course",
+          "C": "Tạo các cột course_1, course_2, course_3 lặp lại"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 16,
+    "type": "mcq",
+    "prompt": "Which dependency violates 2NF for a non-prime attribute with composite key (student_id, course_id)?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "(student_id, course_id) -> grade",
+        false
+      ],
+      [
+        "B",
+        "student_id -> student_id",
+        false
+      ],
+      [
+        "C",
+        "student_id -> student_name",
+        true
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Phụ thuộc nào vi phạm 2NF đối với thuộc tính không khóa khi khóa ghép là (student_id, course_id)?",
+        null,
+        {
+          "A": "(student_id, course_id) -> grade",
+          "B": "student_id -> student_id",
+          "C": "student_id -> student_name"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 17,
+    "type": "mcq",
+    "prompt": "Which decomposition addresses student_id -> dept_id -> dept_name?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "Replace dept_id with a comma-separated list",
+        false
+      ],
+      [
+        "B",
+        "Keep department names in a department relation keyed by dept_id",
+        true
+      ],
+      [
+        "C",
+        "Add dept_name to every composite key",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Cách phân rã nào xử lý chuỗi phụ thuộc student_id -> dept_id -> dept_name?",
+        null,
+        {
+          "A": "Thay dept_id bằng danh sách phân tách bằng dấu phẩy",
+          "B": "Lưu tên phòng ban trong một quan hệ riêng, dùng dept_id làm khóa",
+          "C": "Thêm dept_name vào mọi khóa ghép"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 18,
+    "type": "sql",
+    "prompt": "Return the id and amount of every sale.",
+    "ref": "SELECT id, amount FROM sales",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "regular",
+        false,
+        {
+          "rows": [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              20
+            ],
+            [
+              3,
+              30
+            ],
+            [
+              4,
+              null
+            ]
+          ],
+          "columns": [
+            "id",
+            "amount"
+          ],
+          "check_columns": true
+        }
+      ],
+      [
+        "empty-sales",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "id",
+            "amount"
+          ],
+          "check_columns": true
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Liệt kê id và amount của mọi dòng trong sales.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 19,
+    "type": "sql",
+    "prompt": "Return IDs of sales with an amount of at least 20.",
+    "ref": "SELECT id FROM sales WHERE amount >= 20",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "regular",
+        false,
+        {
+          "rows": [
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          "columns": [
+            "id"
+          ],
+          "check_columns": true
+        }
+      ],
+      [
+        "empty-sales",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "id"
+          ],
+          "check_columns": true
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Liệt kê id của các dòng sales có amount từ 20 trở lên.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 20,
+    "type": "sql",
+    "prompt": "Return each sale ID and its matching region label using a JOIN.",
+    "ref": "SELECT s.id, r.label FROM sales s JOIN regions r ON r.id=s.region_id",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "regular",
+        false,
+        {
+          "rows": [
+            [
+              1,
+              "North"
+            ],
+            [
+              2,
+              "North"
+            ],
+            [
+              3,
+              "South"
+            ],
+            [
+              4,
+              "South"
+            ]
+          ],
+          "columns": [
+            "id",
+            "label"
+          ],
+          "check_columns": true
+        }
+      ],
+      [
+        "empty-sales",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "id",
+            "label"
+          ],
+          "check_columns": true
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Dùng JOIN để liệt kê id của từng dòng sales cùng label của region tương ứng.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 21,
+    "type": "sql",
+    "prompt": "Return each region_id and the total non-NULL sale amount using GROUP BY.",
+    "ref": "SELECT region_id, SUM(amount) AS total FROM sales GROUP BY region_id",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "regular",
+        false,
+        {
+          "rows": [
+            [
+              1,
+              30
+            ],
+            [
+              2,
+              30
+            ]
+          ],
+          "columns": [
+            "region_id",
+            "total"
+          ],
+          "check_columns": true
+        }
+      ],
+      [
+        "empty-sales",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "region_id",
+            "total"
+          ],
+          "check_columns": true
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Dùng GROUP BY để liệt kê từng region_id cùng tổng amount, không tính các giá trị NULL.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 22,
+    "type": "sql",
+    "prompt": "Return grouped region IDs with a total sale amount of at least 30 using HAVING.",
+    "ref": "SELECT region_id FROM sales GROUP BY region_id HAVING SUM(amount) >= 30",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "regular",
+        false,
+        {
+          "rows": [
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          "columns": [
+            "region_id"
+          ],
+          "check_columns": true
+        }
+      ],
+      [
+        "empty-sales",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "region_id"
+          ],
+          "check_columns": true
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Dùng HAVING để liệt kê các nhóm region_id có tổng amount từ 30 trở lên.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 23,
+    "type": "sql",
+    "prompt": "Return IDs of sales above the overall average amount, using a subquery.",
+    "ref": "SELECT id FROM sales WHERE amount > (SELECT AVG(amount) FROM sales)",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [],
+    "datasets": [
+      [
+        "regular",
+        false,
+        {
+          "rows": [
+            [
+              3
+            ]
+          ],
+          "columns": [
+            "id"
+          ],
+          "check_columns": true
+        }
+      ],
+      [
+        "empty-sales",
+        true,
+        {
+          "rows": [],
+          "columns": [
+            "id"
+          ],
+          "check_columns": true
+        }
+      ]
+    ],
+    "translations": [
+      [
+        "vi",
+        "Dùng truy vấn con để liệt kê id của các dòng sales có amount lớn hơn mức trung bình của toàn bộ sales.",
+        null,
+        {},
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 24,
+    "type": "essay",
+    "prompt": "For Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), assume (student_id, course_id) is the key and student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Explain the ER relationships, functional dependencies and a decomposition from 1NF through 2NF to 3NF. Justify lossless joins and dependency preservation.",
+    "ref": "Separate Student(student_id, student_name, dept_id), Department(dept_id, dept_name), Course(course_id, course_title), and Enrollment(student_id, course_id, grade). Identify partial dependencies on student_id and course_id and the transitive department dependency. Enrollment represents the many-to-many association. Key-based joins reconstruct enrollment facts without spurious tuples and each specified dependency is enforced in a relation.",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [
+      [
+        "Incomplete",
+        "0.00",
+        "1.24",
+        "No coherent dependency analysis or valid decomposition"
+      ],
+      [
+        "Partial",
+        "1.25",
+        "2.49",
+        "Identifies at least one relevant dependency but decomposition is incomplete"
+      ],
+      [
+        "Mostly Complete",
+        "2.50",
+        "3.74",
+        "Provides correct dependency analysis and decomposition with a minor omission in justification"
+      ],
+      [
+        "Complete",
+        "3.75",
+        "5.00",
+        "Identifies keys and dependencies, reaches the stated normal form, and justifies lossless join and dependency preservation"
+      ]
+    ],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Với Enrollment(student_id, student_name, course_id, course_title, dept_id, dept_name, grade), giả sử (student_id, course_id) là khóa và có các phụ thuộc hàm student_id -> student_name, course_id -> course_title, student_id -> dept_id, dept_id -> dept_name. Hãy phân tích các mối quan hệ ER, các phụ thuộc hàm và cách phân rã lược đồ từ 1NF qua 2NF đến 3NF. Giải thích vì sao phép nối không mất mát và các phụ thuộc được bảo toàn.",
+        null,
+        {},
+        {
+          "Partial": {
+            "label": "Đạt một phần",
+            "criteria": "Nêu được ít nhất một phụ thuộc liên quan nhưng phép phân rã chưa đầy đủ."
+          },
+          "Complete": {
+            "label": "Hoàn chỉnh",
+            "criteria": "Xác định đúng khóa và các phụ thuộc, đạt dạng chuẩn yêu cầu, đồng thời giải thích được tính nối không mất mát và bảo toàn phụ thuộc."
+          },
+          "Incomplete": {
+            "label": "Chưa đạt",
+            "criteria": "Không phân tích phụ thuộc một cách mạch lạc hoặc không đưa ra được phép phân rã hợp lệ."
+          },
+          "Mostly Complete": {
+            "label": "Gần hoàn chỉnh",
+            "criteria": "Phân tích phụ thuộc và phép phân rã đúng, nhưng phần giải thích còn thiếu một ý nhỏ."
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "id": 25,
+    "type": "mcq",
+    "prompt": "Which command changes values in existing rows while preserving the table definition?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "SELECT",
+        false
+      ],
+      [
+        "B",
+        "CREATE TABLE",
+        false
+      ],
+      [
+        "C",
+        "UPDATE",
+        true
+      ],
+      [
+        "D",
+        "ALTER TABLE",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Lệnh nào thay đổi giá trị trong các dòng hiện có mà vẫn giữ nguyên định nghĩa bảng?",
+        null,
+        {
+          "A": "SELECT",
+          "B": "CREATE TABLE",
+          "C": "UPDATE",
+          "D": "ALTER TABLE"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 26,
+    "type": "mcq",
+    "prompt": "Which statement defines a table and its referential integrity constraint?",
+    "ref": null,
+    "expl": null,
+    "diff": 2,
+    "points": "1.00",
+    "tags": [],
+    "refs": [],
+    "options": [
+      [
+        "A",
+        "CREATE TABLE with a FOREIGN KEY",
+        true
+      ],
+      [
+        "B",
+        "INSERT with a WHERE clause",
+        false
+      ],
+      [
+        "C",
+        "UPDATE with a JOIN",
+        false
+      ],
+      [
+        "D",
+        "SELECT with GROUP BY",
+        false
+      ]
+    ],
+    "rubrics": [],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Câu lệnh nào định nghĩa một bảng cùng ràng buộc toàn vẹn tham chiếu?",
+        null,
+        {
+          "A": "CREATE TABLE có FOREIGN KEY",
+          "B": "INSERT có mệnh đề WHERE",
+          "C": "UPDATE có JOIN",
+          "D": "SELECT có GROUP BY"
+        },
+        {}
+      ]
+    ]
+  },
+  {
+    "id": 27,
+    "type": "essay",
+    "prompt": "For Department(dept_id, name) and Employee(employee_id, dept_id, salary), explain how DDL defines keys and referential integrity and how INSERT, UPDATE and DELETE modify data. Describe a targeted salary update, the risk of a missing WHERE clause, and how foreign keys constrain deleting a department. Explain why these statements are described here rather than executed in this read-only assessment sandbox.",
+    "ref": "CREATE TABLE or ALTER TABLE defines structure, primary keys and a foreign key from Employee.dept_id to Department.dept_id. INSERT adds rows, UPDATE changes existing values and DELETE removes rows. A salary update uses a predicate identifying intended employees; omitting WHERE can update every row. A referenced department deletion is rejected unless its declared referential action permits it; do not assume cascading deletion. These are conceptual answers: learner sandbox execution accepts only read-only SELECT and rolls back, so it cannot run DML/DDL.",
+    "expl": null,
+    "diff": 2,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [
+      [
+        "Incomplete",
+        "0.00",
+        "1.24",
+        "No coherent distinction between DML and DDL or safe integrity reasoning"
+      ],
+      [
+        "Partial",
+        "1.25",
+        "2.49",
+        "Identifies one command category but omits predicates or key integrity"
+      ],
+      [
+        "Mostly Complete",
+        "2.50",
+        "3.74",
+        "Correctly distinguishes commands and targeted changes with a minor omission in referential integrity or sandbox restrictions"
+      ],
+      [
+        "Complete",
+        "3.75",
+        "5.00",
+        "Correct DDL keys and foreign key, DML distinctions, targeted-update safety, declared deletion behavior and read-only assessment boundary"
+      ]
+    ],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Với Department(dept_id, name) và Employee(employee_id, dept_id, salary), hãy giải thích DDL dùng để định nghĩa khóa và toàn vẹn tham chiếu như thế nào, còn INSERT, UPDATE và DELETE thay đổi dữ liệu ra sao. Mô tả cách cập nhật lương có điều kiện cụ thể, rủi ro khi thiếu WHERE, và việc khóa ngoại giới hạn thao tác xóa một phòng ban như thế nào. Giải thích vì sao các câu lệnh này chỉ được mô tả, không thực thi trong môi trường đánh giá chỉ đọc.",
+        null,
+        {},
+        {
+          "Partial": {
+            "label": "Đạt một phần",
+            "criteria": "Nhận biết được một nhóm lệnh nhưng chưa đề cập điều kiện lọc hoặc tính toàn vẹn của khóa."
+          },
+          "Complete": {
+            "label": "Hoàn chỉnh",
+            "criteria": "Mô tả đúng DDL, khóa ngoại, các lệnh DML, cách cập nhật có điều kiện để tránh rủi ro, hành vi xóa đã nêu và giới hạn chỉ đọc của môi trường đánh giá."
+          },
+          "Incomplete": {
+            "label": "Chưa đạt",
+            "criteria": "Không phân biệt được DML với DDL một cách mạch lạc hoặc chưa nêu được cách bảo toàn tính toàn vẹn dữ liệu."
+          },
+          "Mostly Complete": {
+            "label": "Gần hoàn chỉnh",
+            "criteria": "Phân biệt đúng các lệnh và mô tả cập nhật có điều kiện, nhưng còn thiếu một ý nhỏ về khóa ngoại hoặc giới hạn của môi trường đánh giá."
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "id": 450,
+    "type": "essay",
+    "prompt": "A PostgreSQL table is read frequently by a filtered column and also receives frequent INSERT and UPDATE operations. Explain how adding a B-tree index affects both workloads, and when that index may not be worthwhile.",
+    "ref": null,
+    "expl": null,
+    "diff": 3,
+    "points": "5.00",
+    "tags": [],
+    "refs": [],
+    "options": [],
+    "rubrics": [
+      [
+        "Incomplete",
+        "0.00",
+        "1.24",
+        "Does not identify a relevant effect of the index on either the filtered reads or the writes"
+      ],
+      [
+        "Partial",
+        "1.25",
+        "2.49",
+        "Correctly identifies either faster filtered reads or added INSERT and UPDATE work, but does not explain the other workload"
+      ],
+      [
+        "Mostly Complete",
+        "2.50",
+        "3.74",
+        "Explains both faster filtered reads and index maintenance on writes, but gives an incomplete reason for when the index may not be worthwhile"
+      ],
+      [
+        "Complete",
+        "3.75",
+        "5.00",
+        "Explains selective B-tree lookups, maintenance cost on INSERT and UPDATE, and a justified case where low selectivity or write-heavy use does not merit the index"
+      ]
+    ],
+    "datasets": [],
+    "translations": [
+      [
+        "vi",
+        "Một bảng PostgreSQL thường được tra cứu theo một cột có điều kiện lọc, đồng thời có nhiều thao tác INSERT và UPDATE. Hãy giải thích việc thêm chỉ mục B-tree ảnh hưởng thế nào đến cả hai loại thao tác và khi nào chỉ mục đó có thể không đáng tạo.",
+        null,
+        {},
+        {
+          "Partial": {
+            "label": "Đạt một phần",
+            "criteria": "Nêu đúng việc tra cứu có điều kiện lọc nhanh hơn hoặc công việc phát sinh khi INSERT và UPDATE, nhưng chưa giải thích loại thao tác còn lại."
+          },
+          "Complete": {
+            "label": "Đáp ứng đầy đủ",
+            "criteria": "Giải thích được việc tra cứu chọn lọc bằng B-tree, chi phí cập nhật chỉ mục khi INSERT và UPDATE, và nêu có căn cứ trường hợp độ chọn lọc thấp hoặc thao tác ghi quá nhiều khiến chỉ mục không đáng tạo."
+          },
+          "Incomplete": {
+            "label": "Chưa đạt",
+            "criteria": "Chưa nêu đúng tác động liên quan của chỉ mục đối với thao tác tra cứu có điều kiện lọc hoặc thao tác ghi."
+          },
+          "Mostly Complete": {
+            "label": "Gần đầy đủ",
+            "criteria": "Giải thích được cả lợi ích khi tra cứu và chi phí duy trì chỉ mục khi ghi, nhưng chưa lý giải đầy đủ trường hợp chỉ mục không đáng tạo."
+          }
+        }
+      ]
+    ]
+  }
+]

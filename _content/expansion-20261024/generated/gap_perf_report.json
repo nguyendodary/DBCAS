@@ -1,0 +1,35 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap_perf.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:59:44.680845+00:00",
+  "questions": [
+    {
+      "key": "perf-easy-default-index-type",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-INDEX-TYPES"
+      ],
+      "status": "validated",
+      "question_id": 643,
+      "question_status": "validated"
+    },
+    {
+      "key": "perf-easy-planner-statistics",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-STATS"
+      ],
+      "status": "validated",
+      "question_id": 644,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:59:45.538929+00:00",
+  "summary": {
+    "validated": 2
+  }
+}

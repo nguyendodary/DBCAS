@@ -1,0 +1,13 @@
+{
+ "tables": 41,
+ "columns": 293,
+ "foreign_keys": 59,
+ "migrations": 19,
+ "pages": 5,
+ "legacy": [
+  "assessment",
+  "assessment_concept",
+  "assessment_question",
+  "assessment_blueprint"
+ ]
+}

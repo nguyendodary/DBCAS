@@ -1,0 +1,1956 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.practice.config.js",
+      "--repeat-each=3"
+    ],
+    "configFile": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\playwright.practice.config.js",
+    "rootDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/frontend/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "demo": true,
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/_review/practice-browser",
+        "repeatEach": 3,
+        "retries": 0,
+        "metadata": {
+          "demo": true,
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/frontend/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "practice-flows.spec.js",
+          "browser-qa.spec.js"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\practice-browser",
+        "repeatEach": 3,
+        "retries": 0,
+        "metadata": {
+          "demo": true,
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e",
+        "snapshotDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "practice-flows.spec.js",
+          "browser-qa.spec.js"
+        ],
+        "timeout": 180000,
+        "use": {
+          "baseURL": "http://127.0.0.1:18080",
+          "browserName": "chromium",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "actionTimeout": 20000,
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../_review/practice-browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "browser-qa.spec.js",
+      "file": "browser-qa.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "a stalled workspace module offers Retry and recovers when the download completes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18499,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:02:09.561Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-25c3c65ee45fd10d19b4",
+          "file": "browser-qa.spec.js",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "two tabs and a double click commit one answer and restore the next question",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18047,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:02:28.359Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-8458ac5268ea138a8366",
+          "file": "browser-qa.spec.js",
+          "line": 70,
+          "column": 1
+        },
+        {
+          "title": "paused provider is bounded after reload and Retry keeps a cached result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15884,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:02:46.423Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-3aecf911ba171314660d",
+          "file": "browser-qa.spec.js",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "two tabs renew genuinely expired authentication and retain the saved draft",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 63887,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:03:02.327Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-16158aeef53f54d16072",
+          "file": "browser-qa.spec.js",
+          "line": 165,
+          "column": 1
+        },
+        {
+          "title": "a stalled workspace module offers Retry and recovers when the download completes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17395,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:08:47.868Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-2d1b5089270553a44343",
+          "file": "browser-qa.spec.js",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "two tabs and a double click commit one answer and restore the next question",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16715,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:09:05.507Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-2b6880d436ab2b42f8eb",
+          "file": "browser-qa.spec.js",
+          "line": 70,
+          "column": 1
+        },
+        {
+          "title": "paused provider is bounded after reload and Retry keeps a cached result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16241,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:09:22.240Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-3a0dbc96a0b791ff73b8",
+          "file": "browser-qa.spec.js",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "two tabs renew genuinely expired authentication and retain the saved draft",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 63710,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:09:38.500Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-a2309ef34a8bc8d266d4",
+          "file": "browser-qa.spec.js",
+          "line": 165,
+          "column": 1
+        },
+        {
+          "title": "a stalled workspace module offers Retry and recovers when the download completes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:47.980Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-fd206fe9990c44fcba18",
+          "file": "browser-qa.spec.js",
+          "line": 20,
+          "column": 1
+        },
+        {
+          "title": "two tabs and a double click commit one answer and restore the next question",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25341,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:15:06.339Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-4d2a2baec48387e427e7",
+          "file": "browser-qa.spec.js",
+          "line": 70,
+          "column": 1
+        },
+        {
+          "title": "paused provider is bounded after reload and Retry keeps a cached result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 26264,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:15:31.699Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-ae96d49377269c48c052",
+          "file": "browser-qa.spec.js",
+          "line": 127,
+          "column": 1
+        },
+        {
+          "title": "two tabs renew genuinely expired authentication and retain the saved draft",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 64439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:15:57.986Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "50e9c67b48ddc46764f0-25fc7621f963a4a5ae87",
+          "file": "browser-qa.spec.js",
+          "line": 165,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "practice-flows.spec.js",
+      "file": "practice-flows.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulative trend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 71075,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:04:06.258Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "arithmetic",
+                      "contentType": "application/json",
+                      "body": "W3siZWFybmVkIjoxLjE1LCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MTYuNDN9LHsiZWFybmVkIjoxLjE5LCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MTd9LHsiZWFybmVkIjoyLjEzLCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MzAuNDN9XQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-b04571d36228f4bf41dc",
+          "file": "practice-flows.spec.js",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "AI-generated source stays inside chosen concepts and hard difficulty",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17738,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:05:17.355Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-9ad17d138a130352c74a",
+          "file": "practice-flows.spec.js",
+          "line": 86,
+          "column": 1
+        },
+        {
+          "title": "Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 90427,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:05:35.110Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-89a8c34420cbca172bdc",
+          "file": "practice-flows.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "Admin navigation has five focused screens and no exam creation surface",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4433,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:07:05.556Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-28141816e28045292525",
+          "file": "practice-flows.spec.js",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "390px mobile learner setup, attempt and evaluation fit the viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21856,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:07:10.006Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-a08fc38c5228f8013d12",
+          "file": "practice-flows.spec.js",
+          "line": 244,
+          "column": 1
+        },
+        {
+          "title": "provider outage uses a bounded fallback and caches the unchanged evaluation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18308,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:07:31.883Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-5e4590c38dea38a10909",
+          "file": "practice-flows.spec.js",
+          "line": 275,
+          "column": 1
+        },
+        {
+          "title": "AI provider failure fills the exact count from the validated bank",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25556,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:07:50.211Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-d9b9d935d2dd44b6bd98",
+          "file": "practice-flows.spec.js",
+          "line": 320,
+          "column": 1
+        },
+        {
+          "title": "AI generation timeout falls back within the request deadline at exact count",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24347,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:08:15.784Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-e1a26e9d984322898c07",
+          "file": "practice-flows.spec.js",
+          "line": 350,
+          "column": 1
+        },
+        {
+          "title": "transport failure offers one-click retry with unchanged setup and request id",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5811,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:08:40.146Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-96855257bffe8e5dda91",
+          "file": "practice-flows.spec.js",
+          "line": 380,
+          "column": 1
+        },
+        {
+          "title": "bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulative trend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 68392,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:10:42.254Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "arithmetic",
+                      "contentType": "application/json",
+                      "body": "W3siZWFybmVkIjoyLjE1LCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MzAuNzF9LHsiZWFybmVkIjoyLjE2LCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MzAuODZ9LHsiZWFybmVkIjoxLjIyLCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MTcuNDN9XQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-4e4381b1d41ed5fc61b7",
+          "file": "practice-flows.spec.js",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "AI-generated source stays inside chosen concepts and hard difficulty",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21591,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:11:50.671Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-eaec9449b67c0016340a",
+          "file": "practice-flows.spec.js",
+          "line": 86,
+          "column": 1
+        },
+        {
+          "title": "Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden result",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 151820,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/Thành công · 1 dòng/)\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/Thành công · 1 dòng/) with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/Thành công · 1 dòng/)\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/Thành công · 1 dòng/)\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/Thành công · 1 dòng/) with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/Thành công · 1 dòng/)\u001b[22m\n\n    at C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js:177:58",
+                    "location": {
+                      "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                      "column": 58,
+                      "line": 177
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 175 |\u001b[39m     })\n \u001b[90m 176 |\u001b[39m     \u001b[36mawait\u001b[39m admin\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Chạy SQL kiểm tra'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mclick()\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 177 |\u001b[39m     \u001b[36mawait\u001b[39m expect(admin\u001b[33m.\u001b[39mgetByText(\u001b[35m/Thành công · 1 dòng/\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\n \u001b[90m     |\u001b[39m                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 178 |\u001b[39m     \u001b[36mconst\u001b[39m sql \u001b[33m=\u001b[39m admin\u001b[33m.\u001b[39mgetByLabel(\u001b[32m'SQL kiểm tra (chỉ SELECT)'\u001b[39m)\n \u001b[90m 179 |\u001b[39m     \u001b[36mawait\u001b[39m sql\u001b[33m.\u001b[39mfill(\u001b[32m'DELETE FROM students'\u001b[39m)\n \u001b[90m 180 |\u001b[39m     \u001b[36mawait\u001b[39m admin\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Chạy SQL kiểm tra'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "column": 58,
+                        "line": 177
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/Thành công · 1 dòng/)\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/Thành công · 1 dòng/) with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/Thành công · 1 dòng/)\u001b[22m\n\n\n  175 |     })\n  176 |     await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()\n> 177 |     await expect(admin.getByText(/Thành công · 1 dòng/)).toBeVisible()\n      |                                                          ^\n  178 |     const sql = admin.getByLabel('SQL kiểm tra (chỉ SELECT)')\n  179 |     await sql.fill('DELETE FROM students')\n  180 |     await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()\n    at C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js:177:58"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:12:12.278Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\practice-browser\\practice-flows-Flow-2-admi-9559e--approves-the-hidden-result-repeat1\\test-failed-1.png"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\practice-browser\\practice-flows-Flow-2-admi-9559e--approves-the-hidden-result-repeat1\\test-failed-2.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\practice-browser\\practice-flows-Flow-2-admi-9559e--approves-the-hidden-result-repeat1\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\_review\\practice-browser\\practice-flows-Flow-2-admi-9559e--approves-the-hidden-result-repeat1\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "column": 58,
+                    "line": 177
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-9c6a597fffd947e00c12",
+          "file": "practice-flows.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "Admin navigation has five focused screens and no exam creation surface",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:46.601Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "98b54721df4128b8c127-106d8fdd18925d6e9431",
+          "file": "practice-flows.spec.js",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "390px mobile learner setup, attempt and evaluation fit the viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:46.601Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "98b54721df4128b8c127-deec4aa6caf053ec10ee",
+          "file": "practice-flows.spec.js",
+          "line": 244,
+          "column": 1
+        },
+        {
+          "title": "provider outage uses a bounded fallback and caches the unchanged evaluation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:46.602Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "98b54721df4128b8c127-30e96ed1cb18056951bd",
+          "file": "practice-flows.spec.js",
+          "line": 275,
+          "column": 1
+        },
+        {
+          "title": "AI provider failure fills the exact count from the validated bank",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:46.602Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "98b54721df4128b8c127-224ac3d235bc230766a9",
+          "file": "practice-flows.spec.js",
+          "line": 320,
+          "column": 1
+        },
+        {
+          "title": "AI generation timeout falls back within the request deadline at exact count",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:46.602Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "98b54721df4128b8c127-3ad3c966ce732d4abc6a",
+          "file": "practice-flows.spec.js",
+          "line": 350,
+          "column": 1
+        },
+        {
+          "title": "transport failure offers one-click retry with unchanged setup and request id",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:14:46.602Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "98b54721df4128b8c127-6643e7066fb5bd94dc51",
+          "file": "practice-flows.spec.js",
+          "line": 380,
+          "column": 1
+        },
+        {
+          "title": "bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulative trend",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 84340,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:17:02.498Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "name": "arithmetic",
+                      "contentType": "application/json",
+                      "body": "W3siZWFybmVkIjoxLCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MTQuMjl9LHsiZWFybmVkIjoxLjE0LCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MTYuMjl9LHsiZWFybmVkIjoxLjEzLCJwb3NzaWJsZSI6NywicGVyY2VudGFnZSI6MTYuMTR9XQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-7cd070f68fd14247877c",
+          "file": "practice-flows.spec.js",
+          "line": 16,
+          "column": 1
+        },
+        {
+          "title": "AI-generated source stays inside chosen concepts and hard difficulty",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22544,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:18:26.865Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-e7099b5e3750d1f5bbd8",
+          "file": "practice-flows.spec.js",
+          "line": 86,
+          "column": 1
+        },
+        {
+          "title": "Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 89102,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:18:49.430Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-9b265b7e87803fe1ac54",
+          "file": "practice-flows.spec.js",
+          "line": 148,
+          "column": 1
+        },
+        {
+          "title": "Admin navigation has five focused screens and no exam creation surface",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5214,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:20:18.558Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-5b2753e56fcbbc742e98",
+          "file": "practice-flows.spec.js",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "390px mobile learner setup, attempt and evaluation fit the viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 129046,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:20:23.792Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-5c213db5267ba399b601",
+          "file": "practice-flows.spec.js",
+          "line": 244,
+          "column": 1
+        },
+        {
+          "title": "provider outage uses a bounded fallback and caches the unchanged evaluation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 78516,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:22:32.879Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-0c6112b82ee8a584b2f3",
+          "file": "practice-flows.spec.js",
+          "line": 275,
+          "column": 1
+        },
+        {
+          "title": "AI provider failure fills the exact count from the validated bank",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 43514,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:23:51.417Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-fab21169887e6d08a54a",
+          "file": "practice-flows.spec.js",
+          "line": 320,
+          "column": 1
+        },
+        {
+          "title": "AI generation timeout falls back within the request deadline at exact count",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 26357,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:24:34.948Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-9d2a366383dbd99f6191",
+          "file": "practice-flows.spec.js",
+          "line": 350,
+          "column": 1
+        },
+        {
+          "title": "transport failure offers one-click retry with unchanged setup and request id",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [
+                {
+                  "type": "serial",
+                  "location": {
+                    "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                    "line": 0,
+                    "column": 0
+                  }
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6725,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T08:25:01.321Z",
+                  "annotations": [
+                    {
+                      "type": "serial",
+                      "location": {
+                        "file": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\practice-flows.spec.js",
+                        "line": 0,
+                        "column": 0
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "98b54721df4128b8c127-cc8b264ace6fedcbb724",
+          "file": "practice-flows.spec.js",
+          "line": 380,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-11T08:02:08.847Z",
+    "duration": 1380889.111,
+    "expected": 32,
+    "skipped": 6,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

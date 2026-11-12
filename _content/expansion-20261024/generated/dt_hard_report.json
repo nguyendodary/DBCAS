@@ -1,0 +1,79 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dt_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:55:46.587590+00:00",
+  "questions": [
+    {
+      "key": "dt-hard-numeric-vs-float-round",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TYPE-NUM"
+      ],
+      "status": "validated",
+      "question_id": 608,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-hard-date-difference",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TYPE-DATE"
+      ],
+      "status": "validated",
+      "question_id": 609,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-hard-bool-aggregate",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TYPE-BOOL"
+      ],
+      "status": "validated",
+      "question_id": 610,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-hard-char-concatenation",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TYPE-CHAR"
+      ],
+      "status": "validated",
+      "question_id": 611,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-hard-domain-constraints",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-DOMAIN"
+      ],
+      "status": "validated",
+      "question_id": 612,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-hard-inet-containment",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TYPE-MISC"
+      ],
+      "status": "validated",
+      "question_id": 613,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:55:49.007944+00:00",
+  "summary": {
+    "validated": 6
+  }
+}

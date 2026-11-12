@@ -1,0 +1,160 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\sf_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:39:58.716073+00:00",
+  "questions": [
+    {
+      "key": "sf-hard-merge-actions",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 548,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-on-conflict-expression-index",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 549,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-on-conflict-duplicate-source",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 550,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-deferrable-fk",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 551,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-generated-stored",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 552,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-alter-type-using",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 553,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-create-like-including",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 554,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-truncate-restart",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 555,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-updatable-view",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 556,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-fk-match-simple",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 557,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-view-join-filter",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 558,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-unique-null-groups",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 559,
+      "question_status": "validated"
+    },
+    {
+      "key": "sf-hard-delete-truncate-drop",
+      "question_type": "essay",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "SQL-DML-KNOW",
+        "SQL-DDL-KNOW"
+      ],
+      "status": "validated",
+      "question_id": 560,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:40:03.285814+00:00",
+  "summary": {
+    "validated": 13
+  }
+}

@@ -38,25 +38,22 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..errors import AppError
-from ..models import Account, Assessment, AssessmentSession, Attempt, Question, SessionQuestionPlan
+from ..models import Account, Assessment, AssessmentSession, Attempt, Question
 from ..repositories import AssessmentRepository
 from ..schemas import (
     EvidenceItem,
     EvidenceRubric,
     EvidenceResult,
     McqOptionResult,
-    EvidenceMcqOption,
     ConceptRef,
     ServedMcqOption,
     ServedQuestion,
     ServeResult,
     SessionStateResult,
 )
-from . import competency_service
 from .session_guard import (
     load_owned_active_session,
     load_owned_finalized_session,
@@ -73,7 +70,6 @@ QUOTA_PRESSURE_THRESHOLD = Decimal("0.5")
 
 
 def _served_question(repo: AssessmentRepository, attempt: Attempt, locale="en") -> ServedQuestion:
-    from .dataset_preview import dataset_tables
     q = question_view(attempt, locale)
     concepts = [t.concept.concept_name for t in q.concept_tags if t.confirmed and t.concept]
     options = [
@@ -86,8 +82,11 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt, locale="en") 
     ] if q.question_type == "mcq" else []
     schema_sql = None
     if q.question_type == "sql":
-        datasets = q.datasets if attempt.question_snapshot else repo.get_datasets_for_question(q.question_id)
-        dataset = next((d for d in datasets if not d.is_edge_case), datasets[0] if datasets else None)
+        dataset = next(
+            (d for d in (q.datasets if attempt.question_snapshot else repo.get_datasets_for_question(q.question_id))
+             if not d.is_edge_case),
+            None,
+        )
         schema_sql = dataset.setup_sql if dataset else None
     return ServedQuestion(
         attempt_id=attempt.attempt_id,
@@ -100,77 +99,28 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt, locale="en") 
         points=q.points,
         concepts=concepts,
         options=options,
-        multiple_answers=sum(bool(option.is_correct) for option in q.options) > 1 if q.question_type == "mcq" else False,
         schema_sql=schema_sql,
-        data_tables=dataset_tables(schema_sql) if schema_sql else [],
         submitted_at=attempt.submitted_at,
         selected_option_id=attempt.selected_option_id,
-        selected_option_ids=getattr(attempt, "selected_option_ids", None) or ([attempt.selected_option_id] if attempt.selected_option_id is not None else []),
         sql_answer=attempt.sql_answer,
         essay_answer=attempt.essay_answer,
         score=attempt.score,
-        draft=attempt.draft_answer if attempt.draft_answer is not None else (
-            {"selected_option_ids": attempt.selected_option_ids or ([attempt.selected_option_id] if attempt.selected_option_id is not None else [])}
-            if q.question_type == "mcq" else {"sql_answer": attempt.sql_answer} if q.question_type == "sql" else {"essay_answer": attempt.essay_answer}
-        ) if attempt.submitted_at is not None else attempt.draft_answer,
+        draft=attempt.draft_answer,
         draft_revision=attempt.draft_revision,
         grading_status=attempt.grading_status,
     )
-
-
-def free_navigation(repo, session, attempts=None):
-    if (session.config_snapshot or {}).get("navigation_mode") == "FREE":
-        return True
-    attempts = attempts if attempts is not None else repo.session_attempts(session.session_id)
-    assessment = assessment_view(session, repo)
-    return len(attempts) == assessment.max_questions and repo.db.scalar(
-        select(SessionQuestionPlan.session_id).where(SessionQuestionPlan.session_id == session.session_id).limit(1)
-    ) is not None
-
-
-def enable_navigation(db, session_id, learner):
-    """Freeze the remaining legacy questions without replacing saved evidence."""
-    from collections import Counter
-    from .personalized_assessment import select_questions, serve_planned
-    repo = AssessmentRepository(db)
-    session = load_owned_active_session(repo, session_id, learner)
-    attempts = repo.session_attempts(session_id)
-    if free_navigation(repo, session, attempts):
-        return _state(repo, session)
-    assessment = assessment_view(session, repo)
-    if (session.config_snapshot or {}).get("question_plan"):
-        for seq in range(len(attempts) + 1, assessment.max_questions + 1):
-            serve_planned(repo, session, seq)
-    else:
-        counts = Counter(question_view(a).question_type for a in attempts)
-        extra = assessment.max_questions - assessment.target_mcq - assessment.target_sql - assessment.target_essay
-        quotas = {kind: max(0, count - counts[kind]) for kind, count in
-                  (("mcq", assessment.target_mcq + extra), ("sql", assessment.target_sql), ("essay", assessment.target_essay))}
-        if sum(quotas.values()) != assessment.max_questions - len(attempts):
-            raise AppError(409, "question_mix_changed", "The existing session has a different question mix and cannot be expanded safely")
-        chosen = select_questions(_eligible_pool(assessment, {a.question_id for a in attempts}, repo), [], quotas)
-        chosen.sort(key=lambda q: ({"mcq": 0, "sql": 1, "essay": 2}[q.question_type], q.difficulty_level))
-        for question in sorted(chosen, key=lambda q: q.question_id):
-            db.scalar(select(Question).where(Question.question_id == question.question_id).with_for_update(read=True))
-        for seq, question in enumerate(chosen, len(attempts) + 1):
-            _serve(repo, session, question, seq, {"phase": "fixed_navigation", "wanted_type": question.question_type})
-        db.add_all([SessionQuestionPlan(session_id=session_id, seq_no=a.seq_no, question_id=a.question_id)
-                    for a in repo.session_attempts(session_id)])
-    db.commit()
-    return _state(repo, session)
 
 
 def _state(
     repo: AssessmentRepository,
     session: AssessmentSession,
     assessment: Assessment = None,
+    display_locale: str | None = None,
 ) -> SessionStateResult:
+    from .batch_adaptive import progress
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
-    free = free_navigation(repo, session, attempts)
-    def answered(a):
-        return a.submitted_at is not None or any(bool(v.strip()) if isinstance(v, str) else bool(v) for v in (a.draft_answer or {}).values())
-    pending = next((a for a in attempts if not answered(a)), attempts[0] if free and attempts else None)
+    pending = next((a for a in attempts if a.submitted_at is None), None)
     now = repo.server_time()
     expires_at = session.expires_at
     if expires_at.tzinfo is None:
@@ -180,17 +130,23 @@ def _state(
         started_at = started_at.replace(tzinfo=timezone.utc)
     finalized = session.status != "in_progress"
     return SessionStateResult(
-        navigation_mode="FREE" if free else "SEQUENTIAL",
-        questions=[_served_question(repo, a, session.locale or "en") for a in attempts] if free and not finalized else [],
         session_id=session.session_id,
         assessment_id=session.assessment_id,
         assessment_title=assessment.title,
+        question_source=(session.config_snapshot or {}).get("source"),
+        generation_fallback=(session.config_snapshot or {}).get("generation_fallback", False),
+        bank_mixed=(session.config_snapshot or {}).get("bank_mixed", False),
+        template_fallback=(session.config_snapshot or {}).get("template_fallback", False),
+        ai_generated_count=(session.config_snapshot or {}).get("ai_generated_count", 0),
+        generation_diagnostics=(session.config_snapshot or {}).get("generation_diagnostics", []),
+        selection_notice=(session.config_snapshot or {}).get("selection_notice"),
         locale=session.locale or "en",
         result_release_policy=session.result_release_policy,
         release_status=session.release_status,
         selected_concept_ids=(session.config_snapshot or {}).get("selected_concept_ids", []),
         difficulty=(session.config_snapshot or {}).get("difficulty"),
         assembly_mode=(session.config_snapshot or {}).get("assembly_mode"),
+        adaptive_progress=progress(session, attempts),
         status=session.status,
         started_at=started_at,
         expires_at=expires_at,
@@ -199,9 +155,9 @@ def _state(
         server_now=now,
         max_questions=assessment.max_questions,
         served_count=len(attempts),
-        answered_count=sum(1 for a in attempts if answered(a)) if free else sum(1 for a in attempts if a.submitted_at is not None),
-        current_question=_served_question(repo, pending, session.locale or "en") if pending else None,
-        done=finalized if free else finalized or len(attempts) >= assessment.max_questions,
+        answered_count=sum(1 for a in attempts if a.submitted_at is not None),
+        current_question=_served_question(repo, pending, display_locale or session.locale or "en") if pending else None,
+        done=finalized or len(attempts) >= assessment.max_questions,
     )
 
 
@@ -290,7 +246,6 @@ def _pick(
 ) -> tuple[Optional[Question], dict]:
     """Choose the next question; returns (question, decision_detail)."""
     served = len(attempts)
-    seq_no = served + 1
     ranges = {
         t.concept_id: (t.min_difficulty, t.max_difficulty)
         for t in assessment.targets
@@ -462,21 +417,17 @@ def start_session(
     from .question_localization import normalize_locale
     session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at,
                                   locale=normalize_locale(locale), result_release_policy=assessment.result_release_policy)
-    from .personalized_assessment import select_questions
-    pool = _eligible_pool(assessment, set(), repo)
-    extra = assessment.max_questions - assessment.target_mcq - assessment.target_sql - assessment.target_essay
-    chosen = select_questions(pool, [], {"mcq": assessment.target_mcq + extra,
-                                        "sql": assessment.target_sql, "essay": assessment.target_essay})
-    # Lock in a stable order, then freeze every item before a learner starts.
-    for question in sorted(chosen, key=lambda q: q.question_id):
-        db.scalar(select(Question).where(Question.question_id == question.question_id).with_for_update(read=True))
-    eligible_ids = {q.question_id for q, _ in _eligible_pool(assessment, set(), repo)}
-    if any(q.question_id not in eligible_ids for q in chosen):
-        raise AppError(409, "question_bank_changed", "The question bank changed. Please retry.")
-    chosen.sort(key=lambda q: ({"mcq": 0, "sql": 1, "essay": 2}[q.question_type], q.difficulty_level))
-    session.config_snapshot = {**capture_assessment(assessment), "navigation_mode": "FREE"}
-    for seq, question in enumerate(chosen, 1):
-        _serve(repo, session, question, seq, {"phase": "fixed", "wanted_type": question.question_type})
+    session.config_snapshot = capture_assessment(assessment)
+
+    question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo, opening_only=True))
+    if question is None:
+        db.rollback()
+        raise AppError(
+            409,
+            "no_questions_available",
+            "This assessment has no servable validated questions",
+        )
+    _serve(repo, session, question, 1, detail)
     db.commit()
     return _state(repo, session, assessment)
 
@@ -493,6 +444,13 @@ def serve_next(
     pending = next((a for a in attempts if a.submitted_at is None), None)
     if pending is not None:
         return ServeResult(done=False, question=_served_question(repo, pending, session.locale or "en"))
+
+    if (session.config_snapshot or {}).get("assembly_mode") == "ADAPTIVE":
+        from .batch_adaptive import advance
+        attempt = advance(repo, session, attempts)
+        if commit:
+            db.commit()
+        return ServeResult(done=attempt is None, question=_served_question(repo, attempt, session.locale or "en") if attempt else None)
 
     if len(attempts) >= assessment.max_questions:
         return ServeResult(done=True, question=None)
@@ -544,7 +502,7 @@ def _serve(
 
 
 def get_state(
-    db: Session, session_id: int, learner: Account
+    db: Session, session_id: int, learner: Account, display_locale: str | None = None
 ) -> SessionStateResult:
     """Current session state — flips an elapsed session to timed_out."""
     repo = AssessmentRepository(db)
@@ -552,11 +510,28 @@ def get_state(
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     _maybe_timeout(session, db)
-    return _state(repo, session)
+    return _state(repo, session, display_locale=display_locale)
+
+
+def served_questions(db: Session, session_id: int, learner: Account, display_locale=None):
+    """Read only the learner's already served snapshots, without grade evidence.
+
+    The adaptive order stays authoritative. Browsing cannot reveal future
+    questions, answer keys, grading fixtures, or unpublished official scores.
+    Submitted answers remain immutable through the existing submission path.
+    """
+    repo = AssessmentRepository(db)
+    session = load_owned_active_session(repo, session_id, learner)
+    questions = []
+    for attempt in repo.session_attempts(session_id):
+        question = _served_question(repo, attempt, display_locale or session.locale or "en")
+        question.score = None
+        questions.append(question)
+    return questions
 
 
 def finish_session(
-    db: Session, session_id: int, learner: Account, *, result_release_policy=None
+    db: Session, session_id: int, learner: Account
 ) -> SessionStateResult:
     """Learner submits the session (or it elapsed) -> finalize + recompute.
 
@@ -567,15 +542,6 @@ def finish_session(
     session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
-    if result_release_policy is not None:
-        if result_release_policy not in {"IMMEDIATE", "HUMAN_VERIFIED"}:
-            raise AppError(422, "invalid_release_policy", "Invalid result release choice")
-        if session.status == "in_progress" and session.release_policy_chosen_at is None:
-            session.result_release_policy = result_release_policy
-            session.release_policy_chosen_at = repo.server_time()
-            db.flush()  # Persist the choice before finalization/reconciliation.
-        elif session.result_release_policy != result_release_policy:
-            raise AppError(409, "release_choice_locked", "The submitted result release choice cannot be changed")
     from .assessment_lifecycle import finalize
     finalize(db, session)
     return _state(repo, session)
@@ -595,33 +561,31 @@ def _maybe_timeout(session: AssessmentSession, db: Session) -> None:
 
 
 def get_evidence(
-    db: Session, session_id: int, learner: Account
+    db: Session, session_id: int, learner: Account, display_locale: str | None = None
 ) -> EvidenceResult:
     """UC18 — per-question evidence records, finalized sessions only."""
+    from .batch_adaptive import progress
     repo = AssessmentRepository(db)
     session = load_owned_finalized_session(repo, session_id, learner)
     attempts = repo.session_attempts(session.session_id)
     items = []
     for a in attempts:
-        q = question_view(a, session.locale or "en")
-        feedback_ready = session.result_release_policy == "HUMAN_VERIFIED" or bool(a.review_revision)
+        q = question_view(a, display_locale or session.locale or "en")
         grading_detail = dict(a.grading_detail) if a.grading_detail else None
         content_locale = getattr(q, "content_locale", "en")
-        if grading_detail and content_locale != "en":
+        if grading_detail and content_locale != getattr(q, "original_locale", "en"):
             localized_rubrics = (a.question_snapshot or {}).get("localized_content", {}).get(content_locale, {}).get("rubrics", {})
             level = grading_detail.get("rubric_level")
             if level in localized_rubrics:
                 grading_detail["rubric_level_label"] = localized_rubrics[level].get("label", level)
         items.append(EvidenceItem(
-            feedback_pending=not feedback_ready,
-            reference_answer=q.reference_answer if feedback_ready else None,
             seq_no=a.seq_no,
             attempt_id=a.attempt_id,
             question_id=a.question_id,
             question_type=q.question_type,
             content_locale=content_locale,
             prompt=q.prompt,
-            explanation=q.explanation if feedback_ready else None,
+            explanation=q.explanation,
             difficulty_level=q.difficulty_level,
             points=q.points,
             concepts=[
@@ -633,11 +597,11 @@ def get_evidence(
                 for t in q.concept_tags if t.concept
             ],
             options=[
-                EvidenceMcqOption(
+                McqOptionResult(
                     option_id=o.option_id,
                     option_label=o.option_label,
                     option_text=o.option_text,
-                    is_correct=o.is_correct if feedback_ready else None,
+                    is_correct=o.is_correct,
                 )
                 for o in q.options
             ] if q.question_type == "mcq" else [],
@@ -647,16 +611,16 @@ def get_evidence(
                 min_score=r.min_score,
                 max_score=r.max_score,
                 criteria=r.criteria,
-            ) for r in q.rubrics] if q.question_type == "essay" and feedback_ready else [],
+            ) for r in q.rubrics] if q.question_type == "essay" else [],
             selected_option_id=a.selected_option_id,
-            selected_option_ids=getattr(a, "selected_option_ids", None) or ([a.selected_option_id] if a.selected_option_id is not None else []),
             sql_answer=a.sql_answer,
             essay_answer=a.essay_answer,
             score=a.score,
-            grading_detail=grading_detail if feedback_ready else None,
+            grading_detail=grading_detail,
             served_at=a.served_at,
             submitted_at=a.submitted_at,
         ))
     return EvidenceResult(
-        session_id=session.session_id, status=session.status, items=items
+        session_id=session.session_id, status=session.status, items=items,
+        adaptive_progress=progress(session, attempts)
     )

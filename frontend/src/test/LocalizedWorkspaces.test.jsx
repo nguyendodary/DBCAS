@@ -5,28 +5,102 @@ import { beforeEach, afterEach, expect, it, vi } from 'vitest'
 import api from '../api'
 import { i18n, setLocale, dateOnly } from '../i18n'
 import { useLocalizedValidation } from '../i18n/validation'
-import Assessments_User from '../pages/user/Assessments_User'
-import History_User from '../pages/user/History_User'
-import Questions_Admin from '../pages/admin/Questions_Admin'
-import Accounts_Admin from '../pages/admin/Accounts_Admin'
-import Curriculum_Admin from '../pages/admin/Curriculum_Admin'
-vi.mock('../api', async (original) => ({ ...(await original()), default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() } }))
-beforeEach(async () => { vi.clearAllMocks(); await i18n.changeLanguage('en') })
-afterEach(async () => { await act(() => i18n.changeLanguage('en')); localStorage.clear() })
-it('localizes the assessment list and preserves its real resume route and progress', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/assessments' ? [{ assessment_id: 3, title: 'Original title', duration_min: 60, max_questions: 13, concept_count: 2 }] : [{ session_id: 9, assessment_id: 3, status: 'in_progress', answered_count: 4, started_at: '2026-10-10T10:00:00Z' }] }))
-  render(<MemoryRouter><Assessments_User /></MemoryRouter>)
-  await screen.findByText('Original title')
+import AssessmentsPage from '../pages/AssessmentsPage'
+import HistoryPage from '../pages/HistoryPage'
+import AdminQuestionsPage from '../pages/admin/AdminQuestionsPage'
+import AdminAccountsPage from '../pages/admin/AdminAccountsPage'
+import AdminCurriculumPage from '../pages/admin/AdminCurriculumPage'
+vi.mock('../api', async (original) => ({
+  ...(await original()),
+  default: { get: vi.fn(), post: vi.fn(), put: vi.fn(), patch: vi.fn(), delete: vi.fn() },
+}))
+beforeEach(async () => {
+  vi.clearAllMocks()
+  await i18n.changeLanguage('en')
+})
+afterEach(async () => {
+  await act(() => i18n.changeLanguage('en'))
+  localStorage.clear()
+})
+
+it.each([true, false])(
+  'uses a reviewed bank prompt when available (%s) without rewriting the source or refetching',
+  async (reviewed) => {
+    const question = {
+      question_id: 19,
+      question_type: 'mcq',
+      prompt: 'Original bank prompt',
+      original_locale: 'en',
+      status: 'draft',
+      source: 'manual',
+      difficulty_level: 1,
+      points: '1',
+      concepts: [],
+      localized_prompts: reviewed ? { vi: 'Mệnh đề nào lọc dòng?' } : {},
+      translation_locales: reviewed ? ['vi'] : [],
+    }
+    api.get.mockImplementation((url) =>
+      Promise.resolve({ data: url === '/admin/questions' ? [question] : [] }),
+    )
+    render(<AdminQuestionsPage />)
+    await screen.findByText('Original bank prompt')
+    await act(() => setLocale('vi'))
+    const shown = screen.getByText(reviewed ? 'Mệnh đề nào lọc dòng?' : 'Original bank prompt')
+    expect(shown).toHaveAttribute('lang', reviewed ? 'vi' : 'en')
+    expect(question.prompt).toBe('Original bank prompt')
+    expect(api.get).toHaveBeenCalledTimes(2)
+  },
+)
+it('keeps the Vietnamese practice setup and real resume route when locale changes', async () => {
+  api.get.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/practice/options'
+          ? {
+              question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+              concepts: [{ concept_id: 3, concept_name: 'SELECT' }],
+            }
+          : [{ session_id: 9, status: 'in_progress' }],
+    }),
+  )
+  render(
+    <MemoryRouter>
+      <AssessmentsPage />
+    </MemoryRouter>,
+  )
+  await screen.findByText('Bạn có bài đang làm')
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('heading', { name: 'Bài đánh giá', level: 1 })).toBeInTheDocument()
-  expect(screen.getByText('60 phút')).toBeInTheDocument()
-  expect(screen.getByText('Đã trả lời 4 câu · Tối đa 13 câu')).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: 'Tiếp tục làm bài' })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: 'Tạo bài luyện tập', level: 1 })).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Tiếp tục bài làm' })).toHaveAttribute('href', '/exam/9')
   expect(api.get).toHaveBeenCalledTimes(2)
 })
 it('localizes history results without changing concept content or evidence links', async () => {
-  api.get.mockResolvedValue({ data: [{ session_id: 9, assessment_title: 'Original title', status: 'completed', started_at: '2026-10-10T10:00:00Z', answered_count: 4, served_count: 4, overall_result_pct: '62.50', concepts: [{ concept_id: 3, concept_name: 'Original concept', competency_pct: '62.50', target_pct: null }] }] })
-  render(<MemoryRouter><History_User /></MemoryRouter>)
+  api.get.mockResolvedValue({
+    data: [
+      {
+        session_id: 9,
+        assessment_title: 'Original title',
+        status: 'completed',
+        started_at: '2026-10-10T10:00:00Z',
+        answered_count: 4,
+        served_count: 4,
+        overall_result_pct: '62.50',
+        concepts: [
+          {
+            concept_id: 3,
+            concept_name: 'Original concept',
+            competency_pct: '62.50',
+            target_pct: null,
+          },
+        ],
+      },
+    ],
+  })
+  render(
+    <MemoryRouter>
+      <HistoryPage />
+    </MemoryRouter>,
+  )
   await screen.findByText('Original title')
   await act(() => setLocale('vi'))
   expect(screen.getByText('Kết quả: 62,5%')).toBeInTheDocument()
@@ -37,20 +111,44 @@ it('localizes history results without changing concept content or evidence links
 })
 it('preserves question editor text and domain filter values while switching locale', async () => {
   api.get.mockResolvedValue({ data: [] })
-  render(<Questions_Admin />)
+  render(<AdminQuestionsPage />)
   await userEvent.click(screen.getByRole('button', { name: 'New question' }))
-  fireEvent.change(screen.getByRole('textbox', { name: 'Question prompt' }), { target: { value: 'Original authored question' } })
+  fireEvent.change(screen.getByRole('textbox', { name: 'Question prompt' }), {
+    target: { value: 'Original authored question' },
+  })
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('textbox', { name: 'Nội dung câu hỏi' })).toHaveValue('Original authored question')
+  expect(screen.getByRole('textbox', { name: 'Nội dung câu hỏi' })).toHaveValue(
+    'Original authored question',
+  )
   expect(screen.getByRole('textbox', { name: 'Nội dung lựa chọn 1' })).toHaveValue('')
+  expect(screen.getByRole('combobox', { name: 'Ngôn ngữ nội dung câu hỏi' })).toHaveValue('en')
+  expect(
+    screen.queryByRole('textbox', { name: 'Nội dung câu hỏi đã dịch' }),
+  ).not.toBeInTheDocument()
   await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Lọc theo loại' }), 'essay')
-  await waitFor(() => expect(api.get).toHaveBeenLastCalledWith('/admin/questions', expect.objectContaining({ params: { question_type: 'essay' } })))
-  expect(within(screen.getByRole('combobox', { name: 'Lọc theo loại' })).getByRole('option', { name: 'Tự luận' })).toHaveValue('essay')
+  await waitFor(() =>
+    expect(api.get).toHaveBeenLastCalledWith(
+      '/admin/questions',
+      expect.objectContaining({ params: { question_type: 'essay' } }),
+    ),
+  )
+  expect(
+    within(screen.getByRole('combobox', { name: 'Lọc theo loại' })).getByRole('option', {
+      name: 'Tự luận',
+    }),
+  ).toHaveValue('essay')
 })
 it('submits the existing Administrator role and localizes an already visible notice', async () => {
-  api.get.mockImplementation((url) => Promise.resolve({ data: url === '/admin/role-management/capability'
-    ? { account_id: 1, can_manage_roles: true } : [] })); api.post.mockResolvedValue({ data: {} })
-  render(<Accounts_Admin />)
+  api.get.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/admin/role-management/capability'
+          ? { account_id: 1, can_manage_roles: true }
+          : [],
+    }),
+  )
+  api.post.mockResolvedValue({ data: {} })
+  render(<AdminAccountsPage />)
   await userEvent.type(await screen.findByLabelText('Full name'), 'Local test admin')
   await userEvent.type(screen.getByLabelText('Email address'), 'local@test.dev')
   await userEvent.type(screen.getByLabelText('Temporary password'), 'TestOnly123!')
@@ -58,61 +156,167 @@ it('submits the existing Administrator role and localizes an already visible not
   expect(await screen.findByRole('status')).toHaveTextContent('Provisioned local@test.dev')
   await act(() => setLocale('vi'))
   expect(screen.getByRole('status')).toHaveTextContent('Đã tạo tài khoản local@test.dev')
-  expect(api.post).toHaveBeenCalledWith('/admin/accounts', { name: 'Local test admin', email: 'local@test.dev', password: 'TestOnly123!', role: 'Administrator' })
+  expect(api.post).toHaveBeenCalledWith('/admin/accounts', {
+    name: 'Local test admin',
+    email: 'local@test.dev',
+    password: 'TestOnly123!',
+    role: 'Administrator',
+  })
   expect(screen.getByRole('option', { name: 'Quản trị viên' })).toHaveValue('Administrator')
 })
 it('localizes role-change confirmation and success feedback in Vietnamese', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/role-management/capability'
-    ? { account_id: 1, can_manage_roles: true } : [{ account_id: 2, email: 'learner@test.dev', full_name: 'Learner', roles: ['Learner'], status: 'active' }] }))
+  api.get.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/admin/role-management/capability'
+          ? { account_id: 1, can_manage_roles: true }
+          : [
+              {
+                account_id: 2,
+                email: 'learner@test.dev',
+                full_name: 'Learner',
+                roles: ['Learner'],
+                status: 'active',
+              },
+            ],
+    }),
+  )
   api.patch.mockResolvedValue({ data: { changed: true } })
-  render(<Accounts_Admin />)
+  render(<AdminAccountsPage />)
   await userEvent.click(await screen.findByRole('button', { name: 'Grant Administrator Access' }))
   await act(() => setLocale('vi'))
   const dialog = screen.getByRole('dialog', { name: 'Cấp quyền Quản trị viên cho người dùng này?' })
   expect(dialog).toHaveTextContent('Người dùng sẽ có thể truy cập các chức năng quản trị.')
   await userEvent.click(within(dialog).getByRole('button', { name: 'Cấp quyền Quản trị viên' }))
-  expect(await screen.findByRole('status')).toHaveTextContent('Đã cấp quyền Quản trị viên cho learner@test.dev.')
+  expect(await screen.findByRole('status')).toHaveTextContent(
+    'Đã cấp quyền Quản trị viên cho learner@test.dev.',
+  )
 })
-it('localizes curriculum validation without sending invalid IDs', async () => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/concepts' ? [{ concept_id: 1, concept_code: 'SELECT', concept_name: 'Original name', difficulty_level: 1 }] : url === '/concepts/graph' ? { nodes: [{ concept_id: 1, prerequisites: [] }] } : [] }))
-  render(<Curriculum_Admin />)
+it('localizes named curriculum selections without exposing numeric IDs', async () => {
+  api.get.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/admin/concepts'
+          ? [
+              {
+                concept_id: 1,
+                concept_code: 'SELECT',
+                concept_name: 'Original name',
+                difficulty_level: 1,
+              },
+              {
+                concept_id: 2,
+                concept_code: 'WHERE',
+                concept_name: 'Filtering',
+                difficulty_level: 1,
+              },
+            ]
+          : url === '/concepts/graph'
+            ? {
+                nodes: [
+                  { concept_id: 1, prerequisites: [] },
+                  { concept_id: 2, prerequisites: [] },
+                ],
+              }
+            : [],
+    }),
+  )
+  render(<AdminCurriculumPage />)
   await userEvent.click(await screen.findByRole('button', { name: 'Prerequisites' }))
-  const ids = await screen.findByRole('textbox', { name: 'Prerequisites for SELECT' })
-  fireEvent.change(ids, { target: { value: '2,2' } })
-  await userEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
+  await userEvent.click(screen.getByText('Prerequisites for SELECT', { selector: 'summary' }))
+  const group = screen.getByRole('group', { name: 'Prerequisites for SELECT' })
+  await userEvent.click(within(group).getByRole('checkbox', { name: 'Filtering (WHERE)' }))
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('alert')).toHaveTextContent('Nhập ID khái niệm là số nguyên dương, không trùng nhau')
+  expect(within(group).getByRole('checkbox', { name: 'Filtering (WHERE)' })).toBeChecked()
+  expect(within(group).getByRole('textbox')).toHaveAttribute(
+    'placeholder',
+    'Tìm khái niệm theo tên hoặc mã',
+  )
   expect(api.put).not.toHaveBeenCalled()
-  expect(ids).toHaveValue('2,2')
 })
-function ValidationForm() { useLocalizedValidation(); return <form><input aria-label="Email" type="email" required /><button>Submit</button></form> }
-it.each(['questions', 'curriculum'])('updates a visible %s rejection notice without repeating the mutation', async (workspace) => {
-  api.get.mockImplementation(url => Promise.resolve({ data: url === '/admin/questions' ? [{
-    question_id: 5, question_type: 'mcq', prompt: 'Original authored question', status: 'draft', source: 'bank', difficulty_level: 1,
-    ai_review: { status: 'pending', difficulty_level: 2, evaluation_criteria: 'Original criteria' },
-  }] : url === '/admin/clos' ? [{ clo_id: 1, clo_code: 'CLO1', title: 'Original outcome', concepts: [{ concept_id: 3, concept_code: 'KEYS', concept_name: 'Original concept', status: 'pending', mapping_source: 'ai' }] }]
-    : url === '/concepts/graph' ? { nodes: [] } : [] }))
-  api.post.mockResolvedValue({ data: {} }); api.delete.mockResolvedValue({ data: {} })
-  render(workspace === 'questions' ? <Questions_Admin /> : <Curriculum_Admin />)
-  if (workspace === 'questions') {
-    await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
-  } else {
-    await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
-  }
-  await userEvent.click(await screen.findByRole('button', { name: workspace === 'questions' ? 'Reject suggestion' : 'Reject', exact: true }))
-  expect(await screen.findByRole('status')).toHaveTextContent('Suggestion rejected.')
-  const calls = api.get.mock.calls.length
-  await act(() => setLocale('vi'))
-  expect(screen.getByRole('status')).toHaveTextContent('Đã từ chối đề xuất.')
-  expect(api.get).toHaveBeenCalledTimes(calls)
-  if (workspace === 'questions') {
-    expect(api.post).toHaveBeenCalledExactlyOnceWith('/admin/questions/5/ai-review', { decision: 'rejected' })
-    expect(api.delete).not.toHaveBeenCalled()
-  } else {
-    expect(api.delete).toHaveBeenCalledExactlyOnceWith('/admin/clos/1/concepts/3')
-    expect(api.post).not.toHaveBeenCalled()
-  }
-})
+function ValidationForm() {
+  useLocalizedValidation()
+  return (
+    <form>
+      <input aria-label="Email" type="email" required />
+      <button>Submit</button>
+    </form>
+  )
+}
+it.each(['questions', 'curriculum'])(
+  'updates a visible %s rejection notice without repeating the mutation',
+  async (workspace) => {
+    api.get.mockImplementation((url) =>
+      Promise.resolve({
+        data:
+          url === '/admin/questions'
+            ? [
+                {
+                  question_id: 5,
+                  question_type: 'mcq',
+                  prompt: 'Original authored question',
+                  status: 'draft',
+                  source: 'bank',
+                  difficulty_level: 1,
+                  ai_review: {
+                    status: 'pending',
+                    difficulty_level: 2,
+                    evaluation_criteria: 'Original criteria',
+                  },
+                },
+              ]
+            : url === '/admin/clos'
+              ? [
+                  {
+                    clo_id: 1,
+                    clo_code: 'CLO1',
+                    title: 'Original outcome',
+                    concepts: [
+                      {
+                        concept_id: 3,
+                        concept_code: 'KEYS',
+                        concept_name: 'Original concept',
+                        status: 'pending',
+                        mapping_source: 'ai',
+                      },
+                    ],
+                  },
+                ]
+              : url === '/concepts/graph'
+                ? { nodes: [] }
+                : [],
+      }),
+    )
+    api.post.mockResolvedValue({ data: {} })
+    api.delete.mockResolvedValue({ data: {} })
+    render(workspace === 'questions' ? <AdminQuestionsPage /> : <AdminCurriculumPage />)
+    if (workspace === 'questions') {
+      await userEvent.click(await screen.findByRole('button', { name: 'Details' }))
+    } else {
+      await userEvent.click(await screen.findByRole('button', { name: /Learning outcomes/ }))
+    }
+    await userEvent.click(
+      await screen.findByRole('button', {
+        name: workspace === 'questions' ? 'Reject suggestion' : 'Reject',
+        exact: true,
+      }),
+    )
+    expect(await screen.findByRole('status')).toHaveTextContent('Suggestion rejected.')
+    const calls = api.get.mock.calls.length
+    await act(() => setLocale('vi'))
+    expect(screen.getByRole('status')).toHaveTextContent('Đã từ chối đề xuất.')
+    expect(api.get).toHaveBeenCalledTimes(calls)
+    if (workspace === 'questions') {
+      expect(api.post).toHaveBeenCalledExactlyOnceWith('/admin/questions/5/ai-review', {
+        decision: 'rejected',
+      })
+      expect(api.delete).not.toHaveBeenCalled()
+    } else {
+      expect(api.delete).toHaveBeenCalledExactlyOnceWith('/admin/clos/1/concepts/3')
+      expect(api.post).not.toHaveBeenCalled()
+    }
+  },
+)
 it('localizes native validation while preserving constraints and clearing corrected errors', async () => {
   render(<ValidationForm />)
   const input = screen.getByLabelText('Email')
@@ -120,7 +324,8 @@ it('localizes native validation while preserving constraints and clearing correc
   expect(input.validationMessage).toBe('Please fill out this field.')
   await act(() => setLocale('vi'))
   expect(input.validationMessage).toBe('Vui lòng nhập thông tin này.')
-  fireEvent.input(input, { target: { value: 'bad-email' } }); fireEvent.invalid(input)
+  fireEvent.input(input, { target: { value: 'bad-email' } })
+  fireEvent.invalid(input)
   expect(input.validationMessage).toBe('Nhập địa chỉ email hợp lệ.')
   fireEvent.input(input, { target: { value: 'valid@test.dev' } })
   expect(input.checkValidity()).toBe(true)

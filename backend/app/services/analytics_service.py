@@ -19,7 +19,6 @@ from ..schemas import (
     CohortOverviewResult,
     CompetencyProfileResult,
     CohortTrendPoint,
-    LearnerRankingItem,
 )
 from . import competency_service, session_service
 from .session_guard import load_finalized_session
@@ -92,7 +91,6 @@ def cohort_overview(db: Session, assessment_id: int | None) -> CohortOverviewRes
         concepts=stats,
         weakest_concepts=weakest,
         trend=cohort_trend(db, repo, assessment_id),
-        leaderboard=learner_leaderboard(db, repo, assessment_id),
     )
 
 
@@ -119,64 +117,6 @@ def cohort_trend(db, repo, assessment_id):
     return [CohortTrendPoint(date=day, finalized_sessions=b["sessions"], graded_sessions=len(b["results"]),
         mean_result_pct=(sum(b["results"]) / len(b["results"])).quantize(_CENT, rounding=ROUND_HALF_UP) if b["results"] else None)
         for day, b in sorted(buckets.items())]
-
-
-def learner_leaderboard(db, repo, assessment_id):
-    """Equal-weight mean of the latest fully graded sitting per assessment.
-
-    Pending sittings never replace graded evidence. Unanswered questions
-    remain in the possible-point denominator and contribute zero points.
-    All learner accounts remain visible, including those with no result.
-    """
-    from collections import defaultdict
-    from .evidence_context import question_view
-
-    from .grading_review import is_published
-    sessions = [session for session in repo.finalized_sessions(assessment_id) if is_published(session)]
-    attempts = defaultdict(list)
-    for attempt in AssessmentRepository(db).history_attempts([s.session_id for s in sessions]):
-        attempts[attempt.session_id].append(attempt)
-    latest = {}
-    for session in sessions:
-        evidence = attempts[session.session_id]
-        if not evidence or any(a.submitted_at is not None and a.score is None for a in evidence):
-            continue
-        possible = sum((question_view(a).points for a in evidence), Decimal(0))
-        if possible <= 0:
-            continue
-        key = (session.learner_id, session.assessment_id)
-        order = (session.submitted_at or session.started_at, session.session_id)
-        if key not in latest or order > latest[key][0]:
-            latest[key] = (order, sum((a.score or Decimal(0) for a in evidence), Decimal(0)) / possible * 100)
-    results = defaultdict(list)
-    for (learner_id, _), (_, score) in latest.items():
-        results[learner_id].append(score)
-    rows = []
-    for learner in repo.learner_accounts():
-        scores = results[learner.account_id]
-        rows.append(LearnerRankingItem(
-            account_id=learner.account_id, email=learner.email, full_name=learner.full_name,
-            average_pct=(sum(scores) / len(scores)).quantize(_CENT, rounding=ROUND_HALF_UP) if scores else None,
-            assessments_graded=len(scores),
-        ))
-    rows.sort(key=lambda row: (row.average_pct is None, -(row.average_pct or Decimal(0)), row.account_id))
-    previous = None
-    rank = None
-    for index, row in enumerate(rows, 1):
-        if row.average_pct is None:
-            continue
-        if row.average_pct != previous:
-            rank = index
-        row.rank = rank
-        previous = row.average_pct
-    return rows
-
-
-def student_leaderboard(db):
-    from ..schemas import StudentRankingItem
-    return [StudentRankingItem(account_id=row.account_id, full_name=row.full_name,
-                rank=row.rank, average_pct=row.average_pct, assessments_graded=row.assessments_graded)
-            for row in learner_leaderboard(db, AnalyticsRepository(db), None)]
 
 
 def list_learners(db: Session) -> list[AdminLearnerItem]:

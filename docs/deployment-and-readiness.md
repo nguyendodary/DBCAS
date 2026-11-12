@@ -33,6 +33,14 @@ window by default. Handoff/state tokens cannot be used as access tokens.
 Handoffs are hashed, expiring, atomically consumed database records shared
 by workers. Production login throttling likewise uses shared atomic DB state.
 
+Self-service password recovery emails a 15-minute, single-use link built from
+`FRONTEND_URL`; configure `SMTP_HOST` and `SMTP_FROM` (plus port, TLS and
+credentials as required by the relay) in the release env file. Leaving SMTP
+unconfigured keeps the endpoint disabled with `503
+password_reset_unavailable`; it never falls back to the development Mailpit
+service, and startup rejects a `mailpit` SMTP host outside development.
+`PASSWORD_RESET_*` settings tune token lifetime and rate limits.
+
 ## Start the standalone release stack
 
 Run from the repository root. It uses its own project/volume and never
@@ -130,3 +138,23 @@ Review and retain the full automated, browser, migration, sandbox and load
 gate reports before release. External deployment, a backup restore drill and
 live provider consent are operator actions; do not silently substitute unit
 tests for them.
+
+## Original-language question authoring — 23 October 2026
+
+Administrators can save an English or Vietnamese original without a translation,
+add a reviewed translation later, and preview before saving a draft. Menus and
+question content have independent languages. The recorded session locale stays
+fixed; the language selector displays reviewed snapshot translations when present,
+with an original-language fallback. Stored grading evidence remains unchanged. See the [manual](learner-and-admin-manual.md) and [audit/traceability report](ux-simplification-audit-20261023.md).
+
+Migration `012_question_original_locale.sql` adds the source language and permits
+English display translations. It preserves existing English source defaults and
+translation hashes, and does not update historical snapshots. Apply API and
+frontend together only after the upgrade. For a persistent database, first obtain
+explicit owner authorization and verify a restorable backup; this task applies
+no migration to persistent development data. The normal migration command is
+unchanged. PostgreSQL 17 Docker release verification remains required.
+
+## Final integration acceptance follow-up - 23 October 2026
+
+See [the final integration acceptance record](final-integration-acceptance-20261023.md) for subsequent PostgreSQL 17 migration/browser checks, the verified backup, and the remaining Docker gates. Earlier dated results above remain historical. Migration 012 is still not applied to persistent development data.

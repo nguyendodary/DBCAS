@@ -146,6 +146,9 @@ def test_production_startup_rejects_known_seed_credentials(db_session,monkeypatc
         with TestClient(main.app):pass
     validate_deployment_accounts(db_session,get_settings())  # development allowed
     account.status="disabled";db_session.commit()
+    with pytest.raises(RuntimeError,match="Unsafe development account credentials"):
+        validate_deployment_accounts(db_session,production)
+    account.password_hash=hash_password("RotatedPrivate123!");db_session.commit()
     validate_deployment_accounts(db_session,production)
 
 

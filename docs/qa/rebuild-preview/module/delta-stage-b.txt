@@ -1,0 +1,22 @@
+Stage A -> Stage B delta: C:\Users\kudot\Downloads\proposal test\_worktrees\dbcas-dn-20261101\docs\diagrams\rebuild\module
+canvas: {'w': 3300, 'h': 2050}
+shapes: 30 identical=True
+lines: 14 changed=0 allowed=0
+sticks: 0 identical=True
+text labels: 60 -> 58; unchanged=47 changed=9 added=2 removed=4
+  changed: X060 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the assessment workflow requires them.' -> 'Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them.'
+  changed: X032 'Assessment' -> 'Practice'
+  changed: X033 'Session +' -> 'Practice Service'
+  changed: X034 'Assessment /' -> 'Session / Plan'
+  changed: X035 'Assessment' -> 'Practice'
+  changed: X036 'Attempt' -> 'Grading'
+  changed: X038 'Attempt' -> 'Attempt /'
+  changed: X047 'Repository' -> 'Repository'
+  changed: X057 'Application data, evidence and LLMCache' -> 'Application data, evidence and LLM cache'
+  added:   X034-L2 'Repository'
+  added:   X038-L2 'Evidence'
+  removed: X042 'Adaptive'
+  removed: X043 'Selection'
+  removed: X051 'Service'
+  removed: X052 'Repository'
+RESULT: PASS (canvas, shapes and sticks identical; only the listed text/lines changed)

@@ -1,0 +1,57 @@
+fixes loaded: [] argv: ['docs/qa/diagram-originals/ProposalDocument_ver1.1_image5.png', 'docs/diagrams/rebuild/pipeline/trace.json']
+canvas 1342x762
+shapes: 9
+  S01 boundary  bbox=[10, 107, 1322, 614] fill=#FFFFFF stroke=#5E6163 r=0 cap=0 dashed=True
+  S02 rect      bbox=[907, 439, 1294, 591] fill=#EDF4F7 stroke=#3D4144 r=0 cap=0 dashed=False
+  S03 rect      bbox=[50, 439, 368, 591] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+  S04 rect      bbox=[512, 439, 830, 591] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+  S05 rect      bbox=[1080, 133, 1311, 267] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+  S06 rect      bbox=[29, 133, 260, 267] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+  S07 rect      bbox=[555, 133, 785, 267] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+  S08 rect      bbox=[292, 133, 523, 267] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+  S09 rect      bbox=[818, 133, 1048, 267] fill=#F4F6F8 stroke=#3D4144 r=0 cap=0 dashed=False
+lines: 3  dashes: 4  sticks: 0  arrows: 2  texts: 34
+  L01 thick=3.0 nsegs=1 [[[933.0, 384.0], [670.0, 384.0]]]
+  L02 thick=4.0 nsegs=1 [[[1195.5, 422.0], [1193.0, 277.1]]]
+  L03 thick=3.3 nsegs=1 [[[512.0, 512.0], [384.0, 515.4]]]
+  dash {'axis': 'h', 'dashes': 33, 'on': 6, 'off': 6, 'y': 107, 'x0': 10, 'x1': 401}
+  dash {'axis': 'h', 'dashes': 137, 'on': 6, 'off': 5, 'y': 614, 'x0': 10, 'x1': 1323}
+  dash {'axis': 'v', 'dashes': 43, 'on': 6, 'off': 6, 'x': 10, 'y0': 107, 'y1': 615}
+  dash {'axis': 'v', 'dashes': 27, 'on': 6, 'off': 6, 'x': 1322, 'y0': 298, 'y1': 615}
+  arrow line=0 tip=[941.0, 287.0] from=[670.0, 422.0]
+  arrow line=2 tip=[512.0, 512.0] from=[384.0, 514.0]
+  X001 bbox=[325, 11, 1018, 40] ink=#17191A inside=None
+  X002 bbox=[374, 54, 968, 71] ink=#25282A inside=None
+  X003 bbox=[102, 150, 187, 170] ink=#191B1D inside=S06
+  X004 bbox=[310, 150, 506, 167] ink=#191B1D inside=S08
+  X005 bbox=[624, 150, 716, 166] ink=#191B1D inside=S07
+  X006 bbox=[838, 150, 1026, 170] ink=#191B1D inside=S09
+  X007 bbox=[1149, 150, 1243, 166] ink=#191B1D inside=S05
+  X008 bbox=[856, 183, 1004, 198] ink=#222527 inside=S09
+  X009 bbox=[67, 189, 222, 201] ink=#222527 inside=S06
+  X010 bbox=[318, 189, 498, 204] ink=#222527 inside=S08
+  X011 bbox=[623, 189, 719, 201] ink=#222527 inside=S07
+  X012 bbox=[1140, 192, 1251, 204] ink=#222527 inside=S05
+  X013 bbox=[846, 203, 1019, 215] ink=#222527 inside=S09
+  X014 bbox=[73, 209, 216, 221] ink=#222527 inside=S06
+  X015 bbox=[336, 209, 479, 224] ink=#222527 inside=S08
+  X016 bbox=[578, 209, 763, 224] ink=#222527 inside=S07
+  X017 bbox=[1148, 213, 1244, 228] ink=#222527 inside=S05
+  X018 bbox=[866, 222, 1000, 234] ink=#222527 inside=S09
+  X019 bbox=[988, 453, 1214, 473] ink=#191B1D inside=S02
+  X020 bbox=[96, 456, 321, 476] ink=#191B1D inside=S03
+  X021 bbox=[571, 456, 771, 472] ink=#191B1D inside=S04
+  X022 bbox=[984, 483, 1217, 498] ink=#222527 inside=S02
+  X023 bbox=[119, 493, 298, 505] ink=#222527 inside=S03
+  X024 bbox=[583, 493, 759, 509] ink=#222527 inside=S04
+  X025 bbox=[985, 503, 1217, 518] ink=#222527 inside=S02
+  X026 bbox=[117, 515, 301, 530] ink=#222527 inside=S03
+  X027 bbox=[571, 515, 770, 530] ink=#222527 inside=S04
+  X028 bbox=[937, 522, 1264, 538] ink=#222527 inside=S02
+  X029 bbox=[125, 536, 292, 552] ink=#222527 inside=S03
+  X030 bbox=[572, 536, 769, 548] ink=#222527 inside=S04
+  X031 bbox=[943, 542, 1258, 557] ink=#222527 inside=S02
+  X032 bbox=[980, 561, 1222, 577] ink=#222527 inside=S02
+  X033 bbox=[408, 652, 934, 672] ink=#191B1D inside=None
+  X034 bbox=[314, 687, 1027, 702] ink=#333638 inside=None
+markers: docs/diagrams/rebuild/pipeline/trace_markers.png

@@ -14,8 +14,8 @@ from ..db import get_db
 from ..errors import AppError
 from ..repositories import AccountRepository
 from ..schemas import TokenResponse
-from ..security import create_access_token
-from ..services import auth_service, oauth
+from ..schemas_operational import OAuthProvidersResult
+from ..services import oauth, refresh_tokens
 
 router = APIRouter(prefix="/auth/oauth", tags=["auth"])
 
@@ -60,14 +60,14 @@ def _set_flow_cookie(
     )
 
 
-@router.get("/providers")
+@router.get("/providers", response_model=OAuthProvidersResult)
 def providers(settings: Settings = Depends(get_settings)):
     """Public list of configured providers — the SPA disables buttons for
     unconfigured ones instead of sending users into a dead flow."""
     return {"providers": oauth.provider_statuses(settings)}
 
 
-@router.get("/{provider}/start")
+@router.get("/{provider}/start", response_class=RedirectResponse, status_code=302)
 def start(provider: str, settings: Settings = Depends(get_settings)):
     """Begin the authorization-code flow: 302 to the provider with a
     signed state (mirrored in an HttpOnly cookie) and optional PKCE."""
@@ -91,7 +91,7 @@ def start(provider: str, settings: Settings = Depends(get_settings)):
     return resp
 
 
-@router.get("/{provider}/callback")
+@router.get("/{provider}/callback", response_class=RedirectResponse, status_code=302)
 def callback(
     provider: str,
     request: Request,
@@ -172,11 +172,6 @@ def complete(
     account = AccountRepository(db).get_with_roles(account_id)
     if account is None or account.status != "active":
         raise AppError(403, "account_disabled", "Account is not active")
-    roles = sorted(r.role_name for r in account.roles)
-    access_token, expires_in = create_access_token(account.account_id, roles, settings, token_version=account.token_version)
     response.delete_cookie(oauth.HANDOFF_COOKIE, path=oauth.COOKIE_PATH)
-    return TokenResponse(
-        access_token=access_token,
-        expires_in=expires_in,
-        account=auth_service.to_summary(account),
-    )
+    # Share email login's rotation, replay detection and logout revocation.
+    return refresh_tokens.issue(db, account.account_id, settings)

@@ -1,5 +1,4 @@
 import logging
-import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Depends
@@ -12,7 +11,8 @@ from .errors import register_exception_handlers
 from .db import get_readiness_db
 from .deps import get_sandbox_runner
 from .services.readiness_service import dependency_status
-from .routers import admin, assessments, auth, concepts, oauth, sessions
+from .schemas_operational import StatusResult, PingResult, ReadinessResult
+from .routers import admin, assessments, auth, concepts, oauth, sessions, practice
 
 settings = get_settings()
 
@@ -31,9 +31,7 @@ async def lifespan(application):
     from .worker import maintenance_loop
     import threading
     stop = threading.Event()
-    thread = threading.Thread(target=maintenance_loop, args=(stop,),
-                              kwargs={"allow_provider_calls": bool(settings.llm_api_key and settings.llm_base_url and settings.llm_model)},
-                              daemon=True, name="dbcas-maintenance")
+    thread = threading.Thread(target=maintenance_loop, args=(stop,), daemon=True, name="dbcas-maintenance")
     thread.start()
     try:
         yield
@@ -65,39 +63,33 @@ app.add_middleware(
 
 register_exception_handlers(app)
 
-
-@app.middleware("http")
-async def shared_admin_content(request: Request, call_next):
-    response = await call_next(request)
-    # Tests use temporary/rolled-back data and must never rewrite the Git seed.
-    if settings.deployment_mode == 'development' and not os.environ.get('PYTEST_CURRENT_TEST') and response.status_code < 400:
-        from .content_snapshot import content_mutation, export_after_mutation
-        if content_mutation(request.method, request.url.path):
-            from starlette.concurrency import run_in_threadpool
-            response.headers['X-DBCAS-Content-Snapshot'] = await run_in_threadpool(export_after_mutation)
-    return response
-
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(oauth.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
 app.include_router(assessments.router, prefix="/api/v1")
 app.include_router(concepts.router, prefix="/api/v1")
 app.include_router(sessions.router, prefix="/api/v1")
+app.include_router(practice.router, prefix="/api/v1")
 
 
-@app.get("/health")
+@app.get("/health", response_model=StatusResult)
 def health():
     return {"status": "ok"}
 
 
-@app.get("/api/v1/ping")
+@app.get("/api/v1/ping", response_model=PingResult)
 def ping():
     return {"message": "pong"}
 
 
-@app.get("/readiness")
+@app.get("/readiness", response_model=ReadinessResult, responses={503: {"model": ReadinessResult}})
 def readiness(db: Session = Depends(get_readiness_db), sandbox=Depends(get_sandbox_runner)):
     dependencies = dependency_status(db, sandbox)
     ready = all(dependencies.values())
     return JSONResponse(status_code=200 if ready else 503,
         content={"status": "ready" if ready else "not_ready", "dependencies": dependencies})
+
+
+from .openapi import install_openapi
+
+install_openapi(app)

@@ -1,0 +1,276 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_sec.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:16:41.334117+00:00",
+  "questions": [
+    {
+      "key": "secb-easy-public",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        688
+      ]
+    },
+    {
+      "key": "secb-easy-least-privilege",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        689
+      ]
+    },
+    {
+      "key": "secb-easy-schema-usage",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        690
+      ]
+    },
+    {
+      "key": "secb-easy-owner",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        691
+      ]
+    },
+    {
+      "key": "secb-easy-authn-authz",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        692
+      ]
+    },
+    {
+      "key": "secb-easy-set-role",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        693
+      ]
+    },
+    {
+      "key": "secb-easy-authorization-model",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ROLES",
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        694
+      ]
+    },
+    {
+      "key": "secb-easy-default-public-risk",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        695
+      ]
+    },
+    {
+      "key": "secb-easy-rls-intro",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        696
+      ]
+    },
+    {
+      "key": "secb-medium-noinherit",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        697
+      ]
+    },
+    {
+      "key": "secb-medium-sequence-usage",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        698
+      ]
+    },
+    {
+      "key": "secb-medium-column-vs-view",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-RLS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        699
+      ]
+    },
+    {
+      "key": "secb-medium-injection-blast-radius",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-RLS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        700
+      ]
+    },
+    {
+      "key": "secb-medium-privilege-audit",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        701
+      ]
+    },
+    {
+      "key": "secb-hard-force-rls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        702
+      ]
+    },
+    {
+      "key": "secb-hard-policy-function",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS",
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        703
+      ]
+    },
+    {
+      "key": "secb-hard-policy-subquery",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        704
+      ]
+    },
+    {
+      "key": "secb-hard-dump-acl",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-BACKUP",
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        705
+      ]
+    },
+    {
+      "key": "secb-hard-scram-binding",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-ROLES",
+        "PG-PRIVILEGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        706
+      ]
+    },
+    {
+      "key": "secb-hard-ri-bypass-rls",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-RLS"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        707
+      ]
+    },
+    {
+      "key": "secb-hard-compromised-app-role",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PRIVILEGE",
+        "PG-RLS",
+        "PG-ROLES"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        708
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:16:44.439620+00:00",
+  "summary": {
+    "skipped_existing_prompt": 21
+  }
+}

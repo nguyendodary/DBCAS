@@ -1,0 +1,147 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_conc.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-25T02:42:29.321734+00:00",
+  "questions": [
+    {
+      "key": "concb-easy-commit-guarantee",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TXN"
+      ],
+      "status": "validated",
+      "question_id": 666,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-easy-dirty-read",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-ISOLATION"
+      ],
+      "status": "validated",
+      "question_id": 667,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-easy-independent-rows",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-LOCK"
+      ],
+      "status": "validated",
+      "question_id": 668,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-easy-disconnect",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TXN"
+      ],
+      "status": "validated",
+      "question_id": 669,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-easy-savepoints",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TXN"
+      ],
+      "status": "validated",
+      "question_id": 670,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-easy-optimistic-pessimistic",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-LOCK",
+        "PG-ISOLATION"
+      ],
+      "status": "validated",
+      "question_id": 671,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-easy-aborted-transaction",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TXN"
+      ],
+      "status": "validated",
+      "question_id": 672,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-medium-retry-design",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-ISOLATION"
+      ],
+      "status": "validated",
+      "question_id": 673,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-hard-ssi-structure",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-ISOLATION",
+        "PG-MVCC"
+      ],
+      "status": "validated",
+      "question_id": 674,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-hard-no-gap-locks",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-LOCK"
+      ],
+      "status": "validated",
+      "question_id": 675,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    },
+    {
+      "key": "concb-hard-hot-update",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-MVCC"
+      ],
+      "status": "validated",
+      "question_id": 676,
+      "question_status": "validated",
+      "vi_translation": "draft_pending_human_review_not_imported"
+    }
+  ],
+  "finished_at": "2026-10-25T02:42:32.361078+00:00",
+  "summary": {
+    "validated": 11
+  }
+}

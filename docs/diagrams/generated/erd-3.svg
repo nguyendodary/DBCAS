@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="1044" viewBox="0 0 950 1044" role="img" aria-label="Entity Relationship Diagram — DBCAS (3/9)">
+<title>Entity Relationship Diagram — DBCAS (3/9)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
+<rect width="950" height="1044" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (3/9)</text>
+<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
+<g id="table_attempt"><rect x="30" y="92" width="430" height="410" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#dceaf7"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">attempt</text>
+<text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer PK NOT NULL</text>
+<text x="38" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">seq_no: smallint NOT NULL</text>
+<text x="38" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">selected_option_id: integer FK NULL</text>
+<text x="38" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">sql_answer: text NULL</text>
+<text x="38" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">essay_answer: text NULL</text>
+<text x="38" y="280" font-family="Consolas,monospace" font-size="15" fill="#26384a">score: numeric NULL</text>
+<text x="38" y="300" font-family="Consolas,monospace" font-size="15" fill="#26384a">grading_detail: jsonb NULL</text>
+<text x="38" y="320" font-family="Consolas,monospace" font-size="15" fill="#26384a">served_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="340" font-family="Consolas,monospace" font-size="15" fill="#26384a">submitted_at: timestamp with time zone NULL</text>
+<text x="38" y="360" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_snapshot: jsonb NULL</text>
+<text x="38" y="380" font-family="Consolas,monospace" font-size="15" fill="#26384a">draft_answer: jsonb NULL</text>
+<text x="38" y="400" font-family="Consolas,monospace" font-size="15" fill="#26384a">draft_revision: integer NOT NULL</text>
+<text x="38" y="420" font-family="Consolas,monospace" font-size="15" fill="#26384a">draft_saved_at: timestamp with time zone NULL</text>
+<text x="38" y="440" font-family="Consolas,monospace" font-size="15" fill="#26384a">submission_hash: character varying(64) NULL</text>
+<text x="38" y="460" font-family="Consolas,monospace" font-size="15" fill="#26384a">grading_status: character varying(20) NOT NULL</text>
+<text x="38" y="480" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_revision: integer NOT NULL</text>
+</g>
+<g id="table_clo_concept"><rect x="490" y="92" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="92" width="430" height="28" fill="#dceaf7"/><text x="498" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">clo_concept</text>
+<text x="498" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK,FK NOT NULL</text>
+<text x="498" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK,FK NOT NULL</text>
+<text x="498" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">mapping_source: character varying(10) NOT NULL</text>
+<text x="498" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_competency_gap"><rect x="30" y="526" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="526" width="430" height="28" fill="#dceaf7"/><text x="38" y="545" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">competency_gap</text>
+<text x="38" y="574" font-family="Consolas,monospace" font-size="15" fill="#26384a">gap_id: integer PK NOT NULL</text>
+<text x="38" y="594" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="614" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer FK NOT NULL</text>
+<text x="38" y="634" font-family="Consolas,monospace" font-size="15" fill="#26384a">llm_explanation: text NULL</text>
+<text x="38" y="654" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="674" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="694" font-family="Consolas,monospace" font-size="15" fill="#26384a">explanation_context_hash: character varying(64) NULL</text>
+</g>
+<g id="table_concept"><rect x="490" y="526" width="430" height="230" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="526" width="430" height="28" fill="#dceaf7"/><text x="498" y="545" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">concept</text>
+<text x="498" y="574" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK NOT NULL</text>
+<text x="498" y="594" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_code: character varying(30) NOT NULL</text>
+<text x="498" y="614" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_name: character varying(100) NOT NULL</text>
+<text x="498" y="634" font-family="Consolas,monospace" font-size="15" fill="#26384a">subject_area: character varying(100) NOT NULL</text>
+<text x="498" y="654" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+<text x="498" y="674" font-family="Consolas,monospace" font-size="15" fill="#26384a">difficulty_level: smallint NOT NULL</text>
+<text x="498" y="694" font-family="Consolas,monospace" font-size="15" fill="#26384a">sql_feature: character varying(30) NULL</text>
+<text x="498" y="714" font-family="Consolas,monospace" font-size="15" fill="#26384a">keywords: ARRAY NOT NULL</text>
+<text x="498" y="734" font-family="Consolas,monospace" font-size="15" fill="#26384a">learning_objectives: ARRAY NOT NULL</text>
+</g>
+<g id="table_concept_competency"><rect x="30" y="780" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="780" width="430" height="28" fill="#dceaf7"/><text x="38" y="799" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">concept_competency</text>
+<text x="38" y="828" font-family="Consolas,monospace" font-size="15" fill="#26384a">competency_id: integer PK NOT NULL</text>
+<text x="38" y="848" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="868" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer FK NOT NULL</text>
+<text x="38" y="888" font-family="Consolas,monospace" font-size="15" fill="#26384a">points_earned: numeric NOT NULL</text>
+<text x="38" y="908" font-family="Consolas,monospace" font-size="15" fill="#26384a">points_possible: numeric NOT NULL</text>
+<text x="38" y="928" font-family="Consolas,monospace" font-size="15" fill="#26384a">competency_pct: numeric NOT NULL</text>
+<text x="38" y="948" font-family="Consolas,monospace" font-size="15" fill="#26384a">below_target: boolean NOT NULL</text>
+<text x="38" y="968" font-family="Consolas,monospace" font-size="15" fill="#26384a">computed_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_concept_dependency"><rect x="490" y="780" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="780" width="430" height="28" fill="#dceaf7"/><text x="498" y="799" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">concept_dependency</text>
+<text x="498" y="828" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK,FK NOT NULL</text>
+<text x="498" y="848" font-family="Consolas,monospace" font-size="15" fill="#26384a">prerequisite_concept_id: integer PK,FK NOT NULL</text>
+<text x="498" y="868" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+</svg>

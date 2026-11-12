@@ -1,0 +1,32 @@
+{
+  "origin": "http://127.0.0.1:5175",
+  "target": "access-audit-1794369233538@test.local",
+  "locales": [
+    {
+      "locale": "en",
+      "labels_and_cancel": "passed"
+    },
+    {
+      "locale": "vi",
+      "labels_and_cancel": "passed"
+    }
+  ],
+  "checks": [
+    {
+      "check": "localized UI reset succeeds once",
+      "result": "passed"
+    },
+    {
+      "check": "old access and refresh revoked",
+      "statuses": [
+        401,
+        401
+      ]
+    },
+    {
+      "check": "replacement password signs in",
+      "result": "passed"
+    }
+  ],
+  "page_errors": []
+}

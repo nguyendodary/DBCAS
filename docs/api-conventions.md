@@ -61,6 +61,14 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 
 ## Implemented endpoints
 
+Method and path truth is generated from the router source into
+[`docs/inventory/api-routes.json`](inventory/api-routes.json) (82 paths / 92
+method-path entries at the current HEAD); `npm run inventory:check` fails when a committed inventory no longer matches
+`backend/app/main.py`, `backend/app/routers/*.py` or `frontend/src/App.jsx`. The table below
+is authored: it records the role, use case and behavioural contract that code cannot state.
+Rows added on 27 October 2026 close the endpoints the generated inventory showed were missing
+here — review, publication, retry, cumulative profiles, candidate actions and translation drafts.
+
 | Method & path | Role | Use case |
 |---|---|---|
 | `POST /api/v1/auth/register` | public | UC01 — learner self-registration (always Learner role) |
@@ -101,12 +109,22 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 | `POST /api/v1/admin/questions/{id}/ai-tags` | Administrator | UC08 — AI tag + difficulty + criteria suggestion, stored pending |
 | `POST /api/v1/admin/questions/{qid}/tags/{cid}/confirm` · `DELETE …/tags/{cid}` | Administrator | UC08 — confirm/reject a pending tag |
 | `POST /api/v1/admin/questions/{id}/ai-review` | Administrator | explicit approval/rejection of AI difficulty/criteria |
-| `GET|POST /api/v1/admin/question-candidates…` | Administrator | UC10 — queue, generate, validate, approve, reject |
+| `GET /api/v1/admin/question-candidates`, `GET …/{id}` | Administrator | UC10 — candidate queue and detail |
+| `POST /api/v1/admin/question-candidates/generate`, `POST …/{id}/validate`, `POST …/{id}/approve`, `POST …/{id}/reject` | Administrator | UC10 — draft, revalidate, promote or reject; there is no bare `POST …/question-candidates` collection route |
 | `GET|POST /api/v1/admin/assessments`, `GET|PUT|PATCH|DELETE /api/v1/admin/assessments/{id}` | Administrator | UC09 — adaptive assessment configuration + lifecycle |
 | `GET /api/v1/admin/analytics/cohort?assessment_id={id}` | Administrator | UC11 — class-wide competency + below-benchmark prevalence and trend |
 | `GET /api/v1/admin/learners` | Administrator | learner roster with activity counts |
 | `GET /api/v1/admin/learners/{id}/sessions` | Administrator | learner session drill-down |
 | `GET /api/v1/admin/sessions/{id}/competency` | Administrator | per-session competency profile |
+| `GET /api/v1/admin/grading-reviews?limit&offset`, `GET …/{session_id}` | Administrator | UC20 — verification queue and per-session review detail (`services/grading_review.py:list_pending, detail`) |
+| `POST /api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}` | Administrator | UC20 — approve or bound-correct one graded attempt; every write is an immutable review audit row |
+| `POST /api/v1/admin/grading-reviews/{session_id}/publish` | Administrator | UC20 — publish verified results when the release policy requires human publication |
+| `POST /api/v1/admin/grading-reviews/{session_id}/retry` | Administrator | UC20 — requeue attempts whose automatic grading failed |
+| `GET /api/v1/sessions/competency/cumulative` | Learner (owner) | UC16 — cumulative profile computed from published evidence only |
+| `GET /api/v1/admin/learners/{account_id}/competency/cumulative` | Administrator | UC11 — the same cumulative profile for one learner |
+| `GET /api/v1/sessions/{id}/questions?display_locale=` | Learner (owner) | delivered questions with the learner's own saved answers; never grading keys |
+| `GET /api/v1/admin/question-translation/capability`, `POST /api/v1/admin/question-translation/draft` | Administrator | support for UC07/UC08 — opt-in draft only; the response is unpersisted until an administrator saves the question |
+| `GET /api/v1/ping` | public | `{"message": "pong"}` route smoke check; `GET /health` and `GET /readiness` remain the process and dependency probes |
 
 `sql-run` executes the query in the isolated sandbox and returns a sanitized
 `{success, columns, rows, row_count, execution_time_ms, error_type,
@@ -191,8 +209,9 @@ changes do not alter readiness, ranking, scoring or persistence.
 The former dynamically generated English `reason` field is removed. The
 repository's dashboard and tests are migrated together; no external public
 client compatibility requirement is documented. Deploy API and frontend
-together. English question content remains canonical. `question_translation`
-stores display prose by locale; it does not store SQL, expected results,
+together. Original question prose is identified by `question.original_locale`
+(`en` or `vi`, default `en` for existing records). `question_translation`
+stores reviewed display prose in other locales; it does not store SQL, expected results,
 identifiers, answer keys, source references, concept codes or difficulty data.
 
 Localization boundary audit:
@@ -204,16 +223,20 @@ Localization boundary audit:
   assessment. The server pins that locale to the session; question snapshots
   capture the display text and historical evidence keeps it. Existing
   snapshots remain unchanged and default to English.
-- English question text remains canonical. Vietnamese prompts, explanations,
-  option text and learner-facing rubric wording are stored against the same
-  question. SQL, identifiers, datasets, expected rows, tags, source references
-  and scoring contracts remain canonical.
-- Essay grading keeps its English rubric bands and score boundaries. For a
-  Vietnamese session, only learner-facing provider narratives are requested
-  in Vietnamese; stored band names and score validation remain unchanged.
-- Missing or stale translations fall back to English and are exposed as
-  untranslated in the admin bank. The source-pack validator reports missing
-  locales before a complete bank release.
+- `prompt`, option text and rubric criteria are original-language prose, whose
+  language is `original_locale`. English and Vietnamese originals are supported.
+  Other reviewed display text is stored against the same question. SQL,
+  identifiers, datasets, expected rows, tags, references and scoring remain shared.
+  A translation cannot target the original locale or repeat a locale.
+- Essay grading uses original-language prose and rubric criteria, with the
+  existing English band identifiers and score boundaries. Display translations
+  do not replace grading input. A Vietnamese session requests Vietnamese provider
+  narratives; existing stored grading evidence is never translated on UI change.
+- Missing/stale translations fall back to the original language, identified
+  by `content_locale`. The bank exposes `original_locale`, current
+  `translation_locales`, and `missing_locales` among the other supported UI
+  languages. The reviewed English-source import packs still require their
+  complete Vietnamese manifests; this separate bank-release rule is unchanged.
 - OAuth errors, API/validation errors and assessment statuses already map
   stable codes to frontend catalogs, with localized unknown-code fallbacks.
 - SQL failure codes map to localized guidance. Only sanitized syntax/schema
@@ -227,3 +250,76 @@ charts show a labelled display mean of assessed concept percentages; the
 formal documents specify visualization but no new category scoring formula.
 Official competency remains per concept. Unbenchmarked concepts are not
 counted as meeting a target, and pending grades prevent a final overall result.
+
+## Question authoring extension — 23 October 2026
+
+`POST /admin/questions` accepts original-only questions; `translations` is
+optional. `original_locale` defaults to `en` for compatibility. `PUT` preserves
+the existing original language when omitted and rejects an explicit different
+language. Provided translations are administrator-reviewed content and must
+include complete type-specific text, with matching stable option/band keys.
+Omitting translations preserves them, including stale rows. It does not approve
+them again. Only explicit translation writes refresh their source hashes.
+All new questions remain drafts; the existing validation endpoint and RBAC apply.
+
+Example Vietnamese-original MCQ (use an existing concept ID in your installation):
+
+```json
+{
+  "question_type": "mcq",
+  "original_locale": "vi",
+  "prompt": "Mệnh đề nào lọc các dòng?",
+  "difficulty_level": 1,
+  "points": "1.00",
+  "concept_ids": [1],
+  "options": [
+    {"option_label": "A", "option_text": "WHERE", "is_correct": true},
+    {"option_label": "B", "option_text": "ORDER BY", "is_correct": false}
+  ]
+}
+```
+
+To add reviewed English content, send the full question payload plus:
+
+```json
+{"translations": [{"locale": "en", "prompt": "Which clause filters rows?",
+  "option_texts": {"A": "WHERE", "B": "ORDER BY"}}]}
+```
+
+Snapshot version 3 records `original_locale`; versions 1–2 lacking this field
+default to English. Only newly captured snapshots receive the field. Existing
+English translation fingerprints remain byte-compatible. Migration 012 is
+required before running this application revision.
+
+
+### Display language amendment - 23 October 2026
+
+`GET /sessions/{id}?display_locale=vi` and
+`GET /sessions/{id}/evidence?display_locale=en` accept optional `en` / `vi`
+values (other values return 422). Omission retains the recorded-session-locale
+behavior. Authorization, result release and timeout guards remain in force.
+`locale` in session state is the recorded, immutable assessment locale;
+`current_question.content_locale` / evidence item `content_locale` identify
+actual displayed prose. Reviewed captured translations are projected from the
+question snapshot; missing translations display the original. The display projection
+does not rewrite snapshots, answer IDs, scores or official grading text. The session
+GET retains normal expired-session finalization regardless of display locale.
+Personalized snapshots freeze with the plan; legacy snapshots are captured at serve. The frontend requests this
+projection on language changes without resetting the answer draft or clock.
+
+The source-language detector is a conservative editor convenience, not an API
+translation service. Clients still supply `original_locale` explicitly in writes.
+Existing originals cannot be relabeled. Automatic draft preparation is a separate
+opt-in, disabled by default; existing grading credentials do not enable it.
+Manual translation plus human review remains available. No generated draft is
+implicitly approved or persisted. See the [draft API contract](draft-question-translation.md)
+for the authenticated capability/preparation endpoints, protection and quotas.
+
+Question-bank list items expose a read-only `localized_prompts` map containing
+only current reviewed translations. `prompt` remains the original source.
+Bank search matches original prompts and current reviewed translated prompts;
+stale translations do not produce hits. This changes no write payload.
+
+For legacy evidence with no captured question snapshot, display uses the known
+original language only. A later bank translation cannot establish historical
+validity and is not retroactively presented as captured assessment content.

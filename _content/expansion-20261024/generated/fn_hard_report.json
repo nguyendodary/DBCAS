@@ -1,0 +1,101 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\fn_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:47:48.947508+00:00",
+  "questions": [
+    {
+      "key": "fn-hard-round-negative",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-NUM"
+      ],
+      "status": "validated",
+      "question_id": 595,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-integer-division",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-NUM"
+      ],
+      "status": "validated",
+      "question_id": 596,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-mod-sign",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-NUM"
+      ],
+      "status": "validated",
+      "question_id": 597,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-concat-null",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-STR"
+      ],
+      "status": "validated",
+      "question_id": 598,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-char-length",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-STR"
+      ],
+      "status": "validated",
+      "question_id": 599,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-like-escape",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PATTERN"
+      ],
+      "status": "validated",
+      "question_id": 600,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-like-is-whole-string",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-PATTERN"
+      ],
+      "status": "validated",
+      "question_id": 601,
+      "question_status": "validated"
+    },
+    {
+      "key": "fn-hard-date-plus-integer",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-FUNC-DATE"
+      ],
+      "status": "validated",
+      "question_id": 602,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:47:51.908348+00:00",
+  "summary": {
+    "validated": 8
+  }
+}

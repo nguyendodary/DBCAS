@@ -36,7 +36,7 @@ def run_learner_sql(
         )
 
     datasets = question.datasets if attempt.question_snapshot else repo.get_datasets_for_question(question.question_id)
-    primary = next((d for d in datasets if not d.is_edge_case), datasets[0] if datasets else None)
+    primary = next((d for d in datasets if not d.is_edge_case), None)
     if primary is None:
         raise AppError(
             422,
@@ -50,6 +50,8 @@ def run_learner_sql(
         raise AppError(503, exc.code, exc.message)
     try:
         result = runner.execute(payload.sql, schema=schema)
+    except SandboxError as exc:
+        raise AppError(503, exc.code, exc.message) from None
     finally:
         runner.drop_dataset(schema)
 

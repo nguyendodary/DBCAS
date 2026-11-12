@@ -3182,18 +3182,29 @@ M("pg-m310", "PG-TYPE-JSON", 3,
 # Reused core concepts (identical to benchmark_pack — import reuses, never duplicates)
 CORE_CONCEPTS = [
     {"concept_code": "SQL-SELECT", "concept_name": "SELECT", "subject_area": "SQL Querying",
-     "description": "Demonstrate SELECT in core relational database tasks.", "difficulty_level": 2, "sql_feature": "select"},
+     "difficulty_level": 2, "sql_feature": "select"},
     {"concept_code": "SQL-WHERE", "concept_name": "WHERE", "subject_area": "SQL Querying",
-     "description": "Demonstrate WHERE in core relational database tasks.", "difficulty_level": 2, "sql_feature": "where"},
+     "difficulty_level": 2, "sql_feature": "where"},
     {"concept_code": "SQL-JOIN", "concept_name": "JOIN", "subject_area": "SQL Querying",
-     "description": "Demonstrate JOIN in core relational database tasks.", "difficulty_level": 2, "sql_feature": "join"},
+     "difficulty_level": 2, "sql_feature": "join"},
     {"concept_code": "SQL-GROUP", "concept_name": "GROUP BY", "subject_area": "SQL Querying",
-     "description": "Demonstrate GROUP BY in core relational database tasks.", "difficulty_level": 2, "sql_feature": "group_by"},
+     "difficulty_level": 2, "sql_feature": "group_by"},
     {"concept_code": "SQL-HAVING", "concept_name": "HAVING", "subject_area": "SQL Querying",
-     "description": "Demonstrate HAVING in core relational database tasks.", "difficulty_level": 2, "sql_feature": "having"},
+     "difficulty_level": 2, "sql_feature": "having"},
     {"concept_code": "SQL-SUBQUERY", "concept_name": "Subquery", "subject_area": "SQL Querying",
-     "description": "Demonstrate Subquery in core relational database tasks.", "difficulty_level": 2, "sql_feature": "subquery"},
+     "difficulty_level": 2, "sql_feature": "subquery"},
 ]
+
+# Canonical concept metadata lives in db/concept_metadata.json; the builder
+# must not regenerate packs that silently drop descriptions, keywords or
+# learning objectives.
+CONCEPT_METADATA = json.loads(
+    (ROOT / "db/concept_metadata.json").read_text(encoding="utf-8"))["concepts"]
+for _concept in CONCEPTS + CORE_CONCEPTS:
+    _entry = CONCEPT_METADATA[_concept["concept_code"]]
+    _concept["description"] = _entry["description"]
+    _concept["keywords"] = _entry["keywords"]
+    _concept["learning_objectives"] = _entry["learning_objectives"]
 
 # ---------------------------------------------------------------------------
 # SQL corpus — shared dataset builders
@@ -4241,7 +4252,9 @@ def build_questions():
                         for b in e["rubric"]],
             "explanation": e["explanation"], "tags": e["tags"],
             "source_refs": e["source_refs"]})
-    return out
+    sys.path.insert(0, str(ROOT / "backend"))
+    from app.services.corpus_review import apply_review
+    return apply_review(out)
 
 
 def structural_check(questions):
@@ -4372,6 +4385,18 @@ def main():
             return 2
 
     if args.write:
+        if not args.execute:
+            existing_path = ROOT / args.out
+            existing = {q["key"]: q for q in json.loads(existing_path.read_text(encoding="utf-8"))["questions"]} if existing_path.exists() else {}
+            for q in questions:
+                if q["question_type"] != "sql":
+                    continue
+                previous = existing.get(q["key"], {})
+                verified = {d["setup_sql"]: d.get("expected_result") for d in previous.get("datasets", [])}
+                for dataset in q["datasets"]:
+                    if previous.get("reference_answer") != q["reference_answer"] or not isinstance(verified.get(dataset["setup_sql"]), dict):
+                        raise RuntimeError(f"Run --execute to verify changed SQL before writing {q['key']}")
+                    dataset["expected_result"] = verified[dataset["setup_sql"]]
         pack = {
             "version": "1.0",
             "scope": ("PostgreSQL extended question bank grounded in the official "
@@ -4384,16 +4409,10 @@ def main():
             "clos": CLOS,
             "dependencies": DEPENDENCIES,
             "questions": questions,
-            "assessments": [{
-                "key": "postgres-extended",
-                "title": "PostgreSQL Extended Knowledge Assessment",
-                "description": ("Adaptive PostgreSQL assessment over the extended bank: "
-                                "querying, types, DDL, concurrency, performance, security, "
-                                "server programming and administration."),
-                "concept_codes": [c["concept_code"] for c in CONCEPTS],
-                "target_pct": 70}]}
+            "assessments": []}
         out = ROOT / args.out
-        out.write_text(json.dumps(pack, indent=1, ensure_ascii=False), encoding="utf-8")
+        with out.open("w", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(pack, indent=1, ensure_ascii=False))
         print(f"wrote {out} ({out.stat().st_size} bytes)")
     return 0
 

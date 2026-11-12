@@ -43,7 +43,7 @@ import time
 from datetime import datetime, timezone
 from dataclasses import dataclass
 from typing import Optional
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 
 import httpx
 import jwt
@@ -90,10 +90,32 @@ class ProviderSpec:
     client_id: str
     client_secret: str
     redirect_uri: str
+    frontend_origin: str
 
     @property
     def configured(self) -> bool:
-        return bool(self.client_id and self.client_secret and self.redirect_uri)
+        if not (self.client_id.strip() and self.client_secret.strip() and self.redirect_uri):
+            return False
+        # The callback is operator-configured, never taken from a request.
+        # Keep it on the SPA's host/scheme so browser-bound cookies survive;
+        # localhost may use either the web proxy port or the direct API port.
+        try:
+            callback = urlsplit(self.redirect_uri)
+            frontend = urlsplit(self.frontend_origin)
+            return bool(
+                callback.hostname and callback.hostname == frontend.hostname
+                and callback.scheme == frontend.scheme
+                and (callback.scheme == "https" or (
+                    callback.scheme == "http" and callback.hostname in {"localhost", "127.0.0.1", "::1"}
+                ))
+                and callback.port != 0
+                and not callback.username and not callback.password
+                and not callback.query and not callback.fragment
+                and callback.path == f"{COOKIE_PATH}/{self.name}/callback"
+                and self.redirect_uri == self.redirect_uri.strip()
+            )
+        except ValueError:
+            return False
 
 
 @dataclass(frozen=True)
@@ -117,6 +139,7 @@ def get_provider(settings: Settings, name: str) -> Optional[ProviderSpec]:
             client_id=settings.google_client_id,
             client_secret=settings.google_client_secret,
             redirect_uri=settings.google_redirect_uri,
+            frontend_origin=settings.frontend_url,
         )
     if name == "github":
         return ProviderSpec(
@@ -128,6 +151,7 @@ def get_provider(settings: Settings, name: str) -> Optional[ProviderSpec]:
             client_id=settings.github_client_id,
             client_secret=settings.github_client_secret,
             redirect_uri=settings.github_redirect_uri,
+            frontend_origin=settings.frontend_url,
         )
     return None
 
@@ -417,6 +441,9 @@ def resolve_or_create(db: Session, ident: ProviderIdentity) -> Account:
                 email=ident.email,
                 password_hash=hash_password(secrets.token_urlsafe(48)),
                 full_name=(ident.name or ident.email.split("@")[0])[:100],
+                # No usable local credential exists until the owner
+                # deliberately sets one through password recovery.
+                password_set=False,
             )
             db.flush()
         if account.status != "active":

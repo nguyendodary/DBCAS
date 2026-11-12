@@ -1,0 +1,5607 @@
+{
+  "assessments": {
+    "2": {
+      "title": "PostgreSQL Foundations",
+      "quotas": {
+        "mcq": 4,
+        "sql": 2,
+        "essay": 2
+      },
+      "areas": {
+        "Performance": {
+          "EASY": {
+            "concept_codes": [
+              "IDX"
+            ],
+            "concept_count": 1,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 4,
+              "sql": 2,
+              "essay": 2
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "IDX"
+            ],
+            "concept_count": 1,
+            "families": 1,
+            "families_by_type": {
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 4,
+              "sql": 2,
+              "essay": 2
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 1,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 0,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 0,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 0,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 0,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 0,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          }
+        },
+        "Querying": {
+          "EASY": {
+            "concept_codes": [
+              "JOIN",
+              "SELECT"
+            ],
+            "concept_count": 2,
+            "families": 3,
+            "families_by_type": {
+              "mcq": 2,
+              "sql": 1
+            },
+            "formal_quota": {
+              "mcq": 4,
+              "sql": 2,
+              "essay": 2
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 1,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "sql": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 1,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "sql": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 1,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 1,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "sql": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 1,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "JOIN",
+              "SELECT"
+            ],
+            "concept_count": 2,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 4,
+              "sql": 2,
+              "essay": 2
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          }
+        }
+      }
+    },
+    "3": {
+      "title": "Core PostgreSQL and Database Design Benchmark",
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "areas": {
+        "Database Design": {
+          "EASY": {
+            "concept_codes": [
+              "DB-1NF",
+              "DB-2NF",
+              "DB-3NF",
+              "DB-ER",
+              "DB-FD",
+              "DB-NORM"
+            ],
+            "concept_count": 6,
+            "families": 7,
+            "families_by_type": {
+              "mcq": 6,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 6,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 5
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "DB-1NF",
+              "DB-2NF",
+              "DB-3NF",
+              "DB-ER",
+              "DB-FD",
+              "DB-NORM"
+            ],
+            "concept_count": 6,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "DB-1NF",
+              "DB-2NF",
+              "DB-3NF",
+              "DB-ER",
+              "DB-FD",
+              "DB-NORM"
+            ],
+            "concept_count": 6,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          }
+        },
+        "SQL Querying": {
+          "EASY": {
+            "concept_codes": [
+              "SQL-GROUP",
+              "SQL-HAVING",
+              "SQL-JOIN",
+              "SQL-SELECT",
+              "SQL-SUBQUERY",
+              "SQL-WHERE"
+            ],
+            "concept_count": 6,
+            "families": 18,
+            "families_by_type": {
+              "mcq": 6,
+              "sql": 12
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 6,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 3,
+                    "mcq": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "SQL-GROUP",
+              "SQL-HAVING",
+              "SQL-JOIN",
+              "SQL-SELECT",
+              "SQL-SUBQUERY",
+              "SQL-WHERE"
+            ],
+            "concept_count": 6,
+            "families": 4,
+            "families_by_type": {
+              "sql": 4
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "SQL-GROUP",
+              "SQL-HAVING",
+              "SQL-JOIN",
+              "SQL-SELECT",
+              "SQL-SUBQUERY",
+              "SQL-WHERE"
+            ],
+            "concept_count": 6,
+            "families": 1,
+            "families_by_type": {
+              "sql": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 1,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        }
+      }
+    },
+    "4": {
+      "title": "Read-only SQL and Database Knowledge Benchmark",
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "areas": {
+        "Database Design": {
+          "EASY": {
+            "concept_codes": [
+              "DB-ER",
+              "DB-NORM"
+            ],
+            "concept_count": 2,
+            "families": 3,
+            "families_by_type": {
+              "mcq": 2,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "DB-ER",
+              "DB-NORM"
+            ],
+            "concept_count": 2,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "DB-ER",
+              "DB-NORM"
+            ],
+            "concept_count": 2,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          }
+        },
+        "SQL Foundations": {
+          "EASY": {
+            "concept_codes": [
+              "SQL-DDL-KNOW",
+              "SQL-DML-KNOW"
+            ],
+            "concept_count": 2,
+            "families": 3,
+            "families_by_type": {
+              "mcq": 2,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "SQL-DDL-KNOW",
+              "SQL-DML-KNOW"
+            ],
+            "concept_count": 2,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "SQL-DDL-KNOW",
+              "SQL-DML-KNOW"
+            ],
+            "concept_count": 2,
+            "families": 0,
+            "families_by_type": {},
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 0,
+              "runs": []
+            },
+            "practice_ready": false
+          }
+        },
+        "SQL Querying": {
+          "EASY": {
+            "concept_codes": [
+              "SQL-GROUP",
+              "SQL-HAVING",
+              "SQL-JOIN",
+              "SQL-SELECT",
+              "SQL-SUBQUERY",
+              "SQL-WHERE"
+            ],
+            "concept_count": 6,
+            "families": 18,
+            "families_by_type": {
+              "mcq": 6,
+              "sql": 12
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 6,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 3,
+                    "mcq": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 3,
+                    "mcq": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 3,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "sql": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "SQL-GROUP",
+              "SQL-HAVING",
+              "SQL-JOIN",
+              "SQL-SELECT",
+              "SQL-SUBQUERY",
+              "SQL-WHERE"
+            ],
+            "concept_count": 6,
+            "families": 4,
+            "families_by_type": {
+              "sql": 4
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "SQL-GROUP",
+              "SQL-HAVING",
+              "SQL-JOIN",
+              "SQL-SELECT",
+              "SQL-SUBQUERY",
+              "SQL-WHERE"
+            ],
+            "concept_count": 6,
+            "families": 1,
+            "families_by_type": {
+              "sql": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 1,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        }
+      }
+    },
+    "6": {
+      "title": "PostgreSQL Extended Knowledge Assessment",
+      "quotas": {
+        "mcq": 10,
+        "sql": 2,
+        "essay": 1
+      },
+      "areas": {
+        "PostgreSQL Administration": {
+          "EASY": {
+            "concept_codes": [
+              "PG-BACKUP",
+              "PG-CONFIG",
+              "PG-MONITOR",
+              "PG-REPLICATION",
+              "PG-VACUUM",
+              "PG-WAL"
+            ],
+            "concept_count": 6,
+            "families": 5,
+            "families_by_type": {
+              "mcq": 5
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 5,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-BACKUP",
+              "PG-CONFIG",
+              "PG-MONITOR",
+              "PG-REPLICATION",
+              "PG-VACUUM",
+              "PG-WAL"
+            ],
+            "concept_count": 6,
+            "families": 17,
+            "families_by_type": {
+              "mcq": 13,
+              "essay": 4
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 6,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 0,
+                    "essay": 3
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 3,
+                    "mcq": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 0,
+                    "essay": 3
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "essay": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 0,
+                    "essay": 3
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "essay": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 0,
+                    "essay": 3
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 3,
+                    "mcq": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 3,
+                    "sql": 0,
+                    "essay": 3
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 3,
+                    "essay": 3
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-BACKUP",
+              "PG-CONFIG",
+              "PG-MONITOR",
+              "PG-REPLICATION",
+              "PG-VACUUM",
+              "PG-WAL"
+            ],
+            "concept_count": 6,
+            "families": 11,
+            "families_by_type": {
+              "mcq": 8,
+              "essay": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 6,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        },
+        "PostgreSQL Concurrency": {
+          "EASY": {
+            "concept_codes": [
+              "PG-ISOLATION",
+              "PG-LOCK",
+              "PG-MVCC",
+              "PG-TXN"
+            ],
+            "concept_count": 4,
+            "families": 6,
+            "families_by_type": {
+              "mcq": 6
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 4,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 4
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 4,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 4
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 4,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 4
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 4,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 4
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 4,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 4
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-ISOLATION",
+              "PG-LOCK",
+              "PG-MVCC",
+              "PG-TXN"
+            ],
+            "concept_count": 4,
+            "families": 12,
+            "families_by_type": {
+              "mcq": 10,
+              "essay": 2
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-ISOLATION",
+              "PG-LOCK",
+              "PG-MVCC",
+              "PG-TXN"
+            ],
+            "concept_count": 4,
+            "families": 10,
+            "families_by_type": {
+              "mcq": 7,
+              "essay": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          }
+        },
+        "PostgreSQL Data Definition": {
+          "EASY": {
+            "concept_codes": [
+              "PG-ALTER",
+              "PG-CONSTRAINT",
+              "PG-GENCOL",
+              "PG-IDENTITY",
+              "PG-KEYS",
+              "PG-MATVIEW",
+              "PG-PARTITION",
+              "PG-SCHEMA",
+              "PG-TABLE",
+              "PG-VIEW"
+            ],
+            "concept_count": 10,
+            "families": 15,
+            "families_by_type": {
+              "mcq": 15
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 10,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-ALTER",
+              "PG-CONSTRAINT",
+              "PG-GENCOL",
+              "PG-IDENTITY",
+              "PG-KEYS",
+              "PG-MATVIEW",
+              "PG-PARTITION",
+              "PG-SCHEMA",
+              "PG-TABLE",
+              "PG-VIEW"
+            ],
+            "concept_count": 10,
+            "families": 24,
+            "families_by_type": {
+              "mcq": 18,
+              "essay": 6
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 10,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 5
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 5
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 5
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 5
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 5
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 5
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 5
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 5,
+                    "essay": 5
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 5,
+                    "sql": 0,
+                    "essay": 5
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 5,
+                    "mcq": 5
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-ALTER",
+              "PG-CONSTRAINT",
+              "PG-GENCOL",
+              "PG-IDENTITY",
+              "PG-KEYS",
+              "PG-MATVIEW",
+              "PG-PARTITION",
+              "PG-SCHEMA",
+              "PG-TABLE",
+              "PG-VIEW"
+            ],
+            "concept_count": 10,
+            "families": 8,
+            "families_by_type": {
+              "essay": 2,
+              "mcq": 6
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 8,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        },
+        "PostgreSQL Data Manipulation": {
+          "EASY": {
+            "concept_codes": [
+              "PG-DML",
+              "PG-MERGE"
+            ],
+            "concept_count": 2,
+            "families": 4,
+            "families_by_type": {
+              "mcq": 4
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-DML",
+              "PG-MERGE"
+            ],
+            "concept_count": 2,
+            "families": 4,
+            "families_by_type": {
+              "mcq": 3,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-DML",
+              "PG-MERGE"
+            ],
+            "concept_count": 2,
+            "families": 2,
+            "families_by_type": {
+              "mcq": 2
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 2,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 0
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          }
+        },
+        "PostgreSQL Data Types": {
+          "EASY": {
+            "concept_codes": [
+              "PG-COLLATION",
+              "PG-DOMAIN",
+              "PG-TYPE-ARRAY",
+              "PG-TYPE-BOOL",
+              "PG-TYPE-CHAR",
+              "PG-TYPE-DATE",
+              "PG-TYPE-JSON",
+              "PG-TYPE-MISC",
+              "PG-TYPE-NUM",
+              "PG-TYPE-RANGE",
+              "PG-TYPECONV"
+            ],
+            "concept_count": 11,
+            "families": 19,
+            "families_by_type": {
+              "mcq": 19
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 11,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-COLLATION",
+              "PG-DOMAIN",
+              "PG-TYPE-ARRAY",
+              "PG-TYPE-BOOL",
+              "PG-TYPE-CHAR",
+              "PG-TYPE-DATE",
+              "PG-TYPE-JSON",
+              "PG-TYPE-MISC",
+              "PG-TYPE-NUM",
+              "PG-TYPE-RANGE",
+              "PG-TYPECONV"
+            ],
+            "concept_count": 11,
+            "families": 30,
+            "families_by_type": {
+              "essay": 6,
+              "mcq": 21,
+              "sql": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 11,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-COLLATION",
+              "PG-DOMAIN",
+              "PG-TYPE-ARRAY",
+              "PG-TYPE-BOOL",
+              "PG-TYPE-CHAR",
+              "PG-TYPE-DATE",
+              "PG-TYPE-JSON",
+              "PG-TYPE-MISC",
+              "PG-TYPE-NUM",
+              "PG-TYPE-RANGE",
+              "PG-TYPECONV"
+            ],
+            "concept_count": 11,
+            "families": 7,
+            "families_by_type": {
+              "mcq": 4,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 7,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        },
+        "PostgreSQL Functions": {
+          "EASY": {
+            "concept_codes": [
+              "PG-FTS",
+              "PG-FUNC-DATE",
+              "PG-FUNC-NUM",
+              "PG-FUNC-STR",
+              "PG-PATTERN"
+            ],
+            "concept_count": 5,
+            "families": 17,
+            "families_by_type": {
+              "mcq": 14,
+              "sql": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 5,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-FTS",
+              "PG-FUNC-DATE",
+              "PG-FUNC-NUM",
+              "PG-FUNC-STR",
+              "PG-PATTERN"
+            ],
+            "concept_count": 5,
+            "families": 16,
+            "families_by_type": {
+              "sql": 8,
+              "mcq": 7,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 5,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 2,
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 2,
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 2,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "sql": 2,
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-FTS",
+              "PG-FUNC-DATE",
+              "PG-FUNC-NUM",
+              "PG-FUNC-STR",
+              "PG-PATTERN"
+            ],
+            "concept_count": 5,
+            "families": 5,
+            "families_by_type": {
+              "essay": 1,
+              "mcq": 2,
+              "sql": 2
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 5,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        },
+        "PostgreSQL Performance": {
+          "EASY": {
+            "concept_codes": [
+              "PG-EXPLAIN",
+              "PG-INDEX",
+              "PG-INDEX-TYPES",
+              "PG-STATS"
+            ],
+            "concept_count": 4,
+            "families": 4,
+            "families_by_type": {
+              "mcq": 4
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-EXPLAIN",
+              "PG-INDEX",
+              "PG-INDEX-TYPES",
+              "PG-STATS"
+            ],
+            "concept_count": 4,
+            "families": 10,
+            "families_by_type": {
+              "mcq": 8,
+              "essay": 2
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-EXPLAIN",
+              "PG-INDEX",
+              "PG-INDEX-TYPES",
+              "PG-STATS"
+            ],
+            "concept_count": 4,
+            "families": 12,
+            "families_by_type": {
+              "mcq": 9,
+              "essay": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          }
+        },
+        "PostgreSQL Querying": {
+          "EASY": {
+            "concept_codes": [
+              "PG-AGG-FUNC",
+              "PG-CASE",
+              "PG-CTE",
+              "PG-DISTINCT",
+              "PG-EXPR",
+              "PG-JOIN-TYPES",
+              "PG-LIMIT",
+              "PG-NULLS",
+              "PG-ORDERBY",
+              "PG-RECURSIVE",
+              "PG-SELECT-LIST",
+              "PG-SETOPS",
+              "PG-SYNTAX",
+              "PG-WINDOW"
+            ],
+            "concept_count": 14,
+            "families": 64,
+            "families_by_type": {
+              "mcq": 51,
+              "sql": 13
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 13,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-AGG-FUNC",
+              "PG-CASE",
+              "PG-CTE",
+              "PG-DISTINCT",
+              "PG-EXPR",
+              "PG-JOIN-TYPES",
+              "PG-LIMIT",
+              "PG-NULLS",
+              "PG-ORDERBY",
+              "PG-RECURSIVE",
+              "PG-SELECT-LIST",
+              "PG-SETOPS",
+              "PG-SYNTAX",
+              "PG-WINDOW"
+            ],
+            "concept_count": 14,
+            "families": 63,
+            "families_by_type": {
+              "sql": 29,
+              "mcq": 29,
+              "essay": 5
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 13,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-AGG-FUNC",
+              "PG-CASE",
+              "PG-CTE",
+              "PG-DISTINCT",
+              "PG-EXPR",
+              "PG-JOIN-TYPES",
+              "PG-LIMIT",
+              "PG-NULLS",
+              "PG-ORDERBY",
+              "PG-RECURSIVE",
+              "PG-SELECT-LIST",
+              "PG-SETOPS",
+              "PG-SYNTAX",
+              "PG-WINDOW"
+            ],
+            "concept_count": 14,
+            "families": 26,
+            "families_by_type": {
+              "mcq": 10,
+              "sql": 15,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 13,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        },
+        "PostgreSQL Security": {
+          "EASY": {
+            "concept_codes": [
+              "PG-PRIVILEGE",
+              "PG-RLS",
+              "PG-ROLES"
+            ],
+            "concept_count": 3,
+            "families": 3,
+            "families_by_type": {
+              "mcq": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-PRIVILEGE",
+              "PG-RLS",
+              "PG-ROLES"
+            ],
+            "concept_count": 3,
+            "families": 8,
+            "families_by_type": {
+              "mcq": 7,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-PRIVILEGE",
+              "PG-RLS",
+              "PG-ROLES"
+            ],
+            "concept_count": 3,
+            "families": 6,
+            "families_by_type": {
+              "mcq": 4,
+              "essay": 2
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 1,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 1
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 1
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          }
+        },
+        "PostgreSQL Server Programming": {
+          "EASY": {
+            "concept_codes": [
+              "PG-PLPGSQL",
+              "PG-PROC",
+              "PG-TRIGGER",
+              "PG-UDF"
+            ],
+            "concept_count": 4,
+            "families": 3,
+            "families_by_type": {
+              "mcq": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 3,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          },
+          "MEDIUM": {
+            "concept_codes": [
+              "PG-PLPGSQL",
+              "PG-PROC",
+              "PG-TRIGGER",
+              "PG-UDF"
+            ],
+            "concept_count": 4,
+            "families": 14,
+            "families_by_type": {
+              "mcq": 11,
+              "essay": 3
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "mcq": 2,
+                    "essay": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                },
+                {
+                  "ok": true,
+                  "quotas": {
+                    "mcq": 2,
+                    "sql": 0,
+                    "essay": 2
+                  },
+                  "covered": true,
+                  "types": {
+                    "essay": 2,
+                    "mcq": 2
+                  },
+                  "types_exact": true,
+                  "families_distinct": true
+                }
+              ]
+            },
+            "practice_ready": true
+          },
+          "HARD": {
+            "concept_codes": [
+              "PG-PLPGSQL",
+              "PG-PROC",
+              "PG-TRIGGER",
+              "PG-UDF"
+            ],
+            "concept_count": 4,
+            "families": 8,
+            "families_by_type": {
+              "mcq": 7,
+              "essay": 1
+            },
+            "formal_quota": {
+              "mcq": 10,
+              "sql": 2,
+              "essay": 1
+            },
+            "formal_runs": [
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              },
+              {
+                "ok": false,
+                "code": "insufficient_question_pool"
+              }
+            ],
+            "formal_ready": false,
+            "practice": {
+              "count": 4,
+              "runs": [
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                },
+                {
+                  "ok": false,
+                  "code": "insufficient_question_pool"
+                }
+              ]
+            },
+            "practice_ready": false
+          }
+        }
+      }
+    }
+  },
+  "single_concept": {
+    "4": {
+      "DB-NORM": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-DML-KNOW": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-HAVING": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-SUBQUERY": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "SQL-WHERE": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-DDL-KNOW": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-SELECT": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "DB-ER": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-JOIN": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-GROUP": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      }
+    },
+    "6": {
+      "PG-VACUUM": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-TRIGGER": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      },
+      "PG-PRIVILEGE": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      },
+      "PG-EXPR": {
+        "EASY": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 6,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPE-ARRAY": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 6,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-COLLATION": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPECONV": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-EXPLAIN": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-MONITOR": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPE-JSON": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 6,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-FUNC-NUM": {
+        "EASY": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-SELECT-LIST": {
+        "EASY": {
+          "families": 8,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 10,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-JOIN-TYPES": {
+        "EASY": {
+          "families": 8,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 7,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-INDEX-TYPES": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-VIEW": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-PATTERN": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-SCHEMA": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-TXN": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-SYNTAX": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-UDF": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-INDEX": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-REPLICATION": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-PLPGSQL": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-TYPE-MISC": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-DOMAIN": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPE-BOOL": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-ORDERBY": {
+        "EASY": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-MVCC": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      },
+      "PG-SETOPS": {
+        "EASY": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPE-RANGE": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-PARTITION": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-DISTINCT": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-FUNC-STR": {
+        "EASY": {
+          "families": 6,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPE-DATE": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-DML": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-STATS": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-TABLE": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-RLS": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-CONSTRAINT": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-TYPE-NUM": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-KEYS": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-RECURSIVE": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 6,
+          "practice_ready": true
+        }
+      },
+      "PG-LIMIT": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-BACKUP": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      },
+      "PG-CASE": {
+        "EASY": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-IDENTITY": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-FTS": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-TYPE-CHAR": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-WINDOW": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 7,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 5,
+          "practice_ready": true
+        }
+      },
+      "PG-CONFIG": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-GENCOL": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-WAL": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-FUNC-DATE": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      },
+      "PG-NULLS": {
+        "EASY": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 9,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-AGG-FUNC": {
+        "EASY": {
+          "families": 6,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 7,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-MERGE": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-ISOLATION": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 4,
+          "practice_ready": true
+        }
+      },
+      "PG-LOCK": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 3,
+          "practice_ready": true
+        }
+      },
+      "PG-ROLES": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      },
+      "PG-ALTER": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "PG-MATVIEW": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-PROC": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "PG-CTE": {
+        "EASY": {
+          "families": 3,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 5,
+          "practice_ready": true
+        },
+        "HARD": {
+          "families": 2,
+          "practice_ready": false
+        }
+      }
+    },
+    "3": {
+      "DB-1NF": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "DB-ER": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-SELECT": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "DB-2NF": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-GROUP": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-SUBQUERY": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 1,
+          "practice_ready": false
+        }
+      },
+      "SQL-JOIN": {
+        "EASY": {
+          "families": 4,
+          "practice_ready": true
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "DB-3NF": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-HAVING": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "DB-FD": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SQL-WHERE": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "DB-NORM": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      }
+    },
+    "2": {
+      "IDX": {
+        "EASY": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "JOIN": {
+        "EASY": {
+          "families": 1,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      },
+      "SELECT": {
+        "EASY": {
+          "families": 2,
+          "practice_ready": false
+        },
+        "MEDIUM": {
+          "families": 0,
+          "practice_ready": false
+        },
+        "HARD": {
+          "families": 0,
+          "practice_ready": false
+        }
+      }
+    }
+  }
+}

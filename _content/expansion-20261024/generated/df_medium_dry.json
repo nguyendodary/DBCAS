@@ -1,0 +1,51 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\df_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:54:03.824971+00:00",
+  "questions": [
+    {
+      "key": "df-medium-generated-subtotal",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-GENCOL"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "mixed_discounts",
+          "rows": 2
+        },
+        {
+          "dataset_name": "all_subtotals_null",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "df-medium-order-total-view",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-VIEW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "orders_above_threshold",
+          "rows": 2
+        },
+        {
+          "dataset_name": "view_over_empty_lines",
+          "rows": 0
+        }
+      ]
+    }
+  ],
+  "finished_at": "2026-10-24T17:54:04.233958+00:00",
+  "summary": {
+    "dry_run_ok": 2
+  }
+}

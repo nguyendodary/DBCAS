@@ -1,0 +1,143 @@
+{
+ "note": "Allocation Stage A text fixes. splits = merged line pairs from the original's overlapping text frames (split at y, spacing preserved); replace = wrong/clipped auto band -> drop (add = corrected bbox; add-only entries insert a second band where the original has two text runs of different weight on one visual line); nudge = inherited overlap or own-line graze, shifted the minimum px so nothing intersects (owner rule: enlarge spacing, never shrink). Line-2 boxes of Application Server / SQL Sandbox overflow their borders in the original (label background tab); their bands stay clipped at the border because rule 8 forbids text crossing a segment, and the SQL Sandbox line is nudged 8 px left to keep its full width inside the cylinder. The boundary label over its HTTPS line is fixed by opening the line (tracer cut), not by moving the label. No content delta.",
+ "splits": [
+  {
+   "shape": [
+    412,
+    835,
+    791,
+    934
+   ],
+   "split_y": 886
+  }
+ ],
+ "replace": [
+  {
+   "drop": [
+    70,
+    546,
+    843,
+    568
+   ],
+   "add": {
+    "bbox": [
+     70,
+     548,
+     239,
+     567
+    ]
+   }
+  },
+  {
+   "add": {
+    "bbox": [
+     248,
+     544,
+     843,
+     571
+    ]
+   }
+  }
+ ],
+ "nudges": [
+  {
+   "bbox": [
+    414,
+    993,
+    588,
+    1013
+   ],
+   "dy": 2
+  },
+  {
+   "bbox": [
+    471,
+    1106,
+    803,
+    1125
+   ],
+   "dx": -8
+  },
+  {
+   "bbox": [
+    473,
+    258,
+    720,
+    273
+   ],
+   "dy": 4
+  },
+  {
+   "bbox": [
+    476,
+    665,
+    717,
+    678
+   ],
+   "dy": 3
+  },
+  {
+   "bbox": [
+    450,
+    681,
+    742,
+    697
+   ],
+   "dy": 3
+  },
+  {
+   "bbox": [
+    461,
+    886,
+    743,
+    901
+   ],
+   "dy": 4
+  },
+  {
+   "bbox": [
+    437,
+    902,
+    757,
+    917
+   ],
+   "dy": 5
+  },
+  {
+   "bbox": [
+    977,
+    1125,
+    1212,
+    1140
+   ],
+   "dy": 3
+  },
+  {
+   "bbox": [
+    134,
+    1141,
+    318,
+    1156
+   ],
+   "dy": 4
+  },
+  {
+   "bbox": [
+    497,
+    1141,
+    765,
+    1155
+   ],
+   "dy": 3
+  },
+  {
+   "bbox": [
+    955,
+    1141,
+    1234,
+    1157
+   ],
+   "dy": 6
+  }
+ ]
+}

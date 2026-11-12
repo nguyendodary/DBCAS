@@ -1,0 +1,33 @@
+digraph deployment {
+graph [rankdir=TB,bgcolor="white",pad="0.5",nodesep="0.6",ranksep="0.9",fontname="Arial",fontsize=22]; node [shape=box,style="rounded,filled",fillcolor="#EFF5FB",color="#1F3864",fontname="Arial",fontsize=14,margin="0.2"]; edge [color="#2E75B6",fontname="Arial",fontsize=11];
+graph [label="DBCAS release topology - supported\nconfiguration, not a verified public\ndeployment",labelloc=t];
+"actor" [label="Learner / Administrator\nPeople (original combined deployment\nactor)"];
+"device" [label="User device\nBrowser executes SPA"];
+"internet" [label="Internet / transport\nPublic path only when externally\ndeployed"];
+"web" [label="Web server\nRelease frontend Nginx:8080\nHost loopback publication"];
+"api" [label="Application server\nFastAPI; no host port in release"];
+"db" [label="System PostgreSQL 17\nrelease-db-data; app-db internal\nnetwork"];
+"sandbox" [label="Sandbox PostgreSQL 17\nassessment-sandbox internal network\nRead-only learner; 3s default; 256MB\ncap"];
+"llm" [label="External LLM provider\nOptional HTTPS; release web network\negress"];
+"gateway" [label="HTTPS gateway\nRequired external deployment\nresponsibility\nNOT supplied by Compose"];
+"migrate" [label="One-shot migration job\nMust succeed before backend startup"];
+"worker" [label="Optional ai-worker profile\nProvider calls explicitly enabled"];
+"google" [label="Google OAuth\nOptional HTTPS"];
+"github" [label="GitHub OAuth\nOptional HTTPS"];
+"actor" -> "device" [id="D01",label="D01 Uses browser",style=solid];
+"device" -> "internet" [id="D02",label="D02 External deployment: HTTPS; local\nreview: HTTP loopback",style=solid];
+"internet" -> "web" [id="D03",label="D03 Through separately supplied HTTPS\ngateway; not direct public HTTP",style=solid];
+"web" -> "api" [id="D04",label="D04 Nginx reverse proxy on web\nnetwork; internal HTTP JSON",style=solid];
+"api" -> "db" [id="D05",label="D05 SQL on app-db internal network",style=solid];
+"api" -> "sandbox" [id="D06",label="D06 SQL on assessment-sandbox;\nrestricted network, not network:none",style=solid];
+"api" -> "llm" [id="D07",label="D07 Sanitized HTTPS task requests\n(when configured)",style=solid];
+"gateway" -> "web" [id="D08",label="D08 Required external TLS termination\n/ forward to host loopback",style=dashed];
+"migrate" -> "db" [id="D09",label="D09 Apply migrations via app-db",style=solid];
+"migrate" -> "api" [id="D10",label="D10 Startup dependency:\nservice_completed_successfully",style=dashed];
+"worker" -> "db" [id="D11",label="D11 Optional worker claims jobs over\napp-db",style=solid];
+"worker" -> "sandbox" [id="D12",label="D12 Optional sandbox task connection",style=solid];
+"worker" -> "llm" [id="D13",label="D13 Optional provider HTTPS",style=solid];
+"api" -> "google" [id="D14",label="D14 OAuth token / profile HTTPS",style=solid];
+"api" -> "github" [id="D15",label="D15 OAuth token / profile /\nverified-email HTTPS",style=solid];
+subgraph cluster_dbcas { label="Docker-capable release host - supported topology, not a verified deployed environment"; color="#1F3864"; web;api;db;sandbox;migrate;worker; }
+}

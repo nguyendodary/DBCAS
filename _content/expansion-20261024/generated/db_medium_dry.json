@@ -1,0 +1,171 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\db_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:22:49.953619+00:00",
+  "questions": [
+    {
+      "key": "db-medium-closure",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-candidate-keys",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-partial-dependency",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-2NF",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-3nf-not-bcnf",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-3NF",
+        "DB-FD"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-nonatomic-list",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-1NF",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-one-to-one-mapping",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-lossless-common-attribute",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-FD"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-ternary-association",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-augmentation",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-FD"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-3nf-synthesis",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-3NF",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-medium-email-audit",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "shared_and_unique",
+          "rows": 1
+        },
+        {
+          "dataset_name": "repeat_same_customer",
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "key": "db-medium-customer-order-totals",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "mixed_orders",
+          "rows": 3
+        },
+        {
+          "dataset_name": "no_orders",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "key": "db-medium-library-normalization",
+      "question_type": "essay",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:22:52.304011+00:00",
+  "summary": {
+    "dry_run_ok": 13
+  }
+}

@@ -1,0 +1,4 @@
+canvas 1331x1283 -> 1725x1600
+shapes 9 -> 11; lines 8 -> 9; texts 39 -> 50
+existing shapes unchanged: 9/9; texts unchanged: 37 of 39
+RESULT: PASS (all 9 existing nodes byte-identical; only the owner's size / HTTPS / OAuth+Email delta applied)

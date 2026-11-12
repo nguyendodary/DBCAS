@@ -1,5 +1,6 @@
 """Real subprocess regression: .env values cannot restore paid AI access."""
 import json
+from pathlib import Path
 import subprocess
 import sys
 
@@ -14,5 +15,6 @@ def test_child_process_keeps_ai_disabled_despite_dotenv_and_parent_settings(tmp_
     child = subprocess.run([sys.executable, "-c",
         "import sys,json; from app.config import Settings; s=Settings(_env_file=sys.argv[1]); "
         "print(json.dumps([bool(s.llm_api_key),bool(s.llm_base_url),bool(s.llm_model)]))", str(dotenv)],
-        env=server_environment(), capture_output=True, text=True, check=True)
+        env=server_environment(), capture_output=True, text=True, check=True,
+        cwd=Path(__file__).resolve().parents[1])
     assert json.loads(child.stdout) == [False, False, False]

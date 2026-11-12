@@ -54,6 +54,8 @@ def _mcq_payload(concept_id):
         "question_type": "mcq",
         "prompt": "Which clause filters rows?",
         "reference_answer": "WHERE",
+        "explanation": "WHERE filters individual rows before grouping and aggregation.",
+        "source_refs": [{"url": "https://www.postgresql.org/docs/18/queries-table-expressions.html#QUERIES-WHERE"}],
         "difficulty_level": 1,
         "points": "1.0",
         "concept_ids": [concept_id],
@@ -61,7 +63,7 @@ def _mcq_payload(concept_id):
             {"option_label": "A", "option_text": "WHERE", "is_correct": True},
             {"option_label": "B", "option_text": "ORDER BY", "is_correct": False},
         ],
-        "translations": [{"locale": "vi", "prompt": "Mệnh đề nào lọc các dòng?", "option_texts": {"A": "WHERE", "B": "ORDER BY"}}],
+        "translations": [{"locale": "vi", "prompt": "Mệnh đề nào lọc các dòng?", "explanation": "WHERE lọc từng dòng trước khi nhóm dữ liệu.", "option_texts": {"A": "WHERE", "B": "ORDER BY"}}],
     }
 
 
@@ -70,6 +72,8 @@ def _sql_payload(concept_id):
         "question_type": "sql",
         "prompt": "List all students",
         "reference_answer": "SELECT * FROM students",
+        "explanation": "SELECT * projects every declared column from each student row.",
+        "source_refs": [{"url": "https://www.postgresql.org/docs/18/queries-select-lists.html"}],
         "difficulty_level": 2,
         "points": "4.0",
         "concept_ids": [concept_id],
@@ -81,7 +85,7 @@ def _sql_payload(concept_id):
                 "expected_result": {"columns": ["id"], "rows": [[1]]},
             }
         ],
-        "translations": [{"locale": "vi", "prompt": "Liệt kê tất cả sinh viên."}],
+        "translations": [{"locale": "vi", "prompt": "Liệt kê tất cả sinh viên.", "explanation": "SELECT * trả mọi cột đã khai báo của từng dòng sinh viên."}],
     }
 
 
@@ -89,7 +93,9 @@ def _essay_payload(concept_id):
     return {
         "question_type": "essay",
         "prompt": "Explain normalization",
-        "reference_answer": "...",
+        "reference_answer": "Normalization organizes functional dependencies to reduce unwanted redundancy using lossless decompositions.",
+        "explanation": "A decomposition must preserve the intended data relationships and avoid spurious joined rows.",
+        "source_refs": [{"url": "https://www.postgresql.org/docs/18/ddl-constraints.html"}],
         "difficulty_level": 3,
         "points": "5.0",
         "concept_ids": [concept_id],
@@ -107,7 +113,7 @@ def _essay_payload(concept_id):
                 "criteria": "Missing or wrong",
             },
         ],
-        "translations": [{"locale": "vi", "prompt": "Hãy giải thích về chuẩn hóa.", "rubrics": {
+        "translations": [{"locale": "vi", "prompt": "Hãy giải thích về chuẩn hóa.", "explanation": "Phân rã cần giữ quan hệ dữ liệu đã định và không tạo dòng giả khi nối lại.", "rubrics": {
             "Complete": {"label": "Hoàn chỉnh", "criteria": "Giải thích đầy đủ."},
             "Incomplete": {"label": "Chưa đạt", "criteria": "Thiếu hoặc sai."},
         }}],
@@ -123,15 +129,16 @@ class TestRbac:
 
 
 class TestCreateAndRead:
-    def test_new_question_requires_vietnamese_display_content(self, client, db_session):
+    def test_new_english_question_allows_original_only(self, client, db_session):
         h = _admin(client, db_session)
         c = _concept(db_session, "SQL-WHERE")
         db_session.commit()
         payload = _mcq_payload(c.concept_id)
         payload.pop("translations")
         response = client.post(f"{BASE}/questions", json=payload, headers=h)
-        assert response.status_code == 422
-        assert response.json()["error"]["code"] == "question_incomplete"
+        assert response.status_code == 201
+        assert response.json()["original_locale"] == "en"
+        assert response.json()["translations"] == []
 
     def test_create_mcq_roundtrip(self, client, db_session):
         h = _admin(client, db_session)

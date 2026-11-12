@@ -11,10 +11,6 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 ReleasePolicy = Literal["IMMEDIATE", "HUMAN_VERIFIED"]
 
 
-class FinishSessionRequest(BaseModel):
-    result_release_policy: ReleasePolicy
-
-
 class PersonalizedStartRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     # Skill count is independent of question count: validated questions can
@@ -22,13 +18,15 @@ class PersonalizedStartRequest(BaseModel):
     concept_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(min_length=1, max_length=100)
     difficulty: Literal["EASY", "MEDIUM", "HARD"]
     request_id: UUID
-    mode: Literal["FORMAL", "PRACTICE"] = "FORMAL"
-    question_count: Literal[1, 2, 3, 5, 10, 13] = 13
+    mode: Literal["FORMAL", "PRACTICE", "ADAPTIVE"] = "FORMAL"
+    # None explicitly requests automatic practice length. The formal default
+    # and all existing callers retain their exact configured contract.
+    question_count: Optional[Literal[1, 2, 3, 5, 10, 13]] = 13
 
     @field_validator("question_count", mode="before")
     @classmethod
     def question_count_integer(cls, value):
-        if type(value) is not int:
+        if value is not None and type(value) is not int:
             raise ValueError("Question count must be an integer")
         return value
 
@@ -36,6 +34,8 @@ class PersonalizedStartRequest(BaseModel):
     def formal_count(self):
         if self.mode == "FORMAL" and self.question_count != 13:
             raise ValueError("Short assessments must explicitly use PRACTICE mode")
+        if self.mode == "ADAPTIVE" and (len(self.concept_ids) != 1 or self.question_count != 13):
+            raise ValueError("Adaptive practice assesses one skill with a server-controlled question limit")
         return self
 
 
@@ -97,30 +97,34 @@ class LoginRequest(BaseModel):
     _email = field_validator("email")(_validate_email)
 
 
+class PasswordResetRequest(BaseModel):
+    email: str
+
+    _email = field_validator("email")(_validate_email)
+
+
+class PasswordResetConfirmRequest(BaseModel):
+    # secrets.token_urlsafe(32) is 43 characters; allow headroom only.
+    token: str = Field(min_length=20, max_length=200)
+    password: str
+    password_confirm: str
+
+    _pw = field_validator("password")(_validate_password)
+
+    @field_validator("password_confirm")
+    @classmethod
+    def _passwords_match(cls, v: str, info):
+        if "password" in info.data and v != info.data["password"]:
+            raise ValueError("Password confirmation does not match")
+        return v
+
+
 class AccountSummary(BaseModel):
     account_id: int
     email: str
     full_name: Optional[str] = None
     roles: list[str]
     status: str
-    avatar_url: Optional[str] = None
-
-
-class ChangePasswordRequest(BaseModel):
-    current_password: str = Field(min_length=1, max_length=256)
-    new_password: str
-    new_password_confirm: str
-    _pw = field_validator("new_password")(_validate_password)
-
-    @model_validator(mode="after")
-    def matching_passwords(self):
-        if self.new_password != self.new_password_confirm:
-            raise ValueError("Password confirmation does not match")
-        return self
-
-
-class AvatarUpdateRequest(BaseModel):
-    avatar_data_url: Optional[str] = Field(default=None, max_length=410000)
 
 
 class TokenResponse(BaseModel):
@@ -128,6 +132,12 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     expires_in: int
     account: AccountSummary
+    refresh_token: Optional[str] = None
+    refresh_expires_in: Optional[int] = None
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str = Field(min_length=32, max_length=2048)
 
 
 class ProvisionAccountRequest(BaseModel):
@@ -183,15 +193,16 @@ class SessionSummary(BaseModel):
     """One of the learner's own sessions — history list and pickers."""
 
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
     locale: str = "en"
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
     assembly_mode: Optional[str] = None
+    adaptive_progress: Optional[dict] = None
     started_at: datetime
     expires_at: datetime
     submitted_at: Optional[datetime] = None
@@ -214,7 +225,6 @@ SQL_ANSWER_MAX_LEN = 16000
 class SubmitAnswerRequest(BaseModel):
     question_id: int
     selected_option_id: Optional[int] = None  # null = unanswered
-    selected_option_ids: Optional[list[int]] = Field(default=None, max_length=100)
     sql_answer: Optional[str] = Field(default=None, max_length=SQL_ANSWER_MAX_LEN)
     essay_answer: Optional[str] = Field(default=None, max_length=30000)
 
@@ -279,7 +289,7 @@ class ProfileSummary(BaseModel):
 
 class CompetencyProfileResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     concepts: list[ConceptCompetencyItem]
     categories: list[CompetencyCategory] = []
@@ -324,7 +334,7 @@ class CompetencyGapResult(BaseModel):
     concepts ordered by shortfall from target."""
 
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     gaps: list[CompetencyGapItem]
 
@@ -414,7 +424,7 @@ class StudyGuidanceItem(BaseModel):
 
 class StudyGuidanceResult(BaseModel):
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     status: str
     guidance: list[StudyGuidanceItem]
 
@@ -427,21 +437,6 @@ class RunSqlRequest(BaseModel):
 
     question_id: int
     sql: str = Field(min_length=1, max_length=SQL_ANSWER_MAX_LEN)
-
-
-class AdminSqlPreviewRequest(BaseModel):
-    """Unsaved SQL answer and a single isolated test fixture."""
-
-    sql: str = Field(min_length=1, max_length=SQL_ANSWER_MAX_LEN)
-    setup_sql: str = Field(min_length=1, max_length=65536)
-
-    @field_validator("sql", "setup_sql")
-    @classmethod
-    def enforce_byte_limits(cls, value: str, info):
-        limit = SQL_ANSWER_MAX_LEN if info.field_name == "sql" else 65536
-        if not value.strip() or len(value.encode("utf-8")) > limit:
-            raise ValueError("SQL must be nonempty and within its byte limit")
-        return value
 
 
 class SqlRunResult(BaseModel):
@@ -499,23 +494,6 @@ class CohortConceptStat(BaseModel):
     gap_rate_pct: Decimal  # below_target_count / learners_assessed * 100
 
 
-class LearnerRankingItem(BaseModel):
-    account_id: int
-    email: str
-    full_name: Optional[str] = None
-    rank: Optional[int] = None
-    average_pct: Optional[Decimal] = None
-    assessments_graded: int = 0
-
-
-class StudentRankingItem(BaseModel):
-    account_id: int
-    full_name: Optional[str] = None
-    rank: Optional[int] = None
-    average_pct: Optional[Decimal] = None
-    assessments_graded: int = 0
-
-
 class CohortOverviewResult(BaseModel):
     """Admin cohort dashboard: who was assessed and where the class is weak."""
 
@@ -524,7 +502,6 @@ class CohortOverviewResult(BaseModel):
     concepts: list[CohortConceptStat]  # all assessed concepts, worst gap first
     weakest_concepts: list[CohortConceptStat]  # top 5 with below_target_count > 0
     trend: list["CohortTrendPoint"] = []
-    leaderboard: list[LearnerRankingItem] = []
 
 
 class CohortTrendPoint(BaseModel):
@@ -557,12 +534,24 @@ class ConceptMetadata(BaseModel):
 class ConceptUpsertRequest(ConceptMetadata):
     """Create or fully replace a Core PostgreSQL concept (difficulty 1–5)."""
 
-    concept_code: str = Field(min_length=1, max_length=30)
+    concept_code: Optional[str] = Field(default=None, min_length=1, max_length=30)
     concept_name: str = Field(min_length=1, max_length=100)
     subject_area: str = Field(min_length=1, max_length=100)
     description: Optional[str] = None
     difficulty_level: int = Field(default=1, ge=1, le=5)
     sql_feature: Optional[Literal["select", "where", "join", "group_by", "having", "subquery", "aggregate", "cte", "window", "set_operation", "distinct", "order_by", "limit", "case", "null_handling"]] = None
+
+    @field_validator("concept_code", mode="before")
+    @classmethod
+    def optional_reference(cls, value):
+        return value.strip() or None if isinstance(value, str) else value
+
+    @field_validator("concept_name", "subject_area")
+    @classmethod
+    def meaningful_name(cls, value):
+        if not value.strip():
+            raise ValueError("A meaningful name is required")
+        return value.strip()
 
 
 class ConceptUpdateRequest(ConceptMetadata):
@@ -676,11 +665,18 @@ class QuestionTranslationInput(BaseModel):
     rubrics: dict[str, LocalizedRubricInput] = Field(default_factory=dict)
 
 
+class QuestionTranslationDraftResult(BaseModel):
+    status: Literal["draft"]
+    source_hash: str = Field(min_length=64, max_length=64)
+    translation: QuestionTranslationInput
+
+
 class QuestionUpsertRequest(BaseModel):
     """Full question-bank item in one payload — type-specific child
     collections are required/ignored per question_type."""
 
     question_type: Literal["mcq", "sql", "essay"]
+    original_locale: Literal["en", "vi"] = "en"
     prompt: str = Field(min_length=1)
     reference_answer: Optional[str] = None
     explanation: Optional[str] = None
@@ -739,6 +735,8 @@ class QuestionConceptTag(BaseModel):
 
 
 class QuestionListItem(BaseModel):
+    original_locale: Literal["en", "vi"] = "en"
+    localized_prompts: dict[str, str] = {}
     question_id: int
     question_type: str
     prompt: str
@@ -809,7 +807,7 @@ class AssessmentUpsertRequest(BaseModel):
     target_sql: Literal[2] = 2
     target_essay: Literal[1] = 1
     concepts: list[AssessmentConceptInput] = Field(min_length=1)
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
 
     @field_validator("max_questions", "duration_min", "target_mcq", "target_sql", "target_essay", mode="before")
     @classmethod
@@ -826,6 +824,23 @@ class AssessmentStatusUpdate(BaseModel):
     @classmethod
     def legacy_status(cls, value):
         return "published" if value == "active" else value
+
+
+class AssessmentQuestionPoolRequest(BaseModel):
+    question_ids: list[int] = Field(max_length=1000)
+
+    @field_validator("question_ids")
+    @classmethod
+    def valid_ids(cls, values):
+        if len(set(values)) != len(values) or any(value <= 0 for value in values):
+            raise ValueError("Question ids must be distinct positive integers")
+        return values
+
+
+class AssessmentQuestionPoolResult(BaseModel):
+    assessment_id: int
+    question_ids: list[int]
+    selection: Literal["CURATED", "CONCEPTS"]
 
 
 class AssessmentConceptResult(BaseModel):
@@ -847,7 +862,7 @@ class AssessmentListItem(BaseModel):
     created_at: datetime
     target_count: int
     session_count: int
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
 
 
 class AssessmentDetail(AssessmentListItem):
@@ -867,7 +882,7 @@ class LearnerAssessmentItem(BaseModel):
     duration_min: int
     max_questions: int
     concept_count: int
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     concepts: list[AssessmentConceptResult] = []
 
 
@@ -899,12 +914,9 @@ class ServedQuestion(BaseModel):
     points: Decimal
     concepts: list[str] = []
     options: list[ServedMcqOption] = []
-    multiple_answers: bool = False
     schema_sql: Optional[str] = None
-    data_tables: list[dict] = []
     submitted_at: Optional[datetime] = None
     selected_option_id: Optional[int] = None
-    selected_option_ids: list[int] = []
     sql_answer: Optional[str] = None
     essay_answer: Optional[str] = None
     score: Optional[Decimal] = None
@@ -914,17 +926,23 @@ class ServedQuestion(BaseModel):
 
 
 class SessionStateResult(BaseModel):
-    navigation_mode: str = "SEQUENTIAL"
-    questions: list[ServedQuestion] = []
     session_id: int
-    assessment_id: int
+    assessment_id: Optional[int]
     assessment_title: str
+    question_source: Optional[str] = None
+    generation_fallback: bool = False
+    bank_mixed: bool = False
+    template_fallback: bool = False
+    ai_generated_count: int = 0
+    generation_diagnostics: list[dict] = Field(default_factory=list)
+    selection_notice: Optional[str] = None
     locale: str = "en"
-    result_release_policy: ReleasePolicy = "IMMEDIATE"
+    result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
     assembly_mode: Optional[str] = None
+    adaptive_progress: Optional[dict] = None
     status: str
     started_at: datetime
     expires_at: datetime
@@ -959,13 +977,7 @@ class EvidenceRubric(BaseModel):
     criteria: str
 
 
-class EvidenceMcqOption(ServedMcqOption):
-    is_correct: Optional[bool] = None
-
-
 class EvidenceItem(BaseModel):
-    feedback_pending: bool = False
-    reference_answer: Optional[str] = None
     """UC18 — one attempt's evidence record for review after finalization."""
 
     seq_no: int
@@ -978,10 +990,9 @@ class EvidenceItem(BaseModel):
     difficulty_level: int
     points: Decimal
     concepts: list[ConceptRef] = []
-    options: list[EvidenceMcqOption] = []
+    options: list[McqOptionResult] = []  # correctness revealed post-finalization
     rubrics: list[EvidenceRubric] = []
     selected_option_id: Optional[int] = None
-    selected_option_ids: list[int] = []
     sql_answer: Optional[str] = None
     essay_answer: Optional[str] = None
     score: Optional[Decimal] = None
@@ -993,6 +1004,7 @@ class EvidenceItem(BaseModel):
 class EvidenceResult(BaseModel):
     session_id: int
     status: str
+    adaptive_progress: Optional[dict] = None
     items: list[EvidenceItem]
 
 
@@ -1026,9 +1038,26 @@ class TagSuggestionResult(BaseModel):
 
 
 class CandidateGenerateRequest(BaseModel):
-    concept_id: int
+    model_config = ConfigDict(extra="forbid")
+    concept_id: int = Field(gt=0, strict=True)
     question_type: Literal["mcq", "sql", "essay"]
-    count: int = Field(default=1, ge=1, le=3)
+    count: int = Field(default=1, ge=1, le=3, strict=True)
+    request_id: Optional[UUID] = None
+    difficulty: Literal["EASY", "MEDIUM", "HARD"] = "EASY"
+    locale: Literal["en", "vi"] = "en"
+
+
+class CandidateApprovalRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    content_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+    reviewed: Literal[True]
+
+    @field_validator("reviewed", mode="before")
+    @classmethod
+    def explicit_review(cls, value):
+        if type(value) is not bool:
+            raise ValueError("An explicit review confirmation is required")
+        return value
 
 
 class QuestionCandidateItem(BaseModel):

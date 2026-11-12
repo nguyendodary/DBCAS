@@ -1,0 +1,407 @@
+{
+ "X001": {
+  "weight": "bold",
+  "size": 78,
+  "anchor": "top",
+  "measured": [
+   1016,
+   46,
+   1985,
+   120
+  ],
+  "ink": [
+   969,
+   74
+  ]
+ },
+ "X002": {
+  "weight": "bold",
+  "size": 48,
+  "anchor": "top",
+  "measured": [
+   1327,
+   254,
+   1673,
+   300
+  ],
+  "ink": [
+   346,
+   46
+  ]
+ },
+ "X013": {
+  "weight": "regular",
+  "size": 41,
+  "anchor": "top",
+  "measured": [
+   85,
+   1861,
+   228,
+   1890
+  ],
+  "ink": [
+   140,
+   30
+  ]
+ },
+ "X014": {
+  "weight": "regular",
+  "size": 44,
+  "anchor": "top",
+  "measured": [
+   2717,
+   1885,
+   2975,
+   1914
+  ],
+  "ink": [
+   258,
+   32
+  ]
+ },
+ "X026": {
+  "weight": "regular",
+  "size": 37,
+  "anchor": "top",
+  "measured": [
+   817,
+   2954,
+   2183,
+   2988
+  ],
+  "ink": [
+   1366,
+   34
+  ]
+ },
+ "X027": {
+  "weight": "regular",
+  "size": 37,
+  "anchor": "top",
+  "measured": [
+   1070,
+   2996,
+   1930,
+   3030
+  ],
+  "ink": [
+   860,
+   34
+  ]
+ },
+ "X003": {
+  "weight": "bold",
+  "size": 43,
+  "anchor": "top",
+  "measured": [
+   1384,
+   462,
+   1617,
+   502
+  ],
+  "ink": [
+   232,
+   40
+  ]
+ },
+ "X004": {
+  "weight": "bold",
+  "size": 43,
+  "anchor": "top",
+  "measured": [
+   1370,
+   682,
+   1633,
+   722
+  ],
+  "ink": [
+   263,
+   40
+  ]
+ },
+ "X005": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   685,
+   975,
+   1177,
+   1008
+  ],
+  "ink": [
+   491,
+   33
+  ]
+ },
+ "X006": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1761,
+   975,
+   2380,
+   1001
+  ],
+  "ink": [
+   618,
+   26
+  ]
+ },
+ "X007": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   602,
+   1220,
+   1261,
+   1253
+  ],
+  "ink": [
+   659,
+   33
+  ]
+ },
+ "X008": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1761,
+   1220,
+   2379,
+   1253
+  ],
+  "ink": [
+   616,
+   33
+  ]
+ },
+ "X009": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   732,
+   1465,
+   1129,
+   1493
+  ],
+  "ink": [
+   396,
+   28
+  ]
+ },
+ "X010": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1726,
+   1465,
+   2415,
+   1498
+  ],
+  "ink": [
+   688,
+   33
+  ]
+ },
+ "X011": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   605,
+   1710,
+   1256,
+   1743
+  ],
+  "ink": [
+   650,
+   33
+  ]
+ },
+ "X012": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1773,
+   1710,
+   2369,
+   1743
+  ],
+  "ink": [
+   595,
+   33
+  ]
+ },
+ "X015": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1746,
+   1933,
+   2394,
+   1966
+  ],
+  "ink": [
+   647,
+   33
+  ]
+ },
+ "X016": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   580,
+   1955,
+   1282,
+   1988
+  ],
+  "ink": [
+   701,
+   33
+  ]
+ },
+ "X017": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   2036,
+   1978,
+   2103,
+   2010
+  ],
+  "ink": [
+   66,
+   32
+  ]
+ },
+ "X018": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   686,
+   2200,
+   1175,
+   2233
+  ],
+  "ink": [
+   488,
+   33
+  ]
+ },
+ "X019": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1756,
+   2200,
+   2386,
+   2233
+  ],
+  "ink": [
+   630,
+   33
+  ]
+ },
+ "X020": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1771,
+   2423,
+   2369,
+   2456
+  ],
+  "ink": [
+   597,
+   33
+  ]
+ },
+ "X021": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   599,
+   2445,
+   1262,
+   2478
+  ],
+  "ink": [
+   662,
+   33
+  ]
+ },
+ "X022": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1984,
+   2467,
+   2156,
+   2493
+  ],
+  "ink": [
+   172,
+   26
+  ]
+ },
+ "X023": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   662,
+   2668,
+   1198,
+   2701
+  ],
+  "ink": [
+   536,
+   33
+  ]
+ },
+ "X024": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   1756,
+   2690,
+   2385,
+   2723
+  ],
+  "ink": [
+   628,
+   33
+  ]
+ },
+ "X025": {
+  "weight": "regular",
+  "size": 36,
+  "anchor": "top",
+  "measured": [
+   859,
+   2712,
+   1001,
+   2738
+  ],
+  "ink": [
+   142,
+   26
+  ]
+ }
+}

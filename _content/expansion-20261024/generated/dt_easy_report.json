@@ -1,0 +1,47 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dt_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:55:41.631743+00:00",
+  "questions": [
+    {
+      "key": "dt-easy-json-carrier",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TYPE-JSON"
+      ],
+      "status": "validated",
+      "question_id": 603,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-easy-range-overlap",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TYPE-RANGE"
+      ],
+      "status": "validated",
+      "question_id": 604,
+      "question_status": "validated"
+    },
+    {
+      "key": "dt-easy-domain-collation",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DOMAIN",
+        "PG-COLLATION"
+      ],
+      "status": "validated",
+      "question_id": 605,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:55:42.696401+00:00",
+  "summary": {
+    "validated": 3
+  }
+}

@@ -7,10 +7,10 @@ from ..db import get_db
 from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runner
 from ..errors import AppError
 from ..models import Account
+from ..schemas_analytics import StatisticsDashboard
+from ..schemas_operational import CapabilityResult, GradingSummary, GradingDetail
 from ..schemas import (
     AccountStatusUpdate,
-    AdminSqlPreviewRequest,
-    SqlRunResult,
     AccountRoleUpdate,
     AccountRoleChangeResult,
     AccountRoleAuditItem,
@@ -18,11 +18,8 @@ from ..schemas import (
     AccountSummary,
     AdminLearnerItem,
     AdminLearnerSessionsResult,
-    AssessmentDetail,
-    AssessmentListItem,
-    AssessmentStatusUpdate,
-    AssessmentUpsertRequest,
     CandidateGenerateRequest,
+    CandidateApprovalRequest,
     CloAiSuggestResult,
     CloResult,
     CloUpdateRequest,
@@ -41,6 +38,7 @@ from ..schemas import (
     QuestionListItem,
     QuestionStatusUpdate,
     QuestionUpsertRequest,
+    QuestionTranslationDraftResult,
     SetCloConceptsRequest,
     SetPrerequisitesRequest,
     TagSuggestionResult,
@@ -49,7 +47,6 @@ from ..schemas import (
 from ..services import (
     ai_admin_service,
     analytics_service,
-    assessment_service,
     auth_service,
     concept_graph_service,
     curriculum_service,
@@ -57,49 +54,41 @@ from ..services import (
 )
 from ..services.llm.service import LLMService
 from ..services.sandbox_runner import SandboxRunner
+from ..config import Settings, get_settings
+from ..deps import get_translation_llm
+from ..services import question_translation
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 
-@router.post("/sql/preview", response_model=SqlRunResult)
-def preview_sql_answer(
-    payload: AdminSqlPreviewRequest,
-    _: Account = AdminOnly,
-    runner: SandboxRunner = Depends(get_sandbox_runner),
-):
-    """Run an unsaved model answer; no application data is created or updated."""
-    from ..services.admin_sql_preview import preview_sql
-    return preview_sql(payload, runner)
-
-
-@router.get("/grading-reviews")
+@router.get("/grading-reviews", response_model=list[GradingSummary])
 def grading_review_queue(_: Account = AdminOnly, db: Session = Depends(get_db),
                          limit: int = Query(100, ge=1, le=100), offset: int = Query(0, ge=0)):
     from ..services import grading_review
     return grading_review.list_pending(db, limit=limit, offset=offset)
 
 
-@router.get("/grading-reviews/{session_id}")
+@router.get("/grading-reviews/{session_id}", response_model=GradingDetail)
 def grading_review_detail(session_id: int, _: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.detail(db, session_id)
 
 
-@router.post("/grading-reviews/{session_id}/attempts/{attempt_id}")
+@router.post("/grading-reviews/{session_id}/attempts/{attempt_id}", response_model=GradingDetail)
 def review_submitted_grade(session_id: int, attempt_id: int, payload: GradeReviewRequest,
                            admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.approve(db, session_id, attempt_id, payload, admin)
 
 
-@router.post("/grading-reviews/{session_id}/publish")
+@router.post("/grading-reviews/{session_id}/publish", response_model=GradingDetail)
 def publish_verified_results(session_id: int, payload: PublishResultsRequest,
                              admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.publish(db, session_id, payload, admin)
 
 
-@router.post("/grading-reviews/{session_id}/retry")
+@router.post("/grading-reviews/{session_id}/retry", response_model=GradingDetail)
 def retry_failed_grading(session_id: int, payload: PublishResultsRequest,
                           admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
@@ -321,14 +310,30 @@ def reject_clo_link(
 # ---------- UC07 — question bank management ----------
 
 
+@router.get("/question-translation/capability", response_model=CapabilityResult)
+def question_translation_capability(_: Account = AdminOnly, settings: Settings = Depends(get_settings)):
+    return question_translation.capability(settings)
+
+
+@router.post("/question-translation/draft", response_model=QuestionTranslationDraftResult)
+def prepare_question_translation(payload: QuestionUpsertRequest, admin: Account = AdminOnly,
+                                 settings: Settings = Depends(get_settings), llm: LLMService = Depends(get_translation_llm)):
+    """Prepare display prose only. Does not write or approve any bank record."""
+    return question_translation.prepare(payload, admin.account_id, settings, llm)
+
+
 @router.get("/questions", response_model=list[QuestionListItem])
 def list_questions(
     concept_id: Optional[int] = None,
     question_type: Optional[Literal["mcq", "sql", "essay"]] = None,
-    difficulty: Optional[int] = None,
+    difficulty: Optional[int] = Query(None, ge=1, le=5),
     status: Optional[Literal["draft", "validated", "retired", "rejected"]] = None,
     q: Optional[str] = None,
     tag: Optional[str] = None,
+    clo_id: Optional[int] = Query(None, ge=1),
+    topic: Optional[str] = Query(None, max_length=100),
+    limit: Optional[int] = Query(None, ge=1, le=100),
+    offset: int = Query(0, ge=0),
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
@@ -342,6 +347,7 @@ def list_questions(
         status=status,
         q=q,
         tag=tag,
+        clo_id=clo_id, topic=topic, limit=limit, offset=offset,
     )
 
 
@@ -351,13 +357,6 @@ def create_question(
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
-    if not any(item.locale == "vi" for item in payload.translations):
-        raise AppError(
-            422,
-            "question_incomplete",
-            "A new learner question requires Vietnamese display content",
-            details=[{"missing": "Vietnamese prompt and type-specific display text"}],
-        )
     return question_service.create_question(db, payload, admin)
 
 
@@ -527,12 +526,14 @@ def revalidate_question_candidate(
 )
 def approve_question_candidate(
     candidate_id: int,
+    payload: Optional[CandidateApprovalRequest] = None,
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
 ):
     """Promote a validated candidate into the bank (validated question +
     confirmed ai tag). 409 until the checks pass."""
-    return ai_admin_service.approve_candidate(db, candidate_id, admin)
+    return ai_admin_service.approve_candidate(db, candidate_id, admin, payload, runner)
 
 
 @router.post(
@@ -541,79 +542,27 @@ def approve_question_candidate(
 )
 def reject_question_candidate(
     candidate_id: int,
-    _: Account = AdminOnly,
+    admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
     """Hide the draft from active review (kept for audit)."""
-    return ai_admin_service.reject_candidate(db, candidate_id)
+    return ai_admin_service.reject_candidate(db, candidate_id, admin)
 
 
 # ---------- UC09 — adaptive assessment configuration ----------
 
 
-@router.get("/assessments", response_model=list[AssessmentListItem])
-def list_assessments(
-    _: Account = AdminOnly,
-    db: Session = Depends(get_db),
-):
-    return assessment_service.list_assessments(db)
-
-
-@router.post("/assessments", status_code=201, response_model=AssessmentDetail)
-def create_assessment(
-    payload: AssessmentUpsertRequest,
-    admin: Account = AdminOnly,
-    db: Session = Depends(get_db),
-):
-    return assessment_service.create_assessment(db, payload, admin)
-
-
-@router.get("/assessments/{assessment_id}", response_model=AssessmentDetail)
-def get_assessment(
-    assessment_id: int,
-    _: Account = AdminOnly,
-    db: Session = Depends(get_db),
-):
-    return assessment_service.get_assessment(db, assessment_id)
-
-
-@router.put("/assessments/{assessment_id}", response_model=AssessmentDetail)
-def replace_assessment(
-    assessment_id: int,
-    payload: AssessmentUpsertRequest,
-    _: Account = AdminOnly,
-    db: Session = Depends(get_db),
-):
-    """Editable only while draft — 409 once activated (close it and draft
-    a new version instead)."""
-    return assessment_service.replace_assessment(db, assessment_id, payload)
-
-
-@router.patch("/assessments/{assessment_id}", response_model=AssessmentDetail)
-def set_assessment_status(
-    assessment_id: int,
-    payload: AssessmentStatusUpdate,
-    _: Account = AdminOnly,
-    db: Session = Depends(get_db),
-):
-    """draft -> active -> closed -> draft. Activation requires at least one
-    target concept (invalid config A1)."""
-    return assessment_service.set_assessment_status(
-        db, assessment_id, payload.status
-    )
-
-
-@router.delete("/assessments/{assessment_id}", status_code=204)
-def delete_assessment(
-    assessment_id: int,
-    _: Account = AdminOnly,
-    db: Session = Depends(get_db),
-):
-    """409 while any session references the assessment."""
-    return assessment_service.delete_assessment(db, assessment_id)
-
-
 # ---------- UC11 — cohort analytics & learner drill-down (DBCAS-25) ----------
+
+
+@router.get("/analytics/statistics", response_model=StatisticsDashboard)
+def administrator_statistics(_: Account = AdminOnly, db: Session = Depends(get_db),
+                             learner_id: int | None = Query(None, ge=1),
+                             assessment_id: int | None = Query(None, ge=1),
+                             limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0)):
+    """Published formal cohort or learner dashboard; ranking is administrator-only."""
+    from ..services.statistics_service import dashboard
+    return dashboard(db, learner_id=learner_id, assessment_id=assessment_id, include_ranking=True, limit=limit, offset=offset)
 
 
 @router.get("/analytics/cohort", response_model=CohortOverviewResult)

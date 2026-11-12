@@ -1,0 +1,114 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dm_medium.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": false,
+  "started_at": "2026-10-24T17:45:07.600079+00:00",
+  "questions": [
+    {
+      "key": "dm-medium-on-conflict-update-where",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "validated",
+      "question_id": 570,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-merge-clause-order",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "validated",
+      "question_id": 571,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-data-modifying-cte",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML",
+        "PG-CTE"
+      ],
+      "status": "validated",
+      "question_id": 572,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-returning-scope",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "validated",
+      "question_id": 573,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-on-conflict-on-constraint",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "validated",
+      "question_id": 574,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-merge-values-source",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "validated",
+      "question_id": 575,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-delete-using-returning",
+      "question_type": "mcq",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "validated",
+      "question_id": 576,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-update-result",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML",
+        "PG-NULLS"
+      ],
+      "status": "validated",
+      "question_id": 577,
+      "question_status": "validated"
+    },
+    {
+      "key": "dm-medium-on-conflict-skips",
+      "question_type": "sql",
+      "difficulty_level": 3,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "validated",
+      "question_id": 578,
+      "question_status": "validated"
+    }
+  ],
+  "finished_at": "2026-10-24T17:45:10.922309+00:00",
+  "summary": {
+    "validated": 9
+  }
+}

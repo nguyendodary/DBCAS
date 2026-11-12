@@ -1,0 +1,2568 @@
+{
+ "canvas": {
+  "w": 1400,
+  "h": 980
+ },
+ "source": "F4 owner fix round: explicit layout deltas over the Stage B build (unchanged elements proved identical)",
+ "shapes": [
+  {
+   "bbox": [
+    714,
+    738,
+    1221,
+    859
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "cylinder",
+   "radius": 0,
+   "cap_ry": 9,
+   "dashed": false,
+   "outline": [
+    [
+     904,
+     738
+    ],
+    [
+     812,
+     740
+    ],
+    [
+     766,
+     742
+    ],
+    [
+     738,
+     744
+    ],
+    [
+     721,
+     746
+    ],
+    [
+     717,
+     748
+    ],
+    [
+     731,
+     750
+    ],
+    [
+     714,
+     752
+    ],
+    [
+     714,
+     754
+    ],
+    [
+     714,
+     756
+    ],
+    [
+     714,
+     758
+    ],
+    [
+     714,
+     760
+    ],
+    [
+     714,
+     762
+    ],
+    [
+     714,
+     764
+    ],
+    [
+     714,
+     766
+    ],
+    [
+     714,
+     768
+    ],
+    [
+     714,
+     770
+    ],
+    [
+     714,
+     772
+    ],
+    [
+     714,
+     774
+    ],
+    [
+     714,
+     776
+    ],
+    [
+     714,
+     778
+    ],
+    [
+     714,
+     780
+    ],
+    [
+     714,
+     782
+    ],
+    [
+     714,
+     784
+    ],
+    [
+     714,
+     786
+    ],
+    [
+     714,
+     788
+    ],
+    [
+     714,
+     790
+    ],
+    [
+     714,
+     792
+    ],
+    [
+     714,
+     794
+    ],
+    [
+     714,
+     796
+    ],
+    [
+     715,
+     798
+    ],
+    [
+     714,
+     800
+    ],
+    [
+     714,
+     802
+    ],
+    [
+     714,
+     804
+    ],
+    [
+     714,
+     806
+    ],
+    [
+     714,
+     808
+    ],
+    [
+     714,
+     810
+    ],
+    [
+     714,
+     812
+    ],
+    [
+     714,
+     814
+    ],
+    [
+     714,
+     816
+    ],
+    [
+     714,
+     818
+    ],
+    [
+     714,
+     820
+    ],
+    [
+     714,
+     822
+    ],
+    [
+     714,
+     824
+    ],
+    [
+     714,
+     826
+    ],
+    [
+     714,
+     828
+    ],
+    [
+     714,
+     830
+    ],
+    [
+     714,
+     832
+    ],
+    [
+     714,
+     834
+    ],
+    [
+     714,
+     836
+    ],
+    [
+     714,
+     838
+    ],
+    [
+     714,
+     840
+    ],
+    [
+     714,
+     842
+    ],
+    [
+     714,
+     844
+    ],
+    [
+     714,
+     846
+    ],
+    [
+     714,
+     848
+    ],
+    [
+     720,
+     850
+    ],
+    [
+     736,
+     852
+    ],
+    [
+     763,
+     854
+    ],
+    [
+     808,
+     856
+    ],
+    [
+     893,
+     858
+    ],
+    [
+     893,
+     858
+    ],
+    [
+     1041,
+     858
+    ],
+    [
+     1041,
+     858
+    ],
+    [
+     1126,
+     856
+    ],
+    [
+     1171,
+     854
+    ],
+    [
+     1198,
+     852
+    ],
+    [
+     1214,
+     850
+    ],
+    [
+     1220,
+     848
+    ],
+    [
+     1220,
+     846
+    ],
+    [
+     1220,
+     844
+    ],
+    [
+     1220,
+     842
+    ],
+    [
+     1220,
+     840
+    ],
+    [
+     1220,
+     838
+    ],
+    [
+     1220,
+     836
+    ],
+    [
+     1220,
+     834
+    ],
+    [
+     1220,
+     832
+    ],
+    [
+     1220,
+     830
+    ],
+    [
+     1220,
+     828
+    ],
+    [
+     1220,
+     826
+    ],
+    [
+     1220,
+     824
+    ],
+    [
+     1220,
+     822
+    ],
+    [
+     1220,
+     820
+    ],
+    [
+     1220,
+     818
+    ],
+    [
+     1220,
+     816
+    ],
+    [
+     1220,
+     814
+    ],
+    [
+     1220,
+     812
+    ],
+    [
+     1220,
+     810
+    ],
+    [
+     1220,
+     808
+    ],
+    [
+     1220,
+     806
+    ],
+    [
+     1220,
+     804
+    ],
+    [
+     1220,
+     802
+    ],
+    [
+     1220,
+     800
+    ],
+    [
+     1220,
+     798
+    ],
+    [
+     1220,
+     796
+    ],
+    [
+     1220,
+     794
+    ],
+    [
+     1220,
+     792
+    ],
+    [
+     1220,
+     790
+    ],
+    [
+     1220,
+     788
+    ],
+    [
+     1220,
+     786
+    ],
+    [
+     1220,
+     784
+    ],
+    [
+     1220,
+     782
+    ],
+    [
+     1220,
+     780
+    ],
+    [
+     1220,
+     778
+    ],
+    [
+     1220,
+     776
+    ],
+    [
+     1220,
+     774
+    ],
+    [
+     1220,
+     772
+    ],
+    [
+     1220,
+     770
+    ],
+    [
+     1220,
+     768
+    ],
+    [
+     1220,
+     766
+    ],
+    [
+     1220,
+     764
+    ],
+    [
+     1220,
+     762
+    ],
+    [
+     1220,
+     760
+    ],
+    [
+     1220,
+     758
+    ],
+    [
+     1220,
+     756
+    ],
+    [
+     1220,
+     754
+    ],
+    [
+     1220,
+     752
+    ],
+    [
+     1204,
+     750
+    ],
+    [
+     1217,
+     748
+    ],
+    [
+     1213,
+     746
+    ],
+    [
+     1196,
+     744
+    ],
+    [
+     1169,
+     742
+    ],
+    [
+     1122,
+     740
+    ],
+    [
+     1030,
+     738
+    ]
+   ],
+   "id": "S01"
+  },
+  {
+   "bbox": [
+    179,
+    746,
+    618,
+    851
+   ],
+   "fill": "#6A5ACD",
+   "stroke": "#3F3494",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 22,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S03"
+  },
+  {
+   "bbox": [
+    556.0,
+    275.0,
+    856.0,
+    460.0
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 25,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S05"
+  },
+  {
+   "bbox": [
+    889,
+    286.5,
+    1151,
+    453.5
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 3,
+   "kind": "rounded",
+   "radius": 14,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S06"
+  },
+  {
+   "bbox": [
+    613,
+    55.5,
+    875,
+    204.5
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 25,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S08"
+  },
+  {
+   "bbox": [
+    292,
+    55.5,
+    553,
+    203.5
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 24,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S10"
+  },
+  {
+   "bbox": [
+    974,
+    56,
+    1236,
+    204
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 25,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S12"
+  },
+  {
+   "bbox": [
+    264,
+    296,
+    525,
+    444
+   ],
+   "fill": "#D6E8F7",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 21,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S15"
+  },
+  {
+   "bbox": [
+    556,
+    549.5,
+    818,
+    678.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 22,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S18"
+  },
+  {
+   "bbox": [
+    889,
+    558.5,
+    1198,
+    669.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 25,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S20"
+  },
+  {
+   "bbox": [
+    179,
+    884,
+    618,
+    969
+   ],
+   "fill": "#1E88D0",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "cylinder",
+   "radius": 0,
+   "cap_ry": 9,
+   "dashed": false,
+   "id": "S25",
+   "outline": [
+    [
+     180,
+     884
+    ],
+    [
+     180,
+     886
+    ],
+    [
+     180,
+     888
+    ],
+    [
+     180,
+     890
+    ],
+    [
+     180,
+     892
+    ],
+    [
+     180,
+     894
+    ],
+    [
+     180,
+     896
+    ],
+    [
+     180,
+     898
+    ],
+    [
+     180,
+     900
+    ],
+    [
+     180,
+     902
+    ],
+    [
+     180,
+     904
+    ],
+    [
+     180,
+     906
+    ],
+    [
+     180,
+     908
+    ],
+    [
+     180,
+     910
+    ],
+    [
+     180,
+     912
+    ],
+    [
+     180,
+     914
+    ],
+    [
+     180,
+     916
+    ],
+    [
+     180,
+     918
+    ],
+    [
+     180,
+     920
+    ],
+    [
+     180,
+     922
+    ],
+    [
+     180,
+     924
+    ],
+    [
+     180,
+     926
+    ],
+    [
+     180,
+     928
+    ],
+    [
+     180,
+     930
+    ],
+    [
+     180,
+     932
+    ],
+    [
+     180,
+     934
+    ],
+    [
+     180,
+     936
+    ],
+    [
+     180,
+     938
+    ],
+    [
+     180,
+     940
+    ],
+    [
+     180,
+     942
+    ],
+    [
+     180,
+     944
+    ],
+    [
+     180,
+     946
+    ],
+    [
+     180,
+     948
+    ],
+    [
+     180,
+     950
+    ],
+    [
+     180,
+     952
+    ],
+    [
+     180,
+     954
+    ],
+    [
+     180,
+     956
+    ],
+    [
+     180,
+     958
+    ],
+    [
+     180,
+     960
+    ],
+    [
+     187,
+     962
+    ],
+    [
+     209,
+     964
+    ],
+    [
+     250,
+     966
+    ],
+    [
+     340,
+     968
+    ],
+    [
+     340,
+     968
+    ],
+    [
+     456,
+     968
+    ],
+    [
+     456,
+     968
+    ],
+    [
+     546,
+     966
+    ],
+    [
+     587,
+     964
+    ],
+    [
+     609,
+     962
+    ],
+    [
+     617,
+     960
+    ],
+    [
+     617,
+     958
+    ],
+    [
+     617,
+     956
+    ],
+    [
+     617,
+     954
+    ],
+    [
+     617,
+     952
+    ],
+    [
+     617,
+     950
+    ],
+    [
+     617,
+     948
+    ],
+    [
+     617,
+     946
+    ],
+    [
+     617,
+     944
+    ],
+    [
+     617,
+     942
+    ],
+    [
+     617,
+     940
+    ],
+    [
+     617,
+     938
+    ],
+    [
+     617,
+     936
+    ],
+    [
+     617,
+     934
+    ],
+    [
+     617,
+     932
+    ],
+    [
+     617,
+     930
+    ],
+    [
+     617,
+     928
+    ],
+    [
+     617,
+     926
+    ],
+    [
+     617,
+     924
+    ],
+    [
+     617,
+     922
+    ],
+    [
+     617,
+     920
+    ],
+    [
+     617,
+     918
+    ],
+    [
+     617,
+     916
+    ],
+    [
+     617,
+     914
+    ],
+    [
+     617,
+     912
+    ],
+    [
+     617,
+     910
+    ],
+    [
+     617,
+     908
+    ],
+    [
+     617,
+     906
+    ],
+    [
+     617,
+     904
+    ],
+    [
+     617,
+     902
+    ],
+    [
+     617,
+     900
+    ],
+    [
+     617,
+     898
+    ],
+    [
+     617,
+     896
+    ],
+    [
+     617,
+     894
+    ],
+    [
+     617,
+     892
+    ],
+    [
+     617,
+     890
+    ],
+    [
+     617,
+     888
+    ],
+    [
+     617,
+     886
+    ],
+    [
+     617,
+     884
+    ]
+   ]
+  },
+  {
+   "bbox": [
+    264,
+    558.5,
+    525,
+    669.5
+   ],
+   "fill": "#5FB3EA",
+   "stroke": "#0B4884",
+   "stroke_width": 2,
+   "kind": "rounded",
+   "radius": 24,
+   "cap_ry": 0,
+   "dashed": false,
+   "id": "S26"
+  },
+  {
+   "id": "S27",
+   "kind": "boundary",
+   "bbox": [
+    266.0,
+    20.0,
+    1261.0,
+    225.0
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 14,
+   "dash_off": 15
+  },
+  {
+   "id": "S28",
+   "kind": "boundary",
+   "bbox": [
+    237.0,
+    240.0,
+    1176.0,
+    470.0
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 14,
+   "dash_off": 15
+  },
+  {
+   "id": "S29",
+   "kind": "boundary",
+   "bbox": [
+    237.0,
+    485.0,
+    1223.0,
+    723.0
+   ],
+   "fill": "#FFFFFF",
+   "stroke": "#666666",
+   "stroke_width": 2,
+   "radius": 0,
+   "dashed": true,
+   "dash_on": 14,
+   "dash_off": 15
+  }
+ ],
+ "dashes": [
+  {
+   "axis": "h",
+   "y": 20.0,
+   "x0": 279.0,
+   "x1": 1257.0,
+   "dashes": 35,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 224.0,
+   "x0": 266.0,
+   "x1": 1261.0,
+   "dashes": 35,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 266.0,
+   "y0": 24.0,
+   "y1": 225.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 1260.0,
+   "y0": 33.0,
+   "y1": 224.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 240.0,
+   "x0": 250.0,
+   "x1": 1172.0,
+   "dashes": 33,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 469.0,
+   "x0": 237.0,
+   "x1": 1176.0,
+   "dashes": 33,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 237.0,
+   "y0": 244.0,
+   "y1": 470.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 1175.0,
+   "y0": 253.0,
+   "y1": 469.0,
+   "dashes": 8,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 485.0,
+   "x0": 250.0,
+   "x1": 1219.0,
+   "dashes": 35,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "h",
+   "y": 722.0,
+   "x0": 237.0,
+   "x1": 1223.0,
+   "dashes": 35,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 237.0,
+   "y0": 489.0,
+   "y1": 723.0,
+   "dashes": 9,
+   "on": 14,
+   "off": 15
+  },
+  {
+   "axis": "v",
+   "x": 1222.0,
+   "y0": 498.0,
+   "y1": 722.0,
+   "dashes": 9,
+   "on": 14,
+   "off": 15
+  }
+ ],
+ "lines": [
+  {
+   "bbox": [
+    408,
+    208,
+    416,
+    249
+   ],
+   "segs": [
+    [
+     [
+      415.0,
+      208.5
+     ],
+     [
+      408.22857142857146,
+      248.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0
+  },
+  {
+   "bbox": [
+    400,
+    272,
+    405,
+    297
+   ],
+   "segs": [
+    [
+     [
+      404.1142857142857,
+      272.0
+     ],
+     [
+      400.0,
+      296.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    400.0,
+    296.0
+   ],
+   "arrow_from": [
+    415.0,
+    208.5
+   ]
+  },
+  {
+   "id": "L06",
+   "bbox": [
+    699.0,
+    209.5,
+    729.9,
+    275.0
+   ],
+   "segs": [
+    [
+     [
+      729.9,
+      209.5
+     ],
+     [
+      699.0,
+      275.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    699.0,
+    275.0
+   ],
+   "arrow_from": [
+    729.9,
+    209.5
+   ],
+   "note": "Grading Controller -> Grading & Evaluation Service"
+  },
+  {
+   "id": "L07",
+   "bbox": [
+    1042.0,
+    209.0,
+    1083.0,
+    286.5
+   ],
+   "segs": [
+    [
+     [
+      1083.0,
+      209.0
+     ],
+     [
+      1042.0,
+      286.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1042.0,
+    286.5
+   ],
+   "arrow_from": [
+    1083.0,
+    209.0
+   ],
+   "note": "Accounts Controller -> Admin & Settings Service"
+  },
+  {
+   "id": "L12",
+   "bbox": [
+    391.0,
+    450.0,
+    394.0,
+    549.5
+   ],
+   "segs": [
+    [
+     [
+      394.0,
+      450.0
+     ],
+     [
+      391.0,
+      549.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    391.0,
+    549.5
+   ],
+   "arrow_from": [
+    394.0,
+    450.0
+   ],
+   "note": "Competency & Gap Service -> Competency Repository"
+  },
+  {
+   "bbox": [
+    685,
+    466,
+    687,
+    494
+   ],
+   "segs": [
+    [
+     [
+      686.0,
+      466.0
+     ],
+     [
+      685.3532934131737,
+      493.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0
+  },
+  {
+   "bbox": [
+    684,
+    519,
+    685,
+    550
+   ],
+   "segs": [
+    [
+     [
+      684.7305389221557,
+      519.0
+     ],
+     [
+      684.0,
+      549.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    684.0,
+    549.5
+   ],
+   "arrow_from": [
+    686.0,
+    466.0
+   ]
+  },
+  {
+   "id": "L14",
+   "bbox": [
+    1025.0,
+    459.5,
+    1042.0,
+    558.5
+   ],
+   "segs": [
+    [
+     [
+      1025.0,
+      459.5
+     ],
+     [
+      1042.0,
+      558.5
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1042.0,
+    558.5
+   ],
+   "arrow_from": [
+    1025.0,
+    459.5
+   ],
+   "note": "Admin & Settings Service -> Audit & Settings Repository"
+  },
+  {
+   "id": "L19",
+   "bbox": [
+    394.5,
+    684.5,
+    850.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      394.5,
+      684.5
+     ],
+     [
+      850.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    850.0,
+    738.0
+   ],
+   "arrow_from": [
+    394.5,
+    684.5
+   ],
+   "note": "Competency Repository -> Database"
+  },
+  {
+   "id": "L20",
+   "bbox": [
+    1043.5,
+    675.5,
+    1050.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      1043.5,
+      675.5
+     ],
+     [
+      1050.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    1050.0,
+    738.0
+   ],
+   "arrow_from": [
+    1043.5,
+    675.5
+   ],
+   "note": "Audit & Settings Repository -> Database"
+  },
+  {
+   "id": "L21",
+   "bbox": [
+    687.0,
+    684.5,
+    950.0,
+    738.0
+   ],
+   "segs": [
+    [
+     [
+      687.0,
+      684.5
+     ],
+     [
+      950.0,
+      738.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    950.0,
+    738.0
+   ],
+   "arrow_from": [
+    687.0,
+    684.5
+   ],
+   "note": "Grading Repository -> Database"
+  },
+  {
+   "id": "L24",
+   "bbox": [
+    398.5,
+    851.0,
+    398.5,
+    884.0
+   ],
+   "segs": [
+    [
+     [
+      398.5,
+      851.0
+     ],
+     [
+      398.5,
+      884.0
+     ]
+    ]
+   ],
+   "thickness": 3.0,
+   "color": "#34383B",
+   "stroke": 2.0,
+   "arrow_tip": [
+    398.5,
+    884.0
+   ],
+   "arrow_from": [
+    398.5,
+    851.0
+   ],
+   "note": "Sandbox Runner -> SQL Sandbox"
+  }
+ ],
+ "sticks": [],
+ "texts": [
+  {
+   "id": "B001",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 287,
+   "y": 49,
+   "ink": "#000000",
+   "ls": 0.44,
+   "measured": [
+    288.0,
+    29.0,
+    424.0,
+    49.0
+   ],
+   "inside": null
+  },
+  {
+   "id": "B002",
+   "content": "[Container: FastAPI routers, Pydantic validation]",
+   "weight": "regular",
+   "size": 26,
+   "anchor": "top",
+   "x": 430,
+   "y": 48,
+   "ink": "#000000",
+   "ls": -0.19,
+   "measured": [
+    432.0,
+    29.0,
+    963.9,
+    53.0
+   ],
+   "inside": null
+  },
+  {
+   "id": "B032",
+   "content": "Service",
+   "weight": "bold",
+   "size": 23,
+   "anchor": "top",
+   "x": 258,
+   "y": 266,
+   "ink": "#000000",
+   "ls": 0.0,
+   "measured": [
+    259.0,
+    249.0,
+    339.0,
+    266.0
+   ],
+   "inside": null
+  },
+  {
+   "id": "B033",
+   "content": "[Container: business logic]",
+   "weight": "regular",
+   "size": 24,
+   "anchor": "top",
+   "x": 366,
+   "y": 266,
+   "ink": "#000000",
+   "ls": -0.15,
+   "measured": [
+    368.0,
+    249.0,
+    638.1,
+    271.0
+   ],
+   "inside": null
+  },
+  {
+   "id": "B065",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 22,
+   "anchor": "top",
+   "x": 258,
+   "y": 510,
+   "ink": "#000000",
+   "ls": -0.22,
+   "measured": [
+    260.0,
+    494.0,
+    369.0,
+    514.0
+   ],
+   "inside": null
+  },
+  {
+   "id": "B066",
+   "content": "[Container: SQLAlchemy data access]",
+   "weight": "regular",
+   "size": 26,
+   "anchor": "top",
+   "x": 411,
+   "y": 513,
+   "ink": "#000000",
+   "ls": -0.21,
+   "measured": [
+    413.0,
+    494.0,
+    834.9,
+    518.0
+   ],
+   "inside": null
+  },
+  {
+   "id": "B006",
+   "content": "Analytics",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 361,
+   "y": 86.5,
+   "ink": "#FFFFFF",
+   "ls": 0.12,
+   "measured": [
+    361.0,
+    66.5,
+    486.0,
+    92.5
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "B007",
+   "content": "Accounts",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1042,
+   "y": 87,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    1042.0,
+    67.0,
+    1168.0,
+    87.0
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "B009",
+   "content": "Grading",
+   "weight": "bold",
+   "size": 29,
+   "anchor": "top",
+   "x": 688,
+   "y": 88.5,
+   "ink": "#FFFFFF",
+   "ls": 0.17,
+   "measured": [
+    689.0,
+    67.5,
+    799.0,
+    94.5
+   ],
+   "inside": "S08"
+  },
+  {
+   "id": "B012",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 1038,
+   "y": 109,
+   "ink": "#FFFFFF",
+   "ls": -0.11,
+   "measured": [
+    1039.0,
+    89.0,
+    1171.0,
+    109.0
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "B015",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 355,
+   "y": 114.5,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    356.0,
+    94.5,
+    489.0,
+    114.5
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "B016",
+   "content": "Controller",
+   "weight": "bold",
+   "size": 29,
+   "anchor": "top",
+   "x": 674,
+   "y": 117.5,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    675.0,
+    96.5,
+    813.0,
+    117.5
+   ],
+   "inside": "S08"
+  },
+  {
+   "id": "B019",
+   "content": "Accounts, roles,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 1029,
+   "y": 130,
+   "ink": "#FFFFFF",
+   "ls": 0.27,
+   "measured": [
+    1029.0,
+    115.0,
+    1185.0,
+    133.0
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "B022",
+   "content": "Profile, gaps, history,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 321,
+   "y": 136.5,
+   "ink": "#FFFFFF",
+   "ls": -0.05,
+   "measured": [
+    323.0,
+    120.5,
+    520.9,
+    140.5
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "B023",
+   "content": "Answers, run SQL,",
+   "weight": "regular",
+   "size": 20,
+   "anchor": "top",
+   "x": 661,
+   "y": 138.5,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    661.0,
+    123.5,
+    828.0,
+    141.5
+   ],
+   "inside": "S08"
+  },
+  {
+   "id": "B024",
+   "content": "system settings",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 1030,
+   "y": 149,
+   "ink": "#FFFFFF",
+   "ls": 0.36,
+   "measured": [
+    1031.0,
+    134.0,
+    1184.0,
+    153.0
+   ],
+   "inside": "S12"
+  },
+  {
+   "id": "B029",
+   "content": "cohort analytics",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 347,
+   "y": 157.5,
+   "ink": "#FFFFFF",
+   "ls": -0.13,
+   "measured": [
+    348.0,
+    141.5,
+    495.1,
+    161.5
+   ],
+   "inside": "S10"
+  },
+  {
+   "id": "B030",
+   "content": "review queue",
+   "weight": "regular",
+   "size": 20,
+   "anchor": "top",
+   "x": 685,
+   "y": 157.5,
+   "ink": "#FFFFFF",
+   "ls": -0.09,
+   "measured": [
+    686.0,
+    142.5,
+    801.0,
+    161.5
+   ],
+   "inside": "S08"
+  },
+  {
+   "id": "B034",
+   "content": "Grading &",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 638.0,
+   "y": 323.0,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    639.0,
+    303.0,
+    773.0,
+    329.0
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "B035",
+   "content": "Admin & Settings",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 904,
+   "y": 317.5,
+   "ink": "#0B2F55",
+   "ls": 0.0,
+   "measured": [
+    904.0,
+    297.5,
+    1136.0,
+    323.5
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "B037",
+   "content": "Competency &",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 296,
+   "y": 326,
+   "ink": "#0B2F55",
+   "ls": 0.0,
+   "measured": [
+    297.0,
+    306.0,
+    492.0,
+    332.0
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "B040",
+   "content": "Evaluation Service",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 579.5,
+   "y": 357.0,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    581.5,
+    337.0,
+    830.5,
+    357.0
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "B041",
+   "content": "Service",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 970,
+   "y": 345.5,
+   "ink": "#0B2F55",
+   "ls": -0.0,
+   "measured": [
+    971.0,
+    325.5,
+    1070.0,
+    345.5
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "B044",
+   "content": "Gap Service",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 312,
+   "y": 354,
+   "ink": "#0B2F55",
+   "ls": 0.2,
+   "measured": [
+    313.0,
+    334.0,
+    477.0,
+    360.0
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "B049",
+   "content": "Accounts, roles,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 943,
+   "y": 367.5,
+   "ink": "#0B2F55",
+   "ls": -0.06,
+   "measured": [
+    943.0,
+    351.5,
+    1095.1,
+    370.5
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "B053",
+   "content": "Deterministic",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 331,
+   "y": 382,
+   "ink": "#0B2F55",
+   "ls": -0.08,
+   "measured": [
+    333.0,
+    366.0,
+    456.0,
+    382.0
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "B054",
+   "content": "review & approval",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 938,
+   "y": 387.5,
+   "ink": "#0B2F55",
+   "ls": -0.06,
+   "measured": [
+    939.0,
+    371.5,
+    1099.0,
+    391.5
+   ],
+   "inside": "S06"
+  },
+  {
+   "id": "B055",
+   "content": "MCQ key, SQL",
+   "weight": "regular",
+   "size": 23,
+   "anchor": "top",
+   "x": 628.0,
+   "y": 382.0,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    630.0,
+    365.0,
+    782.0,
+    387.0
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "B058",
+   "content": "competency, gaps,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 304,
+   "y": 399,
+   "ink": "#0B2F55",
+   "ls": -0.06,
+   "measured": [
+    305.0,
+    383.0,
+    483.0,
+    403.0
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "B062",
+   "content": "sandbox, Prompt",
+   "weight": "regular",
+   "size": 23,
+   "anchor": "top",
+   "x": 618.0,
+   "y": 407.0,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    619.0,
+    390.0,
+    793.0,
+    412.0
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "B063",
+   "content": "study ranking",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 330,
+   "y": 420,
+   "ink": "#0B2F55",
+   "ls": -0.17,
+   "measured": [
+    331.0,
+    404.0,
+    456.0,
+    424.0
+   ],
+   "inside": "S15"
+  },
+  {
+   "id": "B064",
+   "content": "Builder → Evaluator",
+   "weight": "regular",
+   "size": 23,
+   "anchor": "top",
+   "x": 602.5,
+   "y": 432.0,
+   "ink": "#222527",
+   "ls": 0.0,
+   "measured": [
+    604.5,
+    415.0,
+    807.5,
+    432.0
+   ],
+   "inside": "S05"
+  },
+  {
+   "id": "B068",
+   "content": "Grading",
+   "weight": "bold",
+   "size": 29,
+   "anchor": "top",
+   "x": 632,
+   "y": 577.5,
+   "ink": "#06233F",
+   "ls": -0.17,
+   "measured": [
+    633.0,
+    556.5,
+    741.0,
+    583.5
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "B073",
+   "content": "Competency",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 312,
+   "y": 589.5,
+   "ink": "#06233F",
+   "ls": 0.22,
+   "measured": [
+    313.0,
+    569.5,
+    477.0,
+    594.5
+   ],
+   "inside": "S26"
+  },
+  {
+   "id": "B074",
+   "content": "Audit & Settings",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 935,
+   "y": 589.5,
+   "ink": "#06233F",
+   "ls": -0.07,
+   "measured": [
+    935.0,
+    569.5,
+    1150.0,
+    595.5
+   ],
+   "inside": "S20"
+  },
+  {
+   "id": "B078",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 29,
+   "anchor": "top",
+   "x": 611,
+   "y": 606.5,
+   "ink": "#06233F",
+   "ls": -0.11,
+   "measured": [
+    613.0,
+    585.5,
+    761.0,
+    612.5
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "B079",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 322,
+   "y": 616.5,
+   "ink": "#06233F",
+   "ls": 0.33,
+   "measured": [
+    324.0,
+    596.5,
+    468.0,
+    621.5
+   ],
+   "inside": "S26"
+  },
+  {
+   "id": "B081",
+   "content": "Repository",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 969,
+   "y": 617.5,
+   "ink": "#06233F",
+   "ls": 0.0,
+   "measured": [
+    971.0,
+    597.5,
+    1115.0,
+    623.5
+   ],
+   "inside": "S20"
+  },
+  {
+   "id": "B086",
+   "content": "Attempt, GradingJob,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 585,
+   "y": 634.5,
+   "ink": "#06233F",
+   "ls": -0.11,
+   "measured": [
+    585.0,
+    618.5,
+    785.9,
+    638.5
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "B087",
+   "content": "ConceptCompetency,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 292,
+   "y": 642.5,
+   "ink": "#06233F",
+   "ls": 0.35,
+   "measured": [
+    293.0,
+    627.5,
+    502.9,
+    646.5
+   ],
+   "inside": "S26"
+  },
+  {
+   "id": "B088",
+   "content": "SystemSetting, RoleAudit,",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 919,
+   "y": 644.5,
+   "ink": "#06233F",
+   "ls": 0.25,
+   "measured": [
+    920.0,
+    629.5,
+    1173.0,
+    648.5
+   ],
+   "inside": "S20"
+  },
+  {
+   "id": "B093",
+   "content": "GradeReview, EditAudit",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 570,
+   "y": 655.5,
+   "ink": "#06233F",
+   "ls": 0.05,
+   "measured": [
+    571.0,
+    639.5,
+    803.0,
+    658.5
+   ],
+   "inside": "S18"
+  },
+  {
+   "id": "B094",
+   "content": "Gap, EvaluationRecord",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 284,
+   "y": 662.5,
+   "ink": "#06233F",
+   "ls": 0.2,
+   "measured": [
+    285.0,
+    647.5,
+    508.0,
+    666.5
+   ],
+   "inside": "S26"
+  },
+  {
+   "id": "B095",
+   "content": "Throttle, LLM cache",
+   "weight": "regular",
+   "size": 21,
+   "anchor": "top",
+   "x": 949,
+   "y": 664.5,
+   "ink": "#06233F",
+   "ls": 0.28,
+   "measured": [
+    949.0,
+    649.5,
+    1144.0,
+    667.5
+   ],
+   "inside": "S20"
+  },
+  {
+   "id": "B097",
+   "content": "Sandbox Runner",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 288,
+   "y": 777,
+   "ink": "#FFFFFF",
+   "ls": 0.38,
+   "measured": [
+    289.0,
+    757.0,
+    513.9,
+    777.0
+   ],
+   "inside": "S03"
+  },
+  {
+   "id": "B098",
+   "content": "Database",
+   "weight": "bold",
+   "size": 28,
+   "anchor": "top",
+   "x": 905,
+   "y": 786,
+   "ink": "#FFFFFF",
+   "ls": 0.0,
+   "measured": [
+    907.0,
+    766.0,
+    1029.0,
+    786.0
+   ],
+   "inside": "S01"
+  },
+  {
+   "id": "B100",
+   "content": "[Component: Python, Docker]",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 256,
+   "y": 799,
+   "ink": "#FFFFFF",
+   "ls": -0.12,
+   "measured": [
+    257.0,
+    783.0,
+    536.9,
+    803.0
+   ],
+   "inside": "S03"
+  },
+  {
+   "id": "B102",
+   "content": "[Container: PostgreSQL 17]",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 834,
+   "y": 808,
+   "ink": "#FFFFFF",
+   "ls": -0.08,
+   "measured": [
+    835.0,
+    792.0,
+    1098.0,
+    812.0
+   ],
+   "inside": "S01"
+  },
+  {
+   "id": "B103",
+   "content": "Read-only transaction, 3 s timeout,",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 231,
+   "y": 820,
+   "ink": "#FFFFFF",
+   "ls": -0.15,
+   "measured": [
+    233.0,
+    804.0,
+    558.9,
+    824.0
+   ],
+   "inside": "S03"
+  },
+  {
+   "id": "B105",
+   "content": "Stores all application data",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 843,
+   "y": 829,
+   "ink": "#FFFFFF",
+   "ls": -0.12,
+   "measured": [
+    844.0,
+    813.0,
+    1087.9,
+    833.0
+   ],
+   "inside": "S01"
+  },
+  {
+   "id": "B106",
+   "content": "rollback after evaluation",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 284,
+   "y": 841,
+   "ink": "#FFFFFF",
+   "ls": -0.12,
+   "measured": [
+    285.0,
+    825.0,
+    509.1,
+    841.0
+   ],
+   "inside": "S03"
+  },
+  {
+   "id": "B108",
+   "content": "(41 tables)",
+   "weight": "regular",
+   "size": 22,
+   "anchor": "top",
+   "x": 916,
+   "y": 850,
+   "ink": "#FFFFFF",
+   "ls": -0.1,
+   "measured": [
+    917.0,
+    834.0,
+    1017.0,
+    854.0
+   ],
+   "inside": "S01"
+  },
+  {
+   "id": "B110",
+   "content": "SQL Sandbox",
+   "weight": "bold",
+   "size": 27,
+   "anchor": "top",
+   "x": 308,
+   "y": 924,
+   "ink": "#FFFFFF",
+   "ls": 0.3,
+   "measured": [
+    309.0,
+    904.0,
+    490.0,
+    926.0
+   ],
+   "inside": "S25"
+  },
+  {
+   "id": "B112",
+   "content": "[Container: Docker, PostgreSQL 17]",
+   "weight": "regular",
+   "size": 17,
+   "anchor": "top",
+   "x": 264,
+   "y": 944,
+   "ink": "#FFFFFF",
+   "ls": -0.03,
+   "measured": [
+    265.0,
+    932.0,
+    532.0,
+    947.0
+   ],
+   "inside": "S25"
+  }
+ ],
+ "style": {
+  "font_family": "Arial, Helvetica, sans-serif",
+  "stroke": "#000000",
+  "fill": "#FFFFFF"
+ }
+}

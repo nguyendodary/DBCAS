@@ -1,5 +1,6 @@
 """Bounded, database-leased grading retry jobs; no external queue required."""
 from datetime import datetime, timedelta, timezone
+from contextlib import nullcontext
 
 from ..config import get_settings
 from ..models import Account, Attempt
@@ -16,6 +17,17 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
     job = repo.claim_grading_job(include_essay=include_essay)
     if job is None:
         return False
+    from .evidence_context import question_view
+    attempt = db.get(Attempt, job.attempt_id)
+    admission = getattr(runner, "grading_capacity", None) if question_view(attempt).question_type == "sql" else None
+    with admission() if admission else nullcontext(True) as admitted:
+        if not admitted:
+            db.rollback()  # No SQL started; leave the durable job and retry count untouched.
+            return False
+        return _process_claimed(db, repo, job, runner, llm, settings)
+
+
+def _process_claimed(db, repo, job, runner, llm, settings):
     job_id = job.job_id
     attempt_id = job.attempt_id
     claim_count = job.attempt_count
@@ -25,7 +37,7 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
     db.refresh(attempt)
     session = repo.get_session(attempt.session_id)
     learner = db.get(Account, session.learner_id)
-    answer = {key: getattr(attempt, key) for key in ("selected_option_id", "selected_option_ids", "sql_answer", "essay_answer")}
+    answer = {key: getattr(attempt, key) for key in ("selected_option_id", "sql_answer", "essay_answer")}
     error = None
     try:
         result = grade_attempt(repo, attempt, learner, answer, runner, llm)
@@ -47,6 +59,8 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
             job.status = "pending"
             job.available_at = datetime.now(timezone.utc) + timedelta(seconds=settings.grading_job_retry_seconds * job.attempt_count)
         attempt.grading_detail = {**(attempt.grading_detail or {}), "status": attempt.grading_status, "error_code": error.code}
+        if job.status == "failed" and attempt.question.question_type == "essay":
+            attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
         if session.status != "in_progress":
             from .grading_review import reconcile
             reconcile(db, session)

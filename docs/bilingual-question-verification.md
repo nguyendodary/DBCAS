@@ -1,5 +1,11 @@
 # Bilingual question completion verification
 
+> 23 October 2026 amendment: original-language authoring now supports English
+> and Vietnamese with optional reviewed translations. See the
+> [current UX audit and documentation matrix](ux-simplification-audit-20261023.md).
+> Prior dated counts, test results and implementation decisions below remain
+> historical evidence; they are not verification of this working tree.
+
 > Historical checkpoint, superseded by the [legacy Essay decision](legacy-essay-resolution.md)
 > and [canonical reconciliation](pg-m089-assessment-2-reconciliation.md).
 > The proposed rubric conversion below was rejected and its import path removed.

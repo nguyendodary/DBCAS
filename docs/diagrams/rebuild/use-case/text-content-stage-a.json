@@ -1,0 +1,44 @@
+{
+ "note": "Use Case Stage A strings, transcribed from 2x crops of ArchitectureDesign_ver1.1_image2.png (every ellipse, both actors, title, subtitle and note viewed). 23 logical labels; 26 rendered text bands because UC08, UC10 and UC18 wrap onto two lines. free = title + subtitle + 2 actor labels + note (5); box = 21 ellipse-line bands, in X-id order.",
+ "free_ids": ["X001", "X002", "X013", "X014", "X026"],
+ "free_texts": [
+  "DBCAS Use Case Diagram",
+  "DBCAS system",
+  "Learner",
+  "Administrator",
+  "Learner registration is available before sign-in. UC13 and UC14 occur within UC12."
+ ],
+ "box_ids": ["X003", "X004", "X005", "X006", "X007", "X008", "X009", "X010",
+             "X011", "X012", "X015", "X016", "X017", "X018", "X019", "X020",
+             "X021", "X022", "X023", "X024", "X025"],
+ "box_texts": [
+  "UC02 Login",
+  "UC03 Logout",
+  "UC01 Register learner account",
+  "UC04 Provision administrator accounts",
+  "UC12 Take timed adaptive assessment",
+  "UC05 Define CLOs and concept model",
+  "UC13 Write and run SQL",
+  "UC06 Review AI-suggested CLO mappings",
+  "UC14 Answer MCQ and essay questions",
+  "UC07 Curate validated question bank",
+  "UC08 Review AI-recommended question",
+  "UC15 Receive grading results and feedback",
+  "tags",
+  "UC16 View competency profile",
+  "UC09 Configure adaptive assessments",
+  "UC10 Oversee AI-generated question",
+  "UC17 View competency gap explanations",
+  "candidates",
+  "UC18 Review assessment history and",
+  "UC11 View learner and cohort analytics",
+  "evidence"
+ ],
+ "bold": [
+  "DBCAS Use Case Diagram",
+  "DBCAS system",
+  "UC02 Login",
+  "UC03 Logout"
+ ],
+ "ellipse_texts": []
+}

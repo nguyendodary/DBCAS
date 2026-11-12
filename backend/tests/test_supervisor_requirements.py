@@ -502,6 +502,27 @@ def test_cumulative_multiple_published_attempts_use_pooled_points_and_keep_indiv
     assert client.get("/api/v1/sessions/competency/cumulative", headers=headers(learner)).json() == result
 
 
+def test_practice_sessions_never_enter_official_competency(client, db_session):
+    from test_competency import _make_learner, _make_concept, _make_session, _add_question, _add_attempt
+    learner = _make_learner(db_session, email="practice-exclusion@test.dev")
+    c = _make_concept(db_session, "PRACTICE-EXCLUDED")
+    practice = _make_session(db_session, learner, targets={c: 60})
+    practice.config_snapshot = {"assembly_mode": "PRACTICE"}
+    formal = _make_session(db_session, learner, targets={c: 80})
+    formal.config_snapshot = {"assembly_mode": "FORMAL"}
+    legacy = _make_session(db_session, learner, targets={c: 60})
+    q = _add_question(db_session, learner.account_id, points=1, concept_ids=[c.concept_id])
+    _add_attempt(db_session, practice, q, 1, score=0)
+    _add_attempt(db_session, formal, q, 1, score=1)
+    _add_attempt(db_session, legacy, q, 1, score=1)
+    db_session.commit()
+    result = client.get("/api/v1/sessions/competency/cumulative", headers=headers(learner)).json()
+    assert result["summary"]["finalized_assessments"] == 2
+    assert practice.session_id not in result["concepts"][0]["contributing_sessions"]
+    assert set(result["concepts"][0]["contributing_sessions"]) == {formal.session_id, legacy.session_id}
+    assert result["concepts"][0]["competency_pct"] == "100.00"
+
+
 def test_immediate_incomplete_grading_never_exposes_official_partial_results(client, db_session):
     from app.services.grading_jobs import process_one
     _, learner, session, _ = pending_manual_case(db_session, "IMMEDIATE")
@@ -626,6 +647,8 @@ def test_admin_can_requeue_terminal_grading_failure_without_a_provider_call(clie
     admin, learner, session, attempt = pending_manual_case(db_session, "IMMEDIATE")
     settings = get_settings().model_copy(update={"grading_job_max_attempts": 1})
     assert process_one(db_session, None, None, include_essay=True, settings=settings)
+    retained_job = db_session.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt.attempt_id))
+    assert retained_job.status == "failed" and retained_job.attempt_count == 1
     queue = client.get("/api/v1/admin/grading-reviews", headers=headers(admin, "Administrator")).json()
     assert any(s["session_id"] == session.session_id and s["release_status"] == "grading_failed" for s in queue)
     detail = client.get(f"/api/v1/admin/grading-reviews/{session.session_id}", headers=headers(admin, "Administrator")).json()
@@ -636,8 +659,14 @@ def test_admin_can_requeue_terminal_grading_failure_without_a_provider_call(clie
     db_session.refresh(attempt)
     assert attempt.score is None and attempt.grading_status == "pending"
     job = db_session.scalar(select(GradingJob).where(GradingJob.attempt_id == attempt.attempt_id))
+    # The API committed through another Session; read storage, not the retained
+    # identity-map object whose lifetime can differ between Python versions.
+    db_session.refresh(job)
     assert job.status == "pending" and job.attempt_count == 0
     assert client.post(path, headers=headers(admin, "Administrator"), json={"revision": detail["revision"]}).status_code == 409
+    # A real worker starts a new transaction after the HTTP retry committed;
+    # PostgreSQL now() must not retain this test's pre-retry transaction time.
+    db_session.commit()
     assert process_one(db_session, None, _essay_service(db_session), include_essay=True)
     result = client.get(f"/api/v1/sessions/{session.session_id}/competency", headers=headers(learner))
     assert result.status_code == 200 and result.json()["concepts"][0]["competency_pct"] == "100.00"

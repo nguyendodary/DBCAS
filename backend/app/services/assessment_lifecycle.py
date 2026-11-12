@@ -1,12 +1,12 @@
 """Transactional draft/submission/finalization rules owned by the server."""
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone  # noqa: F401 - test hook asserts the DB clock
 from decimal import Decimal
 
 from ..errors import AppError
 from ..repositories import AssessmentRepository
-from ..schemas import AttemptResult, DraftResult, SubmitAnswerRequest
+from ..schemas import AttemptResult, DraftResult
 from .evidence_context import capture_assessment, capture_question, question_view
 from .llm import LLMError
 from .llm.sanitize import profile_identifiers
@@ -26,22 +26,12 @@ def owned_locked_session(db, session_id, learner):
 def _answer_dict(payload, question):
     fields = {"mcq": "selected_option_id", "sql": "sql_answer", "essay": "essay_answer"}
     field = fields[question.question_type]
-    multiple = getattr(payload, "selected_option_ids", None)
-    if question.question_type == "mcq":
-        if payload.sql_answer is not None or payload.essay_answer is not None:
-            raise AppError(422, "answer_type_mismatch", "The answer format does not match the served question")
-        if multiple is not None:
-            if payload.selected_option_id is not None:
-                raise AppError(422, "answer_type_mismatch", "Send either one option or a list of options")
-            values = multiple
-        else:
-            values = [payload.selected_option_id] if payload.selected_option_id is not None else []
-        if len(values) != len(set(values)) or not set(values).issubset({o.option_id for o in question.options}):
-            raise AppError(422, "invalid_option", "Selected options must be unique and belong to this question")
-        return {"selected_option_ids": sorted(values)} if multiple is not None else {field: payload.selected_option_id}
-    if multiple is not None or any(getattr(payload, other) is not None for other in fields.values() if other != field):
+    value = getattr(payload, field)
+    if field == "selected_option_id" and value is not None and not any(o.option_id == value for o in question.options):
+        raise AppError(422, "invalid_option", "Selected option does not belong to this question")
+    if any(getattr(payload, other) is not None for other in fields.values() if other != field):
         raise AppError(422, "answer_type_mismatch", "The answer format does not match the served question")
-    return {field: getattr(payload, field)}
+    return {field: value}
 
 
 def _hash(answer):
@@ -110,7 +100,7 @@ def grade_attempt(repo, attempt, learner, answer, runner, llm):
     from .essay_grading import grade_essay
     question = _snapshot(repo, attempt)
     if question.question_type == "mcq":
-        return score_mcq(question, question.options, answer.get("selected_option_id"), answer.get("selected_option_ids"))
+        return score_mcq(question, question.options, answer.get("selected_option_id"))
     if question.question_type == "sql":
         if runner is None:
             raise SandboxError("sandbox_unavailable", "SQL grading is temporarily unavailable")
@@ -119,6 +109,8 @@ def grade_attempt(repo, attempt, learner, answer, runner, llm):
             raise AppError(422, "dataset_not_configured", "This SQL question has no test datasets configured")
         required = [getattr(t.concept, "sql_feature", None) or t.concept.concept_name for t in question.concept_tags if t.confirmed and t.is_required]
         return grade_sql(question, datasets, required, answer["sql_answer"], runner)
+    if (attempt.session.config_snapshot or {}).get("learner_defined"):
+        raise LLMError(LLMError.UNAVAILABLE, "The two-AI evaluation job proposes essay scores after submission")
     if llm is None:
         raise LLMError(LLMError.UNAVAILABLE, "Essay grading is temporarily unavailable")
     if not question.rubrics:
@@ -139,11 +131,6 @@ def persist_grade(attempt, result):
 def _persist_answer(attempt, answer, submitted_at):
     for field, value in answer.items():
         setattr(attempt, field, value)
-    if "selected_option_ids" in answer:
-        values = answer["selected_option_ids"]
-        attempt.selected_option_id = values[0] if len(values) == 1 else None
-    elif "selected_option_id" in answer:
-        attempt.selected_option_ids = [answer["selected_option_id"]] if answer["selected_option_id"] is not None else []
     attempt.submitted_at = submitted_at
     attempt.submission_hash = _hash(answer)
 
@@ -152,6 +139,7 @@ def result_for(attempt):
     question = question_view(attempt)
     is_correct = (attempt.grading_detail or {}).get("rubric_level") == "Complete" if question.question_type == "essay" and (attempt.grading_detail or {}).get("grader") != "human_verified" else attempt.score is not None and attempt.score >= question.points
     hidden = attempt.session.result_release_policy == "HUMAN_VERIFIED" and attempt.session.release_status != "published"
+    hidden = hidden or ((attempt.session.config_snapshot or {}).get("learner_defined") and attempt.session.release_status != "published")
     return AttemptResult(attempt_id=attempt.attempt_id, session_id=attempt.session_id, question_id=attempt.question_id,
                          score=None if hidden else attempt.score, points_possible=question.points, is_correct=None if hidden else is_correct,
                          submitted_at=attempt.submitted_at, grading_status=attempt.grading_status)
@@ -159,8 +147,6 @@ def result_for(attempt):
 
 def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempotent=True):
     session = owned_locked_session(db, session_id, learner)
-    if (session.config_snapshot or {}).get("navigation_mode") == "FREE":
-        raise AppError(409, "finish_required", "Save your answer as a draft and submit the whole assessment to receive a grade")
     repo = AssessmentRepository(db)
     attempt = _attempt(repo, session_id, payload.question_id)
     question = _snapshot(repo, attempt)
@@ -181,6 +167,8 @@ def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempoten
             raise exc.to_app_error()
         _persist_answer(attempt, answer, submitted_at)
         attempt.grading_detail = {"grader": "pending", "question_type": question.question_type, "status": "pending", "error_code": exc.code, "points_possible": str(question.points)}
+        if question.question_type == "essay" and exc.code == LLMError.NOT_CONFIGURED:
+            attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
         repo.enqueue_grading(attempt)
     else:
         _persist_answer(attempt, answer, submitted_at)
@@ -198,22 +186,39 @@ def finalize(db, session, *, timed_out=False):
     now = repo.server_time()
     timed_out = timed_out or _expired(session, now)
     timestamp = session.expires_at if timed_out else now
+    if (session.config_snapshot or {}).get("learner_defined"):
+        from .personalized_assessment import serve_planned
+        served = {a.seq_no for a in repo.session_attempts(session.session_id)}
+        for seq in range(1, session.config_snapshot["max_questions"] + 1):
+            if seq not in served:
+                serve_planned(repo, session, seq)
     for attempt in repo.session_attempts(session.session_id):
         if attempt.submitted_at is not None or not attempt.draft_answer:
             continue
         question = _snapshot(repo, attempt)
         answer = attempt.draft_answer
         value = next(iter(answer.values()), None)
-        if value is None or value == [] or isinstance(value, str) and not value.strip():
+        if value is None or isinstance(value, str) and not value.strip():
             continue
         _persist_answer(attempt, answer, timestamp)
         if question.question_type == "mcq":
             persist_grade(attempt, grade_attempt(repo, attempt, None, answer, None, None))
         else:
             attempt.grading_detail = {"grader": "pending", "question_type": question.question_type, "status": "pending", "points_possible": str(question.points)}
+            from ..config import get_settings
+            config = get_settings()
+            if question.question_type == "essay" and config.auto_grade_essays and not (
+                config.llm_api_key and config.llm_base_url and config.llm_model
+            ):
+                attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
             repo.enqueue_grading(attempt)
     session.status = "timed_out" if timed_out else "completed"
     session.submitted_at = timestamp
+    if (session.config_snapshot or {}).get("learner_defined"):
+        for attempt in repo.session_attempts(session.session_id):
+            if attempt.submitted_at is None:
+                attempt.submitted_at, attempt.score, attempt.grading_status = timestamp, Decimal(0), "graded"
+                attempt.grading_detail = {"grader": "unanswered", "points_earned": "0", "points_possible": str(question_view(attempt).points)}
     db.flush()
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)

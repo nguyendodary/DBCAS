@@ -13,6 +13,7 @@ from sqlalchemy import (
     ForeignKey,
     ForeignKeyConstraint,
     CheckConstraint,
+    BigInteger,
     DateTime,
     Numeric,
     SmallInteger,
@@ -43,8 +44,10 @@ class Account(Base):
     account_id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(255), unique=True)
     password_hash: Mapped[str] = mapped_column(String(255))
-    avatar_data_url: Mapped[Optional[str]] = mapped_column(Text)
-    token_version: Mapped[int] = mapped_column(default=0, server_default="0")
+    # False only for OAuth-provisioned accounts whose hash is an unusable
+    # random value; setting/resetting a real password flips it to True.
+    password_set: Mapped[bool] = mapped_column(default=True, server_default="true")
+    password_changed_at: Mapped[Optional[datetime]]
     status: Mapped[str] = mapped_column(String(20), default="active")
     # Separate capability: Administrator alone never implies authority to
     # grant or revoke administrative roles.
@@ -123,10 +126,12 @@ class UserProfile(Base):
 
 class Question(Base):
     __tablename__ = "question"
+    __table_args__ = (CheckConstraint("original_locale IN ('en', 'vi')"),)
 
     question_id: Mapped[int] = mapped_column(primary_key=True)
     question_type: Mapped[str] = mapped_column(String(10))  # 'mcq' | 'sql' | 'essay' (DB CHECK)
     prompt: Mapped[str] = mapped_column(Text)
+    original_locale: Mapped[str] = mapped_column(String(16), default="en", server_default="en")
     reference_answer: Mapped[Optional[str]] = mapped_column(Text)
     difficulty_level: Mapped[int] = mapped_column(SmallInteger, default=1)
     points: Mapped[Decimal] = mapped_column(Numeric(5, 2), default=Decimal("1.0"))
@@ -155,7 +160,9 @@ class Question(Base):
     )
     concept_tags: Mapped[list["QuestionConcept"]] = relationship()
     datasets: Mapped[list["SqlTestDataset"]] = relationship(back_populates="question")
-    rubrics: Mapped[list["Rubric"]] = relationship(back_populates="question")
+    rubrics: Mapped[list["Rubric"]] = relationship(
+        back_populates="question", order_by="Rubric.rubric_id"
+    )
 
 
 class McqOption(Base):
@@ -173,7 +180,7 @@ class QuestionTranslation(Base):
 
     __tablename__ = "question_translation"
     __table_args__ = (
-        CheckConstraint("locale <> 'en' AND locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
+        CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
         CheckConstraint("jsonb_typeof(option_texts) = 'object'"),
         CheckConstraint("jsonb_typeof(rubrics) = 'object'"),
     )
@@ -324,13 +331,18 @@ class Assessment(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     family_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     version_no: Mapped[int] = mapped_column(default=1)
-    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="HUMAN_VERIFIED")
 
     @validates("status")
     def canonical_status(self, key, value):
         return "published" if value == "active" else value
 
     targets: Mapped[list["AssessmentConcept"]] = relationship()
+    # DB-level ON DELETE CASCADE never removes a version referenced by a
+    # session: session FKs block assessment deletion while sessions exist.
+    blueprints: Mapped[list["AssessmentBlueprint"]] = relationship(
+        passive_deletes=True
+    )
 
 
 class AssessmentConcept(Base):
@@ -349,13 +361,43 @@ class AssessmentConcept(Base):
     concept: Mapped["Concept"] = relationship()
 
 
+class AssessmentBlueprint(Base):
+    """Immutable, versioned evidence mix for one assessment competency band."""
+
+    __tablename__ = "assessment_blueprint"
+    __table_args__ = (
+        CheckConstraint("difficulty_band IN ('EASY', 'MEDIUM', 'HARD')"),
+        CheckConstraint("status IN ('approved', 'retired')"),
+        CheckConstraint("target_mcq + target_sql + target_essay = max_questions"),
+        UniqueConstraint("assessment_id", "subject_area", "difficulty_band", "version_no"),
+    )
+
+    blueprint_id: Mapped[int] = mapped_column(primary_key=True)
+    assessment_id: Mapped[int] = mapped_column(ForeignKey(
+        "assessment.assessment_id", ondelete="CASCADE"))
+    subject_area: Mapped[str] = mapped_column(String(100))
+    difficulty_band: Mapped[str] = mapped_column(String(10))
+    version_no: Mapped[int] = mapped_column(default=1)
+    status: Mapped[str] = mapped_column(String(20), default="approved")
+    max_questions: Mapped[int] = mapped_column(SmallInteger)
+    target_mcq: Mapped[int] = mapped_column(SmallInteger)
+    target_sql: Mapped[int] = mapped_column(SmallInteger)
+    target_essay: Mapped[int] = mapped_column(SmallInteger)
+    scoring: Mapped[dict] = mapped_column(JSONB, default=dict)
+    evidence_types: Mapped[list] = mapped_column(JSONB, default=list)
+    approval_basis: Mapped[str] = mapped_column(Text)
+    approved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    approved_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
 class AssessmentSession(Base):
     __tablename__ = "assessment_session"
     __table_args__ = (CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
                       UniqueConstraint("session_id", "learner_id", name="session_owner_unique"))
 
     session_id: Mapped[int] = mapped_column(primary_key=True)
-    assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id"))
+    assessment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     status: Mapped[str] = mapped_column(String(20), default="in_progress")  # 'in_progress' | 'completed' | 'timed_out'
     locale: Mapped[str] = mapped_column(String(16), default="en")
@@ -363,15 +405,29 @@ class AssessmentSession(Base):
     expires_at: Mapped[datetime]
     submitted_at: Mapped[Optional[datetime]]
     config_snapshot: Mapped[Optional[dict]] = mapped_column(JSONB)
-    result_release_policy: Mapped[str] = mapped_column(String(20), default="IMMEDIATE")
+    result_release_policy: Mapped[str] = mapped_column(String(20), default="HUMAN_VERIFIED")
     release_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
-    release_policy_chosen_at: Mapped[Optional[datetime]]
     start_request_id: Mapped[Optional[str]] = mapped_column(String(36))
+    blueprint_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("assessment_blueprint.blueprint_id")
+    )
     review_revision: Mapped[int] = mapped_column(default=0)
     published_at: Mapped[Optional[datetime]]
 
-    assessment: Mapped[Assessment] = relationship()
+    assessment: Mapped[Optional[Assessment]] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
+    adaptive_events: Mapped[list["AdaptiveEvent"]] = relationship(order_by="AdaptiveEvent.round_no, AdaptiveEvent.event_type")
+
+
+class AdaptiveEvent(Base):
+    __tablename__ = "adaptive_event"
+    __table_args__ = (CheckConstraint("round_no BETWEEN 1 AND 13"),
+                      CheckConstraint("event_type IN ('batch', 'decision')"))
+    session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"), primary_key=True)
+    round_no: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
+    event_type: Mapped[str] = mapped_column(String(16), primary_key=True)
+    payload: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class SessionStartRequest(Base):
@@ -398,7 +454,6 @@ class Attempt(Base):
     question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
     seq_no: Mapped[int] = mapped_column(SmallInteger)
     selected_option_id: Mapped[Optional[int]] = mapped_column(ForeignKey("mcq_option.option_id"))
-    selected_option_ids: Mapped[Optional[list[int]]] = mapped_column(JSONB)
     sql_answer: Mapped[Optional[str]] = mapped_column(Text)
     essay_answer: Mapped[Optional[str]] = mapped_column(Text)
     score: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 2))
@@ -529,6 +584,28 @@ class LoginThrottleRecord(Base):
     expires_at: Mapped[datetime]
 
 
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_token"
+    __table_args__ = (CheckConstraint("expires_at > requested_at"),)
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    requested_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    used_at: Mapped[Optional[datetime]]
+    revoked_at: Mapped[Optional[datetime]]
+
+
+class PasswordResetAudit(Base):
+    __tablename__ = "password_reset_audit"
+    __table_args__ = (CheckConstraint("event IN ('requested','completed')"),)
+
+    audit_id: Mapped[int] = mapped_column(primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    event: Mapped[str] = mapped_column(String(20))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
 class GradingJob(Base):
     __tablename__ = "grading_job"
     __table_args__ = (
@@ -566,3 +643,56 @@ class ResultReleaseEvent(Base):
     new_status: Mapped[str] = mapped_column(String(20))
     reviewer_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class RefreshSession(Base):
+    __tablename__ = "refresh_session"
+
+    token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
+    family_id: Mapped[str] = mapped_column(String(32), index=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id", ondelete="CASCADE"), index=True)
+    credential_version: Mapped[int] = mapped_column(BigInteger, default=0)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    consumed_at: Mapped[Optional[datetime]]
+    revoked_at: Mapped[Optional[datetime]]
+
+
+class SystemSetting(Base):
+    __tablename__ = "system_setting"
+    setting_key: Mapped[str] = mapped_column(String(80), primary_key=True)
+    value: Mapped[dict] = mapped_column(JSONB)
+    updated_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class EvaluationRecord(Base):
+    __tablename__ = "evaluation_record"
+    __table_args__ = (UniqueConstraint("learner_id", "scope_key"),)
+    evaluation_id: Mapped[int] = mapped_column(primary_key=True)
+    learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    session_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment_session.session_id"))
+    scope_key: Mapped[str] = mapped_column(String(80))
+    input_hash: Mapped[str] = mapped_column(String(64))
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    payload: Mapped[Optional[dict]] = mapped_column(JSONB)
+    lease_until: Mapped[Optional[datetime]]
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class GradeEditAudit(Base):
+    __tablename__ = "grade_edit_audit"
+    audit_id: Mapped[int] = mapped_column(primary_key=True)
+    attempt_id: Mapped[int] = mapped_column(ForeignKey("attempt.attempt_id"))
+    reviewer_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    old_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 2))
+    new_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    reason: Mapped[str] = mapped_column(String(1000))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class AssessmentQuestion(Base):
+    __tablename__ = "assessment_question"
+
+    assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id", ondelete="CASCADE"), primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"), primary_key=True)

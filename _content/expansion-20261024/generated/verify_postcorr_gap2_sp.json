@@ -1,0 +1,172 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\gap2_sp.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:16:45.987907+00:00",
+  "questions": [
+    {
+      "key": "spb-easy-returns-void",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-UDF"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        709
+      ]
+    },
+    {
+      "key": "spb-easy-trigger-return-type",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TRIGGER"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        710
+      ]
+    },
+    {
+      "key": "spb-easy-create-or-replace",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-UDF"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        711
+      ]
+    },
+    {
+      "key": "spb-easy-raise-notice",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PLPGSQL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        712
+      ]
+    },
+    {
+      "key": "spb-easy-after-trigger",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TRIGGER"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        713
+      ]
+    },
+    {
+      "key": "spb-easy-return-next",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PLPGSQL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        714
+      ]
+    },
+    {
+      "key": "spb-easy-updated-at-trigger",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TRIGGER"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        715
+      ]
+    },
+    {
+      "key": "spb-easy-language-choice",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-UDF",
+        "PG-PLPGSQL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        716
+      ]
+    },
+    {
+      "key": "spb-easy-raise-validation",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PLPGSQL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        717
+      ]
+    },
+    {
+      "key": "spb-hard-trigger-recursion",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TRIGGER"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        718
+      ]
+    },
+    {
+      "key": "spb-hard-transition-tables",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TRIGGER"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        719
+      ]
+    },
+    {
+      "key": "spb-hard-audit-trail",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TRIGGER",
+        "PG-PLPGSQL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        720
+      ]
+    },
+    {
+      "key": "spb-hard-bulk-load-triggers",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "PG-TRIGGER",
+        "PG-PLPGSQL"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        721
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:16:48.327889+00:00",
+  "summary": {
+    "skipped_existing_prompt": 13
+  }
+}

@@ -1,0 +1,28 @@
+{
+ "figure": "Logical System Architecture (Proposal Fig 6)",
+ "round": "F3 owner fix 2026-11-09",
+ "ops": [
+  {
+   "type": "frame-bottom-edges",
+   "frames": [
+    "S01",
+    "S02",
+    "S03",
+    "S04"
+   ],
+   "note": "gaps apply to the TOP edge only, under the title tabs; bottom edges continuous x0..x1"
+  },
+  {
+   "type": "text-fit",
+   "id": "X007",
+   "size": 34,
+   "old_ls": -0.52,
+   "new_ls": -0.64,
+   "old_width": 1044.2,
+   "new_width": 1036.1,
+   "inner_padding_left": 12.9,
+   "inner_padding_right": 12.9
+  }
+ ],
+ "note": "Shapes, lines, arrows, sticks and all other labels byte-identical to spec-stage-a.json (proved by check_rebuild_delta_f3.py)."
+}

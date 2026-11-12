@@ -23,9 +23,14 @@ does not already exist. Keep existing credentials and port choices.
 
 ```powershell
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
-docker compose up -d db sandbox
+docker compose up -d db sandbox mailpit
 docker compose ps
 ```
+
+`mailpit` is the development inbox for self-service password recovery: never
+published beyond loopback, SMTP on `127.0.0.1:1026`, web inbox/API on
+http://127.0.0.1:8026. Keep the `.env.example` SMTP values for local work; a
+real deployment configures its own relay and never uses Mailpit.
 
 Set `DATABASE_URL`, `SANDBOX_URL` and `SANDBOX_ADMIN_URL` to match the chosen
 host ports. Database and sandbox are different PostgreSQL servers. The SQL
@@ -215,3 +220,91 @@ The browser must return through the same UI origin and its `/api` proxy:
 the state/handoff cookies are HttpOnly. Avoid mixing `localhost` and
 `127.0.0.1` during a live sign-in. Log only provider configured YES/NO and
 the safe error code; never log auth codes, tokens, secrets or callback queries.
+
+## Original-language question authoring — 23 October 2026
+
+Administrators can save an English or Vietnamese original without a translation,
+add a reviewed translation later, and preview before saving a draft. Menus and
+question content have independent languages. The recorded session locale stays
+fixed; the language selector displays reviewed snapshot translations when present,
+with an original-language fallback. Stored grading evidence remains unchanged. See the [manual](learner-and-admin-manual.md) and [audit/traceability report](ux-simplification-audit-20261023.md).
+
+Migration `012_question_original_locale.sql` adds the source language and permits
+English display translations. It preserves existing English source defaults and
+translation hashes, and does not update historical snapshots. Apply API and
+frontend together only after the upgrade. For a persistent database, first obtain
+explicit owner authorization and verify a restorable backup; this task applies
+no migration to persistent development data. The normal migration command is
+unchanged. PostgreSQL 17 Docker release verification remains required.
+
+## Final integration acceptance follow-up - 23 October 2026
+
+See [the final integration acceptance record](final-integration-acceptance-20261023.md) for subsequent PostgreSQL 17 migration/browser checks, the verified backup, and the remaining Docker gates. Earlier dated results above remain historical. Migration 012 is still not applied to persistent development data.
+
+Later blocker-remediation evidence and the exact owner activation procedure are
+in [Docker stabilization acceptance](docker-stabilization-acceptance-20261023.md).
+Use that report for current gate results; the earlier record remains historical.
+The optional translation draft feature is separately disabled by default and
+does not change migration 012 or authorize persistent activation.
+
+## Migrations 013 and 014 - current state, 27 October 2026
+
+The two sentences above that reported migration 012 as not yet applied to
+persistent development data are **historical**. The owner-authorized 25 October
+activation described in [activation-release-20261025.md](activation-release-20261025.md)
+applied the later migrations, and a read-only check of the persistent development
+database on 27 October 2026 shows `schema_migration` holding all of `001` through
+`014`, 35 relations in `public` (34 application tables plus the migration runner's
+own `schema_migration` bookkeeping table) and 49 application foreign keys.
+
+`db/schema.sql` stays the consolidated fresh-install schema: a new database created
+from it needs no upgrade path for 001-014, and it is byte-reproducible through the
+checksummed migration runner.
+
+- `013_assessment_blueprints.sql` adds the immutable `assessment_blueprint` table
+  (`approval_basis`/`approved_by`/`approved_at`, a `status` CHECK, an
+  `assessment_blueprint_counts_check` that requires
+  `target_mcq + target_sql + target_essay = max_questions`, a difficulty-band CHECK,
+  a version uniqueness CHECK and `assessment_blueprint_version_unique` over
+  `(assessment_id, subject_area, difficulty_band, version_no)`), a nullable
+  `assessment_session.blueprint_id`, a CASCADE-owned `assessment_id` foreign key, a
+  nullable `approved_by` reference to `account`, and the
+  `assessment_blueprint_immutable` trigger, which blocks `UPDATE` while leaving
+  deliberate deletion to controlled re-seeding. `backend/app/services/blueprints.py`
+  resolves a session's blueprint (`resolve_blueprint`) and proves pool coverage
+  (`verify_quotas`) before any question is served.
+- `014_adaptive_events.sql` adds `adaptive_event`, keyed by
+  `(session_id, round_no, event_type)` with `event_type IN ('batch','decision')`,
+  a JSONB object CHECK and a `round_no BETWEEN 1 AND 13` bound, plus the
+  `adaptive_event_immutable` trigger, which blocks both `UPDATE` and `DELETE`.
+  `backend/app/services/batch_adaptive.py` writes the selection and decision trail
+  through it; nothing is rewritten retrospectively.
+
+Nothing in this section needs a new command: `.venv/Scripts/python.exe -m app.migrate`
+from `backend` remains the way to bring a database forward, and readiness still
+rejects a missing binding table.
+
+The diagram evidence for this schema is generated, not hand-drawn. Against a
+**disposable** PostgreSQL 17 loaded from `db/schema.sql` only, run
+`backend/.venv/Scripts/python.exe scripts/generate_schema_catalog.py "<libpq dsn>" --load --write`
+to refresh [schema-catalog.json](diagrams/schema-catalog.json), the
+[foreign key ledger](diagrams/physical-schema-relationships.json) and
+`physical-schema.dot`; then `npm run diagrams:render`. The generator refuses a
+target that already holds rows, so it cannot rewrite persistent data. See
+[the diagrams guide](diagrams/README.md).
+
+
+## PR #1: existing-data rollout for migration 019
+
+Migration 019 closes every published prebuilt assessment. This intentional status-only change withdraws old exams from new starts while preserving all assessment rows, learner sessions, attempts, grades, snapshots and foreign keys. Draft/closed assessments are unchanged. The migration is idempotent; its applied SQL/checksum must not be edited. A seeded legacy-schema regression applies 001-018, records all row data, then verifies 019 and both migration-runner/direct-SQL repetition.
+
+Notify teammates and take a database backup before applying this release to existing data. With the operator's existing libpq host/port/user configuration and the intended database name, run:
+
+```bash
+pg_dump --dbname=dbcas --format=custom --file=dbcas-before-pr1.dump
+pg_restore --list dbcas-before-pr1.dump
+```
+
+Use a protected backup location outside Git and perform a restore drill. Do not put passwords in command arguments or logs. A code revert does not reopen archived exams; restore the pre-upgrade statuses from backup or use an explicitly reviewed corrective forward migration. Never reset or drop live volumes to upgrade.
+
+Public development account passwords are refused in staging/production, including disabled accounts; rotate them before promotion. Known demo configuration credentials are also rejected. Legacy content-expansion utilities now require explicit DATABASE_URL (or DBCAS_COVERAGE_URL for the coverage utility) instead of embedding a local database password. If the former literal credential is still deployed, its owner must rotate it separately; this remediation does not change a running database password.

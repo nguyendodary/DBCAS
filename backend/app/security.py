@@ -27,8 +27,24 @@ def verify_password(password: str, password_hash: str) -> bool:
         return False
 
 
+def credential_epoch(value: datetime | None) -> int:
+    """Exact microseconds since the epoch; 0 means no password change known."""
+    if value is None:
+        return 0
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    delta = value - datetime(1970, 1, 1, tzinfo=timezone.utc)
+    return (delta.days * 86400 + delta.seconds) * 1_000_000 + delta.microseconds
+
+
 def create_access_token(
-    account_id: int, roles: list[str], settings: Settings, *, auth_time: int | None = None, token_version: int = 0
+    account_id: int,
+    roles: list[str],
+    settings: Settings,
+    *,
+    auth_time: int | None = None,
+    password_changed_at: datetime | None = None,
+    session_family: str | None = None,
 ) -> tuple[str, int]:
     """Returns (token, expires_in_seconds)."""
     expires_in = settings.access_token_expire_minutes * 60
@@ -41,12 +57,16 @@ def create_access_token(
     payload = {
         "typ": "access",
         "auth_time": auth_time,
+        # Compared against account.password_changed_at on every request, so a
+        # password reset invalidates all previously issued sessions.
+        "pwd_at": credential_epoch(password_changed_at),
         "sub": str(account_id),
         "roles": roles,
-        "ver": token_version,
         "iat": now,
         "exp": now + timedelta(seconds=expires_in),
     }
+    if session_family is not None:
+        payload["sid"] = session_family
     return jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm), expires_in
 
 

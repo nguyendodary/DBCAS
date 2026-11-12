@@ -1,0 +1,72 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\df_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:54:19.230353+00:00",
+  "questions": [
+    {
+      "key": "df-easy-generated-net",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-GENCOL"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "generated_with_null_discount",
+          "rows": 3
+        },
+        {
+          "dataset_name": "all_discounts_null",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "key": "df-easy-defaults-and-identity",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-TABLE",
+        "PG-IDENTITY"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "defaults_and_overrides",
+          "rows": 3
+        },
+        {
+          "dataset_name": "each_default_used_separately",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "key": "df-easy-partition-pruning",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-PARTITION"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "df-easy-materialized-view",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-MATVIEW"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:54:20.099002+00:00",
+  "summary": {
+    "dry_run_ok": 4
+  }
+}

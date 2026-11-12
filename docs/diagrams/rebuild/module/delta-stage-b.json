@@ -1,0 +1,14 @@
+{
+ "figure": "Module View (Architecture Fig 5)",
+ "source": "docs/qa/content-delta-verified.md section 4 (W9) + owner instruction",
+ "ops": [
+  {"type": "rename", "ids": ["X032"], "lines": ["Practice"]},
+  {"type": "block", "ids": ["X033", "X042", "X051"], "lines": ["Practice Service"], "center_y": 1184.5},
+  {"type": "block", "ids": ["X034", "X043", "X052"], "lines": ["Session / Plan", "Repository"], "line_tops": [1153, 1191]},
+  {"type": "rename", "ids": ["X035"], "lines": ["Practice"]},
+  {"type": "rename", "ids": ["X036"], "lines": ["Grading"]},
+  {"type": "rename", "ids": ["X038"], "lines": ["Attempt / Evidence"], "max_width": 258},
+  {"type": "rename", "ids": ["X057"], "lines": ["Application data, evidence and LLM cache"]},
+  {"type": "rename", "ids": ["X060"], "lines": ["Repositories persist application records. Services call the LLM Gateway or SQL Sandbox only when the workflow requires them."]}
+ ]
+}

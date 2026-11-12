@@ -15,6 +15,7 @@ from app.services.llm import ChatMessage, LLMService, LLMError, ChatCompletionsP
 from app.services.llm.sanitize import sanitize_learner_text
 from app.services.rubric_validation import rubric_problems
 from app.schemas import CandidateGenerateRequest
+from generation_fixtures import grounded, DESCRIPTION, KEYWORDS, OBJECTIVES
 
 
 RUBRICS = [
@@ -204,7 +205,8 @@ def _curriculum(db):
     from app.models import Account
     admin=Account(email="curation@test.dev",password_hash="unused",status="active")
     db.add(admin);db.flush()
-    concept=Concept(concept_code="SQL-SELECT",concept_name="SELECT",subject_area="SQL Querying",difficulty_level=1)
+    concept=Concept(concept_code="SQL-SELECT",concept_name="SELECT",subject_area="SQL Querying",difficulty_level=1,
+                    description=DESCRIPTION,keywords=KEYWORDS,learning_objectives=OBJECTIVES)
     db.add(concept);db.flush()
     clo=CourseLearningOutcome(clo_code="CLO-QUERY",title="Write safe queries",created_by=admin.account_id)
     question=Question(question_type="mcq",prompt="What selects rows?",points=Decimal("1"),difficulty_level=1,created_by=admin.account_id,status="draft")
@@ -232,6 +234,7 @@ def test_question_tagging_through_real_service_and_mock_http(db_session):
 def test_candidates_through_real_service_and_mock_http(db_session):
     admin,concept,_,_=_curriculum(db_session)
     payload={"questions":[{"prompt":"Choose the SQL projection clause","difficulty_level":1,"options":[{"option_label":"A","option_text":"SELECT","is_correct":True},{"option_label":"B","option_text":"DELETE","is_correct":False}]}]}
+    payload["questions"] = [grounded(item, concept_id=concept.concept_id) for item in payload["questions"]]
     result=generate_candidates(db_session,CandidateGenerateRequest(concept_id=concept.concept_id,question_type="mcq",count=1),admin,_service(db_session,payload),None)
     assert len(result)==1 and result[0].promoted_question_id is None
     assert db_session.scalar(select(LlmCache)).task_type == "gen_question"

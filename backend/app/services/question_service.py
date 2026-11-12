@@ -3,8 +3,8 @@
 The bank holds only administrator-curated items across the three formats.
 Content rules enforced here:
 
-* mcq   — at least 2 options, at least one correct
-* sql   — at least one valid dataset, and a
+* mcq   — at least 2 options, exactly one correct
+* sql   — at least two valid datasets, including an edge case, and a
           reference query verified against every dataset
 * essay — the four canonical, complete non-overlapping rubric levels
 * all   — at least one confirmed concept tag to be serveable, otherwise
@@ -27,11 +27,7 @@ from sqlalchemy.orm import Session
 from ..errors import AppError
 from ..models import (
     Account,
-    McqOption,
     Question,
-    QuestionConcept,
-    Rubric,
-    SqlTestDataset,
 )
 from ..repositories import CurriculumRepository, QuestionRepository
 from ..schemas import (
@@ -62,13 +58,14 @@ def _tags(question: Question) -> list[QuestionConceptTag]:
 
 
 def _to_list_item(q: Question) -> QuestionListItem:
-    current_locales = sorted(
-        t.locale for t in q.translations if translation_is_current(q, t)
-    )
+    current_translations = [t for t in q.translations if translation_is_current(q, t)]
+    current_locales = sorted(t.locale for t in current_translations)
     return QuestionListItem(
         question_id=q.question_id,
         question_type=q.question_type,
         prompt=q.prompt,
+        original_locale=q.original_locale,
+        localized_prompts={t.locale: t.prompt for t in current_translations},
         difficulty_level=q.difficulty_level,
         points=q.points,
         status=q.status,
@@ -81,7 +78,7 @@ def _to_list_item(q: Question) -> QuestionListItem:
         tags=list(q.tags or []),
         source_refs=list(q.source_refs or []),
         translation_locales=current_locales,
-        missing_locales=[locale for locale in ("vi",) if locale not in current_locales],
+        missing_locales=[locale for locale in ("en", "vi") if locale != q.original_locale and locale not in current_locales],
         legacy_rubric=q.status == "retired" and q.question_type == "essay" and len(q.rubrics) == 3,
     )
 
@@ -158,8 +155,8 @@ def _check_type_payload(payload: QuestionUpsertRequest) -> None:
         if any(not label for label in option_labels) or len(option_labels) != len(set(option_labels)):
             problems.append("mcq questions need unique, nonempty option labels")
         correct = sum(1 for o in payload.options if o.is_correct)
-        if len(payload.options) >= 2 and correct < 1:
-            problems.append("mcq questions need at least one correct option")
+        if len(payload.options) >= 2 and correct != 1:
+            problems.append("mcq questions need exactly one correct option")
     if qt == "sql" and payload.datasets:
         for i, ds in enumerate(payload.datasets):
             er = ds.expected_result
@@ -241,19 +238,32 @@ def search_questions(
     status: Optional[str] = None,
     q: Optional[str] = None,
     tag: Optional[str] = None,
+    clo_id: Optional[int] = None,
+    topic: Optional[str] = None,
+    limit: Optional[int] = None,
+    offset: int = 0,
 ) -> list[QuestionListItem]:
     repo = QuestionRepository(db)
-    return [
+    items = [
         _to_list_item(item)
         for item in repo.search(
             concept_id=concept_id,
             question_type=question_type,
             difficulty=difficulty,
             status="retired" if status == "rejected" else status,
-            q=q,
+            q=None,
             tag=tag,
+            clo_id=clo_id,
+            topic=topic,
         )
     ]
+    if q and items:
+        matches = repo.matching_prompt_ids(
+            q, [item.question_id for item in items],
+            [(item.question_id, locale) for item in items for locale in item.translation_locales],
+        )
+        items = [item for item in items if item.question_id in matches]
+    return items[offset:offset + limit if limit is not None else None]
 
 
 def get_question(db: Session, question_id: int) -> QuestionDetail:
@@ -270,6 +280,7 @@ def create_question(
         question = repo.create(
             question_type=payload.question_type,
             prompt=payload.prompt,
+            original_locale=payload.original_locale,
             reference_answer=payload.reference_answer,
             explanation=payload.explanation,
             tags=list(payload.tags),
@@ -294,13 +305,17 @@ def create_question(
 def replace_question(
     db: Session, question_id: int, payload: QuestionUpsertRequest
 ) -> QuestionDetail:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     _check_type_payload(payload)
+    if "original_locale" in payload.model_fields_set and payload.original_locale != question.original_locale:
+        raise AppError(422, "invalid_question_translation", "The original language cannot be relabeled; create a new question instead")
     try:
         refs = repo.reference_counts(question_id)
-        if refs.get("attempt", 0) or refs.get("session_question_plan", 0):
+        if refs.get("attempt", 0) or refs.get("session_question_plan", 0) or refs.get("adaptive_inventory", 0):
             question = repo.clone_for_edit(question)
         question.question_type = payload.question_type
         question.prompt = payload.prompt
@@ -330,13 +345,22 @@ def replace_question(
 def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
     """What stops this item from being served (the 'validated' checklist)."""
     missing: list[str] = []
+    if not q.prompt or not q.prompt.strip():
+        missing.append("non-empty question content")
     if not any(t.confirmed for t in q.concept_tags):
         missing.append("at least one confirmed concept tag")
     if q.question_type == "mcq":
         if len(q.options) < 2:
             missing.append("at least 2 options")
-        elif sum(1 for o in q.options if o.is_correct) < 1:
-            missing.append("at least one correct option")
+        elif sum(1 for o in q.options if o.is_correct) != 1:
+            missing.append("exactly one correct option")
+        if any(not o.option_text or not o.option_text.strip() for o in q.options):
+            missing.append("non-empty option text")
+        # Case is meaningful in SQL identifiers and string literals. Only
+        # identical displayed choices are unambiguously duplicate answers.
+        texts = [(o.option_text or "").strip() for o in q.options]
+        if len(set(texts)) != len(texts):
+            missing.append("distinct answer options for human review")
     elif q.question_type == "sql":
         from .bank_validation import sql_fixture_problems
         missing.extend(sql_fixture_problems(q.datasets, q.reference_answer,
@@ -350,16 +374,23 @@ def _validation_missing(repo: QuestionRepository, q: Question) -> list[str]:
 def set_question_status(
     db: Session, question_id: int, status: str, runner=None
 ) -> QuestionDetail:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
+    repo.lock_question(question_id)
     question = _require_question(repo, question_id)
     if status == "validated":
         missing = _validation_missing(repo, question)
+        if not missing:
+            from .practice_bank import canonical_question
+            from .question_validator import question_problems
+            missing.extend(question_problems(canonical_question(question)))
         if not missing and question.question_type == "sql":
-            from .bank_validation import verify_sql_fixtures
-            from .sandbox_runner import SandboxRunner
+            from .question_validator import execute_fixtures
+            from .sandbox_runner import build_sandbox_runner
             from ..config import get_settings
-            runner = runner or SandboxRunner(get_settings())
-            missing.extend(verify_sql_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
+            runner = runner or build_sandbox_runner(get_settings())
+            missing.extend(execute_fixtures(runner, repo.datasets_for(question_id), question.reference_answer))
         if missing:
             raise AppError(
                 422,
@@ -375,9 +406,15 @@ def set_question_status(
 
 
 def delete_question(db: Session, question_id: int) -> None:
+    from ..repositories import SecurityRepository
+    SecurityRepository(db).lock("question-bank-publication")
     repo = QuestionRepository(db)
     repo.lock_question(question_id)
     question = _require_question(repo, question_id)
+    from sqlalchemy import select
+    from ..models import AssessmentQuestion
+    if db.scalar(select(AssessmentQuestion.question_id).where(AssessmentQuestion.question_id == question_id).limit(1)):
+        raise AppError(409, "question_in_use", "Question is attached to an assessment pool")
     refs = {k: v for k, v in repo.reference_counts(question_id).items() if v}
     if refs:
         raise AppError(

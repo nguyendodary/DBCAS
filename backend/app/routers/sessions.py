@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+from typing import Literal
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -19,8 +20,7 @@ from ..schemas import (
     SubmitAnswerRequest,
     DraftSaveRequest, DraftResult, SubmissionResult,
     CumulativeCompetencyResult,
-    FinishSessionRequest,
-    StudentRankingItem,
+    ServedQuestion,
 )
 from ..services import (
     adaptive_engine,
@@ -33,19 +33,26 @@ from ..services import (
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
+from ..schemas_analytics import OwnRank, StatisticsDashboard
 
 router = APIRouter(prefix="/sessions", tags=["assessment"])
 
 
-@router.get("/leaderboard", response_model=list[StudentRankingItem])
-def learner_ranking(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
-    from ..services.analytics_service import student_leaderboard
-    return student_leaderboard(db)
+@router.get("/statistics", response_model=StatisticsDashboard)
+def learner_statistics(learner: Account = LearnerOnly, db: Session = Depends(get_db),
+                       assessment_id: int | None = Query(None, ge=1),
+                       limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0)):
+    """Published formal competency, score distribution, progress and topic gaps for this learner."""
+    from ..services.statistics_service import dashboard
+    return dashboard(db, learner_id=learner.account_id, assessment_id=assessment_id, limit=limit, offset=offset)
 
 
-@router.post("/{session_id}/navigation", response_model=SessionStateResult)
-def enable_question_navigation(session_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
-    return adaptive_engine.enable_navigation(db, session_id, learner)
+@router.get("/ranking", response_model=OwnRank)
+def learner_ranking(learner: Account = LearnerOnly, db: Session = Depends(get_db),
+                    assessment_id: int | None = Query(None, ge=1)):
+    """Own competition rank among published formal evidence; no public roster."""
+    from ..services.statistics_service import own_rank
+    return own_rank(db, learner.account_id, assessment_id=assessment_id)
 
 
 @router.get("/competency/cumulative", response_model=CumulativeCompetencyResult)
@@ -69,6 +76,9 @@ def get_answer_draft(session_id: int, question_id: int, learner: Account = Learn
 def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: Account = LearnerOnly,
                        db: Session = Depends(get_db), runner: SandboxRunner = Depends(get_sandbox_runner), llm: LLMService = Depends(get_llm_service)):
     """Commit the answer and authoritative next state together; retry is safe."""
+    from ..config import get_settings
+    if get_settings().auto_grade_essays and llm.is_configured():
+        llm = None  # The local maintenance worker grades the durable essay job.
     answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
     session = AssessmentRepository(db).get_session(session_id)
     if session.status == "in_progress":
@@ -94,11 +104,23 @@ def get_session_state(
     session_id: int,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
 ):
     """UC12 — live session state: status, countdown, progress, and the
     currently served (unanswered) question, sanitized for the exam UI.
     An elapsed in-progress session is flipped to timed_out."""
-    return adaptive_engine.get_state(db, session_id, learner)
+    return adaptive_engine.get_state(db, session_id, learner, display_locale=display_locale)
+
+
+@router.get("/{session_id}/questions", response_model=list[ServedQuestion])
+def get_served_questions(
+    session_id: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
+):
+    """Browse delivered questions and own saved answers without grading keys."""
+    return adaptive_engine.served_questions(db, session_id, learner, display_locale)
 
 
 @router.post("/{session_id}/serve-next", response_model=ServeResult)
@@ -115,7 +137,6 @@ def serve_next_question(
 @router.post("/{session_id}/finish", response_model=SessionStateResult)
 def finish_session(
     session_id: int,
-    payload: FinishSessionRequest | None = None,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
 ):
@@ -123,8 +144,7 @@ def finish_session(
     timed_out once the window elapsed) and recomputes competency + gaps
     deterministically. Served-but-unanswered questions count as no
     evidence."""
-    return adaptive_engine.finish_session(db, session_id, learner,
-        result_release_policy=payload.result_release_policy if payload else None)
+    return adaptive_engine.finish_session(db, session_id, learner)
 
 
 @router.get("/{session_id}/evidence", response_model=EvidenceResult)
@@ -132,11 +152,12 @@ def get_session_evidence(
     session_id: int,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
 ):
     """UC18 — per-question evidence for review: type, concepts, difficulty,
     the learner's submitted answer, and the grading result. Finalized
     sessions only; correct answers are revealed only after submission."""
-    return adaptive_engine.get_evidence(db, session_id, learner)
+    return adaptive_engine.get_evidence(db, session_id, learner, display_locale=display_locale)
 
 
 @router.post("/{session_id}/answers", response_model=AttemptResult)
@@ -181,6 +202,7 @@ def get_gap_report(
 @router.get("/{session_id}/guidance", response_model=StudyGuidanceResult)
 def get_study_guidance(
     session_id: int,
+    include_explanations: bool = True,
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
     llm: LLMService = Depends(get_llm_service),
@@ -189,7 +211,7 @@ def get_study_guidance(
     concepts ordered by shortfall descending. The skill graph describes
     readiness; LLM explanations never affect priority."""
     return guidance_service.session_study_guidance(
-        db, session_id, learner, llm
+        db, session_id, learner, llm if include_explanations else None
     )
 
 

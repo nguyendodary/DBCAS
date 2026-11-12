@@ -8,7 +8,8 @@ semantically equivalent formulation receives the same credit.
 
 Scoring (deterministic):
 * ``score = question.points * passed_datasets / total_datasets`` (2 dp).
-* SQL syntax and technique choices never reduce a matching result's score.
+* A required concept (``question_concept.is_required``) that is verifiable
+  but absent zeroes the score — the mandated technique was not demonstrated.
 * Execution errors fail the affected datasets.
 
 Standardized evidence lands in ``attempt.grading_detail``; it deliberately
@@ -17,13 +18,11 @@ setup data never reach the learner.
 """
 
 import logging
-from dataclasses import replace
 from decimal import Decimal, ROUND_HALF_UP
-from typing import Optional
 
 from ..errors import AppError
 from ..models import Question, SqlTestDataset
-from . import sql_result
+from . import sql_features, sql_result
 from .sandbox_runner import SandboxError, SandboxRunner
 
 logger = logging.getLogger(__name__)
@@ -42,10 +41,6 @@ def _evaluate_dataset(
     }
     if expected is None:
         raise AppError(422, "invalid_expected_result", "This question has an invalid SQL fixture. Contact the administrator.")
-
-    # Grade returned values, including duplicate counts, rather than row order
-    # or column aliases. Legacy stored flags cannot impose these extra checks.
-    expected = replace(expected, ordered=False, check_columns=False)
 
     try:
         schema = runner.provision_dataset(dataset.setup_sql)
@@ -81,16 +76,20 @@ def grade_sql(
 ) -> dict:
     """Score a learner SQL statement. Pure wrt. persistence — returns the
     score plus the grading_detail evidence dict."""
+    if not datasets:
+        raise AppError(422, "dataset_not_configured", "This SQL question has no grading datasets")
     entries = [
         _evaluate_dataset(runner, ds, sql_text) for ds in datasets
     ]
     passed = sum(1 for e in entries if e["status"] == "passed")
     errored = next((e for e in entries if e["status"] == "error"), None)
 
-    if passed == len(datasets):
+    missing, unverified = sql_features.check_required(sql_text, required_concepts)
+
+    if passed == len(datasets) and not missing:
         score = question.points
         status = "correct"
-    elif passed > 0:
+    elif passed > 0 and not missing:
         score = (
             question.points * Decimal(passed) / Decimal(len(datasets))
         ).quantize(_CENT, rounding=ROUND_HALF_UP)
@@ -110,9 +109,9 @@ def grade_sql(
             "datasets_passed": passed,
             "datasets_total": len(datasets),
             "datasets": entries,
-            "required_concepts": [],
-            "missing_required_concepts": [],
-            "unverified_required_concepts": [],
+            "required_concepts": required_concepts,
+            "missing_required_concepts": missing,
+            "unverified_required_concepts": unverified,
             "points_possible": str(question.points),
             "points_earned": str(score),
         },

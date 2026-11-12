@@ -35,7 +35,7 @@ Closes #12
 | `test` | Thêm/sửa test | `test(backend): add session tests` |
 | `chore` | Việc lặt vặt: deps, config | `chore(deps): bump fastapi` |
 | `perf` | Cải thiện hiệu năng | `perf(db): index selection_log` |
-| `ci` | Thay đổi CI/CD | `ci(github): add lint workflow` |
+| `ci` | Thay đổi CI/CD | `ci(deps): pin tool versions` |
 | `build` | Thay đổi build | `build(vite): add production config` |
 
 ### Scope
@@ -61,7 +61,7 @@ Scope là thư mục hoặc module bị ảnh hưởng. Dùng các scope của r
 
 1. Một commit = một việc. Không trộn fix + feat.
 2. Chạy `git diff` trước khi commit; không commit `console.log`, secret, file rác.
-3. Không commit file môi trường (`.env`) hay tài liệu dự án (docx/pdf) vào repo.
+3. Không commit file môi trường (`.env`) hay tài liệu dự án chung (docx/pdf) vào repo. Ngoại lệ: các tài liệu học thuật chính thức đã được duyệt trong `docs/academic/` — bốn tài liệu `.docx` theo quy ước `C1SE.70_<TênTàiLiệu>_DBCAS_ver<phiên bản>.docx` (`C1SE.70_ProposalDocument_DBCAS_ver1.1.docx`, `C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx`, `C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx`, `C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx`), các bản revision đã duyệt, PDF liên quan, diagram và tài liệu hỗ trợ đi kèm. Chỉ đặt các tệp này trong `docs/academic/`; không commit bản nháp, bản sao lưu, tài liệu cá nhân hoặc tệp ngoài thư mục đó.
 4. Không thêm trailer credit của AI/tool vào commit (`Co-Authored-By`, `Generated with ...`). Commit chỉ ghi author là người trong team — trailer co-author làm bot xuất hiện trong danh sách Contributors trên GitHub.
 
 ## Commit Attribution Policy
@@ -84,6 +84,31 @@ Repo có sẵn hook kiểm tra ở `.githooks/commit-msg`. Bật một lần sau
 ```bash
 git config core.hooksPath .githooks
 ```
+
+## Diagrams and generated inventories
+
+Updating an architecture figure means editing a small text source and re-running one command —
+never redrawing an image by hand.
+
+```
+npm ci                     # pinned @mermaid-js/mermaid-cli 12.2.0 and @viz-js/viz 3.31.0
+npm run diagrams:check     # every source parses, every committed SVG matches, ledgers + DDL validate
+npm run diagrams:render    # rewrite the committed SVGs and docs/diagrams/rendered/manifest.json
+npm run diagrams:setup     # report pinned versions, browser, Graphviz, Java and PlantUML status
+npm run inventory:check    # docs/inventory/*.json still match routers/*.py and App.jsx
+npm run inventory:write    # regenerate those two generated inventories
+```
+
+- Sources live in `docs/diagrams/*.dot`, Mermaid fences in project Markdown and
+  `docs/diagrams/sources/*.{mmd,puml,iuml}`. `docs/diagrams/README.md` explains which artifacts are
+  generated and which are authored; `docs/inventory/README.md` does the same for the route files.
+- `docs/diagrams/physical-schema.dot` is **generated** from `db/schema.sql`; change
+  `scripts/generate_schema_catalog.py` or the FK ledger instead of editing the DOT file by hand.
+- Diagram ledgers keep every original element. Adding, changing or removing a flow requires its own
+  `evidence` and `reason`; a removal also requires a justification, and `scripts/validate_diagrams.py`
+  fails the gate without one. Never replace an existing diagram with an unrelated new one.
+- Nothing downloads a browser, disables the Chromium sandbox, writes to a database or contacts a
+  provider. Tooling failure is reported as a limitation; the gate is never weakened to pass.
 
 ## Branching
 

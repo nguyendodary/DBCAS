@@ -1,0 +1,9 @@
+# Optional local inference image, selected by npm start when a model path is set.
+services:
+  init:
+    build: {context: ., dockerfile: backend/Dockerfile.ai}
+    volumes: ['./ai/output:/srv/DBCAS/ai/output:ro']
+  app:
+    build: {context: ., dockerfile: backend/Dockerfile.ai}
+    volumes: ['./ai/output:/srv/DBCAS/ai/output:ro']
+    mem_limit: 4g

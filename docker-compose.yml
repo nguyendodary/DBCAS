@@ -26,7 +26,19 @@ services:
       - db-data:/var/lib/postgresql/data
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
       - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
-      - ./db/shared_content.sql:/docker-entrypoint-initdb.d/03-shared-content.sql:ro
+    networks:
+      - db-net
+
+  # Development/test mailbox only — never part of a release image. SMTP is
+  # bound to loopback for the host-run backend; the inbox UI/API is loopback
+  # only. Deliberately no volume: mail does not survive `compose down`.
+  mailpit:
+    image: axllent/mailpit:v1.24
+    container_name: dbcas-mailpit
+    ports:
+      - "127.0.0.1:${MAILPIT_SMTP_PORT:-1026}:1025"
+      - "127.0.0.1:${MAILPIT_UI_PORT:-8026}:8025"
+    restart: unless-stopped
     networks:
       - db-net
 

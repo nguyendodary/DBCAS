@@ -1,0 +1,771 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.config.js",
+      "oauth.spec.js"
+    ],
+    "configFile": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\playwright.config.js",
+    "rootDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/frontend/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\global-setup.js",
+    "globalTeardown": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e\\teardown.js",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/docs/qa/final-20261113/w1/raw/release-oauth/browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/kudot/Downloads/proposal test/_worktrees/dbcas-dn-20261101/frontend/e2e",
+        "testIgnore": [
+          "local-smoke.spec.js",
+          "browser-qa.spec.js",
+          "practice-flows.spec.js",
+          "real-provider.spec.js"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e",
+        "snapshotDir": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\frontend\\e2e",
+        "testIgnore": [
+          "local-smoke.spec.js",
+          "browser-qa.spec.js",
+          "practice-flows.spec.js",
+          "real-provider.spec.js"
+        ],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 120000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5174",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "browserName": "chromium",
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "actionTimeout": 15000,
+          "navigationTimeout": 30000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results-chromium.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "oauth.spec.js",
+      "file": "oauth.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "OAuth remains discoverable without credentials: light/vi/1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3874,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:07.544Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-17a9a-t-credentials-light-vi-1280\\attachments\\browser-diagnostics-d8bc46ded1e33259f303f90ad3c5c42c8a6a3251.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-986d2ec96a1a7f70a2c2",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: light/vi/390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3798,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:11.650Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-848ea-ut-credentials-light-vi-390\\attachments\\browser-diagnostics-589062437b4babcfad3e975fd32c5c0f0699abd5.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-41159954c72e9a596c36",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: light/en/1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3719,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:15.466Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-d6f8d-t-credentials-light-en-1280\\attachments\\browser-diagnostics-a03b26020db4bd63f61669f3a72528bba93bb6a3.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-da26d4478159195a97c1",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: light/en/390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3543,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:19.201Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-65083-ut-credentials-light-en-390\\attachments\\browser-diagnostics-6baaedea5d4fa33794d8c64289e6d0aaeee80bd6.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-7cc7787bf471826b45c6",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: dark/vi/1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3993,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:22.759Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-408f9-ut-credentials-dark-vi-1280\\attachments\\browser-diagnostics-9ffe56bd9625220233794b8b4ae280ed40ed046c.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-e7d00a0e6d942cfc68d1",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: dark/vi/390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3332,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:26.765Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-edef5-out-credentials-dark-vi-390\\attachments\\browser-diagnostics-4f4b669fef284db216e38596ffc6fe65d244f734.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-1951c7dd60aa9bbf6208",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: dark/en/1280",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4525,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:30.114Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-fc367-ut-credentials-dark-en-1280\\attachments\\browser-diagnostics-e3d42fc1c4c522a02e08e243aa8202b7d7bf3f07.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-8f08f4e408c783e4d6ab",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "OAuth remains discoverable without credentials: dark/en/390",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3479,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:34.656Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-OAuth-remains-discov-7bf0b-out-credentials-dark-en-390\\attachments\\browser-diagnostics-4add7c4b8369f96df71e96833b60a86344f1b37f.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-672a6691208f5aeebdf4",
+          "file": "oauth.spec.js",
+          "line": 9,
+          "column": 7
+        },
+        {
+          "title": "metadata failure keeps both controls safe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1610,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:38.156Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-metadata-failure-keeps-both-controls-safe\\attachments\\browser-diagnostics-44fe2bd73b1dd2b3e942d279ece9820293c15204.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-65028a25479b6580da31",
+          "file": "oauth.spec.js",
+          "line": 57,
+          "column": 1
+        },
+        {
+          "title": "local fake OAuth signup, verified-email linking, signin, single-use handoff and refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9195,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:39.793Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-OAuth-sig-36638-gle-use-handoff-and-refresh\\attachments\\browser-diagnostics-58b2853276e8aca2b2473403546873662ff2d289.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-a38461b382cdc3942781",
+          "file": "oauth.spec.js",
+          "line": 113,
+          "column": 1
+        },
+        {
+          "title": "local fake google handles Deny consent",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3354,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:49.039Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-google-handles-Deny-consent\\attachments\\browser-diagnostics-3ce015637c45509c71bc2b0f26d7df40d5ce7a60.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-e60d5864b2b39fd784c0",
+          "file": "oauth.spec.js",
+          "line": 173,
+          "column": 5
+        },
+        {
+          "title": "local fake google handles Use unverified email",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2540,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:52.416Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-google-handles-Use-unverified-email\\attachments\\browser-diagnostics-b960ce3ddc1eb4fa23a478759ac77d6bfd609d3e.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-49517e2229aea4520c6e",
+          "file": "oauth.spec.js",
+          "line": 173,
+          "column": 5
+        },
+        {
+          "title": "local fake google handles Provider unavailable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2765,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:54.972Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-google-handles-Provider-unavailable\\attachments\\browser-diagnostics-a0651fbfd268694b9dd4c1cb81d7482039cfb060.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-cb1df3d6ff599455f72a",
+          "file": "oauth.spec.js",
+          "line": 173,
+          "column": 5
+        },
+        {
+          "title": "local fake github handles Deny consent",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2579,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:44:57.751Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-github-handles-Deny-consent\\attachments\\browser-diagnostics-8ec93871e4928c7ed51bd5f5a69ecb7073ff52a7.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-27b7261d608d29d60e81",
+          "file": "oauth.spec.js",
+          "line": 173,
+          "column": 5
+        },
+        {
+          "title": "local fake github handles Use unverified email",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2802,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:45:00.343Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-github-handles-Use-unverified-email\\attachments\\browser-diagnostics-049a7397675d3dcf66a5bcdc19ac4b782aec5b06.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-c00386652411b5ffd8cd",
+          "file": "oauth.spec.js",
+          "line": 173,
+          "column": 5
+        },
+        {
+          "title": "local fake github handles Provider unavailable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2382,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-11T07:45:03.164Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-diagnostics",
+                      "contentType": "application/json",
+                      "path": "C:\\Users\\kudot\\Downloads\\proposal test\\_worktrees\\dbcas-dn-20261101\\docs\\qa\\final-20261113\\w1\\raw\\release-oauth\\browser-results\\oauth-local-fake-github-handles-Provider-unavailable\\attachments\\browser-diagnostics-cd1d978fad6459742fa7d65f0b8730019be11345.json"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e82d91448dd0e702b777-74724d0890a1e05246eb",
+          "file": "oauth.spec.js",
+          "line": 173,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-11T07:43:45.316Z",
+    "duration": 82973.431,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

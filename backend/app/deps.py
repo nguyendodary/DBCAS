@@ -1,6 +1,6 @@
 """Shared FastAPI dependencies: auth guard and role-based access control."""
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 from fastapi import Depends, Header
 from sqlalchemy.orm import Session
@@ -10,7 +10,11 @@ from .db import get_db
 from .errors import AppError
 from .models import Account
 from .repositories import AccountRepository
-from .security import decode_access_token
+from .security import credential_epoch, decode_access_token
+
+if TYPE_CHECKING:
+    from .services.llm import LLMService
+    from .services.sandbox_runner import SandboxRunner
 
 ROLE_LEARNER = "Learner"
 ROLE_ADMIN = "Administrator"
@@ -32,11 +36,25 @@ def get_current_account(
         account_id = int(payload["sub"])
     except (TypeError, ValueError):
         raise AppError(401, "invalid_token", "Token subject is not an account id")
+    pwd_at = payload.get("pwd_at", 0)
+    if type(pwd_at) is not int:
+        raise AppError(401, "invalid_token", "Token has an invalid credential version")
     account = AccountRepository(db).get_with_roles(account_id)
     if account is None or account.status != STATUS_ACTIVE:
         raise AppError(401, "invalid_token", "Account is not active or does not exist")
-    if type(payload.get("ver", 0)) is not int or payload.get("ver", 0) != (getattr(account, "token_version", 0) or 0):
-        raise AppError(401, "invalid_token", "Your password changed. Please sign in again")
+    if pwd_at != credential_epoch(account.password_changed_at):
+        # Issued before the current password; a reset already invalidated it.
+        raise AppError(401, "invalid_token", "Credentials have changed — sign in again")
+    if "sid" in payload:
+        from sqlalchemy import select, func
+        from .models import RefreshSession
+        family = payload["sid"]
+        if not isinstance(family, str) or not db.scalar(select(RefreshSession.token_hash).where(
+            RefreshSession.family_id == family, RefreshSession.account_id == account_id,
+            RefreshSession.revoked_at.is_(None), RefreshSession.consumed_at.is_(None),
+            RefreshSession.expires_at > func.now(),
+        ).limit(1)):
+            raise AppError(401, "invalid_token", "Access session has been revoked")
     return account
 
 
@@ -49,6 +67,7 @@ def require_roles(*roles: str) -> Callable[[Account], Account]:
             raise AppError(403, "forbidden", "Insufficient role for this resource")
         return account
 
+    guard.required_roles = roles
     return guard
 
 
@@ -71,9 +90,9 @@ def get_sandbox_runner(
     settings: Settings = Depends(get_settings),
 ) -> "SandboxRunner":
     """Build a Sandbox Runner bound to the configured sandbox container."""
-    from .services.sandbox_runner import SandboxRunner
+    from .services.sandbox_runner import build_sandbox_runner
 
-    return SandboxRunner(settings)
+    return build_sandbox_runner(settings)
 
 
 def get_llm_service(
@@ -82,6 +101,14 @@ def get_llm_service(
 ) -> "LLMService":
     """LLM service with the DB-backed response cache. Builds fine without a
     key — AI features report ``llm_not_configured`` instead of crashing."""
-    from .services.llm import LLMService, build_llm_service
+    from .services.llm import build_llm_service
 
     return build_llm_service(settings, db)
+
+
+def get_translation_llm(settings: Settings = Depends(get_settings)):
+    """Drafts have no database cache; at most one bounded provider attempt."""
+    from .services.llm import LLMService
+    return LLMService(settings.model_copy(update={
+        "llm_max_retries": 0, "llm_timeout_seconds": max(1, min(30, settings.llm_timeout_seconds)),
+    }))

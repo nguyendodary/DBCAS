@@ -179,8 +179,11 @@ def grade_essay(
             ChatMessage("user", user_prompt),
         ],
         json_schema=ESSAY_GRADE_SCHEMA,
+        # Bound provider usage; reasoning is controlled by the endpoint adapter.
+        # A truncated or invalid response remains ungraded and is never cached.
+        max_tokens=2048,
         validator=validate_payload,
-        context_version="rubric-v3-calibration-v1" if locale == "en" else f"rubric-v3-calibration-v1-{locale}",
+        context_version=f"rubric-v3-calibration-v3-{locale}",
         identifiers=identifiers,
     )
     validate_payload(result)  # also enforces the domain contract for injected providers
@@ -209,6 +212,8 @@ def _validate_result(
         )
     if not Decimal("0") <= score <= question.points or not level.min_score <= score <= level.max_score:
         raise LLMError(LLMError.INVALID_RESPONSE, "Essay grading returned a score outside its rubric band")
+    if score != score.quantize(Decimal("0.01")):
+        raise LLMError(LLMError.INVALID_RESPONSE, "Essay grading must use the database's 0.01 scoring precision")
 
     confidence = _to_decimal(result.get("confidence"))
     if confidence is not None:

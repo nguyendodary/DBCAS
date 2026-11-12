@@ -22,28 +22,39 @@ from .sandbox_runner import SandboxRunner
 def score_mcq(
     question: Question,
     options: Sequence[McqOption],
-    selected_option_id: Optional[int] = None,
-    selected_option_ids: Optional[list[int]] = None,
+    selected_option_id: Optional[int],
 ) -> dict:
-    """Full credit only for an exact match with the complete answer key."""
-    selected = list(selected_option_ids) if selected_option_ids is not None else ([selected_option_id] if selected_option_id is not None else [])
-    selected_set = set(selected)
-    valid = {option.option_id for option in options}
-    if len(selected) != len(selected_set) or not selected_set.issubset(valid):
-        raise AppError(422, "invalid_option", "Selected options must be unique and belong to this question")
-    correct = {option.option_id for option in options if option.is_correct}
-    is_correct = bool(correct) and selected_set == correct
+    """Pure rule: compare the selected option with the answer key.
+
+    Raises AppError(422) when the selected option does not belong to the
+    question. An unanswered question (selected_option_id=None) scores 0.
+    """
+    correct = next((o for o in options if o.is_correct), None)
+    if selected_option_id is None:
+        is_correct = False
+    else:
+        selected = next((o for o in options if o.option_id == selected_option_id), None)
+        if selected is None:
+            raise AppError(
+                422,
+                "invalid_option",
+                "Selected option does not belong to this question",
+            )
+        is_correct = bool(selected.is_correct)
+
     earned = question.points if is_correct else Decimal("0")
     return {
-        "is_correct": is_correct, "score": earned, "points_possible": question.points,
+        "is_correct": is_correct,
+        "score": earned,
+        "points_possible": question.points,
         "grading_detail": {
-            "grader": "answer_key", "question_type": "mcq",
-            "selected_option_id": next(iter(selected_set)) if len(selected_set) == 1 else None,
-            "selected_option_ids": sorted(selected_set),
-            "correct_option_id": next(iter(correct)) if len(correct) == 1 else None,
-            "correct_option_ids": sorted(correct),
+            "grader": "answer_key",
+            "question_type": "mcq",
+            "selected_option_id": selected_option_id,
+            "correct_option_id": correct.option_id if correct else None,
             "is_correct": is_correct,
-            "points_possible": str(question.points), "points_earned": str(earned),
+            "points_possible": str(question.points),
+            "points_earned": str(earned),
         },
     }
 

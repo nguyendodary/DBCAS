@@ -1,0 +1,2597 @@
+{
+  "source": "db/schema.sql, loaded ONLY into disposable PostgreSQL 17.11 (Debian 17.11-1.pgdg13+2)",
+  "tables": [
+    {
+      "table": "account",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "email",
+          "type": "character varying(255)",
+          "nullable": false
+        },
+        {
+          "name": "password_hash",
+          "type": "character varying(255)",
+          "nullable": false
+        },
+        {
+          "name": "password_set",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "password_changed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "can_manage_roles",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_email_key",
+          "type": "u",
+          "definition": "UNIQUE (email)"
+        },
+        {
+          "name": "account_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (account_id)"
+        }
+      ]
+    },
+    {
+      "table": "account_identity",
+      "columns": [
+        {
+          "name": "identity_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "provider",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "provider_user_id",
+          "type": "character varying(255)",
+          "nullable": false
+        },
+        {
+          "name": "provider_email",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "email_verified",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "linked_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_identity_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "account_identity_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (identity_id)"
+        },
+        {
+          "name": "account_identity_provider_provider_user_id_key",
+          "type": "u",
+          "definition": "UNIQUE (provider, provider_user_id)"
+        }
+      ]
+    },
+    {
+      "table": "account_role",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "role_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "assigned_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_role_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "account_role_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (account_id, role_id)"
+        },
+        {
+          "name": "account_role_role_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (role_id) REFERENCES role(role_id)"
+        }
+      ]
+    },
+    {
+      "table": "account_role_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "action_type",
+          "type": "character varying(40)",
+          "nullable": false
+        },
+        {
+          "name": "actor_account_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "target_account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "previous_role",
+          "type": "character varying(50)",
+          "nullable": true
+        },
+        {
+          "name": "new_role",
+          "type": "character varying(50)",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "account_role_audit_action_check",
+          "type": "c",
+          "definition": "CHECK (((((action_type)::text = ANY ((ARRAY['ROLE_GRANTED'::character varying, 'ROLE_REVOKED'::character varying])::text[])) AND (actor_account_id IS NOT NULL) AND ((previous_role)::text = ANY ((ARRAY['Learner'::character varying, 'Administrator'::character varying])::text[])) AND ((new_role)::text = ANY ((ARRAY['Learner'::character varying, 'Administrator'::character varying])::text[])) AND ((previous_role)::text <> (new_role)::text)) OR (((action_type)::text = 'ROLE_MANAGER_BOOTSTRAPPED'::text) AND (actor_account_id IS NULL) AND (previous_role IS NULL) AND (new_role IS NULL))))"
+        },
+        {
+          "name": "account_role_audit_actor_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (actor_account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "account_role_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)"
+        },
+        {
+          "name": "account_role_audit_target_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (target_account_id) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
+      "table": "adaptive_event",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "round_no",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "event_type",
+          "type": "character varying(16)",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "adaptive_event_event_type_check",
+          "type": "c",
+          "definition": "CHECK (((event_type)::text = ANY ((ARRAY['batch'::character varying, 'decision'::character varying])::text[])))"
+        },
+        {
+          "name": "adaptive_event_payload_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(payload) = 'object'::text))"
+        },
+        {
+          "name": "adaptive_event_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (session_id, round_no, event_type)"
+        },
+        {
+          "name": "adaptive_event_round_no_check",
+          "type": "c",
+          "definition": "CHECK (((round_no >= 1) AND (round_no <= 13)))"
+        },
+        {
+          "name": "adaptive_event_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        }
+      ]
+    },
+    {
+      "table": "assessment",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "character varying(200)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "max_questions",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "duration_min",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_mcq",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_sql",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_essay",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "family_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "result_release_policy",
+          "type": "character varying(20)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_check",
+          "type": "c",
+          "definition": "CHECK ((((target_mcq + target_sql) + target_essay) <= max_questions))"
+        },
+        {
+          "name": "assessment_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "assessment_family_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (family_id) REFERENCES assessment(assessment_id)"
+        },
+        {
+          "name": "assessment_max_questions_check",
+          "type": "c",
+          "definition": "CHECK (((max_questions >= 1) AND (max_questions <= 13)))"
+        },
+        {
+          "name": "assessment_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id)"
+        },
+        {
+          "name": "assessment_release_policy_check",
+          "type": "c",
+          "definition": "CHECK (((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])))"
+        },
+        {
+          "name": "assessment_terms_check",
+          "type": "c",
+          "definition": "CHECK ((((status)::text = ANY ((ARRAY['draft'::character varying, 'published'::character varying, 'closed'::character varying])::text[])) AND (version_no > 0)))"
+        }
+      ]
+    },
+    {
+      "table": "assessment_blueprint",
+      "columns": [
+        {
+          "name": "blueprint_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "subject_area",
+          "type": "character varying(100)",
+          "nullable": false
+        },
+        {
+          "name": "difficulty_band",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "max_questions",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_mcq",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_sql",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_essay",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "scoring",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "evidence_types",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "approval_basis",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "approved_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_blueprint_approval_check",
+          "type": "c",
+          "definition": "CHECK ((length(btrim(approval_basis)) > 0))"
+        },
+        {
+          "name": "assessment_blueprint_approved_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "assessment_blueprint_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "assessment_blueprint_band_check",
+          "type": "c",
+          "definition": "CHECK (((difficulty_band)::text = ANY ((ARRAY['EASY'::character varying, 'MEDIUM'::character varying, 'HARD'::character varying])::text[])))"
+        },
+        {
+          "name": "assessment_blueprint_counts_check",
+          "type": "c",
+          "definition": "CHECK (((max_questions > 0) AND (target_mcq >= 0) AND (target_sql >= 0) AND (target_essay >= 0) AND (((target_mcq + target_sql) + target_essay) = max_questions)))"
+        },
+        {
+          "name": "assessment_blueprint_evidence_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(evidence_types) = 'array'::text))"
+        },
+        {
+          "name": "assessment_blueprint_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (blueprint_id)"
+        },
+        {
+          "name": "assessment_blueprint_scoring_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(scoring) = 'object'::text))"
+        },
+        {
+          "name": "assessment_blueprint_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['approved'::character varying, 'retired'::character varying])::text[])))"
+        },
+        {
+          "name": "assessment_blueprint_version_check",
+          "type": "c",
+          "definition": "CHECK ((version_no > 0))"
+        },
+        {
+          "name": "assessment_blueprint_version_unique",
+          "type": "u",
+          "definition": "UNIQUE (assessment_id, subject_area, difficulty_band, version_no)"
+        }
+      ]
+    },
+    {
+      "table": "assessment_concept",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "min_difficulty",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "max_difficulty",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "target_pct",
+          "type": "numeric(5,2)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_concept_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
+        },
+        {
+          "name": "assessment_concept_check",
+          "type": "c",
+          "definition": "CHECK (((max_difficulty >= min_difficulty) AND (max_difficulty <= 5)))"
+        },
+        {
+          "name": "assessment_concept_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "assessment_concept_min_difficulty_check",
+          "type": "c",
+          "definition": "CHECK (((min_difficulty >= 1) AND (min_difficulty <= 5)))"
+        },
+        {
+          "name": "assessment_concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id, concept_id)"
+        },
+        {
+          "name": "assessment_concept_target_pct_check",
+          "type": "c",
+          "definition": "CHECK (((target_pct >= (0)::numeric) AND (target_pct <= (100)::numeric)))"
+        }
+      ]
+    },
+    {
+      "table": "assessment_question",
+      "columns": [
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_question_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "assessment_question_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (assessment_id, question_id)"
+        },
+        {
+          "name": "assessment_question_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        }
+      ]
+    },
+    {
+      "table": "assessment_session",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "assessment_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "locale",
+          "type": "character varying(16)",
+          "nullable": false
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "config_snapshot",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "result_release_policy",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "release_status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "start_request_id",
+          "type": "character varying(36)",
+          "nullable": true
+        },
+        {
+          "name": "review_revision",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "blueprint_id",
+          "type": "integer",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assessment_session_assessment_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
+        },
+        {
+          "name": "assessment_session_blueprint_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (blueprint_id) REFERENCES assessment_blueprint(blueprint_id)"
+        },
+        {
+          "name": "assessment_session_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "assessment_session_locale_check",
+          "type": "c",
+          "definition": "CHECK (((locale)::text ~ '^[a-z]{2}(-[A-Z]{2})?$'::text))"
+        },
+        {
+          "name": "assessment_session_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (session_id)"
+        },
+        {
+          "name": "assessment_session_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['in_progress'::character varying, 'completed'::character varying, 'timed_out'::character varying])::text[])))"
+        },
+        {
+          "name": "session_owner_unique",
+          "type": "u",
+          "definition": "UNIQUE (session_id, learner_id)"
+        },
+        {
+          "name": "session_release_check",
+          "type": "c",
+          "definition": "CHECK ((((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])) AND (review_revision >= 0) AND ((release_status)::text = ANY ((ARRAY['unsubmitted'::character varying, 'auto_grading'::character varying, 'pending_review'::character varying, 'reviewed'::character varying, 'published'::character varying, 'grading_failed'::character varying])::text[]))))"
+        }
+      ]
+    },
+    {
+      "table": "attempt",
+      "columns": [
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "seq_no",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "selected_option_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "sql_answer",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "essay_answer",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "score",
+          "type": "numeric(5,2)",
+          "nullable": true
+        },
+        {
+          "name": "grading_detail",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "served_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "question_snapshot",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "draft_answer",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "draft_revision",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "draft_saved_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "submission_hash",
+          "type": "character varying(64)",
+          "nullable": true
+        },
+        {
+          "name": "grading_status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "review_revision",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "attempt_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (attempt_id)"
+        },
+        {
+          "name": "attempt_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "attempt_review_revision_check",
+          "type": "c",
+          "definition": "CHECK ((review_revision >= 0))"
+        },
+        {
+          "name": "attempt_selected_option_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (selected_option_id) REFERENCES mcq_option(option_id)"
+        },
+        {
+          "name": "attempt_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "attempt_session_id_seq_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, seq_no)"
+        }
+      ]
+    },
+    {
+      "table": "clo_concept",
+      "columns": [
+        {
+          "name": "clo_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "mapping_source",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "clo_concept_clo_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+        },
+        {
+          "name": "clo_concept_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "clo_concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (clo_id, concept_id)"
+        },
+        {
+          "name": "clo_review_check",
+          "type": "c",
+          "definition": "CHECK ((((mapping_source)::text = ANY ((ARRAY['admin'::character varying, 'ai'::character varying])::text[])) AND ((status)::text = ANY ((ARRAY['pending'::character varying, 'confirmed'::character varying, 'rejected'::character varying])::text[]))))"
+        }
+      ]
+    },
+    {
+      "table": "competency_gap",
+      "columns": [
+        {
+          "name": "gap_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "llm_explanation",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "explanation_context_hash",
+          "type": "character varying(64)",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "competency_gap_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "competency_gap_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (gap_id)"
+        },
+        {
+          "name": "competency_gap_session_id_concept_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, concept_id)"
+        },
+        {
+          "name": "competency_gap_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        }
+      ]
+    },
+    {
+      "table": "concept",
+      "columns": [
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_code",
+          "type": "character varying(30)",
+          "nullable": false
+        },
+        {
+          "name": "concept_name",
+          "type": "character varying(100)",
+          "nullable": false
+        },
+        {
+          "name": "subject_area",
+          "type": "character varying(100)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "difficulty_level",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "sql_feature",
+          "type": "character varying(30)",
+          "nullable": true
+        },
+        {
+          "name": "keywords",
+          "type": "text[]",
+          "nullable": false
+        },
+        {
+          "name": "learning_objectives",
+          "type": "text[]",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "concept_concept_code_key",
+          "type": "u",
+          "definition": "UNIQUE (concept_code)"
+        },
+        {
+          "name": "concept_difficulty_level_check",
+          "type": "c",
+          "definition": "CHECK (((difficulty_level >= 1) AND (difficulty_level <= 5)))"
+        },
+        {
+          "name": "concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (concept_id)"
+        }
+      ]
+    },
+    {
+      "table": "concept_competency",
+      "columns": [
+        {
+          "name": "competency_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "points_earned",
+          "type": "numeric(10,2)",
+          "nullable": false
+        },
+        {
+          "name": "points_possible",
+          "type": "numeric(10,2)",
+          "nullable": false
+        },
+        {
+          "name": "competency_pct",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "below_target",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "computed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "concept_competency_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "concept_competency_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (competency_id)"
+        },
+        {
+          "name": "concept_competency_session_id_concept_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, concept_id)"
+        },
+        {
+          "name": "concept_competency_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        }
+      ]
+    },
+    {
+      "table": "concept_dependency",
+      "columns": [
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "prerequisite_concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "concept_dependency_check",
+          "type": "c",
+          "definition": "CHECK ((concept_id <> prerequisite_concept_id))"
+        },
+        {
+          "name": "concept_dependency_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "concept_dependency_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (concept_id, prerequisite_concept_id)"
+        },
+        {
+          "name": "concept_dependency_prerequisite_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (prerequisite_concept_id) REFERENCES concept(concept_id)"
+        }
+      ]
+    },
+    {
+      "table": "course_learning_outcome",
+      "columns": [
+        {
+          "name": "clo_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "clo_code",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "character varying(200)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "course_learning_outcome_clo_code_key",
+          "type": "u",
+          "definition": "UNIQUE (clo_code)"
+        },
+        {
+          "name": "course_learning_outcome_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "course_learning_outcome_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (clo_id)"
+        }
+      ]
+    },
+    {
+      "table": "evaluation_record",
+      "columns": [
+        {
+          "name": "evaluation_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "scope_key",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "input_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "evaluation_record_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "evaluation_record_learner_id_scope_key_key",
+          "type": "u",
+          "definition": "UNIQUE (learner_id, scope_key)"
+        },
+        {
+          "name": "evaluation_record_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (evaluation_id)"
+        },
+        {
+          "name": "evaluation_record_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "evaluation_record_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'ready'::character varying])::text[])))"
+        }
+      ]
+    },
+    {
+      "table": "grade_edit_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "old_score",
+          "type": "numeric(5,2)",
+          "nullable": true
+        },
+        {
+          "name": "new_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "reason",
+          "type": "character varying(1000)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grade_edit_audit_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+        },
+        {
+          "name": "grade_edit_audit_new_score_check",
+          "type": "c",
+          "definition": "CHECK ((new_score >= (0)::numeric))"
+        },
+        {
+          "name": "grade_edit_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)"
+        },
+        {
+          "name": "grade_edit_audit_reason_check",
+          "type": "c",
+          "definition": "CHECK ((length(TRIM(BOTH FROM reason)) >= 3))"
+        },
+        {
+          "name": "grade_edit_audit_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
+      "table": "grade_review",
+      "columns": [
+        {
+          "name": "review_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "automated_score",
+          "type": "numeric(5,2)",
+          "nullable": true
+        },
+        {
+          "name": "automated_detail",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "approved_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "comments",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grade_review_approved_score_check",
+          "type": "c",
+          "definition": "CHECK ((approved_score >= (0)::numeric))"
+        },
+        {
+          "name": "grade_review_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+        },
+        {
+          "name": "grade_review_attempt_id_key",
+          "type": "u",
+          "definition": "UNIQUE (attempt_id)"
+        },
+        {
+          "name": "grade_review_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (review_id)"
+        },
+        {
+          "name": "grade_review_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
+      "table": "grading_job",
+      "columns": [
+        {
+          "name": "job_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "attempt_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "available_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "last_error_code",
+          "type": "character varying(80)",
+          "nullable": true
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "grading_job_attempt_count_check",
+          "type": "c",
+          "definition": "CHECK ((attempt_count >= 0))"
+        },
+        {
+          "name": "grading_job_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
+        },
+        {
+          "name": "grading_job_attempt_id_key",
+          "type": "u",
+          "definition": "UNIQUE (attempt_id)"
+        },
+        {
+          "name": "grading_job_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (job_id)"
+        },
+        {
+          "name": "grading_job_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'completed'::character varying, 'failed'::character varying])::text[])))"
+        }
+      ]
+    },
+    {
+      "table": "llm_cache",
+      "columns": [
+        {
+          "name": "cache_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "request_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "task_type",
+          "type": "character varying(30)",
+          "nullable": false
+        },
+        {
+          "name": "model",
+          "type": "character varying(50)",
+          "nullable": false
+        },
+        {
+          "name": "response",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "llm_cache_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (cache_id)"
+        },
+        {
+          "name": "llm_cache_request_hash_key",
+          "type": "u",
+          "definition": "UNIQUE (request_hash)"
+        }
+      ]
+    },
+    {
+      "table": "login_throttle",
+      "columns": [
+        {
+          "name": "key_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "failures",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "login_throttle_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (key_hash)"
+        }
+      ]
+    },
+    {
+      "table": "mcq_option",
+      "columns": [
+        {
+          "name": "option_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "option_label",
+          "type": "character varying(5)",
+          "nullable": false
+        },
+        {
+          "name": "option_text",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "is_correct",
+          "type": "boolean",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "mcq_option_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (option_id)"
+        },
+        {
+          "name": "mcq_option_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        }
+      ]
+    },
+    {
+      "table": "oauth_handoff",
+      "columns": [
+        {
+          "name": "jti_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "oauth_handoff_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "oauth_handoff_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (jti_hash)"
+        }
+      ]
+    },
+    {
+      "table": "password_reset_audit",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "event",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_audit_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "password_reset_audit_event_check",
+          "type": "c",
+          "definition": "CHECK (((event)::text = ANY ((ARRAY['requested'::character varying, 'completed'::character varying])::text[])))"
+        },
+        {
+          "name": "password_reset_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (audit_id)"
+        }
+      ]
+    },
+    {
+      "table": "password_reset_token",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "requested_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "used_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_token_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "password_reset_token_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > requested_at))"
+        },
+        {
+          "name": "password_reset_token_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)"
+        }
+      ]
+    },
+    {
+      "table": "question",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_type",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "prompt",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "reference_answer",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "difficulty_level",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "points",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "source",
+          "type": "character varying(15)",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "ai_review",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "family_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "explanation",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "tags",
+          "type": "text[]",
+          "nullable": false
+        },
+        {
+          "name": "source_refs",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "original_locale",
+          "type": "character varying(16)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "question_difficulty_level_check",
+          "type": "c",
+          "definition": "CHECK (((difficulty_level >= 1) AND (difficulty_level <= 5)))"
+        },
+        {
+          "name": "question_family_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (family_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "question_original_locale_check",
+          "type": "c",
+          "definition": "CHECK (((original_locale)::text = ANY ((ARRAY['en'::character varying, 'vi'::character varying])::text[])))"
+        },
+        {
+          "name": "question_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id)"
+        },
+        {
+          "name": "question_question_type_check",
+          "type": "c",
+          "definition": "CHECK (((question_type)::text = ANY ((ARRAY['mcq'::character varying, 'sql'::character varying, 'essay'::character varying])::text[])))"
+        },
+        {
+          "name": "question_terms_check",
+          "type": "c",
+          "definition": "CHECK ((((source)::text = ANY ((ARRAY['bank'::character varying, 'ai_generated'::character varying])::text[])) AND ((status)::text = ANY ((ARRAY['draft'::character varying, 'validated'::character varying, 'retired'::character varying])::text[])) AND (points > (0)::numeric) AND (version_no > 0)))"
+        }
+      ]
+    },
+    {
+      "table": "question_candidate",
+      "columns": [
+        {
+          "name": "candidate_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_type",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "validation_status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "validation_detail",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "promoted_question_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_candidate_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "question_candidate_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (candidate_id)"
+        },
+        {
+          "name": "question_candidate_promoted_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (promoted_question_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "question_candidate_promoted_question_id_key",
+          "type": "u",
+          "definition": "UNIQUE (promoted_question_id)"
+        }
+      ]
+    },
+    {
+      "table": "question_concept",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "concept_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "tag_source",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "is_required",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "confirmed",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "review_status",
+          "type": "character varying(20)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_concept_concept_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
+        },
+        {
+          "name": "question_concept_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id, concept_id)"
+        },
+        {
+          "name": "question_concept_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "tag_review_check",
+          "type": "c",
+          "definition": "CHECK ((((tag_source)::text = ANY ((ARRAY['admin'::character varying, 'ai'::character varying])::text[])) AND ((review_status)::text = ANY ((ARRAY['pending'::character varying, 'confirmed'::character varying, 'rejected'::character varying])::text[])) AND (confirmed = ((review_status)::text = 'confirmed'::text))))"
+        }
+      ]
+    },
+    {
+      "table": "question_translation",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "locale",
+          "type": "character varying(16)",
+          "nullable": false
+        },
+        {
+          "name": "source_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "prompt",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "explanation",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "option_texts",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "rubrics",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_translation_option_texts_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(option_texts) = 'object'::text))"
+        },
+        {
+          "name": "question_translation_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id, locale)"
+        },
+        {
+          "name": "question_translation_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "question_translation_rubrics_check",
+          "type": "c",
+          "definition": "CHECK ((jsonb_typeof(rubrics) = 'object'::text))"
+        },
+        {
+          "name": "question_translation_supported_locale_check",
+          "type": "c",
+          "definition": "CHECK (((locale)::text ~ '^[a-z]{2}(-[A-Z]{2})?$'::text))"
+        }
+      ]
+    },
+    {
+      "table": "refresh_session",
+      "columns": [
+        {
+          "name": "token_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "family_id",
+          "type": "character varying(32)",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "credential_version",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "refresh_session_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "refresh_session_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > created_at))"
+        },
+        {
+          "name": "refresh_session_family_id_check",
+          "type": "c",
+          "definition": "CHECK (((family_id)::text ~ '^[0-9a-f]{32}$'::text))"
+        },
+        {
+          "name": "refresh_session_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (token_hash)"
+        },
+        {
+          "name": "refresh_session_token_hash_check",
+          "type": "c",
+          "definition": "CHECK (((token_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+        }
+      ]
+    },
+    {
+      "table": "result_release_event",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "previous_status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "new_status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "result_release_event_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (event_id)"
+        },
+        {
+          "name": "result_release_event_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "result_release_event_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        }
+      ]
+    },
+    {
+      "table": "role",
+      "columns": [
+        {
+          "name": "role_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "role_name",
+          "type": "character varying(50)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (role_id)"
+        },
+        {
+          "name": "role_role_name_key",
+          "type": "u",
+          "definition": "UNIQUE (role_name)"
+        }
+      ]
+    },
+    {
+      "table": "rubric",
+      "columns": [
+        {
+          "name": "rubric_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "level_name",
+          "type": "character varying(30)",
+          "nullable": false
+        },
+        {
+          "name": "min_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "max_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "criteria",
+          "type": "text",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "rubric_check",
+          "type": "c",
+          "definition": "CHECK ((min_score <= max_score))"
+        },
+        {
+          "name": "rubric_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (rubric_id)"
+        },
+        {
+          "name": "rubric_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        }
+      ]
+    },
+    {
+      "table": "selection_log",
+      "columns": [
+        {
+          "name": "log_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "seq_no",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "is_fallback",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "decision_detail",
+          "type": "jsonb",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "selection_log_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (log_id)"
+        },
+        {
+          "name": "selection_log_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "selection_log_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "selection_log_session_id_seq_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, seq_no)"
+        }
+      ]
+    },
+    {
+      "table": "session_question_plan",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "seq_no",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_question_plan_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (session_id, seq_no)"
+        },
+        {
+          "name": "session_question_plan_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "session_question_plan_seq_no_check",
+          "type": "c",
+          "definition": "CHECK ((seq_no > 0))"
+        },
+        {
+          "name": "session_question_plan_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "session_question_plan_session_id_question_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, question_id)"
+        }
+      ]
+    },
+    {
+      "table": "session_start_request",
+      "columns": [
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "request_id",
+          "type": "character varying(36)",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_start_request_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (learner_id, request_id)"
+        },
+        {
+          "name": "session_start_request_session_id_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, learner_id) REFERENCES assessment_session(session_id, learner_id)"
+        }
+      ]
+    },
+    {
+      "table": "sql_test_dataset",
+      "columns": [
+        {
+          "name": "dataset_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "dataset_name",
+          "type": "character varying(100)",
+          "nullable": false
+        },
+        {
+          "name": "setup_sql",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "expected_result",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "is_edge_case",
+          "type": "boolean",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "sql_test_dataset_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (dataset_id)"
+        },
+        {
+          "name": "sql_test_dataset_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        }
+      ]
+    },
+    {
+      "table": "system_setting",
+      "columns": [
+        {
+          "name": "setting_key",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "value",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "updated_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "system_setting_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (setting_key)"
+        },
+        {
+          "name": "system_setting_updated_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
+      "table": "user_profile",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "full_name",
+          "type": "character varying(100)",
+          "nullable": false
+        },
+        {
+          "name": "student_code",
+          "type": "character varying(20)",
+          "nullable": true
+        },
+        {
+          "name": "phone_number",
+          "type": "character varying(20)",
+          "nullable": true
+        },
+        {
+          "name": "date_of_birth",
+          "type": "date",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "user_profile_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "user_profile_account_id_key",
+          "type": "u",
+          "definition": "UNIQUE (account_id)"
+        },
+        {
+          "name": "user_profile_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (user_id)"
+        }
+      ]
+    }
+  ],
+  "schema_sha256": "216461b5225528024ad89439e2149f5184dd241a9baf8b9ebcaf293a52baba4f",
+  "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
+  "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
+  "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
+  "migration_004_sha256": "9da7c312a87eff4aefd2eaa90a518d77970ab89fbb8f3440c1cbae89146466fe",
+  "migration_005_sha256": "7bdccac6533a6f6521cf207a30a04e92c8901568b2a8293c904ac3674c2eee4f",
+  "migration_006_sha256": "5a12c46aa2a826c26f6a35265fb3ea874af3034cd7e9bef5cb05aafbfc6d8599",
+  "migration_007_sha256": "b12a027629b4490e1340b87b59a6224749dea28d6bf18ef39d91d8caca665a6e",
+  "migration_008_sha256": "098dff7d10995cba04da026af50526de8dd266265f976f9ce857c5fb0f87d973",
+  "migration_009_sha256": "7c65fe4700734fee31ee6ba1e74f5826f12944e91e9bbd861dd6142517501f65",
+  "migration_010_sha256": "5b08834a63c981af1c4804f4717dbee0b8fbaf808a611bf039d79d38eb7fd3d0",
+  "migration_011_sha256": "91b1128bf340a4696e4a4e023e75784c63a034921280ddd19120907491097d86",
+  "migration_012_sha256": "fc66e105d649f73ce450c0ea8154a43962ea0281d18c7126726bb59c1a14f4f9",
+  "migration_013_sha256": "d86406549986133cf237287a509ef6e7b50e9d50faef00d7c66e596587061fb2",
+  "migration_014_sha256": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
+  "migration_015_sha256": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a",
+  "migration_016_sha256": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
+  "migration_017_sha256": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
+  "migration_018_sha256": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
+  "migration_019_sha256": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772"
+}

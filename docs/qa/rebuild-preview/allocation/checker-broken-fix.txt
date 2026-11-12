@@ -1,0 +1,175 @@
+rule-8 checker: docs/diagrams/rebuild/allocation/allocation-broken.svg
+expected labels: 50 (title + 15 flow labels + 34 box + 0 ellipse)
+svg: 50 text elements, 872 line segments, 169 shape elements
+
+== (a) text label bboxes (50) ==
+[ 0] (  151.0,  107.0,  190.0,  120.0)  size 18.0  regular  Uses
+[ 1] (  211.0,  114.0,  263.0,  126.0)  size 16.0  regular  HTTPS
+[ 2] (  271.0,  122.0,  312.0,  132.0)  size 13.0  regular  HTTPS
+[ 3] (  151.0,  123.0,  444.0,  142.0)  size 20.0  regular  [Deployment Node: containerized
+[ 4] (  211.0,  129.0,  483.0,  148.0)  size 20.0  regular  deployment, Docker Compose]
+[ 5] (  272.0,  135.0,  482.0,  154.0)  size 21.0  bold     Docker-capable Host
+[ 6] (  151.0,  143.0,  271.0,  156.0)  size 18.0  regular  JSON / HTTPS
+[ 7] (  211.0,  149.0,  344.0,  166.0)  size 18.0  regular  (REST API calls)
+[ 8] (  271.0,  154.0,  501.0,  169.0)  size 19.0  regular  Sandboxed SQL execution
+[ 9] (  151.0,  159.0,  321.0,  178.0)  size 20.0  regular  Sanitized prompts /
+[10] (  211.0,  166.0,  316.0,  184.0)  size 19.0  regular  DB requests
+[11] (  271.0,  172.0,  450.0,  190.0)  size 19.0  regular  (SQL / SQLAlchemy)
+[12] (  151.0,  177.0,  350.0,  196.0)  size 20.0  regular  (read-only transaction)
+[13] (  211.0,  185.0,  418.0,  202.0)  size 18.0  regular  structured JSON (HTTPS)
+[14] (  271.0,  191.0,  452.0,  208.0)  size 18.0  regular  OAuth sign-in [HTTPS]
+[15] (  151.0,  197.0,  387.0,  214.0)  size 18.0  regular  Password-reset email [SMTP]
+[16] (  212.0,  199.0,  464.0,  216.0)  size 23.0  bold     Learner / Administrator
+[17] (  271.0,  209.0,  336.0,  226.0)  size 18.0  regular  [Person]
+[18] (  152.0,  211.0,  300.0,  228.0)  size 23.0  bold     User's Device
+[19] (  211.0,  220.0,  538.0,  238.0)  size 19.0  regular  Laptop / desktop with modern browser
+[20] (  271.0,  227.0,  517.0,  244.0)  size 18.0  regular  [Chrome, Edge, Firefox, Safari]
+[21] (  152.0,  228.0,  241.0,  246.0)  size 25.0  bold     Internet
+[22] (  210.0,  235.0,  341.0,  252.0)  size 24.0  bold     Web Server
+[23] (  271.0,  245.0,  357.0,  262.0)  size 18.0  regular  [Container]
+[24] (  151.0,  250.0,  399.0,  264.0)  size 19.0  regular  Serves static content and the
+[25] (  211.0,  257.0,  497.0,  274.0)  size 18.0  regular  React + Vite single-page application
+[26] (  270.0,  259.0,  473.0,  281.0)  size 23.0  bold     Application Server
+[27] (  151.0,  266.0,  473.0,  286.0)  size 22.0  regular  [Container: FastAPI, Python 3.13]
+[28] (  211.0,  276.0,  493.0,  291.0)  size 17.0  regular  Business logic: JWT / RBAC, grading,
+[29] (  271.0,  281.0,  618.0,  298.0)  size 18.0  regular  practice plan assembly, competency engine
+[30] (  152.0,  283.0,  254.0,  300.0)  size 24.0  bold     Database
+[31] (  211.0,  290.0,  352.0,  307.0)  size 22.0  bold     SQL Sandbox
+[32] (  272.0,  295.0,  459.0,  312.0)  size 23.0  bold     LLM Provider API
+[33] (  151.0,  303.0,  491.0,  322.0)  size 21.0  regular  [Container: Docker, PostgreSQL 17]
+[34] (  211.0,  310.0,  446.0,  328.0)  size 19.0  regular  [Container: PostgreSQL 17]
+[35] (  271.0,  317.0,  608.0,  334.0)  size 18.0  regular  [External service: provider-agnostic REST]
+[36] (  152.0,  323.0,  443.0,  340.0)  size 18.0  regular  Isolated, network disabled, read-only
+[37] (  211.0,  329.0,  446.0,  346.0)  size 18.0  regular  Essay scoring, CLO mapping,
+[38] (  270.0,  335.0,  483.0,  352.0)  size 18.0  regular  Application data, evidence,
+[39] (  151.0,  341.0,  335.0,  358.0)  size 18.0  regular  cached LLM responses
+[40] (  211.0,  347.0,  471.0,  363.0)  size 18.0  regular  learner role; 256 MB, 3 s timeout
+[41] (  270.0,  353.0,  541.0,  370.0)  size 18.0  regular  tag suggestions, gap explanations
+[42] (  151.0,  355.0,  332.0,  372.0)  size 23.0  bold     OAuth Providers
+[43] (  211.0,  365.0,  426.0,  382.0)  size 18.0  regular  [External Software System]
+[44] (  271.0,  371.0,  423.0,  388.0)  size 18.0  regular  Google and GitHub
+[45] (  151.0,  377.0,  230.0,  390.0)  size 18.0  regular  OAuth 2.0
+[46] (  212.0,  379.0,  357.0,  396.0)  size 23.0  bold     Email Service
+[47] (  271.0,  389.0,  486.0,  406.0)  size 18.0  regular  [External Software System]
+[48] (  151.0,  395.0,  395.0,  408.0)  size 18.0  regular  Password-reset mail via SMTP
+[49] (  211.0,  401.0,  389.0,  418.0)  size 18.0  regular  Mailpit in development
+-- pairwise text intersections --
+FAIL: text-text overlap: #1 'HTTPS' vs #3 '[Deployment Node: containerized' (52.0 x 3.0 px)
+FAIL: text-text overlap: #2 'HTTPS' vs #3 '[Deployment Node: containerized' (41.0 x 9.0 px)
+FAIL: text-text overlap: #2 'HTTPS' vs #4 'deployment, Docker Compose]' (41.0 x 3.0 px)
+FAIL: text-text overlap: #3 '[Deployment Node: containerized' vs #4 'deployment, Docker Compose]' (233.0 x 13.0 px)
+FAIL: text-text overlap: #3 '[Deployment Node: containerized' vs #5 'Docker-capable Host' (172.0 x 7.0 px)
+FAIL: text-text overlap: #4 'deployment, Docker Compose]' vs #5 'Docker-capable Host' (210.0 x 13.0 px)
+FAIL: text-text overlap: #4 'deployment, Docker Compose]' vs #6 'JSON / HTTPS' (60.0 x 5.0 px)
+FAIL: text-text overlap: #5 'Docker-capable Host' vs #7 '(REST API calls)' (72.0 x 5.0 px)
+FAIL: text-text overlap: #6 'JSON / HTTPS' vs #7 '(REST API calls)' (60.0 x 7.0 px)
+FAIL: text-text overlap: #7 '(REST API calls)' vs #8 'Sandboxed SQL execution' (73.0 x 12.0 px)
+FAIL: text-text overlap: #7 '(REST API calls)' vs #9 'Sanitized prompts /' (110.0 x 7.0 px)
+FAIL: text-text overlap: #8 'Sandboxed SQL execution' vs #9 'Sanitized prompts /' (50.0 x 10.0 px)
+FAIL: text-text overlap: #8 'Sandboxed SQL execution' vs #10 'DB requests' (45.0 x 3.0 px)
+FAIL: text-text overlap: #9 'Sanitized prompts /' vs #10 'DB requests' (105.0 x 12.0 px)
+FAIL: text-text overlap: #9 'Sanitized prompts /' vs #11 '(SQL / SQLAlchemy)' (50.0 x 6.0 px)
+FAIL: text-text overlap: #9 'Sanitized prompts /' vs #12 '(read-only transaction)' (170.0 x 1.0 px)
+FAIL: text-text overlap: #10 'DB requests' vs #11 '(SQL / SQLAlchemy)' (45.0 x 12.0 px)
+FAIL: text-text overlap: #10 'DB requests' vs #12 '(read-only transaction)' (105.0 x 7.0 px)
+FAIL: text-text overlap: #11 '(SQL / SQLAlchemy)' vs #12 '(read-only transaction)' (79.0 x 13.0 px)
+FAIL: text-text overlap: #11 '(SQL / SQLAlchemy)' vs #13 'structured JSON (HTTPS)' (147.0 x 5.0 px)
+FAIL: text-text overlap: #12 '(read-only transaction)' vs #13 'structured JSON (HTTPS)' (139.0 x 11.0 px)
+FAIL: text-text overlap: #12 '(read-only transaction)' vs #14 'OAuth sign-in [HTTPS]' (79.0 x 5.0 px)
+FAIL: text-text overlap: #13 'structured JSON (HTTPS)' vs #14 'OAuth sign-in [HTTPS]' (147.0 x 11.0 px)
+FAIL: text-text overlap: #13 'structured JSON (HTTPS)' vs #15 'Password-reset email [SMTP]' (176.0 x 5.0 px)
+FAIL: text-text overlap: #13 'structured JSON (HTTPS)' vs #16 'Learner / Administrator' (206.0 x 3.0 px)
+FAIL: text-text overlap: #14 'OAuth sign-in [HTTPS]' vs #15 'Password-reset email [SMTP]' (116.0 x 11.0 px)
+FAIL: text-text overlap: #14 'OAuth sign-in [HTTPS]' vs #16 'Learner / Administrator' (181.0 x 9.0 px)
+FAIL: text-text overlap: #15 'Password-reset email [SMTP]' vs #16 'Learner / Administrator' (175.0 x 15.0 px)
+FAIL: text-text overlap: #15 'Password-reset email [SMTP]' vs #17 '[Person]' (65.0 x 5.0 px)
+FAIL: text-text overlap: #15 'Password-reset email [SMTP]' vs #18 "User's Device" (148.0 x 3.0 px)
+FAIL: text-text overlap: #16 'Learner / Administrator' vs #17 '[Person]' (65.0 x 7.0 px)
+FAIL: text-text overlap: #16 'Learner / Administrator' vs #18 "User's Device" (88.0 x 5.0 px)
+FAIL: text-text overlap: #17 '[Person]' vs #18 "User's Device" (29.0 x 15.0 px)
+FAIL: text-text overlap: #17 '[Person]' vs #19 'Laptop / desktop with modern browser' (65.0 x 6.0 px)
+FAIL: text-text overlap: #18 "User's Device" vs #19 'Laptop / desktop with modern browser' (89.0 x 8.0 px)
+FAIL: text-text overlap: #18 "User's Device" vs #20 '[Chrome, Edge, Firefox, Safari]' (29.0 x 1.0 px)
+FAIL: text-text overlap: #19 'Laptop / desktop with modern browser' vs #20 '[Chrome, Edge, Firefox, Safari]' (246.0 x 11.0 px)
+FAIL: text-text overlap: #19 'Laptop / desktop with modern browser' vs #21 'Internet' (30.0 x 10.0 px)
+FAIL: text-text overlap: #19 'Laptop / desktop with modern browser' vs #22 'Web Server' (130.0 x 3.0 px)
+FAIL: text-text overlap: #20 '[Chrome, Edge, Firefox, Safari]' vs #22 'Web Server' (70.0 x 9.0 px)
+FAIL: text-text overlap: #21 'Internet' vs #22 'Web Server' (31.0 x 11.0 px)
+FAIL: text-text overlap: #22 'Web Server' vs #23 '[Container]' (70.0 x 7.0 px)
+FAIL: text-text overlap: #22 'Web Server' vs #24 'Serves static content and the' (131.0 x 2.0 px)
+FAIL: text-text overlap: #23 '[Container]' vs #24 'Serves static content and the' (86.0 x 12.0 px)
+FAIL: text-text overlap: #23 '[Container]' vs #25 'React + Vite single-page application' (86.0 x 5.0 px)
+FAIL: text-text overlap: #23 '[Container]' vs #26 'Application Server' (86.0 x 3.0 px)
+FAIL: text-text overlap: #24 'Serves static content and the' vs #25 'React + Vite single-page application' (188.0 x 7.0 px)
+FAIL: text-text overlap: #24 'Serves static content and the' vs #26 'Application Server' (129.0 x 5.0 px)
+FAIL: text-text overlap: #25 'React + Vite single-page application' vs #26 'Application Server' (203.0 x 15.0 px)
+FAIL: text-text overlap: #25 'React + Vite single-page application' vs #27 '[Container: FastAPI, Python 3.13]' (262.0 x 8.0 px)
+FAIL: text-text overlap: #26 'Application Server' vs #27 '[Container: FastAPI, Python 3.13]' (203.0 x 15.0 px)
+FAIL: text-text overlap: #26 'Application Server' vs #28 'Business logic: JWT / RBAC, grading,' (203.0 x 5.0 px)
+FAIL: text-text overlap: #27 '[Container: FastAPI, Python 3.13]' vs #28 'Business logic: JWT / RBAC, grading,' (262.0 x 10.0 px)
+FAIL: text-text overlap: #27 '[Container: FastAPI, Python 3.13]' vs #29 'practice plan assembly, competency engine' (202.0 x 5.0 px)
+FAIL: text-text overlap: #27 '[Container: FastAPI, Python 3.13]' vs #30 'Database' (102.0 x 3.0 px)
+FAIL: text-text overlap: #28 'Business logic: JWT / RBAC, grading,' vs #29 'practice plan assembly, competency engine' (222.0 x 10.0 px)
+FAIL: text-text overlap: #28 'Business logic: JWT / RBAC, grading,' vs #30 'Database' (43.0 x 8.0 px)
+FAIL: text-text overlap: #28 'Business logic: JWT / RBAC, grading,' vs #31 'SQL Sandbox' (141.0 x 1.0 px)
+FAIL: text-text overlap: #29 'practice plan assembly, competency engine' vs #31 'SQL Sandbox' (81.0 x 8.0 px)
+FAIL: text-text overlap: #29 'practice plan assembly, competency engine' vs #32 'LLM Provider API' (187.0 x 3.0 px)
+FAIL: text-text overlap: #30 'Database' vs #31 'SQL Sandbox' (43.0 x 10.0 px)
+FAIL: text-text overlap: #31 'SQL Sandbox' vs #32 'LLM Provider API' (80.0 x 12.0 px)
+FAIL: text-text overlap: #31 'SQL Sandbox' vs #33 '[Container: Docker, PostgreSQL 17]' (141.0 x 4.0 px)
+FAIL: text-text overlap: #32 'LLM Provider API' vs #33 '[Container: Docker, PostgreSQL 17]' (187.0 x 9.0 px)
+FAIL: text-text overlap: #32 'LLM Provider API' vs #34 '[Container: PostgreSQL 17]' (174.0 x 2.0 px)
+FAIL: text-text overlap: #33 '[Container: Docker, PostgreSQL 17]' vs #34 '[Container: PostgreSQL 17]' (235.0 x 12.0 px)
+FAIL: text-text overlap: #33 '[Container: Docker, PostgreSQL 17]' vs #35 '[External service: provider-agnostic REST]' (220.0 x 5.0 px)
+FAIL: text-text overlap: #34 '[Container: PostgreSQL 17]' vs #35 '[External service: provider-agnostic REST]' (175.0 x 11.0 px)
+FAIL: text-text overlap: #34 '[Container: PostgreSQL 17]' vs #36 'Isolated, network disabled, read-only' (232.0 x 5.0 px)
+FAIL: text-text overlap: #35 '[External service: provider-agnostic REST]' vs #36 'Isolated, network disabled, read-only' (172.0 x 11.0 px)
+FAIL: text-text overlap: #35 '[External service: provider-agnostic REST]' vs #37 'Essay scoring, CLO mapping,' (175.0 x 5.0 px)
+FAIL: text-text overlap: #36 'Isolated, network disabled, read-only' vs #37 'Essay scoring, CLO mapping,' (232.0 x 11.0 px)
+FAIL: text-text overlap: #36 'Isolated, network disabled, read-only' vs #38 'Application data, evidence,' (173.0 x 5.0 px)
+FAIL: text-text overlap: #37 'Essay scoring, CLO mapping,' vs #38 'Application data, evidence,' (176.0 x 11.0 px)
+FAIL: text-text overlap: #37 'Essay scoring, CLO mapping,' vs #39 'cached LLM responses' (124.0 x 5.0 px)
+FAIL: text-text overlap: #38 'Application data, evidence,' vs #39 'cached LLM responses' (65.0 x 11.0 px)
+FAIL: text-text overlap: #38 'Application data, evidence,' vs #40 'learner role; 256 MB, 3 s timeout' (201.0 x 5.0 px)
+FAIL: text-text overlap: #39 'cached LLM responses' vs #40 'learner role; 256 MB, 3 s timeout' (124.0 x 11.0 px)
+FAIL: text-text overlap: #39 'cached LLM responses' vs #41 'tag suggestions, gap explanations' (65.0 x 5.0 px)
+FAIL: text-text overlap: #39 'cached LLM responses' vs #42 'OAuth Providers' (181.0 x 3.0 px)
+FAIL: text-text overlap: #40 'learner role; 256 MB, 3 s timeout' vs #41 'tag suggestions, gap explanations' (201.0 x 10.0 px)
+FAIL: text-text overlap: #40 'learner role; 256 MB, 3 s timeout' vs #42 'OAuth Providers' (121.0 x 8.0 px)
+FAIL: text-text overlap: #41 'tag suggestions, gap explanations' vs #42 'OAuth Providers' (62.0 x 15.0 px)
+FAIL: text-text overlap: #41 'tag suggestions, gap explanations' vs #43 '[External Software System]' (156.0 x 5.0 px)
+FAIL: text-text overlap: #42 'OAuth Providers' vs #43 '[External Software System]' (121.0 x 7.0 px)
+FAIL: text-text overlap: #42 'OAuth Providers' vs #44 'Google and GitHub' (61.0 x 1.0 px)
+FAIL: text-text overlap: #43 '[External Software System]' vs #44 'Google and GitHub' (152.0 x 11.0 px)
+FAIL: text-text overlap: #43 '[External Software System]' vs #45 'OAuth 2.0' (19.0 x 5.0 px)
+FAIL: text-text overlap: #43 '[External Software System]' vs #46 'Email Service' (145.0 x 3.0 px)
+FAIL: text-text overlap: #44 'Google and GitHub' vs #46 'Email Service' (86.0 x 9.0 px)
+FAIL: text-text overlap: #45 'OAuth 2.0' vs #46 'Email Service' (18.0 x 11.0 px)
+FAIL: text-text overlap: #46 'Email Service' vs #47 '[External Software System]' (86.0 x 7.0 px)
+FAIL: text-text overlap: #46 'Email Service' vs #48 'Password-reset mail via SMTP' (145.0 x 1.0 px)
+FAIL: text-text overlap: #47 '[External Software System]' vs #48 'Password-reset mail via SMTP' (124.0 x 11.0 px)
+FAIL: text-text overlap: #47 '[External Software System]' vs #49 'Mailpit in development' (118.0 x 5.0 px)
+FAIL: text-text overlap: #48 'Password-reset mail via SMTP' vs #49 'Mailpit in development' (178.0 x 7.0 px)
+
+== (b) text bbox vs foreign line segments ==
+FAIL: text vs foreign segment: #16 'Learner / Administrator' bbox=(212,199,464,216) segment (413.0,208.0)-(781.0,208.0)
+FAIL: text vs foreign segment: #16 'Learner / Administrator' bbox=(212,199,464,216) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #19 'Laptop / desktop with modern browser' bbox=(211,220,538,238) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #20 '[Chrome, Edge, Firefox, Safari]' bbox=(271,227,517,244) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #25 'React + Vite single-page application' bbox=(211,257,497,274) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #26 'Application Server' bbox=(270,259,473,281) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #27 '[Container: FastAPI, Python 3.13]' bbox=(151,266,473,286) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #28 'Business logic: JWT / RBAC, grading,' bbox=(211,276,493,291) segment (781.0,290.0)-(413.0,290.0)
+FAIL: text vs foreign segment: #28 'Business logic: JWT / RBAC, grading,' bbox=(211,276,493,291) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #29 'practice plan assembly, competency engine' bbox=(271,281,618,298) segment (781.0,290.0)-(413.0,290.0)
+FAIL: text vs foreign segment: #29 'practice plan assembly, competency engine' bbox=(271,281,618,298) segment (413.0,290.0)-(413.0,208.0)
+FAIL: text vs foreign segment: #29 'practice plan assembly, competency engine' bbox=(271,281,618,298) segment (597.0,296.0)-(594.0,392.0)
+FAIL: text vs foreign segment: #35 '[External service: provider-agnostic REST]' bbox=(271,317,608,334) segment (597.0,296.0)-(594.0,392.0)
+
+== (c) label set vs expected list ==
+OK: 48 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 219 elements, each appears exactly once
+
+RESULT: FAIL (109 problem(s))

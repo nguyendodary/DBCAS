@@ -1,0 +1,157 @@
+rule-8 checker: docs/diagrams/rebuild/erd/erd.svg
+expected labels: 139 (title + 96 flow labels + 21 box + 21 ellipse)
+svg: 139 text elements, 3208 line segments, 249 shape elements
+
+== (a) text label bboxes (139) ==
+[ 0] (  430.0,  167.0,  493.0,  189.0)  size 31.0  bold     Role
+[ 1] ( 2334.0,  167.0, 2429.0,  189.0)  size 31.0  bold     Rubric
+[ 2] ( 1039.0,  167.0, 1162.0,  189.0)  size 31.0  bold     Account
+[ 3] ( 1040.0,  936.0, 1162.0,  964.0)  size 31.0  bold     Concept
+[ 4] ( 2958.0, 1317.0, 3083.0, 1348.0)  size 33.0  bold     Attempt
+[ 5] (  387.0, 1319.0,  537.0, 1341.0)  size 30.0  bold     LLMCache
+[ 6] ( 2314.0,  552.0, 2447.0,  576.0)  size 31.0  bold     Question
+[ 7] ( 1014.0,  552.0, 1188.0,  573.0)  size 29.0  bold     Assessment
+[ 8] ( 1660.0,  167.0, 1823.0,  189.0)  size 31.0  bold     UserProfile
+[ 9] ( 2285.0,  936.0, 2476.0,  964.0)  size 31.0  bold     SelectionLog
+[10] ( 2934.0,  935.0, 3108.0,  964.0)  size 32.0  bold     MCQOption
+[11] (  313.0,  552.0,  610.0,  579.0)  size 29.0  bold     CourseLearningOutcome
+[12] ( 1618.0, 1320.0, 1863.0, 1348.0)  size 31.0  bold     CompetencyGap
+[13] ( 2907.0,  552.0, 3135.0,  576.0)  size 30.0  bold     SQLTestDataset
+[14] ( 1598.0,  936.0, 1882.0,  957.0)  size 29.0  bold     AssessmentSession
+[15] (  946.0, 1320.0, 1257.0, 1348.0)  size 31.0  bold     ConceptCompetency
+[16] ( 1598.0,  552.0, 1884.0,  576.0)  size 31.0  bold     QuestionCandidate
+[17] (  112.0,  552.0,  169.0,  570.0)  size 25.0  regular  clo id
+[18] ( 2351.0, 1045.0, 2411.0, 1070.0)  size 27.0  regular  log id
+[19] ( 1705.0,  278.0, 1776.0,  296.0)  size 25.0  regular  user id
+[20] (  427.0,  277.0,  494.0,  296.0)  size 26.0  regular  role id
+[21] ( 1707.0, 1430.0, 1774.0, 1454.0)  size 26.0  regular  gap id
+[22] (  417.0, 1431.0,  504.0, 1448.0)  size 24.0  regular  cache id
+[23] ( 2337.0,   57.0, 2424.0,   75.0)  size 25.0  regular  rubric id
+[24] ( 2652.0,  936.0, 2749.0,  960.0)  size 26.0  regular  option id
+[25] ( 1045.0,   57.0, 1156.0,   75.0)  size 25.0  regular  account id
+[26] ( 1369.0,  937.0, 1472.0,  954.0)  size 24.0  regular  session id
+[27] ( 2968.0,  662.0, 3073.0,  680.0)  size 25.0  regular  dataset id
+[28] ( 2965.0, 1430.0, 3076.0, 1454.0)  size 26.0  regular  attempt id
+[29] (  725.0,  937.0,  836.0,  960.0)  size 25.0  regular  concept id
+[30] ( 2001.0,  553.0, 2120.0,  576.0)  size 25.0  regular  question id
+[31] ( 1675.0,  441.0, 1806.0,  459.0)  size 25.0  regular  candidate id
+[32] ( 1022.0, 1431.0, 1179.0, 1454.0)  size 25.0  regular  competency id
+[33] (  706.0,  553.0,  854.0,  570.0)  size 23.0  regular  assessment id
+[34] ( 1407.0,  170.0, 1435.0,  183.0)  size 18.0  regular  has
+[35] ( 2045.0,  937.0, 2077.0,  954.0)  size 18.0  regular  logs
+[36] ( 1399.0,  682.0, 1443.0,  694.0)  size 17.0  regular  seeds
+[37] ( 1721.0, 1128.0, 1760.0, 1146.0)  size 19.0  regular  flags
+[38] ( 2678.0,  747.0, 2723.0,  761.0)  size 19.0  regular  offers
+[39] ( 1400.0,  554.0, 1442.0,  567.0)  size 18.0  regular  takes
+[40] ( 1396.0, 1127.0, 1444.0, 1146.0)  size 20.0  regular  yields
+[41] ( 2351.0, 1161.0, 2410.0, 1174.0)  size 18.0  regular  records
+[42] ( 1710.0,  361.0, 1772.0,  375.0)  size 19.0  regular  authors
+[43] (  748.0,  745.0,  814.0,  762.0)  size 19.0  regular  maps to
+[44] (  752.0,  365.0,  810.0,  378.0)  size 18.0  regular  defines
+[45] ( 1073.0,  745.0, 1129.0,  762.0)  size 18.0  regular  targets
+[46] ( 2342.0,  745.0, 2419.0,  758.0)  size 18.0  regular  chosen in
+[47] ( 2978.0, 1129.0, 3063.0, 1142.0)  size 18.0  regular  selected in
+[48] (  746.0,  170.0,  817.0,  187.0)  size 18.0  regular  assigned
+[49] ( 2665.0,  554.0, 2739.0,  571.0)  size 18.0  regular  tested by
+[50] ( 1059.0,  362.0, 1143.0,  379.0)  size 18.0  regular  configures
+[51] ( 2339.0,  361.0, 2423.0,  379.0)  size 19.0  regular  graded by
+[52] ( 2652.0, 1017.0, 2749.0, 1030.0)  size 18.0  regular  answered in
+[53] ( 1374.0,  808.0, 1468.0,  822.0)  size 19.0  regular  instantiates
+[54] ( 1369.0, 1225.0, 1472.0, 1242.0)  size 18.0  regular  diagnosed in
+[55] ( 1693.0,  744.0, 1789.0,  762.0)  size 19.0  regular  tagged with
+[56] ( 2010.0,  630.0, 2111.0,  648.0)  size 19.0  regular  promoted to
+[57] ( 1048.0, 1129.0, 1155.0, 1146.0)  size 18.0  regular  measured by
+[58] (  621.0,  623.0,  640.0,  643.0)  size 28.0  regular  M
+[59] (  621.0,  479.0,  637.0,  499.0)  size 28.0  regular  N
+[60] (  675.0,  145.0,  691.0,  165.0)  size 28.0  regular  N
+[61] (  973.0,   95.0,  992.0,  115.0)  size 28.0  regular  M
+[62] (  973.0,  863.0,  989.0,  883.0)  size 28.0  regular  N
+[63] (  974.0,  240.0,  981.0,  259.0)  size 26.0  regular  1
+[64] ( 1117.0,  623.0, 1136.0,  643.0)  size 28.0  regular  M
+[65] ( 1117.0,  479.0, 1133.0,  499.0)  size 28.0  regular  N
+[66] ( 1117.0,  863.0, 1133.0,  883.0)  size 28.0  regular  N
+[67] ( 1117.0, 1247.0, 1133.0, 1267.0)  size 28.0  regular  N
+[68] ( 1118.0,  240.0, 1125.0,  259.0)  size 26.0  regular  1
+[69] ( 1118.0, 1008.0, 1125.0, 1027.0)  size 26.0  regular  1
+[70] ( 1214.0,  240.0, 1221.0,  259.0)  size 26.0  regular  1
+[71] ( 1214.0,  864.0, 1221.0,  883.0)  size 26.0  regular  1
+[72] ( 1246.0,  624.0, 1253.0,  643.0)  size 26.0  regular  1
+[73] ( 1261.0,  863.0, 1277.0,  883.0)  size 28.0  regular  N
+[74] ( 1261.0, 1247.0, 1277.0, 1267.0)  size 28.0  regular  N
+[75] ( 1262.0,   96.0, 1269.0,  115.0)  size 26.0  regular  1
+[76] ( 1262.0,  240.0, 1269.0,  259.0)  size 26.0  regular  1
+[77] ( 1262.0, 1008.0, 1269.0, 1027.0)  size 26.0  regular  1
+[78] ( 1515.0,  146.0, 1522.0,  165.0)  size 26.0  regular  1
+[79] ( 1613.0,  623.0, 1629.0,  643.0)  size 28.0  regular  N
+[80] ( 1613.0,  863.0, 1629.0,  883.0)  size 28.0  regular  N
+[81] ( 1613.0, 1247.0, 1629.0, 1267.0)  size 28.0  regular  N
+[82] ( 1614.0, 1008.0, 1621.0, 1027.0)  size 26.0  regular  1
+[83] ( 1661.0,  863.0, 1677.0,  883.0)  size 28.0  regular  N
+[84] ( 1757.0, 1247.0, 1773.0, 1267.0)  size 28.0  regular  N
+[85] ( 1758.0, 1008.0, 1765.0, 1027.0)  size 26.0  regular  1
+[86] ( 1854.0, 1008.0, 1861.0, 1027.0)  size 26.0  regular  1
+[87] ( 1902.0,  624.0, 1909.0,  643.0)  size 26.0  regular  1
+[88] ( 1902.0, 1008.0, 1909.0, 1027.0)  size 26.0  regular  1
+[89] ( 2253.0,  479.0, 2269.0,  499.0)  size 28.0  regular  N
+[90] ( 2253.0,  863.0, 2269.0,  883.0)  size 28.0  regular  N
+[91] ( 2254.0,  624.0, 2261.0,  643.0)  size 26.0  regular  1
+[92] ( 2301.0,  623.0, 2320.0,  643.0)  size 28.0  regular  M
+[93] ( 2350.0,  624.0, 2357.0,  643.0)  size 26.0  regular  1
+[94] ( 2397.0,  239.0, 2413.0,  259.0)  size 28.0  regular  N
+[95] ( 2397.0,  863.0, 2413.0,  883.0)  size 28.0  regular  N
+[96] ( 2398.0,  480.0, 2405.0,  499.0)  size 26.0  regular  1
+[97] ( 2398.0,  624.0, 2405.0,  643.0)  size 26.0  regular  1
+[98] ( 2494.0,  624.0, 2501.0,  643.0)  size 26.0  regular  1
+[99] ( 2542.0,  624.0, 2549.0,  643.0)  size 26.0  regular  1
+[100] ( 2788.0,  529.0, 2804.0,  549.0)  size 28.0  regular  N
+[101] ( 2788.0, 1281.0, 2804.0, 1301.0)  size 28.0  regular  N
+[102] ( 2893.0,  863.0, 2909.0,  883.0)  size 28.0  regular  N
+[103] ( 2893.0, 1247.0, 2909.0, 1267.0)  size 28.0  regular  N
+[104] ( 3037.0, 1247.0, 3053.0, 1267.0)  size 28.0  regular  N
+[105] ( 3038.0, 1008.0, 3045.0, 1027.0)  size 26.0  regular  1
+[106] (  902.0, 1571.0,  966.0, 1595.0)  size 26.0  regular  Entity
+[107] ( 1180.0, 1570.0, 1323.0, 1595.0)  size 27.0  regular  Relationship
+[108] ( 1435.0, 1572.0, 1465.0, 1591.0)  size 20.0  regular  key
+[109] ( 1525.0, 1570.0, 1676.0, 1595.0)  size 27.0  regular  Key attribute
+[110] ( 1788.0, 1569.0, 2169.0, 1595.0)  size 28.0  bold     1 = one, N / M = many
+[111] ( 2183.0, 1572.0, 2365.1, 1594.0)  size 24.0  regular  (M : N = many-to-many)
+[112] ( 3682.0,  158.0, 3906.0,  189.0)  size 33.0  bold     SystemSetting
+[113] ( 3628.0,  931.0, 3960.0,  957.0)  size 33.0  bold     AssessmentQuestion
+[114] ( 3920.0,  973.0, 3974.0,  983.0)  size 13.0  bold     LEGACY
+[115] ( 3628.0, 1312.0, 3960.1, 1341.0)  size 32.0  bold     AssessmentBlueprint
+[116] ( 3920.0, 1357.0, 3974.0, 1367.0)  size 13.0  bold     LEGACY
+[117] (  710.0, 1036.0,  990.0, 1063.0)  size 29.0  bold     AssessmentConcept
+[118] (  932.0, 1079.0,  986.0, 1089.0)  size 13.0  bold     LEGACY
+[119] ( 1227.0,  589.0, 1281.0,  599.0)  size 13.0  bold     LEGACY
+[120] ( 3734.0,   54.0, 3854.0,   76.0)  size 24.0  regular  setting_key
+[121] ( 3671.0, 1043.0, 3917.0, 1065.0)  size 23.0  regular  assessment_id, question_id
+[122] ( 3734.0, 1427.0, 3854.0, 1449.0)  size 24.0  regular  blueprint_id
+[123] (  730.0, 1147.0,  970.1, 1169.0)  size 23.0  regular  assessment_id, concept_id
+[124] ( 2955.0,  168.0, 3019.0,  185.0)  size 18.0  regular  updates
+[125] ( 3398.0,  935.0, 3442.0,  953.0)  size 19.0  regular  pools
+[126] ( 3386.0, 1156.0, 3454.0, 1169.0)  size 18.0  regular  versions
+[127] ( 4081.0, 1159.0, 4119.0, 1169.0)  size 18.0  regular  uses
+[128] ( 1340.0,   25.0, 1349.0,   45.0)  size 27.0  bold     1
+[129] ( 3560.0,  144.0, 3576.0,  164.0)  size 28.0  bold     N
+[130] (  890.0,  611.0,  899.0,  631.0)  size 27.0  bold     1
+[131] ( 3560.0,  911.0, 3576.0,  931.0)  size 28.0  bold     N
+[132] (  890.0,  631.0,  899.0,  651.0)  size 27.0  bold     1
+[133] ( 3570.0, 1267.0, 3586.0, 1287.0)  size 28.0  bold     N
+[134] ( 1940.0,  859.0, 1956.0,  879.0)  size 28.0  bold     N
+[135] ( 4000.0, 1267.0, 4009.0, 1287.0)  size 27.0  bold     1
+[136] (  730.0,  813.0,  890.1,  828.0)  size 17.0  regular  assessment_concept
+[137] (  995.0,  809.0, 1065.0,  828.0)  size 20.0  regular  junction
+[138] ( 2610.0, 1573.0, 2967.1, 1595.0)  size 24.0  regular  Legacy table (historical rows only)
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 83 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 388 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

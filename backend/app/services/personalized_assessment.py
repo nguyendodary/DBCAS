@@ -13,9 +13,14 @@ from sqlalchemy import select
 from ..errors import AppError
 from ..models import Assessment, AssessmentSession, Question, SessionQuestionPlan, SessionStartRequest
 from ..repositories import AssessmentRepository, QuestionRepository, SecurityRepository
+from .blueprints import (
+    DIFFICULTY_BANDS,
+    quotas_for,
+    resolve_blueprint,
+    snapshot_policy,
+    verify_quotas,
+)
 from .evidence_context import capture_assessment, capture_question
-
-DIFFICULTY_BANDS = {"EASY": (1, 2), "MEDIUM": (3, 3), "HARD": (4, 5)}
 
 
 def practice_quotas(pool, question_count):
@@ -203,6 +208,9 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
         adaptive_engine._maybe_timeout(active, db)
         db.commit()
         return adaptive_engine._state(repo, active)
+    if payload.mode == "ADAPTIVE":
+        from .batch_adaptive import start
+        return start(db, repo, assessment, learner, payload, snapshot, locale=locale)
     low, high = DIFFICULTY_BANDS[payload.difficulty]
     snapshot["concepts"] = [dict(c, min_difficulty=max(low, c["min_difficulty"]),
                                  max_difficulty=min(high, c["max_difficulty"]))
@@ -213,14 +221,36 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
     selected_config = SimpleNamespace(**{**snapshot, "targets": [SimpleNamespace(**c) for c in snapshot["concepts"]]})
     pool = adaptive_engine._eligible_pool(selected_config, set(), repo)
     extra_mcq = assessment.max_questions - (assessment.target_mcq + assessment.target_sql + assessment.target_essay)
+    blueprint = None
     if payload.mode == "PRACTICE":
-        chosen, quotas = select_practice_questions(pool, requested_ids, payload.question_count)
+        count = payload.question_count
+        if count is None:
+            # The ordinary learner flow asks only for skills and difficulty.
+            # Fit the approved inventory without replacing either selection.
+            families = {q.family_id or q.question_id for q, _ in pool}
+            count = min(13, assessment.max_questions, max(3, len(requested_ids)), len(families))
+            if not count:
+                raise AppError(422, "insufficient_question_pool",
+                               "No approved questions are available for these skills at the selected difficulty")
+        chosen, quotas = select_practice_questions(pool, requested_ids, count)
     else:
-        quotas = {"mcq": assessment.target_mcq + extra_mcq, "sql": assessment.target_sql, "essay": assessment.target_essay}
+        blueprint, resolution = resolve_blueprint(db, assessment, requested_ids, payload.difficulty)
+        if blueprint is not None:
+            verify_quotas(blueprint)
+            quotas = quotas_for(blueprint)
+            snapshot.update(max_questions=blueprint.max_questions,
+                            target_mcq=quotas["mcq"], target_sql=quotas["sql"],
+                            target_essay=quotas["essay"],
+                            blueprint=snapshot_policy(blueprint),
+                            blueprint_resolution=resolution)
+        else:
+            quotas = {"mcq": assessment.target_mcq + extra_mcq,
+                      "sql": assessment.target_sql, "essay": assessment.target_essay}
+            snapshot["blueprint_resolution"] = resolution
         chosen = select_questions(pool, requested_ids, quotas)
     if payload.mode == "PRACTICE":
         snapshot.update(template_limits={key: snapshot[key] for key in ("max_questions", "target_mcq", "target_sql", "target_essay")},
-                        max_questions=payload.question_count, target_mcq=quotas["mcq"],
+                        max_questions=count, target_mcq=quotas["mcq"],
                         target_sql=quotas["sql"], target_essay=quotas["essay"])
     # Serialize curation updates against capture; acquire locks in ID order.
     ids = sorted(q.question_id for q in chosen)
@@ -248,22 +278,22 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
             or not set(requested_ids) <= locked_skills
             or len(locked_families) != len(chosen)):
         raise AppError(409, "question_bank_changed", "Question classification changed. Retry assessment creation.")
-    snapshot.update(navigation_mode="FREE", personalized=True, selected_concept_ids=requested_ids, difficulty=payload.difficulty,
+    snapshot.update(personalized=True, selected_concept_ids=requested_ids, difficulty=payload.difficulty,
                     assembly_mode=payload.mode, requested_question_count=payload.question_count,
                     question_ids=[q.question_id for q in chosen],
                     question_plan=[plan[q.question_id] for q in chosen])
     now = repo.server_time()
     session = repo.create_session(assessment_id, learner.account_id, now + timedelta(minutes=assessment.duration_min),
                                   started_at=now, locale=normalize_locale(locale),
-                                  result_release_policy=assessment.result_release_policy, start_request_id=request_id)
+                                  result_release_policy=assessment.result_release_policy, start_request_id=request_id,
+                                  blueprint_id=blueprint.blueprint_id if blueprint is not None else None)
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id,
                                session_id=session.session_id))
     db.add_all([SessionQuestionPlan(session_id=session.session_id, seq_no=seq, question_id=q.question_id)
                 for seq, q in enumerate(chosen, start=1)])
     db.flush()
-    for seq in range(1, len(chosen) + 1):
-        serve_planned(repo, session, seq)
+    serve_planned(repo, session, 1)
     db.commit()
     return adaptive_engine._state(repo, session)
 
@@ -272,7 +302,13 @@ def serve_planned(repo, session, seq_no):
     snapshot = session.config_snapshot["question_plan"][seq_no - 1]
     attempt = repo.create_attempt(session.session_id, snapshot["question_id"], seq_no)
     attempt.question_snapshot = snapshot
+    policy = session.config_snapshot.get("blueprint") or {}
+    provenance = session.config_snapshot.get("selection_provenance", [])
+    provenance = provenance[seq_no-1] if len(provenance) >= seq_no else {}
     repo.create_selection_log(session.session_id, seq_no, snapshot["question_id"],
-        is_fallback=False, decision_detail={"phase": "personalized", "difficulty": session.config_snapshot["difficulty"],
-                                          "selected_concept_ids": session.config_snapshot["selected_concept_ids"]})
+        is_fallback=bool(provenance.get("tier") or provenance.get("origin") == "template"),
+        decision_detail={"phase": "personalized", "difficulty": session.config_snapshot["difficulty"], "selection": provenance,
+                                          "selected_concept_ids": session.config_snapshot["selected_concept_ids"],
+                                          "blueprint_id": policy.get("blueprint_id"),
+                                          "blueprint_version": policy.get("version_no")})
     return attempt

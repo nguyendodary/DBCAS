@@ -1,0 +1,6 @@
+{
+ "note": "Logical System Architecture Stage A: no text-frame fixes needed. All 37 labels were recovered as their own bands (title, italic-style subtitle read as one line, 4 tab labels, 2 actor labels, 8 box titles + 8 subtitles, 6 connector labels, PostgreSQL title + 2 subtitle lines); frame top borders are drawn with a measured gap under each tab so the tab label never crosses a border segment. Stage B replacements are applied by scripts/build_stage_b_w2a.py from delta-stage-b.json.",
+ "splits": [],
+ "replace": [],
+ "nudges": []
+}

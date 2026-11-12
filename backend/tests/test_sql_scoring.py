@@ -277,14 +277,14 @@ class TestServiceGrading:
             r["grading_detail"]["datasets"][0]["error_type"] == "timeout"
         )
 
-    def test_equivalent_result_is_not_penalized_for_missing_technique(self, sandbox_runner):
+    def test_required_concept_missing(self, sandbox_runner):
         r = _grade(
             sandbox_runner,
             "SELECT name FROM students",
             required=["Joins"],
         )
-        assert r["score"] == Decimal("4.0")
-        assert r["grading_detail"]["missing_required_concepts"] == []
+        assert r["score"] == Decimal("0")
+        assert r["grading_detail"]["missing_required_concepts"] == ["Joins"]
 
     def test_required_concept_present(self, sandbox_runner):
         ds = [
@@ -347,6 +347,7 @@ def served_sql_q(db_session, client):
         learner_id=learner.account_id,
         status="in_progress",
         expires_at=datetime.now(timezone.utc) + timedelta(minutes=60),
+        result_release_policy="IMMEDIATE",
     )
     attempt = Attempt(session=session, question=question, seq_no=1)
     db_session.add_all(
@@ -443,7 +444,7 @@ class TestEndpointGrading:
         assert "expected_result" not in str(detail)
         assert "setup_sql" not in str(detail)
 
-    def test_result_only_scoring_with_legacy_required_concept(
+    def test_required_concept_endpoint(
         self, client, served_sql_q, db_session
     ):
         concept = Concept(
@@ -461,13 +462,13 @@ class TestEndpointGrading:
         )
         db_session.commit()
         r = _submit(client, served_sql_q, "SELECT name FROM students")
-        assert Decimal(r.json()["score"]) == Decimal("4.0")
+        assert Decimal(r.json()["score"]) == Decimal("0")
         attempt = (
             db_session.query(Attempt)
             .filter_by(attempt_id=served_sql_q["attempt_id"])
             .one()
         )
-        assert attempt.grading_detail["missing_required_concepts"] == []
+        assert attempt.grading_detail["missing_required_concepts"] == ["Joins"]
 
     def test_double_submit_conflict(self, client, served_sql_q):
         _submit(client, served_sql_q, "SELECT name FROM students")

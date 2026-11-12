@@ -1,0 +1,415 @@
+{
+  "count": 68,
+  "all_nonzero": true,
+  "all_exact_width": true,
+  "files": [
+    {
+      "file": "ai-source-vi-light-1280.png",
+      "bytes": 224655,
+      "width": 1280,
+      "height": 1332
+    },
+    {
+      "file": "ai-source-vi-light-390.png",
+      "bytes": 218283,
+      "width": 390,
+      "height": 3018
+    },
+    {
+      "file": "assessment-active-session-vi-dark-390.png",
+      "bytes": 43061,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "assessments-en-en-dark-1280.png",
+      "bytes": 242083,
+      "width": 1280,
+      "height": 1956
+    },
+    {
+      "file": "count-1-vi-dark-1280.png",
+      "bytes": 198219,
+      "width": 1280,
+      "height": 1232
+    },
+    {
+      "file": "count-1-vi-dark-390.png",
+      "bytes": 195343,
+      "width": 390,
+      "height": 2885
+    },
+    {
+      "file": "count-1-vi-light-1280.png",
+      "bytes": 208158,
+      "width": 1280,
+      "height": 1232
+    },
+    {
+      "file": "count-1-vi-light-390.png",
+      "bytes": 210309,
+      "width": 390,
+      "height": 2885
+    },
+    {
+      "file": "count-20-vi-dark-1280.png",
+      "bytes": 202224,
+      "width": 1280,
+      "height": 1189
+    },
+    {
+      "file": "count-20-vi-dark-390.png",
+      "bytes": 194364,
+      "width": 390,
+      "height": 2868
+    },
+    {
+      "file": "count-20-vi-light-1280.png",
+      "bytes": 211013,
+      "width": 1280,
+      "height": 1189
+    },
+    {
+      "file": "count-20-vi-light-390.png",
+      "bytes": 203796,
+      "width": 390,
+      "height": 2868
+    },
+    {
+      "file": "dashboard-en-en-dark-1280.png",
+      "bytes": 334026,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "dashboard-en-en-dark-390.png",
+      "bytes": 141648,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "evaluation-attempt-vi-dark-1280.png",
+      "bytes": 291461,
+      "width": 1280,
+      "height": 2870
+    },
+    {
+      "file": "evaluation-attempt-vi-dark-390.png",
+      "bytes": 277939,
+      "width": 390,
+      "height": 3740
+    },
+    {
+      "file": "evaluation-attempt-vi-light-1280.png",
+      "bytes": 284336,
+      "width": 1280,
+      "height": 2870
+    },
+    {
+      "file": "evaluation-attempt-vi-light-390.png",
+      "bytes": 266898,
+      "width": 390,
+      "height": 3740
+    },
+    {
+      "file": "evaluation-waiting-vi-dark-390.png",
+      "bytes": 33146,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "evidence-vi-dark-390.png",
+      "bytes": 21722,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "exam-essay-vi-dark-1280.png",
+      "bytes": 207995,
+      "width": 1280,
+      "height": 1377
+    },
+    {
+      "file": "exam-essay-vi-dark-390.png",
+      "bytes": 198608,
+      "width": 390,
+      "height": 2747
+    },
+    {
+      "file": "exam-essay-vi-light-1280.png",
+      "bytes": 217906,
+      "width": 1280,
+      "height": 1377
+    },
+    {
+      "file": "exam-essay-vi-light-390.png",
+      "bytes": 209871,
+      "width": 390,
+      "height": 2747
+    },
+    {
+      "file": "exam-mcq-vi-dark-1280.png",
+      "bytes": 200726,
+      "width": 1280,
+      "height": 1235
+    },
+    {
+      "file": "exam-mcq-vi-dark-390.png",
+      "bytes": 196982,
+      "width": 390,
+      "height": 2857
+    },
+    {
+      "file": "exam-mcq-vi-light-1280.png",
+      "bytes": 208746,
+      "width": 1280,
+      "height": 1235
+    },
+    {
+      "file": "exam-mcq-vi-light-390.png",
+      "bytes": 206629,
+      "width": 390,
+      "height": 2857
+    },
+    {
+      "file": "exam-sql-vi-dark-1280.png",
+      "bytes": 154122,
+      "width": 1280,
+      "height": 1512
+    },
+    {
+      "file": "exam-sql-vi-dark-390.png",
+      "bytes": 138103,
+      "width": 390,
+      "height": 2646
+    },
+    {
+      "file": "exam-sql-vi-light-1280.png",
+      "bytes": 151894,
+      "width": 1280,
+      "height": 1500
+    },
+    {
+      "file": "exam-sql-vi-light-390.png",
+      "bytes": 136679,
+      "width": 390,
+      "height": 2634
+    },
+    {
+      "file": "forgot-password-sent-vi-dark-1280.png",
+      "bytes": 493744,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "history-vi-dark-1280.png",
+      "bytes": 384304,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "history-vi-dark-390.png",
+      "bytes": 207981,
+      "width": 390,
+      "height": 1129
+    },
+    {
+      "file": "history-vi-light-1280.png",
+      "bytes": 300654,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "history-vi-light-390.png",
+      "bytes": 176891,
+      "width": 390,
+      "height": 1129
+    },
+    {
+      "file": "login-vi-dark-1280.png",
+      "bytes": 402590,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "login-vi-dark-390.png",
+      "bytes": 101271,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "login-vi-light-1280.png",
+      "bytes": 381135,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "login-vi-light-390.png",
+      "bytes": 96674,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "oauth-metadata-failure-vi-dark-1280.png",
+      "bytes": 399296,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "oauth-notice-vi-dark-390.png",
+      "bytes": 97390,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "overall-0-vi-light-1280.png",
+      "bytes": 47542,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "overall-0-vi-light-390.png",
+      "bytes": 37435,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "overall-1-vi-light-1280.png",
+      "bytes": 248800,
+      "width": 1280,
+      "height": 2484
+    },
+    {
+      "file": "overall-1-vi-light-390.png",
+      "bytes": 232686,
+      "width": 390,
+      "height": 3210
+    },
+    {
+      "file": "overall-3-vi-dark-1280.png",
+      "bytes": 323060,
+      "width": 1280,
+      "height": 2944
+    },
+    {
+      "file": "overall-3-vi-dark-390.png",
+      "bytes": 305494,
+      "width": 390,
+      "height": 3846
+    },
+    {
+      "file": "overall-3-vi-light-1280.png",
+      "bytes": 314272,
+      "width": 1280,
+      "height": 2944
+    },
+    {
+      "file": "overall-3-vi-light-390.png",
+      "bytes": 293063,
+      "width": 390,
+      "height": 3846
+    },
+    {
+      "file": "practice-setup-vi-dark-1280.png",
+      "bytes": 276169,
+      "width": 1280,
+      "height": 2004
+    },
+    {
+      "file": "practice-setup-vi-dark-390.png",
+      "bytes": 340214,
+      "width": 390,
+      "height": 4270
+    },
+    {
+      "file": "practice-setup-vi-light-1280.png",
+      "bytes": 273625,
+      "width": 1280,
+      "height": 2004
+    },
+    {
+      "file": "practice-setup-vi-light-390.png",
+      "bytes": 338138,
+      "width": 390,
+      "height": 4270
+    },
+    {
+      "file": "register-vi-dark-1280.png",
+      "bytes": 394941,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "register-vi-dark-390.png",
+      "bytes": 97071,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "register-vi-light-1280.png",
+      "bytes": 371626,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "register-vi-light-390.png",
+      "bytes": 91492,
+      "width": 390,
+      "height": 900
+    },
+    {
+      "file": "reset-replay-rejected-vi-dark-1280.png",
+      "bytes": 519556,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "reset-success-vi-dark-1280.png",
+      "bytes": 538641,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "session-refresh-two-tabs-vi-dark-1280.png",
+      "bytes": 202915,
+      "width": 1280,
+      "height": 1209
+    },
+    {
+      "file": "settings-en-en-dark-390.png",
+      "bytes": 154493,
+      "width": 390,
+      "height": 961
+    },
+    {
+      "file": "settings-vi-dark-1280.png",
+      "bytes": 315387,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "settings-vi-dark-390.png",
+      "bytes": 142426,
+      "width": 390,
+      "height": 916
+    },
+    {
+      "file": "settings-vi-light-1280.png",
+      "bytes": 239396,
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "file": "settings-vi-light-390.png",
+      "bytes": 116870,
+      "width": 390,
+      "height": 916
+    },
+    {
+      "file": "two-tabs-essay-vi-dark-1280.png",
+      "bytes": 208299,
+      "width": 1280,
+      "height": 1377
+    }
+  ]
+}

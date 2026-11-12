@@ -1,0 +1,133 @@
+{
+  "generated_at": "2026-10-25T10:46:44.396498+00:00",
+  "label": "rehearsal_final",
+  "url": "postgresql+psycopg://postgres:verify_only_pw@127.0.0.1:5549/dbcas_rehearsal_final",
+  "baseline": {
+    "captured_at": "2026-10-25T10:34:05.740465+00:00",
+    "counts": {
+      "questions": 442,
+      "sessions": 18,
+      "attempts": 109,
+      "selection_log": 109,
+      "translations": 442
+    },
+    "digests": {
+      "questions": "743819a7fc259de01a0bd8b792ef8f9c",
+      "sessions": "b0d7907621fb738467a39de88003a700",
+      "attempts": "83f91cd22773eba0cb1ca28281bc1508",
+      "selection_log": "a47236f8ae96a922efe6a3865a0c8927",
+      "translations": "7216df0d06f7891fbb4a30189beb53fb"
+    },
+    "historical": {
+      "questions_le_450": "743819a7fc259de01a0bd8b792ef8f9c",
+      "q5": "c29beb1ffe4a38d40a261844bdd05e0c",
+      "sessions": "b0d7907621fb738467a39de88003a700",
+      "attempts": "83f91cd22773eba0cb1ca28281bc1508",
+      "selection_log": "a47236f8ae96a922efe6a3865a0c8927",
+      "translations_le_450": "7216df0d06f7891fbb4a30189beb53fb"
+    },
+    "migrations": [
+      "001_account_identity.sql",
+      "002_concept_dependency.sql",
+      "003_drafts_evidence_and_security.sql",
+      "004_bank_versions.sql",
+      "005_release_roles.sql",
+      "006_question_provenance.sql",
+      "007_question_localization.sql",
+      "008_personalization_and_verified_results.sql",
+      "009_incomplete_grade_release_repair.sql",
+      "010_session_start_request_bindings.sql",
+      "011_secure_role_management.sql",
+      "012_question_original_locale.sql"
+    ],
+    "latest_migration": "012_question_original_locale.sql",
+    "max_question_id": 450,
+    "question_type_counts": {
+      "essay": 49,
+      "mcq": 326,
+      "sql": 67
+    },
+    "question_status_counts": {
+      "retired": 1,
+      "validated": 441
+    },
+    "label": "persistent_pre_activation"
+  },
+  "after": {
+    "captured_at": "2026-10-25T10:46:42.007584+00:00",
+    "counts": {
+      "questions": 713,
+      "sessions": 18,
+      "attempts": 109,
+      "selection_log": 109,
+      "translations": 713,
+      "blueprints": 49
+    },
+    "digests": {
+      "questions": "c6e32e62ed798a301106e99a87745a14",
+      "sessions": "b0d7907621fb738467a39de88003a700",
+      "attempts": "83f91cd22773eba0cb1ca28281bc1508",
+      "selection_log": "a47236f8ae96a922efe6a3865a0c8927",
+      "translations": "df9ed0587e873c1cf6668799be2c5526",
+      "blueprints": "c46cd9a9c2b4ed4affd22eef0f7524d8"
+    },
+    "historical": {
+      "questions_le_450": "743819a7fc259de01a0bd8b792ef8f9c",
+      "q5": "c29beb1ffe4a38d40a261844bdd05e0c",
+      "sessions": "b0d7907621fb738467a39de88003a700",
+      "attempts": "83f91cd22773eba0cb1ca28281bc1508",
+      "selection_log": "a47236f8ae96a922efe6a3865a0c8927",
+      "translations_le_450": "7216df0d06f7891fbb4a30189beb53fb"
+    },
+    "migrations": [
+      "001_account_identity.sql",
+      "002_concept_dependency.sql",
+      "003_drafts_evidence_and_security.sql",
+      "004_bank_versions.sql",
+      "005_release_roles.sql",
+      "006_question_provenance.sql",
+      "007_question_localization.sql",
+      "008_personalization_and_verified_results.sql",
+      "009_incomplete_grade_release_repair.sql",
+      "010_session_start_request_bindings.sql",
+      "011_secure_role_management.sql",
+      "012_question_original_locale.sql",
+      "013_assessment_blueprints.sql"
+    ],
+    "latest_migration": "013_assessment_blueprints.sql",
+    "max_question_id": 721,
+    "question_type_counts": {
+      "essay": 90,
+      "mcq": 525,
+      "sql": 98
+    },
+    "question_status_counts": {
+      "retired": 1,
+      "validated": 712
+    }
+  },
+  "staged": {
+    "count": 271,
+    "types": {
+      "mcq": 199,
+      "sql": 31,
+      "essay": 41
+    },
+    "current_vietnamese_translations": 271,
+    "stale_translation_ids": []
+  },
+  "blueprints": {
+    "count": 49,
+    "by_assessment": {
+      "2": 4,
+      "3": 6,
+      "4": 9,
+      "6": 30
+    },
+    "all_approved": true,
+    "approved_by_null": true,
+    "historical_sessions_bound": 0
+  },
+  "problems": [],
+  "verdict": "pass"
+}

@@ -1,0 +1,77 @@
+{
+  "status": "complete",
+  "limit": 5,
+  "key_fingerprint": "2bf7574e3a822f9d",
+  "key_masked": "sk-...95bd",
+  "model_fingerprint": "ea39e8038b3dc42f",
+  "created_utc": "2026-11-11T02:49:41.716151+00:00",
+  "requests": [
+    {
+      "number": 1,
+      "check": "evaluator",
+      "reserved_utc": "2026-11-11T02:49:42.132954+00:00",
+      "prompt_hash": "5144938b1d45bb6da0e9cb16b88dedb4af957e997f0211f88f4db5157430e641",
+      "reasoning": {
+        "enabled": false
+      },
+      "uses_temperature": true,
+      "token_parameter": "max_tokens",
+      "status": "received",
+      "http_status": 403,
+      "usage": {},
+      "model_accepted": false
+    },
+    {
+      "number": 2,
+      "check": "generation",
+      "reserved_utc": "2026-11-11T02:49:43.996853+00:00",
+      "prompt_hash": "42cfc1ba986d30729ea8d7e17e780a1193e5fce8ef567619aeabcfb58b90543f",
+      "reasoning": {
+        "enabled": false
+      },
+      "uses_temperature": true,
+      "token_parameter": "max_tokens",
+      "status": "received",
+      "http_status": 403,
+      "usage": {},
+      "model_accepted": false
+    },
+    {
+      "number": 3,
+      "check": "generation",
+      "reserved_utc": "2026-11-11T02:49:44.161111+00:00",
+      "prompt_hash": "42cfc1ba986d30729ea8d7e17e780a1193e5fce8ef567619aeabcfb58b90543f",
+      "reasoning": {
+        "enabled": false
+      },
+      "uses_temperature": true,
+      "token_parameter": "max_tokens",
+      "status": "received",
+      "http_status": 403,
+      "usage": {},
+      "model_accepted": false
+    }
+  ],
+  "checks": {
+    "evaluator": {
+      "builder_calls": 1,
+      "builder_purity_validated": true,
+      "data_unchanged": true,
+      "built_prompt_hash": "5144938b1d45bb6da0e9cb16b88dedb4af957e997f0211f88f4db5157430e641",
+      "wire_prompt_equal": true,
+      "builder_mode": "template",
+      "evaluator_fallback": true,
+      "question_comments": 2,
+      "offline_fallback_validated": true
+    },
+    "generation": {
+      "requested": 1,
+      "validated_generated": 0,
+      "diagnostic_codes": [
+        "http_error",
+        "http_error"
+      ],
+      "offline_template_available": true
+    }
+  }
+}

@@ -1,0 +1,132 @@
+F5 ERD Stage A -> final delta proof
+Stage A canvas: 3251x1677
+Final canvas:   4300x1677
+
+== original entities (17) ==
+  OK Role                   [267, 126, 655, 229]
+  OK Rubric                 [2187, 126, 2574, 229]
+  OK Account                [907, 126, 1295, 229]
+  OK Concept                [907, 894, 1295, 997]
+  OK Attempt                [2827, 1278, 3214, 1381]
+  OK LLMCache               [267, 1278, 655, 1381]
+  OK Question               [2187, 510, 2574, 613]
+  OK Assessment             [907, 510, 1295, 613] (dashed style added; bbox/name unchanged)
+  OK UserProfile            [1547, 126, 1934, 229]
+  OK SelectionLog           [2187, 894, 2574, 997]
+  OK MCQOption              [2827, 894, 3214, 997]
+  OK CourseLearningOutcome  [267, 510, 655, 613]
+  OK CompetencyGap          [1547, 1278, 1934, 1381]
+  OK SQLTestDataset         [2827, 510, 3214, 613]
+  OK AssessmentSession      [1547, 894, 1934, 997]
+  OK ConceptCompetency      [907, 1278, 1295, 1381]
+  OK QuestionCandidate      [1547, 510, 1934, 613]
+entities exact: 17/17
+
+== original key ellipses (17) ==
+  OK clo id                 [35.0, 529.0, 246.0, 593.0]
+  OK log id                 [2274.5, 1023.5, 2485.5, 1087.5]
+  OK user id                [1634.5, 255.5, 1845.5, 319.5]
+  OK role id                [354.5, 255.5, 565.5, 319.5]
+  OK gap id                 [1634.5, 1407.5, 1845.5, 1471.5]
+  OK cache id               [354.5, 1407.5, 565.5, 1471.5]
+  OK rubric id              [2274.5, 35.0, 2485.5, 99.0]
+  OK option id              [2594.5, 913.0, 2805.5, 977.0]
+  OK account id             [994.5, 35.0, 1205.5, 99.0]
+  OK session id             [1314.5, 913.0, 1525.5, 977.0]
+  OK dataset id             [2914.5, 639.5, 3125.5, 703.5]
+  OK attempt id             [2914.5, 1407.5, 3125.5, 1471.5]
+  OK concept id             [674.5, 913.0, 885.5, 977.0]
+  OK question id            [1954.5, 529.0, 2165.5, 593.0]
+  OK candidate id           [1634.5, 419.0, 1845.5, 483.0]
+  OK competency id          [994.5, 1407.5, 1205.5, 1471.5]
+  OK assessment id          [674.5, 529.0, 885.5, 593.0]
+keys exact: 17/17
+
+== original relationship diamonds (24) ==
+  OK has                    [1339.0, 138.0, 1501.0, 214.0]
+  OK logs                   [1979.0, 905.5, 2141.0, 981.5]
+  OK seeds                  [1339.0, 649.5, 1501.0, 725.5]
+  OK flags                  [1659.0, 1097.5, 1821.0, 1173.5]
+  OK offers                 [2619.0, 713.5, 2781.0, 789.5]
+  OK takes                  [1339.0, 521.5, 1501.0, 597.5]
+  OK yields                 [1339.0, 1097.5, 1501.0, 1173.5]
+  OK records                [2299.0, 1129.5, 2461.0, 1205.5]
+  OK authors                [1659.0, 330.0, 1821.0, 406.0]
+  OK maps to                [699.0, 713.5, 861.0, 789.5]
+  OK defines                [699.0, 330.0, 861.0, 406.0]
+  OK targets                [1019.0, 713.5, 1181.0, 789.5]
+  OK chosen in              [2299.0, 713.5, 2461.0, 789.5]
+  OK selected in            [2939.0, 1097.5, 3101.0, 1173.5]
+  OK assigned               [699.0, 138.0, 861.0, 214.0]
+  OK tested by              [2619.0, 521.5, 2781.0, 597.5]
+  OK configures             [1019.0, 330.0, 1181.0, 406.0]
+  OK graded by              [2299.0, 330.0, 2461.0, 406.0]
+  OK answered in            [2619.0, 985.5, 2781.0, 1061.5]
+  OK instantiates           [1339.0, 777.5, 1501.0, 853.5]
+  OK diagnosed in           [1339.0, 1193.5, 1501.0, 1269.5]
+  OK tagged with            [1659.0, 713.5, 1821.0, 789.5]
+  OK promoted to            [1979.0, 601.5, 2141.0, 677.5]
+  OK measured by            [1019.0, 1097.5, 1181.0, 1173.5]
+diamonds exact: 24/24
+
+== original labels (112) ==
+labels byte-identical: 112/112
+
+== original connector segments (120) ==
+original segments present: 120/120
+exact duplicates introduced: 0
+
+== added / changed elements ==
+  added entity     SystemSetting                [3600, 126, 3988, 229]
+  added entity     AssessmentQuestion           [3600, 894, 3988, 997]
+  added entity     AssessmentBlueprint          [3600, 1278, 3988, 1381]
+  added entity     AssessmentConcept            [700, 1000, 1000, 1103]
+  added ellipse    setting_key                  [3688.5, 35.0, 3899.5, 99.0]
+  added ellipse    assessment_id, question_id   [3629.0, 1019.0, 3959.0, 1093.0]
+  added ellipse    blueprint_id                 [3688.5, 1408.0, 3899.5, 1472.0]
+  added ellipse    assessment_id, concept_id    [690.0, 1128.0, 1010.0, 1192.0]
+  added diamond    updates                      [2906.0, 138.0, 3068.0, 214.0]
+  added diamond    pools                        [3339.0, 906.0, 3501.0, 982.0]
+  added diamond    versions                     [3339.0, 1122.0, 3501.0, 1198.0]
+  added diamond    uses                         [4019.0, 1122.0, 4181.0, 1198.0]
+  added legend_legacy                              [2540, 1555, 2592, 1600]
+  changed legend bbox [760, 1522, 3060, 1633] (left/top anchored; extended right)
+new labels: 27
+  T113 entity    'SystemSetting'
+  T114 entity    'AssessmentQuestion'
+  T115 legacy_tag 'LEGACY'
+  T116 entity    'AssessmentBlueprint'
+  T117 legacy_tag 'LEGACY'
+  T118 entity    'AssessmentConcept'
+  T119 legacy_tag 'LEGACY'
+  T120 legacy_tag 'LEGACY'
+  T121 key       'setting_key'
+  T122 key       'assessment_id, question_id'
+  T123 key       'blueprint_id'
+  T124 key       'assessment_id, concept_id'
+  T125 diamond   'updates'
+  T126 diamond   'pools'
+  T127 diamond   'versions'
+  T128 diamond   'uses'
+  T129 card      '1'
+  T130 card      'N'
+  T131 card      '1'
+  T132 card      'N'
+  T133 card      '1'
+  T134 card      'N'
+  T135 card      'N'
+  T136 card      '1'
+  T137 diamond   'assessment_concept'
+  T138 diamond   'junction'
+  T139 legend    'Legacy table (historical rows only)'
+
+moved/removed: none
+
+== layout proof ==
+OK every line segment is orthogonal
+OK no line segment enters an entity box
+OK no dangling line endpoints (133 polylines)
+OK every entity (21) has its key ellipse and key label
+OK all 8 new cardinality labels are within 80 px of a line end
+
+RESULT: PASS

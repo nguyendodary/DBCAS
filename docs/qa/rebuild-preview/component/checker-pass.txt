@@ -1,0 +1,157 @@
+rule-8 checker: docs/diagrams/rebuild/component/component-stage-a.svg
+expected labels: 139 (title + 6 flow labels + 132 box + 0 ellipse)
+svg: 139 text elements, 1161 line segments, 580 shape elements
+
+== (a) text label bboxes (139) ==
+[ 0] (   82.0,   69.0,  217.0,   89.0)  size 27.0  bold     Controller
+[ 1] (  226.0,   69.0,  763.6,   93.0)  size 26.0  regular  [Container: FastAPI routers, Pydantic validation]
+[ 2] (  167.0,  369.0,  248.0,  386.0)  size 23.0  bold     Service
+[ 3] (  276.0,  369.0,  552.1,  391.0)  size 24.0  regular  [Container: business logic]
+[ 4] (  168.0,  688.0,  279.0,  708.0)  size 22.0  bold     Repository
+[ 5] (  321.0,  688.0,  743.9,  712.0)  size 26.0  regular  [Container: SQLAlchemy data access]
+[ 6] (  857.0, 1071.0,  910.0, 1087.0)  size 22.0  regular  cache
+[ 7] (  459.0,  142.0,  618.0,  162.0)  size 27.0  bold     Assessment
+[ 8] (  786.0,  142.0,  935.0,  162.0)  size 27.0  bold     Curriculum
+[ 9] ( 1085.0,  142.0, 1278.0,  164.0)  size 27.0  bold     Question Bank
+[10] ( 1440.0,  142.0, 1564.0,  167.0)  size 27.0  bold     Analytics
+[11] ( 2076.0,  142.0, 2210.0,  162.0)  size 28.0  bold     Candidate
+[12] (  187.0,  143.0,  246.0,  162.0)  size 26.0  bold     Auth
+[13] ( 1769.0,  135.0, 1877.0,  162.0)  size 29.0  bold     Attempt
+[14] ( 1755.0,  163.0, 1889.0,  183.0)  size 28.0  bold     Controller
+[15] (  150.0,  166.0,  283.0,  186.0)  size 28.0  bold     Controller
+[16] (  471.0,  166.0,  604.0,  186.0)  size 28.0  bold     Controller
+[17] (  792.0,  166.0,  925.0,  186.0)  size 28.0  bold     Controller
+[18] ( 1113.0,  166.0, 1246.0,  186.0)  size 28.0  bold     Controller
+[19] ( 1434.0,  169.0, 1568.0,  189.0)  size 28.0  bold     Controller
+[20] ( 2076.0,  166.0, 2210.0,  186.0)  size 28.0  bold     Controller
+[21] (  143.0,  190.0,  292.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[22] (  464.0,  190.0,  613.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[23] (  785.0,  190.0,  934.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[24] ( 1106.0,  190.0, 1256.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[25] ( 1427.0,  190.0, 1577.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[26] ( 1749.0,  190.0, 1898.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[27] ( 2070.0,  190.0, 2219.0,  208.0)  size 19.0  bold     [FastAPI Router]
+[28] (  147.0,  209.0,  286.9,  229.0)  size 22.0  regular  Register, login,
+[29] (  446.0,  209.0,  626.1,  229.0)  size 22.0  regular  Assessment setup,
+[30] (  784.0,  209.0,  935.0,  228.0)  size 20.0  regular  CLOs, concepts,
+[31] ( 1088.0,  209.0, 1269.0,  229.0)  size 22.0  regular  Questions, options,
+[32] ( 1406.0,  209.0, 1594.0,  229.0)  size 22.0  regular  Competency profile,
+[33] ( 1732.0,  209.0, 1915.0,  225.0)  size 20.0  regular  Submit MCQ / SQL /
+[34] ( 2052.0,  209.0, 2240.9,  228.0)  size 21.0  regular  Review, approve or
+[35] (  152.0,  231.0,  278.9,  251.0)  size 22.0  regular  logout, admin
+[36] (  798.0,  230.0,  923.0,  249.0)  size 21.0  regular  CLO-concept
+[37] ( 1098.0,  231.0, 1260.8,  249.0)  size 21.0  regular  datasets, rubrics,
+[38] ( 2060.0,  230.0, 2225.0,  250.0)  size 22.0  regular  reject AI question
+[39] (  474.0,  231.0,  600.0,  249.0)  size 21.0  regular  start session,
+[40] ( 1438.0,  231.0, 1570.0,  250.0)  size 21.0  regular  gaps, history,
+[41] ( 1748.0,  231.0, 1893.0,  247.0)  size 22.0  regular  essay answers,
+[42] ( 1786.0,  249.0, 1860.0,  265.0)  size 20.0  regular  run SQL
+[43] (  444.0,  251.0,  628.0,  271.0)  size 22.0  regular  serve next question
+[44] ( 1118.0,  251.0, 1244.9,  269.0)  size 21.0  regular  concept tags
+[45] ( 1425.0,  252.0, 1580.9,  271.0)  size 21.0  regular  cohort analytics
+[46] ( 2090.0,  252.0, 2198.9,  267.0)  size 21.0  regular  candidates
+[47] (  158.0,  253.0,  273.0,  273.0)  size 22.0  regular  provisioning
+[48] (  812.0,  250.0,  908.0,  269.0)  size 21.0  regular  mappings
+[49] ( 1713.0,  442.0, 1818.0,  468.0)  size 28.0  bold     Grading
+[50] ( 1948.0,  442.0, 2167.0,  468.0)  size 28.0  bold     Adaptive Engine
+[51] ( 1085.0,  451.0, 1278.0,  473.0)  size 27.0  bold     Question Bank
+[52] ( 1377.0,  451.0, 1570.0,  479.0)  size 30.0  regular  Competency &
+[53] (  516.0,  461.0,  675.0,  481.0)  size 27.0  bold     Assessment
+[54] (  814.0,  461.0,  963.0,  481.0)  size 27.0  bold     Curriculum
+[55] ( 1717.0,  470.0, 1817.0,  490.0)  size 28.0  bold     Service
+[56] ( 2010.0,  470.0, 2110.0,  490.0)  size 28.0  bold     Service
+[57] (  272.0,  471.0,  331.0,  490.0)  size 26.0  bold     Auth
+[58] ( 1131.0,  475.0, 1231.0,  495.0)  size 28.0  bold     Service
+[59] ( 1392.0,  481.0, 1555.0,  507.0)  size 28.0  bold     Gap Service
+[60] (  489.0,  485.0,  702.9,  505.0)  size 27.0  bold     Session Service
+[61] (  838.0,  485.0,  938.0,  505.0)  size 28.0  bold     Service
+[62] ( 1671.0,  492.0, 1862.0,  511.0)  size 20.0  regular  MCQ key check, SQL
+[63] ( 1992.0,  490.0, 2122.0,  510.0)  size 22.0  regular  Next-question
+[64] (  253.0,  494.0,  353.0,  514.0)  size 28.0  bold     Service
+[65] ( 1109.0,  499.0, 1257.0,  514.0)  size 21.0  regular  Validated bank
+[66] ( 1410.0,  509.0, 1534.0,  525.0)  size 22.0  regular  Deterministic
+[67] (  531.0,  508.0,  657.0,  526.0)  size 21.0  regular  60-min timer,
+[68] (  792.0,  508.0,  986.0,  527.0)  size 21.0  regular  CLO / concept rules,
+[69] ( 1697.0,  513.0, 1837.9,  535.0)  size 23.0  regular  result grading,
+[70] ( 1960.0,  512.0, 2161.0,  530.0)  size 21.0  regular  selection, candidate
+[71] (  229.0,  518.0,  375.1,  537.0)  size 21.0  regular  JWT, password
+[72] ( 1120.0,  518.0, 1238.0,  538.0)  size 22.0  regular  curation, tag
+[73] ( 1390.0,  527.0, 1554.0,  547.0)  size 22.0  regular  competency, gap
+[74] (  534.0,  527.0,  655.0,  547.0)  size 23.0  regular  auto-submit,
+[75] (  782.0,  527.0,  988.0,  547.0)  size 22.0  regular  mapping confirmation
+[76] ( 1668.0,  537.0, 1858.9,  557.0)  size 22.0  regular  rubric essay grading
+[77] ( 1949.0,  532.0, 2174.0,  551.0)  size 21.0  regular  generation and checks
+[78] (  234.0,  537.0,  368.9,  556.0)  size 20.0  regular  hashing, RBAC
+[79] ( 1120.0,  540.0, 1240.0,  557.0)  size 23.0  regular  confirmation
+[80] ( 1381.0,  549.0, 1567.9,  568.0)  size 21.0  regular  flags, explanations
+[81] (  518.0,  549.0,  676.0,  568.0)  size 21.0  regular  13-question cap
+[82] (  799.0,  547.0,  981.0,  566.0)  size 21.0  regular  uses LLM Gateway
+[83] ( 1660.0,  559.0, 1877.1,  577.0)  size 21.0  regular  uses Sandbox Runner,
+[84] ( 1968.0,  553.0, 2149.9,  572.0)  size 20.0  regular  uses LLM Gateway,
+[85] ( 1092.0,  559.0, 1273.0,  578.0)  size 21.0  regular  uses LLM Gateway
+[86] ( 1385.0,  570.0, 1566.0,  589.0)  size 21.0  regular  uses LLM Gateway
+[87] ( 1703.0,  579.0, 1831.0,  598.0)  size 21.0  regular  LLM Gateway
+[88] ( 1979.0,  574.0, 2143.0,  589.0)  size 21.0  regular  Sandbox Runner
+[89] ( 1122.0,  761.0, 1240.0,  783.0)  size 27.0  bold     Question
+[90] (  249.0,  780.0,  353.0,  799.0)  size 26.0  bold     Account
+[91] (  516.0,  780.0,  675.0,  800.0)  size 27.0  bold     Assessment
+[92] (  814.0,  780.0,  963.0,  800.0)  size 27.0  bold     Curriculum
+[93] ( 1712.0,  776.0, 1820.0,  803.0)  size 29.0  bold     Attempt
+[94] ( 1109.0,  784.0, 1252.0,  810.0)  size 28.0  bold     Repository
+[95] ( 1392.0,  789.0, 1557.0,  814.0)  size 27.0  bold     Competency
+[96] ( 2006.0,  789.0, 2158.0,  809.0)  size 28.0  bold     Selection &
+[97] (  231.0,  803.0,  376.0,  828.0)  size 27.0  bold     Repository
+[98] (  524.0,  803.0,  669.0,  828.0)  size 27.0  bold     Repository
+[99] (  816.0,  803.0,  959.0,  829.0)  size 28.0  bold     Repository
+[100] ( 1695.0,  805.0, 1840.0,  830.0)  size 27.0  bold     Repository
+[101] ( 1134.0,  812.0, 1223.0,  831.0)  size 22.0  regular  Question,
+[102] ( 1402.0,  816.0, 1545.0,  842.0)  size 28.0  bold     Repository
+[103] ( 1937.0,  813.0, 2226.9,  839.0)  size 28.0  bold     Candidate Repository
+[104] (  234.0,  830.0,  372.0,  848.0)  size 21.0  regular  Account, Role,
+[105] (  534.0,  830.0,  658.0,  848.0)  size 21.0  regular  Assessment,
+[106] (  808.0,  831.0,  968.9,  850.0)  size 21.0  regular  CourseLearning-
+[107] ( 1095.0,  833.0, 1268.0,  852.0)  size 21.0  regular  QuestionConcept,
+[108] ( 1678.0,  832.0, 1848.9,  852.0)  size 22.0  regular  Attempt (answers,
+[109] ( 1370.0,  844.0, 1580.0,  863.0)  size 21.0  regular  ConceptCompetency,
+[110] ( 2018.0,  841.0, 2149.0,  860.0)  size 21.0  regular  SelectionLog,
+[111] (  239.0,  850.0,  355.0,  868.0)  size 20.0  regular  AccountRole,
+[112] (  494.0,  850.0,  698.9,  869.0)  size 21.0  regular  AssessmentConcept,
+[113] (  797.0,  852.0,  980.1,  871.0)  size 21.0  regular  Outcome, Concept,
+[114] ( 1126.0,  854.0, 1235.0,  873.0)  size 20.0  regular  MCQOption,
+[115] ( 1697.0,  854.0, 1831.1,  874.0)  size 22.0  regular  score, grading
+[116] ( 1990.0,  862.0, 2171.0,  879.0)  size 22.0  regular  QuestionCandidate
+[117] ( 1394.0,  865.0, 1554.0,  884.0)  size 21.0  regular  CompetencyGap
+[118] ( 1104.0,  875.0, 1260.0,  893.0)  size 20.0  regular  SQLTestDataset,
+[119] (  250.0,  870.0,  354.0,  885.0)  size 21.0  regular  UserProfile
+[120] (  498.0,  871.0,  694.0,  886.0)  size 21.0  regular  AssessmentSession
+[121] (  830.0,  873.0,  944.0,  892.0)  size 20.0  regular  CLOConcept
+[122] ( 1719.0,  876.0, 1811.0,  896.0)  size 22.0  regular  evidence)
+[123] ( 1151.0,  895.0, 1209.0,  910.0)  size 21.0  regular  Rubric
+[124] (  525.0, 1059.0,  699.0, 1084.0)  size 27.0  bold     LLM Gateway
+[125] ( 1576.0, 1059.0, 1799.0, 1079.0)  size 27.0  bold     Sandbox Runner
+[126] ( 1119.0, 1068.0, 1242.0, 1088.0)  size 28.0  bold     Database
+[127] (  510.0, 1086.0,  708.9, 1106.0)  size 22.0  regular  [Component: Python]
+[128] ( 1546.0, 1083.0, 1829.9, 1102.0)  size 21.0  regular  [Component: Python, Docker]
+[129] ( 1063.0, 1090.0, 1296.0, 1108.0)  size 19.0  regular  [Container: PostgreSQL 17]
+[130] (  463.0, 1108.0,  754.9, 1128.0)  size 22.0  regular  PII sanitizer, prompt templates,
+[131] ( 1519.0, 1104.0, 1848.0, 1124.0)  size 22.0  regular  Read-only transaction, 3 s timeout,
+[132] ( 1054.0, 1112.0, 1301.0, 1132.0)  size 22.0  regular  Stores all application data
+[133] (  467.0, 1130.0,  754.0, 1148.0)  size 20.0  regular  strict JSON schema, LLMCache
+[134] ( 1569.0, 1126.0, 1798.9, 1142.0)  size 22.0  regular  rollback after evaluation
+[135] ( 1597.0, 1314.0, 1775.0, 1336.0)  size 27.0  bold     SQL Sandbox
+[136] (  498.0, 1309.0,  730.0, 1329.0)  size 27.0  bold     LLM Provider API
+[137] (  527.0, 1332.0,  697.0, 1351.0)  size 21.0  regular  [External System]
+[138] ( 1550.0, 1341.0, 1817.0, 1356.0)  size 17.0  regular  [Container: Docker, PostgreSQL 17]
+-- pairwise text intersections --
+OK: no two text bboxes intersect
+
+== (b) text bbox vs foreign line segments ==
+OK: no text bbox intersects a foreign segment (0 own-line exemptions)
+
+== (c) label set vs expected list ==
+OK: 104 labels exactly match the expected list
+
+== (d) duplicate elements ==
+OK: 719 elements, each appears exactly once
+
+RESULT: PASS (checks a/b/c/d all clean)

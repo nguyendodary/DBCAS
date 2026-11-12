@@ -5,6 +5,7 @@ from urllib.parse import unquote, urlsplit
 
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from .credential_policy import is_demo_credential
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 
@@ -21,6 +22,7 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = Field(default=60, ge=1, le=480)
     access_session_max_minutes: int = Field(default=480, ge=60, le=1440)
+    refresh_token_expire_days: int = Field(default=7, ge=1, le=30)
     cors_origins: list[str] = ["http://localhost:5173"]
 
     # Login throttle (brute-force resistance): per (email, client_ip)
@@ -40,17 +42,20 @@ class Settings(BaseSettings):
         "postgresql://postgres:change_me_sandbox@localhost:5433/postgres"
     )
     sandbox_learner_role: str = "learner_ro"
-    sandbox_statement_timeout_ms: int = 3000
+    sandbox_statement_timeout_ms: int = Field(default=3000, ge=1, le=3000)
     sandbox_max_rows: int = 1000
     sandbox_max_sql_bytes: int = 16000
     sandbox_max_result_bytes: int = Field(default=262144, ge=1024, le=1048576)
     sandbox_max_cell_bytes: int = Field(default=16384, ge=256, le=65536)
     sandbox_max_setup_bytes: int = 65536
     sandbox_connect_timeout_seconds: int = 5
+    sandbox_mode: Literal["shared", "ephemeral"] = "shared"
+    sandbox_container_image: str = Field(default="dbcas-sql-ephemeral:local", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9._/:@-]+$")
+    sandbox_container_lifetime_seconds: int = Field(default=45, ge=10, le=90)
 
     # Social sign-in (OAuth 2.0 authorization-code flow, backend-managed).
     # Empty client id = provider disabled; /auth/oauth/{provider}/start then
-    # answers 503 oauth_not_configured and the SPA disables the button.
+    # answers 503 oauth_not_configured; the SPA retains a safe email notice.
     # The SPA origin must serve /api/* to this backend (vite proxy in dev,
     # same-origin reverse proxy in production) because the OAuth state and
     # handoff cookies are scoped to it.
@@ -68,6 +73,27 @@ class Settings(BaseSettings):
         "http://localhost:5173/api/v1/auth/oauth/github/callback"
     )
 
+    # Self-service password recovery (services/password_reset.py). SMTP is
+    # optional: when SMTP_HOST or SMTP_FROM is empty the reset endpoints
+    # answer password_reset_unavailable and every other auth flow is
+    # unaffected. Development uses the `mailpit` compose service
+    # (127.0.0.1:1026 SMTP / 127.0.0.1:8026 UI); production must configure
+    # a real relay.
+    smtp_host: str = ""
+    smtp_port: int = Field(default=1026, ge=1, le=65535)
+    smtp_from: str = ""
+    smtp_username: str = ""
+    smtp_password: str = ""
+    smtp_starttls: bool = False
+    smtp_ssl: bool = False
+    smtp_timeout_seconds: float = Field(default=10, ge=1, le=60)
+    password_reset_token_ttl_minutes: int = Field(default=15, ge=1, le=120)
+    # Every request counts against the window (not only failures).
+    password_reset_rate_limit_attempts: int = Field(default=5, ge=1)
+    password_reset_ip_rate_limit_attempts: int = Field(default=20, ge=1)
+    password_reset_confirm_rate_limit_attempts: int = Field(default=10, ge=1)
+    password_reset_rate_limit_window_seconds: int = Field(default=900, ge=60)
+
     # External LLM provider (Task 3.4). Any OpenAI-compatible
     # chat-completions endpoint works; empty key = AI features disabled
     # gracefully (llm_not_configured), the rest of the app unaffected.
@@ -76,13 +102,20 @@ class Settings(BaseSettings):
     llm_model: str = ""
     llm_temperature: float = 0.1
     llm_seed: Optional[int] = 42
-    llm_timeout_seconds: float = 30.0
-    llm_max_retries: int = 2
-    llm_backoff_seconds: float = 0.5
+    llm_timeout_seconds: float = Field(default=90.0, ge=1, le=120, allow_inf_nan=False)
+    llm_max_retries: int = Field(default=2, ge=0, le=3)
+    llm_backoff_seconds: float = Field(default=0.5, ge=0, le=10, allow_inf_nan=False)
     llm_prompt_version: str = "2026-10-11-v1"
+    # Separate opt-in: existing grading credentials do not enable translation.
+    question_translation_enabled: bool = False
     grading_job_max_attempts: int = 3
+    auto_grade_essays: bool = False
     grading_job_retry_seconds: int = 30
     session_sweep_seconds: int = 5
+    prompt_builder_model_path: str = ""
+    prompt_builder_timeout_seconds: int = Field(default=8, ge=1, le=30)
+    evaluation_fake_delay_seconds: float = Field(default=0, ge=0, le=15)
+    evaluation_fake_error: bool = False
     database_pool_size: int = 10
     database_max_overflow: int = 20
     database_connect_timeout_seconds: int = Field(default=5, ge=2, le=30)
@@ -94,6 +127,10 @@ class Settings(BaseSettings):
         # Report key names only: configuration errors must never disclose values.
         if self.deployment_mode == "development":
             return self
+        for key in ('jwt_secret', 'smtp_password', 'google_client_secret', 'github_client_secret', 'llm_api_key'):
+            value = getattr(self, key)
+            if value and is_demo_credential(value):
+                raise ValueError(f"Unsafe {key.upper()}: known demo credentials are forbidden outside development")
         unsafe = ("change", "replace", "placeholder", "example", "your-", "test-secret")
         secret = self.jwt_secret.strip()
         if len(secret.encode()) < 32 or any(s in secret.lower() for s in unsafe):
@@ -105,7 +142,8 @@ class Settings(BaseSettings):
         for key in ("database_url", "sandbox_url", "sandbox_admin_url"):
             parsed = urlsplit(getattr(self, key))
             password = unquote(parsed.password or "")
-            if len(password) < 16 or password.lower() in defaults or any(s in password.lower() for s in unsafe):
+            if (is_demo_credential(password) or len(password) < 16 or password.lower() in defaults
+                    or any(s in password.lower() for s in unsafe)):
                 raise ValueError(f"Unsafe {key.upper()}: configure a distinct non-default database password")
             endpoints.append((parsed.hostname, parsed.port or 5432))
         if endpoints[0] in endpoints[1:]:
@@ -116,6 +154,8 @@ class Settings(BaseSettings):
             raise ValueError("Staging/production requires HTTPS FRONTEND_URL and explicit HTTPS CORS_ORIGINS")
         if not 1 <= self.sandbox_statement_timeout_ms <= 3000:
             raise ValueError("SANDBOX_STATEMENT_TIMEOUT_MS must be at most 3000")
+        if self.smtp_host.strip().lower() == "mailpit":
+            raise ValueError("SMTP_HOST must not be the development Mailpit service outside development")
         return self
 
     @field_validator("database_url")

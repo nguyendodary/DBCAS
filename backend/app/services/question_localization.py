@@ -36,6 +36,10 @@ def source_fingerprint(question) -> str:
             for r in sorted(question.rubrics, key=lambda r: r.level_name)
         ],
     }
+    # Preserve hashes for every existing English-source translation.
+    original_locale = getattr(question, "original_locale", None) or "en"
+    if original_locale != "en":
+        source["original_locale"] = original_locale
     raw = json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
@@ -53,8 +57,8 @@ def translation_problems(question, translation) -> list[str]:
     option_texts = get("option_texts") or {}
     translated_rubrics = get("rubrics") or {}
     problems = []
-    if get("locale") == "en":
-        problems.append("English is canonical; store translations under a non-English locale")
+    if get("locale") == (getattr(question, "original_locale", None) or "en"):
+        problems.append("A translation must use a different language from the original")
     prompt = get("prompt")
     if not isinstance(prompt, str) or not prompt.strip():
         problems.append("translated prompt is required")
@@ -122,10 +126,11 @@ def upsert_question_translations(db, question, translations) -> None:
         return
     db.flush()
     db.expire(question, ["options", "rubrics"])
+    locales = [item.locale if hasattr(item, "locale") else item.get("locale") for item in translations]
+    if len(locales) != len(set(locales)):
+        raise AppError(422, "invalid_question_translation", "Translation locales must be unique")
     for item in translations or []:
         translation = item.model_dump() if hasattr(item, "model_dump") else dict(item)
-        if translation.get("locale") == "en":
-            raise AppError(422, "invalid_question_translation", "English is the canonical question content")
         problems = translation_problems(question, translation)
         if problems:
             raise AppError(
@@ -152,7 +157,8 @@ def upsert_question_translations(db, question, translations) -> None:
 
 
 def display_content(question, locale: str) -> tuple[dict, str]:
-    """Return a requested display locale, falling back to canonical English."""
+    """Return reviewed display content, falling back to the original language."""
+    original_locale = getattr(question, "original_locale", None) or "en"
     canonical = {
         "prompt": question.prompt,
         "explanation": question.explanation,
@@ -162,12 +168,12 @@ def display_content(question, locale: str) -> tuple[dict, str]:
             for r in question.rubrics
         },
     }
-    if locale == "en":
-        return canonical, "en"
+    if locale == original_locale:
+        return canonical, original_locale
     row = next((item for item in question.translations if item.locale == locale), None)
     if row is None or not translation_is_current(question, row):
-        logger.warning("Question %s is missing a current %s translation; using English", question.question_id, locale)
-        return canonical, "en"
+        logger.warning("Question %s is missing a current %s translation; using %s", question.question_id, locale, original_locale)
+        return canonical, original_locale
     return {
         "prompt": row.prompt,
         "explanation": row.explanation,

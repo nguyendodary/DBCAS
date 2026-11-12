@@ -1,0 +1,25 @@
+{
+ "figure": "Module View (Architecture Fig 5)",
+ "round": "F3 owner fix 2026-11-09",
+ "reason": "line 1 of the Attempt / Evidence Repository label was 6 px from the white box border",
+ "ops": [
+  {
+   "id": "X038",
+   "old": "Attempt / Evidence",
+   "new": [
+    "Attempt /",
+    "Evidence",
+    "Repository"
+   ],
+   "size": 34,
+   "line_tops": [
+    1131.0,
+    1169.0,
+    1207.0
+   ],
+   "center_x": 1965.0,
+   "box": "S16 same bbox [1830,1092,2100,1278] unchanged"
+  }
+ ],
+ "note": "Shapes, lines, arrowheads and all other labels byte-identical to spec-stage-a.json (proved by check_rebuild_delta_f3.py)."
+}

@@ -4,7 +4,6 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
-.shared-content-*.tmp
 
 # Node
 node_modules/
@@ -13,12 +12,43 @@ coverage/
 test-results/
 playwright-report/
 
+# The PlantUML jar is fetched on demand by `npm run diagrams:setup`, checksum
+# verified and never committed.
+tools/
+
 # Env / secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+client_secret*.json
+credentials*.json
+ai/output/
 *.env.local
 
 # Local review artifacts
 _review/
+.playwright-mcp/
+docs/_backup-docx-*/
+~$*
+
+# Browser captures can contain authentication headers, cookies and tokens.
+# Keep only deliberately selected, redacted screenshots and short summaries.
+docs/qa/**/raw/
+docs/qa/**/*.log
+docs/qa/**/*.zip
+**/trace.zip
+docs/deliverables/*.pptx
+*.dump
+*.backup
+
+# Raw database snapshots and activation logs stay local: dumps contain
+# account data, and logs are reproducible from the committed evidence.
+_content/evidence/
+_content/expansion-20261024/backups/
+_content/expansion-20261024/generated/*.log
+_content/expansion-20261024/generated/activation-drill/
 
 # OS / editors
 .DS_Store

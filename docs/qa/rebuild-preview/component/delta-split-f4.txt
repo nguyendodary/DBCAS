@@ -1,0 +1,10 @@
+F4 component split delta proof
+Stage B: 29 shapes, 25 lines, 112 texts
+page 08a: 18 shapes, 15 lines, 67 texts, canvas {'w': 1400, 'h': 980}
+page 08b: 15 shapes, 12 lines, 54 texts, canvas {'w': 1400, 'h': 980}
+unique card shapes kept: 26/26
+unique label ids kept: 111/112 (B047 merged into B040)
+connector objects: 25 -> 27 (extra objects are rule-8 cuts); arrowhead tips: 24 -> 24
+  shape S05 allowed resize 262.0x167.0 -> 300.0x185.0
+  text B047 merged into B040
+RESULT: PASS

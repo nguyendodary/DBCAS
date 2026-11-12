@@ -1,0 +1,121 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\dm_easy.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-25T10:17:15.295042+00:00",
+  "questions": [
+    {
+      "key": "dm-easy-default-values",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        561
+      ]
+    },
+    {
+      "key": "dm-easy-insert-select",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        562
+      ]
+    },
+    {
+      "key": "dm-easy-update-null-flag",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        563
+      ]
+    },
+    {
+      "key": "dm-easy-insert-returning",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        564
+      ]
+    },
+    {
+      "key": "dm-easy-merge-purpose",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-MERGE"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        565
+      ]
+    },
+    {
+      "key": "dm-easy-multi-row-atomicity",
+      "question_type": "mcq",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        566
+      ]
+    },
+    {
+      "key": "dm-easy-inserted-state",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        567
+      ]
+    },
+    {
+      "key": "dm-easy-insert-select-rows",
+      "question_type": "sql",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        568
+      ]
+    },
+    {
+      "key": "dm-easy-returning",
+      "question_type": "essay",
+      "difficulty_level": 2,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "status": "skipped_existing_prompt",
+      "existing_question_ids": [
+        569
+      ]
+    }
+  ],
+  "finished_at": "2026-10-25T10:17:17.726187+00:00",
+  "summary": {
+    "skipped_existing_prompt": 9
+  }
+}

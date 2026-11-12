@@ -1,0 +1,712 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3440" height="2080" viewBox="0 0 3440 2080">
+<rect width="3440" height="2080" fill="#FFFFFF"/>
+<rect x="114" y="98" width="449" height="201" fill="#B8B8B8"/>
+<rect x="114" y="370" width="449" height="201" fill="#B8B8B8"/>
+<rect x="114" y="642" width="449" height="336" fill="#B8B8B8"/>
+<rect x="114" y="1106" width="449" height="336" fill="#B8B8B8"/>
+<rect x="668" y="98" width="448" height="291" fill="#B8B8B8"/>
+<rect x="668" y="466" width="448" height="380" fill="#B8B8B8"/>
+<rect x="668" y="930" width="448" height="291" fill="#B8B8B8"/>
+<rect x="668" y="1298" width="448" height="560" fill="#B8B8B8"/>
+<rect x="1222" y="98" width="448" height="336" fill="#B8B8B8"/>
+<rect x="1222" y="514" width="448" height="291" fill="#B8B8B8"/>
+<rect x="1222" y="882" width="448" height="425" fill="#B8B8B8"/>
+<rect x="1222" y="1410" width="448" height="291" fill="#B8B8B8"/>
+<rect x="1775" y="98" width="448" height="560" fill="#B8B8B8"/>
+<rect x="1775" y="770" width="448" height="380" fill="#B8B8B8"/>
+<rect x="1775" y="1266" width="448" height="380" fill="#B8B8B8"/>
+<rect x="2329" y="98" width="448" height="291" fill="#B8B8B8"/>
+<rect x="2329" y="482" width="448" height="336" fill="#B8B8B8"/>
+<rect x="2329" y="914" width="448" height="336" fill="#B8B8B8"/>
+<rect x="2882" y="98" width="449" height="560" fill="#B8B8B8"/>
+<rect x="2882" y="770" width="449" height="425" fill="#B8B8B8"/>
+<rect x="2882" y="1298" width="449" height="336" fill="#B8B8B8"/>
+<rect x="111" y="95" width="449" height="201" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="112.5" y="96.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="111" y1="161" x2="560" y2="161" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="112" y1="206" x2="559" y2="206" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="251" x2="559" y2="251" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="111" y="367" width="449" height="201" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="112.5" y="368.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="111" y1="433" x2="560" y2="433" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="112" y1="478" x2="559" y2="478" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="523" x2="559" y2="523" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="111" y="639" width="449" height="336" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="112.5" y="640.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="111" y1="705" x2="560" y2="705" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="112" y1="750" x2="559" y2="750" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="795" x2="559" y2="795" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="840" x2="559" y2="840" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="885" x2="559" y2="885" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="930" x2="559" y2="930" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="111" y="1103" width="449" height="336" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="112.5" y="1104.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="111" y1="1169" x2="560" y2="1169" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="112" y1="1214" x2="559" y2="1214" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="1259" x2="559" y2="1259" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="1304" x2="559" y2="1304" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="1349" x2="559" y2="1349" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="112" y1="1394" x2="559" y2="1394" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="665" y="95" width="448" height="291" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="666.5" y="96.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="665" y1="161" x2="1113" y2="161" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="666" y1="206" x2="1112" y2="206" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="251" x2="1112" y2="251" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="296" x2="1112" y2="296" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="341" x2="1112" y2="341" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="665" y="463" width="448" height="380" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="666.5" y="464.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="665" y1="529" x2="1113" y2="529" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="666" y1="573.86" x2="1112" y2="573.86" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="618.71" x2="1112" y2="618.71" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="663.57" x2="1112" y2="663.57" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="708.43" x2="1112" y2="708.43" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="753.29" x2="1112" y2="753.29" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="798.14" x2="1112" y2="798.14" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="665" y="927" width="448" height="291" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="666.5" y="928.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="665" y1="993" x2="1113" y2="993" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="666" y1="1038" x2="1112" y2="1038" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1083" x2="1112" y2="1083" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1128" x2="1112" y2="1128" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1173" x2="1112" y2="1173" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="665" y="1295" width="448" height="560" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="666.5" y="1296.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="665" y1="1361" x2="1113" y2="1361" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="666" y1="1405.91" x2="1112" y2="1405.91" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1450.82" x2="1112" y2="1450.82" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1495.73" x2="1112" y2="1495.73" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1540.64" x2="1112" y2="1540.64" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1585.55" x2="1112" y2="1585.55" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1630.45" x2="1112" y2="1630.45" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1675.36" x2="1112" y2="1675.36" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1720.27" x2="1112" y2="1720.27" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1765.18" x2="1112" y2="1765.18" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="666" y1="1810.09" x2="1112" y2="1810.09" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1219" y="95" width="448" height="336" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1220.5" y="96.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1219" y1="161" x2="1667" y2="161" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1220" y1="206" x2="1666" y2="206" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="251" x2="1666" y2="251" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="296" x2="1666" y2="296" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="341" x2="1666" y2="341" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="386" x2="1666" y2="386" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1219" y="511" width="448" height="291" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1220.5" y="512.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1219" y1="577" x2="1667" y2="577" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1220" y1="622" x2="1666" y2="622" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="667" x2="1666" y2="667" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="712" x2="1666" y2="712" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="757" x2="1666" y2="757" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1219" y="879" width="448" height="425" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1220.5" y="880.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1219" y1="945" x2="1667" y2="945" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1220" y1="989.88" x2="1666" y2="989.88" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1034.75" x2="1666" y2="1034.75" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1079.62" x2="1666" y2="1079.62" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1124.5" x2="1666" y2="1124.5" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1169.38" x2="1666" y2="1169.38" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1214.25" x2="1666" y2="1214.25" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1259.12" x2="1666" y2="1259.12" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1219" y="1407" width="448" height="291" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1220.5" y="1408.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1219" y1="1473" x2="1667" y2="1473" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1220" y1="1518" x2="1666" y2="1518" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1563" x2="1666" y2="1563" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1608" x2="1666" y2="1608" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1220" y1="1653" x2="1666" y2="1653" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1772" y="95" width="448" height="560" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1773.5" y="96.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1772" y1="161" x2="2220" y2="161" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1773" y1="205.91" x2="2219" y2="205.91" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="250.82" x2="2219" y2="250.82" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="295.73" x2="2219" y2="295.73" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="340.64" x2="2219" y2="340.64" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="385.55" x2="2219" y2="385.55" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="430.45" x2="2219" y2="430.45" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="475.36" x2="2219" y2="475.36" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="520.27" x2="2219" y2="520.27" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="565.18" x2="2219" y2="565.18" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="610.09" x2="2219" y2="610.09" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1772" y="767" width="448" height="380" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1773.5" y="768.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1772" y1="833" x2="2220" y2="833" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1773" y1="877.86" x2="2219" y2="877.86" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="922.71" x2="2219" y2="922.71" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="967.57" x2="2219" y2="967.57" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1012.43" x2="2219" y2="1012.43" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1057.29" x2="2219" y2="1057.29" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1102.14" x2="2219" y2="1102.14" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1772" y="1263" width="448" height="380" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1773.5" y="1264.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="1772" y1="1329" x2="2220" y2="1329" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1773" y1="1373.86" x2="2219" y2="1373.86" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1418.71" x2="2219" y2="1418.71" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1463.57" x2="2219" y2="1463.57" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1508.43" x2="2219" y2="1508.43" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1553.29" x2="2219" y2="1553.29" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1773" y1="1598.14" x2="2219" y2="1598.14" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2326" y="95" width="448" height="291" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2327.5" y="96.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="2326" y1="161" x2="2774" y2="161" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2327" y1="206" x2="2773" y2="206" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="251" x2="2773" y2="251" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="296" x2="2773" y2="296" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="341" x2="2773" y2="341" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2326" y="479" width="448" height="336" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2327.5" y="480.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="2326" y1="545" x2="2774" y2="545" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2327" y1="590" x2="2773" y2="590" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="635" x2="2773" y2="635" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="680" x2="2773" y2="680" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="725" x2="2773" y2="725" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="770" x2="2773" y2="770" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2326" y="911" width="448" height="336" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2327.5" y="912.5" width="445" height="64" fill="#E8E8E8"/>
+<line x1="2326" y1="977" x2="2774" y2="977" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2327" y1="1022" x2="2773" y2="1022" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="1067" x2="2773" y2="1067" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="1112" x2="2773" y2="1112" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="1157" x2="2773" y2="1157" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2327" y1="1202" x2="2773" y2="1202" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2879" y="95" width="449" height="560" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2880.5" y="96.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="2879" y1="161" x2="3328" y2="161" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2880" y1="205.91" x2="3327" y2="205.91" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="250.82" x2="3327" y2="250.82" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="295.73" x2="3327" y2="295.73" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="340.64" x2="3327" y2="340.64" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="385.55" x2="3327" y2="385.55" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="430.45" x2="3327" y2="430.45" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="475.36" x2="3327" y2="475.36" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="520.27" x2="3327" y2="520.27" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="565.18" x2="3327" y2="565.18" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="610.09" x2="3327" y2="610.09" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2879" y="767" width="449" height="425" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2880.5" y="768.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="2879" y1="833" x2="3328" y2="833" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2880" y1="877.88" x2="3327" y2="877.88" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="922.75" x2="3327" y2="922.75" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="967.62" x2="3327" y2="967.62" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1012.5" x2="3327" y2="1012.5" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1057.38" x2="3327" y2="1057.38" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1102.25" x2="3327" y2="1102.25" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1147.12" x2="3327" y2="1147.12" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2879" y="1295" width="449" height="336" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2880.5" y="1296.5" width="446" height="64" fill="#E8E8E8"/>
+<line x1="2879" y1="1361" x2="3328" y2="1361" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2880" y1="1406" x2="3327" y2="1406" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1451" x2="3327" y2="1451" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1496" x2="3327" y2="1496" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1541" x2="3327" y2="1541" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2880" y1="1586" x2="3327" y2="1586" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="133" y1="199.5" x2="213" y2="199.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="132" y1="471.5" x2="265" y2="471.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="133" y1="516.5" x2="213" y2="516.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="133" y1="743.5" x2="220" y2="743.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="132" y1="1207.5" x2="238" y2="1207.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="686" y1="199.5" x2="819" y2="199.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="686" y1="567.36" x2="757" y2="567.36" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="686" y1="1031.5" x2="757" y2="1031.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="686" y1="1076.5" x2="819" y2="1076.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="686" y1="1399.41" x2="866" y2="1399.41" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1240" y1="199.5" x2="1373" y2="199.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1240" y1="615.5" x2="1382" y2="615.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1240" y1="660.5" x2="1373" y2="660.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1240" y1="983.38" x2="1394" y2="983.38" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1240" y1="1511.5" x2="1420" y2="1511.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1240" y1="1556.5" x2="1373" y2="1556.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1793" y1="199.41" x2="1935" y2="199.41" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1794" y1="871.36" x2="1866" y2="871.36" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1793" y1="1367.36" x2="1922" y2="1367.36" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2347" y1="199.5" x2="2461" y2="199.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2347" y1="583.5" x2="2471" y2="583.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2348" y1="1015.5" x2="2454" y2="1015.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2900" y1="199.41" x2="3028" y2="199.41" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2900" y1="871.38" x2="3084" y2="871.38" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2900" y1="1399.5" x2="2980" y2="1399.5" stroke="#1A1A1A" stroke-width="2"/>
+<g fill="none" stroke="#1A1A1A" stroke-width="2.5">
+<line x1="2255" y1="89" x2="2819" y2="89"/>
+<line x1="564" y1="185" x2="596" y2="185"/>
+<line x1="626" y1="185" x2="661" y2="185"/>
+<line x1="1117" y1="185" x2="1150" y2="185"/>
+<line x1="1180" y1="185" x2="1215" y2="185"/>
+<line x1="1671" y1="185" x2="1704" y2="185"/>
+<line x1="1733" y1="185" x2="1768" y2="185"/>
+<line x1="2224" y1="185" x2="2265" y2="185"/>
+<line x1="2778" y1="185" x2="2811" y2="185"/>
+<line x1="2255" y1="230" x2="2322" y2="230"/>
+<line x1="2824" y1="230" x2="2875" y2="230"/>
+<line x1="2816" y1="274.5" x2="2875" y2="274.5"/>
+<line x1="2808" y1="364.5" x2="2875" y2="364.5"/>
+<line x1="1147" y1="444" x2="1712" y2="444"/>
+<line x1="564" y1="457" x2="629" y2="457"/>
+<line x1="564" y1="502" x2="596" y2="502"/>
+<line x1="1709" y1="543.5" x2="1768" y2="543.5"/>
+<line x1="1117" y1="553" x2="1150" y2="553"/>
+<line x1="1671" y1="601" x2="1736" y2="601"/>
+<line x1="2255" y1="614" x2="2322" y2="614"/>
+<line x1="1671" y1="646" x2="1704" y2="646"/>
+<line x1="1701" y1="761" x2="2257" y2="761"/>
+<line x1="564" y1="774" x2="629" y2="774"/>
+<line x1="626" y1="777" x2="661" y2="777"/>
+<line x1="2255" y1="828" x2="2819" y2="828"/>
+<line x1="2224" y1="902" x2="2257" y2="902"/>
+<line x1="2808" y1="902" x2="2875" y2="902"/>
+<line x1="2816" y1="946.5" x2="2875" y2="946.5"/>
+<line x1="1733" y1="991.5" x2="1768" y2="991.5"/>
+<line x1="1671" y1="1014" x2="1704" y2="1014"/>
+<line x1="1117" y1="1017" x2="1150" y2="1017"/>
+<line x1="2263" y1="1046" x2="2322" y2="1046"/>
+<line x1="1117" y1="1062" x2="1182" y2="1062"/>
+<line x1="1671" y1="1238" x2="1736" y2="1238"/>
+<line x1="2224" y1="1353" x2="2827" y2="1353"/>
+<line x1="1117" y1="1385" x2="1150" y2="1385"/>
+<line x1="1147" y1="1398" x2="1768" y2="1398"/>
+<line x1="2255" y1="1430" x2="2875" y2="1430"/>
+<line x1="1709" y1="1442.5" x2="1768" y2="1442.5"/>
+<line x1="2816" y1="1474.5" x2="2875" y2="1474.5"/>
+<line x1="1148" y1="1497" x2="1215" y2="1497"/>
+<line x1="1671" y1="1542" x2="1704" y2="1542"/>
+<line x1="626" y1="1788.5" x2="661" y2="1788.5"/>
+<line x1="2255.5" y1="88" x2="2255.5" y2="616"/>
+<line x1="2817" y1="88" x2="2817" y2="276"/>
+<line x1="577" y1="171" x2="577" y2="200"/>
+<line x1="647.5" y1="171" x2="647.5" y2="200"/>
+<line x1="1130.5" y1="171" x2="1130.5" y2="200"/>
+<line x1="1201" y1="171" x2="1201" y2="200"/>
+<line x1="1684.5" y1="171" x2="1684.5" y2="200"/>
+<line x1="1754.5" y1="171" x2="1754.5" y2="200"/>
+<line x1="2237.5" y1="171" x2="2237.5" y2="200"/>
+<line x1="2791.5" y1="171" x2="2791.5" y2="200"/>
+<line x1="594.5" y1="184" x2="594.5" y2="504"/>
+<line x1="626.5" y1="184" x2="626.5" y2="1790"/>
+<line x1="628" y1="184" x2="628" y2="779"/>
+<line x1="1148" y1="184" x2="1148" y2="446"/>
+<line x1="1180.5" y1="184" x2="1180.5" y2="1064"/>
+<line x1="1702" y1="184" x2="1702" y2="1544"/>
+<line x1="1734" y1="184" x2="1734" y2="1240"/>
+<line x1="2263.5" y1="184" x2="2263.5" y2="1048"/>
+<line x1="2809" y1="184" x2="2809" y2="366"/>
+<line x1="2825" y1="229" x2="2825" y2="1355"/>
+<line x1="1710" y1="443" x2="1710" y2="1444"/>
+<line x1="1131" y1="539" x2="1131" y2="568"/>
+<line x1="1148.5" y1="552" x2="1148.5" y2="1019"/>
+<line x1="577" y1="760" x2="577" y2="789"/>
+<line x1="2255.5" y1="760" x2="2255.5" y2="830"/>
+<line x1="2817" y1="827" x2="2817" y2="1476"/>
+<line x1="2255.5" y1="901" x2="2255.5" y2="1432"/>
+<line x1="2809" y1="901" x2="2809" y2="1355"/>
+<line x1="1684" y1="1224" x2="1684" y2="1253"/>
+<line x1="2237.5" y1="1339" x2="2237.5" y2="1368"/>
+<line x1="1130.5" y1="1371" x2="1130.5" y2="1400"/>
+<line x1="1147" y1="1384" x2="1147" y2="1400"/>
+<line x1="1148.5" y1="1384" x2="1148.5" y2="1499"/>
+<line x1="2321.5" y1="217.9" x2="2302.4" y2="228.7"/>
+<line x1="2874.3" y1="218.5" x2="2855.5" y2="228.8"/>
+<line x1="2302.4" y1="231.2" x2="2321.2" y2="241.6"/>
+<line x1="2856.4" y1="231.3" x2="2874.3" y2="241.4"/>
+<line x1="2874.6" y1="263" x2="2855.4" y2="273.8"/>
+<line x1="2854.5" y1="275.2" x2="2874.4" y2="286.2"/>
+<line x1="2874.4" y1="352.8" x2="2854.5" y2="363.8"/>
+<line x1="2855.4" y1="365.2" x2="2874.6" y2="376"/>
+<line x1="563.5" y1="444.9" x2="582.6" y2="455.7"/>
+<line x1="583.6" y1="458.2" x2="563.5" y2="469.1"/>
+<line x1="563.5" y1="489.9" x2="583.6" y2="500.8"/>
+<line x1="582.6" y1="503.3" x2="563.5" y2="514.1"/>
+<line x1="1767.5" y1="531.9" x2="1747.5" y2="542.9"/>
+<line x1="1747.5" y1="544.1" x2="1767.5" y2="555.1"/>
+<line x1="1670.5" y1="588.9" x2="1689.7" y2="599.5"/>
+<line x1="1690.6" y1="602.2" x2="1670.6" y2="613.2"/>
+<line x1="2321.5" y1="601.9" x2="2302.4" y2="612.7"/>
+<line x1="2302.4" y1="615.2" x2="2321.2" y2="625.6"/>
+<line x1="1670.6" y1="633.8" x2="1690.6" y2="644.8"/>
+<line x1="1689.7" y1="647.5" x2="1670.5" y2="658.1"/>
+<line x1="660.3" y1="765.6" x2="641.4" y2="775.8"/>
+<line x1="641.4" y1="778.2" x2="660.5" y2="789"/>
+<line x1="2223.8" y1="889.4" x2="2243.7" y2="900.5"/>
+<line x1="2874.3" y1="890.5" x2="2855.5" y2="900.8"/>
+<line x1="2243.6" y1="903.2" x2="2223.7" y2="914.4"/>
+<line x1="2856.4" y1="903.3" x2="2874.3" y2="913.4"/>
+<line x1="2874.6" y1="935" x2="2855.4" y2="945.8"/>
+<line x1="2854.5" y1="947.2" x2="2874.4" y2="958.2"/>
+<line x1="1767.5" y1="979.9" x2="1747.5" y2="990.9"/>
+<line x1="1747.5" y1="992.1" x2="1767.5" y2="1003.1"/>
+<line x1="1670.6" y1="1001.8" x2="1690.6" y2="1012.8"/>
+<line x1="1116.6" y1="1004.8" x2="1136.6" y2="1015.8"/>
+<line x1="1689.7" y1="1015.5" x2="1670.5" y2="1026.1"/>
+<line x1="1136.6" y1="1018.3" x2="1116.7" y2="1029.5"/>
+<line x1="2321.5" y1="1033.9" x2="2302.4" y2="1044.7"/>
+<line x1="2302.4" y1="1047.2" x2="2321.2" y2="1057.6"/>
+<line x1="1116.7" y1="1049.5" x2="1136.6" y2="1060.7"/>
+<line x1="1136.6" y1="1063.2" x2="1116.6" y2="1074.2"/>
+<line x1="1767.2" y1="1386.4" x2="1748.4" y2="1396.8"/>
+<line x1="1749.3" y1="1399.5" x2="1767.3" y2="1409.4"/>
+<line x1="2874.3" y1="1418.5" x2="2855.5" y2="1428.8"/>
+<line x1="1767.5" y1="1430.9" x2="1748.4" y2="1441.7"/>
+<line x1="2856.4" y1="1431.3" x2="2874.3" y2="1441.4"/>
+<line x1="1747.4" y1="1443.3" x2="1767.4" y2="1454.3"/>
+<line x1="2874.6" y1="1463" x2="2855.4" y2="1473.8"/>
+<line x1="2854.5" y1="1475.2" x2="2874.4" y2="1486.2"/>
+<line x1="1214.6" y1="1485" x2="1195.4" y2="1495.8"/>
+<line x1="1195.3" y1="1498.5" x2="1214.5" y2="1509.1"/>
+<line x1="1670.6" y1="1529.8" x2="1690.6" y2="1540.8"/>
+<line x1="1689.7" y1="1543.5" x2="1670.5" y2="1554.1"/>
+<line x1="660.4" y1="1776.7" x2="639.5" y2="1788"/>
+<line x1="640.5" y1="1789.1" x2="660.5" y2="1800.1"/>
+</g>
+<rect x="879" y="1912" width="2562" height="2021" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="925" y1="1986" x2="1000" y2="1986" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1776" y1="1968" x2="1885" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1907" y1="1949" x2="1907" y2="1987" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2112" y1="1968" x2="2170" y2="1968" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2170" y1="1968" x2="2237" y2="1949" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2170" y1="1968" x2="2237" y2="1987" stroke="#1A1A1A" stroke-width="2.5"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
+<text x="150" y="120" font-size="34" font-weight="bold" fill="#000000">Role</text>
+<text x="210" y="126" font-size="26" font-weight="bold" fill="#000000">role_id</text>
+<text x="270" y="132" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="150" y="138" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="144" font-size="26" font-weight="regular" fill="#000000">role_name</text>
+<text x="270" y="150" font-size="24" font-weight="regular" fill="#000000">varchar(50)</text>
+<text x="150" y="156" font-size="26" font-weight="regular" fill="#000000">description</text>
+<text x="210" y="162" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="270" y="168" font-size="34" font-weight="bold" fill="#000000">AccountRole</text>
+<text x="150" y="174" font-size="26" font-weight="bold" fill="#000000">account_id</text>
+<text x="210" y="180" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="270" y="186" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="192" font-size="26" font-weight="bold" fill="#000000">role_id</text>
+<text x="210" y="198" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="270" y="204" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="210" font-size="26" font-weight="regular" fill="#000000">assigned_at</text>
+<text x="210" y="216" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="270" y="222" font-size="34" font-weight="bold" fill="#000000">UserProfile</text>
+<text x="150" y="228" font-size="26" font-weight="bold" fill="#000000">user_id</text>
+<text x="210" y="234" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="270" y="240" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="246" font-size="26" font-weight="bold" fill="#000000">account_id</text>
+<text x="210" y="252" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="270" y="258" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="264" font-size="26" font-weight="regular" fill="#000000">full_name</text>
+<text x="210" y="270" font-size="24" font-weight="regular" fill="#000000">varchar(100)</text>
+<text x="270" y="276" font-size="26" font-weight="regular" fill="#000000">student_code</text>
+<text x="150" y="282" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="210" y="288" font-size="26" font-weight="regular" fill="#000000">phone_number</text>
+<text x="270" y="294" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="150" y="300" font-size="26" font-weight="regular" fill="#000000">date_of_birth</text>
+<text x="210" y="306" font-size="24" font-weight="regular" fill="#000000">date</text>
+<text x="270" y="312" font-size="34" font-weight="bold" fill="#000000">LLMCache</text>
+<text x="150" y="318" font-size="26" font-weight="bold" fill="#000000">cache_id</text>
+<text x="210" y="324" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="270" y="330" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="336" font-size="26" font-weight="regular" fill="#000000">request_hash</text>
+<text x="210" y="342" font-size="24" font-weight="regular" fill="#000000">varchar(64)</text>
+<text x="270" y="348" font-size="26" font-weight="regular" fill="#000000">task_type</text>
+<text x="150" y="354" font-size="24" font-weight="regular" fill="#000000">varchar(30)</text>
+<text x="210" y="360" font-size="26" font-weight="regular" fill="#000000">model</text>
+<text x="270" y="366" font-size="24" font-weight="regular" fill="#000000">varchar(50)</text>
+<text x="150" y="372" font-size="26" font-weight="regular" fill="#000000">response</text>
+<text x="210" y="378" font-size="24" font-weight="regular" fill="#000000">jsonb</text>
+<text x="270" y="384" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="150" y="390" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="396" font-size="34" font-weight="bold" fill="#000000">Account</text>
+<text x="270" y="402" font-size="26" font-weight="bold" fill="#000000">account_id</text>
+<text x="150" y="408" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="414" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="420" font-size="26" font-weight="regular" fill="#000000">email</text>
+<text x="150" y="426" font-size="24" font-weight="regular" fill="#000000">varchar(255)</text>
+<text x="210" y="432" font-size="26" font-weight="regular" fill="#000000">password_hash</text>
+<text x="270" y="438" font-size="24" font-weight="regular" fill="#000000">varchar(255)</text>
+<text x="150" y="444" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="210" y="450" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="270" y="456" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="150" y="462" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="468" font-size="34" font-weight="bold" fill="#000000">CourseLearningOutcome</text>
+<text x="270" y="474" font-size="26" font-weight="bold" fill="#000000">clo_id</text>
+<text x="150" y="480" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="486" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="492" font-size="26" font-weight="regular" fill="#000000">clo_code</text>
+<text x="150" y="498" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="210" y="504" font-size="26" font-weight="regular" fill="#000000">title</text>
+<text x="270" y="510" font-size="24" font-weight="regular" fill="#000000">varchar(200)</text>
+<text x="150" y="516" font-size="26" font-weight="regular" fill="#000000">description</text>
+<text x="210" y="522" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="270" y="528" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="150" y="534" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="210" y="540" font-size="26" font-weight="bold" fill="#000000">created_by</text>
+<text x="270" y="546" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="552" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="558" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="270" y="564" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="150" y="570" font-size="34" font-weight="bold" fill="#000000">CLOConcept</text>
+<text x="210" y="576" font-size="26" font-weight="bold" fill="#000000">clo_id</text>
+<text x="270" y="582" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="150" y="588" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="594" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="270" y="600" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="150" y="606" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="612" font-size="26" font-weight="regular" fill="#000000">mapping_source</text>
+<text x="270" y="618" font-size="24" font-weight="regular" fill="#000000">varchar(10)</text>
+<text x="150" y="624" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="210" y="630" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="270" y="636" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="150" y="642" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="648" font-size="34" font-weight="bold" fill="#000000">Assessment</text>
+<text x="270" y="654" font-size="26" font-weight="bold" fill="#000000">assessment_id</text>
+<text x="150" y="660" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="666" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="672" font-size="26" font-weight="regular" fill="#000000">title</text>
+<text x="150" y="678" font-size="24" font-weight="regular" fill="#000000">varchar(200)</text>
+<text x="210" y="684" font-size="26" font-weight="regular" fill="#000000">description</text>
+<text x="270" y="690" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="150" y="696" font-size="26" font-weight="regular" fill="#000000">max_questions</text>
+<text x="210" y="702" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="270" y="708" font-size="26" font-weight="regular" fill="#000000">duration_min</text>
+<text x="150" y="714" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="210" y="720" font-size="26" font-weight="regular" fill="#000000">target_mcq</text>
+<text x="270" y="726" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="150" y="732" font-size="26" font-weight="regular" fill="#000000">target_sql</text>
+<text x="210" y="738" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="270" y="744" font-size="26" font-weight="regular" fill="#000000">target_essay</text>
+<text x="150" y="750" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="210" y="756" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="270" y="762" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="150" y="768" font-size="26" font-weight="bold" fill="#000000">created_by</text>
+<text x="210" y="774" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="270" y="780" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="786" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="210" y="792" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="270" y="798" font-size="34" font-weight="bold" fill="#000000">Concept</text>
+<text x="150" y="804" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="210" y="810" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="270" y="816" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="822" font-size="26" font-weight="regular" fill="#000000">concept_code</text>
+<text x="210" y="828" font-size="24" font-weight="regular" fill="#000000">varchar(30)</text>
+<text x="270" y="834" font-size="26" font-weight="regular" fill="#000000">concept_name</text>
+<text x="150" y="840" font-size="24" font-weight="regular" fill="#000000">varchar(100)</text>
+<text x="210" y="846" font-size="26" font-weight="regular" fill="#000000">subject_area</text>
+<text x="270" y="852" font-size="24" font-weight="regular" fill="#000000">varchar(100)</text>
+<text x="150" y="858" font-size="26" font-weight="regular" fill="#000000">description</text>
+<text x="210" y="864" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="270" y="870" font-size="26" font-weight="regular" fill="#000000">difficulty_level</text>
+<text x="150" y="876" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="210" y="882" font-size="34" font-weight="bold" fill="#000000">QuestionConcept</text>
+<text x="270" y="888" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="150" y="894" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="210" y="900" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="906" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="150" y="912" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="210" y="918" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="924" font-size="26" font-weight="regular" fill="#000000">tag_source</text>
+<text x="150" y="930" font-size="24" font-weight="regular" fill="#000000">varchar(10)</text>
+<text x="210" y="936" font-size="26" font-weight="regular" fill="#000000">is_required</text>
+<text x="270" y="942" font-size="24" font-weight="regular" fill="#000000">boolean</text>
+<text x="150" y="948" font-size="26" font-weight="regular" fill="#000000">confirmed</text>
+<text x="210" y="954" font-size="24" font-weight="regular" fill="#000000">boolean</text>
+<text x="270" y="960" font-size="34" font-weight="bold" fill="#000000">QuestionCandidate</text>
+<text x="150" y="966" font-size="26" font-weight="bold" fill="#000000">candidate_id</text>
+<text x="210" y="972" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="270" y="978" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="984" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="210" y="990" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="270" y="996" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="1002" font-size="26" font-weight="regular" fill="#000000">question_type</text>
+<text x="210" y="1008" font-size="24" font-weight="regular" fill="#000000">varchar(10)</text>
+<text x="270" y="1014" font-size="26" font-weight="regular" fill="#000000">payload</text>
+<text x="150" y="1020" font-size="24" font-weight="regular" fill="#000000">jsonb</text>
+<text x="210" y="1026" font-size="26" font-weight="regular" fill="#000000">validation_status</text>
+<text x="270" y="1032" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="150" y="1038" font-size="26" font-weight="regular" fill="#000000">validation_detail</text>
+<text x="210" y="1044" font-size="24" font-weight="regular" fill="#000000">jsonb</text>
+<text x="270" y="1050" font-size="26" font-weight="bold" fill="#000000">promoted_question_id</text>
+<text x="150" y="1056" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1062" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1068" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="150" y="1074" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="1080" font-size="34" font-weight="bold" fill="#000000">AssessmentConcept</text>
+<text x="270" y="1086" font-size="26" font-weight="bold" fill="#000000">assessment_id</text>
+<text x="150" y="1092" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="210" y="1098" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1104" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="150" y="1110" font-size="20" font-weight="bold" fill="#000000">[PK, FK]</text>
+<text x="210" y="1116" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1122" font-size="26" font-weight="regular" fill="#000000">min_difficulty</text>
+<text x="150" y="1128" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="210" y="1134" font-size="26" font-weight="regular" fill="#000000">max_difficulty</text>
+<text x="270" y="1140" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="150" y="1146" font-size="26" font-weight="regular" fill="#000000">target_pct</text>
+<text x="210" y="1152" font-size="24" font-weight="regular" fill="#000000">numeric(5,2)</text>
+<text x="270" y="1158" font-size="34" font-weight="bold" fill="#000000">Question</text>
+<text x="150" y="1164" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="210" y="1170" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="270" y="1176" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="1182" font-size="26" font-weight="regular" fill="#000000">question_type</text>
+<text x="210" y="1188" font-size="24" font-weight="regular" fill="#000000">varchar(10)</text>
+<text x="270" y="1194" font-size="26" font-weight="regular" fill="#000000">prompt</text>
+<text x="150" y="1200" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="210" y="1206" font-size="26" font-weight="regular" fill="#000000">reference_answer</text>
+<text x="270" y="1212" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="150" y="1218" font-size="26" font-weight="regular" fill="#000000">difficulty_level</text>
+<text x="210" y="1224" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="270" y="1230" font-size="26" font-weight="regular" fill="#000000">points</text>
+<text x="150" y="1236" font-size="24" font-weight="regular" fill="#000000">numeric(5,2)</text>
+<text x="210" y="1242" font-size="26" font-weight="regular" fill="#000000">source</text>
+<text x="270" y="1248" font-size="24" font-weight="regular" fill="#000000">varchar(15)</text>
+<text x="150" y="1254" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="210" y="1260" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="270" y="1266" font-size="26" font-weight="bold" fill="#000000">created_by</text>
+<text x="150" y="1272" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1278" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1284" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="150" y="1290" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="1296" font-size="26" font-weight="regular" fill="#000000">updated_at</text>
+<text x="270" y="1302" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="150" y="1308" font-size="34" font-weight="bold" fill="#000000">SelectionLog</text>
+<text x="210" y="1314" font-size="26" font-weight="bold" fill="#000000">log_id</text>
+<text x="270" y="1320" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="150" y="1326" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1332" font-size="26" font-weight="bold" fill="#000000">session_id</text>
+<text x="270" y="1338" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="1344" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1350" font-size="26" font-weight="regular" fill="#000000">seq_no</text>
+<text x="270" y="1356" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="150" y="1362" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="210" y="1368" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="270" y="1374" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="150" y="1380" font-size="26" font-weight="regular" fill="#000000">is_fallback</text>
+<text x="210" y="1386" font-size="24" font-weight="regular" fill="#000000">boolean</text>
+<text x="270" y="1392" font-size="26" font-weight="regular" fill="#000000">decision_detail</text>
+<text x="150" y="1398" font-size="24" font-weight="regular" fill="#000000">jsonb</text>
+<text x="210" y="1404" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="270" y="1410" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="150" y="1416" font-size="34" font-weight="bold" fill="#000000">AssessmentSession</text>
+<text x="210" y="1422" font-size="26" font-weight="bold" fill="#000000">session_id</text>
+<text x="270" y="1428" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="150" y="1434" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1440" font-size="26" font-weight="bold" fill="#000000">assessment_id</text>
+<text x="270" y="1446" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="1452" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1458" font-size="26" font-weight="bold" fill="#000000">learner_id</text>
+<text x="270" y="1464" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="1470" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1476" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="270" y="1482" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="150" y="1488" font-size="26" font-weight="regular" fill="#000000">started_at</text>
+<text x="210" y="1494" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="270" y="1500" font-size="26" font-weight="regular" fill="#000000">expires_at</text>
+<text x="150" y="1506" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="1512" font-size="26" font-weight="regular" fill="#000000">submitted_at</text>
+<text x="270" y="1518" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="150" y="1524" font-size="34" font-weight="bold" fill="#000000">MCQOption</text>
+<text x="210" y="1530" font-size="26" font-weight="bold" fill="#000000">option_id</text>
+<text x="270" y="1536" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="150" y="1542" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1548" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="270" y="1554" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="1560" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1566" font-size="26" font-weight="regular" fill="#000000">option_label</text>
+<text x="270" y="1572" font-size="24" font-weight="regular" fill="#000000">varchar(5)</text>
+<text x="150" y="1578" font-size="26" font-weight="regular" fill="#000000">option_text</text>
+<text x="210" y="1584" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="270" y="1590" font-size="26" font-weight="regular" fill="#000000">is_correct</text>
+<text x="150" y="1596" font-size="24" font-weight="regular" fill="#000000">boolean</text>
+<text x="210" y="1602" font-size="34" font-weight="bold" fill="#000000">SQLTestDataset</text>
+<text x="270" y="1608" font-size="26" font-weight="bold" fill="#000000">dataset_id</text>
+<text x="150" y="1614" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="1620" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1626" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="150" y="1632" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1638" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1644" font-size="26" font-weight="regular" fill="#000000">dataset_name</text>
+<text x="150" y="1650" font-size="24" font-weight="regular" fill="#000000">varchar(100)</text>
+<text x="210" y="1656" font-size="26" font-weight="regular" fill="#000000">setup_sql</text>
+<text x="270" y="1662" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="150" y="1668" font-size="26" font-weight="regular" fill="#000000">expected_result</text>
+<text x="210" y="1674" font-size="24" font-weight="regular" fill="#000000">jsonb</text>
+<text x="270" y="1680" font-size="26" font-weight="regular" fill="#000000">is_edge_case</text>
+<text x="150" y="1686" font-size="24" font-weight="regular" fill="#000000">boolean</text>
+<text x="210" y="1692" font-size="34" font-weight="bold" fill="#000000">Rubric</text>
+<text x="270" y="1698" font-size="26" font-weight="bold" fill="#000000">rubric_id</text>
+<text x="150" y="1704" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="1710" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1716" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="150" y="1722" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1728" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1734" font-size="26" font-weight="regular" fill="#000000">level_name</text>
+<text x="150" y="1740" font-size="24" font-weight="regular" fill="#000000">varchar(30)</text>
+<text x="210" y="1746" font-size="26" font-weight="regular" fill="#000000">min_score</text>
+<text x="270" y="1752" font-size="24" font-weight="regular" fill="#000000">numeric(5,2)</text>
+<text x="150" y="1758" font-size="26" font-weight="regular" fill="#000000">max_score</text>
+<text x="210" y="1764" font-size="24" font-weight="regular" fill="#000000">numeric(5,2)</text>
+<text x="270" y="1770" font-size="26" font-weight="regular" fill="#000000">criteria</text>
+<text x="150" y="1776" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="210" y="1782" font-size="34" font-weight="bold" fill="#000000">Attempt</text>
+<text x="270" y="1788" font-size="26" font-weight="bold" fill="#000000">attempt_id</text>
+<text x="150" y="1794" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="1800" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1806" font-size="26" font-weight="bold" fill="#000000">session_id</text>
+<text x="150" y="1812" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1818" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1824" font-size="26" font-weight="bold" fill="#000000">question_id</text>
+<text x="150" y="1830" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1836" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1842" font-size="26" font-weight="regular" fill="#000000">seq_no</text>
+<text x="150" y="1848" font-size="24" font-weight="regular" fill="#000000">smallint</text>
+<text x="210" y="1854" font-size="26" font-weight="bold" fill="#000000">selected_option_id</text>
+<text x="270" y="1860" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="1866" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="1872" font-size="26" font-weight="regular" fill="#000000">sql_answer</text>
+<text x="270" y="1878" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="150" y="1884" font-size="26" font-weight="regular" fill="#000000">essay_answer</text>
+<text x="210" y="1890" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="270" y="1896" font-size="26" font-weight="regular" fill="#000000">score</text>
+<text x="150" y="1902" font-size="24" font-weight="regular" fill="#000000">numeric(5,2)</text>
+<text x="210" y="1908" font-size="26" font-weight="regular" fill="#000000">grading_detail</text>
+<text x="270" y="1914" font-size="24" font-weight="regular" fill="#000000">jsonb</text>
+<text x="150" y="1920" font-size="26" font-weight="regular" fill="#000000">served_at</text>
+<text x="210" y="1926" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="270" y="1932" font-size="26" font-weight="regular" fill="#000000">submitted_at</text>
+<text x="150" y="1938" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="1944" font-size="34" font-weight="bold" fill="#000000">ConceptCompetency</text>
+<text x="270" y="1950" font-size="26" font-weight="bold" fill="#000000">competency_id</text>
+<text x="150" y="1956" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="210" y="1962" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1968" font-size="26" font-weight="bold" fill="#000000">session_id</text>
+<text x="150" y="1974" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1980" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="1986" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="150" y="1992" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="210" y="1998" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="270" y="2004" font-size="26" font-weight="regular" fill="#000000">points_earned</text>
+<text x="150" y="2010" font-size="24" font-weight="regular" fill="#000000">numeric(6,2)</text>
+<text x="210" y="2016" font-size="26" font-weight="regular" fill="#000000">points_possible</text>
+<text x="270" y="2022" font-size="24" font-weight="regular" fill="#000000">numeric(6,2)</text>
+<text x="150" y="2028" font-size="26" font-weight="regular" fill="#000000">competency_pct</text>
+<text x="210" y="2034" font-size="24" font-weight="regular" fill="#000000">numeric(5,2)</text>
+<text x="270" y="2040" font-size="26" font-weight="regular" fill="#000000">below_target</text>
+<text x="150" y="2046" font-size="24" font-weight="regular" fill="#000000">boolean</text>
+<text x="210" y="2052" font-size="26" font-weight="regular" fill="#000000">computed_at</text>
+<text x="270" y="2058" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="150" y="2064" font-size="34" font-weight="bold" fill="#000000">CompetencyGap</text>
+<text x="210" y="2070" font-size="26" font-weight="bold" fill="#000000">gap_id</text>
+<text x="270" y="2076" font-size="20" font-weight="bold" fill="#000000">[PK]</text>
+<text x="150" y="2082" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="2088" font-size="26" font-weight="bold" fill="#000000">session_id</text>
+<text x="270" y="2094" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="2100" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="2106" font-size="26" font-weight="bold" fill="#000000">concept_id</text>
+<text x="270" y="2112" font-size="20" font-weight="bold" fill="#000000">[FK]</text>
+<text x="150" y="2118" font-size="24" font-weight="regular" fill="#000000">int</text>
+<text x="210" y="2124" font-size="26" font-weight="regular" fill="#000000">llm_explanation</text>
+<text x="270" y="2130" font-size="24" font-weight="regular" fill="#000000">text</text>
+<text x="150" y="2136" font-size="26" font-weight="regular" fill="#000000">status</text>
+<text x="210" y="2142" font-size="24" font-weight="regular" fill="#000000">varchar(20)</text>
+<text x="270" y="2148" font-size="26" font-weight="regular" fill="#000000">created_at</text>
+<text x="150" y="2154" font-size="24" font-weight="regular" fill="#000000">timestamptz</text>
+<text x="210" y="2160" font-size="30" font-weight="bold" fill="#000000">name</text>
+<text x="270" y="2166" font-size="30" font-weight="regular" fill="#000000">= primary key</text>
+<text x="150" y="2172" font-size="30" font-weight="regular" fill="#000000">[FK] = foreign key</text>
+<text x="210" y="2178" font-size="30" font-weight="regular" fill="#000000">= one</text>
+<text x="270" y="2184" font-size="30" font-weight="regular" fill="#000000">= many</text>
+</g>
+</svg>

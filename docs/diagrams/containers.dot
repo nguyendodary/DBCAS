@@ -1,0 +1,30 @@
+digraph containers {
+graph [rankdir=TB,bgcolor="white",pad="0.5",nodesep="0.6",ranksep="0.9",fontname="Arial",fontsize=22]; node [shape=box,style="rounded,filled",fillcolor="#EFF5FB",color="#1F3864",fontname="Arial",fontsize=14,margin="0.2"]; edge [color="#2E75B6",fontname="Arial",fontsize=11];
+graph [label="DBCAS containers and runtime\nboundaries",labelloc=t];
+"learner" [label="Learner"];
+"admin" [label="Administrator"];
+"web" [label="Web application host\nRelease: frontend Nginx; development:\nVite"];
+"spa" [label="Single Page Application\nBrowser runtime: React 19 + Tailwind +\nChart.js"];
+"api" [label="API application\nFastAPI / Python; routers, services,\nrepositories"];
+"db" [label="System database\nPostgreSQL 17; evidence + auth + cache"];
+"sandbox" [label="SQL execution sandbox\nSeparate PostgreSQL; read-only learner\nexecution"];
+"llm" [label="External LLM provider\nOptional; sanitized assistive tasks"];
+"google" [label="Google OAuth\nOptional external service"];
+"github" [label="GitHub OAuth\nOptional external service"];
+"worker" [label="Optional worker process\nRelease ai-worker profile; provider\ncalls opt-in"];
+"migrate" [label="Migration job\nOne-shot release startup gate"];
+"learner" -> "web" [id="T01",label="T01 Access learner portal"];
+"admin" -> "web" [id="T02",label="T02 Access administrator portal"];
+"web" -> "spa" [id="T03",label="T03 Deliver static SPA assets to\nbrowser"];
+"spa" -> "api" [id="T04",label="T04 REST JSON + Bearer JWT;\nsame-origin proxy in release"];
+"api" -> "db" [id="T05",label="T05 Read / write application records\n(SQLAlchemy)"];
+"api" -> "sandbox" [id="T06",label="T06 Execute validated SQL; privileged\nsetup then read-only learner\ntransaction"];
+"api" -> "llm" [id="T07",label="T07 Sanitized structured task requests"];
+"api" -> "google" [id="T08",label="T08 Authorization code + verified\nidentity exchange"];
+"api" -> "github" [id="T09",label="T09 Authorization code + verified\nidentity exchange"];
+"worker" -> "db" [id="T10",label="T10 Claim bounded jobs / persist\ngrades / release state"];
+"worker" -> "sandbox" [id="T11",label="T11 SQL task checks when required"];
+"worker" -> "llm" [id="T12",label="T12 Configured asynchronous grading\ncalls"];
+"migrate" -> "db" [id="T13",label="T13 Apply checksum-verified SQL\nmigrations"];
+subgraph cluster_dbcas { label="DBCAS software system - browser and server runtime responsibilities"; color="#1F3864"; web;spa;api;db;sandbox;worker;migrate; }
+}

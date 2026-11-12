@@ -20,8 +20,10 @@ def _cached_fixture_problems(key, reference_answer, required_features):
     datasets = [SimpleNamespace(dataset_name=name, setup_sql=setup,
         expected_result=json.loads(expected), is_edge_case=edge) for name, setup, expected, edge in key]
     problems = []
-    if not datasets:
-        problems.append("SQL needs at least one test dataset")
+    if len(datasets) < 2:
+        problems.append("SQL needs at least two test datasets")
+    if not any(d.is_edge_case for d in datasets):
+        problems.append("SQL needs an edge-case dataset")
     if not isinstance(reference_answer, str) or not reference_answer.strip():
         problems.append("SQL needs a reference answer")
     elif validate_learner_sql(reference_answer):

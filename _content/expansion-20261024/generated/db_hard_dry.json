@@ -1,0 +1,179 @@
+{
+  "spec": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\_content\\expansion-20261024\\specs\\db_hard.py",
+  "target": "postgresql+psycopg://dbcas:***@127.0.0.1:5547/dbcas_clone",
+  "sandbox": "postgresql://learner_ro:***@localhost:5434/postgres",
+  "dry_run": true,
+  "started_at": "2026-10-24T17:23:08.908003+00:00",
+  "questions": [
+    {
+      "key": "db-hard-bcnf-dependency-loss",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-FD",
+        "DB-3NF",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-four-candidate-keys",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-3nf-synthesis",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-FD",
+        "DB-3NF",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-lossless-key-test",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-FD"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-array-1nf",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-1NF",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-specialization-mapping",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-2nf-decomposition",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-2NF",
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-overlapping-keys-bcnf",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-3NF",
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-weak-entity-key",
+      "question_type": "mcq",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-prime-attribute-3nf",
+      "question_type": "mcq",
+      "difficulty_level": 5,
+      "concept_codes": [
+        "DB-3NF",
+        "DB-FD",
+        "DB-NORM"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    },
+    {
+      "key": "db-hard-category-tree",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "three_levels",
+          "rows": 6
+        },
+        {
+          "dataset_name": "roots_and_orphan",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "key": "db-hard-transitive-audit",
+      "question_type": "sql",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-NORM",
+        "DB-FD"
+      ],
+      "status": "dry_run_ok",
+      "datasets": [
+        {
+          "dataset_name": "inconsistent_department",
+          "rows": 1
+        },
+        {
+          "dataset_name": "null_only_names",
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "key": "db-hard-ternary-decomposition",
+      "question_type": "essay",
+      "difficulty_level": 4,
+      "concept_codes": [
+        "DB-ER",
+        "DB-NORM",
+        "DB-FD",
+        "DB-3NF"
+      ],
+      "status": "dry_run_ok",
+      "datasets": []
+    }
+  ],
+  "finished_at": "2026-10-24T17:23:11.182692+00:00",
+  "summary": {
+    "dry_run_ok": 13
+  }
+}
