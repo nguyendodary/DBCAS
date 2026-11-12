@@ -128,7 +128,8 @@ def main() -> int:
     parser.add_argument("--out", type=Path, help="Optional output report path")
     args = parser.parse_args()
     try:
-        metrics = GateMetrics.model_validate_json(args.metrics.read_text(encoding="utf-8"))
+        raw = args.metrics.read_text(encoding="utf-8-sig")
+        metrics = GateMetrics.model_validate(json.loads(raw))
     except (OSError, ValueError) as exc:
         print(f"gate input invalid: {type(exc).__name__}")
         return 2

@@ -102,7 +102,7 @@ def validate_manifest(value: dict) -> BuilderManifest:
 
 
 def load_manifest(path: Path) -> BuilderManifest:
-    return validate_manifest(json.loads(path.read_text(encoding="utf-8")))
+    return validate_manifest(json.loads(path.read_text(encoding="utf-8-sig")))
 
 
 def manifest_json_schema() -> dict:
