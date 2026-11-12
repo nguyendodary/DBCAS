@@ -97,7 +97,7 @@ export async function setFlow(page) {
 export async function approve(page, sid) {
   for (let attempt = 0; attempt < 120; attempt++) {
     const review = await api(page, `/admin/grading-reviews/${sid}`)
-    if (review.release_status === 'pending_review') {
+    if (['provisional_ai', 'pending_review'].includes(review.release_status)) {
       await api(page, `/admin/grading-reviews/${sid}/publish`, 'POST', {
         revision: review.revision,
       })
@@ -140,7 +140,7 @@ export async function approveWithApi(page, sid) {
     }
     expect(response.ok(), await response.text()).toBe(true)
     const review = await response.json()
-    if (review.release_status === 'pending_review') {
+    if (['provisional_ai', 'pending_review'].includes(review.release_status)) {
       const published = await page.request.post(`/api/v1/admin/grading-reviews/${sid}/publish`, {
         headers,
         data: { revision: review.revision },

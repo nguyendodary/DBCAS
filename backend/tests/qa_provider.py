@@ -83,8 +83,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(503, {"error": "simulated_provider_outage"})
             if schema_name == "evaluation":
                 from app.services.evaluation_pipeline import rule_evaluation
-                data = json.loads(prompt.split("## DỮ LIỆU\n", 1)[1].split("## RUBRIC\n", 1)[0])
-                payload = rule_evaluation(data)
+                data = json.loads(prompt.split("## DỮ LIỆU\n", 1)[1].split("## KHÁI NIỆM\n", 1)[0])
+                concept_context = json.loads(
+                    prompt.split("## KHÁI NIỆM\n", 1)[1].split("## RUBRIC\n", 1)[0])
+                payload = rule_evaluation(data, concept_context)
                 return self.respond(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}, "finish_reason": "stop"}]})
             if schema_name == "practice_questions":
                 from types import SimpleNamespace
