@@ -86,7 +86,7 @@ def _load(model_name: str, precision: str, *, local_files_only: bool):
     started = time.perf_counter()
     tokenizer = AutoTokenizer.from_pretrained(model_name, local_files_only=local_files_only)
     model = AutoModelForCausalLM.from_pretrained(
-        model_name, torch_dtype=dtype, local_files_only=local_files_only
+        model_name, dtype=dtype, local_files_only=local_files_only
     ).eval()
     if precision == "int8":
         model = torch.ao.quantization.quantize_dynamic(model, {torch.nn.Linear}, dtype=torch.qint8)
