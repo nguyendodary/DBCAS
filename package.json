@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node scripts/local.mjs",
     "env:check": "node scripts/env-check.mjs",
+    "secrets:scan": "node scripts/run_py.mjs scripts/scan_secrets.py",
+    "test:secrets": "node scripts/run_py.mjs -m unittest discover -s scripts/tests -p test_secret_scan.py",
     "ai:train": "node scripts/ai.mjs",
     "stop": "node scripts/local.mjs stop",
     "reset": "node scripts/local.mjs reset",
