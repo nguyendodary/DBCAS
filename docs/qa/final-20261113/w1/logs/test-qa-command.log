@@ -1,7 +1,0 @@
-$ npm --prefix frontend run test:qa
-npm error Missing script: "test:qa"
-npm error
-npm error To see a list of scripts, run:
-npm error   npm run
-npm error A complete log of this run can be found in: C:\Users\kudot\AppData\Local\npm-cache\_logs\2026-11-11T07_56_19_718Z-debug-0.log
-EXIT:1

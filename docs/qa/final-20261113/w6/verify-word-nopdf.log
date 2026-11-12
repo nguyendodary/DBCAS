@@ -1,9 +1,0 @@
-
-> dbcas-local@0.1.0 docs:verify-word
-> node scripts/run_py.mjs --prefer-tools scripts/verify_word.py --no-pdf
-
-word verification: 3 documents, 0 failed
-   ('Proposal', 'PASS', 0, 0, 0, 0, 0, 'PASS')
-   ('Architecture Design', 'PASS', 0, 0, 0, 0, 0, 'PASS')
-   ('Database Design', 'PASS', 0, 0, 0, 0, 0, 'PASS')
-   Word COM open/update: proposal=ok, architecture=ok, database=ok

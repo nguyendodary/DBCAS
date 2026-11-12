@@ -63,7 +63,7 @@ trạng thái Jira chưa được cung cấp.
 | 5.11 | Thiết kế UI + Hướng dẫn sử dụng | [5.11-ui-design-user-guide.md](5.11-ui-design-user-guide.md) |
 | 5.12 | Biên bản họp / bằng chứng nhóm | [5.12-meeting-minutes.md](5.12-meeting-minutes.md) |
 | 5.13 | Báo cáo kỹ thuật (bản nháp) | [5.13-technical-report-draft.md](5.13-technical-report-draft.md) |
-| 5.14 | Báo cáo cuối + slides | [5.14-final-report.md](5.14-final-report.md) · [5.14-final-report-slides.pptx](5.14-final-report-slides.pptx) |
+| 5.14 | Báo cáo cuối + slides | [5.14-final-report.md](5.14-final-report.md) · [5.14-final-report-slides.pptx](../academic/support/5.14-final-report-slides.pptx) |
 | 5.15 | Kiến trúc + CSDL đầy đủ | [5.15-final-architecture-db.md](5.15-final-architecture-db.md) |
 | 5.16 | Reflection (liên hệ) | [5.16-reflection.md](5.16-reflection.md) |
 | glossary | Thuật ngữ dùng chung | [glossary.md](glossary.md) |

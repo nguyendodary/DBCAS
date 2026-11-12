@@ -1,5 +1,7 @@
 # W6 — Final document alignment (2026-11-13)
 
+> Historical raw captures and execution logs cited below were removed during PR #1 remediation. See [evidence retention](../pr1-artifact-retention-20261114.md); curated screenshots and structured summaries remain.
+
 Worktree: `C:\Users\kudot\Downloads\proposal test\_worktrees\dbcas-dn-20261101`
 Branch: `develop2` — HEAD `daceccf` (`refactor(backend): remove unused imports and locals`)
 Audit execution: 2026-11-11 +0700; request identifier `20261113`.

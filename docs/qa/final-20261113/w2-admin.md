@@ -1,5 +1,7 @@
 # W2 — Administrator end-to-end audit (2026-11-13)
 
+> Historical raw captures and execution logs cited below were removed during PR #1 remediation. See [evidence retention](../pr1-artifact-retention-20261114.md); curated screenshots and structured summaries remain.
+
 Worktree `_worktrees/dbcas-dn-20261101`, final demo stack rebuilt from source:
 web `http://localhost:18080`, API `http://localhost:18000`, Mailpit
 `http://localhost:18025`. Real Chromium, real PostgreSQL, no provider key.

@@ -1,5 +1,0 @@
-GET /boom 500 {"error":{"code":"internal_error","message":"The request could not be completed. Please retry or contact the administrator."}}
-GET /bad 409 {"error":{"code":"state_conflict","message":"Safe conflict","details":{"field":"x"}}}
-GET /missing 404 {"error":{"code":"not_here","message":"Not here"}}
-POST /validate 422 {"error":{"code":"validation_error","message":"Invalid request data","details":[{"loc":["body","n"],"type":"int_parsing","msg":"Input should be a valid integer, unable to parse string as an integer"}]}}
-PASS: no stack trace or secret markers in 4xx/5xx envelopes

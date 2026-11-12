@@ -1,5 +1,7 @@
 # Final audit — 20261113
 
+> Historical raw captures and execution logs cited below were removed during PR #1 remediation. See [evidence retention](pr1-artifact-retention-20261114.md); curated screenshots and structured summaries remain.
+
 Baseline: clean `develop2` at `05920ad`, CI run `42962843780` green (59m29s).
 Actual execution: 2026-11-11 +0700; the request identifier is 20261113.
 Evidence root: `docs/qa/final-20261113/`. Branch only `develop2`; no main,

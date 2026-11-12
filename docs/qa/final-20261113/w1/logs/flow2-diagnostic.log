@@ -1,6 +1,0 @@
-
-Running 1 test using 1 worker
-
-  ✓  1 e2e\practice-flows.spec.js:148:1 › Flow 2: admin verifies SQL, adjusts with a reason and approves the hidden result (1.3m)
-
-  1 passed (1.3m)
