@@ -125,7 +125,10 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                 return snapshots
 
             before = rows()
-            assert apply_migrations(conn) == ['019_archive_prebuilt_exams.sql']
+            assert apply_migrations(conn) == [
+                '019_archive_prebuilt_exams.sql',
+                '020_provisional_ai_final_results.sql',
+            ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before  # every legacy row and snapshot, excluding intentional status changes
@@ -133,7 +136,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 19
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 20
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -232,4 +235,63 @@ def test_supervisor_upgrade_preserves_completed_evidence_and_fails_closed_for_ne
             assert row == ("unsubmitted",)
         finally:
             conn.execute('SET search_path TO public')
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
+
+def test_020_backfills_legacy_published_practice_once(tmp_path):
+    """Existing published practice results get one legacy snapshot, repeatably."""
+    directory = ROOT_DIR / "db/migrations"
+    prior = tmp_path / "pre020"
+    prior.mkdir()
+    for path in directory.glob("[0-9][0-9][0-9]_*.sql"):
+        if path.name < "020":
+            (prior / path.name).write_bytes(path.read_bytes())
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
+    namespace = "legacy020_" + uuid.uuid4().hex[:12]
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            conn.execute((ROOT_DIR / "db/schema.sql").read_text(), prepare=False)
+            assert len(apply_migrations(conn, prior)) == 19
+            account_id = conn.execute(
+                "INSERT INTO account(email,password_hash) VALUES ('legacy-practice@migration.test','not-a-login-hash') RETURNING account_id"
+            ).fetchone()[0]
+            question_id = conn.execute(
+                "INSERT INTO question(question_type,prompt,created_by,points) VALUES ('mcq','Legacy practice item',%s,2) RETURNING question_id",
+                (account_id,),
+            ).fetchone()[0]
+            session_id = conn.execute(
+                """INSERT INTO assessment_session(
+                     assessment_id,learner_id,status,expires_at,release_status,
+                     result_release_policy,review_revision,published_at,config_snapshot)
+                   VALUES (NULL,%s,'completed',NOW(),'published','HUMAN_VERIFIED',3,NOW(),
+                     '{"uncovered_concepts":[{"concept_id":9,"concept_name":"IDX"}]}'::jsonb)
+                   RETURNING session_id""",
+                (account_id,),
+            ).fetchone()[0]
+            conn.execute(
+                "INSERT INTO attempt(session_id,question_id,seq_no,score,submitted_at,grading_status) VALUES (%s,%s,1,1.5,NOW(),'graded')",
+                (session_id, question_id),
+            )
+            conn.execute(
+                """INSERT INTO evaluation_record(learner_id,session_id,scope_key,input_hash,status,payload)
+                   VALUES (%s,%s,%s,%s,'ready',
+                     '{"evaluation":{"summary":"Legacy AI summary","strengths":["a"],"weaknesses":["b"],"suggestions":["c"],"learning_path":["d"],"question_comments":[],"trend":null},"prompt_hash":"h","builder_fallback":false,"evaluator_fallback":false}'::jsonb)""",
+                (account_id, session_id, f"attempt:{session_id}", "a" * 64),
+            )
+            conn.execute(
+                "INSERT INTO result_release_event(session_id,previous_status,new_status,reviewer_id) VALUES (%s,'pending_review','published',%s)",
+                (session_id, account_id),
+            )
+            assert apply_migrations(conn) == ["020_provisional_ai_final_results.sql"]
+            row = conn.execute(
+                "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
+            ).fetchone()
+            assert row == ("legacy", account_id, "Legacy AI summary", "Legacy AI summary", 1, "75.00", 1)
+            assert conn.execute("SELECT release_status,review_revision FROM assessment_session").fetchone() == ("published", 3)
+            # Direct rerun of the additive migration must not duplicate the snapshot.
+            conn.execute((directory / "020_provisional_ai_final_results.sql").read_text(), prepare=False)
+            assert conn.execute("SELECT count(*) FROM session_final_result").fetchone()[0] == 1
+        finally:
+            conn.execute("SET search_path TO public")
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
