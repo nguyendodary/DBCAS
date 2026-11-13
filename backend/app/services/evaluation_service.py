@@ -321,6 +321,11 @@ def ready(db, session):
 def process_one(db, llm=None, settings=None, *, force_id=None, force_fallback=False):
     from ..config import get_settings
     settings = settings or get_settings()
+    # A caller may reuse a long-lived session (worker tests, seed scripts).
+    # Never snapshot data from identity-mapped attempts that were loaded before
+    # their answers or grades were committed: the data-hash guard would then
+    # read a stale digest and bounce the job back to pending forever.
+    db.expire_all()
     now = datetime.now(timezone.utc)
     query = select(EvaluationRecord).where(or_(EvaluationRecord.status == "pending",
         (EvaluationRecord.status == "processing") & (EvaluationRecord.lease_until < now)),
