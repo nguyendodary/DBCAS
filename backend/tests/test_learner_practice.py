@@ -591,6 +591,9 @@ def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, d
     payload.update(source="ai", question_count=1)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload).json()
     complete(client, db_session, learner, state)
+    # The test session cached attempts before their answers were committed by
+    # the request sessions; read the committed state before hashing it.
+    db_session.expire_all()
     row, data, _ = evaluations.ensure(db_session, learner.account_id, state["session_id"])
     from app.services.evaluation_pipeline import evaluate
     row.payload, row.status = evaluate(data, force_fallback=True), "ready"
