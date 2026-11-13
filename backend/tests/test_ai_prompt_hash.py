@@ -83,7 +83,7 @@ def _completion(payload):
 
 
 def _evaluation_from_prompt(content):
-    data = json.loads(content.split("## DỮ LIỆU\n", 1)[1].split("## RUBRIC\n", 1)[0])
+    data = json.loads(content.split("## DỮ LIỆU\n", 1)[1].split("## KHÁI NIỆM\n", 1)[0])
     return rule_evaluation(data)
 
 

@@ -187,9 +187,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
         })
         expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
         if (policy === 'HUMAN_VERIFIED') {
-          await expect(
-            page.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-          ).toBeVisible()
+          await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible()
           expect(
             (await practiceApi(page, '/sessions/competency/cumulative')).summary
               .finalized_assessments,

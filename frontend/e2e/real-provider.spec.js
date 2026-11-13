@@ -179,13 +179,12 @@ test('real provider: three attempts, automatic release, admin approval and overa
         approveAfter: index !== 1,
       })
       if (index === 1) {
-        await expect(
-          learner.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-        ).toBeVisible()
-        const hidden = await api(learner, `/evaluations/attempts/${sid}`)
-        expect(hidden.status).toBe('awaiting_approval')
-        expect(hidden).not.toHaveProperty('score')
-        expect(hidden).not.toHaveProperty('result')
+        await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
+        const provisional = await api(learner, `/evaluations/attempts/${sid}`)
+        expect(provisional.status).toBe('provisional')
+        expect(provisional.provisional).toBe(true)
+        expect(provisional).toHaveProperty('score')
+        expect(provisional).toHaveProperty('result')
         expect(await api(admin, '/admin/analytics/cohort')).toEqual(cohort)
         await admin.goto(`/admin/grading/${sid}`)
         await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({

@@ -36,7 +36,7 @@ def load_owned_active_session(
 
 
 def load_owned_finalized_session(
-    repo: AssessmentRepository, session_id: int, learner: Account
+    repo: AssessmentRepository, session_id: int, learner: Account, *, allow_provisional=False
 ) -> AssessmentSession:
     """Load a session that belongs to the learner and has ended.
 
@@ -48,7 +48,7 @@ def load_owned_finalized_session(
         raise AppError(404, "session_not_found", "Assessment session not found")
     ensure_session_finalized(session, repo.db)
     from .grading_review import require_published
-    require_published(session)
+    require_published(session, allow_provisional=allow_provisional)
     return session
 
 

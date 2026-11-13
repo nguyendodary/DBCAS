@@ -165,7 +165,7 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
     await register(page, 'verified')
     const state = await start(page, 'bank', 3)
     const { sid } = await take(page, state, { approveAfter: false })
-    await expect(page.getByRole('heading', { name: 'Đang chờ giảng viên duyệt' })).toBeVisible()
+    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible()
     const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
     expect(
       (
@@ -173,9 +173,9 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
           headers: { Authorization: `Bearer ${token}` },
         })
       ).status(),
-    ).toBe(409)
+    ).toBe(200)
     expect((await api(page, `/evaluations/attempts/${sid}/retry`, 'POST')).status).toBe(
-      'awaiting_approval',
+      'provisional',
     )
     expect((await api(page, '/sessions/statistics')).published_formal_sessions).toBe(0)
     await admin.goto(`/admin/grading/${sid}`)

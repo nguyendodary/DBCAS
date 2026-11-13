@@ -40,6 +40,18 @@ def data():
          "answer": "Khóa chính xác định duy nhất mỗi bản ghi", "reference_answer": "Khóa chính xác định duy nhất mỗi bản ghi"}]}
 
 
+def test_concept_context_is_in_prompt_and_rule_fallback_has_notes(data):
+    context = [{"concept_id": 5, "concept_code": "SELECT", "concept_name": "SELECT",
+                "competency_pct": 40.0, "target_pct": 70.0, "below_target": True, "covered": True}]
+    prompt = build_prompt(data, concept_context=context)
+    assert "## KHÁI NIỆM" in prompt.prompt and '"concept_id":5' in prompt.prompt
+    result = evaluate(data, force_fallback=True, concept_context=context)
+    note = result["evaluation"]["concepts"][0]
+    assert note["concept_id"] == 5 and note["weakness"] and note["recommendation"]
+    with pytest.raises(ValueError, match="evaluation_concept_coverage"):
+        validate_evaluation({**rule_evaluation(data), "concepts": [{"concept_id": 999}]}, data, context)
+
+
 def test_template_sections_data_schema_and_no_grading(data):
     result = build_prompt(data)
     assert result.fallback_used

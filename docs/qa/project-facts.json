@@ -121,6 +121,7 @@
     "/api/v1/evaluations/overall/retry",
     "/api/v1/ping",
     "/api/v1/practice/options",
+    "/api/v1/practice/preview",
     "/api/v1/practice/start",
     "/api/v1/sessions",
     "/api/v1/sessions/competency/cumulative",
@@ -141,8 +142,8 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 82,
-  "openapi_operation_count": 92,
+  "openapi_path_count": 83,
+  "openapi_operation_count": 93,
   "frontend_routes": [
     "*",
     "/",

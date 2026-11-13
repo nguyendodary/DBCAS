@@ -97,7 +97,7 @@ export async function setFlow(page) {
 export async function approve(page, sid) {
   for (let attempt = 0; attempt < 120; attempt++) {
     const review = await api(page, `/admin/grading-reviews/${sid}`)
-    if (review.release_status === 'pending_review') {
+    if (['provisional_ai', 'pending_review'].includes(review.release_status)) {
       await api(page, `/admin/grading-reviews/${sid}/publish`, 'POST', {
         revision: review.revision,
       })
@@ -140,7 +140,7 @@ export async function approveWithApi(page, sid) {
     }
     expect(response.ok(), await response.text()).toBe(true)
     const review = await response.json()
-    if (review.release_status === 'pending_review') {
+    if (['provisional_ai', 'pending_review'].includes(review.release_status)) {
       const published = await page.request.post(`/api/v1/admin/grading-reviews/${sid}/publish`, {
         headers,
         data: { revision: review.revision },
@@ -182,7 +182,7 @@ export async function start(
       exact: true,
     })
     .check()
-  await page.getByLabel('Số câu (1–20)').fill(String(count))
+  await page.getByLabel('Số câu (1–13)').fill(String(count))
   // A bounded 50-second provider call plus validation/cleanup can exceed the
   // ordinary 20-second action deadline; the API client allows 60 seconds.
   const response = page.waitForResponse(
@@ -191,6 +191,17 @@ export async function start(
     { timeout: responseTimeout },
   )
   await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
+  const warning = page.getByRole('heading', {
+    name: 'Một số khái niệm chưa có câu hỏi phù hợp',
+  })
+  const first = await Promise.race([
+    response.then((value) => ({ response: value })),
+    warning
+      .waitFor({ state: 'visible', timeout: 10_000 })
+      .then(() => ({ warning: true }))
+      .catch(() => null),
+  ])
+  if (first?.warning) await page.getByRole('button', { name: 'Tiếp tục' }).click()
   const r = await response
   expect(r.ok(), await r.text()).toBe(true)
   await expect(page).toHaveURL(/\/exam\/\d+$/)

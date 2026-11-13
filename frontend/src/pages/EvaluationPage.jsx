@@ -8,8 +8,16 @@ import { EvaluationCharts } from '../components/EvaluationCharts'
 function validateView(data) {
   if (
     !data ||
-    !['empty', 'pending', 'processing', 'ready', 'awaiting_approval'].includes(data.status) ||
-    (data.status === 'ready' && !data.result?.evaluation)
+    ![
+      'empty',
+      'pending',
+      'processing',
+      'updating',
+      'provisional',
+      'ready',
+      'awaiting_approval',
+    ].includes(data.status) ||
+    (['provisional', 'ready'].includes(data.status) && !data.result?.evaluation)
   )
     throw new Error('Invalid evaluation response')
   return data
@@ -17,11 +25,22 @@ function validateView(data) {
 
 export function EvaluationContent({ data, overall = false }) {
   const evaluation = data.result?.evaluation
+  const questionResults = Object.fromEntries(
+    (data.question_results || []).map((item) => [item.attempt_id, item]),
+  )
   return (
     <div className="space-y-5">
+      {data.provisional && (
+        <p role="status" className="rounded-xl border border-amber-500 p-4 font-semibold">
+          Kết quả tạm thời – AI đã chấm, chưa được giảng viên xác nhận
+          <span className="mt-1 block text-sm font-normal">
+            Điểm và nhận xét có thể thay đổi sau khi giảng viên kiểm tra và duyệt.
+          </span>
+        </p>
+      )}
       {data.approved && (
         <p role="status" className="rounded-xl border border-emerald-500 p-4 font-semibold">
-          ✓ Đã được giảng viên duyệt
+          ✓ Đã được giảng viên duyệt — kết quả chính thức
           {data.adjusted && (
             <span className="mt-1 block text-sm font-normal">Điểm đã được điều chỉnh</span>
           )}
@@ -49,6 +68,47 @@ export function EvaluationContent({ data, overall = false }) {
           <p className="mt-2 text-sub">
             {data.score.earned} / {data.score.possible} điểm · {data.attempt_count} bài đã công bố
           </p>
+        </Card>
+      )}
+      {data.uncovered_concepts?.length > 0 && (
+        <Card className="p-5">
+          <h2 className="text-lg font-semibold">Khái niệm chưa được kiểm tra</h2>
+          <p className="mt-2 text-sub">
+            Ngân hàng chưa có câu hỏi phù hợp cho các khái niệm sau; kết quả không đánh giá chúng.
+          </p>
+          <ul className="mt-3 list-disc space-y-1 pl-5 text-sub">
+            {data.uncovered_concepts.map((c) => (
+              <li key={c.concept_id}>{c.concept_name}</li>
+            ))}
+          </ul>
+        </Card>
+      )}
+      {data.concept_results?.length > 0 && (
+        <Card className="p-5">
+          <h2 className="text-lg font-semibold">Điểm mạnh và điểm cần cải thiện theo khái niệm</h2>
+          <ul className="mt-4 space-y-4">
+            {data.concept_results.map((c) => (
+              <li key={c.concept_id} className="border-b border-edge pb-4 last:border-0">
+                <p className="font-semibold text-ink">
+                  {c.concept_name || `#${c.concept_id}`}
+                  {c.competency_pct != null && (
+                    <span className="mt-1 block break-words font-normal text-sub">
+                      {Number(c.competency_pct).toFixed(2)}%
+                      {c.target_pct != null && ` / mục tiêu ${Number(c.target_pct).toFixed(2)}%`}
+                    </span>
+                  )}
+                </p>
+                {!c.covered && <p className="mt-1 text-sm text-amber-300">Chưa có câu hỏi.</p>}
+                {c.strength && <p className="mt-1 text-sm text-emerald-300">Mạnh: {c.strength}</p>}
+                {c.weakness && (
+                  <p className="mt-1 text-sm text-amber-300">Cần cải thiện: {c.weakness}</p>
+                )}
+                {c.recommendation && (
+                  <p className="mt-1 text-sm text-sub">Gợi ý: {c.recommendation}</p>
+                )}
+              </li>
+            ))}
+          </ul>
         </Card>
       )}
       {evaluation && (
@@ -90,6 +150,12 @@ export function EvaluationContent({ data, overall = false }) {
                 {evaluation.question_comments.map((item, i) => (
                   <li key={item.attempt_id} className="border-b border-edge pb-4 last:border-0">
                     <h3 className="font-semibold">Câu {i + 1}</h3>
+                    {questionResults[item.attempt_id] && (
+                      <p className="mt-1 text-sm text-sub">
+                        Điểm: {questionResults[item.attempt_id].score ?? '—'} /{' '}
+                        {questionResults[item.attempt_id].points}
+                      </p>
+                    )}
                     <p className="mt-2 text-sub">{item.comment}</p>
                     {item.essay_score_proposal != null && (
                       <p className="mt-1 text-sm text-sub">
@@ -139,6 +205,10 @@ export default function EvaluationPage({ overall = false }) {
         setData(validateView(r.data))
         if (r.data.status === 'awaiting_approval') {
           timer = setTimeout(poll, Date.now() - started < 45000 ? 1500 : 10000)
+        } else if (r.data.status === 'provisional') {
+          timer = setTimeout(poll, 15000)
+        } else if (r.data.status === 'updating') {
+          timer = setTimeout(poll, 2000)
         } else if (['pending', 'processing'].includes(r.data.status)) {
           if (Date.now() - started < 45000) timer = setTimeout(poll, 1500)
           else {
@@ -217,6 +287,22 @@ export default function EvaluationPage({ overall = false }) {
           <Link className="ml-3 underline" to="/history">
             Lịch sử bài làm
           </Link>
+        </Card>
+      ) : data?.status === 'updating' ? (
+        <Card className="space-y-4 p-6">
+          <h2 className="text-xl font-semibold">Kết quả đang được cập nhật</h2>
+          <p className="text-sub">
+            Giảng viên vừa điều chỉnh điểm. Hệ thống đang tạo lại đánh giá AI cho bài làm; kết quả
+            tạm thời cũ không còn hiệu lực.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button className={btnGhost} onClick={() => setReload((value) => value + 1)}>
+              Kiểm tra cập nhật
+            </button>
+            <Link className="self-center underline" to="/history">
+              Lịch sử bài làm
+            </Link>
+          </div>
         </Card>
       ) : waiting ? (
         <Card className="space-y-4 p-6">

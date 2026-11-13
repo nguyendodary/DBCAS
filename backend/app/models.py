@@ -677,6 +677,7 @@ class EvaluationRecord(Base):
     status: Mapped[str] = mapped_column(String(20), default="pending")
     payload: Mapped[Optional[dict]] = mapped_column(JSONB)
     lease_until: Mapped[Optional[datetime]]
+    available_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
@@ -688,6 +689,33 @@ class GradeEditAudit(Base):
     old_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(5, 2))
     new_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
     reason: Mapped[str] = mapped_column(String(1000))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class SessionFinalResult(Base):
+    """Immutable administrator-approved result for one practice session."""
+
+    __tablename__ = "session_final_result"
+    __table_args__ = (
+        CheckConstraint("source IN ('admin','legacy')"),
+        CheckConstraint("approval_revision >= 0"),
+    )
+
+    result_id: Mapped[int] = mapped_column(primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment_session.session_id"), unique=True
+    )
+    reviewer_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    source: Mapped[str] = mapped_column(String(20), default="admin")
+    evaluation_input_hash: Mapped[str] = mapped_column(String(64))
+    approval_revision: Mapped[int] = mapped_column(default=0)
+    ai_evaluation: Mapped[dict] = mapped_column(JSONB)
+    final_evaluation: Mapped[dict] = mapped_column(JSONB)
+    concept_results: Mapped[list] = mapped_column(JSONB, default=list)
+    scores: Mapped[list] = mapped_column(JSONB, default=list)
+    overall: Mapped[dict] = mapped_column(JSONB)
+    uncovered_concepts: Mapped[list] = mapped_column(JSONB, default=list)
+    approved_at: Mapped[datetime] = mapped_column(server_default=func.now())
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 

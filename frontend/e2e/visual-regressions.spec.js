@@ -15,7 +15,7 @@ const review = {
   learner_name: 'Visual fixture learner',
   assessment_title: 'Visual fixture',
   learner_defined: true,
-  release_status: 'pending_review',
+  release_status: 'provisional_ai',
   result_release_policy: 'HUMAN_VERIFIED',
   revision: 1,
   events: [],

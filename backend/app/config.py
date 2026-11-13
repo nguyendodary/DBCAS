@@ -116,6 +116,9 @@ class Settings(BaseSettings):
     prompt_builder_timeout_seconds: int = Field(default=8, ge=1, le=30)
     evaluation_fake_delay_seconds: float = Field(default=0, ge=0, le=15)
     evaluation_fake_error: bool = False
+    evaluation_debounce_seconds: float = Field(default=3, ge=0, le=30, allow_inf_nan=False)
+    practice_preview_rate_limit_attempts: int = Field(default=30, ge=1, le=1000)
+    practice_preview_rate_limit_window_seconds: int = Field(default=60, ge=1, le=3600)
     database_pool_size: int = 10
     database_max_overflow: int = 20
     database_connect_timeout_seconds: int = Field(default=5, ge=2, le=30)

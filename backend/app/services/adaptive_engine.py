@@ -140,6 +140,8 @@ def _state(
         ai_generated_count=(session.config_snapshot or {}).get("ai_generated_count", 0),
         generation_diagnostics=(session.config_snapshot or {}).get("generation_diagnostics", []),
         selection_notice=(session.config_snapshot or {}).get("selection_notice"),
+        coverage_notice=(session.config_snapshot or {}).get("coverage_notice"),
+        uncovered_concepts=(session.config_snapshot or {}).get("uncovered_concepts", []),
         locale=session.locale or "en",
         result_release_policy=session.result_release_policy,
         release_status=session.release_status,
@@ -566,7 +568,7 @@ def get_evidence(
     """UC18 — per-question evidence records, finalized sessions only."""
     from .batch_adaptive import progress
     repo = AssessmentRepository(db)
-    session = load_owned_finalized_session(repo, session_id, learner)
+    session = load_owned_finalized_session(repo, session_id, learner, allow_provisional=True)
     attempts = repo.session_attempts(session.session_id)
     items = []
     for a in attempts:
@@ -621,6 +623,7 @@ def get_evidence(
             submitted_at=a.submitted_at,
         ))
     return EvidenceResult(
-        session_id=session.session_id, status=session.status, items=items,
-        adaptive_progress=progress(session, attempts)
+        session_id=session.session_id, status=session.status,
+        provisional=session.release_status in ("provisional_ai", "pending_review"),
+        items=items, adaptive_progress=progress(session, attempts)
     )

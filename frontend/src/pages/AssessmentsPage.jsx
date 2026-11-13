@@ -20,6 +20,7 @@ export default function AssessmentsPage() {
   const [count, setCount] = useState(null)
   const [search, setSearch] = useState('')
   const [active, setActive] = useState(null)
+  const [preview, setPreview] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
   const requestId = useRef(crypto.randomUUID())
@@ -57,29 +58,58 @@ export default function AssessmentsPage() {
   useEffect(load, [load])
   useEffect(() => {
     requestId.current = crypto.randomUUID()
+    setPreview(null)
   }, [selected, bands, source, count])
+  function handleStartError(e) {
+    const code = e?.response?.data?.error?.code
+    const details = e?.response?.data?.error?.details
+    if (code === 'active_practice' && details?.session_id) {
+      navigate(`/exam/${details.session_id}`)
+      return
+    }
+    setError(apiMessage(e, 'Chưa tạo được bài luyện tập. Hãy thử lại.'))
+  }
+  async function create(payload) {
+    const r = await api.post('/practice/start', payload)
+    navigate(`/exam/${r.data.session_id}`)
+  }
   async function start(event) {
     event.preventDefault()
     if (guard.current) return
     guard.current = true
     setBusy(true)
     setError(null)
+    const payload = {
+      concept_ids: selected,
+      difficulties: bands,
+      source,
+      question_count: Number(count),
+      request_id: requestId.current,
+    }
     try {
-      const r = await api.post('/practice/start', {
-        concept_ids: selected,
-        difficulties: bands,
-        source,
-        question_count: Number(count),
-        request_id: requestId.current,
-      })
-      navigate(`/exam/${r.data.session_id}`)
-    } catch (e) {
-      const code = e?.response?.data?.error?.code
-      const details = e?.response?.data?.error?.details
-      if (code === 'active_practice' && details?.session_id) {
-        navigate(`/exam/${details.session_id}`)
+      const checked = await api.post('/practice/preview', payload)
+      if (checked.data?.uncovered_concepts?.length) {
+        setPreview({ payload, data: checked.data })
         return
-      } else setError(apiMessage(e, 'Chưa tạo được bài luyện tập. Hãy thử lại.'))
+      }
+      await create(payload)
+    } catch (e) {
+      handleStartError(e)
+    } finally {
+      guard.current = false
+      setBusy(false)
+    }
+  }
+  async function continueStart() {
+    if (!preview || guard.current) return
+    guard.current = true
+    setBusy(true)
+    setError(null)
+    try {
+      await create(preview.payload)
+      setPreview(null)
+    } catch (e) {
+      handleStartError(e)
     } finally {
       guard.current = false
       setBusy(false)
@@ -106,6 +136,34 @@ export default function AssessmentsPage() {
           <Link className={btnPrimary} to={`/exam/${active.session_id}`}>
             Tiếp tục bài làm
           </Link>
+        </Card>
+      ) : preview ? (
+        <Card className="space-y-4 p-6">
+          <h2 className="text-lg font-semibold">Một số khái niệm chưa có câu hỏi phù hợp</h2>
+          <p className="text-sub">{preview.data.notice}</p>
+          <ul className="list-disc space-y-1 pl-5 text-sub">
+            {preview.data.uncovered_concepts.map((c) => (
+              <li key={c.concept_id}>{c.concept_name}</li>
+            ))}
+          </ul>
+          {error && <ErrorState message={error} />}
+          <div className="flex flex-wrap gap-3">
+            <button type="button" className={btnPrimary} disabled={busy} onClick={continueStart}>
+              {busy && <ActionSpinner />}
+              Tiếp tục
+            </button>
+            <button
+              type="button"
+              className={btnGhost}
+              disabled={busy}
+              onClick={() => {
+                setPreview(null)
+                setError(null)
+              }}
+            >
+              Chọn lại
+            </button>
+          </div>
         </Card>
       ) : (
         <form onSubmit={start}>

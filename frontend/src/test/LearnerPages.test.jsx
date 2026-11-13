@@ -48,10 +48,20 @@ function renderRoutes(initial, element, path) {
   )
 }
 
-beforeEach(() => vi.clearAllMocks())
+beforeEach(() => {
+  vi.clearAllMocks()
+  api.post.mockImplementation((url) =>
+    Promise.resolve({
+      data:
+        url === '/practice/preview'
+          ? { can_start: true, uncovered_concepts: [], notice: null }
+          : { session_id: 99 },
+    }),
+  )
+})
 
 const OPTIONS = {
-  question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+  question_count: { min: 1, default: 5, max: 13, presets: [5, 10, 13] },
   result_flow: 'IMMEDIATE',
   concepts: [
     { concept_id: 1, concept_name: 'SELECT' },
@@ -115,6 +125,32 @@ describe('AssessmentsPage', () => {
         request_id: expect.any(String),
       }),
     )
+    expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
+  })
+  it('discloses uncovered concepts before creating the session and continues on request', async () => {
+    mockPractice()
+    api.post.mockImplementation((url) =>
+      Promise.resolve({
+        data:
+          url === '/practice/preview'
+            ? {
+                can_start: true,
+                uncovered_concepts: [{ concept_id: 9, concept_name: 'Indexing' }],
+                notice: 'Indexing chưa có câu hỏi phù hợp.',
+              }
+            : { session_id: 99 },
+      }),
+    )
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Bắt đầu' }))
+    expect(
+      await screen.findByRole('heading', { name: 'Một số khái niệm chưa có câu hỏi phù hợp' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Indexing')).toBeInTheDocument()
+    expect(api.post).not.toHaveBeenCalledWith('/practice/start', expect.anything())
+    await userEvent.click(screen.getByRole('button', { name: 'Tiếp tục' }))
+    expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({}))
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
   it('resumes the real active session without posting another start', async () => {
@@ -230,6 +266,25 @@ describe('HistoryPage', () => {
     expect(screen.getByRole('link', { name: 'Evidence' })).toHaveAttribute('href', '/history/42')
   })
 
+  it('labels a provisional practice result without presenting it as final', async () => {
+    mockPractice([
+      {
+        ...SESSIONS[0],
+        release_status: 'provisional_ai',
+        provisional: true,
+        overall_result_pct: 80,
+        concepts: [],
+      },
+    ])
+    renderRoutes('/history', <HistoryPage />, '/history')
+    expect(
+      await screen.findAllByText('Provisional — awaiting instructor approval'),
+    ).not.toHaveLength(0)
+    expect(screen.getByRole('link', { name: 'Xem đánh giá' })).toHaveAttribute(
+      'href',
+      '/evaluations/42',
+    )
+  })
   it('shows an empty state for a fresh learner', async () => {
     api.get.mockResolvedValue({ data: [] })
     renderRoutes('/history', <HistoryPage />, '/history')

@@ -71,9 +71,17 @@ it('updates a directly linked practice review when asynchronous evaluation finis
   }
   const completed = {
     ...initial,
-    release_status: 'pending_review',
+    release_status: 'provisional_ai',
     evaluation: {
-      evaluation: { summary: 'Ready for review', question_comments: [] },
+      evaluation: {
+        summary: 'Ready for review',
+        strengths: ['strength'],
+        weaknesses: ['weakness'],
+        suggestions: ['suggestion'],
+        learning_path: ['path'],
+        question_comments: [],
+        concepts: [],
+      },
       evaluator_fallback: true,
     },
   }
@@ -99,9 +107,9 @@ it('updates a directly linked practice review when asynchronous evaluation finis
       await vi.advanceTimersByTimeAsync(2100)
     })
     expect(screen.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled()
-    expect(screen.getByText('Ready for review')).toBeVisible()
+    expect(screen.getAllByText('Ready for review').length).toBeGreaterThan(0)
     expect(screen.getByRole('button', { name: /Test learner.*Database rules/ })).toHaveTextContent(
-      t('supervisor.pending_review'),
+      t('supervisor.provisional_ai'),
     )
     expect(
       screen.getByRole('button', { name: /Test learner.*Database rules/ }),
@@ -134,6 +142,53 @@ it('labels an adjusted practice score as current and hides unneeded pagination',
   expect(
     screen.queryByRole('navigation', { name: t('supervisor.reviewPages') }),
   ).not.toBeInTheDocument()
+})
+
+it('submits edited final feedback when the administrator approves', async () => {
+  const practice = {
+    ...pending,
+    learner_defined: true,
+    release_status: 'provisional_ai',
+    evaluation: {
+      evaluation: {
+        summary: 'AI draft',
+        strengths: ['s'],
+        weaknesses: ['w'],
+        suggestions: ['g'],
+        learning_path: ['p'],
+        question_comments: [],
+        concepts: [],
+      },
+      evaluator_fallback: true,
+    },
+    concept_results: [{ concept_id: 2, concept_name: 'Joins' }],
+  }
+  api.get.mockImplementation((path) =>
+    Promise.resolve({
+      data: path === '/admin/grading-reviews' ? [practice] : practice,
+    }),
+  )
+  api.post.mockResolvedValue({
+    data: { ...practice, release_status: 'published', final_result: { source: 'admin' } },
+  })
+  render(
+    <MemoryRouter initialEntries={['/admin/grading']}>
+      <Routes>
+        <Route path="/admin/grading" element={<AdminGradingPage />} />
+      </Routes>
+    </MemoryRouter>,
+  )
+  await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
+  const summary = await screen.findByLabelText('Tóm tắt')
+  await userEvent.clear(summary)
+  await userEvent.type(summary, 'Admin final summary')
+  await userEvent.click(screen.getByRole('button', { name: 'Lưu và duyệt' }))
+  expect(api.post).toHaveBeenCalledWith(
+    '/admin/grading-reviews/9/publish',
+    expect.objectContaining({
+      final_feedback: expect.objectContaining({ summary: 'Admin final summary' }),
+    }),
+  )
 })
 
 it('keeps pagination available on a full queue and returns from an empty next page', async () => {

@@ -465,33 +465,28 @@ test('real entrypoint: strict difficulty, drafts, unavailable AI, human correcti
     const { sid, kinds } = await take(page, state, {
       refresh: true,
       sandbox: true,
+      approveAfter: false,
       answerFor: async (q) => call(adminPage, `/admin/questions/${q.question_id}`, admin),
     })
     expect(kinds).toHaveLength(13)
     expect(
       kinds.reduce((counts, kind) => ({ ...counts, [kind]: (counts[kind] || 0) + 1 }), {}),
     ).toEqual({ mcq: 5, sql: 4, essay: 4 })
-    await expect(
-      page.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-    ).toBeVisible()
+    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible({ timeout: 60_000 })
     await page.reload()
-    await expect(
-      page.getByRole('heading', { name: 'Đang chờ giảng viên duyệt', exact: true }),
-    ).toBeVisible()
+    await expect(page.getByText(/Kết quả tạm thời/)).toBeVisible({ timeout: 60_000 })
     const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
-    for (const endpoint of ['evidence', 'competency', 'gaps', 'guidance']) {
-      expect(
-        (
-          await page.request.get(`${API}/sessions/${sid}/${endpoint}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-        ).status(),
-      ).toBe(409)
-    }
+    expect(
+      (
+        await page.request.get(`${API}/sessions/${sid}/evidence`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      ).status(),
+    ).toBe(200)
     expect((await practiceApi(page, '/sessions/statistics')).published_formal_sessions).toBe(3)
-    const waiting = await practiceApi(page, `/evaluations/attempts/${sid}`)
-    expect(waiting.status).toBe('awaiting_approval')
-    expect(waiting).not.toHaveProperty('score')
+    const provisional = await practiceApi(page, `/evaluations/attempts/${sid}`)
+    expect(provisional.status).toBe('provisional')
+    expect(provisional).toHaveProperty('score')
     await adminPage.goto(`/admin/grading/${sid}`)
     await expect(adminPage.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
       timeout: 45000,

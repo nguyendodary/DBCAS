@@ -170,6 +170,129 @@
         "title": "AccountSummary",
         "type": "object"
       },
+      "AdminConceptFeedback": {
+        "additionalProperties": false,
+        "properties": {
+          "concept_id": {
+            "exclusiveMinimum": 0.0,
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendation"
+          },
+          "strength": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strength"
+          },
+          "weakness": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weakness"
+          }
+        },
+        "required": [
+          "concept_id"
+        ],
+        "title": "AdminConceptFeedback",
+        "type": "object"
+      },
+      "AdminFinalFeedback": {
+        "additionalProperties": false,
+        "properties": {
+          "concepts": {
+            "items": {
+              "$ref": "#/components/schemas/AdminConceptFeedback"
+            },
+            "maxItems": 100,
+            "title": "Concepts",
+            "type": "array"
+          },
+          "learning_path": {
+            "items": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Learning Path",
+            "type": "array"
+          },
+          "strengths": {
+            "items": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Strengths",
+            "type": "array"
+          },
+          "suggestions": {
+            "items": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Suggestions",
+            "type": "array"
+          },
+          "summary": {
+            "maxLength": 3000,
+            "minLength": 1,
+            "title": "Summary",
+            "type": "string"
+          },
+          "weaknesses": {
+            "items": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 12,
+            "minItems": 1,
+            "title": "Weaknesses",
+            "type": "array"
+          }
+        },
+        "required": [
+          "summary",
+          "strengths",
+          "weaknesses",
+          "suggestions",
+          "learning_path"
+        ],
+        "title": "AdminFinalFeedback",
+        "type": "object"
+      },
       "AdminLearnerItem": {
         "description": "One learner row in the admin roster — identity plus activity counts.",
         "properties": {
@@ -1241,6 +1364,59 @@
         "title": "ConceptDetail",
         "type": "object"
       },
+      "ConceptFeedback": {
+        "additionalProperties": false,
+        "properties": {
+          "concept_id": {
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendation"
+          },
+          "strength": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strength"
+          },
+          "weakness": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weakness"
+          }
+        },
+        "required": [
+          "concept_id"
+        ],
+        "title": "ConceptFeedback",
+        "type": "object"
+      },
       "ConceptGraphEdge": {
         "properties": {
           "concept_id": {
@@ -1371,6 +1547,106 @@
           "concept_name"
         ],
         "title": "ConceptRef",
+        "type": "object"
+      },
+      "ConceptResult": {
+        "properties": {
+          "below_target": {
+            "default": false,
+            "title": "Below Target",
+            "type": "boolean"
+          },
+          "competency_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competency Pct"
+          },
+          "concept_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Concept Code"
+          },
+          "concept_id": {
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "concept_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Concept Name"
+          },
+          "covered": {
+            "default": true,
+            "title": "Covered",
+            "type": "boolean"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendation"
+          },
+          "strength": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strength"
+          },
+          "target_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Pct"
+          },
+          "weakness": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weakness"
+          }
+        },
+        "required": [
+          "concept_id"
+        ],
+        "title": "ConceptResult",
         "type": "object"
       },
       "ConceptUpdateRequest": {
@@ -1936,6 +2212,14 @@
       "Evaluation": {
         "additionalProperties": false,
         "properties": {
+          "concepts": {
+            "items": {
+              "$ref": "#/components/schemas/ConceptFeedback"
+            },
+            "maxItems": 100,
+            "title": "Concepts",
+            "type": "array"
+          },
           "learning_path": {
             "items": {
               "type": "string"
@@ -2109,9 +2393,29 @@
             "title": "Approved",
             "type": "boolean"
           },
+          "approved_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approved At"
+          },
           "attempt_count": {
             "title": "Attempt Count",
             "type": "integer"
+          },
+          "concept_results": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ConceptResult"
+            },
+            "title": "Concept Results",
+            "type": "array"
           },
           "details_truncated": {
             "title": "Details Truncated",
@@ -2134,6 +2438,11 @@
             "title": "Dimensions",
             "type": "object"
           },
+          "final": {
+            "default": false,
+            "title": "Final",
+            "type": "boolean"
+          },
           "history": {
             "items": {
               "$ref": "#/components/schemas/EvaluationHistory"
@@ -2148,6 +2457,19 @@
           "pending_count": {
             "title": "Pending Count",
             "type": "integer"
+          },
+          "provisional": {
+            "default": false,
+            "title": "Provisional",
+            "type": "boolean"
+          },
+          "question_results": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/QuestionResult"
+            },
+            "title": "Question Results",
+            "type": "array"
           },
           "result": {
             "anyOf": [
@@ -2169,16 +2491,43 @@
               }
             ]
           },
+          "source": {
+            "anyOf": [
+              {
+                "enum": [
+                  "ai",
+                  "admin_approved",
+                  "legacy_admin_approved"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
           "status": {
             "enum": [
               "empty",
               "pending",
               "processing",
+              "updating",
+              "provisional",
               "ready",
               "failed"
             ],
             "title": "Status",
             "type": "string"
+          },
+          "uncovered_concepts": {
+            "default": [],
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Uncovered Concepts",
+            "type": "array"
           }
         },
         "required": [
@@ -2378,6 +2727,11 @@
             "title": "Items",
             "type": "array"
           },
+          "provisional": {
+            "default": false,
+            "title": "Provisional",
+            "type": "boolean"
+          },
           "session_id": {
             "title": "Session Id",
             "type": "integer"
@@ -2516,6 +2870,15 @@
             "title": "Assessment Title",
             "type": "string"
           },
+          "concept_results": {
+            "default": [],
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Concept Results",
+            "type": "array"
+          },
           "evaluation": {
             "anyOf": [
               {
@@ -2532,6 +2895,18 @@
             },
             "title": "Events",
             "type": "array"
+          },
+          "final_result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Result"
           },
           "items": {
             "items": {
@@ -3412,6 +3787,29 @@
         "title": "PracticeConcept",
         "type": "object"
       },
+      "PracticeConceptRef": {
+        "properties": {
+          "concept_code": {
+            "title": "Concept Code",
+            "type": "string"
+          },
+          "concept_id": {
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "concept_name": {
+            "title": "Concept Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "concept_id",
+          "concept_code",
+          "concept_name"
+        ],
+        "title": "PracticeConceptRef",
+        "type": "object"
+      },
       "PracticeOptions": {
         "properties": {
           "concepts": {
@@ -3430,6 +3828,59 @@
           "question_count"
         ],
         "title": "PracticeOptions",
+        "type": "object"
+      },
+      "PracticePreviewResult": {
+        "properties": {
+          "can_start": {
+            "title": "Can Start",
+            "type": "boolean"
+          },
+          "covered_concepts": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeConceptRef"
+            },
+            "title": "Covered Concepts",
+            "type": "array"
+          },
+          "notice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notice"
+          },
+          "question_count": {
+            "title": "Question Count",
+            "type": "integer"
+          },
+          "type_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Type Counts",
+            "type": "object"
+          },
+          "uncovered_concepts": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeConceptRef"
+            },
+            "title": "Uncovered Concepts",
+            "type": "array"
+          }
+        },
+        "required": [
+          "can_start",
+          "question_count",
+          "type_counts",
+          "covered_concepts",
+          "uncovered_concepts"
+        ],
+        "title": "PracticePreviewResult",
         "type": "object"
       },
       "PracticeStart": {
@@ -3463,7 +3914,7 @@
           },
           "question_count": {
             "default": 5,
-            "maximum": 20.0,
+            "maximum": 13.0,
             "minimum": 1.0,
             "title": "Question Count",
             "type": "integer"
@@ -3632,6 +4083,16 @@
       "PublishResultsRequest": {
         "additionalProperties": false,
         "properties": {
+          "final_feedback": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AdminFinalFeedback"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "revision": {
             "minimum": 0.0,
             "title": "Revision",
@@ -4226,6 +4687,56 @@
           "updated_at"
         ],
         "title": "QuestionListItem",
+        "type": "object"
+      },
+      "QuestionResult": {
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "grading_status": {
+            "title": "Grading Status",
+            "type": "string"
+          },
+          "points": {
+            "title": "Points",
+            "type": "number"
+          },
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "integer"
+          },
+          "question_type": {
+            "title": "Question Type",
+            "type": "string"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "question_id",
+          "question_type",
+          "prompt",
+          "score",
+          "points",
+          "grading_status"
+        ],
+        "title": "QuestionResult",
         "type": "object"
       },
       "QuestionStatusUpdate": {
@@ -5117,6 +5628,17 @@
             "title": "Bank Mixed",
             "type": "boolean"
           },
+          "coverage_notice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverage Notice"
+          },
           "current_question": {
             "anyOf": [
               {
@@ -5255,6 +5777,14 @@
             "default": false,
             "title": "Template Fallback",
             "type": "boolean"
+          },
+          "uncovered_concepts": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Uncovered Concepts",
+            "type": "array"
           }
         },
         "required": [
@@ -5374,6 +5904,11 @@
             "default": 0,
             "title": "Pending Grading Count",
             "type": "integer"
+          },
+          "provisional": {
+            "default": false,
+            "title": "Provisional",
+            "type": "boolean"
           },
           "release_status": {
             "default": "published",
@@ -16468,6 +17003,147 @@
           }
         ],
         "summary": "Practice Options",
+        "tags": [
+          "practice"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/practice/preview": {
+      "post": {
+        "operationId": "preview_practice_api_v1_practice_preview_post",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PracticeStart"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PracticePreviewResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Preview Practice",
         "tags": [
           "practice"
         ],

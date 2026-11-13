@@ -3,16 +3,17 @@ from copy import deepcopy
 from uuid import uuid4
 from decimal import Decimal
 import pytest
-from sqlalchemy import select, func
+from sqlalchemy import select, func, text
 
-from app.models import Assessment, AssessmentSession, Attempt, GradeEditAudit, EvaluationRecord
+from app.models import (Assessment, AssessmentSession, Attempt, GradeEditAudit,
+                        EvaluationRecord, SessionFinalResult, ResultReleaseEvent)
 from app.errors import AppError
 from app.services import evaluation_service as evaluations, practice_service as practice, grading_review
 from test_adaptive_engine import _make_account, _concept, _mcq, _sql, _essay
 from test_supervisor_requirements import headers
 
 
-def fixture(db):
+def fixture(db, *, shuffle=False):
     from app.schemas import QuestionUpsertRequest
     from app.services.question_service import create_question
     from app.services.practice_corpus import template_pack
@@ -30,10 +31,16 @@ def fixture(db):
                 row.update(min_score=lo, max_score=hi)
         created = create_question(db, QuestionUpsertRequest(**q), admin)
         db.get(Question, created.question_id).status = "validated"
-    for concept in concepts:
-        for level in range(1, 6): create(concept, "mcq", level, level)
-    create(concepts[0], "sql", 2, 1)
-    create(concepts[0], "essay", 3, 1)
+    # Both concepts need every question type so a balanced three-question plan
+    # can cover the whole selected scope; question ids must never decide scope.
+    specs = [(concept, "mcq", level, level) for concept in concepts for level in range(1, 6)]
+    specs += [(concept, kind, level, 1) for concept in concepts
+              for kind, level in (("sql", 2), ("essay", 3))]
+    if shuffle:
+        from random import Random
+        Random(20261113).shuffle(specs)
+    for concept, kind, level, variant in specs:
+        create(concept, kind, level, variant)
     db.commit()
     return admin, learner, concepts
 
@@ -100,7 +107,16 @@ def test_bank_shortfall_widens_deterministically_to_exact_count_and_discloses(cl
 @pytest.mark.parametrize("configured", [False, True])
 def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_count(client, db_session, configured, monkeypatch):
     _, learner, concepts = fixture(db_session)
-    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 20})
+    payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 13})
+    # The sibling concept shares the same subject area, so its validated bank
+    # would widen the plan to the full requested count without any template.
+    # Draft it to keep this scenario about an insufficient validated bank.
+    from app.models import Question, QuestionConcept
+    from sqlalchemy import update
+    sibling_questions = select(QuestionConcept.question_id).where(
+        QuestionConcept.concept_id == concepts[1].concept_id)
+    db_session.execute(update(Question).where(Question.question_id.in_(sibling_questions)).values(status="draft"))
+    db_session.commit()
 
     class FailedProvider:
         calls = 0
@@ -112,8 +128,8 @@ def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_coun
     provider = FailedProvider() if configured else None
     started = practice.start(db_session, learner, payload, llm=provider)
     session = db_session.get(AssessmentSession, started.session_id)
-    assert len(session.config_snapshot["question_plan"]) == 20
-    assert len(set(session.config_snapshot["question_ids"])) == 20 and started.generation_fallback
+    assert len(session.config_snapshot["question_plan"]) == 13
+    assert len(set(session.config_snapshot["question_ids"])) == 13 and started.generation_fallback
     assert any(p["origin"] == "template" for p in session.config_snapshot["selection_provenance"])
     from app.services.practice_bank import content_errors
     from app.models import Question
@@ -127,6 +143,74 @@ def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_coun
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 1
 
 
+def test_preview_is_read_only_deterministic_and_never_calls_the_provider(client, db_session, monkeypatch):
+    _, learner, concepts = fixture(db_session)
+    payload = selection(concepts)
+    before = db_session.scalar(select(func.count()).select_from(AssessmentSession))
+    def forbidden(*args, **kwargs):
+        raise AssertionError("preview must not call the provider")
+    monkeypatch.setattr(practice, "generate_entries", forbidden)
+    first = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    second = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert first.status_code == 200, first.text
+    assert second.status_code == 200, second.text
+    assert first.json() == second.json()
+    assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == before
+    body = first.json()
+    assert body["can_start"] is True and body["question_count"] == 3
+    assert sum(body["type_counts"].values()) == 3
+    assert {c["concept_id"] for c in body["covered_concepts"]} == {c.concept_id for c in concepts}
+
+
+def test_preview_rate_limit_and_coverage_disclosure(client, db_session, monkeypatch):
+    from app.config import get_settings
+    _, learner, concepts = fixture(db_session)
+    extra = _concept(db_session, "NO-QUESTIONS")
+    db_session.commit()
+    payload = selection(concepts + [extra])
+    settings = get_settings()
+    monkeypatch.setattr(settings, "practice_preview_rate_limit_attempts", 1)
+    assert client.post('/api/v1/practice/preview', headers=headers(learner), json=payload).status_code == 200
+    limited = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert limited.status_code == 429 and limited.json()["error"]["code"] == "preview_rate_limited"
+    monkeypatch.setattr(settings, "practice_preview_rate_limit_attempts", 30)
+    practice.get_preview_throttle().reset()
+    preview = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert preview.status_code == 200, preview.text
+    assert extra.concept_id in {c["concept_id"] for c in preview.json()["uncovered_concepts"]}
+    assert preview.json()["notice"]
+    started = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
+    assert started.status_code == 200, started.text
+    assert extra.concept_id in {c["concept_id"] for c in started.json()["uncovered_concepts"]}
+    assert started.json()["coverage_notice"]
+
+
+def test_ai_preview_accepts_a_deterministic_shortfall_but_bank_does_not(client, db_session):
+    learner = _make_account(db_session, "preview-ai@test.dev", "Learner")
+    isolated = _concept(db_session, "AI-ONLY")
+    db_session.commit()
+    payload = {**selection([isolated]), "source": "ai", "question_count": 3}
+    preview = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert preview.status_code == 200, preview.text
+    body = preview.json()
+    assert body["can_start"] is True and body["question_count"] == 0
+    assert body["type_counts"] == {}
+    assert [c["concept_id"] for c in body["uncovered_concepts"]] == [isolated.concept_id]
+    assert body["notice"]
+    payload["source"] = "bank"
+    rejected = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert rejected.status_code == 422
+    assert rejected.json()["error"]["code"] == "insufficient_question_pool"
+
+
+def test_practice_question_count_caps_at_thirteen():
+    from pydantic import ValidationError
+    base = dict(concept_ids=[1], difficulties=["EASY"], source="bank", request_id=str(uuid4()))
+    assert practice.PracticeStart(**{**base, "question_count": 13}).question_count == 13
+    with pytest.raises(ValidationError):
+        practice.PracticeStart(**{**base, "question_count": 14})
+
+
 def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_session):
     admin, learner, concepts = fixture(db_session)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
@@ -136,28 +220,105 @@ def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_
     assert pending["status"] == "pending" and pending["history"] == [] and pending["dimensions"] == {} and pending["result"] is None
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 409
     assert evaluations.process_one(db_session, force_fallback=True)
-    assert client.get(path, headers=headers(learner)).json() == {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
+    provisional = client.get(path, headers=headers(learner)).json()
+    assert provisional["status"] == "provisional" and provisional["provisional"] is True
+    assert provisional["final"] is False and provisional["approved"] is False
+    assert provisional["score"] and provisional["result"]["evaluation"]["question_comments"]
+    assert provisional["question_results"] and provisional["concept_results"]
+    assert "ai_evaluation" not in provisional
+    evidence = client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner))
+    assert evidence.status_code == 200 and evidence.json()["provisional"] is True
     review_path = f"/api/v1/admin/grading-reviews/{state['session_id']}"
     detail = client.get(review_path, headers=headers(admin)).json()
     assert detail["evaluation"]
     published = client.post(review_path+'/publish', headers=headers(admin), json={"revision": detail["revision"]})
     assert published.status_code == 200, published.text
     view = client.get(path, headers=headers(learner)).json()
-    assert view["status"] == "ready" and view["result"]["evaluator_fallback"] and view["approved"]
+    assert view["status"] == "ready" and view["final"] is True and view["approved"] is True
+    assert view["provisional"] is False and view["source"] == "admin_approved"
     assert len(view["result"]["evaluation"]["question_comments"]) == 3
+    assert "ai_evaluation" not in view
     assert client.get(path, headers=headers(learner)).json()["input_hash"] == view["input_hash"]
     assert not evaluations.process_one(db_session)
     assert client.get(f"/api/v1/sessions/{state['session_id']}/evidence", headers=headers(learner)).status_code == 200
 
 
-def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session):
+def test_admin_final_feedback_overrides_ai_is_escaped_and_idempotent(client, db_session):
+    admin, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
+    complete(client, db_session, learner, state)
+    evaluations.process_one(db_session, force_fallback=True)
+    sid = state["session_id"]
+    review_path = f"/api/v1/admin/grading-reviews/{sid}"
+    detail = client.get(review_path, headers=headers(admin)).json()
+    ai_summary = detail["evaluation"]["evaluation"]["summary"]
+    concept_ids = [item["concept_id"] for item in
+                   client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()["concept_results"]]
+    feedback = {
+        "summary": "<script>Admin final summary</script>",
+        "strengths": ["<b>Strong evidence</b>"],
+        "weaknesses": ["Needs <i>practice</i>"],
+        "suggestions": ["Review joins"],
+        "learning_path": ["Practice SELECT"],
+        "concepts": [{"concept_id": concept_ids[0], "strength": "<b>Good</b>",
+                      "weakness": "More practice", "recommendation": "Retry"}],
+    }
+    published = client.post(review_path + "/publish", headers=headers(admin),
+                            json={"revision": detail["revision"], "final_feedback": feedback})
+    assert published.status_code == 200, published.text
+    view = client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()
+    assert view["status"] == "ready" and view["final"] is True and view["approved"] is True
+    assert view["source"] == "admin_approved"
+    assert view["result"]["evaluation"]["summary"] == "Admin final summary"
+    assert "<script>" not in str(view) and "<b>" not in str(view)
+    assert ai_summary not in str(view)
+    assert "ai_evaluation" not in view
+    admin_detail = client.get(review_path, headers=headers(admin)).json()
+    assert admin_detail["evaluation"]["evaluation"]["summary"] == ai_summary
+    assert admin_detail["final_result"]["final_evaluation"]["summary"] == "Admin final summary"
+    again = client.post(review_path + "/publish", headers=headers(admin),
+                        json={"revision": detail["revision"]})
+    assert again.status_code == 200
+    assert db_session.scalar(select(func.count()).select_from(SessionFinalResult)) == 1
+    assert db_session.scalar(select(func.count()).select_from(ResultReleaseEvent).where(
+        ResultReleaseEvent.session_id == sid, ResultReleaseEvent.new_status == "published")) == 1
+    with pytest.raises(Exception):
+        db_session.execute(text("UPDATE session_final_result SET final_evaluation='{}'::jsonb"))
+        db_session.commit()
+    db_session.rollback()
+
+
+def test_admin_final_feedback_rejects_unknown_concepts_and_markup_only_text(client, db_session):
+    admin, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
+    complete(client, db_session, learner, state)
+    evaluations.process_one(db_session, force_fallback=True)
+    sid = state["session_id"]
+    review_path = f"/api/v1/admin/grading-reviews/{sid}"
+    detail = client.get(review_path, headers=headers(admin)).json()
+    base = {"summary": "Final", "strengths": ["s"], "weaknesses": ["w"],
+            "suggestions": ["g"], "learning_path": ["p"]}
+    unknown = client.post(review_path + "/publish", headers=headers(admin),
+                          json={"revision": detail["revision"],
+                                "final_feedback": {**base, "concepts": [{"concept_id": 999999}]}})
+    assert unknown.status_code == 422 and unknown.json()["error"]["code"] == "invalid_final_feedback"
+    empty = client.post(review_path + "/publish", headers=headers(admin),
+                        json={"revision": detail["revision"],
+                              "final_feedback": {**base, "summary": "<script></script>"}})
+    assert empty.status_code == 422 and empty.json()["error"]["code"] == "invalid_final_feedback"
+    assert db_session.scalar(select(func.count()).select_from(SessionFinalResult)) == 0
+
+
+def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session, monkeypatch):
+    from app.config import get_settings
+    monkeypatch.setattr(get_settings(), "evaluation_debounce_seconds", 0)
     admin, learner, concepts = fixture(db_session)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
     complete(client, db_session, learner, state)
     evaluations.process_one(db_session, force_fallback=True)
     sid = state["session_id"]
     path = f"/api/v1/evaluations/attempts/{sid}"
-    assert client.get(path, headers=headers(learner)).json() == {"status": "awaiting_approval", "message": "Đang chờ giảng viên duyệt"}
+    assert client.get(path, headers=headers(learner)).json()["status"] == "provisional"
     summary = client.get('/api/v1/sessions/statistics', headers=headers(learner)).json()
     assert summary["published_formal_sessions"] == 0
     review_path = f"/api/v1/admin/grading-reviews/{sid}"
@@ -184,6 +345,31 @@ def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session):
     view = client.get(path, headers=headers(learner)).json()
     assert view["status"] == "ready" and view["approved"] and view["adjusted"]
     assert client.get('/api/v1/sessions/statistics', headers=headers(learner)).json()["published_formal_sessions"] == 1
+
+
+def test_score_edit_shows_updating_and_debounces_provider(client, db_session, monkeypatch):
+    from app.config import get_settings
+    from datetime import datetime, timezone
+    monkeypatch.setattr(get_settings(), "evaluation_debounce_seconds", 60)
+    admin, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
+    complete(client, db_session, learner, state)
+    evaluations.process_one(db_session, force_fallback=True)
+    sid = state["session_id"]
+    review = client.get(f"/api/v1/admin/grading-reviews/{sid}", headers=headers(admin)).json()
+    item = review["items"][0]
+    edited = client.post(f"/api/v1/admin/grading-reviews/{sid}/attempts/{item['attempt_id']}",
+                         headers=headers(admin),
+                         json={"revision": 0, "score": "0", "comments": "Điều chỉnh theo rubric"})
+    assert edited.status_code == 200, edited.text
+    updating = client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()
+    assert updating["status"] == "updating" and updating["result"] is None
+    assert not evaluations.process_one(db_session, force_fallback=True)
+    row = db_session.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == sid))
+    row.available_at = datetime.now(timezone.utc)
+    db_session.commit()
+    assert evaluations.process_one(db_session, force_fallback=True)
+    assert client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner)).json()["status"] == "provisional"
 
 
 @pytest.mark.parametrize("count", [0, 1, 3])
@@ -423,6 +609,9 @@ def test_ready_evaluation_and_release_are_read_as_one_consistent_state(client, d
     payload.update(source="ai", question_count=1)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=payload).json()
     complete(client, db_session, learner, state)
+    # The test session cached attempts before their answers were committed by
+    # the request sessions; read the committed state before hashing it.
+    db_session.expire_all()
     row, data, _ = evaluations.ensure(db_session, learner.account_id, state["session_id"])
     from app.services.evaluation_pipeline import evaluate
     row.payload, row.status = evaluate(data, force_fallback=True), "ready"

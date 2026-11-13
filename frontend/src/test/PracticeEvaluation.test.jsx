@@ -31,11 +31,36 @@ const result = {
 }
 const ready = {
   status: 'ready',
+  provisional: false,
+  final: true,
   attempt_count: 1,
   pending_count: 0,
   result,
   dimensions: {},
   history: [{ percentage: 80 }],
+}
+const provisional = {
+  ...ready,
+  status: 'provisional',
+  provisional: true,
+  final: false,
+  approved: false,
+  question_results: [
+    { attempt_id: 1, question_id: 4, question_type: 'mcq', prompt: 'Q', score: 1, points: 1 },
+  ],
+  concept_results: [
+    {
+      concept_id: 1,
+      concept_name: 'SELECT',
+      competency_pct: 100,
+      target_pct: 70,
+      below_target: false,
+      covered: true,
+      strength: 'Đạt mục tiêu',
+      weakness: null,
+      recommendation: null,
+    },
+  ],
 }
 function renderEvaluation(overall = false) {
   return render(
@@ -112,38 +137,41 @@ it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async (
   }
   expect(screen.getByText(/2 bài đang chờ/)).toBeInTheDocument()
 })
-it('hides all grades and comments while awaiting approval', async () => {
-  api.get.mockResolvedValue({ data: { status: 'awaiting_approval' } })
+it('shows the provisional AI result with an explicit label', async () => {
+  api.get.mockResolvedValue({ data: provisional })
   renderEvaluation()
-  expect(
-    await screen.findByRole('heading', { name: 'Đang chờ giảng viên duyệt' }),
-  ).toBeInTheDocument()
-  expect(screen.queryByTestId('charts')).not.toBeInTheDocument()
-  expect(screen.queryByText('Câu trả lời đúng.')).not.toBeInTheDocument()
+  expect(await screen.findByText(/Kết quả tạm thời/)).toBeInTheDocument()
+  expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
+  expect(screen.getByText('Điểm mạnh và điểm cần cải thiện theo khái niệm')).toBeInTheDocument()
+  expect(screen.queryByText(/Đã được giảng viên duyệt/)).not.toBeInTheDocument()
 })
 it('marks approved and adjusted results clearly', async () => {
-  api.get.mockResolvedValue({ data: { ...ready, approved: true, adjusted: true } })
+  api.get.mockResolvedValue({
+    data: { ...ready, final: true, approved: true, adjusted: true },
+  })
   renderEvaluation()
   expect(await screen.findByText(/Đã được giảng viên duyệt/)).toBeInTheDocument()
   expect(screen.getByText('Điểm đã được điều chỉnh')).toBeInTheDocument()
 })
-it('keeps checking a long instructor review and shows approval without reloading', async () => {
+it('keeps provisional results visible and replaces them after approval without reloading', async () => {
   vi.useFakeTimers()
   let approved = false
   api.get.mockImplementation(() =>
     Promise.resolve({
-      data: approved ? { ...ready, approved: true } : { status: 'awaiting_approval' },
+      data: approved ? { ...ready, final: true, approved: true } : provisional,
     }),
   )
   renderEvaluation()
+  await act(async () => {})
+  expect(screen.getByText(/Kết quả tạm thời/)).toBeVisible()
   await act(async () => {
-    await vi.advanceTimersByTimeAsync(61000)
+    await vi.advanceTimersByTimeAsync(15000)
   })
-  expect(screen.getByRole('heading', { name: 'Đang chờ giảng viên duyệt' })).toBeVisible()
+  expect(screen.getByText(/Kết quả tạm thời/)).toBeVisible()
   expect(api.post).not.toHaveBeenCalled()
   approved = true
   await act(async () => {
-    await vi.advanceTimersByTimeAsync(10000)
+    await vi.advanceTimersByTimeAsync(15000)
   })
   expect(screen.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
@@ -166,7 +194,7 @@ it('prevents double submit, shows generation state and keeps the request id for 
       data:
         url === '/practice/options'
           ? {
-              question_count: { min: 1, default: 5, max: 20, presets: [5, 10, 15, 20] },
+              question_count: { min: 1, default: 5, max: 13, presets: [5, 10, 13] },
               concepts: [{ concept_id: 1, concept_name: 'SELECT' }],
             }
           : [],
@@ -186,7 +214,7 @@ it('prevents double submit, shows generation state and keeps the request id for 
   )
   await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
   await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
-  await userEvent.click(screen.getByRole('button', { name: '15 câu', exact: true }))
+  await userEvent.click(screen.getByRole('button', { name: '13 câu', exact: true }))
   const button = screen.getByRole('button', { name: 'Bắt đầu' })
   fireEvent.click(button)
   fireEvent.click(button)

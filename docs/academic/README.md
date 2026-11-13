@@ -41,7 +41,7 @@ What the v1.2 documents state (all verifiable in the repository):
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
 - 6 Compose services (7 with QA-only `qa-ai`; the opt-in real-QA run reuses
-  `app`), 82 OpenAPI paths / 92 operations, 23 frontend routes.
+  `app`), 83 OpenAPI paths / 93 operations, 23 frontend routes.
 
 OAuth text reconciliation (20261112 request, performed 2026-11-11): 31 minimal
 English replacements across the three v1.2 files, including the read-only

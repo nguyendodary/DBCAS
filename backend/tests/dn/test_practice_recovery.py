@@ -220,9 +220,9 @@ def test_budget_applies_to_initialized_client_and_preserves_fake_transport():
     assert calls == [.25]
 
 
-def test_full_size_fake_generation_uses_verified_grids_and_serves_twenty_ai_questions(client, db_session, monkeypatch):
+def test_full_size_fake_generation_uses_verified_grids_and_serves_thirteen_ai_questions(client, db_session, monkeypatch):
     _, learner, concepts = valid_bank(db_session)
-    payload = PracticeStart(concept_ids=[concepts[0].concept_id], source="ai", question_count=20, request_id=uuid4())
+    payload = PracticeStart(concept_ids=[concepts[0].concept_id], source="ai", question_count=13, request_id=uuid4())
     wire = ai_wire(concepts, payload)
     class Provider:
         calls = 0
@@ -234,13 +234,13 @@ def test_full_size_fake_generation_uses_verified_grids_and_serves_twenty_ai_ques
     monkeypatch.setitem(app.dependency_overrides, get_llm_service, lambda: provider)
     response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload.model_dump(mode="json"))
     assert response.status_code == 200, response.text
-    assert response.json()["max_questions"] == 20
+    assert response.json()["max_questions"] == 13
     session = db_session.get(AssessmentSession, response.json()["session_id"])
     snapshot = session.config_snapshot
     assert response.json()["generation_fallback"] is True and response.json()["bank_mixed"] is True
-    assert response.json()["template_fallback"] is False and response.json()["ai_generated_count"] == 13
-    assert len(set(snapshot["question_ids"])) == 20
-    assert len({q["prompt"] for q in snapshot["question_plan"]}) == 20
+    assert response.json()["template_fallback"] is False and response.json()["ai_generated_count"] == 9
+    assert len(set(snapshot["question_ids"])) == 13
+    assert len({q["prompt"] for q in snapshot["question_plan"]}) == 13
     origins = {(p["origin"], q["question_type"])
                for p, q in zip(snapshot["selection_provenance"], snapshot["question_plan"])}
     assert {kind for origin, kind in origins if origin == "ai"} == {"mcq", "essay"}

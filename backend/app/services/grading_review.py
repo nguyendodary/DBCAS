@@ -1,5 +1,7 @@
 """Publication boundary and auditable administrator verification of grades."""
+from copy import deepcopy
 from decimal import Decimal
+import re
 
 from sqlalchemy import select
 
@@ -7,16 +9,36 @@ from ..errors import AppError
 from ..repositories import AssessmentRepository
 from .evidence_context import question_view
 
+_TAG_RE = re.compile(r"<[^>]*>")
+_CONTROL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+
+
+def _plain(value):
+    """Store administrator prose as plain text; never as markup."""
+    if value is None:
+        return None
+    text = _CONTROL_RE.sub("", str(value))
+    text = _TAG_RE.sub("", text)
+    return text.strip()
+
+
+def _plain_list(values):
+    return [text for value in values if (text := _plain(value))]
+
 
 def is_published(session):
     return session.status != "in_progress" and session.release_status == "published"
 
 
-def require_published(session):
-    if not is_published(session):
-        raise AppError(409, "results_pending", "Official results are not available yet.",
-                       details={"release_status": session.release_status,
-                                "result_release_policy": session.result_release_policy})
+def require_published(session, *, allow_provisional=False):
+    if is_published(session):
+        return
+    if (allow_provisional and session.assessment_id is None
+            and session.release_status in ("provisional_ai", "pending_review")):
+        return
+    raise AppError(409, "results_pending", "Official results are not available yet.",
+                   details={"release_status": session.release_status,
+                            "result_release_policy": session.result_release_policy})
 
 
 def transition(db, session, status, *, reviewer_id=None):
@@ -47,7 +69,7 @@ def reconcile(db, session, *, reviewer_id=None):
     if is_practice(session):
         evaluation_ready = ready(db, session)
         graded = all(a.score is not None and a.grading_status == "graded" for a in attempts)
-        status = "pending_review" if graded and evaluation_ready else "auto_grading"
+        status = "provisional_ai" if graded and evaluation_ready else "auto_grading"
         transition(db, session, status, reviewer_id=reviewer_id)
         return
     if any(a.grading_status == "failed" for a in attempts):
@@ -113,12 +135,23 @@ def detail(db, session_id):
             "rubrics": [dict(level_name=r.level_name, min_score=r.min_score, max_score=r.max_score, criteria=r.criteria) for r in question.rubrics]})
     events = list(db.scalars(select(ResultReleaseEvent).where(ResultReleaseEvent.session_id == session_id)
                             .order_by(ResultReleaseEvent.event_id)))
-    from ..models import EvaluationRecord, GradeEditAudit
+    from ..models import EvaluationRecord, GradeEditAudit, SessionFinalResult
+    from .evaluation_service import concept_context_for
     evaluation = db.scalar(select(EvaluationRecord).where(EvaluationRecord.session_id == session_id))
+    final = db.scalar(select(SessionFinalResult).where(SessionFinalResult.session_id == session_id))
     audits = list(db.scalars(select(GradeEditAudit).where(GradeEditAudit.attempt_id.in_([i["attempt_id"] for i in items])).order_by(GradeEditAudit.audit_id)))
     return {**_summary(db, session), "items": items,
             "learner_defined": bool((session.config_snapshot or {}).get("learner_defined")),
             "evaluation": evaluation.payload if evaluation and evaluation.status == "ready" else None,
+            "concept_results": concept_context_for(db, session),
+            "final_result": {
+                "source": final.source, "reviewer_id": final.reviewer_id,
+                "final_evaluation": final.final_evaluation,
+                "concept_results": final.concept_results,
+                "scores": final.scores, "overall": final.overall,
+                "uncovered_concepts": final.uncovered_concepts,
+                "approved_at": final.approved_at,
+            } if final else None,
             "score_edits": [{"attempt_id": a.attempt_id, "reviewer_id": a.reviewer_id, "old_score": a.old_score,
                              "new_score": a.new_score, "reason": a.reason, "created_at": a.created_at} for a in audits],
             "manual_review_required": any((item["automated_detail"] or {}).get("awaiting_instructor") for item in items),
@@ -175,14 +208,91 @@ def approve(db, session_id, attempt_id, payload, admin):
     return detail(db, session_id)
 
 
+def _final_evaluation(db, session, payload, ai_evaluation):
+    from .evaluation_service import concept_context_for
+    from .prompt_builder import Evaluation
+    final = deepcopy(ai_evaluation)
+    feedback = payload.final_feedback
+    if feedback is not None:
+        summary = _plain(feedback.summary)
+        strengths = _plain_list(feedback.strengths)
+        weaknesses = _plain_list(feedback.weaknesses)
+        suggestions = _plain_list(feedback.suggestions)
+        learning_path = _plain_list(feedback.learning_path)
+        if not summary or not all((strengths, weaknesses, suggestions, learning_path)):
+            raise AppError(422, "invalid_final_feedback", "Final feedback text cannot be empty.")
+        context_ids = {item["concept_id"] for item in concept_context_for(db, session)}
+        admin_notes = {}
+        for item in feedback.concepts:
+            if item.concept_id in admin_notes:
+                raise AppError(422, "invalid_final_feedback", "Duplicate concept feedback.")
+            if item.concept_id not in context_ids:
+                raise AppError(422, "invalid_final_feedback", "Unknown concept feedback.")
+            admin_notes[item.concept_id] = {
+                "strength": _plain(item.strength),
+                "weakness": _plain(item.weakness),
+                "recommendation": _plain(item.recommendation),
+            }
+        ai_notes = {int(item["concept_id"]): item for item in final.get("concepts", [])
+                    if item.get("concept_id") is not None}
+        final["concepts"] = [
+            {"concept_id": cid, **{
+                key: (admin_notes.get(cid, {}).get(key) or ai_notes.get(cid, {}).get(key) or None)
+                for key in ("strength", "weakness", "recommendation")
+            }} for cid in sorted(context_ids)
+        ]
+        final.update(summary=summary, strengths=strengths, weaknesses=weaknesses,
+                     suggestions=suggestions, learning_path=learning_path)
+    else:
+        final.setdefault("concepts", [])
+    try:
+        Evaluation.model_validate(final)
+    except Exception as exc:
+        raise AppError(422, "invalid_final_feedback", "Final feedback does not match the result schema.") from exc
+    return final
+
+
+def _practice_snapshot(db, session, payload, admin):
+    from ..models import EvaluationRecord, SessionFinalResult
+    from .evaluation_service import concept_context_for
+    evaluation = db.scalar(select(EvaluationRecord).where(
+        EvaluationRecord.session_id == session.session_id))
+    if evaluation is None or evaluation.status != "ready" or not evaluation.payload:
+        raise AppError(409, "review_incomplete", "Hãy chờ đánh giá AI hoàn tất trước khi duyệt.")
+    attempts = AssessmentRepository(db).session_attempts(session.session_id)
+    scores, earned, possible = [], Decimal(0), Decimal(0)
+    for attempt in attempts:
+        points = question_view(attempt).points
+        scores.append({
+            "attempt_id": attempt.attempt_id, "question_id": attempt.question_id,
+            "score": str(attempt.score) if attempt.score is not None else None,
+            "points": str(points), "grading_status": attempt.grading_status,
+        })
+        earned += attempt.score or 0
+        possible += points
+    percentage = float((earned / possible * 100).quantize(Decimal("0.01"))) if possible else 0.0
+    snapshot = SessionFinalResult(
+        session_id=session.session_id, reviewer_id=admin.account_id, source="admin",
+        evaluation_input_hash=evaluation.input_hash, approval_revision=payload.revision,
+        ai_evaluation=evaluation.payload,
+        final_evaluation=_final_evaluation(db, session, payload,
+                                           evaluation.payload.get("evaluation", {})),
+        concept_results=concept_context_for(db, session), scores=scores,
+        overall={"earned": str(earned), "possible": str(possible), "percentage": percentage},
+        uncovered_concepts=(session.config_snapshot or {}).get("uncovered_concepts", []),
+    )
+    db.add(snapshot)
+    return snapshot
+
+
 def publish(db, session_id, payload, admin):
     session = _session(db, session_id)
     if session.learner_id == admin.account_id:
         raise AppError(403, "self_review_forbidden", "A grader cannot publish their own assessment")
-    if session.review_revision != payload.revision:
-        raise AppError(409, "review_conflict", "The review changed. Reload it before publishing.")
     if is_published(session):
         return detail(db, session_id)
+    if session.review_revision != payload.revision:
+        raise AppError(409, "review_conflict", "The review changed. Reload it before publishing.")
     reconcile(db, session, reviewer_id=admin.account_id)
     from .evaluation_service import is_practice, ready
     if is_practice(session):
@@ -191,6 +301,7 @@ def publish(db, session_id, payload, admin):
             raise AppError(409, "review_incomplete", "Hãy chờ chấm điểm và đánh giá AI hoàn tất trước khi duyệt.")
         from .competency_service import detect_session_gaps
         detect_session_gaps(db, session, commit=False)
+        _practice_snapshot(db, session, payload, admin)
         transition(db, session, "published", reviewer_id=admin.account_id)
         db.commit()
         return detail(db, session_id)
@@ -235,7 +346,12 @@ def edit_practice_score(db, session, attempt_id, payload, admin):
     attempt.review_revision += 1
     session.review_revision += 1
     db.flush()
-    ensure(db, session.learner_id, session.session_id)
+    # Numeric columns normalize "0" to "0.00" on reload; hash the stored value
+    # so the debounce window is not invalidated by a representation change.
+    db.refresh(attempt)
+    from ..config import get_settings
+    ensure(db, session.learner_id, session.session_id,
+           debounce_seconds=get_settings().evaluation_debounce_seconds)
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)
     reconcile(db, session, reviewer_id=admin.account_id)

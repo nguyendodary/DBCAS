@@ -13,7 +13,7 @@ def test_release_events_use_current_database_time_in_a_long_transaction(db_sessi
     session = repo.lock_session(session.session_id)
     session.status = "completed"
     previous = None
-    for status in ["auto_grading", "pending_review", "reviewed", "published"]:
+    for status in ["auto_grading", "provisional_ai", "pending_review", "reviewed", "published"]:
         # PostgreSQL now() stays at transaction start; the actual event does not.
         db_session.execute(text("SELECT pg_sleep(0.02)"))
         not_before = repo.server_time()

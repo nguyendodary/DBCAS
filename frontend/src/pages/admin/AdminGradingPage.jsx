@@ -177,7 +177,8 @@ export default function AdminGradingPage() {
               disabled={
                 busy ||
                 (detail.learner_defined
-                  ? !detail.evaluation || detail.release_status !== 'pending_review'
+                  ? !detail.evaluation ||
+                    !['provisional_ai', 'pending_review'].includes(detail.release_status)
                   : detail.release_status !== 'reviewed')
               }
               onClick={() =>
@@ -225,6 +226,16 @@ export default function AdminGradingPage() {
               )}
             </Card>
           )}
+          {detail.learner_defined && detail.final_result && (
+            <Card className="space-y-2 p-5">
+              <h3 className="font-semibold">Kết quả cuối cùng đã duyệt</h3>
+              <p className="text-sub">{detail.final_result.final_evaluation?.summary}</p>
+              <p className="text-sm text-sub">
+                Nguồn:{' '}
+                {detail.final_result.source === 'legacy' ? 'bản cũ đã duyệt' : 'giảng viên duyệt'}
+              </p>
+            </Card>
+          )}
           {detail.items.filter((item) => item.question_type !== 'mcq').map(renderReviewItem)}
           {detail.items.some((item) => item.question_type === 'mcq') && (
             <details
@@ -242,6 +253,19 @@ export default function AdminGradingPage() {
                 </div>
               )}
             </details>
+          )}
+          {detail.learner_defined && detail.evaluation && detail.release_status !== 'published' && (
+            <FinalFeedbackEditor
+              key={`${detail.session_id}-${detail.revision}`}
+              detail={detail}
+              busy={busy}
+              onPublish={(feedback) =>
+                mutate(`/admin/grading-reviews/${detail.session_id}/publish`, {
+                  revision: detail.revision,
+                  final_feedback: feedback,
+                })
+              }
+            />
           )}
           <Card className="p-4">
             <h3 className="font-semibold text-ink">{t('supervisor.audit')}</h3>
@@ -271,6 +295,137 @@ export default function AdminGradingPage() {
         </section>
       )}
     </div>
+  )
+}
+
+function lines(value) {
+  return value
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean)
+}
+
+function FinalFeedbackEditor({ detail, busy, onPublish }) {
+  const draft = detail.final_result?.final_evaluation || detail.evaluation?.evaluation || {}
+  const notes = Object.fromEntries((draft.concepts || []).map((item) => [item.concept_id, item]))
+  const [summary, setSummary] = useState(draft.summary || '')
+  const [strengths, setStrengths] = useState((draft.strengths || []).join('\n'))
+  const [weaknesses, setWeaknesses] = useState((draft.weaknesses || []).join('\n'))
+  const [suggestions, setSuggestions] = useState((draft.suggestions || []).join('\n'))
+  const [learningPath, setLearningPath] = useState((draft.learning_path || []).join('\n'))
+  const [concepts, setConcepts] = useState(
+    (detail.concept_results || []).map((item) => ({
+      concept_id: item.concept_id,
+      concept_name: item.concept_name,
+      strength: notes[item.concept_id]?.strength || '',
+      weakness: notes[item.concept_id]?.weakness || '',
+      recommendation: notes[item.concept_id]?.recommendation || '',
+    })),
+  )
+  function updateConcept(conceptId, field, value) {
+    setConcepts((items) =>
+      items.map((item) => (item.concept_id === conceptId ? { ...item, [field]: value } : item)),
+    )
+  }
+  return (
+    <Card className="space-y-3 p-5">
+      <div>
+        <h3 className="font-semibold">Kết quả cuối cùng do giảng viên duyệt</h3>
+        <p className="mt-1 text-sm text-sub">
+          Nội dung AI bên dưới là bản nháp. Chỉnh sửa nếu cần; bản đã duyệt sẽ thay thế hoàn toàn
+          kết quả tạm thời của người học.
+        </p>
+      </div>
+      <form
+        className="space-y-3"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onPublish({
+            summary,
+            strengths: lines(strengths),
+            weaknesses: lines(weaknesses),
+            suggestions: lines(suggestions),
+            learning_path: lines(learningPath),
+            concepts: concepts
+              .map((item) => ({
+                concept_id: item.concept_id,
+                strength: item.strength.trim() || null,
+                weakness: item.weakness.trim() || null,
+                recommendation: item.recommendation.trim() || null,
+              }))
+              .filter((item) => item.strength || item.weakness || item.recommendation),
+          })
+        }}
+      >
+        <label className="block text-sm text-sub">
+          Tóm tắt
+          <textarea
+            className={`${inputCls} mt-1 block min-h-24 w-full`}
+            value={summary}
+            onChange={(event) => setSummary(event.target.value)}
+            required
+          />
+        </label>
+        {[
+          ['Điểm mạnh', strengths, setStrengths],
+          ['Điểm cần cải thiện', weaknesses, setWeaknesses],
+          ['Gợi ý luyện tập', suggestions, setSuggestions],
+          ['Lộ trình học', learningPath, setLearningPath],
+        ].map(([label, value, setter]) => (
+          <label className="block text-sm text-sub" key={label}>
+            {label} (mỗi dòng một mục)
+            <textarea
+              className={`${inputCls} mt-1 block min-h-20 w-full`}
+              value={value}
+              onChange={(event) => setter(event.target.value)}
+              required
+            />
+          </label>
+        ))}
+        {concepts.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-sm font-semibold">Ghi chú theo khái niệm</p>
+            {concepts.map((item) => (
+              <div
+                className="grid gap-2 rounded-lg border border-edge p-3 md:grid-cols-3"
+                key={item.concept_id}
+              >
+                <p className="text-sm font-medium md:col-span-3">
+                  {item.concept_name || `Khái niệm #${item.concept_id}`}
+                </p>
+                <input
+                  className={inputCls}
+                  placeholder="Điểm mạnh"
+                  value={item.strength}
+                  onChange={(event) =>
+                    updateConcept(item.concept_id, 'strength', event.target.value)
+                  }
+                />
+                <input
+                  className={inputCls}
+                  placeholder="Cần cải thiện"
+                  value={item.weakness}
+                  onChange={(event) =>
+                    updateConcept(item.concept_id, 'weakness', event.target.value)
+                  }
+                />
+                <input
+                  className={inputCls}
+                  placeholder="Gợi ý"
+                  value={item.recommendation}
+                  onChange={(event) =>
+                    updateConcept(item.concept_id, 'recommendation', event.target.value)
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        <button type="submit" className={btnPrimary} disabled={busy}>
+          Lưu và duyệt
+        </button>
+      </form>
+    </Card>
   )
 }
 

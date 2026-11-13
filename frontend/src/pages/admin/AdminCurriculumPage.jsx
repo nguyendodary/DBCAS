@@ -543,10 +543,19 @@ export default function AdminCurriculumPage() {
                         <button
                           type="button"
                           onClick={() =>
-                            run(
-                              () => api.post(`/admin/clos/${clo.clo_id}/ai-suggest`),
-                              message('admin.curriculum.pendingLinks'),
-                            )
+                            run(async () => {
+                              const response = await api.post(
+                                `/admin/clos/${clo.clo_id}/ai-suggest`,
+                              )
+                              const added = response.data?.suggested_concept_ids?.length || 0
+                              setNotice(
+                                message(
+                                  added
+                                    ? 'admin.curriculum.pendingLinks'
+                                    : 'admin.curriculum.noNewLinks',
+                                ),
+                              )
+                            })
                           }
                           className="font-medium text-violet-300 hover:underline"
                         >
