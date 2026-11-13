@@ -5,6 +5,8 @@ import { Card, btnPrimary, btnGhost } from '../components/ui'
 import { ActionSpinner, ErrorState } from '../components/States'
 import { EvaluationCharts } from '../components/EvaluationCharts'
 
+const MAX_POLL_DURATION_MS = 5 * 60 * 1000
+
 function validateView(data) {
   if (
     !data ||
@@ -203,12 +205,17 @@ export default function EvaluationPage({ overall = false }) {
         const r = await api.get(path, { timeout: 15000 })
         if (canceled || run !== sequence.current) return
         setData(validateView(r.data))
+        const elapsed = Date.now() - started
+        const withinBudget = elapsed < MAX_POLL_DURATION_MS
         if (r.data.status === 'awaiting_approval') {
-          timer = setTimeout(poll, Date.now() - started < 45000 ? 1500 : 10000)
+          if (withinBudget) timer = setTimeout(poll, elapsed < 45000 ? 1500 : 10000)
+          else setExpired(true)
         } else if (r.data.status === 'provisional') {
-          timer = setTimeout(poll, 15000)
+          if (withinBudget) timer = setTimeout(poll, 15000)
+          else setExpired(true)
         } else if (r.data.status === 'updating') {
-          timer = setTimeout(poll, 2000)
+          if (withinBudget) timer = setTimeout(poll, 2000)
+          else setExpired(true)
         } else if (['pending', 'processing'].includes(r.data.status)) {
           if (Date.now() - started < 45000) timer = setTimeout(poll, 1500)
           else {
@@ -273,6 +280,24 @@ export default function EvaluationPage({ overall = false }) {
           <Link className={btnPrimary} to="/assessments">
             Bắt đầu luyện tập
           </Link>
+        </Card>
+      ) : !error &&
+        expired &&
+        ['awaiting_approval', 'provisional', 'updating'].includes(data?.status) ? (
+        <Card className="space-y-4 p-6">
+          <h2 className="text-xl font-semibold">Đánh giá vẫn đang xử lý</h2>
+          <p className="text-sub">
+            Đánh giá đang mất nhiều thời gian hơn dự kiến. Bạn có thể kiểm tra lại sau hoặc quay về
+            lịch sử bài làm.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button className={btnGhost} onClick={() => setReload((value) => value + 1)}>
+              Kiểm tra lại
+            </button>
+            <Link className="self-center underline" to="/history">
+              Lịch sử bài làm
+            </Link>
+          </div>
         </Card>
       ) : data?.status === 'awaiting_approval' ? (
         <Card className="space-y-4 p-6">
