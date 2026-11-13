@@ -82,11 +82,21 @@ def preview_plan(db, learner, payload):
     candidates = bank_catalog(db)
     templates_added = False
     seed = f"{learner.account_id}:{payload.request_id}"
+    repo = QuestionRepository(db)
     while True:
         plan = Catalog(candidates).prepare(selected, payload.difficulties, related=related, seed=seed)
         picks = recovered_plan(plan, (), payload.question_count, selected, payload.difficulties).take(payload.question_count)
+        ids = [pick.candidate.value for pick in picks if pick.candidate.origin == "bank"]
+        rows = ({question.question_id: question for question in db.scalars(
+                    select(Question).where(Question.question_id.in_(ids)).options(*repo._detail_loads()))}
+                if ids else {})
+        invalid = {question_id for question_id in ids
+                   if question_id not in rows or content_errors(rows[question_id])}
+        if invalid:
+            candidates = [candidate for candidate in candidates if candidate.identity not in invalid]
+            continue
         if len(picks) == payload.question_count:
-            return concepts, picks
+            return [concept for concept in concepts if concept.concept_id in selected], picks
         if not templates_added:
             candidates.extend(template_candidates(concepts))
             templates_added = True
