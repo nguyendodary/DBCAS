@@ -153,7 +153,9 @@ def preview(db, learner, payload):
                        "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.",
                        details={"session_id": active.session_id})
     SecurityRepository(db).lock("question-bank-publication", shared=True)
-    concepts, picks = preview_plan(db, learner, payload)
+    # A provider-backed start may fill a deterministic shortfall; bank plans
+    # stay fail-closed because nothing can extend them.
+    concepts, picks = preview_plan(db, learner, payload, require_full=payload.source != "ai")
     covered_ids = {cid for pick in picks for cid in pick.candidate.concepts}
     covered, uncovered = _coverage(concepts, covered_ids)
     return PracticePreviewResult(

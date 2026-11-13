@@ -185,6 +185,24 @@ def test_preview_rate_limit_and_coverage_disclosure(client, db_session, monkeypa
     assert started.json()["coverage_notice"]
 
 
+def test_ai_preview_accepts_a_deterministic_shortfall_but_bank_does_not(client, db_session):
+    learner = _make_account(db_session, "preview-ai@test.dev", "Learner")
+    isolated = _concept(db_session, "AI-ONLY")
+    db_session.commit()
+    payload = {**selection([isolated]), "source": "ai", "question_count": 3}
+    preview = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert preview.status_code == 200, preview.text
+    body = preview.json()
+    assert body["can_start"] is True and body["question_count"] == 0
+    assert body["type_counts"] == {}
+    assert [c["concept_id"] for c in body["uncovered_concepts"]] == [isolated.concept_id]
+    assert body["notice"]
+    payload["source"] = "bank"
+    rejected = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert rejected.status_code == 422
+    assert rejected.json()["error"]["code"] == "insufficient_question_pool"
+
+
 def test_practice_question_count_caps_at_thirteen():
     from pydantic import ValidationError
     base = dict(concept_ids=[1], difficulties=["EASY"], source="bank", request_id=str(uuid4()))
