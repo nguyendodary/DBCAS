@@ -13,7 +13,7 @@ from test_adaptive_engine import _make_account, _concept, _mcq, _sql, _essay
 from test_supervisor_requirements import headers
 
 
-def fixture(db):
+def fixture(db, *, shuffle=False):
     from app.schemas import QuestionUpsertRequest
     from app.services.question_service import create_question
     from app.services.practice_corpus import template_pack
@@ -31,10 +31,16 @@ def fixture(db):
                 row.update(min_score=lo, max_score=hi)
         created = create_question(db, QuestionUpsertRequest(**q), admin)
         db.get(Question, created.question_id).status = "validated"
-    for concept in concepts:
-        for level in range(1, 6): create(concept, "mcq", level, level)
-    create(concepts[0], "sql", 2, 1)
-    create(concepts[0], "essay", 3, 1)
+    # Both concepts need every question type so a balanced three-question plan
+    # can cover the whole selected scope; question ids must never decide scope.
+    specs = [(concept, "mcq", level, level) for concept in concepts for level in range(1, 6)]
+    specs += [(concept, kind, level, 1) for concept in concepts
+              for kind, level in (("sql", 2), ("essay", 3))]
+    if shuffle:
+        from random import Random
+        Random(20261113).shuffle(specs)
+    for concept, kind, level, variant in specs:
+        create(concept, kind, level, variant)
     db.commit()
     return admin, learner, concepts
 
@@ -102,6 +108,15 @@ def test_bank_shortfall_widens_deterministically_to_exact_count_and_discloses(cl
 def test_ai_failure_with_insufficient_bank_uses_verified_templates_at_exact_count(client, db_session, configured, monkeypatch):
     _, learner, concepts = fixture(db_session)
     payload = practice.PracticeStart(**{**selection(concepts[:1]), "source": "ai", "difficulties": ["HARD"], "question_count": 13})
+    # The sibling concept shares the same subject area, so its validated bank
+    # would widen the plan to the full requested count without any template.
+    # Draft it to keep this scenario about an insufficient validated bank.
+    from app.models import Question, QuestionConcept
+    from sqlalchemy import update
+    sibling_questions = select(QuestionConcept.question_id).where(
+        QuestionConcept.concept_id == concepts[1].concept_id)
+    db_session.execute(update(Question).where(Question.question_id.in_(sibling_questions)).values(status="draft"))
+    db_session.commit()
 
     class FailedProvider:
         calls = 0
