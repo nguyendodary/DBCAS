@@ -63,12 +63,14 @@ def _persist(db, item, learner, origin):
     return result
 
 
-def preview_plan(db, learner, payload):
+def preview_plan(db, learner, payload, *, require_full=True):
     """Read-only plan for the coverage preview; never generates or persists.
 
     Provider output is deliberately excluded. The preview describes the
     deterministic bank/template plan, so it is stable and cannot trigger an AI
-    request. The real start may improve coverage with validated provider items.
+    request. The real start may improve coverage with validated provider items,
+    so an AI-source caller can accept a short plan instead of blocking the
+    start on a bank/template shortfall.
     """
     concepts = list(db.scalars(select(Concept).order_by(Concept.concept_id)))
     selected = set(payload.concept_ids)
@@ -101,6 +103,8 @@ def preview_plan(db, learner, payload):
             candidates.extend(template_candidates(concepts))
             templates_added = True
             continue
+        if not require_full:
+            return [concept for concept in concepts if concept.concept_id in selected], picks
         raise AppError(422, "insufficient_question_pool",
                        "The approved bank cannot produce a valid practice test of the requested length.")
 
