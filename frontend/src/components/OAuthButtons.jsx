@@ -44,7 +44,10 @@ const PROVIDERS = [
 // page to the backend start route, which 302s to the provider. Provider
 // secrets never touch this bundle. Availability controls navigation, never
 // discovery: local demos and a failed metadata read still show both choices.
-export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
+export default function OAuthButtons({
+  divider = t('auth.oauthDivider'),
+  dividerPlacement = 'after',
+}) {
   useLocale()
   const [configured, setConfigured] = useState(null) // name -> bool | null while loading
   const [notice, setNotice] = useState(null)
@@ -70,6 +73,12 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
 
   return (
     <div className="flex w-full flex-col gap-4">
+      {dividerPlacement === 'before' && (
+        <div className="relative flex items-center justify-center" aria-hidden="true">
+          <span className="w-full border-t border-edge" />
+          <span className="absolute bg-panel px-2 text-3xs text-mute">{divider}</span>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {PROVIDERS.map(({ name, label, Logo }) =>
           configured?.[name] === true ? (
@@ -97,10 +106,12 @@ export default function OAuthButtons({ divider = t('auth.oauthDivider') }) {
           {t('auth.providerNotConfigured', { provider: notice })}
         </p>
       )}
-      <div className="relative flex items-center justify-center" aria-hidden="true">
-        <span className="w-full border-t border-edge" />
-        <span className="absolute bg-panel px-2 text-3xs text-mute">{divider}</span>
-      </div>
+      {dividerPlacement === 'after' && (
+        <div className="relative flex items-center justify-center" aria-hidden="true">
+          <span className="w-full border-t border-edge" />
+          <span className="absolute bg-panel px-2 text-3xs text-mute">{divider}</span>
+        </div>
+      )}
     </div>
   )
 }
