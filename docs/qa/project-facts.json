@@ -149,6 +149,7 @@
     "/",
     "/admin",
     "/admin/accounts",
+    "/admin/chi-phi",
     "/admin/curriculum",
     "/admin/grading",
     "/admin/grading/:reviewSessionId",
@@ -174,7 +175,8 @@
     "/admin/grading",
     "/admin/accounts",
     "/admin/questions",
-    "/admin/system"
+    "/admin/system",
+    "/admin/chi-phi"
   ],
   "learner_nav": [
     "/dashboard",

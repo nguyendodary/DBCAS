@@ -2,147 +2,153 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static scan of the <Route> elements in frontend/src/App.jsx. Browser routes only; the built-in Help guide is a modal provided by HelpProvider, not a route.",
   "sources": {
-    "frontend/src/App.jsx": "3c0815393f3bf1361f061197673d47fcf796af692eac4bf4ee47d86f82c9cb92"
+    "frontend/src/App.jsx": "adce0b10037e47e33b79c50fa22e9000dfa2a8c3b347884574afd852f37a3b22"
   },
-  "count": 23,
+  "count": 24,
   "routes": [
     {
       "path": "/login",
       "component": "LoginPage",
       "access": "public",
-      "line": 88
+      "line": 89
     },
     {
       "path": "/register",
       "component": "RegisterPage",
       "access": "public",
-      "line": 89
+      "line": 90
     },
     {
       "path": "/forgot-password",
       "component": "ForgotPasswordPage",
       "access": "public",
-      "line": 90
+      "line": 91
     },
     {
       "path": "/reset-password",
       "component": "ResetPasswordPage",
       "access": "public",
-      "line": 91
+      "line": 92
     },
     {
       "path": "/auth/callback",
       "component": "OAuthCallbackPage",
       "access": "public",
-      "line": 92
+      "line": 93
     },
     {
       "path": "/",
       "component": "Home",
       "access": "public",
-      "line": 93
+      "line": 94
     },
     {
       "path": "/dashboard",
       "component": "DashboardPage",
       "access": "Learner",
-      "line": 96
+      "line": 97
     },
     {
       "path": "/competency",
       "component": "EvaluationPage",
       "access": "Learner",
-      "line": 97
+      "line": 98
     },
     {
       "path": "/evaluations/:sessionId",
       "component": "EvaluationPage",
       "access": "Learner",
-      "line": 98
+      "line": 99
     },
     {
       "path": "/assessments",
       "component": "AssessmentsPage",
       "access": "Learner",
-      "line": 99
+      "line": 100
     },
     {
       "path": "/exam/:sessionId",
       "component": "ExamPage",
       "access": "Learner",
-      "line": 100
+      "line": 101
     },
     {
       "path": "/history",
       "component": "HistoryPage",
       "access": "Learner",
-      "line": 101
+      "line": 102
     },
     {
       "path": "/history/:sessionId",
       "component": "EvidencePage",
       "access": "Learner",
-      "line": 102
+      "line": 103
     },
     {
       "path": "/settings",
       "component": "SettingsPage",
       "access": "authenticated",
-      "line": 105
+      "line": 106
     },
     {
       "path": "/admin",
       "component": "AdminPage",
       "access": "Administrator",
-      "line": 108
+      "line": 109
     },
     {
       "path": "/admin/curriculum",
       "component": "Navigate",
       "access": "Administrator",
-      "line": 110
+      "line": 111
     },
     {
       "path": "/admin/questions",
       "component": "AdminBankPage",
       "access": "Administrator",
-      "line": 113
+      "line": 114
     },
     {
       "path": "/admin/system",
       "component": "AdminSystemPage",
       "access": "Administrator",
-      "line": 114
+      "line": 115
     },
     {
       "path": "/admin/accounts",
       "component": "AdminAccountsPage",
       "access": "Administrator",
-      "line": 115
+      "line": 116
+    },
+    {
+      "path": "/admin/chi-phi",
+      "component": "AdminCostsPage",
+      "access": "Administrator",
+      "line": 117
     },
     {
       "path": "/admin/grading",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 116
+      "line": 118
     },
     {
       "path": "/admin/grading/:reviewSessionId",
       "component": "AdminGradingPage",
       "access": "Administrator",
-      "line": 117
+      "line": 119
     },
     {
       "path": "/admin/learners/:learnerId/competency",
       "component": "CumulativePage",
       "access": "Administrator",
-      "line": 118
+      "line": 120
     },
     {
       "path": "*",
       "component": "Navigate",
       "access": "public",
-      "line": 120
+      "line": 122
     }
   ]
 }
