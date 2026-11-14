@@ -151,7 +151,13 @@ function AdminSidebar({ onLogout, isLearner }) {
         {ADMIN_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} end={l.end} className={sideLinkCls}>
             <Icon name={l.icon} className="h-4 w-4 shrink-0" />
-            {l.custom ? (l.to === '/admin/chi-phi' ? (locale === 'en' ? 'Costs' : 'Chi phí') : l.label) : t(l.label)}
+            {l.custom
+              ? l.to === '/admin/chi-phi'
+                ? locale === 'en'
+                  ? 'Costs'
+                  : 'Chi phí'
+                : l.label
+              : t(l.label)}
           </NavLink>
         ))}
       </nav>
@@ -199,7 +205,13 @@ function MobileTopbar({ links, onLogout }) {
       <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto px-3 pb-2.5">
         {links.map((l) => (
           <NavLink key={l.to} to={l.to} end={l.end} className={topLinkCls}>
-            {l.custom ? (l.to === '/admin/chi-phi' ? (locale === 'en' ? 'Costs' : 'Chi phí') : l.label) : t(l.label)}
+            {l.custom
+              ? l.to === '/admin/chi-phi'
+                ? locale === 'en'
+                  ? 'Costs'
+                  : 'Chi phí'
+                : l.label
+              : t(l.label)}
           </NavLink>
         ))}
       </nav>
@@ -263,7 +275,11 @@ export default function Layout({ children }) {
               <span aria-hidden="true" className="mx-3 text-mute">
                 ›
               </span>
-              {pageLabel === 'Chi phí' ? (locale === 'en' ? 'Costs' : 'Chi phí') : t(pageLabel || 'nav.administration')}
+              {pageLabel === 'Chi phí'
+                ? locale === 'en'
+                  ? 'Costs'
+                  : 'Chi phí'
+                : t(pageLabel || 'nav.administration')}
             </p>
             <div className="flex items-center gap-3">
               <HelpButton />
