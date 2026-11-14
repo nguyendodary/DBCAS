@@ -12,6 +12,20 @@ events and uses bounded locks; a busy database rolls the migration back safely
 for retry. Keep applied migration 008 unchanged. Completed upgrades have no
 destructive down migration; retain the schema and use a reviewed forward fix.
 
+## Release notes: 13-question practice cap and migration 020
+
+- Practice sessions are capped at **13 questions**, down from 20. This is a
+  breaking change for clients or scripts that request 14-20; the API rejects
+  counts outside the supported 1-13 range.
+- Migration `020_provisional_ai_final_results.sql` is additive and idempotent.
+  It adds provisional/final result storage and backfills published practice
+  sessions once. **Back up the database before upgrading.** Re-running the
+  migration is safe and does not duplicate the backfill.
+- When starting the local stack with `docker compose` directly, set
+  `LOCAL_DOCKER_GID` to the Docker socket's group ID, or use `npm start`, which
+  computes and forwards it. Without the correct group, the app cannot reach the
+  Docker socket and `/readiness` reports `sandbox: false`.
+
 DBCAS targets Python 3.13, Node 24, PostgreSQL 17 and Docker Compose. Use a
 virtual environment. The release backend image pins the documented Python
 minor version; a different host interpreter must be reported in verification.

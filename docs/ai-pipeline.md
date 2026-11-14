@@ -53,3 +53,12 @@ không tăng dependencies của bản mặc định. Chạy backend trực tiế
 Model không được tự tải trong request; inference có timeout.
 Không đưa output/model/dữ liệu thật/key vào Git. Kết quả gate thực tế nằm trong
 [báo cáo](final-status.md).
+
+## Prompt builder framing-only (Phase B-0)
+
+Tham khảo [reference implementation](../backend/app/services/framing/README.md).
+Đây là package tham chiếu độc lập, **không** được import bởi
+`prompt_builder.py` hay `evaluation_pipeline.py`, và **chưa được triển khai**
+trong ứng dụng. Model local mới chỉ được benchmark trên CPU/GPU; số liệu phụ
+thuộc máy và chưa được chứng nhận chất lượng (`quality_verified=false`).
+Chạy test độc lập bằng `cd backend && python -m pytest tests_framing -q`.

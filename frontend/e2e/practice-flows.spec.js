@@ -86,6 +86,11 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
 test('AI-generated source stays inside chosen concepts and hard difficulty', async ({
   page,
 }, info) => {
+  const provider = process.env.DBCAS_QA_PROVIDER_URL
+  if (provider)
+    await page.request.post(`${provider}/control`, {
+      data: { delay_seconds: 1, failure: false, hold: false },
+    })
   await register(page, 'generated')
   await page.goto('/assessments')
   const options = await api(page, '/practice/options')
