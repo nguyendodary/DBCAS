@@ -54,7 +54,7 @@ tra khả năng khôi phục bản sao lưu. Revert code không khôi phục tr�
 dùng backup hoặc một migration sửa tiếp đã được duyệt. Không sửa nội dung
 migration đã áp dụng. Xem [hướng dẫn nâng cấp](docs/setup-and-migrations.md).
 
-# DBCAS local
+## Tổng quan
 
 Luyện tập cơ sở dữ liệu PostgreSQL với MCQ, SQL SELECT và tự luận. Một máy, một
 lệnh khởi động; FastAPI, PostgreSQL 17, React/Vite. Không triển khai cloud.
@@ -70,7 +70,7 @@ bằng `npm --prefix frontend run brand:icons`. Khóa logo React dùng chung là
 Không thêm file logo SVG thứ hai và không gõ lại chữ DBCAS trong trang/component.
 
 Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
-**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–20 câu**, mặc định 5 câu/30 phút.
+**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–13 câu**, mặc định 5 câu/30 phút.
 Kế hoạch đủ số câu được đóng băng trước câu đầu; nếu ngân hàng thiếu phạm vi
 hẹp, hệ thống mở rộng có kiểm soát và thông báo phần mở rộng.
 Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba người học và bốn bài
@@ -96,11 +96,11 @@ Các biến thật của dự án là `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
 `GITHUB_REDIRECT_URI` (không có tiền tố `VITE_` hay `OAUTH_` cho thông tin ứng dụng).
 Chỉ điền trong `.env` đã được git-ignore; không đưa secret vào frontend.
 
-| Chạy local | Google callback | GitHub callback |
-| --- | --- | --- |
-| `npm start` (mặc định) | `http://localhost:18080/api/v1/auth/oauth/google/callback` | `http://localhost:18080/api/v1/auth/oauth/github/callback` |
+| Chạy local                    | Google callback                                            | GitHub callback                                            |
+| ----------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| `npm start` (mặc định)        | `http://localhost:18080/api/v1/auth/oauth/google/callback` | `http://localhost:18080/api/v1/auth/oauth/github/callback` |
 | API trực tiếp (cùng hostname) | `http://localhost:18000/api/v1/auth/oauth/google/callback` | `http://localhost:18000/api/v1/auth/oauth/github/callback` |
-| Vite | `http://localhost:5173/api/v1/auth/oauth/google/callback` | `http://localhost:5173/api/v1/auth/oauth/github/callback` |
+| Vite                          | `http://localhost:5173/api/v1/auth/oauth/google/callback`  | `http://localhost:5173/api/v1/auth/oauth/github/callback`  |
 
 Compose mặc định dùng callback qua cổng web 18080 (hoặc `LOCAL_WEB_PORT`),
 `FRONTEND_URL=http://localhost:18080`; API là 18000 (`LOCAL_API_PORT`). Dùng
