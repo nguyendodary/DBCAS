@@ -33,33 +33,44 @@ const sideLinkCls = ({ isActive }) =>
 
 const topLinkCls = ({ isActive }) => `nav-pill ${isActive ? 'active' : ''}`
 
-function AccountChip({ account, onLogout }) {
+function AccountMenu({ account, onLogout }) {
   useLocale()
   return (
-    <div className="flex min-w-0 items-center gap-2.5">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
-        {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
-      </span>
-      <div className="hidden min-w-0 max-w-[220px] 2xl:block">
-        <p
-          className="truncate text-sm font-medium leading-tight"
-          title={account.full_name || account.email}
-        >
-          {account.full_name || account.email}
-        </p>
-        <p className="truncate text-xs leading-tight text-mute" title={account.email}>
-          {account.email}
-        </p>
-      </div>
+    <div className="group relative">
       <button
         type="button"
-        onClick={onLogout}
-        aria-label={t('nav.logout')}
-        title={t('nav.logout')}
-        className="rounded-md p-1.5 text-mute transition-colors hover:bg-surface-hover hover:text-rose-300"
+        aria-label={account.full_name || account.email}
+        title={account.full_name || account.email}
+        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25 transition duration-150 hover:bg-cyan-300/30 hover:text-cyan-100 hover:ring-cyan-200/70 hover:shadow-[0_0_14px_rgba(34,211,238,0.45)] focus-visible:bg-cyan-300/30 focus-visible:text-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
       >
-        <Icon name="logout" className="h-4 w-4" />
+        {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
       </button>
+      <div className="invisible absolute right-0 top-full z-50 mt-2 w-[min(19rem,calc(100vw-2rem))] translate-y-1 rounded-2xl border border-slate-200/90 bg-white p-3 text-slate-900 opacity-0 shadow-[0_18px_50px_rgba(15,23,42,0.2)] ring-1 ring-black/[0.03] transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+        <div className="flex min-w-0 items-center gap-3 px-1 py-1.5">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cyan-100 to-sky-200 text-sm font-bold text-sky-800 ring-1 ring-inset ring-sky-300/60">
+            {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold" title={account.full_name || account.email}>
+              {account.full_name || account.email}
+            </p>
+            {account.full_name && (
+              <p className="mt-0.5 truncate text-xs text-slate-500" title={account.email}>
+                {account.email}
+              </p>
+            )}
+          </div>
+        </div>
+        <div className="my-2 h-px bg-slate-100" />
+        <button
+          type="button"
+          onClick={onLogout}
+          className="flex w-full items-center gap-2.5 rounded-xl border border-rose-100 bg-rose-50 px-3 py-2.5 text-left text-sm font-medium text-rose-700 transition-colors hover:border-rose-200 hover:bg-rose-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
+        >
+          <Icon name="logout" className="h-4 w-4" />
+          {t('nav.logout')}
+        </button>
+      </div>
     </div>
   )
 }
@@ -89,7 +100,7 @@ function LearnerTopbar({ onLogout }) {
           <HelpButton />
           <LanguageSelector />
           <ThemeSelector />
-          {account && <AccountChip account={account} onLogout={onLogout} />}
+          {account && <AccountMenu account={account} onLogout={onLogout} />}
         </div>
       </div>
       <nav
@@ -110,9 +121,8 @@ function LearnerTopbar({ onLogout }) {
 // Admin chrome follows the admin prototype: fixed 240px themed sidebar with the
 // logo lockup, the primary "new assessment" CTA, flat navigation and a
 // full-width logout button at the bottom.
-function AdminSidebar({ onLogout, isLearner }) {
+function AdminSidebar({ isLearner }) {
   useLocale()
-  const { account } = useAuth()
   return (
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
       <div className="px-5 pb-5 pt-6">
@@ -154,18 +164,6 @@ function AdminSidebar({ onLogout, isLearner }) {
           </NavLink>
         ))}
       </nav>
-      {account && (
-        <div className="border-t border-edge/70 p-4">
-          <button
-            type="button"
-            onClick={onLogout}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-edge2 px-3 py-2 text-sm font-medium text-sub hover:bg-surface-hover hover:text-ink"
-          >
-            <Icon name="logout" className="h-4 w-4" />
-            {t('nav.logout')}
-          </button>
-        </div>
-      )}
     </aside>
   )
 }
@@ -181,18 +179,7 @@ function MobileTopbar({ links, onLogout }) {
           <HelpButton />
           <LanguageSelector />
           <ThemeSelector />
-          {account && (
-            <button
-              type="button"
-              onClick={onLogout}
-              aria-label={t('nav.logout')}
-              title={t('nav.logout')}
-              className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-surface-hover"
-            >
-              <Icon name="logout" className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">{t('nav.logout')}</span>
-            </button>
-          )}
+          {account && <AccountMenu account={account} onLogout={onLogout} />}
         </div>
       </div>
       <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto px-3 pb-2.5">
@@ -254,7 +241,7 @@ export default function Layout({ children }) {
 
       {!isExam && isAdmin ? (
         <>
-          <AdminSidebar onLogout={handleLogout} isLearner={isLearner} />
+          <AdminSidebar isLearner={isLearner} />
           {/* desktop utility bar */}
           <header className="chrome-dark hidden min-h-14 items-center justify-between gap-4 border-b px-6 md:ml-60 md:flex">
             <p className="text-sm text-mute">
@@ -268,24 +255,7 @@ export default function Layout({ children }) {
               <HelpButton />
               <LanguageSelector />
               <ThemeSelector />
-              {account && (
-                <div className="flex items-center gap-2.5 border-l border-edge pl-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
-                    {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
-                  </span>
-                  <div className="hidden min-w-0 max-w-[240px] lg:block">
-                    <p
-                      className="truncate text-sm font-medium leading-tight"
-                      title={account.full_name || account.email}
-                    >
-                      {account.full_name || account.email}
-                    </p>
-                    <p className="truncate text-xs leading-tight text-mute" title={account.email}>
-                      {account.email}
-                    </p>
-                  </div>
-                </div>
-              )}
+              {account && <AccountMenu account={account} onLogout={handleLogout} />}
             </div>
           </header>
           <MobileTopbar links={allLinks} onLogout={handleLogout} />
