@@ -9,7 +9,7 @@ from ..errors import AppError
 from ..repositories import AssessmentRepository
 from .evidence_context import question_view
 
-_TAG_RE = re.compile(r"<[^>]*>")
+_TAG_RE = re.compile(r"</?[A-Za-z][^>]*>")
 _CONTROL_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
 
 

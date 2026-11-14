@@ -184,6 +184,28 @@ def _adjusted(db, session_id):
                GradeEditAudit.old_score.is_distinct_from(GradeEditAudit.new_score)).limit(1)))
 
 
+_METRIC_CENT = Decimal("0.01")
+
+
+def _metric_text(value):
+    """Serialize a metric as the decimal string used by new snapshots."""
+    return str(Decimal(str(value if value is not None else 0)).quantize(_METRIC_CENT))
+
+
+def _number(value):
+    """Return the response-contract float for a numeric JSON/DB value."""
+    return None if value is None else float(Decimal(str(value)))
+
+
+def _metric(value):
+    value = value or {}
+    return {
+        "earned": _metric_text(value.get("earned")),
+        "possible": _metric_text(value.get("possible")),
+        "percentage": float(value.get("percentage") or 0),
+    }
+
+
 def _question_results(db, session, scores=None):
     score_map = {int(item["attempt_id"]): item for item in (scores or [])}
     results = []
@@ -193,8 +215,8 @@ def _question_results(db, session, scores=None):
         results.append({
             "attempt_id": attempt.attempt_id, "question_id": attempt.question_id,
             "question_type": question.question_type, "prompt": question.prompt,
-            "score": snapshot.get("score", attempt.score),
-            "points": snapshot.get("points", question.points),
+            "score": _number(snapshot.get("score", attempt.score)),
+            "points": _number(snapshot.get("points", question.points)),
             "grading_status": snapshot.get("grading_status", attempt.grading_status),
         })
     return results
@@ -207,9 +229,13 @@ def _concept_results(db, session, evaluation, stored=None):
     results = []
     for item in base:
         note = notes.get(int(item["concept_id"]), {})
-        results.append({**item, "strength": note.get("strength"),
-                        "weakness": note.get("weakness"),
-                        "recommendation": note.get("recommendation")})
+        result = {**item, "strength": note.get("strength"),
+                  "weakness": note.get("weakness"),
+                  "recommendation": note.get("recommendation")}
+        for key in ("competency_pct", "target_pct"):
+            if key in result:
+                result[key] = _number(result[key])
+        results.append(result)
     return results
 
 
@@ -224,7 +250,7 @@ def _final_view(db, session, data, pending):
         "status": "ready", "provisional": False, "final": True,
         "attempt_count": data["attempt_count"], "pending_count": pending,
         "dimensions": data["dimensions"], "history": data["history"],
-        "score": final.overall or data["score"],
+        "score": _metric(final.overall or data["score"]),
         "details_truncated": data["details_truncated"],
         "input_hash": final.evaluation_input_hash,
         "uncovered_concepts": final.uncovered_concepts,

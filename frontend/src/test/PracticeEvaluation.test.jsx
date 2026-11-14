@@ -176,6 +176,17 @@ it('keeps provisional results visible and replaces them after approval without r
   expect(screen.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
 })
+it('bounds provisional polling and offers a manual check', async () => {
+  vi.useFakeTimers()
+  api.get.mockResolvedValue({ data: provisional })
+  renderEvaluation()
+  await act(async () => {})
+  await act(async () => vi.advanceTimersByTimeAsync(300_000))
+  expect(screen.getByRole('heading', { name: 'Đánh giá vẫn đang xử lý' })).toBeInTheDocument()
+  const calls = api.get.mock.calls.length
+  await act(async () => vi.advanceTimersByTimeAsync(60_000))
+  expect(api.get).toHaveBeenCalledTimes(calls)
+})
 it('falls back after 45 seconds and stops the spinner', async () => {
   vi.useFakeTimers()
   api.get.mockResolvedValue({ data: { status: 'processing' } })

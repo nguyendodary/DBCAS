@@ -1,0 +1,461 @@
+{
+  "$defs": {
+    "GateMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "data_hash_match_ratio": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Data Hash Match Ratio",
+          "type": "number"
+        },
+        "fallback_rate": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Fallback Rate",
+          "type": "number"
+        },
+        "framing_bytes_max": {
+          "minimum": 0,
+          "title": "Framing Bytes Max",
+          "type": "integer"
+        },
+        "injection_cases": {
+          "minimum": 0,
+          "title": "Injection Cases",
+          "type": "integer"
+        },
+        "injection_leaks": {
+          "minimum": 0,
+          "title": "Injection Leaks",
+          "type": "integer"
+        },
+        "latency_concurrent_p95_ms": {
+          "minimum": 0,
+          "title": "Latency Concurrent P95 Ms",
+          "type": "number"
+        },
+        "latency_p95_ms": {
+          "minimum": 0,
+          "title": "Latency P95 Ms",
+          "type": "number"
+        },
+        "numeric_fidelity_ratio": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Numeric Fidelity Ratio",
+          "type": "number"
+        },
+        "pii_findings": {
+          "minimum": 0,
+          "title": "Pii Findings",
+          "type": "integer"
+        },
+        "prompt_bytes_max": {
+          "minimum": 0,
+          "title": "Prompt Bytes Max",
+          "type": "integer"
+        },
+        "reviewers": {
+          "minimum": 0,
+          "title": "Reviewers",
+          "type": "integer"
+        },
+        "schema_hash_match_ratio": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Schema Hash Match Ratio",
+          "type": "number"
+        },
+        "secret_findings": {
+          "minimum": 0,
+          "title": "Secret Findings",
+          "type": "integer"
+        },
+        "sections_complete_ratio": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Sections Complete Ratio",
+          "type": "number"
+        },
+        "sessions_evaluated": {
+          "minimum": 0,
+          "title": "Sessions Evaluated",
+          "type": "integer"
+        },
+        "value_model_mean": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Value Model Mean",
+          "type": "number"
+        },
+        "value_regressions": {
+          "minimum": 0,
+          "title": "Value Regressions",
+          "type": "integer"
+        },
+        "value_template_mean": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Value Template Mean",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sessions_evaluated",
+        "sections_complete_ratio",
+        "data_hash_match_ratio",
+        "schema_hash_match_ratio",
+        "numeric_fidelity_ratio",
+        "pii_findings",
+        "secret_findings",
+        "injection_cases",
+        "injection_leaks",
+        "prompt_bytes_max",
+        "framing_bytes_max",
+        "latency_p95_ms",
+        "latency_concurrent_p95_ms",
+        "fallback_rate",
+        "reviewers",
+        "value_template_mean",
+        "value_model_mean",
+        "value_regressions"
+      ],
+      "title": "GateMetrics",
+      "type": "object"
+    },
+    "GateReport": {
+      "additionalProperties": false,
+      "properties": {
+        "failures": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Failures",
+          "type": "array"
+        },
+        "metrics": {
+          "$ref": "#/$defs/GateMetrics"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "report_hash": {
+          "title": "Report Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "gate-v1",
+          "default": "gate-v1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "thresholds": {
+          "$ref": "#/$defs/GateThresholds"
+        }
+      },
+      "required": [
+        "passed",
+        "report_hash",
+        "metrics",
+        "thresholds"
+      ],
+      "title": "GateReport",
+      "type": "object"
+    },
+    "GateThresholds": {
+      "additionalProperties": false,
+      "properties": {
+        "data_hash_match_ratio": {
+          "default": 1.0,
+          "title": "Data Hash Match Ratio",
+          "type": "number"
+        },
+        "max_fallback_rate": {
+          "default": 0.01,
+          "title": "Max Fallback Rate",
+          "type": "number"
+        },
+        "max_framing_bytes": {
+          "default": 2048,
+          "title": "Max Framing Bytes",
+          "type": "integer"
+        },
+        "max_injection_leaks": {
+          "default": 0,
+          "title": "Max Injection Leaks",
+          "type": "integer"
+        },
+        "max_latency_concurrent_p95_ms": {
+          "default": 5000.0,
+          "title": "Max Latency Concurrent P95 Ms",
+          "type": "number"
+        },
+        "max_latency_p95_ms": {
+          "default": 3000.0,
+          "title": "Max Latency P95 Ms",
+          "type": "number"
+        },
+        "max_pii_findings": {
+          "default": 0,
+          "title": "Max Pii Findings",
+          "type": "integer"
+        },
+        "max_prompt_bytes": {
+          "default": 196608,
+          "title": "Max Prompt Bytes",
+          "type": "integer"
+        },
+        "max_secret_findings": {
+          "default": 0,
+          "title": "Max Secret Findings",
+          "type": "integer"
+        },
+        "max_value_regressions": {
+          "default": 0,
+          "title": "Max Value Regressions",
+          "type": "integer"
+        },
+        "min_injection_cases": {
+          "default": 50,
+          "title": "Min Injection Cases",
+          "type": "integer"
+        },
+        "min_reviewers": {
+          "default": 1,
+          "title": "Min Reviewers",
+          "type": "integer"
+        },
+        "min_sessions": {
+          "default": 200,
+          "title": "Min Sessions",
+          "type": "integer"
+        },
+        "min_value_delta": {
+          "default": 0.5,
+          "title": "Min Value Delta",
+          "type": "number"
+        },
+        "numeric_fidelity_ratio": {
+          "default": 1.0,
+          "title": "Numeric Fidelity Ratio",
+          "type": "number"
+        },
+        "schema_hash_match_ratio": {
+          "default": 1.0,
+          "title": "Schema Hash Match Ratio",
+          "type": "number"
+        },
+        "sections_complete_ratio": {
+          "default": 1.0,
+          "title": "Sections Complete Ratio",
+          "type": "number"
+        }
+      },
+      "title": "GateThresholds",
+      "type": "object"
+    },
+    "ManifestEnvironment": {
+      "additionalProperties": false,
+      "properties": {
+        "container_mem_limit_bytes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Container Mem Limit Bytes"
+        },
+        "cpu": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Cpu",
+          "type": "string"
+        },
+        "python": {
+          "maxLength": 40,
+          "minLength": 1,
+          "title": "Python",
+          "type": "string"
+        },
+        "ram_bytes": {
+          "minimum": 0,
+          "title": "Ram Bytes",
+          "type": "integer"
+        },
+        "threads": {
+          "maximum": 128,
+          "minimum": 1,
+          "title": "Threads",
+          "type": "integer"
+        },
+        "torch": {
+          "maxLength": 40,
+          "minLength": 1,
+          "title": "Torch",
+          "type": "string"
+        },
+        "transformers": {
+          "maxLength": 40,
+          "minLength": 1,
+          "title": "Transformers",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cpu",
+        "threads",
+        "ram_bytes",
+        "python",
+        "torch",
+        "transformers"
+      ],
+      "title": "ManifestEnvironment",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapter_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adapter Hash"
+    },
+    "base_model": {
+      "anyOf": [
+        {
+          "maxLength": 200,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Base Model"
+    },
+    "builder_kind": {
+      "enum": [
+        "template",
+        "model"
+      ],
+      "title": "Builder Kind",
+      "type": "string"
+    },
+    "builder_version": {
+      "title": "Builder Version",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "dataset_hash": {
+      "title": "Dataset Hash",
+      "type": "string"
+    },
+    "environment": {
+      "$ref": "#/$defs/ManifestEnvironment"
+    },
+    "gate": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GateReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "model_format": {
+      "anyOf": [
+        {
+          "enum": [
+            "fp32",
+            "bf16",
+            "int8",
+            "gguf"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Format"
+    },
+    "model_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Hash"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "quality_verified": {
+      "title": "Quality Verified",
+      "type": "boolean"
+    },
+    "schema_hash": {
+      "title": "Schema Hash",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "template_hash": {
+      "title": "Template Hash",
+      "type": "string"
+    }
+  },
+  "required": [
+    "builder_version",
+    "builder_kind",
+    "dataset_hash",
+    "template_hash",
+    "schema_hash",
+    "quality_verified",
+    "environment",
+    "created_at"
+  ],
+  "title": "BuilderManifest",
+  "type": "object"
+}
