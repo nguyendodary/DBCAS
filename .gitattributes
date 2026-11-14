@@ -1,3 +1,26 @@
+# Normalize all text files to LF in the repository; explicit exceptions below.
+* text=auto eol=lf
+
+# Binary assets: never apply text conversion.
+*.docx binary
+*.png binary
+*.jpg binary
+*.pdf binary
+*.xlsx binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.zip binary
+*.ico binary
+
+# Windows scripts must stay CRLF.
+*.ps1 eol=crlf
+*.bat eol=crlf
+*.cmd eol=crlf
+
+# QA evidence is byte-exact and hash-referenced; never normalize it.
+docs/qa/** -text
+
 # Shell scripts run inside Linux containers — must keep LF line endings
 # even when the working tree is checked out on Windows.
 *.sh text eol=lf
