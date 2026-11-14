@@ -101,7 +101,6 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     throw new Error('Docker chưa sẵn sàng. Mở Docker Desktop (Linux containers) rồi chạy lại npm start.')
   }
   const compose = ['compose', '--project-name', project, '-f', 'docker-compose.local.yml']
-  if (env.PROMPT_BUILDER_MODEL_PATH?.trim()) compose.push('-f', 'docker-compose.ai.yml')
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {
     docker([...compose, 'stop'])

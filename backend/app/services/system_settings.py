@@ -12,6 +12,6 @@ def status(db):
     from .llm import LLMService
     settings = get_settings()
     return {"evaluator_configured": LLMService(settings).is_configured(),
-            "prompt_builder_configured": bool(settings.prompt_builder_model_path),
+            "prompt_builder_configured": False,
             "fallback_available": True, "mode": "local", "database": "PostgreSQL 17",
             "pipeline": "Prompt Builder → Evaluator → Admin review"}
