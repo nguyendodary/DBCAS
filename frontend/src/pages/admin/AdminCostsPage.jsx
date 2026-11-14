@@ -189,7 +189,7 @@ export default function AdminCostsPage() {
     <div className="space-y-6">
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-cyan-300">
-          DBCAS Skill Analytics · {tx('admin')}
+            Skill Analytics · {tx('admin')}
         </p>
         <h1 className="mt-2 text-3xl font-bold text-ink">{tx('title')}</h1>
         <p className="mt-2 text-sm text-sub">{tx('intro')}</p>
