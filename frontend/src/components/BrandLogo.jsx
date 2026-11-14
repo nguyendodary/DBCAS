@@ -25,15 +25,15 @@ export default function BrandLogo({
 }) {
   useLocale()
   const body = (
-    <>
-      <span className="brand-logo-row">
-        <BrandMark />
+    <span className="brand-logo-row">
+      <BrandMark />
+      <span className="brand-logo-copy">
         <BrandWordmark />
+        {showTagline && (
+          <span className={`brand-logo-tagline ${taglineClassName}`.trim()}>{t(taglineKey)}</span>
+        )}
       </span>
-      {showTagline && (
-        <span className={`brand-logo-tagline ${taglineClassName}`.trim()}>{t(taglineKey)}</span>
-      )}
-    </>
+    </span>
   )
   const classes = `brand-logo brand-logo--${variant} ${className}`.trim()
   if (!to) return <span className={classes}>{body}</span>

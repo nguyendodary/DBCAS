@@ -4668,9 +4668,8 @@
 .brand-logo {
   display: inline-flex;
   flex: 0 0 auto;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
+  flex-direction: row;
+  align-items: center;
   color: var(--text);
   text-decoration: none;
   border-radius: var(--radius-md);
@@ -4682,12 +4681,23 @@
 .brand-logo-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+}
+.brand-logo-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 .brand-mark {
   display: block;
   flex-shrink: 0;
   background-color: var(--primary);
+  background-image: linear-gradient(
+    145deg,
+    var(--primary),
+    color-mix(in srgb, var(--primary) 62%, #8575ff)
+  );
   -webkit-mask-image: url('/brand/dbcas-mark.svg');
   mask-image: url('/brand/dbcas-mark.svg');
   -webkit-mask-position: center;
@@ -4696,6 +4706,13 @@
   mask-repeat: no-repeat;
   -webkit-mask-size: contain;
   mask-size: contain;
+  transition:
+    transform 220ms ease,
+    filter 220ms ease;
+}
+.brand-logo:hover .brand-mark {
+  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--primary) 55%, transparent));
+  transform: translateY(-1px) scale(1.04);
 }
 .brand-wordmark {
   display: block;
@@ -4704,17 +4721,39 @@
   line-height: 1;
   letter-spacing: 0.14em;
   color: inherit;
+  background-image: linear-gradient(
+    105deg,
+    var(--text) 0%,
+    color-mix(in srgb, var(--text) 78%, var(--primary)) 68%,
+    var(--primary) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .brand-logo-tagline {
-  display: block;
-  padding-left: 2px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
   white-space: nowrap;
   font-family: var(--font-sans);
   font-size: var(--text-3xs);
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.14em;
-  color: var(--text-subtle);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.16em;
+  color: color-mix(in srgb, var(--text-subtle) 45%, var(--primary));
+}
+.brand-logo-tagline::after {
+  content: '';
+  width: 12px;
+  height: 1px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  transition: width 220ms ease;
+}
+.brand-logo:hover .brand-logo-tagline::after {
+  width: 22px;
 }
 .brand-logo-tagline--responsive {
   display: none;
@@ -4741,7 +4780,7 @@
   letter-spacing: 0.1em;
 }
 .brand-logo--auth .brand-logo-row {
-  gap: 7px;
+  gap: 9px;
 }
 .brand-logo--auth .brand-mark {
   width: 22px;
@@ -4758,6 +4797,16 @@
 .brand-logo--landing .brand-wordmark {
   font-size: 1.5rem;
   letter-spacing: 0.1em;
+}
+@media (forced-colors: active) {
+  .brand-wordmark {
+    background: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+  .brand-logo-tagline::after {
+    background: CanvasText;
+  }
 }
 @media (min-width: 640px) {
   .brand-logo--header .brand-mark {
