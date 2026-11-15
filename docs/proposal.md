@@ -20,17 +20,19 @@ React 19/Vite; giao tiếp REST JSON với tiền tố `/api/v1`.
 
 | Tác nhân | Trách nhiệm | Giới hạn |
 | --- | --- | --- |
-| Khách | Đăng ký Learner, đăng nhập, khôi phục mật khẩu | Không tự cấp quyền Admin |
-| Learner | Làm bài, lưu nháp, nộp, xem kết quả đã công bố và tiến độ của mình | Không đọc đáp án/rubric nội bộ hoặc dữ liệu người khác |
+| Khách | Đăng ký User, đăng nhập, khôi phục mật khẩu | Không tự cấp quyền Admin |
+| User | Làm bài, lưu nháp, nộp, xem kết quả đã công bố và tiến độ của mình | Không đọc đáp án/rubric nội bộ hoặc dữ liệu người khác |
 | Admin (`Administrator` trong DB/API) | Quản lý ngân hàng, CLO, đề, người học; duyệt AI và công bố kết quả | Chỉ người có `can_manage_roles` được quản lý quyền quản trị |
 | Worker | Chấm SQL/tự luận, xử lý hạn bài và tác vụ có retry | Không tin đầu ra AI trước kiểm định |
 | Nhà cung cấp LLM | Trả JSON chấm tự luận theo rubric | Không nhận danh tính hoặc thông tin kết nối |
+
+> UI label: User (Người dùng); stored/API value: Learner.
 
 ## Yêu cầu chức năng
 
 | Mã | Yêu cầu và tiêu chí nghiệm thu | Task |
 | --- | --- | --- |
-| FR01 | Đăng ký chỉ tạo Learner; email duy nhất, mật khẩu băm bcrypt, JWT access và refresh có hết hạn, quay vòng và thu hồi | 2.1 |
+| FR01 | Đăng ký chỉ tạo User; email duy nhất, mật khẩu băm bcrypt, JWT access và refresh có hết hạn, quay vòng và thu hồi | 2.1 |
 | FR02 | Kiểm tra tài khoản active, quyền hiện tại và quyền sở hữu tại API; trả 401/403 nhất quán | 2.1 |
 | FR03 | Admin CRUD câu MCQ/SQL/ESSAY, lựa chọn, dữ liệu kiểm thử, rubric; lọc/phân trang/tìm theo nội dung, topic, độ khó, CLO | 2.2 |
 | FR04 | Admin CRUD assessment, gắn câu hỏi qua concept/blueprint và kế hoạch câu hỏi; chỉ kích hoạt ngân hàng hợp lệ, báo thiếu câu chính xác | 2.2 |
@@ -40,7 +42,7 @@ React 19/Vite; giao tiếp REST JSON với tiền tố `/api/v1`.
 | FR08 | Chấm SQL theo nhiều dataset có trọng số; so số cột, kiểu giá trị, NULL, bản sao và thứ tự khi đề yêu cầu; có điểm từng phần và phản hồi | 3.2 |
 | FR09 | Chấm tự luận bằng LLM theo rubric, JSON có kiểm định; timeout/retry hữu hạn, cache theo nội dung và cấu hình, lưu để Admin duyệt | 3.3 |
 | FR10 | Tính năng lực theo concept/kỹ năng, CLO, topic và độ khó từ điểm đã chấm; công thức xác định, xử lý không có bằng chứng riêng với điểm 0 | 4.1 |
-| FR11 | Xếp hạng khoảng thiếu theo mục tiêu, gợi ý chủ đề, dashboard Learner/Admin, phân bố điểm và tiến độ; số liệu chính thức chỉ dùng kết quả được công bố | 4.2 |
+| FR11 | Xếp hạng khoảng thiếu theo mục tiêu, gợi ý chủ đề, dashboard User/Admin, phân bố điểm và tiến độ; số liệu chính thức chỉ dùng kết quả được công bố | 4.2 |
 | FR12 | Khởi tạo DB, migration cộng thêm và seed phát triển chạy lặp được; OpenAPI và hướng dẫn chạy/test đồng bộ mã | 1.3–1.5, 3.10 |
 
 ## Use case và luồng chính
@@ -50,11 +52,11 @@ React 19/Vite; giao tiếp REST JSON với tiền tố `/api/v1`.
    thời hạn tuyệt đối của phiên access để tương thích.
 2. Admin tạo concept/CLO → tác giả tạo câu nháp → kiểm định/duyệt → gắn vào đề
    bằng hợp đồng assessment hiện có → xem trước và kích hoạt.
-3. Learner chọn đề → server kiểm tra pool và thời hạn → tạo phiên, snapshot cấu hình
+3. User chọn đề → server kiểm tra pool và thời hạn → tạo phiên, snapshot cấu hình
    và nội dung → lưu nháp → nộp → chấm MCQ tức thời, SQL/AI qua tác vụ bền vững.
-4. Admin xem bằng chứng AI, phê duyệt hoặc sửa điểm có lý do → công bố → Learner
+4. Admin xem bằng chứng AI, phê duyệt hoặc sửa điểm có lý do → công bố → User
    xem kết quả/năng lực/khoảng thiếu; bài practice không tính vào năng lực chính thức.
-5. Admin xem tổng quan cohort, phân bố điểm, CLO và xu hướng; Learner chỉ xem mình.
+5. Admin xem tổng quan cohort, phân bố điểm, CLO và xu hướng; User chỉ xem mình.
 
 ## Phạm vi nghiệp vụ
 

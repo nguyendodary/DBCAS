@@ -6,6 +6,8 @@ Stack kế thừa: FastAPI/Python 3.13, SQLAlchemy/psycopg, PostgreSQL 17; React
 do nhóm frontend phụ trách. Backend là ứng dụng module hóa, chưa cần microservice.
 Worker chấm bài tách vòng xử lý khỏi HTTP, dùng bảng `grading_job` bền vững.
 
+> UI label: **User**; stored/API value: **Learner**.
+
 ![Các module backend](diagrams/components.svg)
 
 Nguồn có thể sửa và render: [components.dot](diagrams/components.dot),
@@ -16,12 +18,12 @@ và [sandbox tạm không mạng](docker-sandbox-dn.md), giữ giao diện servi
 | Module | Đầu vào → xử lý → đầu ra | Ranh giới dữ liệu/quyền |
 | --- | --- | --- |
 | Auth | Register/login/JWT → tài khoản active + RBAC → phiên đăng nhập | Không tự cấp Admin; đọc quyền DB mỗi request |
-| Curriculum/bank | CLO/concept/câu hỏi → kiểm định/duyệt/version → pool đã xác nhận | Chỉ Admin; không trả đáp án nội bộ cho Learner |
-| Assessment/session | Đề/blueprint → chọn pool + snapshot → nháp/nộp/hết hạn | Learner chỉ phiên của mình, row lock và idempotency |
+| Curriculum/bank | CLO/concept/câu hỏi → kiểm định/duyệt/version → pool đã xác nhận | Chỉ Admin; không trả đáp án nội bộ cho User |
+| Assessment/session | Đề/blueprint → chọn pool + snapshot → nháp/nộp/hết hạn | User chỉ phiên của mình, row lock và idempotency |
 | MCQ | Lựa chọn → đối chiếu key snapshot → điểm + evidence | Chấm xác định, không gọi AI |
 | SQL | SELECT + dataset → AST allowlist + sandbox → kết quả typed → comparator | Không kết nối DB hệ thống bằng SQL người học |
 | Essay | Nội dung ẩn danh + rubric → LLM → kiểm định JSON/evidence → điểm dự kiến | Admin duyệt/công bố, không tin văn bản AI tự do |
-| Analytics | Điểm/bằng chứng đã công bố → tổng hợp point-weighted → năng lực/gap | Practice tách khỏi bằng chứng formal; phân quyền Learner/Admin |
+| Analytics | Điểm/bằng chứng đã công bố → tổng hợp point-weighted → năng lực/gap | Practice tách khỏi bằng chứng formal; phân quyền User/Admin |
 
 Trình duyệt → HTTP API → controller → service → repository → DB hệ thống.
 SQL service gửi dataset đã duyệt sang sandbox, nhận kết quả có giới hạn; SQL gốc
@@ -40,9 +42,9 @@ Swagger chạy tại `/docs`, ReDoc `/redoc`, JSON trực tiếp `/openapi.json`
 | --- | --- | --- |
 | Danh tính | `POST /auth/register`, `/auth/login`; `GET /auth/me`; `POST /auth/renew` | Public cho register/login, Bearer cho me/renew |
 | Ngân hàng/chương trình | `/admin/questions`, `/admin/concepts`, `/admin/clos` | Administrator; một số thao tác vai trò cần capability riêng |
-| Đề | `/admin/assessments`; `GET /assessments` | Admin chỉnh sửa; Learner xem đề khả dụng |
-| Làm bài | `/sessions`, `/{session_id}/state`, `/draft`, `/answers`, `/finish`, `/sql-run` | Learner và kiểm tra chủ sở hữu |
-| Kết quả | `/{session_id}/competency`, `/gaps`, `/guidance`, `/evidence` dưới `/sessions` | Learner, theo chính sách công bố |
+| Đề | `/admin/assessments`; `GET /assessments` | Admin chỉnh sửa; User xem đề khả dụng |
+| Làm bài | `/sessions`, `/{session_id}/state`, `/draft`, `/answers`, `/finish`, `/sql-run` | User và kiểm tra chủ sở hữu |
+| Kết quả | `/{session_id}/competency`, `/gaps`, `/guidance`, `/evidence` dưới `/sessions` | User, theo chính sách công bố |
 | Review/thống kê | `/admin/grading/*`, `/admin/analytics/*` | Administrator |
 
 Tên path chi tiết và tham số bắt buộc phải tra OpenAPI, không suy từ wildcard trong

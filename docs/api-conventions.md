@@ -20,6 +20,7 @@ All domain rules come from the project use cases — do not invent endpoints.
   Role checks run through `require_roles(...)` dependencies. Administrator
   does not imply permission to assign roles: role operations also require the
   database-backed `can_manage_roles` capability.
+  UI label: User; stored/API value: Learner.
 
 ## Layers (backend/app)
 

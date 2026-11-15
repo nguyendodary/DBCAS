@@ -32,7 +32,7 @@ question-version rules continue to apply after a reviewed save.
 ## API
 
 Both endpoints require an active Administrator, using current database roles.
-Anonymous and Learner requests return 401/403.
+Anonymous and User requests return 401/403.
 
 - `GET /api/v1/admin/question-translation/capability` returns
   `{"available": false}` unless both the separate opt-in and provider settings

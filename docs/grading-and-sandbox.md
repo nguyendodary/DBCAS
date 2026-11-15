@@ -106,7 +106,7 @@ giao diện không còn lựa chọn hai luồng.
 | timeout, result_too_large | Query vượt hạn | Tối ưu query; không tăng giới hạn tùy tiện |
 | sandbox_busy/unavailable / 503 | Hết slot/daemon/image/transport | Retry hữu hạn, kiểm tra image và group socket |
 | dataset_not_configured / 422 | Câu SQL không có fixture | Admin sửa/duyệt bank, không thưởng điểm |
-| llm_not_configured/auth_failed / 503 | Thiếu/sai cấu hình provider | Kiểm tra env phía server, không hỏi Learner về API key |
+| llm_not_configured/auth_failed / 503 | Thiếu/sai cấu hình provider | Kiểm tra env phía server, không hỏi User về API key |
 | llm_timeout/rate_limited/provider_error / 503 | Provider chưa hoàn tất | Job retry hữu hạn hoặc human takeover |
 | llm_invalid_response / 502 | JSON/điểm/evidence không hợp lệ | Không cache/chấp nhận điểm, Admin xử lý |
 

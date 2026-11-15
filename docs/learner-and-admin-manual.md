@@ -1,4 +1,6 @@
-# Learner and administrator manual
+# User and administrator manual
+
+> UI label: User (Vietnamese: Người dùng); stored/API value: Learner.
 
 ## Personalized assessment and verified results
 
@@ -17,18 +19,18 @@ Administrators configure Immediate or Human verified release on assessment
 drafts. Grading review shows provisional SQL/essay evidence, accepts/corrects
 scores, can re-run a submitted SQL answer in the isolated sandbox, and explicitly
 publishes completed human reviews. Unpublished results
-show a pending state. Cumulative competency in learner navigation combines
+show a pending state. Cumulative competency in user navigation combines
 published evidence across attempts; administrator analytics links to the same
-learner calculation and historical grading audit. Concept editing also supports
+user calculation and historical grading audit. Concept editing also supports
 keywords and learning objectives.
 
 See the [full workflow, lifecycle, data policy and manual verification steps](supervisor-implementation.md).
 
-## Learner workflow
+## User workflow
 
 Register at `/register`, then use email/password or an enabled provider at
-`/login`. Administrators land in their management area; Learners land on
-`/dashboard`. Administrator accounts cannot take assessments: learner assessment
+`/login`. Administrators land in their management area; Users land on
+`/dashboard`. Administrator accounts cannot take assessments: user assessment
 routes reject them even on a legacy dual-role account. A transient session-check
 failure offers retry without removing
 the stored access token. Expired access is renewed within a bounded original
@@ -113,7 +115,7 @@ evidence result, unavailable while submitted answers await grading.
 Study guidance is ranked by shortfall descending, then concept ID.
 Prerequisite information explains readiness without reordering priorities.
 AI explanations cannot alter scores or order and are invalidated when their
-evidence/context changes. Only your own learner sessions are accessible.
+evidence/context changes. Only your own user sessions are accessible.
 
 ## Administrator workflow
 
@@ -205,8 +207,8 @@ Approve a passing candidate into the bank or reject it.
 No unreviewed AI dataset runs with broad database administrative privileges.
 
 `/admin` selects an assessment cohort, shows concept breakdown, categories,
-gap prevalence and a daily result trend, and supports learner/session
-drill-down. Cohort means learners assessed in the selected assessment; the
+gap prevalence and a daily result trend, and supports user/session
+drill-down. Cohort means users assessed in the selected assessment; the
 formal schema has no independent class/cohort entity. All metrics come from
 the backend. Empty cohorts and pending grades are explicit states.
 
@@ -225,7 +227,7 @@ Every signed-in page and the sign-in/sign-up screens carry a **Help** button
 (`frontend/src/components/HelpGuide.jsx`, rendered through `HelpProvider` in
 `frontend/src/App.jsx`). It opens one modal guide - not a separate route - with ten fixed sections: overview,
 start, modes, question types, SQL, essay, results, language, accessibility and
-troubleshooting, plus a learner-only or administrator-only section depending on your
+troubleshooting, plus a user-only or administrator-only section depending on your
 role. The guide is context-aware: opening it from `/dashboard`, `/assessments`,
 `/exam/…`, `/history`, `/history/…`, `/competency`, `/settings`, `/admin`,
 `/admin/curriculum`, `/admin/questions`, `/admin/candidates`, `/admin/assessments`,

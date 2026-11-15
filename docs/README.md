@@ -1,5 +1,8 @@
 # docs/ index
 
+> Role label: the UI uses **User** (Vietnamese **Người dùng**); the stored,
+> API and JWT value remains **Learner**.
+
 Trang này là bảng ánh xạ Jira task tới file kết quả. Thêm một mục mới khi
 bạn thêm một deliverable mới.
 
@@ -54,7 +57,7 @@ bạn thêm một deliverable mới.
 - [Setup and migrations](setup-and-migrations.md)
 - [Testing and release gates](testing-and-release-gates.md)
 - [Local integration troubleshooting](local-integration-troubleshooting.md)
-- [Learner and administrator manual](learner-and-admin-manual.md)
+- [User and administrator manual](learner-and-admin-manual.md)
 - [Development](development-dn.md)
 - [Docker sandbox](docker-sandbox-dn.md)
 - [Requirements decisions](requirements-decisions.md)

@@ -3,6 +3,8 @@
 PostgreSQL 17; DDL chuẩn ở `db/schema.sql`, nâng cấp cộng thêm tại
 `db/migrations/`. ORM không tự gọi `create_all` để thay thế migration.
 
+> UI label: User (Người dùng); stored/API value: Learner.
+
 ## Thực thể và ánh xạ nghiệp vụ
 
 | Nghiệp vụ | Bảng | Quan hệ/chốt toàn vẹn |

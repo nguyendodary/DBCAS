@@ -17,7 +17,8 @@ các tên gọi khớp mã nguồn.
 | Evaluator | Thành phần chấm (`services/evaluation_pipeline.py`) chạy qua provider AI; trả JSON giải thích chi tiết. |
 | Reason code | Mã từ chối AI không có bí mật: `json_parse`, `schema`, `truncated`, `refusal`, `mcq_options`, `sql_syntax`, `sql_fixture`, `sql_empty_output`, `out_of_scope_concept`, `difficulty_mismatch`, `duplicate`, `count`, `type_source`, `type_fields`, `timeout`. |
 | Admin (5 mục) | Tổng quan, Duyệt bài, Tài khoản, Ngân hàng & khái niệm/CLO, Hệ thống. Không quản lý đề thi cố định. |
-| Learner-defined practice | Người học tự chọn khái niệm, độ khó, số câu, nguồn `bank`/`ai`. Không có đề trước. |
+| User-defined practice | Người dùng tự chọn khái niệm, độ khó, số câu, nguồn `bank`/`ai`. Không có đề trước. |
 
-Vai trò hệ thống: Learner (người học), Admin (giảng viên/QA). Không có role
+Vai trò hệ thống: User (người dùng), Admin (giảng viên/QA). Không có role
 giáo viên trung gian. Vai trò "AI worker" chỉ dùng nội bộ.
+UI label: User; stored/API value: Learner.

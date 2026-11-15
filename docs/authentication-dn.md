@@ -8,7 +8,8 @@ có refresh vẫn dùng renew cũ. Khi mất mạng, trình duyệt vẫn đăng
 thu hồi trên server chỉ được xác nhận khi API nhận được request logout.
 
 Đăng ký/login/RBAC, bcrypt và password recovery dùng service hiện có. Đăng ký
-không cấp Admin; tên role trong API là `Learner`/`Administrator`. Password giới
+không cấp Admin; tên role trong API là `Learner`/`Administrator`. UI label:
+User; stored/API value: Learner. Password giới
 hạn 72 byte theo bcrypt, không ghi mật khẩu/token vào log. `.env` cấu hình
 `JWT_SECRET`, `ACCESS_TOKEN_EXPIRE_MINUTES`, `REFRESH_TOKEN_EXPIRE_DAYS` (1–30,
 mặc định 7). Production từ chối secret mặc định.
