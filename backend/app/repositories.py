@@ -30,6 +30,7 @@ from .models import (
     LlmCache,
     McqOption,
     PasswordResetAudit,
+    PasswordResetOtp,
     PasswordResetToken,
     Question,
     QuestionCandidate,
@@ -209,6 +210,7 @@ class ReadinessRepository:
         self.db.execute(text("SELECT password_set, password_changed_at FROM account LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM password_reset_token LIMIT 0"))
         self.db.execute(text("SELECT 1 FROM password_reset_audit LIMIT 0"))
+        self.db.execute(text("SELECT 1 FROM password_reset_otp LIMIT 0"))
         return True
 
 
@@ -1436,6 +1438,45 @@ class PasswordResetRepository:
 
     def audit(self, account_id: int, event: str) -> None:
         self.db.add(PasswordResetAudit(account_id=account_id, event=event))
+
+    # --- emailed one-time passcode: one live row per account ---
+
+    def otp_for_update(self, account_id: int) -> Optional[PasswordResetOtp]:
+        return self.db.scalar(
+            select(PasswordResetOtp)
+            .where(PasswordResetOtp.account_id == account_id)
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+
+    def store_otp(self, account_id: int, otp_hash: str, now, expires_at) -> None:
+        """Replace any live code: a fresh code starts with zero attempts."""
+        row = self.otp_for_update(account_id)
+        if row is None:
+            self.db.add(
+                PasswordResetOtp(
+                    account_id=account_id,
+                    otp_hash=otp_hash,
+                    requested_at=now,
+                    expires_at=expires_at,
+                )
+            )
+        else:
+            row.otp_hash = otp_hash
+            row.requested_at = now
+            row.expires_at = expires_at
+            row.attempts = 0
+        self.db.flush()
+
+    def delete_otp(self, account_id: int) -> None:
+        self.db.execute(
+            delete(PasswordResetOtp).where(PasswordResetOtp.account_id == account_id)
+        )
+
+    def prune_otps(self) -> None:
+        self.db.execute(
+            delete(PasswordResetOtp).where(PasswordResetOtp.expires_at < func.now())
+        )
 
 
 _FINALIZED = ("completed", "timed_out")

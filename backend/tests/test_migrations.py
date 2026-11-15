@@ -66,6 +66,7 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT password_changed_at FROM account WHERE email='preserved@migration.test'").fetchone()[0] is None
             assert conn.execute("SELECT to_regclass('password_reset_token')").fetchone()[0]
             assert conn.execute("SELECT to_regclass('password_reset_audit')").fetchone()[0]
+            assert conn.execute("SELECT to_regclass('password_reset_otp')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM pg_trigger WHERE tgrelid='password_reset_audit'::regclass AND tgname='password_reset_audit_immutable'").fetchone()[0] == 1
             # Compare complete upgraded shape with an independently initialized fresh schema.
             actual = schema_shape(conn)
@@ -128,6 +129,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             assert apply_migrations(conn) == [
                 '019_archive_prebuilt_exams.sql',
                 '020_provisional_ai_final_results.sql',
+                '021_password_reset_otp.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -136,7 +138,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 20
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 21
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -283,7 +285,10 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "INSERT INTO result_release_event(session_id,previous_status,new_status,reviewer_id) VALUES (%s,'pending_review','published',%s)",
                 (session_id, account_id),
             )
-            assert apply_migrations(conn) == ["020_provisional_ai_final_results.sql"]
+            assert apply_migrations(conn) == [
+                "020_provisional_ai_final_results.sql",
+                "021_password_reset_otp.sql",
+            ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
             ).fetchone()
