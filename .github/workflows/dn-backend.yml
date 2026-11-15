@@ -173,6 +173,7 @@ jobs:
             api_port: 18100
             web_port: 18180
             mail_port: 18125
+            smtp_port: 11125
             qa_port: 18199
             qa_load: '0'
           - name: e2e-2
@@ -182,6 +183,7 @@ jobs:
             api_port: 18101
             web_port: 18181
             mail_port: 18126
+            smtp_port: 11126
             qa_port: 18209
             qa_load: '0'
           - name: qa-1
@@ -191,6 +193,7 @@ jobs:
             api_port: 18200
             web_port: 18280
             mail_port: 18225
+            smtp_port: 11225
             qa_port: 18299
             qa_load: '1'
           - name: qa-2
@@ -200,6 +203,7 @@ jobs:
             api_port: 18300
             web_port: 18380
             mail_port: 18325
+            smtp_port: 11325
             qa_port: 18399
             qa_load: '0'
           - name: qa-3
@@ -209,6 +213,7 @@ jobs:
             api_port: 18400
             web_port: 18480
             mail_port: 18425
+            smtp_port: 11425
             qa_port: 18499
             qa_load: '0'
           - name: smoke-1
@@ -218,6 +223,7 @@ jobs:
             api_port: 18500
             web_port: 18580
             mail_port: 18525
+            smtp_port: 11525
             qa_port: 18599
             qa_load: '0'
           - name: smoke-2
@@ -227,6 +233,7 @@ jobs:
             api_port: 18600
             web_port: 18680
             mail_port: 18625
+            smtp_port: 11625
             qa_port: 18699
             qa_load: '0'
           - name: smoke-3
@@ -236,6 +243,7 @@ jobs:
             api_port: 18700
             web_port: 18780
             mail_port: 18725
+            smtp_port: 11725
             qa_port: 18799
             qa_load: '0'
     env:
@@ -247,7 +255,10 @@ jobs:
       LOCAL_API_PORT: ${{ matrix.api_port }}
       LOCAL_WEB_PORT: ${{ matrix.web_port }}
       LOCAL_MAIL_PORT: ${{ matrix.mail_port }}
+      LOCAL_SMTP_PORT: ${{ matrix.smtp_port }}
       LOCAL_QA_PROVIDER_PORT: ${{ matrix.qa_port }}
+      DBCAS_TEST_SMTP_PORT: ${{ matrix.smtp_port }}
+      DBCAS_MAILPIT_API: http://127.0.0.1:${{ matrix.mail_port }}
       DBCAS_LOCAL_URL: http://127.0.0.1:${{ matrix.web_port }}
       DBCAS_QA_PROVIDER_URL: http://127.0.0.1:${{ matrix.qa_port }}
     steps:
@@ -272,6 +283,11 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('frontend/package-lock.json') }}
       - run: npx playwright install chromium
         working-directory: frontend
+      - name: Start Mailpit for e2e
+        if: matrix.kind == 'e2e'
+        run: |
+          cp .env.example .env
+          docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml up -d --wait mailpit
       - name: Run e2e shard
         if: matrix.kind == 'e2e'
         run: npm --prefix frontend run test:e2e -- --shard=${{ matrix.shard }}
@@ -288,7 +304,7 @@ jobs:
           DBCAS_QA_LOAD: ${{ matrix.qa_load }}
         run: node scripts/browser-qa.mjs 1
       - name: Cleanup compose project
-        if: always() && (matrix.kind == 'smoke' || matrix.kind == 'qa')
+        if: always() && (matrix.kind == 'e2e' || matrix.kind == 'smoke' || matrix.kind == 'qa')
         run: docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml -f docker-compose.qa.yml down --volumes --remove-orphans || true
       - name: Record shard result
         if: always()
