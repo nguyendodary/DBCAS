@@ -20,7 +20,7 @@ separately: `[CẦN NGƯỜI ĐIỀN]`.
 
 What the v1.2 documents state (all verifiable in the repository):
 
-- Learner-defined practice only (concepts, 3 difficulty bands, count 1–20,
+- User-defined practice only (concepts, 3 difficulty bands, count 1–20,
   default 5, source `bank`/`ai`); no prebuilt exams, no admin exam creation,
   no fixed 10/2/1 mix, no 13-question/60-minute contract.
 - `source=ai`: AI generates MCQ/essay only; SQL always comes from the validated
@@ -30,7 +30,7 @@ What the v1.2 documents state (all verifiable in the repository):
   `IMMEDIATE` / `HUMAN_VERIFIED` choice is gone from the UI.
 - Two-AI pipeline: Prompt Builder (deterministic template, `prompt_hash`) →
   Evaluator (external LLM or rule fallback).
-- Google/GitHub OAuth supports sign-in and Learner sign-up; verified-email
+- Google/GitHub OAuth supports sign-in and User sign-up; verified-email
   matching links one account and preserves existing roles. Login and Register
   retain both provider choices without credentials and explain email sign-in.
   Single-use handoffs issue rotating access/refresh sessions.

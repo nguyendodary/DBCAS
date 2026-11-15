@@ -90,7 +90,7 @@ Set `LLM_BASE_URL`, `LLM_MODEL` and `LLM_API_KEY` for an OpenAI-compatible
 chat-completions endpoint. The endpoint suffix is handled by the provider
 adapter. Use temperature 0.1 (or a lower deterministic setting), seed 42,
 finite timeout and bounded retries. Responses pass strict JSON/schema/domain
-validation before entering the versioned cache. Learner profile identifiers
+validation before entering the versioned cache. User profile identifiers
 are redacted with boundaries; AI cannot change deterministic competency math.
 
 The API maintenance thread handles timeouts and pending SQL jobs. Essay

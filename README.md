@@ -118,7 +118,7 @@ sang `127.0.0.1` giữa luồng. Bản Vite phải đặt `FRONTEND_URL` và hai
    [Hướng dẫn chính thức](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app).
 3. Chạy lại `npm start`; `/api/v1/auth/oauth/providers` chỉ công khai tên và
    trạng thái, không trả secret. Email đã được provider xác minh sẽ liên kết
-   tài khoản hiện có; người mới nhận vai trò Learner. Handoff dùng một lần;
+   tài khoản hiện có; người mới nhận vai trò User. Handoff dùng một lần;
    phiên có refresh token xoay vòng và đăng xuất thu hồi phiên.
 
 ## AI tùy chọn

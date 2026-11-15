@@ -21,7 +21,7 @@ từ snapshot tại thời điểm serve, không lấy lại đáp án đã bị
 được dispatch sang service tương ứng; pending không biến thành điểm 0 chính thức.
 
 Row lock trên session và constraint attempt/session/seq bảo vệ nộp đồng thời.
-Chỉ Learner sở hữu được đọc/sửa nháp hoặc nộp; Admin không giả làm Learner.
+Chỉ User sở hữu được đọc/sửa nháp hoặc nộp; Admin không giả làm User.
 Kết quả/evidence tuân theo review/publication policy; frontend phải xử lý pending,
 manual review và chưa công bố trước khi dựng số liệu chính thức.
 
