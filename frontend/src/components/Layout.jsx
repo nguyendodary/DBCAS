@@ -35,7 +35,7 @@ const sideLinkCls = ({ isActive }) =>
 const topLinkCls = ({ isActive }) => `nav-pill ${isActive ? 'active' : ''}`
 
 function AccountChip({ account, onLogout }) {
-  useLocale()
+  const { locale } = useLocale()
   return (
     <div className="flex min-w-0 items-center gap-2.5">
       <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
@@ -52,6 +52,12 @@ function AccountChip({ account, onLogout }) {
           {account.email}
         </p>
       </div>
+      <Link
+        to="/upgrade"
+        className="rounded-lg border border-cyan-400/40 bg-cyan-400/10 px-3 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/20"
+      >
+        {locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+      </Link>
       <button
         type="button"
         onClick={onLogout}
