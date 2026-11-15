@@ -1,6 +1,6 @@
 import { t, useLocale, message, number, statusLabel, typeLabel } from '../../i18n'
 import { resolveMessage } from '../../i18n'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../../components/States'
 import {
@@ -43,6 +43,7 @@ const PG_TOPICS = [
 export default function AdminQuestionsPage() {
   const { locale } = useLocale()
   const [items, setItems] = useState(null)
+  const [allItems, setAllItems] = useState(null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [filters, setFilters] = useState({
@@ -74,18 +75,19 @@ export default function AdminQuestionsPage() {
     setError('')
     const params = Object.fromEntries(
       Object.entries({
-        question_type: filters.question_type,
-        status: filters.status,
         difficulty: filters.difficulty,
         concept_id: filters.concept_id,
-        tag: filters.tag,
+        tag: filters.tag === 'postgres' ? '' : filters.tag,
         q: query,
-      }).filter(([, v]) => v !== '' && v !== null),
+      }).filter(([, value]) => value !== '' && value !== null),
     )
+    const isUnfilteredRequest =
+      !query && !filters.difficulty && !filters.concept_id && !filters.tag
     api
       .get('/admin/questions', { params, signal: controller.signal })
       .then((r) => {
         if (controller.signal.aborted) return
+        if (isUnfilteredRequest) setAllItems(r.data)
         setItems(r.data)
         setConceptOptions((existing) => {
           const byId = new Map(existing.map((c) => [c.concept_id, c]))
@@ -98,14 +100,7 @@ export default function AdminQuestionsPage() {
         setError(apiMessage(e))
         setItems([])
       })
-  }, [
-    filters.question_type,
-    filters.status,
-    filters.difficulty,
-    filters.concept_id,
-    filters.tag,
-    query,
-  ])
+  }, [filters.difficulty, filters.concept_id, filters.tag, query])
 
   useEffect(() => {
     load()
@@ -206,7 +201,39 @@ export default function AdminQuestionsPage() {
 
   const selCls =
     'rounded-md border border-edge2 bg-panel px-2 py-1.5 text-sm text-ink focus:border-cyan-400/60 focus:outline-none'
-  const pageCount = Math.ceil((items?.length || 0) / 12)
+  const filteredItems = useMemo(() => {
+    if (items === null) return null
+    return items.filter((q) => {
+      if (filters.question_type && q.question_type !== filters.question_type) return false
+      if (filters.status && q.status !== filters.status) return false
+      if (filters.difficulty && Number(q.difficulty_level) !== Number(filters.difficulty))
+        return false
+      if (
+        filters.concept_id &&
+        !q.concepts?.some((concept) => String(concept.concept_id) === filters.concept_id)
+      )
+        return false
+      if (filters.tag) {
+        const matchesTag =
+          filters.tag === 'postgres'
+            ? q.tags?.some((tag) => {
+                const normalizedTag = tag.toLowerCase()
+                return normalizedTag === 'postgres' || normalizedTag.startsWith('postgres:')
+              })
+            : q.tags?.includes(filters.tag)
+        if (!matchesTag) return false
+      }
+      return true
+    })
+  }, [
+    items,
+    filters.question_type,
+    filters.status,
+    filters.difficulty,
+    filters.concept_id,
+    filters.tag,
+  ])
+  const pageCount = Math.ceil((filteredItems?.length || 0) / 12)
   const currentPage = Math.min(page, pageCount || 1)
   const activeFilterCount = Object.values(filters).filter(Boolean).length
 
@@ -229,7 +256,7 @@ export default function AdminQuestionsPage() {
       {/* ---------- filters ---------- */}
       <FilterBar
         activeCount={activeFilterCount}
-        onClear={() =>
+        onClear={() => {
           setFilters({
             question_type: '',
             status: '',
@@ -238,7 +265,9 @@ export default function AdminQuestionsPage() {
             tag: '',
             q: '',
           })
-        }
+          setQuery('')
+          if (allItems) setItems(allItems)
+        }}
         more={
           <>
             <select
@@ -408,13 +437,13 @@ export default function AdminQuestionsPage() {
       {/* ---------- list ---------- */}
       {items === null ? (
         <Loading />
-      ) : items.length === 0 ? (
+      ) : filteredItems.length === 0 ? (
         <EmptyState title={t('admin.questions.empty')} />
       ) : (
         <Card className="overflow-hidden">
-          <CardTitle title={t('admin.questions.count', { count: items.length })} />
+          <CardTitle title={t('admin.questions.count', { count: filteredItems.length })} />
           <ul className="divide-y divide-edge text-sm">
-            {items.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
+            {filteredItems.slice((currentPage - 1) * 12, currentPage * 12).map((q) => (
               <li
                 key={q.question_id}
                 className="px-4 py-3.5 transition-colors hover:bg-surface-hover sm:px-5"
