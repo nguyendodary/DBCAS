@@ -103,7 +103,7 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     await page.goto('/dashboard')
     await expect(page.getByRole('heading', { name: 'My competency', exact: true })).toBeVisible()
     let drawer = await openHelp(page)
-    await expect(drawer.getByRole('heading', { name: 'Learner guide', exact: true })).toBeVisible()
+    await expect(drawer.getByRole('heading', { name: 'User guide', exact: true })).toBeVisible()
     await expect(
       drawer.getByRole('heading', { name: 'Administrator guide', exact: true }),
     ).toHaveCount(0)

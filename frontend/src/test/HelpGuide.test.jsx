@@ -130,15 +130,15 @@ it('shows route-aware guidance for the current workspace', async () => {
 it('shows role-specific guidance without exposing the other role guide', async () => {
   const { unmount } = renderHelp('/dashboard', { roles: ['Learner'] })
   await userEvent.click(screen.getAllByRole('button', { name: 'Help' })[0])
-  expect(screen.getByRole('heading', { name: 'Learner guide' })).toBeVisible()
+  expect(screen.getByRole('heading', { name: 'User guide' })).toBeVisible()
   expect(screen.queryByRole('heading', { name: 'Administrator guide' })).not.toBeInTheDocument()
-  expect(screen.getAllByRole('button', { name: 'Learner guide' })).toHaveLength(1)
+  expect(screen.getAllByRole('button', { name: 'User guide' })).toHaveLength(1)
   unmount()
 
   renderHelp('/admin', { roles: ['Administrator'] })
   await userEvent.click(screen.getAllByRole('button', { name: 'Help' })[0])
   expect(screen.getByRole('heading', { name: 'Administrator guide' })).toBeVisible()
-  expect(screen.queryByRole('heading', { name: 'Learner guide' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('heading', { name: 'User guide' })).not.toBeInTheDocument()
 })
 
 it('switches all guide content to Vietnamese and keeps both locales complete', async () => {
@@ -170,7 +170,7 @@ it('supports rendering the drawer directly, including no auth context', async ()
     </MemoryRouter>,
   )
   const dialog = screen.getByRole('dialog')
-  expect(within(dialog).getByRole('heading', { name: 'Learner guide' })).toBeVisible()
+  expect(within(dialog).getByRole('heading', { name: 'User guide' })).toBeVisible()
   expect(within(dialog).getByRole('heading', { name: 'Administrator guide' })).toBeVisible()
   await userEvent.keyboard('{Escape}')
   expect(onClose).toHaveBeenCalledTimes(1)

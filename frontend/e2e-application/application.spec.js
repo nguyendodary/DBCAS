@@ -128,7 +128,7 @@ test('real role manager promotes and revokes an account with immediate token enf
     await revokeDialog
       .getByRole('button', { name: 'Revoke Administrator Access', exact: true })
       .click()
-    await expect(row).toContainText('Learner')
+    await expect(row).toContainText('User')
     const revokedAccess = await targetPage.request.get(`${API}/admin/accounts`, {
       headers: { Authorization: `Bearer ${targetToken}` },
     })
