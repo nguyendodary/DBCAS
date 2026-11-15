@@ -38,9 +38,10 @@ function AccountChip({ account, onLogout }) {
   const { locale } = useLocale()
   return (
     <div className="flex min-w-0 items-center gap-2.5">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
+      <span className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25 sm:flex">
         {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
       </span>
+
       <div className="hidden min-w-0 max-w-[220px] 2xl:block">
         <p
           className="truncate text-sm font-medium leading-tight"
