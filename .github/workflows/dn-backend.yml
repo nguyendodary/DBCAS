@@ -7,8 +7,8 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: local-quality-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   secrets:
     runs-on: ubuntu-latest
