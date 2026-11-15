@@ -638,7 +638,8 @@ test('admin completes provisioning, curriculum, human AI review, activation and 
   expect(removed.status()).toBe(404)
   await page.goto('/admin')
   await expect(page.getByLabel('Analytics assessment')).toHaveCount(0)
-  await expect(page.locator('.app-sidebar nav').getByRole('link')).toHaveCount(5)
+  await expect(page.locator('.app-sidebar nav').getByRole('link')).toHaveCount(6)
+  await expect(page.locator('.app-sidebar nav a[href="/admin/chi-phi"]')).toHaveCount(1)
   await checkPage(page, 'admin-analytics')
   expect(
     unexpectedWebkitPageErrors(errors, {
