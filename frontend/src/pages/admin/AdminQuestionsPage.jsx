@@ -431,18 +431,6 @@ export default function AdminQuestionsPage() {
                       {t('admin.questions.legacyRubric')}
                     </Badge>
                   )}
-                  <Badge>
-                    {t('authoring.original', {
-                      language: t(`authoring.${q.original_locale || 'en'}`),
-                    })}
-                  </Badge>
-                  <Badge>
-                    {q.translation_locales?.length
-                      ? t('authoring.translationAvailable', {
-                          languages: q.translation_locales.join(', ').toUpperCase(),
-                        })
-                      : t('authoring.noTranslation')}
-                  </Badge>
                   <span className="ml-auto flex shrink-0 items-center gap-1">
                     <button
                       type="button"
