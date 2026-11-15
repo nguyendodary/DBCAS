@@ -119,7 +119,7 @@ def run(env_file, ledger_path):
                   "created_utc": datetime.now(timezone.utc).isoformat(), "requests": [], "checks": {}}
         save(ledger_path, ledger)
     settings = settings.model_copy(update={"llm_max_retries": 0, "llm_backoff_seconds": 0.0,
-                                          "llm_timeout_seconds": 90.0, "prompt_builder_model_path": "",
+                                          "llm_timeout_seconds": 90.0,
                                           "evaluation_fake_delay_seconds": 0, "evaluation_fake_error": False})
     transport = MeteredTransport(ledger_path, ledger)
     provider = ChatCompletionsProvider(settings.llm_base_url, settings.llm_api_key,

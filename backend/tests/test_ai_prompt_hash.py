@@ -99,36 +99,6 @@ def test_evaluator_receives_the_exact_built_prompt_and_matching_hash():
     assert "[id]" in user_prompt
 
 
-def test_evaluator_receives_the_model_builder_prompt_not_a_rebuilt_one(monkeypatch):
-    from types import SimpleNamespace
-    from app.services import prompt_builder
-
-    model_prompt = prompt_builder.template_prompt(sanitize_data(DATA))
-    monkeypatch.setattr(prompt_builder, "local_inference", lambda *_: model_prompt)
-    capture = CaptureLLM()
-    settings = SimpleNamespace(prompt_builder_model_path="local", prompt_builder_timeout_seconds=8)
-    result = evaluate(DATA, capture, settings=settings)
-    assert not result["builder_fallback"] and not result["evaluator_fallback"]
-    assert capture.messages[-1].content == model_prompt
-    assert hashlib.sha256(model_prompt.encode()).hexdigest() == result["prompt_hash"]
-
-
-def test_invalid_model_builder_falls_back_before_the_same_prompt_is_sent(monkeypatch):
-    from types import SimpleNamespace
-    from app.services import prompt_builder
-
-    def broken(*_):
-        raise TimeoutError("builder-secret-token")
-
-    monkeypatch.setattr(prompt_builder, "local_inference", broken)
-    capture = CaptureLLM()
-    settings = SimpleNamespace(prompt_builder_model_path="local", prompt_builder_timeout_seconds=8)
-    result = evaluate(DATA, capture, settings=settings)
-    assert result["builder_fallback"] and not result["evaluator_fallback"]
-    assert capture.messages[-1].content == build_prompt(sanitize_data(DATA)).prompt
-    assert hashlib.sha256(capture.messages[-1].content.encode()).hexdigest() == result["prompt_hash"]
-
-
 def test_real_service_wire_prompt_hash_matches_and_pii_is_redacted(caplog):
     seen = []
 

@@ -28,8 +28,8 @@ What the v1.2 documents state (all verifiable in the repository):
 - One mandatory release flow: AI grades/evaluates first, then an administrator
   reviews and approves. Only approved results are published; the old
   `IMMEDIATE` / `HUMAN_VERIFIED` choice is gone from the UI.
-- Two-AI pipeline: Prompt Builder (local model or template fallback,
-  `prompt_hash`) → Evaluator (external LLM or rule fallback).
+- Two-AI pipeline: Prompt Builder (deterministic template, `prompt_hash`) →
+  Evaluator (external LLM or rule fallback).
 - Google/GitHub OAuth supports sign-in and Learner sign-up; verified-email
   matching links one account and preserves existing roles. Login and Register
   retain both provider choices without credentials and explain email sign-in.

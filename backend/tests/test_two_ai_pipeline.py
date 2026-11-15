@@ -1,5 +1,4 @@
 import copy
-import logging
 import pytest
 
 from app.services.prompt_builder import build_prompt, template_prompt, validate_prompt
@@ -58,27 +57,6 @@ def test_template_sections_data_schema_and_no_grading(data):
     assert validate_prompt(result.prompt, data) == result.prompt
     assert '"essay_score_proposal"' in result.prompt
     assert "## RUBRIC" in result.prompt
-
-
-def test_local_model_valid_path_and_invalid_fallback(data):
-    result = build_prompt(data, model_path="local", infer=lambda *_: template_prompt(data))
-    assert not result.fallback_used
-    for invalid in ["bad", template_prompt(data).replace('"answer":"A"', '"answer":"B"'), "x" * 200000]:
-        result = build_prompt(data, model_path="local", infer=lambda *_: invalid)
-        assert result.fallback_used
-        assert result.prompt == template_prompt(data)
-
-
-def test_inference_failure_falls_back_and_logs_metadata_only(data, caplog):
-    def failure(*_):
-        raise TimeoutError("secret-token")
-    with caplog.at_level(logging.INFO, logger="dbcas.ai"):
-        build_prompt(data, model_path="local", infer=failure)
-        result = evaluate(data)
-    assert result["evaluator_fallback"]
-    assert "role=prompt_builder" in caplog.text and "role=evaluator" in caplog.text
-    assert "duration_ms=" in caplog.text and "hash=" in caplog.text
-    assert "secret-token" not in caplog.text and data["items"][1]["answer"] not in caplog.text
 
 
 @pytest.mark.parametrize("mutation", [

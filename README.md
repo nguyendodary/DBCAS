@@ -26,7 +26,7 @@ npm run env:check
 
 1. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
 2. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
-3. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Huấn luyện tùy chọn: `npm run ai:train`.
+3. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Prompt Builder dùng template xác định.
 
 Tài khoản/mật khẩu demo chỉ dành cho development. Staging/production từ chối
 các mật khẩu công khai hiện tại và cũ, kể cả trên tài khoản bị vô hiệu hóa;
@@ -124,17 +124,14 @@ sang `127.0.0.1` giữa luồng. Bản Vite phải đặt `FRONTEND_URL` và hai
 ## AI tùy chọn
 
 AI #1 chỉ chuyển dữ liệu bài đã kết thúc thành **một prompt**, không chấm điểm;
-model local không có/lỗi thì dùng template. Evaluator nhận đúng prompt đã xây.
+dùng template xác định. Evaluator nhận đúng prompt đã xây.
 AI #2 đánh giá JSON, đồng thời là provider cho sinh câu hỏi. Không key hoặc API
 lỗi thì dùng quy tắc/mẫu dự phòng, ghi rõ trên kết quả. Không cần key để chạy demo.
 Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng API tương thích
 Chat Completions. Không commit `.env`; giao diện chỉ hiển thị trạng thái cấu hình.
 
-`npm run ai:train -- --smoke` xây dataset, chạy hai bước LoRA CPU trên model cực
-nhỏ, export và inference. `npm run ai:train` dùng Qwen2.5-0.5B-Instruct; cần tải
-dependencies/model ở lần đầu, training chạy trên máy và có thể tốn nhiều GB RAM.
-Model smoke không có chất lượng ngôn ngữ hữu ích. Xem [pipeline, dữ liệu và giới
-hạn](docs/ai-pipeline.md) trước khi dùng model để xây prompt.
+Nghiên cứu model local cho Prompt Builder đã dừng và không được triển khai;
+xem [pipeline và quyết định](docs/ai-pipeline.md).
 
 ## Dừng và kiểm thử
 

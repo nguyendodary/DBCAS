@@ -5,13 +5,13 @@ rubric, schema JSON và ràng buộc. AI #2 (Evaluator) nhận prompt, trả nh�
 câu, điểm mạnh/yếu, gợi ý, lộ trình và đề xuất điểm tự luận. Điểm MCQ/SQL do hệ
 thống chấm, không bị mô hình sửa. Dữ liệu người học là bằng chứng, không phải chỉ thị.
 
-Không model local: dùng template xác định. Model lỗi, thiếu mục, thay dữ liệu/schema,
-chèn nội dung chấm điểm/nhận xét/sao chép đáp án hoặc prompt quá 192 KiB: dùng
-template và ghi `reason=` trong log. Không key/timeout/JSON không hợp lệ: Evaluator
-dùng quy tắc và ghi lý do; UI ghi rõ đánh giá dự phòng. Dữ liệu được che thông tin
-trước khi build, nên `prompt_hash`, prompt đã build và prompt gửi provider là một.
-Log chỉ hash prompt, thời gian, trạng thái, fallback và mã lý do, không key/câu trả
-lời. Provider hiện có giữ timeout/retry/cache.
+Prompt Builder dùng template xác định và được validate trước khi gửi. Template
+thiếu mục, thay dữ liệu/schema, chèn nội dung chấm điểm/nhận xét/sao chép đáp án
+hoặc prompt quá 192 KiB bị từ chối và ghi `reason=` trong log. Không key/timeout/
+JSON không hợp lệ: Evaluator dùng quy tắc và ghi lý do; UI ghi rõ đánh giá dự phòng.
+Dữ liệu được che thông tin trước khi build, nên `prompt_hash`, prompt đã build và
+prompt gửi provider là một. Log chỉ hash prompt, thời gian, trạng thái, fallback và
+mã lý do, không key/câu trả lời. Provider hiện có giữ timeout/retry/cache.
 
 Cache dùng hash của đáp án, điểm, rubric, snapshot và toàn bộ lịch sử. Điểm sửa
 làm mất hiệu lực đánh giá cũ. Bài chờ duyệt không vào tổng thể/thống kê. Tổng thể
@@ -19,8 +19,8 @@ làm mất hiệu lực đánh giá cũ. Bài chờ duyệt không vào tổng t
 và 500 mốc biểu đồ (gồm bài đầu). Mỗi bài riêng vẫn có nhận xét cho mọi câu;
 nội dung quá dài được rút gọn và UI thông báo. Dữ liệu/đáp án gốc vẫn được giữ.
 
-AI #2 có timeout tối đa 10 giây mỗi lần, retry tối đa một lần; model local mặc
-định 8 giây. Màn hình chờ AI sau 45 giây yêu cầu fallback, có Thử lại. Chờ giảng
+AI #2 có timeout tối đa 10 giây mỗi lần, retry tối đa một lần. Màn hình chờ AI
+sau 45 giây yêu cầu fallback, có Thử lại. Chờ giảng
 viên duyệt tiếp tục kiểm tra chậm, không quay spinner vô hạn. Đặt
 `EVALUATION_FAKE_DELAY_SECONDS=0..15`, `EVALUATION_FAKE_ERROR=true` để quan sát
 fallback; `npm run test:qa` dùng HTTP provider riêng với delay/lỗi/giữ phản hồi.
@@ -28,30 +28,13 @@ Cùng provider AI #2 sinh câu hỏi khi bắt đầu; MCQ kiểm tra một đá
 cả dataset chính và biên, rubric tự luận được kiểm tra trước khi lưu. Mỗi bài AI
 mới có khóa generation riêng; gửi lại cùng request không tạo bài hay câu mới.
 
-`npm run ai:train` là bước tùy chọn, không chạy cùng ứng dụng. Docker tạo dataset
-từ ngân hàng thật và câu trả lời tổng hợp, chia train/test theo câu gốc để tránh
-rò rỉ biến thể. Có thể bổ sung bản export bài thật đã ẩn danh bằng `--real`;
-không tự lấy thông tin cá nhân từ database. Lệnh train dùng
-[Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct),
-khoảng 0,5 tỷ tham số, và
-[LoRA/PEFT](https://huggingface.co/docs/peft/quicktour), rank 4, q_proj/v_proj.
-Lần đầu cần tải dependencies/model; các bước dataset/train/evaluate/export sau đó
-chạy trên máy, không gửi bài làm đến dịch vụ huấn luyện. GPU tùy chọn, CPU được hỗ trợ.
+## Local model research (not adopted)
 
-`npm run ai:train -- --smoke` dùng GPT-2 cấu hình cực nhỏ khởi tạo ngẫu nhiên,
-hai bước optimizer, export và inference; chỉ xác minh dây chuyền, không chứng minh
-chất lượng tiếng Việt. Báo cáo ở `ai/output/training.json`, `evaluation.json`.
-Mặc định 30 bước chỉ là minh họa, không đủ chứng nhận chất lượng; cần đánh giá độc
-lập với dữ liệu thật. CPU 0,5B có thể cần nhiều GB RAM và hàng chục phút đến nhiều
-giờ tùy máy; đây là ước lượng, không phải thời gian đo. Template là đường chạy tin cậy.
-
-Để dùng export trong Compose, đặt
-`PROMPT_BUILDER_MODEL_PATH=/srv/DBCAS/ai/output/export` trong `.env`, rồi `npm start`.
-Launcher tự dùng image tùy chọn có dependencies CPU và mount `ai/output` chỉ đọc;
-không tăng dependencies của bản mặc định. Chạy backend trực tiếp thì cài
-`ai/requirements.txt` trong interpreter backend và đặt đường dẫn export trên máy.
-Model không được tự tải trong request; inference có timeout.
-Không đưa output/model/dữ liệu thật/key vào Git. Kết quả gate thực tế nằm trong
-[báo cáo](final-status.md).
-
-Gói tham chiếu framing độc lập đã được xóa khỏi `main` và vẫn còn trong lịch sử Git (hiện diện lần cuối tại `f82eb24`).
+Một model local/self-hosted cho framing và prompt building đã được nghiên cứu và
+benchmark trên CPU/GPU (Ryzen 5 5600H, RTX 3050 Laptop 4 GB, WSL2 8 GB / 8 CPU).
+README framing ghi `quality_verified=false`; gate single-request không đạt (GPU p95
+3,23 s ở 40 token và 10,04 s ở 96 token; CPU p95 20,82–40,98 s). Model chưa từng
+được triển khai; production dùng template xác định và evaluator qua provider hiện
+tại. Hướng này được đánh giá không khả thi và code tham chiếu đã được xóa khỏi
+`main`. Code vẫn còn trong lịch sử Git, hiện diện lần cuối tại `f82eb24`, và trên
+nhánh local chưa push `nguyendodary/feature-prompt-builder-model`.
