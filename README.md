@@ -26,7 +26,7 @@ npm run env:check
 
 1. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
 2. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
-3. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Huấn luyện tùy chọn: `npm run ai:train`.
+3. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Prompt Builder dùng template xác định.
 
 Tài khoản/mật khẩu demo chỉ dành cho development. Staging/production từ chối
 các mật khẩu công khai hiện tại và cũ, kể cả trên tài khoản bị vô hiệu hóa;
@@ -54,7 +54,7 @@ tra khả năng khôi phục bản sao lưu. Revert code không khôi phục tr�
 dùng backup hoặc một migration sửa tiếp đã được duyệt. Không sửa nội dung
 migration đã áp dụng. Xem [hướng dẫn nâng cấp](docs/setup-and-migrations.md).
 
-# DBCAS local
+## Tổng quan
 
 Luyện tập cơ sở dữ liệu PostgreSQL với MCQ, SQL SELECT và tự luận. Một máy, một
 lệnh khởi động; FastAPI, PostgreSQL 17, React/Vite. Không triển khai cloud.
@@ -70,7 +70,7 @@ bằng `npm --prefix frontend run brand:icons`. Khóa logo React dùng chung là
 Không thêm file logo SVG thứ hai và không gõ lại chữ DBCAS trong trang/component.
 
 Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
-**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–20 câu**, mặc định 5 câu/30 phút.
+**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–13 câu**, mặc định 5 câu/30 phút.
 Kế hoạch đủ số câu được đóng băng trước câu đầu; nếu ngân hàng thiếu phạm vi
 hẹp, hệ thống mở rộng có kiểm soát và thông báo phần mở rộng.
 Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba người học và bốn bài
@@ -96,11 +96,11 @@ Các biến thật của dự án là `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
 `GITHUB_REDIRECT_URI` (không có tiền tố `VITE_` hay `OAUTH_` cho thông tin ứng dụng).
 Chỉ điền trong `.env` đã được git-ignore; không đưa secret vào frontend.
 
-| Chạy local | Google callback | GitHub callback |
-| --- | --- | --- |
-| `npm start` (mặc định) | `http://localhost:18080/api/v1/auth/oauth/google/callback` | `http://localhost:18080/api/v1/auth/oauth/github/callback` |
+| Chạy local                    | Google callback                                            | GitHub callback                                            |
+| ----------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| `npm start` (mặc định)        | `http://localhost:18080/api/v1/auth/oauth/google/callback` | `http://localhost:18080/api/v1/auth/oauth/github/callback` |
 | API trực tiếp (cùng hostname) | `http://localhost:18000/api/v1/auth/oauth/google/callback` | `http://localhost:18000/api/v1/auth/oauth/github/callback` |
-| Vite | `http://localhost:5173/api/v1/auth/oauth/google/callback` | `http://localhost:5173/api/v1/auth/oauth/github/callback` |
+| Vite                          | `http://localhost:5173/api/v1/auth/oauth/google/callback`  | `http://localhost:5173/api/v1/auth/oauth/github/callback`  |
 
 Compose mặc định dùng callback qua cổng web 18080 (hoặc `LOCAL_WEB_PORT`),
 `FRONTEND_URL=http://localhost:18080`; API là 18000 (`LOCAL_API_PORT`). Dùng
@@ -124,17 +124,14 @@ sang `127.0.0.1` giữa luồng. Bản Vite phải đặt `FRONTEND_URL` và hai
 ## AI tùy chọn
 
 AI #1 chỉ chuyển dữ liệu bài đã kết thúc thành **một prompt**, không chấm điểm;
-model local không có/lỗi thì dùng template. Evaluator nhận đúng prompt đã xây.
+dùng template xác định. Evaluator nhận đúng prompt đã xây.
 AI #2 đánh giá JSON, đồng thời là provider cho sinh câu hỏi. Không key hoặc API
 lỗi thì dùng quy tắc/mẫu dự phòng, ghi rõ trên kết quả. Không cần key để chạy demo.
 Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng API tương thích
 Chat Completions. Không commit `.env`; giao diện chỉ hiển thị trạng thái cấu hình.
 
-`npm run ai:train -- --smoke` xây dataset, chạy hai bước LoRA CPU trên model cực
-nhỏ, export và inference. `npm run ai:train` dùng Qwen2.5-0.5B-Instruct; cần tải
-dependencies/model ở lần đầu, training chạy trên máy và có thể tốn nhiều GB RAM.
-Model smoke không có chất lượng ngôn ngữ hữu ích. Xem [pipeline, dữ liệu và giới
-hạn](docs/ai-pipeline.md) trước khi dùng model để xây prompt.
+Nghiên cứu model local cho Prompt Builder đã dừng và không được triển khai;
+xem [pipeline và quyết định](docs/ai-pipeline.md).
 
 ## Dừng và kiểm thử
 

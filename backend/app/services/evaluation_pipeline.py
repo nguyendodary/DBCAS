@@ -152,9 +152,7 @@ def rule_evaluation(data, concept_context=()):
 
 def evaluate(data, llm=None, *, settings=None, force_fallback=False, concept_context=()):
     data = sanitize_data(data)  # prompt data, prompt hash and wire content stay identical
-    prompt = build_prompt(data, model_path=getattr(settings, "prompt_builder_model_path", ""),
-                          timeout=getattr(settings, "prompt_builder_timeout_seconds", 8),
-                          concept_context=concept_context)
+    prompt = build_prompt(data, concept_context=concept_context)
     started = time.monotonic()
     fallback, status, reason = True, "rules", "not_configured"
     try:

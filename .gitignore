@@ -55,3 +55,13 @@ _content/expansion-20261024/generated/activation-drill/
 Thumbs.db
 .idea/
 .vscode/
+
+# Additional local junk
+*.orig
+*.bak
+*.tmp
+*.rej
+*.swp
+.mypy_cache/
+.ruff_cache/
+htmlcov/

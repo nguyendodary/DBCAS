@@ -3,10 +3,7 @@ from dataclasses import dataclass
 import hashlib
 import json
 import logging
-from pathlib import Path
 import re
-import subprocess
-import sys
 import time
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -141,62 +138,10 @@ class PromptResult:
     reason_code: str | None = None
 
 
-def _failure_reason(exc):
-    if isinstance(exc, (TimeoutError, subprocess.TimeoutExpired)):
-        return "timeout"
-    if isinstance(exc, OSError):
-        return "inference_unavailable"
-    if isinstance(exc, ValueError):
-        text = str(exc)
-        if re.fullmatch(r"[a-z_]{1,64}", text):
-            return text
-    return "inference_failed"
-
-
-def local_inference(data, model_path, timeout):
-    script = Path(__file__).resolve().parents[3] / "ai" / "infer.py"
-    if not script.exists():
-        script = Path(__file__).resolve().parents[3].parent / "ai" / "infer.py"
-    result = subprocess.run(
-        [sys.executable, str(script), "--model", str(model_path)], input=canonical(data),
-        text=True, encoding="utf-8", capture_output=True, timeout=timeout, check=True,
-    )
-    return result.stdout.strip()
-
-
-def _inject_concepts(prompt, concept_context):
-    """Keep the local builder's prose but make the concept section authoritative."""
-    if len(prompt.encode()) > MAX_PROMPT_BYTES:
-        raise ValueError("prompt_size")
-    marker = "## KHÁI NIỆM\n"
-    body = canonical(list(concept_context))
-    if marker in prompt:
-        start = prompt.index(marker) + len(marker)
-        end = prompt.find("\n## ", start)
-        if end == -1:
-            raise ValueError("prompt_sections")
-        return prompt[:start] + body + prompt[end:]
-    rubric = "## RUBRIC\n"
-    if rubric not in prompt:
-        raise ValueError("prompt_sections")
-    return prompt.replace(rubric, f"{marker}{body}\n{rubric}", 1)
-
-
-def build_prompt(data, *, model_path="", timeout=8, infer=None, concept_context=()):
+def build_prompt(data, *, concept_context=()):
     started = time.monotonic()
-    fallback = True
-    status = "template"
-    reason = "no_model"
-    if model_path:
-        try:
-            candidate = (infer or local_inference)(data, model_path, timeout)
-            prompt = validate_prompt(_inject_concepts(candidate, concept_context), data, concept_context)
-            fallback, status, reason = False, "ok", None
-        except Exception as exc:
-            status, reason = "inference_or_validation_failed", _failure_reason(exc)
-    if fallback:
-        prompt = validate_prompt(template_prompt(data, concept_context), data, concept_context)
+    prompt = validate_prompt(template_prompt(data, concept_context), data, concept_context)
     prompt_hash = hashlib.sha256(prompt.encode()).hexdigest()
     LOG.info("ai_call role=prompt_builder hash=%s duration_ms=%d status=%s fallback=%s reason=%s",
-             prompt_hash, (time.monotonic() - started) * 1000, status, fallback, reason or "-")
-    return PromptResult(prompt, prompt_hash, fallback, reason)
+             prompt_hash, (time.monotonic() - started) * 1000, "template", True, "no_model")
+    return PromptResult(prompt, prompt_hash, True, "no_model")
