@@ -167,7 +167,8 @@
     "/login",
     "/register",
     "/reset-password",
-    "/settings"
+    "/settings",
+    "/upgrade"
   ],
   "admin_nav": [
     "/admin",

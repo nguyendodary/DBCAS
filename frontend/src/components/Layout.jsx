@@ -43,8 +43,7 @@ const sideLinkCls = ({ isActive }) =>
 const topLinkCls = ({ isActive }) => `nav-pill ${isActive ? 'active' : ''}`
 
 function AccountMenu({ account, onLogout }) {
-  useLocale()
-
+  const { locale } = useLocale()
   return (
     <div className="group relative">
       <button
@@ -76,6 +75,15 @@ function AccountMenu({ account, onLogout }) {
             )}
           </div>
         </div>
+
+        <div className="my-2 h-px bg-slate-100" />
+
+        <Link
+          to="/upgrade"
+          className="flex w-full items-center rounded-xl border border-cyan-100 bg-cyan-50 px-3 py-2.5 text-left text-sm font-medium text-cyan-700 transition-colors hover:border-cyan-200 hover:bg-cyan-100"
+        >
+          {locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+        </Link>
 
         <div className="my-2 h-px bg-slate-100" />
 
