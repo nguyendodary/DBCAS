@@ -211,6 +211,94 @@ def test_practice_question_count_caps_at_thirteen():
         practice.PracticeStart(**{**base, "question_count": 14})
 
 
+@pytest.mark.parametrize("count,mix", [
+    (50, {"mcq": 50}),
+    (5, {"sql": 5}),
+    (10, {"essay": 10}),
+    (25, {"mcq": 20, "sql": 2, "essay": 3}),
+    (2, {"mcq": 1, "sql": 1}),
+])
+def test_typed_practice_accepts_documented_caps(count, mix):
+    payload = practice.PracticeStart(
+        concept_ids=[1], difficulties=["EASY"], source="bank",
+        question_count=count, question_mix=mix, request_id=str(uuid4()),
+    )
+    assert payload.question_count == sum(mix.values())
+    assert payload.question_mix.model_dump() == {**{"mcq": 0, "sql": 0, "essay": 0}, **mix}
+
+
+@pytest.mark.parametrize("count,mix", [
+    (51, {"mcq": 51}),
+    (6, {"sql": 6}),
+    (11, {"essay": 11}),
+    (21, {"mcq": 21, "sql": 1}),
+    (4, {"mcq": 1, "sql": 3}),
+    (26, {"mcq": 20, "sql": 2, "essay": 4}),
+])
+def test_typed_practice_rejects_over_limit_mixes(count, mix):
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        practice.PracticeStart(
+            concept_ids=[1], difficulties=["EASY"], source="bank",
+            question_count=count, question_mix=mix, request_id=str(uuid4()),
+        )
+
+
+def test_typed_practice_requires_bank_one_band_and_matching_count():
+    from pydantic import ValidationError
+    base = dict(concept_ids=[1], question_count=2, question_mix={"mcq": 2},
+                request_id=str(uuid4()))
+    for override in (
+        {"source": "ai", "difficulties": ["EASY"]},
+        {"source": "bank", "difficulties": ["EASY", "MEDIUM"]},
+        {"source": "bank", "difficulties": ["EASY"], "question_count": 3},
+    ):
+        with pytest.raises(ValidationError):
+            practice.PracticeStart(**{**base, **override})
+
+
+def test_typed_mixed_practice_uses_one_band_and_exact_mix(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    payload = {
+        **selection(concepts),
+        "question_count": 3,
+        "question_mix": {"mcq": 2, "sql": 1, "essay": 0},
+        "difficulties": ["EASY"],
+    }
+    response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
+    assert response.status_code == 200, response.text
+    session = db_session.get(AssessmentSession, response.json()["session_id"])
+    snapshot = session.config_snapshot
+    assert session.assessment_id is None
+    assert snapshot["max_questions"] == 3
+    assert (snapshot["target_mcq"], snapshot["target_sql"], snapshot["target_essay"]) == (2, 1, 0)
+    assert snapshot["question_mix"] == {"mcq": 2, "sql": 1, "essay": 0}
+    plan = snapshot["question_plan"]
+    assert len(plan) == 3
+    assert all(item["difficulty_level"] in (1, 2) for item in plan)
+    assert {item["question_type"] for item in plan} == {"mcq", "sql"}
+    assert db_session.scalar(select(func.count()).select_from(Assessment)) == 0
+
+
+def test_typed_practice_reports_band_shortage_without_mixing(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    payload = {
+        **selection(concepts),
+        "question_count": 50,
+        "question_mix": {"mcq": 50},
+        "difficulties": ["EASY"],
+    }
+    response = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert response.status_code == 422
+    body = response.json()["error"]
+    assert body["code"] == "insufficient_question_pool"
+    detail = body["details"][0]
+    assert detail["band"] == "EASY"
+    assert detail["requested_by_type"] == {"mcq": 50}
+    assert detail["shortage_by_type"]["mcq"] > 0
+    assert detail["concept_ids"] == sorted(c.concept_id for c in concepts)
+
+
 def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_session):
     admin, learner, concepts = fixture(db_session)
     state = client.post('/api/v1/practice/start', headers=headers(learner), json=selection(concepts)).json()
