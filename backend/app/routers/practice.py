@@ -12,11 +12,18 @@ from ..services import practice_service, evaluation_service, system_settings
 router = APIRouter(tags=["practice"])
 
 
+class TypedLimits(BaseModel):
+    single: dict[str, int]
+    mixed: dict[str, int]
+    mixed_total: int
+
+
 class CountOptions(BaseModel):
     min: int
     default: int
     max: int
     presets: list[int]
+    typed: TypedLimits
 
 
 class PracticeConcept(BaseModel):

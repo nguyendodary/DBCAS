@@ -7,7 +7,7 @@ from ..errors import AppError
 from ..models import Concept, ConceptDependency, Question, QuestionConcept, McqOption, Rubric, SqlTestDataset
 from ..repositories import QuestionRepository
 from .practice_generation import template_candidates, type_targets, validated_template
-from .practice_selection import Candidate, Catalog, PreparedPlan, complete_batch, mixed_plan, recovered_plan, disclosure
+from .practice_selection import Candidate, Catalog, PreparedPlan, complete_batch, mixed_plan, recovered_plan, disclosure, select_bank_mix
 from .question_localization import translation_is_current
 from .question_validator import question_problems, fingerprint
 
@@ -63,6 +63,26 @@ def _persist(db, item, learner, origin):
     return result
 
 
+def _typed_plan(db, payload, selected, *, seed):
+    """Exact bank-only plan: one band, exact mix, no widening/templates."""
+    candidates = bank_catalog(db)
+    targets = {kind: value for kind, value in payload.question_mix.model_dump().items() if value}
+    band = payload.difficulties[0]
+    repo = QuestionRepository(db)
+    while True:
+        picks = select_bank_mix(candidates, selected, band, targets, seed=seed)
+        ids = [pick.candidate.value for pick in picks]
+        rows = ({question.question_id: question for question in db.scalars(
+                    select(Question).where(Question.question_id.in_(ids)).options(*repo._detail_loads()))}
+                if ids else {})
+        invalid = {question_id for question_id in ids
+                   if question_id not in rows or content_errors(rows[question_id])}
+        if invalid:
+            candidates = [candidate for candidate in candidates if candidate.identity not in invalid]
+            continue
+        return rows, picks
+
+
 def preview_plan(db, learner, payload, *, require_full=True):
     """Read-only plan for the coverage preview; never generates or persists.
 
@@ -82,8 +102,11 @@ def preview_plan(db, learner, payload, *, require_full=True):
         if edge.prerequisite_concept_id in selected:
             related.add(edge.concept_id)
     candidates = bank_catalog(db)
-    templates_added = False
     seed = f"{learner.account_id}:{payload.request_id}"
+    if payload.question_mix is not None:
+        _, picks = _typed_plan(db, payload, selected, seed=seed)
+        return [concept for concept in concepts if concept.concept_id in selected], picks
+    templates_added = False
     repo = QuestionRepository(db)
     while True:
         plan = Catalog(candidates).prepare(selected, payload.difficulties, related=related, seed=seed)
@@ -119,13 +142,19 @@ def assemble(db, learner, payload, generated=()):
             related.add(edge.prerequisite_concept_id)
         if edge.prerequisite_concept_id in selected:
             related.add(edge.concept_id)
+    seed = f"{learner.account_id}:{payload.request_id}"
+    if payload.question_mix is not None:
+        rows, picks = _typed_plan(db, payload, selected, seed=seed)
+        questions = [rows[pick.candidate.value] for pick in picks]
+        assert len(questions) == payload.question_count
+        assert len({q.question_id for q in questions}) == payload.question_count
+        return questions, picks, None
     preferred = [Candidate(f"ai:{i}", item["question_type"], item["difficulty_level"], frozenset(item["concept_ids"]),
         f"ai:{i}", fingerprint(item["prompt"]), item, "ai") for i, item in enumerate(generated)]
     candidates = [] if complete_batch(preferred, payload.question_count, selected, payload.difficulties) else bank_catalog(db)
     templates_added = False
     repo = QuestionRepository(db)
     targets = type_targets(payload.question_count)
-    seed = f"{learner.account_id}:{payload.request_id}"
     while True:
         if complete_batch(preferred, payload.question_count, selected, payload.difficulties):
             bank_plan = PreparedPlan(())

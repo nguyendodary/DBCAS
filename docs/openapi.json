@@ -1871,13 +1871,17 @@
             },
             "title": "Presets",
             "type": "array"
+          },
+          "typed": {
+            "$ref": "#/components/schemas/TypedLimits"
           }
         },
         "required": [
           "min",
           "default",
           "max",
-          "presets"
+          "presets",
+          "typed"
         ],
         "title": "CountOptions",
         "type": "object"
@@ -3810,6 +3814,32 @@
         "title": "PracticeConceptRef",
         "type": "object"
       },
+      "PracticeMix": {
+        "additionalProperties": false,
+        "description": "Exact question-type counts for the additive typed-practice flow.",
+        "properties": {
+          "essay": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Essay",
+            "type": "integer"
+          },
+          "mcq": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Mcq",
+            "type": "integer"
+          },
+          "sql": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Sql",
+            "type": "integer"
+          }
+        },
+        "title": "PracticeMix",
+        "type": "object"
+      },
       "PracticeOptions": {
         "properties": {
           "concepts": {
@@ -3914,10 +3944,20 @@
           },
           "question_count": {
             "default": 5,
-            "maximum": 13.0,
+            "maximum": 50.0,
             "minimum": 1.0,
             "title": "Question Count",
             "type": "integer"
+          },
+          "question_mix": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PracticeMix"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "request_id": {
             "format": "uuid",
@@ -6688,6 +6728,35 @@
           "priority"
         ],
         "title": "TopicSuggestion",
+        "type": "object"
+      },
+      "TypedLimits": {
+        "properties": {
+          "mixed": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Mixed",
+            "type": "object"
+          },
+          "mixed_total": {
+            "title": "Mixed Total",
+            "type": "integer"
+          },
+          "single": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Single",
+            "type": "object"
+          }
+        },
+        "required": [
+          "single",
+          "mixed",
+          "mixed_total"
+        ],
+        "title": "TypedLimits",
         "type": "object"
       },
       "ValidationError": {

@@ -7,13 +7,17 @@ import math
 import threading
 import time
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from sqlalchemy import select
 from ..errors import AppError
 from ..models import Concept, SessionQuestionPlan, SessionStartRequest, AssessmentSession
 from ..repositories import AssessmentRepository, SecurityRepository
 from .evidence_context import capture_question
-from .practice_config import MIN_QUESTIONS, DEFAULT_QUESTIONS, MAX_QUESTIONS, DIFFICULTY_LEVELS
+from .practice_config import (
+    MIN_QUESTIONS, DEFAULT_QUESTIONS, LEGACY_MAX_QUESTIONS,
+    MAX_SINGLE_TYPE_QUESTIONS, SINGLE_TYPE_LIMITS, MIXED_LIMITS,
+    MIXED_TOTAL_LIMIT, DIFFICULTY_LEVELS,
+)
 from .practice_generation import (  # noqa: F401 - public re-exports used by test/QA harnesses
     GeneratedQuestion, ai_type_targets, generate_entries, levels, template_questions, validate_generated,
 )
@@ -21,12 +25,22 @@ from .practice_bank import assemble
 from .personalized_assessment import serve_planned
 
 
+class PracticeMix(BaseModel):
+    """Exact question-type counts for the additive typed-practice flow."""
+
+    model_config = ConfigDict(extra="forbid")
+    mcq: int = Field(default=0, ge=0, strict=True)
+    sql: int = Field(default=0, ge=0, strict=True)
+    essay: int = Field(default=0, ge=0, strict=True)
+
+
 class PracticeStart(BaseModel):
     model_config = ConfigDict(extra="forbid")
     concept_ids: list[Annotated[int, Field(gt=0, strict=True)]] = Field(min_length=1, max_length=100, json_schema_extra={"uniqueItems": True})
     difficulties: list[Literal["EASY", "MEDIUM", "HARD"]] = Field(default_factory=lambda: list(DIFFICULTY_LEVELS), min_length=1, max_length=3, json_schema_extra={"uniqueItems": True})
     source: Literal["bank", "ai"] = "bank"
-    question_count: int = Field(default=DEFAULT_QUESTIONS, ge=MIN_QUESTIONS, le=MAX_QUESTIONS, strict=True)
+    question_count: int = Field(default=DEFAULT_QUESTIONS, ge=MIN_QUESTIONS, le=MAX_SINGLE_TYPE_QUESTIONS, strict=True)
+    question_mix: PracticeMix | None = None
     request_id: UUID
 
     @field_validator("source")
@@ -34,6 +48,46 @@ class PracticeStart(BaseModel):
     def source_known(cls, value):
         if value not in ("bank", "ai"): raise ValueError("Unknown question source")
         return value
+
+    @model_validator(mode="after")
+    def typed_question_limits(self):
+        """Keep the legacy 13 cap and enforce the typed-practice caps."""
+        mix = self.question_mix
+        if mix is None:
+            if self.question_count > LEGACY_MAX_QUESTIONS:
+                raise ValueError(
+                    f"Legacy practice is limited to {LEGACY_MAX_QUESTIONS} questions; "
+                    "send question_mix for typed practice"
+                )
+            return self
+        if self.source != "bank":
+            raise ValueError("Typed practice draws from the validated bank; source must be bank")
+        if len(self.difficulties) != 1:
+            raise ValueError("Typed practice requires exactly one difficulty band per attempt")
+        counts = {kind: value for kind, value in mix.model_dump().items() if value > 0}
+        if not counts:
+            raise ValueError("question_mix must contain at least one question")
+        total = sum(counts.values())
+        if self.question_count != total:
+            raise ValueError("question_count must equal the sum of question_mix")
+        if len(counts) == 1:
+            kind, count = next(iter(counts.items()))
+            limit = SINGLE_TYPE_LIMITS[kind]
+            if count > limit:
+                raise ValueError(
+                    f"Single-type practice allows at most {limit} {kind.upper()} questions"
+                )
+        else:
+            for kind, count in counts.items():
+                if count > MIXED_LIMITS[kind]:
+                    raise ValueError(
+                        f"Mixed practice allows at most {MIXED_LIMITS[kind]} {kind.upper()} questions"
+                    )
+            if total > MIXED_TOTAL_LIMIT:
+                raise ValueError(
+                    f"Mixed practice allows at most {MIXED_TOTAL_LIMIT} questions"
+                )
+        return self
 
     @field_validator("difficulties", mode="before")
     @classmethod
@@ -171,7 +225,7 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     request_id = str(payload.request_id)
     SecurityRepository(db).lock(f"practice-start:{learner.account_id}")
     binding = db.get(SessionStartRequest, (learner.account_id, request_id))
-    selection = payload.model_dump(mode="json", exclude={"request_id"})
+    selection = payload.model_dump(mode="json", exclude={"request_id"}, exclude_none=True)
     if binding:
         session = AssessmentRepository(db).get_session(binding.session_id)
         if session.config_snapshot.get("selection") != selection:
@@ -201,6 +255,7 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     session.config_snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
         "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],
+        "question_mix": payload.question_mix.model_dump() if payload.question_mix is not None else None,
         "result_release_policy": session.result_release_policy, "selection": selection, "source": payload.source,
         "generation_fallback": fallback, "bank_mixed": bank_mixed, "template_fallback": template_fallback,
         "ai_generated_count": ai_generated_count, "generation_diagnostics": diagnostics,
