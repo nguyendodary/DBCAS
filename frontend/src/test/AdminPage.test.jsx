@@ -150,7 +150,7 @@ describe('AdminPage', () => {
     renderPage()
 
     expect(await screen.findByText('Cohort Overview')).toBeInTheDocument()
-    expect(screen.getByText('Learners assessed')).toBeInTheDocument()
+    expect(screen.getByText('Users assessed')).toBeInTheDocument()
     // SELECT row shows the below-benchmark prevalence from the API unchanged
     expect(screen.getByText('SELECT')).toBeInTheDocument()
     expect(screen.getByText('62.50%')).toBeInTheDocument()
@@ -210,7 +210,7 @@ describe('AdminPage', () => {
     mockApi()
     renderPage()
     expect(
-      await screen.findByText(/Select a learner to view their competency profile/),
+      await screen.findByText(/Select a user to view their competency profile/),
     ).toBeInTheDocument()
   })
 
@@ -239,7 +239,7 @@ describe('AdminPage', () => {
     })
     renderPage()
     expect(await screen.findByText(/No assessed concepts yet/)).toBeInTheDocument()
-    expect(screen.getByText(/No learners registered yet/)).toBeInTheDocument()
+    expect(screen.getByText(/No users registered yet/)).toBeInTheDocument()
   })
 
   it('uses the whole released cohort and directs the admin to review without an exam filter', async () => {

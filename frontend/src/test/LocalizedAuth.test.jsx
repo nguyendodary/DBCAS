@@ -62,7 +62,7 @@ it('keeps typed credentials and OAuth links when switching languages and navigat
     '/api/v1/auth/oauth/google/start',
   )
   expect(api.get).toHaveBeenCalledTimes(calls)
-  await userEvent.click(screen.getByRole('link', { name: 'Đăng ký học viên' }))
+  await userEvent.click(screen.getByRole('link', { name: 'Đăng ký người dùng' }))
   expect(screen.getByRole('heading', { name: 'Tạo tài khoản' })).toBeInTheDocument()
   expect(screen.getByLabelText('Xác nhận mật khẩu', { exact: true })).toBeInTheDocument()
   expect(document.documentElement.lang).toBe('vi')

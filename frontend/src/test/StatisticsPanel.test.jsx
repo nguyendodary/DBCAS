@@ -45,7 +45,7 @@ it('shows real own rank and competency dimensions without a peer roster', async 
   )
   expect(screen.getByText('CLO1 · Querying')).toBeVisible()
   expect(screen.getByRole('link', { name: /Nov/ })).toHaveAttribute('href', '/history/9')
-  expect(screen.queryByText('Learner ranking')).not.toBeInTheDocument()
+  expect(screen.queryByText('User ranking')).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Export CSV report' })).not.toBeInTheDocument()
 })
 
