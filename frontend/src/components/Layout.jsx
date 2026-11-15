@@ -200,14 +200,16 @@ function ChromeFooter({ className = '' }) {
   return (
     <footer className={`chrome-footer ${className}`}>
       <div className="mx-auto flex min-h-12 max-w-[1480px] flex-wrap items-center justify-between gap-3 px-4 py-2 sm:px-6">
-        <p>
+        <p className="chrome-footer-brand">
           <BrandWordmark as="strong" className="text-cyan-300" />
           <span aria-hidden="true" className="mx-2 text-mute">
             •
           </span>
-          {t('nav.footerTagline')}
+          <span className="chrome-footer-brand-tagline">{t('nav.footerTagline')}</span>
         </p>
-        <p className="text-mute">{t('nav.copyright', { year: new Date().getFullYear() })}</p>
+        <p className="chrome-footer-copyright text-mute">
+          {t('nav.copyright', { year: new Date().getFullYear() })}
+        </p>
       </div>
     </footer>
   )

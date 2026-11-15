@@ -899,6 +899,29 @@
     font-size: var(--text-xs);
     font-weight: 600;
   }
+  .chrome-footer-brand {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    margin: 0;
+    white-space: nowrap;
+    font-size: var(--text-2xs);
+    line-height: 1.2;
+  }
+  .chrome-footer-brand strong {
+    flex: 0 0 auto;
+    font-size: var(--text-xs);
+    line-height: 1;
+  }
+  .chrome-footer-brand-tagline {
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .chrome-footer-copyright {
+    flex: 0 0 auto;
+    margin: 0;
+    white-space: nowrap;
+  }
 
   /* Navigation states follow the active theme. */
   .chrome-dark .nav-pill {
