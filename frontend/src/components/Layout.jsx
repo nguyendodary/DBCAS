@@ -121,8 +121,9 @@ function LearnerTopbar({ onLogout }) {
 // Admin chrome follows the admin prototype: fixed 240px themed sidebar with the
 // logo lockup, the primary "new assessment" CTA, flat navigation and a
 // full-width logout button at the bottom.
-function AdminSidebar({ isLearner }) {
+function AdminSidebar({ onLogout, isLearner }) {
   useLocale()
+  const { account } = useAuth()
   return (
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
       <div className="px-5 pb-5 pt-6">
@@ -164,6 +165,18 @@ function AdminSidebar({ isLearner }) {
           </NavLink>
         ))}
       </nav>
+      {account && (
+        <div className="border-t border-edge/70 p-4">
+          <button
+            type="button"
+            onClick={onLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-edge2 px-3 py-2 text-sm font-medium text-sub hover:bg-surface-hover hover:text-ink"
+          >
+            <Icon name="logout" className="h-4 w-4" />
+            {t('nav.logout')}
+          </button>
+        </div>
+      )}
     </aside>
   )
 }
@@ -179,7 +192,18 @@ function MobileTopbar({ links, onLogout }) {
           <HelpButton />
           <LanguageSelector />
           <ThemeSelector />
-          {account && <AccountMenu account={account} onLogout={onLogout} />}
+          {account && (
+            <button
+              type="button"
+              onClick={onLogout}
+              aria-label={t('nav.logout')}
+              title={t('nav.logout')}
+              className="flex items-center gap-1.5 rounded-md border border-edge2 px-2.5 py-1.5 text-xs text-sub hover:bg-surface-hover"
+            >
+              <Icon name="logout" className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">{t('nav.logout')}</span>
+            </button>
+          )}
         </div>
       </div>
       <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto px-3 pb-2.5">
@@ -243,21 +267,40 @@ export default function Layout({ children }) {
 
       {!isExam && isAdmin ? (
         <>
-          <AdminSidebar isLearner={isLearner} />
+          <AdminSidebar onLogout={handleLogout} isLearner={isLearner} />
           {/* desktop utility bar */}
           <header className="chrome-dark hidden min-h-14 items-center justify-between gap-4 border-b px-6 md:ml-60 md:flex">
-            <p className="text-sm text-mute">
-              <BrandWordmark className="text-sub" />
-              <span aria-hidden="true" className="mx-3 text-mute">
+            <p className="flex min-w-0 flex-1 items-center whitespace-nowrap text-sm text-mute">
+              <BrandWordmark className="shrink-0 text-sub" />
+              <span aria-hidden="true" className="mx-3 shrink-0 text-mute">
                 ›
               </span>
-              {t(pageLabel || 'nav.administration')}
+              <span className="min-w-0 truncate" title={t(pageLabel || 'nav.administration')}>
+                {t(pageLabel || 'nav.administration')}
+              </span>
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex shrink-0 items-center gap-3">
               <HelpButton />
               <LanguageSelector />
               <ThemeSelector />
-              {account && <AccountMenu account={account} onLogout={handleLogout} />}
+              {account && (
+                <div className="flex items-center gap-2.5 border-l border-edge pl-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
+                    {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
+                  </span>
+                  <div className="hidden min-w-0 max-w-[240px] lg:block">
+                    <p
+                      className="truncate text-sm font-medium leading-tight"
+                      title={account.full_name || account.email}
+                    >
+                      {account.full_name || account.email}
+                    </p>
+                    <p className="truncate text-xs leading-tight text-mute" title={account.email}>
+                      {account.email}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </header>
           <MobileTopbar links={allLinks} onLogout={handleLogout} />
