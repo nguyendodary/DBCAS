@@ -239,3 +239,32 @@ jobs:
           name: shard-${{ matrix.name }}
           path: shard-result/${{ matrix.name }}.txt
           if-no-files-found: error
+
+  frontend-local:
+    if: always()
+    needs: [frontend-static, frontend-shard]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify frontend jobs
+        shell: bash
+        run: |
+          test "${{ needs.frontend-static.result }}" = "success" || { echo "frontend-static: ${{ needs.frontend-static.result }}"; exit 1; }
+          test "${{ needs.frontend-shard.result }}" = "success" || { echo "frontend-shard: ${{ needs.frontend-shard.result }}"; exit 1; }
+      - name: Download shard results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: shard-*
+          path: shards
+          merge-multiple: true
+      - name: Verify every shard reported success
+        shell: bash
+        run: |
+          expected=8
+          actual=$(find shards -type f -name '*.txt' | wc -l)
+          echo "shard_artifacts=$actual expected=$expected"
+          test "$actual" -eq "$expected"
+          if grep -R -v ' success$' shards; then
+            echo "A shard did not report success"
+            exit 1
+          fi
