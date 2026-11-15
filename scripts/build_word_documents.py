@@ -416,10 +416,10 @@ def architecture_blocks():
         BUL("CORS_ORIGINS và FRONTEND_URL cấu hình theo LOCAL_WEB_PORT."),
         BUL("Không lưu key/model trong repo; meter chỉ ghi reason code không chứa nội dung."),
         H(1, "5. Two-AI pipeline và luồng kết quả"),
-        P("Prompt Builder (AI #1) nhận dữ liệu bài làm, trả prompt + prompt_hash; khi không cấu hình "
-          "PROMPT_BUILDER_MODEL_PATH thì dùng template fallback (builder_fallback=true). Evaluator "
-          "(AI #2) gọi LLM ngoài qua LLM_BASE_URL; nếu lỗi dùng rule_evaluation "
-          "(evaluator_fallback=true). SQL không do AI chấm mà thực thi trong sandbox."),
+        P("Prompt Builder (AI #1) nhận dữ liệu bài làm, trả prompt + prompt_hash bằng template "
+          "xác định (builder_fallback=true). Evaluator (AI #2) gọi LLM ngoài qua LLM_BASE_URL; "
+          "nếu lỗi dùng rule_evaluation (evaluator_fallback=true). SQL không do AI chấm mà "
+          "thực thi trong sandbox."),
         P("Hai luồng kết quả: IMMEDIATE công bố tự động; HUMAN_VERIFIED chờ Admin duyệt. Mọi sửa điểm "
           "phải có lý do và được ghi vào grade_edit_audit (immutable)."),
         P("source=ai: ai_type_targets chỉ gồm mcq/essay; SQL luôn từ validated bank; exact count; "
