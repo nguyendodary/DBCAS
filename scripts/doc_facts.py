@@ -72,7 +72,7 @@ def main():
         "smtp": {"host": "mailpit", "port": 1025, "ui_port_var": "LOCAL_MAIL_PORT"},
         "sandbox": {"image": "dbcas-sql-ephemeral:local", "network": "none",
                     "socket": "/var/run/docker.sock", "memory": "256m", "cpus": 1},
-        "prompt_builder": {"setting": "PROMPT_BUILDER_MODEL_PATH", "timeout": "PROMPT_BUILDER_TIMEOUT_SECONDS",
+        "prompt_builder": {"builder": "deterministic template",
                            "fallback": "template", "hash_field": "prompt_hash"},
         "evaluator": {"fallback": "rule_evaluation", "flag": "evaluator_fallback"},
         "result_flows": ["IMMEDIATE", "HUMAN_VERIFIED"],

@@ -204,7 +204,7 @@ commit trước triển khai tại `e15f788`. Bảy nhóm tính năng đã tri�
 
 | Feature | Before | After | Key files | Tests |
 | --- | --- | --- | --- | --- |
-| 1. Hai AI | Chấm tự luận riêng, chưa có Prompt Builder local | Builder chỉ tạo prompt Việt; LoRA tùy chọn, validation/template fallback; Evaluator JSON strict, timeout/retry/cache/log metadata | `prompt_builder.py`, `evaluation_pipeline.py`, `ai/pipeline.py` | 17 pipeline + 4 HTTP fake; smoke train/export/inference |
+| 1. Hai AI | Chấm tự luận riêng, chưa có Prompt Builder local | Builder chỉ tạo prompt Việt bằng template xác định; validation/template fallback; Evaluator JSON strict, timeout/retry/cache/log metadata | `prompt_builder.py`, `evaluation_pipeline.py` | 17 pipeline + 4 HTTP fake |
 | 2. Đánh giá người học | Bằng chứng/biểu đồ, chưa có đánh giá tổng thể AI | Xem đánh giá từng bài; tổng thể 0/1/3+, loại bài chờ, trend/CLO/chủ đề/độ khó; polling hữu hạn và Retry | `evaluation_service.py`, `EvaluationPage.jsx`, `EvaluationCharts.jsx` | Practice API + 12 UI; browser bank/history/overall |
 | 3. Hai luồng kết quả | Policy theo đề, duyệt SQL/essay | Một setting chung; Flow 1 tự động, Flow 2 ẩn trước duyệt; mọi điểm sửa phải có lý do, audit bất biến, SQL SELECT và công bố nhất quán | `system_settings.py`, `grading_review.py`, `routers/practice.py`, `AdminGradingPage.jsx` | API hai flow/revision/audit/SQL; UI + E2E duyệt |
 | 4. Tự tạo bài | Đề/blueprint tạo trước, nhiều chọn cấu hình | Khái niệm → đa độ khó → nguồn bank/AI → Bắt đầu; mặc định 5 câu, count tùy chọn; snapshot riêng, idempotency, thiếu câu báo rõ; seed 0 đề | `practice_service.py`, migration 018/019, `seed_demo.py`, `AssessmentsPage.jsx` | 21 practice API; seed/migration; ma trận browser 49 scope |
@@ -294,9 +294,8 @@ Admin `admin@dbcas.local`; người học `learner@dbcas.local`, `linh@dbcas.loc
 Đổi flow: **Admin → Hệ thống → Tự động / Admin duyệt → Lưu cấu hình**. Áp dụng
 cho bài bắt đầu sau khi lưu; bài đang làm giữ policy đã snapshot.
 
-Training tùy chọn: `npm run ai:train`; smoke nhỏ:
-`npm run ai:train -- --smoke`. Dataset/train/evaluate/export cũng chạy riêng qua
-`ai/pipeline.py`. Xem [pipeline](ai-pipeline.md).
+Nghiên cứu model local đã dừng và code tham chiếu đã được xóa; xem
+[pipeline và quyết định](ai-pipeline.md).
 
 ## Giới hạn đã biết
 
