@@ -1,4 +1,6 @@
 name: Local quality gate
+# Required checks on main: secrets, backend, frontend-local.
+# frontend-local is a fan-in aggregator over frontend-static and every frontend-shard leg.
 on:
   push:
     branches: [develop2, main]
