@@ -54,9 +54,12 @@ function AccountChip({ account, onLogout }) {
       </div>
       <Link
         to="/upgrade"
-        className="rounded-lg border border-cyan-400/40 bg-cyan-400/10 px-3 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/20"
+        aria-label={locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+        title={locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+        className="flex shrink-0 items-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 px-2 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/20 sm:px-3"
       >
-        {locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+        <span className="sm:hidden">Pro</span>
+        <span className="hidden sm:inline">{locale === 'en' ? 'Upgrade' : 'Nâng cấp'}</span>
       </Link>
       <button
         type="button"
