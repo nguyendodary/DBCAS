@@ -50,7 +50,16 @@ jobs:
       - run: python backend/manage.py test
       - run: cp .env.example .env
       - run: docker compose -f docker-compose.dn.yml config -q
-      - run: docker build -f backend/Dockerfile -t dbcas-dn-ci .
+      - uses: docker/setup-buildx-action@v3
+      - name: Build backend CI image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          tags: dbcas-dn-ci:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   frontend-local:
     runs-on: ubuntu-latest
     timeout-minutes: 75
@@ -89,6 +98,11 @@ jobs:
       # The browser binary comes from Playwright's CDN. The hosted runner
       # already carries the Chromium runtime; skipping the apt dependency
       # step avoids its intermittent DNS failure without weakening the gate.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('frontend/package-lock.json') }}
       - run: npx playwright install chromium
         working-directory: frontend
       - run: test ! -f .env && npm start
