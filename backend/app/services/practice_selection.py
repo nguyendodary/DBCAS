@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 from math import ceil
 
+from ..errors import AppError
 from .practice_config import MAX_QUESTIONS, MIN_QUESTIONS, QUESTION_TYPES, difficulty_band
 
 
@@ -170,6 +171,99 @@ def mixed_plan(catalog, concepts, bands, preferred, targets, *, related=frozense
         picks.extend(chosen)
         blocked += tuple(pick.candidate for pick in chosen)
     return PreparedPlan(tuple(picks))
+
+
+def select_bank_mix(candidates, concepts, band, targets, *, seed="0"):
+    """Select an exact type mix from one difficulty band.
+
+    This is intentionally separate from ``Catalog``: the legacy practice flow
+    may widen concepts/bands to reach its exact count, while typed practice
+    must fail closed rather than silently change the learner's band.
+    """
+    concepts = frozenset(concepts)
+    required = {kind: int(count) for kind, count in targets.items() if count}
+    if (not required or any(kind not in QUESTION_TYPES or count < 1
+                           for kind, count in required.items())):
+        raise ValueError("Invalid typed practice targets")
+
+    by_kind = defaultdict(list)
+    candidate_rows = Counter()
+    for candidate in candidates:
+        if (not candidate.valid or candidate.origin != "bank"
+                or candidate.kind not in required
+                or not candidate.concepts
+                or not (candidate.concepts & concepts)
+                or difficulty_band(candidate.level) != band):
+            continue
+        by_kind[candidate.kind].append(candidate)
+        candidate_rows[candidate.kind] += 1
+
+    def available(kind):
+        families, signatures = set(), set()
+        for candidate in by_kind.get(kind, ()):
+            family = candidate.family if candidate.family is not None else candidate.identity
+            if family in families or candidate.signature in signatures:
+                continue
+            families.add(family)
+            signatures.add(candidate.signature)
+        return len(families)
+
+    available_by_kind = {kind: available(kind) for kind in required}
+    shortage = {kind: required[kind] - available_by_kind[kind]
+                for kind in required if available_by_kind[kind] < required[kind]}
+    if shortage:
+        raise AppError(
+            422,
+            "insufficient_question_pool",
+            f"Not enough validated bank questions at {band} for the requested mix",
+            details=[{
+                "band": band,
+                "requested_by_type": required,
+                "available_by_type": available_by_kind,
+                "candidate_rows_by_type": dict(candidate_rows),
+                "shortage_by_type": shortage,
+                "concept_ids": sorted(concepts),
+            }],
+        )
+
+    picks, used_ids, used_families, used_signatures = [], set(), set(), set()
+    for kind in QUESTION_TYPES:
+        need = required.get(kind, 0)
+        if not need:
+            continue
+        ordered = sorted(
+            by_kind.get(kind, ()),
+            key=lambda candidate: sha256(f"{seed}:{candidate.identity}".encode()).digest(),
+        )
+        for candidate in ordered:
+            if need == 0:
+                break
+            family = candidate.family if candidate.family is not None else candidate.identity
+            if (candidate.identity in used_ids or family in used_families
+                    or candidate.signature in used_signatures):
+                continue
+            picks.append(Pick(candidate, 0, 0))
+            used_ids.add(candidate.identity)
+            used_families.add(family)
+            used_signatures.add(candidate.signature)
+            need -= 1
+        if need:
+            selected_by_kind = Counter(pick.candidate.kind for pick in picks)
+            raise AppError(
+                422,
+                "insufficient_question_pool",
+                f"Not enough distinct validated bank questions at {band} for the requested mix",
+                details=[{
+                    "band": band,
+                    "requested_by_type": required,
+                    "selected_by_type": dict(selected_by_kind),
+                    "concept_ids": sorted(concepts),
+                }],
+            )
+
+    picks.sort(key=lambda pick: sha256(
+        f"{seed}:{pick.candidate.identity}".encode()).digest())
+    return picks
 
 
 def disclosure(picks, *, source):

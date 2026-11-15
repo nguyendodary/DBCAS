@@ -22,11 +22,15 @@ def test_contract_describes_guards_and_actual_validation(client):
 
 
 def test_practice_schema_documents_count_and_selection_constraints():
-    from app.services.practice_config import MIN_QUESTIONS, DEFAULT_QUESTIONS, MAX_QUESTIONS
-    properties = app.openapi()["components"]["schemas"]["PracticeStart"]["properties"]
+    from app.services.practice_config import (
+        MIN_QUESTIONS, DEFAULT_QUESTIONS, MAX_SINGLE_TYPE_QUESTIONS,
+    )
+    contract = app.openapi()["components"]["schemas"]
+    properties = contract["PracticeStart"]["properties"]
     assert properties["question_count"]["minimum"] == MIN_QUESTIONS
     assert properties["question_count"]["default"] == DEFAULT_QUESTIONS
-    assert properties["question_count"]["maximum"] == MAX_QUESTIONS
+    assert properties["question_count"]["maximum"] == MAX_SINGLE_TYPE_QUESTIONS
+    assert "PracticeMix" in contract
     assert properties["source"]["enum"] == ["bank", "ai"]
     assert properties["difficulties"]["items"]["enum"] == ["EASY", "MEDIUM", "HARD"]
     assert properties["concept_ids"]["uniqueItems"] is True
