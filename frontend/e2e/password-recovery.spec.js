@@ -2,13 +2,12 @@ import { test, expect, request as apiRequest } from './browser-fixture.js'
 
 const API = 'http://127.0.0.1:8100'
 const MAILPIT = process.env.DBCAS_MAILPIT_API ?? 'http://127.0.0.1:18025'
-const FRONTEND_ORIGIN = 'http://127.0.0.1:5174'
 const PASSWORD = 'ReleaseTest123!'
 const NEW_PASSWORD = 'Recovered-456!'
 
 // Real end-to-end recovery: the backend under test sends through the compose
-// Mailpit service, so the link used here is the one a learner actually receives.
-test('password recovery delivers a real Mailpit email, resets, and rejects replay', async ({
+// Mailpit service, so the code used here is the one a learner actually receives.
+test('password recovery delivers a real Mailpit code, resets, and rejects replay', async ({
   page,
 }) => {
   const api = await apiRequest.newContext()
@@ -31,8 +30,8 @@ test('password recovery delivers a real Mailpit email, resets, and rejects repla
     // heading so the fill cannot land on the still-mounted sign-in field.
     await expect(page.getByRole('heading', { name: 'Reset your password' })).toBeVisible()
     await page.getByLabel('Email', { exact: true }).fill(email)
-    await page.getByRole('button', { name: 'Send reset link', exact: true }).click()
-    await expect(page.getByText('Check your email')).toBeVisible()
+    await page.getByRole('button', { name: 'Send code', exact: true }).click()
+    await expect(page.getByRole('heading', { name: 'Enter your code' })).toBeVisible()
 
     // Capture the actual delivered message instead of assuming a URL shape.
     let detail
@@ -52,14 +51,21 @@ test('password recovery delivers a real Mailpit email, resets, and rejects repla
       )
       .toBe(true)
 
-    expect(detail.Subject).toContain('password reset')
+    expect(detail.Subject).toContain('verification code')
     expect((detail.To ?? []).some((to) => String(to.Address ?? to) === email)).toBe(true)
     const body = detail.Text ?? ''
-    const link = body.match(/http:\/\/127\.0\.0\.1:5174\/reset-password\?token=[A-Za-z0-9_-]+/)?.[0]
-    expect(link, body).toBeTruthy()
-    expect(new URL(link).origin).toBe(FRONTEND_ORIGIN)
+    const otp = body.match(/(?<![0-9])[0-9]{6}(?![0-9])/)?.[0]
+    expect(otp, body).toBeTruthy()
+    expect(body).not.toContain('http')
 
-    await page.goto(link)
+    // A wrong code is refused and the user can try again.
+    const wrong = String((Number(otp) + 1) % 1_000_000).padStart(6, '0')
+    await page.getByLabel('6-digit code', { exact: true }).fill(wrong)
+    await page.getByRole('button', { name: 'Verify code', exact: true }).click()
+    await expect(page.getByRole('alert')).toContainText(/incorrect or has expired/i)
+
+    await page.getByLabel('6-digit code', { exact: true }).fill(otp)
+    await page.getByRole('button', { name: 'Verify code', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Choose a new password' })).toBeVisible()
     await page.getByLabel('New password', { exact: true }).fill(NEW_PASSWORD)
     await page.getByLabel('Confirm password', { exact: true }).fill(NEW_PASSWORD)
@@ -71,13 +77,18 @@ test('password recovery delivers a real Mailpit email, resets, and rejects repla
     })
     expect(oldLogin.status()).toBe(401)
 
-    // The same link must not be usable a second time.
-    await page.goto(link)
-    await expect(page.getByRole('heading', { name: 'Choose a new password' })).toBeVisible()
-    await page.getByLabel('New password', { exact: true }).fill('Another-789!')
-    await page.getByLabel('Confirm password', { exact: true }).fill('Another-789!')
-    await page.getByRole('button', { name: 'Set new password', exact: true }).click()
-    await expect(page.getByRole('heading', { name: 'This link is not valid' })).toBeVisible()
+    // The code was spent by the successful verification and cannot be replayed.
+    const replay = await api.post(`${API}/api/v1/auth/password-reset/verify`, {
+      data: { email, otp },
+    })
+    expect(replay.status()).toBe(400)
+    expect((await replay.json()).error.code).toBe('invalid_otp')
+
+    // Reloading the password page loses the verified token: dead end, not a bypass.
+    await page.goto('/reset-password')
+    await expect(
+      page.getByRole('heading', { name: 'This reset session is not valid' }),
+    ).toBeVisible()
 
     // The new password signs in through the real UI.
     await page.goto('/login')
@@ -96,9 +107,11 @@ test('unknown addresses get the same neutral answer and no email', async ({ page
     expect((await api.delete(`${MAILPIT}/api/v1/messages`)).ok()).toBeTruthy()
     await page.goto('/forgot-password')
     await page.getByLabel('Email', { exact: true }).fill('missing-account@test.dev')
-    await page.getByRole('button', { name: 'Send reset link', exact: true }).click()
-    await expect(page.getByText('Check your email')).toBeVisible()
-    await expect(page.getByText(/if an account exists for that email/i)).toBeVisible()
+    await page.getByRole('button', { name: 'Send code', exact: true }).click()
+    await expect(page.getByRole('heading', { name: 'Enter your code' })).toBeVisible()
+    await expect(
+      page.getByText(/if an account exists for missing-account@test\.dev/i),
+    ).toBeVisible()
 
     // Allow the background task a bounded window; a real account would have
     // delivered well before this in the previous test.

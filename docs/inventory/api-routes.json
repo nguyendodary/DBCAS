@@ -6,13 +6,13 @@
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "backend/app/routers/admin.py": "832e28a21b24bb988d7f97dcb56f96588e4b93d6aef32bf37b8a8eb6af7ceaa0",
     "backend/app/routers/assessments.py": "2efd3daba0ff36977e6066177e42d6494ca287345ddbb483f6da54b92f404941",
-    "backend/app/routers/auth.py": "d9a54d4433088689a76d8de8cb9c61e38970fb1cd4460a7e5f0a008bddd320aa",
+    "backend/app/routers/auth.py": "a7df8119c47f1324a5793d37ee99f7f42e585330e83d50282104086434133614",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "bfae5a90f5e5fbffcebf9b53dc707e80117dee692131bc43d13703042aeb60fd",
     "backend/app/routers/practice.py": "bfb6d0359a037af4c41f5966271da52f326d3478028b14abb861d90ace3763fa",
     "backend/app/routers/sessions.py": "6ac89b13fd78ff126978dd453fbd894eabfb182325ab536693a9666ac9b6add3"
   },
-  "count": 93,
+  "count": 94,
   "routes": [
     {
       "method": "GET",
@@ -602,7 +602,7 @@
       "path": "/api/v1/auth/login",
       "router": "auth.py",
       "handler": "login",
-      "line": 56,
+      "line": 58,
       "guards": [],
       "response_model": "TokenResponse"
     },
@@ -611,7 +611,7 @@
       "path": "/api/v1/auth/logout",
       "router": "auth.py",
       "handler": "logout",
-      "line": 92,
+      "line": 94,
       "guards": [],
       "response_model": ""
     },
@@ -620,7 +620,7 @@
       "path": "/api/v1/auth/me",
       "router": "auth.py",
       "handler": "me",
-      "line": 176,
+      "line": 233,
       "guards": [
         "CurrentAccount"
       ],
@@ -667,7 +667,7 @@
       "path": "/api/v1/auth/password-reset/confirm",
       "router": "auth.py",
       "handler": "confirm_password_reset",
-      "line": 151,
+      "line": 208,
       "guards": [],
       "response_model": "StatusResult"
     },
@@ -676,16 +676,25 @@
       "path": "/api/v1/auth/password-reset/request",
       "router": "auth.py",
       "handler": "request_password_reset",
-      "line": 98,
+      "line": 100,
       "guards": [],
       "response_model": "StatusResult"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset/verify",
+      "router": "auth.py",
+      "handler": "verify_password_reset_otp",
+      "line": 160,
+      "guards": [],
+      "response_model": "PasswordResetVerifyResponse"
     },
     {
       "method": "POST",
       "path": "/api/v1/auth/refresh",
       "router": "auth.py",
       "handler": "refresh",
-      "line": 86,
+      "line": 88,
       "guards": [],
       "response_model": "TokenResponse"
     },
@@ -694,7 +703,7 @@
       "path": "/api/v1/auth/register",
       "router": "auth.py",
       "handler": "register",
-      "line": 50,
+      "line": 52,
       "guards": [],
       "response_model": "AccountSummary"
     },
@@ -703,7 +712,7 @@
       "path": "/api/v1/auth/renew",
       "router": "auth.py",
       "handler": "renew_access_token",
-      "line": 182,
+      "line": 239,
       "guards": [
         "CurrentAccount"
       ],

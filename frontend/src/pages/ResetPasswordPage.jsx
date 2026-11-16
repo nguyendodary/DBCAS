@@ -1,17 +1,18 @@
 import { t, useLocale, resolveMessage } from '../i18n'
 import { useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import AuthShell from '../components/AuthShell'
 import PasswordInput from '../components/PasswordInput'
 import { ActionSpinner } from '../components/States'
 
-// Redeems the single-use token from the emailed link. Missing, expired,
-// reused and invalid tokens all render the same "request a new link" state.
+// Step 3 of recovery: redeems the single-use token the code page received
+// from /password-reset/verify (handed over in router state, never in the
+// URL). Missing, expired, reused and invalid tokens all render the same
+// "request a new code" state, so a bare visit to this URL is a dead end.
 export default function ResetPasswordPage() {
   useLocale()
-  const [params] = useSearchParams()
-  const token = params.get('token') || ''
+  const token = useLocation().state?.token || ''
   const [form, setForm] = useState({ password: '', password_confirm: '' })
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
@@ -47,10 +48,13 @@ export default function ResetPasswordPage() {
 
   if (invalid) {
     return (
-      <AuthShell title={t('auth.resetLinkInvalidTitle')} subtitle={t('auth.resetLinkInvalidBody')}>
+      <AuthShell
+        title={t('auth.resetSessionInvalidTitle')}
+        subtitle={t('auth.resetSessionInvalidBody')}
+      >
         <div className="flex w-full flex-col gap-3.5">
           <Link to="/forgot-password" className="auth-submit mt-1 text-center">
-            {t('auth.requestNewLink')}
+            {t('auth.requestNewCode')}
           </Link>
           <p className="flex w-full justify-center gap-1.5 border-t border-edge pt-4 text-xs text-sub">
             <Link to="/login" className="font-semibold text-accent hover:underline">

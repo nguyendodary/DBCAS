@@ -33,13 +33,22 @@ window by default. Handoff/state tokens cannot be used as access tokens.
 Handoffs are hashed, expiring, atomically consumed database records shared
 by workers. Production login throttling likewise uses shared atomic DB state.
 
-Self-service password recovery emails a 15-minute, single-use link built from
-`FRONTEND_URL`; configure `SMTP_HOST` and `SMTP_FROM` (plus port, TLS and
-credentials as required by the relay) in the release env file. Leaving SMTP
+Self-service password recovery emails a 6-digit one-time code (valid 10
+minutes, at most 5 wrong guesses, 60-second resend cooldown). Entering the
+correct code returns a 15-minute, single-use reset token that the final
+"choose a new password" step redeems; the code is stored only as a keyed HMAC
+derived from `JWT_SECRET`. Configure `SMTP_HOST` and `SMTP_FROM` (plus port,
+TLS and credentials as required by the relay) in the release env file. Use a
+sender domain with SPF, DKIM and DMARC and a relay that delivers within
+seconds: a code that arrives after it expires cannot be used. Leaving SMTP
 unconfigured keeps the endpoint disabled with `503
 password_reset_unavailable`; it never falls back to the development Mailpit
 service, and startup rejects a `mailpit` SMTP host outside development.
-`PASSWORD_RESET_*` settings tune token lifetime and rate limits.
+`PASSWORD_RESET_OTP_*` settings tune the code lifetime, attempt cap and resend
+cooldown; `PASSWORD_RESET_TOKEN_TTL_MINUTES` is the lifetime of the token
+issued after verification, and the other `PASSWORD_RESET_*` settings tune rate
+limits. Release `021_password_reset_otp.sql` adds the `password_reset_otp`
+table and is applied automatically by the migration step.
 
 ## Start the standalone release stack
 

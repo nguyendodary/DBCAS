@@ -1,13 +1,14 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { vi } from 'vitest'
+import { afterEach, vi } from 'vitest'
 import { AuthProvider } from '../auth'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import LoginPage from '../pages/LoginPage'
 import OAuthCallbackPage from '../pages/OAuthCallbackPage'
 import RegisterPage from '../pages/RegisterPage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
+import VerifyOtpPage from '../pages/VerifyOtpPage'
 import api from '../api'
 
 vi.mock('../api', () => ({
@@ -25,6 +26,7 @@ function renderApp(entry = '/login') {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/forgot-password/verify" element={<VerifyOtpPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/auth/callback" element={<OAuthCallbackPage />} />
           <Route path="/dashboard" element={<div>learner dashboard</div>} />
@@ -215,17 +217,17 @@ describe('RegisterPage', () => {
 })
 
 describe('ForgotPasswordPage', () => {
-  it('requests a reset link and shows a neutral confirmation for any address', async () => {
+  it('requests a code and moves to the code page for any address', async () => {
     api.post.mockResolvedValueOnce({ data: { status: 'accepted' } })
     renderApp('/forgot-password')
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/^email$/i), 'nobody@x.dev')
-    await user.click(screen.getByRole('button', { name: /send reset link/i }))
+    await user.click(screen.getByRole('button', { name: /send code/i }))
 
-    expect(await screen.findByText('Check your email')).toBeInTheDocument()
-    expect(screen.getByText(/if an account exists for that email/i)).toBeInTheDocument()
-    expect(screen.queryByLabelText(/^email$/i)).not.toBeInTheDocument()
+    // The same neutral next step regardless of whether the account exists.
+    expect(await screen.findByRole('heading', { name: 'Enter your code' })).toBeInTheDocument()
+    expect(screen.getByText(/if an account exists for nobody@x\.dev/i)).toBeInTheDocument()
     expect(api.post).toHaveBeenCalledWith('/auth/password-reset/request', {
       email: 'nobody@x.dev',
     })
@@ -246,22 +248,129 @@ describe('ForgotPasswordPage', () => {
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/^email$/i), 'lia@x.dev')
-    await user.click(screen.getByRole('button', { name: /send reset link/i }))
+    await user.click(screen.getByRole('button', { name: /send code/i }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Password reset email is not available on this server.',
     )
     expect(screen.getByLabelText(/^email$/i)).toHaveValue('lia@x.dev')
-    expect(screen.queryByText('Check your email')).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Enter your code' })).not.toBeInTheDocument()
+  })
+})
+
+describe('VerifyOtpPage', () => {
+  const VERIFY = { pathname: '/forgot-password/verify', state: { email: 'lia@x.dev' } }
+
+  it('sends a visitor without an address back to the email step', () => {
+    renderApp('/forgot-password/verify')
+    expect(screen.getByRole('heading', { name: 'Reset your password' })).toBeInTheDocument()
+    expect(api.post).not.toHaveBeenCalled()
+  })
+
+  it('only accepts six digits and enables verify once complete', async () => {
+    renderApp(VERIFY)
+    const user = userEvent.setup()
+    const input = screen.getByLabelText(/6-digit code/i)
+    expect(input).toHaveAttribute('autocomplete', 'one-time-code')
+    expect(screen.getByRole('button', { name: /verify code/i })).toBeDisabled()
+
+    await user.type(input, '12a3-45678')
+    expect(input).toHaveValue('123456')
+    expect(screen.getByRole('button', { name: /verify code/i })).toBeEnabled()
+  })
+
+  it('exchanges the code for a token and carries it to the password page in state', async () => {
+    api.post.mockResolvedValueOnce({ data: { reset_token: 'T'.repeat(43) } })
+    api.post.mockResolvedValueOnce({ data: { status: 'reset' } })
+    renderApp(VERIFY)
+    const user = userEvent.setup()
+
+    await user.type(screen.getByLabelText(/6-digit code/i), '123456')
+    await user.click(screen.getByRole('button', { name: /verify code/i }))
+
+    expect(
+      await screen.findByRole('heading', { name: 'Choose a new password' }),
+    ).toBeInTheDocument()
+    expect(api.post).toHaveBeenCalledWith('/auth/password-reset/verify', {
+      email: 'lia@x.dev',
+      otp: '123456',
+    })
+
+    await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'S3cret-ok')
+    await user.type(screen.getByLabelText(/confirm password/i, { selector: 'input' }), 'S3cret-ok')
+    await user.click(screen.getByRole('button', { name: /set new password/i }))
+    expect(await screen.findByText('Password updated')).toBeInTheDocument()
+    expect(api.post).toHaveBeenLastCalledWith('/auth/password-reset/confirm', {
+      token: 'T'.repeat(43),
+      password: 'S3cret-ok',
+      password_confirm: 'S3cret-ok',
+    })
+  })
+
+  it('shows an error and clears the field after a wrong code, so the user can retry', async () => {
+    api.post.mockRejectedValueOnce({
+      response: { data: { error: { code: 'invalid_otp', message: 'That code is incorrect.' } } },
+    })
+    renderApp(VERIFY)
+    const user = userEvent.setup()
+
+    await user.type(screen.getByLabelText(/6-digit code/i), '000000')
+    await user.click(screen.getByRole('button', { name: /verify code/i }))
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('That code is incorrect.')
+    expect(screen.getByLabelText(/6-digit code/i)).toHaveValue('')
+    expect(screen.getByRole('heading', { name: 'Enter your code' })).toBeInTheDocument()
+  })
+
+  it('returns to sign-in with a notice once the server burns the code', async () => {
+    api.post.mockRejectedValueOnce({
+      response: {
+        status: 429,
+        data: { error: { code: 'password_reset_rate_limited', message: 'Too many attempts.' } },
+      },
+    })
+    renderApp(VERIFY)
+    const user = userEvent.setup()
+
+    await user.type(screen.getByLabelText(/6-digit code/i), '000000')
+    await user.click(screen.getByRole('button', { name: /verify code/i }))
+
+    expect(await screen.findByRole('heading', { name: /sign in to dbcas/i })).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent(/too many incorrect codes/i)
+  })
+
+  describe('resend', () => {
+    beforeEach(() => vi.useFakeTimers({ shouldAdvanceTime: true }))
+    afterEach(() => vi.useRealTimers())
+
+    it('is locked during the cooldown, then requests a fresh code', async () => {
+      api.post.mockResolvedValueOnce({ data: { status: 'accepted' } })
+      renderApp(VERIFY)
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+
+      expect(screen.getByRole('button', { name: /resend code in 60s/i })).toBeDisabled()
+      // One tick at a time: each render re-arms the next countdown timer.
+      for (let i = 0; i < 60; i += 1) await act(() => vi.advanceTimersByTimeAsync(1000))
+      const resend = screen.getByRole('button', { name: 'Resend code' })
+      expect(resend).toBeEnabled()
+
+      await user.click(resend)
+      expect(api.post).toHaveBeenCalledWith('/auth/password-reset/request', {
+        email: 'lia@x.dev',
+      })
+      expect(await screen.findByRole('status')).toHaveTextContent(/new code is on its way/i)
+      expect(screen.getByRole('button', { name: /resend code in 60s/i })).toBeDisabled()
+    })
   })
 })
 
 describe('ResetPasswordPage', () => {
   const TOKEN = 'A'.repeat(43)
+  const RESET = { pathname: '/reset-password', state: { token: TOKEN } }
 
   it('submits the token with the new password and confirms success', async () => {
     api.post.mockResolvedValueOnce({ data: { status: 'reset' } })
-    renderApp(`/reset-password?token=${TOKEN}`)
+    renderApp(RESET)
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'S3cret-ok')
@@ -278,7 +387,7 @@ describe('ResetPasswordPage', () => {
   })
 
   it('rejects a mismatched confirmation without calling the API', async () => {
-    renderApp(`/reset-password?token=${TOKEN}`)
+    renderApp(RESET)
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'S3cret-ok')
@@ -290,7 +399,7 @@ describe('ResetPasswordPage', () => {
   })
 
   it('rejects a password shorter than the minimum without calling the API', async () => {
-    renderApp(`/reset-password?token=${TOKEN}`)
+    renderApp(RESET)
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'short')
@@ -303,18 +412,20 @@ describe('ResetPasswordPage', () => {
     expect(api.post).not.toHaveBeenCalled()
   })
 
-  it('renders the invalid-link state when the URL has no token', async () => {
+  it('renders the invalid-session state when no verified token was handed over', async () => {
     renderApp('/reset-password')
 
-    expect(screen.getByRole('heading', { name: 'This link is not valid' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Request a new link' })).toHaveAttribute(
+    expect(
+      screen.getByRole('heading', { name: 'This reset session is not valid' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Request a new code' })).toHaveAttribute(
       'href',
       '/forgot-password',
     )
     expect(screen.queryByLabelText(/new password/i, { selector: 'input' })).not.toBeInTheDocument()
   })
 
-  it('renders the invalid-link state when the server rejects the token', async () => {
+  it('renders the invalid-session state when the server rejects the token', async () => {
     api.post.mockRejectedValueOnce({
       response: {
         data: {
@@ -322,7 +433,7 @@ describe('ResetPasswordPage', () => {
         },
       },
     })
-    renderApp(`/reset-password?token=${TOKEN}`)
+    renderApp(RESET)
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'S3cret-ok')
@@ -330,9 +441,9 @@ describe('ResetPasswordPage', () => {
     await user.click(screen.getByRole('button', { name: /set new password/i }))
 
     expect(
-      await screen.findByRole('heading', { name: 'This link is not valid' }),
+      await screen.findByRole('heading', { name: 'This reset session is not valid' }),
     ).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Request a new link' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Request a new code' })).toBeInTheDocument()
   })
 
   it('keeps the form and shows the API error for other failures', async () => {
@@ -346,7 +457,7 @@ describe('ResetPasswordPage', () => {
         },
       },
     })
-    renderApp(`/reset-password?token=${TOKEN}`)
+    renderApp(RESET)
     const user = userEvent.setup()
 
     await user.type(screen.getByLabelText(/new password/i, { selector: 'input' }), 'S3cret-ok')
@@ -360,7 +471,7 @@ describe('ResetPasswordPage', () => {
   })
 
   it('exposes accessible new-password fields with show/hide toggles', async () => {
-    renderApp(`/reset-password?token=${TOKEN}`)
+    renderApp(RESET)
 
     const password = screen.getByLabelText(/new password/i, { selector: 'input' })
     expect(password).toHaveAttribute('type', 'password')

@@ -3619,6 +3619,38 @@
         "title": "PasswordResetRequest",
         "type": "object"
       },
+      "PasswordResetVerifyRequest": {
+        "properties": {
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "otp": {
+            "pattern": "^[0-9]{6}$",
+            "title": "Otp",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "otp"
+        ],
+        "title": "PasswordResetVerifyRequest",
+        "type": "object"
+      },
+      "PasswordResetVerifyResponse": {
+        "properties": {
+          "reset_token": {
+            "title": "Reset Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reset_token"
+        ],
+        "title": "PasswordResetVerifyResponse",
+        "type": "object"
+      },
       "PersonalizedStartRequest": {
         "additionalProperties": false,
         "properties": {
@@ -15501,7 +15533,7 @@
     },
     "/api/v1/auth/password-reset/confirm": {
       "post": {
-        "description": "Redeem a single-use reset token and set the new password.\n\nThe token is consumed under a row lock; success invalidates every\noutstanding session (``pwd_at`` claim) and every other live reset token.",
+        "description": "Redeem the single-use token from /password-reset/verify and set the new password.\n\nThe token is consumed under a row lock; success invalidates every\noutstanding session (``pwd_at`` claim) and every other live reset token.",
         "operationId": "confirm_password_reset_api_v1_auth_password_reset_confirm_post",
         "requestBody": {
           "content": {
@@ -15613,7 +15645,7 @@
     },
     "/api/v1/auth/password-reset/request": {
       "post": {
-        "description": "Start self-service recovery (dev inbox: Mailpit at 127.0.0.1:8026).\n\nA syntactically valid email always receives 202 with the same body, so\nthe response cannot be used to enumerate known, unknown or disabled\naccounts. The message itself is only queued for active accounts, and\ndelivery runs after the response so SMTP latency is not observable.",
+        "description": "Start self-service recovery (dev inbox: Mailpit at 127.0.0.1:8026).\n\nA syntactically valid email always receives 202 with the same body, so\nthe response cannot be used to enumerate known, unknown or disabled\naccounts. A one-time passcode is only emailed for active accounts, and\ndelivery runs after the response so SMTP latency is not observable.\nA new request restarts the wrong-code allowance for that address (the\nrequest itself is rate limited and the code row caps guesses on its own).",
         "operationId": "request_password_reset_api_v1_auth_password_reset_request_post",
         "requestBody": {
           "content": {
@@ -15718,6 +15750,118 @@
           }
         },
         "summary": "Request Password Reset",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/password-reset/verify": {
+      "post": {
+        "description": "Exchange the emailed passcode for a short-lived single-use reset token.\n\nUnknown, disabled, expired and wrong codes all answer 400 ``invalid_otp``.\nWrong guesses are capped per address (the same cap applies to addresses\nwith no account, so the cap itself reveals nothing) and per client IP;\nthe guess that exhausts the allowance answers 429 and the code is gone.\n\nBoth counters use the shared database limiter in every deployment mode:\nthe in-process limiter keeps one window per worker process, so with\nseveral workers the final guess would not reliably produce the 429 that\nsends the user back to sign-in.",
+        "operationId": "verify_password_reset_otp_api_v1_auth_password_reset_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetVerifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResetVerifyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "summary": "Verify Password Reset Otp",
         "tags": [
           "auth"
         ]

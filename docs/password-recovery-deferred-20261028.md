@@ -1,14 +1,20 @@
 # Password recovery: why self-service reset is deferred — 28 October 2026
 
-> **Superseded (28 October 2026):** self-service recovery is now implemented.
-> `POST /api/v1/auth/password-reset/request` emails a 15-minute, single-use
-> link built from `FRONTEND_URL`; `POST /api/v1/auth/password-reset/confirm`
-> redeems it under a row lock, stores only the token's SHA-256 digest,
-> invalidates prior sessions through the `pwd_at` claim, and records
-> `requested`/`completed` events in `password_reset_audit`. Development uses
-> the `mailpit` compose service (inbox at http://127.0.0.1:8026) via
-> `SMTP_*` settings; release images do not include it. The rest of this file
-> is retained as the record of the original defect and decision.
+> **Superseded (28 October 2026), revised (15 November 2026):** self-service
+> recovery is now implemented as an emailed one-time code.
+> `POST /api/v1/auth/password-reset/request` emails a 6-digit code (10-minute
+> lifetime, stored only as a keyed HMAC, 60-second resend cooldown);
+> `POST /api/v1/auth/password-reset/verify` exchanges a correct code for a
+> 15-minute, single-use reset token (at most 5 wrong guesses, after which the
+> code is destroyed); `POST /api/v1/auth/password-reset/confirm` redeems that
+> token under a row lock, stores only its SHA-256 digest, invalidates prior
+> sessions through the `pwd_at` claim, and records `requested`/`completed`
+> events in `password_reset_audit`. The original 28 October design emailed a
+> link instead; the code replaced it so the flow works across devices and
+> survives mail scanners that pre-fetch links. Development uses the `mailpit`
+> compose service (inbox at http://127.0.0.1:8026) via `SMTP_*` settings;
+> release images do not include it. The rest of this file is retained as the
+> record of the original defect and decision.
 >
 > Accounts created through OAuth keep `password_set=false` until an explicit
 > mailbox-verified reset; they never gain a local password silently, and a
