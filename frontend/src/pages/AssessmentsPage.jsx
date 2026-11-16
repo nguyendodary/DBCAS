@@ -28,22 +28,7 @@ export default function AssessmentsPage() {
   const guard = useRef(false)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    let cancelled = false
-
-    api
-      .get('/auth/plan')
-      .then((response) => {
-        if (!cancelled) setPlanInfo(response.data)
-      })
-      .catch(() => {
-        if (!cancelled) setPlanInfo(null)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  // TODO: Kết nối lại API /auth/plan khi Backend hoàn thiện.
 
   const load = useCallback(() => {
     setError(null)
