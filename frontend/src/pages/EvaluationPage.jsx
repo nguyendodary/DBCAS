@@ -4,8 +4,10 @@ import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost } from '../components/ui'
 import { ActionSpinner, ErrorState } from '../components/States'
 import { EvaluationCharts } from '../components/EvaluationCharts'
+import { t, useLocale } from '../i18n'
 
 const MAX_POLL_DURATION_MS = 5 * 60 * 1000
+export const MAX_WEAK_PRACTICE_CONCEPTS = 5
 
 function validateView(data) {
   if (
@@ -25,8 +27,34 @@ function validateView(data) {
   return data
 }
 
+// Reuses the result's documented below-target rule; no new scoring model.
+// Largest shortfall first, with concept id as the deterministic tie-breaker.
+export function weakPracticeConcepts(conceptResults = []) {
+  if (!Array.isArray(conceptResults)) return []
+  return conceptResults
+    .filter(
+      (c) =>
+        c?.below_target &&
+        c.covered !== false &&
+        Number.isInteger(c.concept_id) &&
+        c.competency_pct != null &&
+        c.target_pct != null &&
+        Number.isFinite(Number(c.competency_pct)) &&
+        Number.isFinite(Number(c.target_pct)),
+    )
+    .map((c) => ({
+      ...c,
+      shortfall: Number(c.target_pct) - Number(c.competency_pct),
+    }))
+    .sort((a, b) => b.shortfall - a.shortfall || a.concept_id - b.concept_id)
+    .slice(0, MAX_WEAK_PRACTICE_CONCEPTS)
+}
+
 export function EvaluationContent({ data, overall = false }) {
+  useLocale()
+  const [recommendationDismissed, setRecommendationDismissed] = useState(false)
   const evaluation = data.result?.evaluation
+  const weakConcepts = weakPracticeConcepts(data.concept_results)
   const questionResults = Object.fromEntries(
     (data.question_results || []).map((item) => [item.attempt_id, item]),
   )
@@ -70,6 +98,38 @@ export function EvaluationContent({ data, overall = false }) {
           <p className="mt-2 text-sub">
             {data.score.earned} / {data.score.possible} điểm · {data.attempt_count} bài đã công bố
           </p>
+        </Card>
+      )}
+      {weakConcepts.length > 0 && !recommendationDismissed && (
+        <Card className="p-5">
+          <section aria-labelledby="weak-practice-heading">
+            <h2 id="weak-practice-heading" className="text-lg font-semibold">
+              {t('weakPractice.promptTitle')}
+            </h2>
+            <p className="mt-2 text-sub">{t('weakPractice.promptBody')}</p>
+            <p className="mt-3 text-sm font-medium text-ink">{t('weakPractice.promptListLabel')}</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sub">
+              {weakConcepts.map((c) => (
+                <li key={c.concept_id}>{c.concept_name || `#${c.concept_id}`}</li>
+              ))}
+            </ul>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                className={btnPrimary}
+                to={`/assessments?concepts=${weakConcepts.map((c) => c.concept_id).join(',')}`}
+              >
+                {t('weakPractice.promptAction')}
+              </Link>
+              <button
+                type="button"
+                className={btnGhost}
+                onClick={() => setRecommendationDismissed(true)}
+              >
+                {t('weakPractice.promptDismiss')}
+              </button>
+            </div>
+            <p className="mt-3 text-sm text-mute">{t('weakPractice.promptHint')}</p>
+          </section>
         </Card>
       )}
       {data.uncovered_concepts?.length > 0 && (

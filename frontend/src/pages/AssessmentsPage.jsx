@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost, inputCls } from '../components/ui'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import { t, useLocale } from '../i18n'
 
 const BANDS = [
   ['EASY', 'Dễ'],
@@ -12,7 +13,22 @@ const BANDS = [
 const toggle = (items, value) =>
   items.includes(value) ? items.filter((item) => item !== value) : [...items, value]
 
+export function parseConceptIds(value) {
+  if (!value) return []
+  return [
+    ...new Set(
+      value
+        .split(',')
+        .map(Number)
+        .filter((id) => Number.isInteger(id) && id > 0),
+    ),
+  ]
+}
+
 export default function AssessmentsPage() {
+  useLocale()
+  const [searchParams] = useSearchParams()
+  const requestedConcepts = searchParams.get('concepts') || ''
   const [options, setOptions] = useState(null)
   const [selected, setSelected] = useState([])
   const [bands, setBands] = useState(BANDS.map(([value]) => value))
@@ -45,7 +61,8 @@ export default function AssessmentsPage() {
           throw new Error('Invalid question count configuration')
         setOptions(o.data)
         setCount(limits.default)
-        setSelected([])
+        const available = new Set(o.data.concepts.map((c) => c.concept_id))
+        setSelected(parseConceptIds(requestedConcepts).filter((id) => available.has(id)))
         setActive(s.data.find((item) => item.status === 'in_progress') || null)
       })
       .catch((e) => {
@@ -54,7 +71,7 @@ export default function AssessmentsPage() {
     return () => {
       canceled = true
     }
-  }, [])
+  }, [requestedConcepts])
   useEffect(load, [load])
   useEffect(() => {
     requestId.current = crypto.randomUUID()
@@ -115,6 +132,8 @@ export default function AssessmentsPage() {
       setBusy(false)
     }
   }
+  const selectedConcepts =
+    options?.concepts.filter((concept) => selected.includes(concept.concept_id)) || []
   return (
     <div className="content-wrap mx-auto max-w-4xl space-y-6 py-8">
       <header>
@@ -211,6 +230,43 @@ export default function AssessmentsPage() {
                     ))}
                 </div>
                 <p className="mt-3 text-sm text-mute">Đã chọn {selected.length} khái niệm.</p>
+                {requestedConcepts && selected.length > 0 && (
+                  <p
+                    role="status"
+                    className="mt-3 rounded-lg border border-cyan-400/40 bg-cyan-400/10 p-3 text-sm text-sub"
+                  >
+                    {t('weakPractice.preselectedNotice')}
+                  </p>
+                )}
+                {selectedConcepts.length > 0 && (
+                  <section
+                    aria-labelledby="selected-concepts-heading"
+                    className="mt-4 rounded-xl border border-edge p-4"
+                  >
+                    <h2 id="selected-concepts-heading" className="text-base font-semibold text-ink">
+                      {t('weakPractice.selectedTitle')}
+                    </h2>
+                    <p className="mt-1 text-sm text-mute">{t('weakPractice.selectedHelp')}</p>
+                    <ul className="mt-3 space-y-2">
+                      {selectedConcepts.map((concept) => (
+                        <li key={concept.concept_id} className="rounded-lg bg-elev/40 p-3">
+                          <p className="font-medium text-ink">{concept.concept_name}</p>
+                          {concept.clos?.length ? (
+                            <ul className="mt-1 space-y-0.5 text-sm text-sub">
+                              {concept.clos.map((clo) => (
+                                <li key={clo.clo_id}>
+                                  <span className="font-medium">{clo.clo_code}</span> — {clo.title}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="mt-1 text-sm text-mute">{t('weakPractice.noClo')}</p>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
               </fieldset>
               <fieldset>
                 <legend className="mb-3 text-lg font-semibold">2. Chọn độ khó</legend>
