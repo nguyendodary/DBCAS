@@ -6,7 +6,7 @@
 Checks, from the actual .docx packages:
   - every document opens and still contains its original media;
   - version/date/revision metadata is 1.2 / 08-11-2026;
-  - the Database Design documents exactly 41 tables and 293 columns, matching
+  - the Database Design documents exactly 41 tables and 296 columns, matching
     docs/qa/schema-introspection.json (names, types, nullability);
   - the Table Overview lists all 41 tables;
   - no retired formal/adaptive statements or Vietnamese body text remains;
@@ -186,7 +186,7 @@ def main():
             if c not in {x["name"] for x in real[name]["columns"]}:
                 wrong.append(f"{name}.{c} extra")
     require("data-dictionary exact", not wrong and len(seen) == 41, "; ".join(wrong[:8]))
-    require("documented columns 293", sum(len(r) - 1 for r in sections.values()) == 293)
+    require("documented columns 296", sum(len(r) - 1 for r in sections.values()) == 296)
 
     # Table Overview completeness.
     overview = None
