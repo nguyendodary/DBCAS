@@ -16,12 +16,14 @@ from sqlalchemy import (
     BigInteger,
     Boolean,
     DateTime,
+    Index,
     Numeric,
     SmallInteger,
     String,
     Text,
     UniqueConstraint,
     func,
+    text,
 )
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, validates
@@ -269,6 +271,46 @@ class QuestionConcept(Base):
     def align_review_status(self, key, value):
         self.review_status = "confirmed" if value else "pending"
         return value
+
+
+class QuestionClo(Base):
+    """Direct CLO assignment or AI proposal for a question.
+
+    ``tag_source`` is 'admin' for an administrator decision, 'auto' for the
+    deterministic single-reachable-CLO rule, and 'ai' for a pending model
+    proposal. AI rows never become effective until reviewed. The partial
+    unique index allows at most one non-rejected primary CLO per question.
+    """
+
+    __tablename__ = "question_clo"
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('pending', 'confirmed', 'rejected')",
+            name="question_clo_status_check",
+        ),
+        CheckConstraint(
+            "tag_source IN ('admin', 'auto', 'ai')",
+            name="question_clo_source_check",
+        ),
+        Index(
+            "question_clo_primary_idx",
+            "question_id",
+            unique=True,
+            postgresql_where=text("is_primary AND status <> 'rejected'"),
+        ),
+    )
+
+    question_id: Mapped[int] = mapped_column(
+        ForeignKey("question.question_id"), primary_key=True
+    )
+    clo_id: Mapped[int] = mapped_column(
+        ForeignKey("course_learning_outcome.clo_id"), primary_key=True
+    )
+    is_primary: Mapped[bool] = mapped_column(default=False)
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    tag_source: Mapped[str] = mapped_column(String(10), default="admin")
+    confirmed_at: Mapped[Optional[datetime]]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class ConceptDependency(Base):

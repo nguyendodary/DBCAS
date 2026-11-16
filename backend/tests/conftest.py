@@ -198,7 +198,7 @@ def clean_db():
             "assessment_session", "assessment_blueprint",
             "assessment_concept", "assessment",
             "mcq_option", "sql_test_dataset", "rubric", "llm_cache",
-            "question_concept", "concept_dependency", "clo_concept",
+            "question_clo", "question_concept", "concept_dependency", "clo_concept",
             "course_learning_outcome",
             "concept", "question",
             "account_role", "user_profile", "account_identity",

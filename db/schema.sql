@@ -113,6 +113,28 @@ CREATE TABLE question_concept (
   PRIMARY KEY (question_id, concept_id)
 );
 
+-- One direct CLO assignment or AI proposal per question/CLO pair. The partial
+-- unique index below permits only one active primary CLO per question.
+CREATE TABLE question_clo (
+  question_id INT NOT NULL,
+  clo_id INT NOT NULL,
+  is_primary BOOLEAN NOT NULL DEFAULT FALSE,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  tag_source VARCHAR(10) NOT NULL DEFAULT 'admin',
+  confirmed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (question_id, clo_id),
+  CONSTRAINT question_clo_status_check
+    CHECK (status IN ('pending', 'confirmed', 'rejected')),
+  CONSTRAINT question_clo_source_check
+    CHECK (tag_source IN ('admin', 'auto', 'ai'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS question_clo_primary_idx
+  ON question_clo(question_id)
+  WHERE is_primary AND status <> 'rejected';
+CREATE INDEX IF NOT EXISTS question_clo_clo_idx ON question_clo(clo_id);
+CREATE INDEX IF NOT EXISTS question_clo_status_idx ON question_clo(status);
+
 CREATE TABLE mcq_option (
   option_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   question_id INT NOT NULL,
@@ -282,6 +304,8 @@ ALTER TABLE concept_dependency ADD FOREIGN KEY (prerequisite_concept_id) REFEREN
 ALTER TABLE question ADD FOREIGN KEY (created_by) REFERENCES account (account_id);
 ALTER TABLE question_concept ADD FOREIGN KEY (question_id) REFERENCES question (question_id);
 ALTER TABLE question_concept ADD FOREIGN KEY (concept_id) REFERENCES concept (concept_id);
+ALTER TABLE question_clo ADD CONSTRAINT question_clo_question_fk FOREIGN KEY (question_id) REFERENCES question (question_id);
+ALTER TABLE question_clo ADD CONSTRAINT question_clo_clo_fk FOREIGN KEY (clo_id) REFERENCES course_learning_outcome (clo_id);
 ALTER TABLE mcq_option ADD FOREIGN KEY (question_id) REFERENCES question (question_id);
 ALTER TABLE sql_test_dataset ADD FOREIGN KEY (question_id) REFERENCES question (question_id);
 ALTER TABLE rubric ADD FOREIGN KEY (question_id) REFERENCES question (question_id);

@@ -227,6 +227,7 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "019_archive_prebuilt_exams.sql",
                 "020_provisional_ai_final_results.sql",
                 "021_fixed_paper_attempt_state.sql",
+                "022_question_clo_tagging.sql",
             ]
             assert apply_migrations(conn) == []
         finally:
