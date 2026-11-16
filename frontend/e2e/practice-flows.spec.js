@@ -228,7 +228,14 @@ test('Admin navigation has five focused screens and no exam creation surface', a
     await menu
       .getByRole('link')
       .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href'))),
-  ).toEqual(['/admin', '/admin/grading', '/admin/accounts', '/admin/questions', '/admin/system', '/admin/chi-phi'])
+  ).toEqual([
+    '/admin',
+    '/admin/grading',
+    '/admin/accounts',
+    '/admin/questions',
+    '/admin/system',
+    '/admin/chi-phi',
+  ])
   for (const route of ['/admin/grading', '/admin/accounts', '/admin/questions', '/admin/system']) {
     await page.goto(route)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
