@@ -30,13 +30,13 @@ const COST_TEXT = {
   freePackage: { vi: 'Gói Free', en: 'Free plan' },
   proPackage: { vi: 'Gói Pro', en: 'Pro plan' },
   freeNote: {
-vi: 'Miễn phí 3 lượt làm bài mỗi tháng.',
-en: 'Get 3 free assessment sessions per month.',
+    vi: 'Miễn phí 3 lượt làm bài mỗi tháng.',
+    en: 'Get 3 free assessment sessions per month.',
   },
   freeBadge: { vi: 'Miễn phí', en: 'Free' },
   proNote: {
-vi: 'Giá gói Pro: 99.000đ / 30 ngày.',
-en: 'Pro plan price: VND 99,000 / 30 days.',
+    vi: 'Giá gói Pro: 99.000đ / 30 ngày.',
+    en: 'Pro plan price: VND 99,000 / 30 days.',
   },
   priceLabel: { vi: 'Điều chỉnh giá hiển thị (VNĐ)', en: 'Adjust displayed price (VND)' },
   savePrice: { vi: 'Lưu giá giao diện', en: 'Save displayed price' },
@@ -112,8 +112,6 @@ function usdToVnd(value) {
   }).format(Math.round(amount * USD_TO_VND))} đ`
 }
 
-
-
 function knownSubscriptionStatus(account, locale = 'vi') {
   const isEnglish = locale === 'en'
 
@@ -129,8 +127,12 @@ function knownSubscriptionStatus(account, locale = 'vi') {
     const expiresAt = new Date(account.pro_expires_at)
 
     return expiresAt.getTime() > Date.now()
-      ? (isEnglish ? 'Pro active' : 'Pro còn hiệu lực')
-      : (isEnglish ? 'Pro expired' : 'Pro đã hết hạn')
+      ? isEnglish
+        ? 'Pro active'
+        : 'Pro còn hiệu lực'
+      : isEnglish
+        ? 'Pro expired'
+        : 'Pro đã hết hạn'
   }
 
   return isEnglish ? 'No plan data' : 'Chưa có dữ liệu gói'
@@ -228,21 +230,15 @@ export default function AdminCostsPage() {
       </div>
       {financialReport && (
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-{[
-  ['Doanh thu', financialReport.revenue],
-  ['Chi phí AI', financialReport.ai_cost],
-  ['Chi phí Hosting', financialReport.hosting_cost],
-  ['Số dư còn lại', financialReport.balance],
-].map(([label, value]) => (
-
+          {[
+            ['Doanh thu', financialReport.revenue],
+            ['Chi phí AI', financialReport.ai_cost],
+            ['Chi phí Hosting', financialReport.hosting_cost],
+            ['Số dư còn lại', financialReport.balance],
+          ].map(([label, value]) => (
             <div className={panel} key={label}>
               <p className="text-sm text-sub">{label}</p>
-              <p className="mt-2 text-3xl font-bold text-cyan-300">
-
-{usdToVnd(value)}
-
-</p>
+              <p className="mt-2 text-3xl font-bold text-cyan-300">{usdToVnd(value)}</p>
             </div>
           ))}
         </section>
