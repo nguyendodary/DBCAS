@@ -993,6 +993,111 @@ class ServeResult(BaseModel):
     question: Optional[ServedQuestion] = None
 
 
+# ---------- FIXED paper: free navigation, single final submit ----------
+
+
+class PaperDraftSaveRequest(BaseModel):
+    """By-seq draft save; reuses the legacy answer validation and revision chain."""
+
+    model_config = ConfigDict(extra="forbid")
+    selected_option_id: Optional[int] = None
+    sql_answer: Optional[str] = Field(default=None, max_length=SQL_ANSWER_MAX_LEN)
+    essay_answer: Optional[str] = Field(default=None, max_length=30000)
+    revision: int = Field(ge=1)
+
+
+class PaperFlagRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    flagged: bool
+    revision: int = Field(ge=0)
+
+
+class PaperQuestionMeta(BaseModel):
+    """Palette metadata only — no prompt, options, keys or scores."""
+
+    seq_no: int
+    question_id: int
+    question_type: str
+    answered: bool = False
+    flagged: bool = False
+    opened: bool = False
+    draft_revision: int = 0
+
+
+class PaperMetadata(BaseModel):
+    session_id: int
+    runner_mode: str = "fixed"
+    status: str
+    assessment_title: str
+    started_at: datetime
+    expires_at: datetime
+    server_now: datetime
+    remaining_seconds: int
+    question_count: int
+    answered_count: int
+    flagged_count: int
+    last_opened_seq: Optional[int] = None
+    questions: list[PaperQuestionMeta] = Field(default_factory=list)
+
+
+class PaperOption(BaseModel):
+    """No is_correct — correctness is never exposed before final submit."""
+
+    option_id: int
+    option_label: str
+    option_text: str
+
+
+class PaperQuestionView(BaseModel):
+    """Sanitized question content for one seq; the learner's own draft only."""
+
+    seq_no: int
+    question_id: int
+    question_type: str
+    content_locale: str = "en"
+    prompt: str
+    options: list[PaperOption] = Field(default_factory=list)
+    schema_sql: Optional[str] = None
+    draft: Optional[dict] = None
+    draft_revision: int = 0
+    answered: bool = False
+    flagged: bool = False
+    flag_revision: int = 0
+    first_opened_at: Optional[datetime] = None
+    remaining_seconds: int
+    server_now: datetime
+
+
+class PaperDraftResult(BaseModel):
+    seq_no: int
+    revision: int
+    saved_at: Optional[datetime] = None
+    answered: bool = False
+
+
+class PaperFlagResult(BaseModel):
+    seq_no: int
+    flagged: bool
+    revision: int
+
+
+class PaperSubmitRequest(BaseModel):
+    """Optional idempotency key; repeated final submit returns the summary."""
+
+    model_config = ConfigDict(extra="forbid")
+    request_id: Optional[UUID] = None
+
+
+class PaperSubmitResult(BaseModel):
+    status: str
+    submitted_at: Optional[datetime] = None
+    answered_count: int
+    unanswered_count: int
+    flagged_count: int
+    final: bool = True
+    next: str
+
+
 class EvidenceRubric(BaseModel):
     level_name: str
     display_label: str

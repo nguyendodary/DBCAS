@@ -21,6 +21,8 @@ from ..schemas import (
     DraftSaveRequest, DraftResult, SubmissionResult,
     CumulativeCompetencyResult,
     ServedQuestion,
+    PaperDraftResult, PaperDraftSaveRequest, PaperFlagRequest, PaperFlagResult,
+    PaperMetadata, PaperQuestionView, PaperSubmitRequest, PaperSubmitResult,
 )
 from ..services import (
     adaptive_engine,
@@ -30,6 +32,7 @@ from ..services import (
     session_service,
     sql_service,
     assessment_lifecycle,
+    fixed_paper,
 )
 from ..services.llm import LLMService
 from ..services.sandbox_runner import SandboxRunner
@@ -70,6 +73,39 @@ def save_answer_draft(session_id: int, payload: DraftSaveRequest, learner: Accou
 @router.get("/{session_id}/draft", response_model=DraftResult)
 def get_answer_draft(session_id: int, question_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
     return assessment_lifecycle.get_draft(db, session_id, learner, question_id)
+
+
+@router.get("/{session_id}/paper", response_model=PaperMetadata)
+def get_paper(session_id: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    """FIXED only: paper metadata; no prompts, options, keys or scores."""
+    return fixed_paper.paper_metadata(db, session_id, learner)
+
+
+@router.post("/{session_id}/paper/submit", response_model=PaperSubmitResult)
+def submit_paper(session_id: int, payload: PaperSubmitRequest | None = None, learner: Account = LearnerOnly,
+                 db: Session = Depends(get_db)):
+    """FIXED only: finalize the whole paper once; later calls return the summary."""
+    return fixed_paper.final_submit(db, session_id, learner, payload or PaperSubmitRequest())
+
+
+@router.get("/{session_id}/paper/{seq_no}", response_model=PaperQuestionView)
+def get_paper_question(session_id: int, seq_no: int, learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    """FIXED only: sanitized question and saved draft; records the first open."""
+    return fixed_paper.paper_question(db, session_id, seq_no, learner)
+
+
+@router.put("/{session_id}/paper/{seq_no}/draft", response_model=PaperDraftResult)
+def save_paper_draft(session_id: int, seq_no: int, payload: PaperDraftSaveRequest, learner: Account = LearnerOnly,
+                     db: Session = Depends(get_db)):
+    """FIXED only: save an ungraded, revision-controlled draft by seq."""
+    return fixed_paper.save_draft(db, session_id, seq_no, learner, payload)
+
+
+@router.put("/{session_id}/paper/{seq_no}/flag", response_model=PaperFlagResult)
+def set_paper_flag(session_id: int, seq_no: int, payload: PaperFlagRequest, learner: Account = LearnerOnly,
+                   db: Session = Depends(get_db)):
+    """FIXED only: flag a question with its own optimistic revision."""
+    return fixed_paper.set_flag(db, session_id, seq_no, learner, payload)
 
 
 @router.post("/{session_id}/submit", response_model=SubmissionResult)
