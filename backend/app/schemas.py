@@ -122,6 +122,19 @@ class PasswordResetRequest(BaseModel):
     _email = field_validator("email")(_validate_email)
 
 
+class PasswordResetVerifyRequest(BaseModel):
+    email: str
+    # ASCII digits only: \d would also accept other Unicode digit scripts.
+    otp: str = Field(pattern=r"^[0-9]{6}$")
+
+    _email = field_validator("email")(_validate_email)
+
+
+class PasswordResetVerifyResponse(BaseModel):
+    # Single-use, short-lived token redeemed by /password-reset/confirm.
+    reset_token: str
+
+
 class PasswordResetConfirmRequest(BaseModel):
     # secrets.token_urlsafe(32) is 43 characters; allow headroom only.
     token: str = Field(min_length=20, max_length=200)

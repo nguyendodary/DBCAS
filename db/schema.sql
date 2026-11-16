@@ -364,6 +364,19 @@ CREATE INDEX IF NOT EXISTS password_reset_token_account_idx
 CREATE INDEX IF NOT EXISTS password_reset_token_expiry_idx
   ON password_reset_token(expires_at);
 
+-- Email one-time passcode (migration 021): one live code per account, stored
+-- only as an HMAC digest. Verifying it issues a password_reset_token.
+CREATE TABLE IF NOT EXISTS password_reset_otp (
+  account_id INT PRIMARY KEY REFERENCES account(account_id),
+  otp_hash VARCHAR(64) NOT NULL,
+  requested_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  attempts INT NOT NULL DEFAULT 0 CHECK (attempts >= 0),
+  CHECK (expires_at > requested_at)
+);
+CREATE INDEX IF NOT EXISTS password_reset_otp_expiry_idx
+  ON password_reset_otp(expires_at);
+
 CREATE TABLE IF NOT EXISTS password_reset_audit (
   audit_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   account_id INT NOT NULL REFERENCES account(account_id),

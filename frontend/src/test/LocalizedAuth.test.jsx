@@ -7,6 +7,7 @@ import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
+import VerifyOtpPage from '../pages/VerifyOtpPage'
 import Layout from '../components/Layout'
 import { StatusBadge, TypeBadge } from '../components/ui'
 import { i18n, setLocale, resolveMessage, statusLabel } from '../i18n'
@@ -33,14 +34,15 @@ afterEach(async () => {
   await act(() => i18n.changeLanguage('en'))
   localStorage.clear()
 })
-function mount(path = '/login') {
+function mount(entry = '/login') {
   return render(
-    <MemoryRouter initialEntries={[path]}>
+    <MemoryRouter initialEntries={[entry]}>
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/forgot-password/verify" element={<VerifyOtpPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
       </AuthProvider>
@@ -74,10 +76,20 @@ it('localizes the password recovery pages and keeps labelled controls', async ()
   await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
   expect(screen.getByRole('heading', { name: 'Đặt lại mật khẩu' })).toBeInTheDocument()
   expect(screen.getByLabelText('Email', { exact: true })).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: 'Gửi liên kết đặt lại' })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Gửi mã' })).toBeInTheDocument()
 
   unmount()
-  mount(`/reset-password?token=${'A'.repeat(43)}`)
+  const verify = mount({ pathname: '/forgot-password/verify', state: { email: 'lia@x.dev' } })
+  expect(screen.getByRole('heading', { name: 'Nhập mã xác minh' })).toBeInTheDocument()
+  expect(screen.getByLabelText('Mã gồm 6 chữ số', { exact: true })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Xác minh mã' })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /Gửi lại mã sau \d+ giây/ })).toBeInTheDocument()
+  await act(() => setLocale('en'))
+  expect(screen.getByRole('heading', { name: 'Enter your code' })).toBeInTheDocument()
+  await act(() => setLocale('vi'))
+
+  verify.unmount()
+  mount({ pathname: '/reset-password', state: { token: 'A'.repeat(43) } })
   expect(screen.getByRole('heading', { name: 'Chọn mật khẩu mới' })).toBeInTheDocument()
   expect(screen.getByLabelText('Mật khẩu mới', { exact: true })).toBeInTheDocument()
   expect(screen.getByLabelText('Xác nhận mật khẩu', { exact: true })).toBeInTheDocument()

@@ -1704,6 +1704,58 @@
       ]
     },
     {
+      "table": "password_reset_otp",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "otp_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "requested_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "attempts",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "password_reset_otp_account_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "password_reset_otp_attempts_check",
+          "type": "c",
+          "definition": "CHECK ((attempts >= 0))"
+        },
+        {
+          "name": "password_reset_otp_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > requested_at))"
+        },
+        {
+          "name": "password_reset_otp_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (account_id)"
+        }
+      ]
+    },
+    {
       "table": "password_reset_token",
       "columns": [
         {
@@ -2574,7 +2626,7 @@
       ]
     }
   ],
-  "schema_sha256": "216461b5225528024ad89439e2149f5184dd241a9baf8b9ebcaf293a52baba4f",
+  "schema_sha256": "53961b80fb122a0362e7870943715fbca6a59727b05b1a3fce4a81d85e3bdca3",
   "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
   "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
   "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
@@ -2594,5 +2646,6 @@
   "migration_017_sha256": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
   "migration_018_sha256": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
   "migration_019_sha256": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772",
-  "migration_020_sha256": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715"
+  "migration_020_sha256": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715",
+  "migration_021_sha256": "1867b9f7fa6a9ebf96914639ed2b77ecddc37efcd342adf1af48d4def938bcbb"
 }

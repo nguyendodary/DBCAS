@@ -596,6 +596,20 @@ class PasswordResetToken(Base):
     revoked_at: Mapped[Optional[datetime]]
 
 
+class PasswordResetOtp(Base):
+    __tablename__ = "password_reset_otp"
+    __table_args__ = (
+        CheckConstraint("expires_at > requested_at"),
+        CheckConstraint("attempts >= 0"),
+    )
+
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"), primary_key=True)
+    otp_hash: Mapped[str] = mapped_column(String(64))
+    requested_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    attempts: Mapped[int] = mapped_column(default=0, server_default="0")
+
+
 class PasswordResetAudit(Base):
     __tablename__ = "password_reset_audit"
     __table_args__ = (CheckConstraint("event IN ('requested','completed')"),)

@@ -226,10 +226,10 @@ test('local Admin and Learner complete grading, publication and competency with 
       learner.getByRole('heading', { name: text.auth.forgotTitle, exact: true }),
     ).toBeVisible()
     await learner.getByLabel(text.auth.emailLabel, { exact: true }).fill(email)
-    await learner.getByRole('button', { name: text.auth.sendResetLink, exact: true }).click()
+    await learner.getByRole('button', { name: text.auth.sendResetCode, exact: true }).click()
     await expect(learner.getByRole('link', { name: text.local.mailbox })).toBeVisible()
     const inbox = process.env.DBCAS_MAILPIT_API || 'http://localhost:18025'
-    let resetUrl
+    let otp
     await expect
       .poll(async () => {
         const messages = await (await learner.request.get(`${inbox}/api/v1/messages`)).json()
@@ -240,13 +240,12 @@ test('local Admin and Learner complete grading, publication and competency with 
         const detail = await (
           await learner.request.get(`${inbox}/api/v1/message/${message.ID}`)
         ).json()
-        resetUrl = detail.Text.match(
-          /https?:\/\/[^\s<>]+\/reset-password\?token=[A-Za-z0-9_-]+/,
-        )?.[0]
-        return Boolean(resetUrl)
+        otp = detail.Text.match(/(?<![0-9])[0-9]{6}(?![0-9])/)?.[0]
+        return Boolean(otp)
       })
       .toBe(true)
-    await learner.goto(resetUrl)
+    await learner.getByLabel(text.auth.otpLabel, { exact: true }).fill(otp)
+    await learner.getByRole('button', { name: text.auth.verifyOtp, exact: true }).click()
     const recoveredPassword = 'RecoveredDemo12345!'
     await learner.getByLabel(text.auth.newPassword, { exact: true }).fill(recoveredPassword)
     await learner.getByLabel(text.auth.confirmPassword, { exact: true }).fill(recoveredPassword)

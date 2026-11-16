@@ -87,7 +87,13 @@ class Settings(BaseSettings):
     smtp_starttls: bool = False
     smtp_ssl: bool = False
     smtp_timeout_seconds: float = Field(default=10, ge=1, le=60)
+    # Lifetime of the reset token issued once the emailed code is verified.
     password_reset_token_ttl_minutes: int = Field(default=15, ge=1, le=120)
+    # Emailed one-time passcode: lifetime, wrong-code attempts before the
+    # code is invalidated, and the minimum gap between two emails.
+    password_reset_otp_ttl_minutes: int = Field(default=10, ge=1, le=60)
+    password_reset_otp_max_attempts: int = Field(default=5, ge=1, le=20)
+    password_reset_otp_resend_cooldown_seconds: int = Field(default=60, ge=0, le=3600)
     # Every request counts against the window (not only failures).
     password_reset_rate_limit_attempts: int = Field(default=5, ge=1)
     password_reset_ip_rate_limit_attempts: int = Field(default=20, ge=1)

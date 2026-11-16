@@ -14,6 +14,7 @@ import LoginPage from './pages/LoginPage'
 import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import VerifyOtpPage from './pages/VerifyOtpPage'
 
 // Heavy chart and assessment workspaces load only when their route is opened.
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
@@ -88,6 +89,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/forgot-password/verify" element={<VerifyOtpPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/auth/callback" element={<OAuthCallbackPage />} />
           <Route path="/" element={<Home />} />

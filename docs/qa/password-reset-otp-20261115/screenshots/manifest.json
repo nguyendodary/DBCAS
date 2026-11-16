@@ -1,0 +1,21 @@
+{
+  "app": "http://localhost:18080",
+  "files": [
+    "vi-01-login.png",
+    "vi-02-request-code.png",
+    "vi-03-enter-code.png",
+    "vi-04-wrong-code.png",
+    "email-code.png",
+    "vi-05-new-password.png",
+    "vi-06-success.png",
+    "vi-07-too-many-attempts.png",
+    "en-01-login.png",
+    "en-02-request-code.png",
+    "en-03-enter-code.png",
+    "en-04-wrong-code.png",
+    "en-05-new-password.png",
+    "en-06-success.png",
+    "en-07-too-many-attempts.png",
+    "en-mobile-390-enter-code.png"
+  ]
+}

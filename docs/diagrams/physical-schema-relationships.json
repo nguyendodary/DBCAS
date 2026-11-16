@@ -885,5 +885,20 @@
     "children_per_parent": "0..N",
     "constraint": "system_setting_updated_by_fkey",
     "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK60",
+    "source": "password_reset_otp",
+    "columns": [
+      "account_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "password_reset_otp_account_id_fkey",
+    "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
   }
 ]

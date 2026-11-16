@@ -12,6 +12,8 @@ from ..schemas import (
     LoginRequest,
     PasswordResetConfirmRequest,
     PasswordResetRequest,
+    PasswordResetVerifyRequest,
+    PasswordResetVerifyResponse,
     RegisterRequest,
     TokenResponse,
     RefreshTokenRequest,
@@ -108,8 +110,10 @@ def request_password_reset(
 
     A syntactically valid email always receives 202 with the same body, so
     the response cannot be used to enumerate known, unknown or disabled
-    accounts. The message itself is only queued for active accounts, and
+    accounts. A one-time passcode is only emailed for active accounts, and
     delivery runs after the response so SMTP latency is not observable.
+    A new request restarts the wrong-code allowance for that address (the
+    request itself is rate limited and the code row caps guesses on its own).
     """
     if not mailer.configured:
         raise AppError(
@@ -135,16 +139,69 @@ def request_password_reset(
             # Every request consumes quota — unknown addresses included.
             throttle.record_failure(key, view)
     issued = password_reset.request_reset(db, payload.email, settings)
+    # The guess counter must be shared by every API worker (see verify), so it
+    # always lives in the database, even in development.
+    otp_throttle = DatabasePasswordResetThrottle(db)
+    otp_key = otp_throttle.key("reset-otp:" + payload.email, None)
+    with otp_throttle.transaction(otp_key):
+        otp_throttle.record_success(otp_key)
     if issued is not None:
-        token, email = issued
-        reset_url = f"{settings.frontend_url.rstrip('/')}/reset-password?token={token}"
+        otp, email = issued
         background_tasks.add_task(
-            mailer.send_password_reset,
+            mailer.send_password_reset_otp,
             email,
-            reset_url,
-            settings.password_reset_token_ttl_minutes,
+            otp,
+            settings.password_reset_otp_ttl_minutes,
         )
     return {"status": "accepted"}
+
+
+@router.post("/password-reset/verify", response_model=PasswordResetVerifyResponse)
+def verify_password_reset_otp(
+    payload: PasswordResetVerifyRequest,
+    request: Request,
+    db: Session = Depends(get_db),
+    settings: Settings = Depends(get_settings),
+):
+    """Exchange the emailed passcode for a short-lived single-use reset token.
+
+    Unknown, disabled, expired and wrong codes all answer 400 ``invalid_otp``.
+    Wrong guesses are capped per address (the same cap applies to addresses
+    with no account, so the cap itself reveals nothing) and per client IP;
+    the guess that exhausts the allowance answers 429 and the code is gone.
+
+    Both counters use the shared database limiter in every deployment mode:
+    the in-process limiter keeps one window per worker process, so with
+    several workers the final guess would not reliably produce the 429 that
+    sends the user back to sign-in.
+    """
+    client_ip = request.client.host if request.client else None
+    throttle = DatabasePasswordResetThrottle(db)
+    email_key = throttle.key("reset-otp:" + payload.email, None)
+    email_view = _reset_policy(settings, settings.password_reset_otp_max_attempts)
+    ip_key = throttle.key("reset-otp-ip:" + (client_ip or "-"), client_ip)
+    ip_view = _reset_policy(settings, settings.password_reset_ip_rate_limit_attempts)
+    with throttle.transaction(ip_key):
+        throttle.check(ip_key, ip_view)
+    guessed_wrong = False
+    try:
+        with throttle.transaction(email_key):
+            throttle.check(email_key, email_view)
+            try:
+                token = password_reset.verify_otp(db, payload.email, payload.otp, settings)
+            except AppError as exc:
+                if exc.code == "invalid_otp":
+                    guessed_wrong = True
+                    throttle.record_failure(email_key, email_view)
+                    # Raises 429 on the guess that uses up the allowance.
+                    throttle.check(email_key, email_view)
+                raise
+            throttle.record_success(email_key)
+    finally:
+        if guessed_wrong:
+            with throttle.transaction(ip_key):
+                throttle.record_failure(ip_key, ip_view)
+    return {"reset_token": token}
 
 
 @router.post("/password-reset/confirm", response_model=StatusResult)
@@ -155,7 +212,7 @@ def confirm_password_reset(
     settings: Settings = Depends(get_settings),
     throttle: LoginThrottle = Depends(get_password_reset_throttle),
 ):
-    """Redeem a single-use reset token and set the new password.
+    """Redeem the single-use token from /password-reset/verify and set the new password.
 
     The token is consumed under a row lock; success invalidates every
     outstanding session (``pwd_at`` claim) and every other live reset token.

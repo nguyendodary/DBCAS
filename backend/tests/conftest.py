@@ -191,7 +191,7 @@ def clean_db():
         for table in (
             "session_final_result",
             "account_role_audit",
-            "password_reset_audit", "password_reset_token",
+            "password_reset_audit", "password_reset_token", "password_reset_otp",
             "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
             "concept_competency", "competency_gap",

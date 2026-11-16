@@ -1,6 +1,6 @@
 import { t, useLocale, resolveMessage } from '../i18n'
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../auth'
 import { apiMessage } from '../api'
 import AuthShell from '../components/AuthShell'
@@ -28,6 +28,7 @@ export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
+  const notice = useLocation().state?.notice
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -71,6 +72,14 @@ export default function LoginPage() {
           >
             <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
             {oauthMessage}
+          </p>
+        )}
+        {notice && (
+          <p
+            role="status"
+            className="rounded-md border border-amber-400/30 bg-amber-400/10 p-2.5 text-sm text-amber-300"
+          >
+            {t(notice)}
           </p>
         )}
         {error && (
