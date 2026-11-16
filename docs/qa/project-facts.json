@@ -135,6 +135,11 @@
     "/api/v1/sessions/{session_id}/finish",
     "/api/v1/sessions/{session_id}/gaps",
     "/api/v1/sessions/{session_id}/guidance",
+    "/api/v1/sessions/{session_id}/paper",
+    "/api/v1/sessions/{session_id}/paper/submit",
+    "/api/v1/sessions/{session_id}/paper/{seq_no}",
+    "/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
+    "/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
     "/api/v1/sessions/{session_id}/questions",
     "/api/v1/sessions/{session_id}/serve-next",
     "/api/v1/sessions/{session_id}/sql-run",
@@ -142,8 +147,8 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 83,
-  "openapi_operation_count": 93,
+  "openapi_path_count": 88,
+  "openapi_operation_count": 98,
   "frontend_routes": [
     "*",
     "/",
