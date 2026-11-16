@@ -410,6 +410,8 @@ class DocumentClo(Base):
     approved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
     approved_at: Mapped[Optional[datetime]]
 
+    clo: Mapped["CourseLearningOutcome"] = relationship()
+
 
 class QuestionEvidence(Base):
     """Exact quoted passage supporting an approved question (migration 023)."""

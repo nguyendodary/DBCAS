@@ -26,7 +26,10 @@ from .models import (
     Concept,
     ConceptCompetency,
     ConceptDependency,
+    CourseDocument,
     CourseLearningOutcome,
+    DocumentChunk,
+    DocumentClo,
     LlmCache,
     McqOption,
     PasswordResetAudit,
@@ -982,6 +985,72 @@ class CurriculumRepository:
         self, clo_id: int, concept_id: int
     ) -> Optional[CloConcept]:
         return self.db.get(CloConcept, (clo_id, concept_id))
+
+
+class DocumentRepository:
+    """Admin course documents, their chunks and CLO attachments (migration 023)."""
+
+    def __init__(self, db: Session):
+        self.db = db
+
+    def create(self, **fields) -> CourseDocument:
+        document = CourseDocument(**fields)
+        self.db.add(document)
+        self.db.flush()
+        return document
+
+    def add_chunk(self, document_id: int, **fields) -> DocumentChunk:
+        chunk = DocumentChunk(document_id=document_id, **fields)
+        self.db.add(chunk)
+        return chunk
+
+    def get(self, document_id: int) -> Optional[CourseDocument]:
+        return self.db.scalar(
+            select(CourseDocument)
+            .options(
+                selectinload(CourseDocument.chunks),
+                selectinload(CourseDocument.clo_links).selectinload(DocumentClo.clo),
+            )
+            .where(CourseDocument.document_id == document_id)
+            .execution_options(populate_existing=True)
+        )
+
+    def list(self, status: Optional[str] = None):
+        chunk_count = (
+            select(func.count(DocumentChunk.chunk_id))
+            .where(DocumentChunk.document_id == CourseDocument.document_id)
+            .scalar_subquery()
+        )
+        stmt = select(CourseDocument, chunk_count).order_by(
+            CourseDocument.document_id.desc()
+        )
+        if status is not None:
+            stmt = stmt.where(CourseDocument.status == status)
+        return list(self.db.execute(stmt))
+
+    def replace_clos(self, document: CourseDocument, clo_ids: set[int], admin) -> None:
+        existing = {link.clo_id: link for link in document.clo_links}
+        for clo_id in sorted(clo_ids):
+            link = existing.get(clo_id)
+            if link is None:
+                self.db.add(
+                    DocumentClo(
+                        document_id=document.document_id,
+                        clo_id=clo_id,
+                        status="approved",
+                        approved_by=admin.account_id,
+                        approved_at=datetime.now(timezone.utc),
+                    )
+                )
+            elif link.status != "approved":
+                link.status = "approved"
+                link.approved_by = admin.account_id
+                link.approved_at = datetime.now(timezone.utc)
+        for clo_id, link in existing.items():
+            if clo_id not in clo_ids and link.status != "rejected":
+                link.status = "rejected"
+        self.db.flush()
+
 
 class QuestionRepository:
     """Question bank items with their child collections (UC07)."""
