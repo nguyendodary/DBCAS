@@ -36,17 +36,21 @@ def load_owned_active_session(
 
 
 def load_owned_finalized_session(
-    repo: AssessmentRepository, session_id: int, learner: Account, *, allow_provisional=False
+    repo: AssessmentRepository, session_id: int, learner: Account, *,
+    allow_provisional=False, allow_estimated=False
 ) -> AssessmentSession:
     """Load a session that belongs to the learner and has ended.
 
     Same ownership/404 rule as the write path — other learners' sessions
-    answer 404 so their existence is not leaked.
+    answer 404 so their existence is not leaked. Adaptive practice is not an
+    official score, so its estimated result is readable without publication.
     """
     session = repo.lock_session(session_id)
     if session is None or session.learner_id != learner.account_id:
         raise AppError(404, "session_not_found", "Assessment session not found")
     ensure_session_finalized(session, repo.db)
+    if allow_estimated and (session.config_snapshot or {}).get("runner_mode") == "adaptive":
+        return session
     from .grading_review import require_published
     require_published(session, allow_provisional=allow_provisional)
     return session

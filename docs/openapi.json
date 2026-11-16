@@ -1,6 +1,53 @@
 {
   "components": {
     "schemas": {
+      "AbilityEstimate": {
+        "description": "Estimated adaptive ability; deliberately not an official score.",
+        "properties": {
+          "band": {
+            "enum": [
+              "EASY",
+              "MEDIUM",
+              "HARD"
+            ],
+            "title": "Band",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "evidence_count": {
+            "minimum": 0.0,
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "index": {
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Index",
+            "type": "number"
+          },
+          "provisional": {
+            "default": true,
+            "title": "Provisional",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "band",
+          "index",
+          "confidence",
+          "evidence_count"
+        ],
+        "title": "AbilityEstimate",
+        "type": "object"
+      },
       "AccountRoleAuditItem": {
         "properties": {
           "action_type": {
@@ -2712,6 +2759,16 @@
       },
       "EvidenceResult": {
         "properties": {
+          "ability_estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AbilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "adaptive_progress": {
             "anyOf": [
               {
@@ -2736,6 +2793,17 @@
             "title": "Provisional",
             "type": "boolean"
           },
+          "result_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Kind"
+          },
           "session_id": {
             "title": "Session Id",
             "type": "integer"
@@ -2743,6 +2811,14 @@
           "status": {
             "title": "Status",
             "type": "string"
+          },
+          "study_suggestions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/StudySuggestion"
+            },
+            "title": "Study Suggestions",
+            "type": "array"
           }
         },
         "required": [
@@ -6119,6 +6195,16 @@
       },
       "SessionStateResult": {
         "properties": {
+          "ability_estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AbilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "adaptive_progress": {
             "anyOf": [
               {
@@ -6326,6 +6412,14 @@
             "title": "Status",
             "type": "string"
           },
+          "study_suggestions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/StudySuggestion"
+            },
+            "title": "Study Suggestions",
+            "type": "array"
+          },
           "submitted_at": {
             "anyOf": [
               {
@@ -6371,6 +6465,16 @@
       "SessionSummary": {
         "description": "One of the learner's own sessions — history list and pickers.",
         "properties": {
+          "ability_estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AbilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "adaptive_progress": {
             "anyOf": [
               {
@@ -6480,6 +6584,17 @@
             "title": "Release Status",
             "type": "string"
           },
+          "result_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Kind"
+          },
           "result_release_policy": {
             "default": "HUMAN_VERIFIED",
             "enum": [
@@ -6488,6 +6603,17 @@
             ],
             "title": "Result Release Policy",
             "type": "string"
+          },
+          "runner_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runner Mode"
           },
           "selected_concept_ids": {
             "default": [],
@@ -7013,6 +7139,40 @@
           "guidance"
         ],
         "title": "StudyGuidanceResult",
+        "type": "object"
+      },
+      "StudySuggestion": {
+        "description": "A below-benchmark concept reused from the existing gap path.",
+        "properties": {
+          "concept_code": {
+            "title": "Concept Code",
+            "type": "string"
+          },
+          "concept_id": {
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "concept_name": {
+            "title": "Concept Name",
+            "type": "string"
+          },
+          "reason": {
+            "default": "below_target",
+            "title": "Reason",
+            "type": "string"
+          },
+          "subject_area": {
+            "title": "Subject Area",
+            "type": "string"
+          }
+        },
+        "required": [
+          "concept_id",
+          "concept_code",
+          "concept_name",
+          "subject_area"
+        ],
+        "title": "StudySuggestion",
         "type": "object"
       },
       "SubmissionResult": {

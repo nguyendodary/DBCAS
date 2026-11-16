@@ -208,6 +208,26 @@ class AccountRoleAuditItem(BaseModel):
 # ---------- sessions ----------
 
 
+class AbilityEstimate(BaseModel):
+    """Estimated adaptive ability; deliberately not an official score."""
+
+    band: Literal["EASY", "MEDIUM", "HARD"]
+    index: float = Field(ge=1, le=5)
+    confidence: Literal["low", "medium", "high"]
+    evidence_count: int = Field(ge=0)
+    provisional: bool = True
+
+
+class StudySuggestion(BaseModel):
+    """A below-benchmark concept reused from the existing gap path."""
+
+    concept_id: int
+    concept_code: str
+    concept_name: str
+    subject_area: str
+    reason: str = "below_target"
+
+
 class SessionSummary(BaseModel):
     """One of the learner's own sessions — history list and pickers."""
 
@@ -221,7 +241,10 @@ class SessionSummary(BaseModel):
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
     assembly_mode: Optional[str] = None
+    runner_mode: Optional[str] = None
+    result_kind: Optional[str] = None
     adaptive_progress: Optional[dict] = None
+    ability_estimate: Optional[AbilityEstimate] = None
     started_at: datetime
     expires_at: datetime
     submitted_at: Optional[datetime] = None
@@ -967,6 +990,8 @@ class SessionStateResult(BaseModel):
     runner_mode: Optional[str] = None
     result_kind: Optional[str] = None
     adaptive_progress: Optional[dict] = None
+    ability_estimate: Optional[AbilityEstimate] = None
+    study_suggestions: list[StudySuggestion] = []
     status: str
     started_at: datetime
     expires_at: datetime
@@ -1134,7 +1159,10 @@ class EvidenceResult(BaseModel):
     session_id: int
     status: str
     provisional: bool = False
+    result_kind: Optional[str] = None
     adaptive_progress: Optional[dict] = None
+    ability_estimate: Optional[AbilityEstimate] = None
+    study_suggestions: list[StudySuggestion] = []
     items: list[EvidenceItem]
 
 
