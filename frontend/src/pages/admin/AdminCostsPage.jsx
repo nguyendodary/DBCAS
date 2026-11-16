@@ -30,13 +30,13 @@ const COST_TEXT = {
   freePackage: { vi: 'Gói Free', en: 'Free plan' },
   proPackage: { vi: 'Gói Pro', en: 'Pro plan' },
   freeNote: {
-    vi: '3 lượt dùng thử theo yêu cầu dự án. Việc giới hạn lượt cần backend thực hiện.',
-    en: 'Three trial sessions as required by the project. Trial enforcement requires backend support.',
+vi: 'Miễn phí 3 lượt làm bài mỗi tháng.',
+en: 'Get 3 free assessment sessions per month.',
   },
   freeBadge: { vi: 'Miễn phí', en: 'Free' },
   proNote: {
-    vi: 'Giá mặc định minh họa: 99.000đ / 30 ngày.',
-    en: 'Illustrative default: VND 99,000 / 30 days.',
+vi: 'Giá gói Pro: 99.000đ / 30 ngày.',
+en: 'Pro plan price: VND 99,000 / 30 days.',
   },
   priceLabel: { vi: 'Điều chỉnh giá hiển thị (VNĐ)', en: 'Adjust displayed price (VND)' },
   savePrice: { vi: 'Lưu giá giao diện', en: 'Save displayed price' },
@@ -91,7 +91,6 @@ function readPrices() {
 }
 
 function knownPlan(account) {
-  // No inference: a learner role or an active account does not prove a purchase.
   const raw =
     account.subscription?.plan ?? account.subscription_plan ?? account.plan_name ?? account.plan
   if (typeof raw !== 'string') return null
@@ -99,9 +98,42 @@ function knownPlan(account) {
   return value === 'pro' || value === 'free' ? value : null
 }
 
-function knownSubscriptionStatus(account) {
-  const raw = account.subscription?.status ?? account.subscription_status
-  return typeof raw === 'string' && raw.trim() ? raw : null
+const USD_TO_VND = 26000
+
+function usdToVnd(value) {
+  const amount = Number(value)
+
+  if (value == null || !Number.isFinite(amount)) {
+    return '—'
+  }
+
+  return `${new Intl.NumberFormat('vi-VN', {
+    maximumFractionDigits: 0,
+  }).format(Math.round(amount * USD_TO_VND))} đ`
+}
+
+
+
+function knownSubscriptionStatus(account, locale = 'vi') {
+  const isEnglish = locale === 'en'
+
+  if (account.plan === 'free') {
+    return isEnglish ? 'Free plan active' : 'Đang sử dụng gói Free'
+  }
+
+  if (account.plan === 'pro') {
+    if (!account.pro_expires_at) {
+      return isEnglish ? 'No expiry information' : 'Chưa có thông tin hết hạn'
+    }
+
+    const expiresAt = new Date(account.pro_expires_at)
+
+    return expiresAt.getTime() > Date.now()
+      ? (isEnglish ? 'Pro active' : 'Pro còn hiệu lực')
+      : (isEnglish ? 'Pro expired' : 'Pro đã hết hạn')
+  }
+
+  return isEnglish ? 'No plan data' : 'Chưa có dữ liệu gói'
 }
 
 const panel = 'rounded-2xl border border-edge bg-surface/90 p-5 shadow-sm'
@@ -196,15 +228,21 @@ export default function AdminCostsPage() {
       </div>
       {financialReport && (
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            ['Doanh thu', financialReport.revenue_vnd],
-            ['Chi phí AI', financialReport.ai_cost_vnd],
-            ['Chi phí Hosting', financialReport.hosting_cost_vnd],
-            ['Số dư còn lại', financialReport.remaining_vnd],
-          ].map(([label, value]) => (
+
+{[
+  ['Doanh thu', financialReport.revenue],
+  ['Chi phí AI', financialReport.ai_cost],
+  ['Chi phí Hosting', financialReport.hosting_cost],
+  ['Số dư còn lại', financialReport.balance],
+].map(([label, value]) => (
+
             <div className={panel} key={label}>
               <p className="text-sm text-sub">{label}</p>
-              <p className="mt-2 text-3xl font-bold text-cyan-300">{money(value)}</p>
+              <p className="mt-2 text-3xl font-bold text-cyan-300">
+
+{usdToVnd(value)}
+
+</p>
             </div>
           ))}
         </section>
@@ -331,7 +369,7 @@ export default function AdminCostsPage() {
                       </span>
                     </td>
                     <td className="px-3 py-3 text-sub">
-                      {knownSubscriptionStatus(account) || tx('noPurchaseData')}
+                      {knownSubscriptionStatus(account, locale)}
                     </td>
                   </tr>
                 ))}

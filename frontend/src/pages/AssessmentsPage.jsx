@@ -22,10 +22,28 @@ export default function AssessmentsPage() {
   const [active, setActive] = useState(null)
   const [preview, setPreview] = useState(null)
   const [error, setError] = useState(null)
+  const [planInfo, setPlanInfo] = useState(null)
   const [busy, setBusy] = useState(false)
   const requestId = useRef(crypto.randomUUID())
   const guard = useRef(false)
   const navigate = useNavigate()
+
+useEffect(() => {
+  let cancelled = false
+
+  api.get('/auth/plan')
+    .then((response) => {
+      if (!cancelled) setPlanInfo(response.data)
+    })
+    .catch(() => {
+      if (!cancelled) setPlanInfo(null)
+    })
+
+  return () => {
+    cancelled = true
+  }
+}, [])
+
   const load = useCallback(() => {
     setError(null)
     let canceled = false
@@ -122,6 +140,31 @@ export default function AssessmentsPage() {
         <h1 className="mt-2 text-3xl font-bold text-ink">Tạo bài luyện tập</h1>
         <p className="mt-3 text-sub">Chọn nội dung bạn muốn ôn và bắt đầu ngay.</p>
       </header>
+
+{planInfo?.plan === 'free' &&
+  planInfo?.free_sessions_remaining === 0 && (
+    <div
+      role="alert"
+      className="mb-5 rounded-xl border border-amber-300 bg-amber-50 p-5 text-amber-900"
+    >
+      <h3 className="text-lg font-bold">
+        Bạn đã hết 3 lượt làm bài miễn phí trong tháng
+      </h3>
+
+      <p className="mt-2 text-sm">
+        Nâng cấp lên gói Pro để tiếp tục làm bài đánh giá
+        không giới hạn.
+      </p>
+
+      <Link
+        to="/upgrade"
+        className="mt-4 inline-block rounded-lg bg-cyan-600 px-5 py-3 font-semibold text-white"
+      >
+        Xem gói Pro
+      </Link>
+    </div>
+  )}
+
       {error && !options && <ErrorState message={error} onRetry={load} />}
       {!options ? (
         !error && <Loading />

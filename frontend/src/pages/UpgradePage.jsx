@@ -1,4 +1,5 @@
-﻿import { useState } from 'react'
+﻿import { useEffect, useState } from 'react'
+import api from '../api'
 import { useLocale } from '../i18n'
 
 const translations = {
@@ -8,7 +9,7 @@ const translations = {
     freeDesc: 'Trải nghiệm các tính năng đánh giá cơ sở dữ liệu.',
     proDesc: 'Mở rộng khả năng đánh giá và phát triển kỹ năng.',
     freeFeatures: [
-      '3 phiên đánh giá miễn phí',
+      '3 lượt làm bài miễn phí mỗi tháng , tự làm mới khi sang tháng',
       'Làm bài MCQ, SQL và tự luận',
       'Xem kết quả và lịch sử làm bài',
       'Theo dõi năng lực cơ bản',
@@ -21,6 +22,7 @@ const translations = {
       'Phân tích chi tiết 10 kỹ năng CSDL',
       'Lộ trình học tập cá nhân hóa',
       'Xem lịch sử và tiến độ học tập',
+      'Bài bắt đầu khi đang dùng Pro không trừ lượt Free',
     ],
     freeButton: 'Chọn gói Free',
     proButton: 'Chọn gói Pro',
@@ -28,6 +30,13 @@ const translations = {
     selected: 'Bạn đã chọn gói',
     demo: 'Đây là bản minh họa. Chưa thực hiện thanh toán hoặc kích hoạt gói.',
     recommended: 'Đề xuất',
+    currentPlan: 'Gói hiện tại:',
+    remaining: 'Lượt Free còn lại trong tháng:',
+    proActive: 'Gói Pro đang hoạt động. Bạn có thể làm bài dù lượt Free còn 0.',
+    loading: 'Đang tải thông tin gói...',
+    error: 'Chưa lấy được thông tin gói từ máy chủ.',
+    unavailable: 'Chưa có dữ liệu lượt Free.',
+    sessionUnit: 'lượt',
   },
   en: {
     title: 'Upgrade Your Account',
@@ -35,7 +44,7 @@ const translations = {
     freeDesc: 'Explore essential database assessment features.',
     proDesc: 'Unlock more assessment and learning opportunities.',
     freeFeatures: [
-      '3 free assessment sessions',
+      '3 free assessment sessions per calendar month , reset monthly',
       'MCQ, SQL and essay assessments',
       'View results and assessment history',
       'Basic competency tracking',
@@ -48,6 +57,7 @@ const translations = {
       'Detailed analysis of 10 database skills',
       'Personalized learning paths',
       'Learning history and progress tracking',
+      'Assessments started during Pro do not consume Free sessions',
     ],
     freeButton: 'Choose Free',
     proButton: 'Choose Pro',
@@ -55,13 +65,48 @@ const translations = {
     selected: 'You selected',
     demo: 'This is a demonstration. No payment or subscription is activated.',
     recommended: 'Recommended',
+    currentPlan: 'Current plan:',
+    remaining: 'Free sessions remaining this month:',
+    proActive: 'Pro is active. You can start assessments even with 0 Free sessions.',
+    loading: 'Loading plan information...',
+    error: 'Unable to load plan information from the server.',
+    unavailable: 'Free session balance is unavailable.',
+    sessionUnit: 'sessions',
   },
 }
 
 export default function UpgradePage() {
   const { locale } = useLocale()
   const content = translations[locale] || translations.vi
+
   const [selectedPlan, setSelectedPlan] = useState(null)
+  const [planInfo, setPlanInfo] = useState(null)
+  const [planError, setPlanError] = useState(false)
+
+  useEffect(() => {
+    let mounted = true
+
+    api
+      .get('/auth/plan')
+      .then(({ data }) => {
+        if (mounted) {
+          setPlanInfo(data)
+          setPlanError(false)
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setPlanError(true)
+        }
+      })
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const isPro = String(planInfo?.plan || '').toLowerCase() === 'pro'
+  const remaining = planInfo?.free_sessions_remaining
 
   const plans = [
     {
@@ -87,6 +132,28 @@ export default function UpgradePage() {
         <p className="mt-3 text-sub">{content.subtitle}</p>
       </header>
 
+      {/* Thông tin gói hiện tại từ Backend */}
+      <div className="mb-6 rounded-xl border border-edge bg-surface p-4 text-ink">
+        {planInfo ? (
+          <>
+            <p className="font-semibold">
+              {content.currentPlan} {isPro ? 'Pro' : 'Free'}
+            </p>
+
+            <p className="mt-2 text-sm text-sub">
+              {isPro
+                ? content.proActive
+                : Number.isInteger(remaining)
+                  ? `${content.remaining} ${remaining}/3 ${content.sessionUnit}`
+                  : content.unavailable}
+            </p>
+          </>
+        ) : (
+          <p className="text-sm text-sub">{planError ? content.error : content.loading}</p>
+        )}
+      </div>
+
+      {/* Danh sách gói Free và Pro */}
       <div className="grid gap-6 md:grid-cols-2">
         {plans.map((plan) => (
           <section
@@ -109,6 +176,7 @@ export default function UpgradePage() {
               <span className="text-3xl font-bold text-cyan-400">
                 {new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'vi-VN').format(plan.price)} VND
               </span>
+
               {plan.id === 'pro' && <span className="ml-2 text-sm text-sub">{content.period}</span>}
             </div>
 
@@ -136,6 +204,7 @@ export default function UpgradePage() {
         ))}
       </div>
 
+      {/* Thông báo chọn gói minh họa */}
       {selectedPlan && (
         <div role="status" className="mt-6 rounded-xl border border-cyan-400 p-4 text-ink">
           <p>
