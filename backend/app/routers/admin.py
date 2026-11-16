@@ -611,7 +611,7 @@ def admin_session_competency(
     the learner sees, without the ownership restriction."""
     return analytics_service.session_competency(db, session_id)
 
-@router.get("/financial-report")
+@router.get("/financial-report", response_model=dict[str, str | int | float])
 def get_financial_report(
     month: str = Query(
         ...,

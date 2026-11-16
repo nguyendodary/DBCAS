@@ -74,6 +74,7 @@
     "/api/v1/admin/concepts",
     "/api/v1/admin/concepts/{concept_id}",
     "/api/v1/admin/concepts/{concept_id}/prerequisites",
+    "/api/v1/admin/financial-report",
     "/api/v1/admin/grading-reviews",
     "/api/v1/admin/grading-reviews/{session_id}",
     "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
@@ -142,8 +143,8 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 83,
-  "openapi_operation_count": 93,
+  "openapi_path_count": 84,
+  "openapi_operation_count": 94,
   "frontend_routes": [
     "*",
     "/",
