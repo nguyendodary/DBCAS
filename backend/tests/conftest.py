@@ -194,6 +194,7 @@ def clean_db():
             "password_reset_audit", "password_reset_token",
             "grading_job", "oauth_handoff", "login_throttle",
             "attempt", "selection_log", "question_candidate",
+            "question_evidence", "document_clo", "document_chunk", "course_document",
             "concept_competency", "competency_gap",
             "assessment_session", "assessment_blueprint",
             "assessment_concept", "assessment",

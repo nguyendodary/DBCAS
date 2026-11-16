@@ -313,6 +313,130 @@ class QuestionClo(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
+class CourseDocument(Base):
+    """Admin-supplied course material (migration 023).
+
+    The upload is never persisted: only the normalized extracted text, its
+    SHA-256 digest and page/heading metadata are stored. Documents stay
+    invisible outside the administrator surface and are only usable for
+    grounded generation after ``status='approved'``.
+    """
+
+    __tablename__ = "course_document"
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('draft', 'approved', 'archived')",
+            name="course_document_status_check",
+        ),
+        CheckConstraint("source_type IN ('upload')", name="course_document_source_check"),
+        CheckConstraint("sha256 ~ '^[a-f0-9]{64}$'", name="course_document_sha256_check"),
+        CheckConstraint(
+            "char_count >= 1 AND (page_count IS NULL OR page_count >= 1)",
+            name="course_document_counts_check",
+        ),
+    )
+
+    document_id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(300))
+    source_type: Mapped[str] = mapped_column(String(20), default="upload", server_default="upload")
+    mime_type: Mapped[str] = mapped_column(String(100))
+    original_filename: Mapped[Optional[str]] = mapped_column(String(255))
+    sha256: Mapped[str] = mapped_column(String(64))
+    char_count: Mapped[int]
+    page_count: Mapped[Optional[int]]
+    status: Mapped[str] = mapped_column(String(20), default="draft", server_default="draft")
+    uploaded_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    uploaded_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    approved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    approved_at: Mapped[Optional[datetime]]
+    text_policy_version: Mapped[str] = mapped_column(
+        String(20), default="untrusted-v1", server_default="untrusted-v1"
+    )
+
+    chunks: Mapped[list["DocumentChunk"]] = relationship(
+        order_by="DocumentChunk.ordinal", cascade="all, delete-orphan"
+    )
+    clo_links: Mapped[list["DocumentClo"]] = relationship(cascade="all, delete-orphan")
+
+
+class DocumentChunk(Base):
+    """One bounded, ordered passage of a course document's extracted text."""
+
+    __tablename__ = "document_chunk"
+    __table_args__ = (
+        UniqueConstraint("document_id", "ordinal", name="document_chunk_document_ordinal_key"),
+        CheckConstraint("ordinal >= 1", name="document_chunk_ordinal_check"),
+        CheckConstraint(
+            "(page_from IS NULL OR page_from >= 1) "
+            "AND (page_to IS NULL OR page_from IS NULL OR page_to >= page_from)",
+            name="document_chunk_pages_check",
+        ),
+        CheckConstraint("length(text) >= 1", name="document_chunk_text_check"),
+        CheckConstraint("char_count = length(text)", name="document_chunk_chars_check"),
+        CheckConstraint("text_hash ~ '^[a-f0-9]{64}$'", name="document_chunk_hash_check"),
+    )
+
+    chunk_id: Mapped[int] = mapped_column(primary_key=True)
+    document_id: Mapped[int] = mapped_column(
+        ForeignKey("course_document.document_id", ondelete="CASCADE")
+    )
+    ordinal: Mapped[int]
+    page_from: Mapped[Optional[int]]
+    page_to: Mapped[Optional[int]]
+    heading: Mapped[Optional[str]] = mapped_column(Text)
+    text: Mapped[str] = mapped_column(Text)
+    text_hash: Mapped[str] = mapped_column(String(64))
+    char_count: Mapped[int]
+
+
+class DocumentClo(Base):
+    """Attachment of a document to an active course learning outcome."""
+
+    __tablename__ = "document_clo"
+    __table_args__ = (
+        CheckConstraint(
+            "status IN ('pending', 'approved', 'rejected')",
+            name="document_clo_status_check",
+        ),
+    )
+
+    document_id: Mapped[int] = mapped_column(
+        ForeignKey("course_document.document_id", ondelete="CASCADE"), primary_key=True
+    )
+    clo_id: Mapped[int] = mapped_column(
+        ForeignKey("course_learning_outcome.clo_id"), primary_key=True
+    )
+    status: Mapped[str] = mapped_column(String(20), default="approved", server_default="approved")
+    approved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    approved_at: Mapped[Optional[datetime]]
+
+
+class QuestionEvidence(Base):
+    """Exact quoted passage supporting an approved question (migration 023)."""
+
+    __tablename__ = "question_evidence"
+    __table_args__ = (
+        CheckConstraint("length(quote) >= 1", name="question_evidence_quote_check"),
+        CheckConstraint(
+            "(start_offset IS NULL OR start_offset >= 0) "
+            "AND (end_offset IS NULL OR start_offset IS NULL OR end_offset >= start_offset)",
+            name="question_evidence_offsets_check",
+        ),
+        CheckConstraint("source_hash ~ '^[a-f0-9]{64}$'", name="question_evidence_hash_check"),
+    )
+
+    evidence_id: Mapped[int] = mapped_column(primary_key=True)
+    question_id: Mapped[int] = mapped_column(
+        ForeignKey("question.question_id", ondelete="CASCADE")
+    )
+    chunk_id: Mapped[int] = mapped_column(ForeignKey("document_chunk.chunk_id"))
+    quote: Mapped[str] = mapped_column(Text)
+    start_offset: Mapped[Optional[int]]
+    end_offset: Mapped[Optional[int]]
+    source_hash: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
 class ConceptDependency(Base):
     """Directed edge of the prerequisite skill graph: ``concept_id`` depends
     on ``prerequisite_concept_id``. The composite PK blocks duplicate edges;
