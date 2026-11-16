@@ -4,7 +4,7 @@
   "sources": {
     "backend/app/main.py": "5c920a455cc3bdc7965c052554a42f08d60dd8e14927ffa855c06a9d425cdc87",
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "backend/app/routers/admin.py": "832e28a21b24bb988d7f97dcb56f96588e4b93d6aef32bf37b8a8eb6af7ceaa0",
+    "backend/app/routers/admin.py": "6fa5ca97433dd55831e8e1ab01ba548074ce3d2dc1dc9e519ac04060a50e8b0f",
     "backend/app/routers/assessments.py": "2efd3daba0ff36977e6066177e42d6494ca287345ddbb483f6da54b92f404941",
     "backend/app/routers/auth.py": "d9a54d4433088689a76d8de8cb9c61e38970fb1cd4460a7e5f0a008bddd320aa",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
@@ -12,7 +12,7 @@
     "backend/app/routers/practice.py": "bfb6d0359a037af4c41f5966271da52f326d3478028b14abb861d90ace3763fa",
     "backend/app/routers/sessions.py": "6ac89b13fd78ff126978dd453fbd894eabfb182325ab536693a9666ac9b6add3"
   },
-  "count": 93,
+  "count": 94,
   "routes": [
     {
       "method": "GET",
@@ -244,6 +244,17 @@
         "AdminOnly"
       ],
       "response_model": "ConceptPrerequisitesResult"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/financial-report",
+      "router": "admin.py",
+      "handler": "get_financial_report",
+      "line": 615,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": ""
     },
     {
       "method": "GET",
