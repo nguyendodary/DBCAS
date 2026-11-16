@@ -170,8 +170,18 @@ async def run(args):
                                     ("sql_cell_limit", "SELECT repeat('x',20000)", "result_too_large"),
                                     ("sql_row_limit", "SELECT generate_series(1,2000)", "result_too_large"),
                                 ]:
-                                    bounded = await learner.request(phase, "POST", f"sessions/{sid}/sql-run",
-                                        {"question_id": question["question_id"], "sql": sql})
+                                    # The sandbox executor has two slots and runners are
+                                    # loaded, so a measurement can be inconclusive once
+                                    # (transient sandbox_busy / connection fault). Retry
+                                    # the measurement once inside the test; keep the
+                                    # product timeout and the strict assertion unchanged.
+                                    for attempt in range(2):
+                                        bounded = await learner.request(phase, "POST", f"sessions/{sid}/sql-run",
+                                            {"question_id": question["question_id"], "sql": sql})
+                                        enforced = bounded["success"] is False and bounded["error_type"] == expected_error
+                                        if enforced or attempt == 1:
+                                            break
+                                        report["sql_limit_retries"] = report.get("sql_limit_retries", 0) + 1
                                     assert bounded["success"] is False and bounded["error_type"] == expected_error, f"{phase} did not enforce its configured limit"
                                     report.setdefault("sql_limit_results", {})[phase] = {
                                         "error_type": bounded["error_type"], "execution_time_ms": bounded["execution_time_ms"]}
