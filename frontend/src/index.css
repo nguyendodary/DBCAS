@@ -246,23 +246,28 @@
 
   :root[data-theme='light'] {
     color-scheme: light;
-    --bg: #f4f5f7;
-    --media-veil: rgb(244 245 247 / 0.94);
-    --animated-media-overlay: linear-gradient(var(--media-veil), var(--media-veil));
-    --success-surface: #eaf7ef;
-    --warning-surface: #fff6df;
-    --danger-surface: #fff0f3;
+    --bg: #ffffff;
+    --media-veil: rgb(255 255 255 / 0.18);
+    --animated-media-overlay: linear-gradient(
+      180deg,
+      rgb(7 7 8 / 0.42) 0%,
+      rgb(7 7 8 / 0.26) 48%,
+      rgb(7 7 8 / 0.42) 100%
+    );
+    --success-surface: #e6f1e8;
+    --warning-surface: #f5efdf;
+    --danger-surface: #f5e9ec;
     --surface: #ffffff;
-    --surface-elevated: #ffffff;
-    --surface-muted: #f0f2f4;
-    --surface-sidebar: #fafbfc;
-    --border: #e4e7ea;
-    --border-strong: #c9ced4;
-    --text: #0e1113;
-    --text-muted: #46505a;
-    --text-subtle: #5c6772;
-    --text-faint: #65707a;
-    --text-disabled: #68727d;
+    --surface-elevated: #f9faf7;
+    --surface-muted: #edf0ec;
+    --surface-sidebar: #f4f6f2;
+    --border: #d1d7d2;
+    --border-strong: #adb8b1;
+    --text: #17201c;
+    --text-muted: #35413b;
+    --text-subtle: #46534c;
+    --text-faint: #536159;
+    --text-disabled: #626e67;
     --primary: #0e6f7c;
     --primary-hover: #0a5864;
     --primary-foreground: #ffffff;
@@ -280,27 +285,27 @@
     --info-text: #075985;
     --secondary: #6d28d9;
     --secondary-text: #6d28d9;
-    --neutral-status-text: #3f4a56;
+    --neutral-status-text: #38443d;
     --overlay: rgb(14 17 19 / 0.45);
-    --surface-hover: rgb(14 17 19 / 0.04);
+    --surface-hover: rgb(14 17 19 / 0.055);
     --surface-selected: rgb(14 111 124 / 0.08);
     --shadow-card: rgb(14 17 19 / 0.04);
     --shadow-dialog: 0 24px 48px -12px rgb(14 17 19 / 0.24);
     --shadow-header: rgb(14 17 19 / 0.06);
-    --section-tint: #ffffff;
-    --section-border: #e4e7ea;
+    --section-tint: #f8faf6;
+    --section-border: #d1d7d2;
     --selection-bg: rgb(14 111 124 / 0.18);
 
     --editor-bg: #ffffff;
-    --editor-surface: #f7f8f9;
-    --editor-border: #d6dbe0;
-    --editor-text: #111417;
-    --editor-muted: #5c6772;
+    --editor-surface: #edf0ec;
+    --editor-border: #c7d0ca;
+    --editor-text: #18201c;
+    --editor-muted: #46534c;
     --code-keyword: #0b5f87;
     --code-function: #6d28d9;
     --code-string: #116b36;
     --code-number: #8a5300;
-    --code-comment: #66707a;
+    --code-comment: #56625b;
     --code-identifier: #1f262c;
     --chart-1: #2563eb;
     --chart-2: #c2410c;
@@ -313,12 +318,12 @@
     --chart-9: #a21caf;
     --chart-10: #475569;
     --chart-target: #be123c;
-    --chart-grid: rgb(71 85 105 / 0.16);
-    --chart-axis: #cbd5e1;
-    --chart-label: #46505a;
-    --chart-muted: #5c6772;
-    --chart-tooltip: #ffffff;
-    --chart-tooltip-text: #0e1113;
+    --chart-grid: rgb(71 85 105 / 0.22);
+    --chart-axis: #b5c0b9;
+    --chart-label: #35413b;
+    --chart-muted: #46534c;
+    --chart-tooltip: #fafbf8;
+    --chart-tooltip-text: #17201c;
   }
 
   body {
@@ -3534,6 +3539,7 @@
    --------------------------------------------------------------------------- */
 :root[data-theme='light'] body {
   background: var(--bg);
+  color: var(--text);
 }
 
 :root[data-theme='light'] .surface-card,
@@ -3546,6 +3552,31 @@
   border-color: var(--border);
   background: var(--surface);
   box-shadow: none;
+  color: var(--text);
+}
+
+:root[data-theme='light'] .auth-card,
+:root[data-theme='light'] .auth-panel,
+:root[data-theme='light'] .auth-feature,
+:root[data-theme='light'] .auth-topnav,
+:root[data-theme='light'] .auth-bottombar,
+:root[data-theme='light'] .chrome-dark,
+:root[data-theme='light'] .app-sidebar,
+:root[data-theme='light'] .data-table,
+:root[data-theme='light'] .hero-tag,
+:root[data-theme='light'] .hero-stat,
+:root[data-theme='light'] .landing-card,
+:root[data-theme='light'] .landing-stats,
+:root[data-theme='light'] .landing-code-preview,
+:root[data-theme='light'] .exam-shell .exam-header,
+:root[data-theme='light'] .exam-shell .ex-sidebar,
+:root[data-theme='light'] .exam-shell .question-panel,
+:root[data-theme='light'] .exam-shell .ex-footer,
+:root[data-theme='light'] .exam-shell .answer-option,
+:root[data-theme='light'] .exam-shell .ex-editor,
+:root[data-theme='light'] .exam-shell .ex-results,
+:root[data-theme='light'] [class~='bg-panel'] {
+  color: var(--text);
 }
 
 :root[data-theme='light'] .rounded-xl {
@@ -3709,12 +3740,69 @@
 
 :root[data-theme='light'] .page-photo,
 :root[data-theme='light'] .hero-photo {
-  background-image: none;
   background-color: var(--bg);
 }
 
 :root[data-theme='light'] .hero-photo-inner {
+  color: #f4f4f5;
+}
+
+:root[data-theme='light'] .hero-photo-inner h1 {
+  color: #f4f4f5;
+}
+
+:root[data-theme='light'] .hero-photo-inner > .mb-7 > div:first-child p {
+  color: #cbd5e1;
+}
+
+:root[data-theme='light'] .exam-shell {
+  --ex-panel-dark: var(--surface);
   color: var(--text);
+}
+
+:root[data-theme='light'] .exam-shell .question-panel,
+:root[data-theme='light'] .exam-shell .ex-sidebar {
+  color: var(--text);
+}
+
+:root[data-theme='light'] .auth-shell,
+:root[data-theme='light'] .landing {
+  color: #f4f4f5;
+}
+
+:root[data-theme='light'] .landing-header .brand-logo,
+:root[data-theme='light'] .landing-header .landing-nav-link {
+  color: #e2e8f0;
+}
+
+:root[data-theme='light'] .landing-header .header-icon-button {
+  border-color: rgb(226 232 240 / 0.28);
+  color: #e2e8f0;
+}
+
+:root[data-theme='light'] .landing-intro > p.text-mute {
+  color: #cbd5e1;
+}
+
+:root[data-theme='light'] .landing-pillars > div:first-child .text-ink {
+  color: #f4f4f5;
+}
+
+:root[data-theme='light'] .landing-pillars > div:first-child .text-mute {
+  color: #cbd5e1;
+}
+
+:root[data-theme='light'] .landing-pillars > div:first-child .text-cyan-200 {
+  color: #a5f3fc;
+}
+
+:root[data-theme='light'] .landing-container > footer {
+  border-color: rgb(226 232 240 / 0.2);
+  color: #cbd5e1;
+}
+
+:root[data-theme='light'] .landing-title {
+  background: linear-gradient(125deg, #f8fafc 25%, var(--brand-soft) 100%);
 }
 
 :root[data-theme='light'] .option-dark[data-selected='true'] {
