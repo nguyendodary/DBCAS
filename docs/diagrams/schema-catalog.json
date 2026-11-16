@@ -1179,6 +1179,118 @@
       ]
     },
     {
+      "table": "course_document",
+      "columns": [
+        {
+          "name": "document_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "character varying(300)",
+          "nullable": false
+        },
+        {
+          "name": "source_type",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "mime_type",
+          "type": "character varying(100)",
+          "nullable": false
+        },
+        {
+          "name": "original_filename",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "sha256",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "char_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "page_count",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "uploaded_by",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "uploaded_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "approved_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "text_policy_version",
+          "type": "character varying(20)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "course_document_approved_by_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "course_document_counts_check",
+          "type": "c",
+          "definition": "CHECK (((char_count >= 1) AND ((page_count IS NULL) OR (page_count >= 1))))"
+        },
+        {
+          "name": "course_document_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (document_id)"
+        },
+        {
+          "name": "course_document_sha256_check",
+          "type": "c",
+          "definition": "CHECK (((sha256)::text ~ '^[a-f0-9]{64}$'::text))"
+        },
+        {
+          "name": "course_document_source_check",
+          "type": "c",
+          "definition": "CHECK (((source_type)::text = 'upload'::text))"
+        },
+        {
+          "name": "course_document_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['draft'::character varying, 'approved'::character varying, 'archived'::character varying])::text[])))"
+        },
+        {
+          "name": "course_document_uploaded_by_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (uploaded_by) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
       "table": "course_learning_outcome",
       "columns": [
         {
@@ -1232,6 +1344,155 @@
           "name": "course_learning_outcome_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (clo_id)"
+        }
+      ]
+    },
+    {
+      "table": "document_chunk",
+      "columns": [
+        {
+          "name": "chunk_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "document_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "ordinal",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "page_from",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "page_to",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "heading",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "text",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "text_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "char_count",
+          "type": "integer",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "document_chunk_chars_check",
+          "type": "c",
+          "definition": "CHECK ((char_count = length(text)))"
+        },
+        {
+          "name": "document_chunk_document_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "document_chunk_document_ordinal_key",
+          "type": "u",
+          "definition": "UNIQUE (document_id, ordinal)"
+        },
+        {
+          "name": "document_chunk_hash_check",
+          "type": "c",
+          "definition": "CHECK (((text_hash)::text ~ '^[a-f0-9]{64}$'::text))"
+        },
+        {
+          "name": "document_chunk_ordinal_check",
+          "type": "c",
+          "definition": "CHECK ((ordinal >= 1))"
+        },
+        {
+          "name": "document_chunk_pages_check",
+          "type": "c",
+          "definition": "CHECK ((((page_from IS NULL) OR (page_from >= 1)) AND ((page_to IS NULL) OR (page_from IS NULL) OR (page_to >= page_from))))"
+        },
+        {
+          "name": "document_chunk_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (chunk_id)"
+        },
+        {
+          "name": "document_chunk_text_check",
+          "type": "c",
+          "definition": "CHECK ((length(text) >= 1))"
+        }
+      ]
+    },
+    {
+      "table": "document_clo",
+      "columns": [
+        {
+          "name": "document_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "clo_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "approved_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "document_clo_approved_by_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "document_clo_clo_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+        },
+        {
+          "name": "document_clo_document_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "document_clo_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (document_id, clo_id)"
+        },
+        {
+          "name": "document_clo_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'approved'::character varying, 'rejected'::character varying])::text[])))"
         }
       ]
     },
@@ -2099,6 +2360,83 @@
       ]
     },
     {
+      "table": "question_evidence",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "chunk_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "quote",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "start_offset",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "end_offset",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "source_hash",
+          "type": "character varying(64)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_evidence_chunk_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (chunk_id) REFERENCES document_chunk(chunk_id)"
+        },
+        {
+          "name": "question_evidence_hash_check",
+          "type": "c",
+          "definition": "CHECK (((source_hash)::text ~ '^[a-f0-9]{64}$'::text))"
+        },
+        {
+          "name": "question_evidence_offsets_check",
+          "type": "c",
+          "definition": "CHECK ((((start_offset IS NULL) OR (start_offset >= 0)) AND ((end_offset IS NULL) OR (start_offset IS NULL) OR (end_offset >= start_offset))))"
+        },
+        {
+          "name": "question_evidence_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (evidence_id)"
+        },
+        {
+          "name": "question_evidence_question_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "question_evidence_quote_check",
+          "type": "c",
+          "definition": "CHECK ((length(quote) >= 1))"
+        }
+      ]
+    },
+    {
       "table": "question_translation",
       "columns": [
         {
@@ -2661,7 +2999,7 @@
       ]
     }
   ],
-  "schema_sha256": "d617b528a20c32be18bab37e61cac4343876fa7d8fbe7bb37b13be7abcfb59c3",
+  "schema_sha256": "9f4b2bf8cb24cb0e228072b2d60774f0844baffd11cb5a24d072cbb311653ba1",
   "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
   "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
   "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
@@ -2683,5 +3021,6 @@
   "migration_019_sha256": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772",
   "migration_020_sha256": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715",
   "migration_021_sha256": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b",
-  "migration_022_sha256": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9"
+  "migration_022_sha256": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9",
+  "migration_023_sha256": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59"
 }

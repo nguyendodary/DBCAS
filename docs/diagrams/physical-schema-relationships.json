@@ -915,5 +915,125 @@
     "children_per_parent": "0..N",
     "constraint": "question_clo_question_fk",
     "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK62",
+    "source": "course_document",
+    "columns": [
+      "approved_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "course_document_approved_by_fk",
+    "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK63",
+    "source": "course_document",
+    "columns": [
+      "uploaded_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "course_document_uploaded_by_fk",
+    "definition": "FOREIGN KEY (uploaded_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK64",
+    "source": "document_chunk",
+    "columns": [
+      "document_id"
+    ],
+    "destination": "course_document",
+    "reference_columns": [
+      "document_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "document_chunk_document_fk",
+    "definition": "FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK65",
+    "source": "document_clo",
+    "columns": [
+      "approved_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "document_clo_approved_by_fk",
+    "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK66",
+    "source": "document_clo",
+    "columns": [
+      "clo_id"
+    ],
+    "destination": "course_learning_outcome",
+    "reference_columns": [
+      "clo_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "document_clo_clo_fk",
+    "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+  },
+  {
+    "id": "FK67",
+    "source": "document_clo",
+    "columns": [
+      "document_id"
+    ],
+    "destination": "course_document",
+    "reference_columns": [
+      "document_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "document_clo_document_fk",
+    "definition": "FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK68",
+    "source": "question_evidence",
+    "columns": [
+      "chunk_id"
+    ],
+    "destination": "document_chunk",
+    "reference_columns": [
+      "chunk_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_evidence_chunk_fk",
+    "definition": "FOREIGN KEY (chunk_id) REFERENCES document_chunk(chunk_id)"
+  },
+  {
+    "id": "FK69",
+    "source": "question_evidence",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_evidence_question_fk",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
   }
 ]
