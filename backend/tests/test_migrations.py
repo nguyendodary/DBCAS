@@ -64,6 +64,10 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT count(*) FROM pg_trigger WHERE tgrelid='account_role_audit'::regclass AND tgname='account_role_audit_immutable'").fetchone()[0] == 1
             assert conn.execute("SELECT to_regclass('question_translation')").fetchone()[0]
             assert conn.execute("SELECT to_regclass('question_clo')").fetchone()[0]
+            for table in ("course_document", "document_chunk", "document_clo", "question_evidence"):
+                assert conn.execute(f"SELECT to_regclass('{table}')").fetchone()[0]
+            assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='document_chunk' AND column_name IN ('ordinal','page_from','page_to','heading','text','text_hash','char_count')").fetchone()[0] == 7
+            assert conn.execute("SELECT count(*) FROM pg_constraint WHERE conrelid='question_evidence'::regclass AND contype='f'").fetchone()[0] == 2
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='account' AND column_name IN ('password_set','password_changed_at')").fetchone()[0] == 2
             assert conn.execute("SELECT password_set FROM account WHERE email='preserved@migration.test'").fetchone()[0] is True
             assert conn.execute("SELECT password_changed_at FROM account WHERE email='preserved@migration.test'").fetchone()[0] is None
@@ -139,6 +143,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                 '020_provisional_ai_final_results.sql',
                 '021_fixed_paper_attempt_state.sql',
                 '022_question_clo_tagging.sql',
+                '023_document_grounding.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -147,7 +152,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 22
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 23
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -385,6 +390,7 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "020_provisional_ai_final_results.sql",
                 "021_fixed_paper_attempt_state.sql",
                 "022_question_clo_tagging.sql",
+                "023_document_grounding.sql",
             ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
@@ -394,6 +400,90 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
             # Direct rerun of the additive migration must not duplicate the snapshot.
             conn.execute((directory / "020_provisional_ai_final_results.sql").read_text(), prepare=False)
             assert conn.execute("SELECT count(*) FROM session_final_result").fetchone()[0] == 1
+        finally:
+            conn.execute("SET search_path TO public")
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
+
+
+def test_023_document_tables_are_additive_and_repeatable(tmp_path):
+    """Upgrade a populated pre-023 schema, then rerun the exact migration."""
+    directory = ROOT_DIR / "db/migrations"
+    prior = tmp_path / "pre023"
+    prior.mkdir()
+    for path in directory.glob("[0-9][0-9][0-9]_*.sql"):
+        if path.name < "023":
+            (prior / path.name).write_bytes(path.read_bytes())
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
+    namespace = "document023_" + uuid.uuid4().hex[:12]
+    migration = (directory / "023_document_grounding.sql").read_text()
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            conn.execute((Path(__file__).parent / "fixtures/schema_20261011.sql").read_text(), prepare=False)
+            assert len(apply_migrations(conn, prior)) == 22
+            account_id = conn.execute(
+                "INSERT INTO account(email,password_hash) VALUES ('doc023@migration.test','not-a-login-hash') "
+                "RETURNING account_id"
+            ).fetchone()[0]
+            clo_id = conn.execute(
+                "INSERT INTO course_learning_outcome(clo_code,title,created_by) "
+                "VALUES ('CLO-23','Document grounding',%s) RETURNING clo_id",
+                (account_id,),
+            ).fetchone()[0]
+            question_id = conn.execute(
+                "INSERT INTO question(question_type,prompt,created_by) "
+                "VALUES ('mcq','Preserved before documents',%s) RETURNING question_id",
+                (account_id,),
+            ).fetchone()[0]
+            before = conn.execute(
+                "SELECT to_jsonb(t) FROM question t WHERE question_id=%s", (question_id,)
+            ).fetchone()[0]
+
+            assert apply_migrations(conn) == ["023_document_grounding.sql"]
+            assert apply_migrations(conn) == []
+            for table in ("course_document", "document_chunk", "document_clo", "question_evidence"):
+                assert conn.execute(f"SELECT to_regclass('{table}')").fetchone()[0]
+                assert conn.execute(f"SELECT count(*) FROM {table}").fetchone()[0] == 0
+            assert conn.execute(
+                "SELECT to_jsonb(t) FROM question t WHERE question_id=%s", (question_id,)
+            ).fetchone()[0] == before
+            assert conn.execute(
+                "SELECT count(*) FROM pg_constraint WHERE conrelid='course_document'::regclass AND contype IN ('c','f')"
+            ).fetchone()[0] == 6
+            assert conn.execute(
+                "SELECT count(*) FROM pg_indexes WHERE schemaname=current_schema() "
+                "AND indexname IN ('course_document_status_idx','document_chunk_document_idx',"
+                "'document_clo_clo_idx','question_evidence_question_idx','question_evidence_chunk_idx')"
+            ).fetchone()[0] == 5
+
+            document_id = conn.execute(
+                "INSERT INTO course_document(title,mime_type,original_filename,sha256,char_count,page_count,"
+                "uploaded_by,status,approved_by,approved_at) VALUES ('Week 1','text/plain','week1.txt',%s,5,1,%s,"
+                "'approved',%s,NOW()) RETURNING document_id",
+                ("a" * 64, account_id, account_id),
+            ).fetchone()[0]
+            chunk_id = conn.execute(
+                "INSERT INTO document_chunk(document_id,ordinal,page_from,page_to,heading,text,text_hash,char_count) "
+                "VALUES (%s,1,1,1,'Heading','hello',%s,5) RETURNING chunk_id",
+                (document_id, "b" * 64),
+            ).fetchone()[0]
+            conn.execute(
+                "INSERT INTO document_clo(document_id,clo_id,status,approved_by,approved_at) "
+                "VALUES (%s,%s,'approved',%s,NOW())",
+                (document_id, clo_id, account_id),
+            )
+            conn.execute(
+                "INSERT INTO question_evidence(question_id,chunk_id,quote,start_offset,end_offset,source_hash) "
+                "VALUES (%s,%s,'hello',0,5,%s)",
+                (question_id, chunk_id, "c" * 64),
+            )
+            # Direct rerun is also safe and never duplicates or rewrites data.
+            conn.execute(migration, prepare=False)
+            assert conn.execute("SELECT count(*) FROM course_document").fetchone()[0] == 1
+            assert conn.execute("SELECT count(*) FROM document_chunk").fetchone()[0] == 1
+            assert conn.execute("SELECT count(*) FROM document_clo").fetchone()[0] == 1
+            assert conn.execute("SELECT count(*) FROM question_evidence").fetchone()[0] == 1
         finally:
             conn.execute("SET search_path TO public")
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
