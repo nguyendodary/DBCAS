@@ -9,7 +9,7 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(36 5401.25)">
 <title>schema</title>
 <polygon fill="white" stroke="none" points="-36,36 -36,-5401.25 3822.12,-5401.25 3822.12,36 -36,36"/>
-<text xml:space="preserve" text-anchor="middle" x="1893.06" y="-5341.45" font-family="Arial" font-size="22.00">db/schema.sql through migration 020</text>
+<text xml:space="preserve" text-anchor="middle" x="1893.06" y="-5341.45" font-family="Arial" font-size="22.00">db/schema.sql through migration 021</text>
 <text xml:space="preserve" text-anchor="middle" x="1893.06" y="-5315.05" font-family="Arial" font-size="22.00">41 real tables; every declared foreign key; full CHECK/UNIQUE definitions in schema&#45;catalog.json</text>
 <!-- account -->
 <g id="node1" class="node">
@@ -749,7 +749,7 @@
 <g id="FK08" class="edge">
 <title>assessment_concept:assessment_id&#45;&gt;assessment:assessment_id</title>
 <g id="a_FK08"><a xlink:title="assessment_concept_assessment_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M1259.08,-3679.99C1240.67,-3679.99 1246.91,-3708.54 1260.08,-3721.39 1284.02,-3744.77 1529.01,-3730.44 1561.22,-3721.39 1717.98,-3677.35 1763.69,-3650.38 1873.98,-3530.59 2404.18,-2954.74 2354.44,-2675.47 2664.17,-1956.59 2684.64,-1909.09 2656.21,-1848.31 2695.9,-1839.32"/>
+<path fill="none" stroke="#2e75b6" d="M1259.08,-3679.99C1240.67,-3679.99 1246.91,-3708.54 1260.08,-3721.39 1272.05,-3733.08 1545.11,-3725.92 1561.22,-3721.39 1717.98,-3677.35 1763.69,-3650.38 1873.98,-3530.59 2404.18,-2954.74 2354.44,-2675.47 2664.17,-1956.59 2684.64,-1909.09 2656.21,-1848.31 2695.9,-1839.32"/>
 <polygon fill="#2e75b6" stroke="#2e75b6" points="2696.07,-1842.82 2705.67,-1838.34 2695.37,-1835.86 2696.07,-1842.82"/>
 </a>
 </g>
@@ -1018,142 +1018,160 @@
 <!-- attempt -->
 <g id="node14" class="node">
 <title>attempt</title>
-<path fill="#eff5fb" stroke="none" d="M942.25,-3345.79C942.25,-3345.79 589.2,-3345.79 589.2,-3345.79 583.2,-3345.79 577.2,-3339.79 577.2,-3333.79 577.2,-3333.79 577.2,-2833.39 577.2,-2833.39 577.2,-2827.39 583.2,-2821.39 589.2,-2821.39 589.2,-2821.39 942.25,-2821.39 942.25,-2821.39 948.25,-2821.39 954.25,-2827.39 954.25,-2833.39 954.25,-2833.39 954.25,-3333.79 954.25,-3333.79 954.25,-3339.79 948.25,-3345.79 942.25,-3345.79"/>
-<polygon fill="#dceaf7" stroke="none" points="577.2,-3318.19 577.2,-3345.79 954.25,-3345.79 954.25,-3318.19 577.2,-3318.19"/>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3318.19 577.2,-3345.79 954.25,-3345.79 954.25,-3318.19 577.2,-3318.19"/>
-<text xml:space="preserve" text-anchor="start" x="742.25" y="-3329.09" font-family="Arial" font-weight="bold" font-size="13.00">attempt</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3290.59 577.2,-3318.19 698.34,-3318.19 698.34,-3290.59 577.2,-3290.59"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3299.19" font-family="Arial" font-size="13.00">attempt_id</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3290.59 698.34,-3318.19 857.01,-3318.19 857.01,-3290.59 698.34,-3290.59"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3299.19" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3290.59 857.01,-3318.19 954.25,-3318.19 954.25,-3290.59 857.01,-3290.59"/>
-<text xml:space="preserve" text-anchor="start" x="863.01" y="-3299.19" font-family="Arial" font-size="13.00">PK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3262.99 577.2,-3290.59 698.34,-3290.59 698.34,-3262.99 577.2,-3262.99"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3271.59" font-family="Arial" font-size="13.00">session_id</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3262.99 698.34,-3290.59 857.01,-3290.59 857.01,-3262.99 698.34,-3262.99"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3271.59" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3262.99 857.01,-3290.59 954.25,-3290.59 954.25,-3262.99 857.01,-3262.99"/>
-<text xml:space="preserve" text-anchor="start" x="863.37" y="-3271.59" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3235.39 577.2,-3262.99 698.34,-3262.99 698.34,-3235.39 577.2,-3235.39"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3243.99" font-family="Arial" font-size="13.00">question_id</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3235.39 698.34,-3262.99 857.01,-3262.99 857.01,-3235.39 698.34,-3235.39"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3243.99" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3235.39 857.01,-3262.99 954.25,-3262.99 954.25,-3235.39 857.01,-3235.39"/>
-<text xml:space="preserve" text-anchor="start" x="863.37" y="-3243.99" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3207.79 577.2,-3235.39 698.34,-3235.39 698.34,-3207.79 577.2,-3207.79"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3216.39" font-family="Arial" font-size="13.00">seq_no</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3207.79 698.34,-3235.39 857.01,-3235.39 857.01,-3207.79 698.34,-3207.79"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3216.39" font-family="Arial" font-size="13.00">smallint</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3207.79 857.01,-3235.39 954.25,-3235.39 954.25,-3207.79 857.01,-3207.79"/>
-<text xml:space="preserve" text-anchor="start" x="873.48" y="-3216.39" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3180.19 577.2,-3207.79 698.34,-3207.79 698.34,-3180.19 577.2,-3180.19"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3188.79" font-family="Arial" font-size="13.00">selected_option_id</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3180.19 698.34,-3207.79 857.01,-3207.79 857.01,-3180.19 698.34,-3180.19"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3188.79" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3180.19 857.01,-3207.79 954.25,-3207.79 954.25,-3180.19 857.01,-3180.19"/>
-<text xml:space="preserve" text-anchor="start" x="878.9" y="-3188.79" font-family="Arial" font-size="13.00">FK NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3152.59 577.2,-3180.19 698.34,-3180.19 698.34,-3152.59 577.2,-3152.59"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3161.19" font-family="Arial" font-size="13.00">sql_answer</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3152.59 698.34,-3180.19 857.01,-3180.19 857.01,-3152.59 698.34,-3152.59"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3161.19" font-family="Arial" font-size="13.00">text</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3152.59 857.01,-3180.19 954.25,-3180.19 954.25,-3152.59 857.01,-3152.59"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-3161.19" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3124.99 577.2,-3152.59 698.34,-3152.59 698.34,-3124.99 577.2,-3124.99"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3133.59" font-family="Arial" font-size="13.00">essay_answer</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3124.99 698.34,-3152.59 857.01,-3152.59 857.01,-3124.99 698.34,-3124.99"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3133.59" font-family="Arial" font-size="13.00">text</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3124.99 857.01,-3152.59 954.25,-3152.59 954.25,-3124.99 857.01,-3124.99"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-3133.59" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3097.39 577.2,-3124.99 698.34,-3124.99 698.34,-3097.39 577.2,-3097.39"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3105.99" font-family="Arial" font-size="13.00">score</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3097.39 698.34,-3124.99 857.01,-3124.99 857.01,-3097.39 698.34,-3097.39"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3105.99" font-family="Arial" font-size="13.00">numeric(5,2)</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3097.39 857.01,-3124.99 954.25,-3124.99 954.25,-3097.39 857.01,-3097.39"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-3105.99" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3069.79 577.2,-3097.39 698.34,-3097.39 698.34,-3069.79 577.2,-3069.79"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3078.39" font-family="Arial" font-size="13.00">grading_detail</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3069.79 698.34,-3097.39 857.01,-3097.39 857.01,-3069.79 698.34,-3069.79"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3078.39" font-family="Arial" font-size="13.00">jsonb</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3069.79 857.01,-3097.39 954.25,-3097.39 954.25,-3069.79 857.01,-3069.79"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-3078.39" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3042.19 577.2,-3069.79 698.34,-3069.79 698.34,-3042.19 577.2,-3042.19"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3050.79" font-family="Arial" font-size="13.00">served_at</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3042.19 698.34,-3069.79 857.01,-3069.79 857.01,-3042.19 698.34,-3042.19"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3050.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3042.19 857.01,-3069.79 954.25,-3069.79 954.25,-3042.19 857.01,-3042.19"/>
-<text xml:space="preserve" text-anchor="start" x="873.48" y="-3050.79" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-3014.59 577.2,-3042.19 698.34,-3042.19 698.34,-3014.59 577.2,-3014.59"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-3023.19" font-family="Arial" font-size="13.00">submitted_at</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-3014.59 698.34,-3042.19 857.01,-3042.19 857.01,-3014.59 698.34,-3014.59"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-3023.19" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-3014.59 857.01,-3042.19 954.25,-3042.19 954.25,-3014.59 857.01,-3014.59"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-3023.19" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2986.99 577.2,-3014.59 698.34,-3014.59 698.34,-2986.99 577.2,-2986.99"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2995.59" font-family="Arial" font-size="13.00">question_snapshot</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2986.99 698.34,-3014.59 857.01,-3014.59 857.01,-2986.99 698.34,-2986.99"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2995.59" font-family="Arial" font-size="13.00">jsonb</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2986.99 857.01,-3014.59 954.25,-3014.59 954.25,-2986.99 857.01,-2986.99"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-2995.59" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2959.39 577.2,-2986.99 698.34,-2986.99 698.34,-2959.39 577.2,-2959.39"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2967.99" font-family="Arial" font-size="13.00">draft_answer</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2959.39 698.34,-2986.99 857.01,-2986.99 857.01,-2959.39 698.34,-2959.39"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2967.99" font-family="Arial" font-size="13.00">jsonb</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2959.39 857.01,-2986.99 954.25,-2986.99 954.25,-2959.39 857.01,-2959.39"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-2967.99" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2931.79 577.2,-2959.39 698.34,-2959.39 698.34,-2931.79 577.2,-2931.79"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2940.39" font-family="Arial" font-size="13.00">draft_revision</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2931.79 698.34,-2959.39 857.01,-2959.39 857.01,-2931.79 698.34,-2931.79"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2940.39" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2931.79 857.01,-2959.39 954.25,-2959.39 954.25,-2931.79 857.01,-2931.79"/>
-<text xml:space="preserve" text-anchor="start" x="873.48" y="-2940.39" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2904.19 577.2,-2931.79 698.34,-2931.79 698.34,-2904.19 577.2,-2904.19"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2912.79" font-family="Arial" font-size="13.00">draft_saved_at</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2904.19 698.34,-2931.79 857.01,-2931.79 857.01,-2904.19 698.34,-2904.19"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2912.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2904.19 857.01,-2931.79 954.25,-2931.79 954.25,-2904.19 857.01,-2904.19"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-2912.79" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2876.59 577.2,-2904.19 698.34,-2904.19 698.34,-2876.59 577.2,-2876.59"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2885.19" font-family="Arial" font-size="13.00">submission_hash</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2876.59 698.34,-2904.19 857.01,-2904.19 857.01,-2876.59 698.34,-2876.59"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2885.19" font-family="Arial" font-size="13.00">character varying(64)</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2876.59 857.01,-2904.19 954.25,-2904.19 954.25,-2876.59 857.01,-2876.59"/>
-<text xml:space="preserve" text-anchor="start" x="889.01" y="-2885.19" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2848.99 577.2,-2876.59 698.34,-2876.59 698.34,-2848.99 577.2,-2848.99"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2857.59" font-family="Arial" font-size="13.00">grading_status</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2848.99 698.34,-2876.59 857.01,-2876.59 857.01,-2848.99 698.34,-2848.99"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2857.59" font-family="Arial" font-size="13.00">character varying(20)</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2848.99 857.01,-2876.59 954.25,-2876.59 954.25,-2848.99 857.01,-2848.99"/>
-<text xml:space="preserve" text-anchor="start" x="873.48" y="-2857.59" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="577.2,-2821.39 577.2,-2848.99 698.34,-2848.99 698.34,-2821.39 577.2,-2821.39"/>
-<text xml:space="preserve" text-anchor="start" x="583.2" y="-2829.99" font-family="Arial" font-size="13.00">review_revision</text>
-<polygon fill="none" stroke="#1f3864" points="698.34,-2821.39 698.34,-2848.99 857.01,-2848.99 857.01,-2821.39 698.34,-2821.39"/>
-<text xml:space="preserve" text-anchor="start" x="704.34" y="-2829.99" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="857.01,-2821.39 857.01,-2848.99 954.25,-2848.99 954.25,-2821.39 857.01,-2821.39"/>
-<text xml:space="preserve" text-anchor="start" x="873.48" y="-2829.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<path fill="#eff5fb" stroke="none" d="M942.25,-3346.19C942.25,-3346.19 589.2,-3346.19 589.2,-3346.19 583.2,-3346.19 577.2,-3340.19 577.2,-3334.19 577.2,-3334.19 577.2,-2750.99 577.2,-2750.99 577.2,-2744.99 583.2,-2738.99 589.2,-2738.99 589.2,-2738.99 942.25,-2738.99 942.25,-2738.99 948.25,-2738.99 954.25,-2744.99 954.25,-2750.99 954.25,-2750.99 954.25,-3334.19 954.25,-3334.19 954.25,-3340.19 948.25,-3346.19 942.25,-3346.19"/>
+<polygon fill="#dceaf7" stroke="none" points="577.2,-3318.59 577.2,-3346.19 954.25,-3346.19 954.25,-3318.59 577.2,-3318.59"/>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3318.59 577.2,-3346.19 954.25,-3346.19 954.25,-3318.59 577.2,-3318.59"/>
+<text xml:space="preserve" text-anchor="start" x="742.25" y="-3329.49" font-family="Arial" font-weight="bold" font-size="13.00">attempt</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3290.99 577.2,-3318.59 698.34,-3318.59 698.34,-3290.99 577.2,-3290.99"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3299.59" font-family="Arial" font-size="13.00">attempt_id</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3290.99 698.34,-3318.59 857.01,-3318.59 857.01,-3290.99 698.34,-3290.99"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3299.59" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3290.99 857.01,-3318.59 954.25,-3318.59 954.25,-3290.99 857.01,-3290.99"/>
+<text xml:space="preserve" text-anchor="start" x="863.01" y="-3299.59" font-family="Arial" font-size="13.00">PK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3263.39 577.2,-3290.99 698.34,-3290.99 698.34,-3263.39 577.2,-3263.39"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3271.99" font-family="Arial" font-size="13.00">session_id</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3263.39 698.34,-3290.99 857.01,-3290.99 857.01,-3263.39 698.34,-3263.39"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3271.99" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3263.39 857.01,-3290.99 954.25,-3290.99 954.25,-3263.39 857.01,-3263.39"/>
+<text xml:space="preserve" text-anchor="start" x="863.37" y="-3271.99" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3235.79 577.2,-3263.39 698.34,-3263.39 698.34,-3235.79 577.2,-3235.79"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3244.39" font-family="Arial" font-size="13.00">question_id</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3235.79 698.34,-3263.39 857.01,-3263.39 857.01,-3235.79 698.34,-3235.79"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3244.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3235.79 857.01,-3263.39 954.25,-3263.39 954.25,-3235.79 857.01,-3235.79"/>
+<text xml:space="preserve" text-anchor="start" x="863.37" y="-3244.39" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3208.19 577.2,-3235.79 698.34,-3235.79 698.34,-3208.19 577.2,-3208.19"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3216.79" font-family="Arial" font-size="13.00">seq_no</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3208.19 698.34,-3235.79 857.01,-3235.79 857.01,-3208.19 698.34,-3208.19"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3216.79" font-family="Arial" font-size="13.00">smallint</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3208.19 857.01,-3235.79 954.25,-3235.79 954.25,-3208.19 857.01,-3208.19"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-3216.79" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3180.59 577.2,-3208.19 698.34,-3208.19 698.34,-3180.59 577.2,-3180.59"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3189.19" font-family="Arial" font-size="13.00">selected_option_id</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3180.59 698.34,-3208.19 857.01,-3208.19 857.01,-3180.59 698.34,-3180.59"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3189.19" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3180.59 857.01,-3208.19 954.25,-3208.19 954.25,-3180.59 857.01,-3180.59"/>
+<text xml:space="preserve" text-anchor="start" x="878.9" y="-3189.19" font-family="Arial" font-size="13.00">FK NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3152.99 577.2,-3180.59 698.34,-3180.59 698.34,-3152.99 577.2,-3152.99"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3161.59" font-family="Arial" font-size="13.00">sql_answer</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3152.99 698.34,-3180.59 857.01,-3180.59 857.01,-3152.99 698.34,-3152.99"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3161.59" font-family="Arial" font-size="13.00">text</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3152.99 857.01,-3180.59 954.25,-3180.59 954.25,-3152.99 857.01,-3152.99"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-3161.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3125.39 577.2,-3152.99 698.34,-3152.99 698.34,-3125.39 577.2,-3125.39"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3133.99" font-family="Arial" font-size="13.00">essay_answer</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3125.39 698.34,-3152.99 857.01,-3152.99 857.01,-3125.39 698.34,-3125.39"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3133.99" font-family="Arial" font-size="13.00">text</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3125.39 857.01,-3152.99 954.25,-3152.99 954.25,-3125.39 857.01,-3125.39"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-3133.99" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3097.79 577.2,-3125.39 698.34,-3125.39 698.34,-3097.79 577.2,-3097.79"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3106.39" font-family="Arial" font-size="13.00">score</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3097.79 698.34,-3125.39 857.01,-3125.39 857.01,-3097.79 698.34,-3097.79"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3106.39" font-family="Arial" font-size="13.00">numeric(5,2)</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3097.79 857.01,-3125.39 954.25,-3125.39 954.25,-3097.79 857.01,-3097.79"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-3106.39" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3070.19 577.2,-3097.79 698.34,-3097.79 698.34,-3070.19 577.2,-3070.19"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3078.79" font-family="Arial" font-size="13.00">grading_detail</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3070.19 698.34,-3097.79 857.01,-3097.79 857.01,-3070.19 698.34,-3070.19"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3078.79" font-family="Arial" font-size="13.00">jsonb</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3070.19 857.01,-3097.79 954.25,-3097.79 954.25,-3070.19 857.01,-3070.19"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-3078.79" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3042.59 577.2,-3070.19 698.34,-3070.19 698.34,-3042.59 577.2,-3042.59"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3051.19" font-family="Arial" font-size="13.00">served_at</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3042.59 698.34,-3070.19 857.01,-3070.19 857.01,-3042.59 698.34,-3042.59"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3051.19" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3042.59 857.01,-3070.19 954.25,-3070.19 954.25,-3042.59 857.01,-3042.59"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-3051.19" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-3014.99 577.2,-3042.59 698.34,-3042.59 698.34,-3014.99 577.2,-3014.99"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-3023.59" font-family="Arial" font-size="13.00">submitted_at</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-3014.99 698.34,-3042.59 857.01,-3042.59 857.01,-3014.99 698.34,-3014.99"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-3023.59" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-3014.99 857.01,-3042.59 954.25,-3042.59 954.25,-3014.99 857.01,-3014.99"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-3023.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2987.39 577.2,-3014.99 698.34,-3014.99 698.34,-2987.39 577.2,-2987.39"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2995.99" font-family="Arial" font-size="13.00">is_flagged</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2987.39 698.34,-3014.99 857.01,-3014.99 857.01,-2987.39 698.34,-2987.39"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2995.99" font-family="Arial" font-size="13.00">boolean</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2987.39 857.01,-3014.99 954.25,-3014.99 954.25,-2987.39 857.01,-2987.39"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-2995.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2959.79 577.2,-2987.39 698.34,-2987.39 698.34,-2959.79 577.2,-2959.79"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2968.39" font-family="Arial" font-size="13.00">flag_revision</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2959.79 698.34,-2987.39 857.01,-2987.39 857.01,-2959.79 698.34,-2959.79"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2968.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2959.79 857.01,-2987.39 954.25,-2987.39 954.25,-2959.79 857.01,-2959.79"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-2968.39" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2932.19 577.2,-2959.79 698.34,-2959.79 698.34,-2932.19 577.2,-2932.19"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2940.79" font-family="Arial" font-size="13.00">first_opened_at</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2932.19 698.34,-2959.79 857.01,-2959.79 857.01,-2932.19 698.34,-2932.19"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2940.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2932.19 857.01,-2959.79 954.25,-2959.79 954.25,-2932.19 857.01,-2932.19"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-2940.79" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2904.59 577.2,-2932.19 698.34,-2932.19 698.34,-2904.59 577.2,-2904.59"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2913.19" font-family="Arial" font-size="13.00">question_snapshot</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2904.59 698.34,-2932.19 857.01,-2932.19 857.01,-2904.59 698.34,-2904.59"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2913.19" font-family="Arial" font-size="13.00">jsonb</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2904.59 857.01,-2932.19 954.25,-2932.19 954.25,-2904.59 857.01,-2904.59"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-2913.19" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2876.99 577.2,-2904.59 698.34,-2904.59 698.34,-2876.99 577.2,-2876.99"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2885.59" font-family="Arial" font-size="13.00">draft_answer</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2876.99 698.34,-2904.59 857.01,-2904.59 857.01,-2876.99 698.34,-2876.99"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2885.59" font-family="Arial" font-size="13.00">jsonb</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2876.99 857.01,-2904.59 954.25,-2904.59 954.25,-2876.99 857.01,-2876.99"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-2885.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2849.39 577.2,-2876.99 698.34,-2876.99 698.34,-2849.39 577.2,-2849.39"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2857.99" font-family="Arial" font-size="13.00">draft_revision</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2849.39 698.34,-2876.99 857.01,-2876.99 857.01,-2849.39 698.34,-2849.39"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2857.99" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2849.39 857.01,-2876.99 954.25,-2876.99 954.25,-2849.39 857.01,-2849.39"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-2857.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2821.79 577.2,-2849.39 698.34,-2849.39 698.34,-2821.79 577.2,-2821.79"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2830.39" font-family="Arial" font-size="13.00">draft_saved_at</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2821.79 698.34,-2849.39 857.01,-2849.39 857.01,-2821.79 698.34,-2821.79"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2830.39" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2821.79 857.01,-2849.39 954.25,-2849.39 954.25,-2821.79 857.01,-2821.79"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-2830.39" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2794.19 577.2,-2821.79 698.34,-2821.79 698.34,-2794.19 577.2,-2794.19"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2802.79" font-family="Arial" font-size="13.00">submission_hash</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2794.19 698.34,-2821.79 857.01,-2821.79 857.01,-2794.19 698.34,-2794.19"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2802.79" font-family="Arial" font-size="13.00">character varying(64)</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2794.19 857.01,-2821.79 954.25,-2821.79 954.25,-2794.19 857.01,-2794.19"/>
+<text xml:space="preserve" text-anchor="start" x="889.01" y="-2802.79" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2766.59 577.2,-2794.19 698.34,-2794.19 698.34,-2766.59 577.2,-2766.59"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2775.19" font-family="Arial" font-size="13.00">grading_status</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2766.59 698.34,-2794.19 857.01,-2794.19 857.01,-2766.59 698.34,-2766.59"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2775.19" font-family="Arial" font-size="13.00">character varying(20)</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2766.59 857.01,-2794.19 954.25,-2794.19 954.25,-2766.59 857.01,-2766.59"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-2775.19" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="577.2,-2738.99 577.2,-2766.59 698.34,-2766.59 698.34,-2738.99 577.2,-2738.99"/>
+<text xml:space="preserve" text-anchor="start" x="583.2" y="-2747.59" font-family="Arial" font-size="13.00">review_revision</text>
+<polygon fill="none" stroke="#1f3864" points="698.34,-2738.99 698.34,-2766.59 857.01,-2766.59 857.01,-2738.99 698.34,-2738.99"/>
+<text xml:space="preserve" text-anchor="start" x="704.34" y="-2747.59" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="857.01,-2738.99 857.01,-2766.59 954.25,-2766.59 954.25,-2738.99 857.01,-2738.99"/>
+<text xml:space="preserve" text-anchor="start" x="873.48" y="-2747.59" font-family="Arial" font-size="13.00">NOT NULL</text>
 </g>
 <!-- attempt&#45;&gt;assessment_session -->
 <g id="FK14" class="edge">
 <title>attempt:session_id&#45;&gt;assessment_session:session_id</title>
 <g id="a_FK14"><a xlink:title="attempt_session_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M576.2,-3276.79C545.53,-3276.79 555.36,-3324.26 577.2,-3345.79 607.04,-3375.2 922.23,-3372.81 954.25,-3345.79 958.09,-3342.55 1196.53,-1922.52 1197.56,-1917.59 1203,-1891.65 1189.05,-1860.65 1203.43,-1851.59"/>
+<path fill="none" stroke="#2e75b6" d="M576.2,-3277.19C545.53,-3277.19 555.36,-3324.66 577.2,-3346.19 636.88,-3405.01 890.22,-3400.24 954.25,-3346.19 958.09,-3342.95 1196.53,-1922.52 1197.56,-1917.59 1202.99,-1891.65 1189.05,-1860.65 1203.43,-1851.59"/>
 <polygon fill="#2e75b6" stroke="#2e75b6" points="1204.21,-1855 1213.16,-1849.33 1202.63,-1848.19 1204.21,-1855"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1086.39" y="-2960.26" font-family="Arial" font-size="11.00">FK14 session_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1086.39" y="-2960.55" font-family="Arial" font-size="11.00">FK14 session_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1211.57" y="-1839.09" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="566.12" y="-3266.89" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="566.12" y="-3267.29" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- attempt&#45;&gt;question -->
 <g id="FK12" class="edge">
 <title>attempt:question_id&#45;&gt;question:question_id</title>
 <g id="a_FK12"><a xlink:title="attempt_question_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M576.2,-3249.19C554.73,-3249.19 561.94,-3330.69 577.2,-3345.79 636.76,-3404.73 883.39,-3390.51 954.25,-3345.79 1010.12,-3310.53 979.61,-3265.22 1018.21,-3211.59 1082.94,-3121.65 1096.12,-3082.98 1197.56,-3038.39 1266.5,-3008.1 1820.18,-3050.26 1873.98,-2997.59 1913.13,-2959.28 1865.42,-2532.97 1907.05,-2478.18"/>
+<path fill="none" stroke="#2e75b6" d="M576.2,-3249.59C554.73,-3249.59 561.94,-3331.09 577.2,-3346.19 636.76,-3405.13 883.42,-3390.96 954.25,-3346.19 1010.24,-3310.81 979.55,-3265.37 1018.21,-3211.59 1082.89,-3121.61 1096.12,-3082.98 1197.56,-3038.39 1266.5,-3008.1 1820.18,-3050.26 1873.98,-2997.59 1913.13,-2959.28 1865.42,-2532.97 1907.05,-2478.18"/>
 <polygon fill="#2e75b6" stroke="#2e75b6" points="1908.8,-2481.21 1915.68,-2473.15 1905.27,-2475.16 1908.8,-2481.21"/>
 </a>
 </g>
 <text xml:space="preserve" text-anchor="middle" x="1410.65" y="-3041.69" font-family="Arial" font-size="11.00">FK12 question_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1913.93" y="-2462.49" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="566.12" y="-3239.29" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="566.12" y="-3239.69" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- mcq_option -->
 <g id="node15" class="node">
@@ -1197,13 +1215,13 @@
 <g id="FK13" class="edge">
 <title>attempt:selected_option_id&#45;&gt;mcq_option:option_id</title>
 <g id="a_FK13"><a xlink:title="attempt_selected_option_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M576.2,-3193.99C559.34,-3193.99 565.24,-3333.91 577.2,-3345.79 636.64,-3404.84 872.72,-3365.13 954.25,-3345.79 1096.68,-3312 1105.6,-3199.89 1245,-3194.22"/>
+<path fill="none" stroke="#2e75b6" d="M576.2,-3194.39C559.34,-3194.39 565.24,-3334.31 577.2,-3346.19 696.09,-3464.3 791.22,-3384.96 954.25,-3346.19 1096.73,-3312.31 1105.53,-3199.9 1245,-3194.22"/>
 <polygon fill="#2e75b6" stroke="#2e75b6" points="1244.73,-3197.72 1254.66,-3194.02 1244.59,-3190.72 1244.73,-3197.72"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1086.39" y="-3325" font-family="Arial" font-size="11.00">FK13 selected_option_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1086.39" y="-3325.33" font-family="Arial" font-size="11.00">FK13 selected_option_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1247" y="-3184.09" font-family="Arial" font-size="11.00">0..1</text>
-<text xml:space="preserve" text-anchor="middle" x="566.12" y="-3184.09" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="566.12" y="-3184.49" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- mcq_option&#45;&gt;question -->
 <g id="FK27" class="edge">
@@ -1259,241 +1277,241 @@
 <g id="FK16" class="edge">
 <title>clo_concept:concept_id&#45;&gt;concept:concept_id</title>
 <g id="a_FK16"><a xlink:title="clo_concept_concept_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M1217.52,-4170.39C1186.86,-4170.39 1196.68,-4217.86 1218.52,-4239.39 1248.93,-4269.36 1566.31,-4261.61 1602.77,-4239.39 1655.72,-4207.12 1618.99,-4154.97 1666.73,-4115.39 1740.73,-4054.05 1808.19,-4123.67 1873.98,-4053.59 1934.33,-3989.31 1837.78,-3863.19 1909.41,-3851.99"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="1909.43,-3855.5 1919.16,-3851.3 1908.94,-3848.52 1909.43,-3855.5"/>
+<path fill="none" stroke="#2e75b6" d="M1217.52,-4170.39C1186.86,-4170.39 1196.68,-4217.86 1218.52,-4239.39 1248.93,-4269.36 1567.06,-4262.8 1602.77,-4239.39 1662.36,-4200.33 1613.19,-4139.41 1666.73,-4092.39 1738.76,-4029.13 1807.18,-4101.36 1873.98,-4032.59 1929.04,-3975.91 1846.63,-3863.39 1909.32,-3852.11"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="1909.47,-3855.61 1919.16,-3851.31 1908.91,-3848.63 1909.47,-3855.61"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4118.69" font-family="Arial" font-size="11.00">FK16 concept_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4095.69" font-family="Arial" font-size="11.00">FK16 concept_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1917.61" y="-3841.29" font-family="Arial" font-size="11.00">1</text>
 <text xml:space="preserve" text-anchor="middle" x="1207.44" y="-4160.49" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- course_learning_outcome -->
 <g id="node17" class="node">
 <title>course_learning_outcome</title>
-<path fill="#eff5fb" stroke="none" d="M2652.17,-4010.99C2652.17,-4010.99 2343.95,-4010.99 2343.95,-4010.99 2337.95,-4010.99 2331.95,-4004.99 2331.95,-3998.99 2331.95,-3998.99 2331.95,-3802.19 2331.95,-3802.19 2331.95,-3796.19 2337.95,-3790.19 2343.95,-3790.19 2343.95,-3790.19 2652.17,-3790.19 2652.17,-3790.19 2658.17,-3790.19 2664.17,-3796.19 2664.17,-3802.19 2664.17,-3802.19 2664.17,-3998.99 2664.17,-3998.99 2664.17,-4004.99 2658.17,-4010.99 2652.17,-4010.99"/>
-<polygon fill="#dceaf7" stroke="none" points="2331.95,-3983.39 2331.95,-4010.99 2664.17,-4010.99 2664.17,-3983.39 2331.95,-3983.39"/>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3983.39 2331.95,-4010.99 2664.17,-4010.99 2664.17,-3983.39 2331.95,-3983.39"/>
-<text xml:space="preserve" text-anchor="start" x="2417.15" y="-3994.29" font-family="Arial" font-weight="bold" font-size="13.00">course_learning_outcome</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3955.79 2331.95,-3983.39 2408.27,-3983.39 2408.27,-3955.79 2331.95,-3955.79"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3964.39" font-family="Arial" font-size="13.00">clo_id</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3955.79 2408.27,-3983.39 2566.93,-3983.39 2566.93,-3955.79 2408.27,-3955.79"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3964.39" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3955.79 2566.93,-3983.39 2664.17,-3983.39 2664.17,-3955.79 2566.93,-3955.79"/>
-<text xml:space="preserve" text-anchor="start" x="2572.93" y="-3964.39" font-family="Arial" font-size="13.00">PK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3928.19 2331.95,-3955.79 2408.27,-3955.79 2408.27,-3928.19 2331.95,-3928.19"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3936.79" font-family="Arial" font-size="13.00">clo_code</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3928.19 2408.27,-3955.79 2566.93,-3955.79 2566.93,-3928.19 2408.27,-3928.19"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3936.79" font-family="Arial" font-size="13.00">character varying(20)</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3928.19 2566.93,-3955.79 2664.17,-3955.79 2664.17,-3928.19 2566.93,-3928.19"/>
-<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3936.79" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3900.59 2331.95,-3928.19 2408.27,-3928.19 2408.27,-3900.59 2331.95,-3900.59"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3909.19" font-family="Arial" font-size="13.00">title</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3900.59 2408.27,-3928.19 2566.93,-3928.19 2566.93,-3900.59 2408.27,-3900.59"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3909.19" font-family="Arial" font-size="13.00">character varying(200)</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3900.59 2566.93,-3928.19 2664.17,-3928.19 2664.17,-3900.59 2566.93,-3900.59"/>
-<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3909.19" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3872.99 2331.95,-3900.59 2408.27,-3900.59 2408.27,-3872.99 2331.95,-3872.99"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3881.59" font-family="Arial" font-size="13.00">description</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3872.99 2408.27,-3900.59 2566.93,-3900.59 2566.93,-3872.99 2408.27,-3872.99"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3881.59" font-family="Arial" font-size="13.00">text</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3872.99 2566.93,-3900.59 2664.17,-3900.59 2664.17,-3872.99 2566.93,-3872.99"/>
-<text xml:space="preserve" text-anchor="start" x="2598.93" y="-3881.59" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3845.39 2331.95,-3872.99 2408.27,-3872.99 2408.27,-3845.39 2331.95,-3845.39"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3853.99" font-family="Arial" font-size="13.00">status</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3845.39 2408.27,-3872.99 2566.93,-3872.99 2566.93,-3845.39 2408.27,-3845.39"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3853.99" font-family="Arial" font-size="13.00">character varying(20)</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3845.39 2566.93,-3872.99 2664.17,-3872.99 2664.17,-3845.39 2566.93,-3845.39"/>
-<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3853.99" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3817.79 2331.95,-3845.39 2408.27,-3845.39 2408.27,-3817.79 2331.95,-3817.79"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3826.39" font-family="Arial" font-size="13.00">created_by</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3817.79 2408.27,-3845.39 2566.93,-3845.39 2566.93,-3817.79 2408.27,-3817.79"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3826.39" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3817.79 2566.93,-3845.39 2664.17,-3845.39 2664.17,-3817.79 2566.93,-3817.79"/>
-<text xml:space="preserve" text-anchor="start" x="2573.3" y="-3826.39" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="2331.95,-3790.19 2331.95,-3817.79 2408.27,-3817.79 2408.27,-3790.19 2331.95,-3790.19"/>
-<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3798.79" font-family="Arial" font-size="13.00">created_at</text>
-<polygon fill="none" stroke="#1f3864" points="2408.27,-3790.19 2408.27,-3817.79 2566.93,-3817.79 2566.93,-3790.19 2408.27,-3790.19"/>
-<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3798.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="2566.93,-3790.19 2566.93,-3817.79 2664.17,-3817.79 2664.17,-3790.19 2566.93,-3790.19"/>
-<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3798.79" font-family="Arial" font-size="13.00">NOT NULL</text>
+<path fill="#eff5fb" stroke="none" d="M2652.17,-3938.99C2652.17,-3938.99 2343.95,-3938.99 2343.95,-3938.99 2337.95,-3938.99 2331.95,-3932.99 2331.95,-3926.99 2331.95,-3926.99 2331.95,-3730.19 2331.95,-3730.19 2331.95,-3724.19 2337.95,-3718.19 2343.95,-3718.19 2343.95,-3718.19 2652.17,-3718.19 2652.17,-3718.19 2658.17,-3718.19 2664.17,-3724.19 2664.17,-3730.19 2664.17,-3730.19 2664.17,-3926.99 2664.17,-3926.99 2664.17,-3932.99 2658.17,-3938.99 2652.17,-3938.99"/>
+<polygon fill="#dceaf7" stroke="none" points="2331.95,-3911.39 2331.95,-3938.99 2664.17,-3938.99 2664.17,-3911.39 2331.95,-3911.39"/>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3911.39 2331.95,-3938.99 2664.17,-3938.99 2664.17,-3911.39 2331.95,-3911.39"/>
+<text xml:space="preserve" text-anchor="start" x="2417.15" y="-3922.29" font-family="Arial" font-weight="bold" font-size="13.00">course_learning_outcome</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3883.79 2331.95,-3911.39 2408.27,-3911.39 2408.27,-3883.79 2331.95,-3883.79"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3892.39" font-family="Arial" font-size="13.00">clo_id</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3883.79 2408.27,-3911.39 2566.93,-3911.39 2566.93,-3883.79 2408.27,-3883.79"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3892.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3883.79 2566.93,-3911.39 2664.17,-3911.39 2664.17,-3883.79 2566.93,-3883.79"/>
+<text xml:space="preserve" text-anchor="start" x="2572.93" y="-3892.39" font-family="Arial" font-size="13.00">PK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3856.19 2331.95,-3883.79 2408.27,-3883.79 2408.27,-3856.19 2331.95,-3856.19"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3864.79" font-family="Arial" font-size="13.00">clo_code</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3856.19 2408.27,-3883.79 2566.93,-3883.79 2566.93,-3856.19 2408.27,-3856.19"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3864.79" font-family="Arial" font-size="13.00">character varying(20)</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3856.19 2566.93,-3883.79 2664.17,-3883.79 2664.17,-3856.19 2566.93,-3856.19"/>
+<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3864.79" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3828.59 2331.95,-3856.19 2408.27,-3856.19 2408.27,-3828.59 2331.95,-3828.59"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3837.19" font-family="Arial" font-size="13.00">title</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3828.59 2408.27,-3856.19 2566.93,-3856.19 2566.93,-3828.59 2408.27,-3828.59"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3837.19" font-family="Arial" font-size="13.00">character varying(200)</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3828.59 2566.93,-3856.19 2664.17,-3856.19 2664.17,-3828.59 2566.93,-3828.59"/>
+<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3837.19" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3800.99 2331.95,-3828.59 2408.27,-3828.59 2408.27,-3800.99 2331.95,-3800.99"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3809.59" font-family="Arial" font-size="13.00">description</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3800.99 2408.27,-3828.59 2566.93,-3828.59 2566.93,-3800.99 2408.27,-3800.99"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3809.59" font-family="Arial" font-size="13.00">text</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3800.99 2566.93,-3828.59 2664.17,-3828.59 2664.17,-3800.99 2566.93,-3800.99"/>
+<text xml:space="preserve" text-anchor="start" x="2598.93" y="-3809.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3773.39 2331.95,-3800.99 2408.27,-3800.99 2408.27,-3773.39 2331.95,-3773.39"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3781.99" font-family="Arial" font-size="13.00">status</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3773.39 2408.27,-3800.99 2566.93,-3800.99 2566.93,-3773.39 2408.27,-3773.39"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3781.99" font-family="Arial" font-size="13.00">character varying(20)</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3773.39 2566.93,-3800.99 2664.17,-3800.99 2664.17,-3773.39 2566.93,-3773.39"/>
+<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3781.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3745.79 2331.95,-3773.39 2408.27,-3773.39 2408.27,-3745.79 2331.95,-3745.79"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3754.39" font-family="Arial" font-size="13.00">created_by</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3745.79 2408.27,-3773.39 2566.93,-3773.39 2566.93,-3745.79 2408.27,-3745.79"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3754.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3745.79 2566.93,-3773.39 2664.17,-3773.39 2664.17,-3745.79 2566.93,-3745.79"/>
+<text xml:space="preserve" text-anchor="start" x="2573.3" y="-3754.39" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="2331.95,-3718.19 2331.95,-3745.79 2408.27,-3745.79 2408.27,-3718.19 2331.95,-3718.19"/>
+<text xml:space="preserve" text-anchor="start" x="2337.95" y="-3726.79" font-family="Arial" font-size="13.00">created_at</text>
+<polygon fill="none" stroke="#1f3864" points="2408.27,-3718.19 2408.27,-3745.79 2566.93,-3745.79 2566.93,-3718.19 2408.27,-3718.19"/>
+<text xml:space="preserve" text-anchor="start" x="2414.27" y="-3726.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="2566.93,-3718.19 2566.93,-3745.79 2664.17,-3745.79 2664.17,-3718.19 2566.93,-3718.19"/>
+<text xml:space="preserve" text-anchor="start" x="2583.41" y="-3726.79" font-family="Arial" font-size="13.00">NOT NULL</text>
 </g>
 <!-- clo_concept&#45;&gt;course_learning_outcome -->
 <g id="FK15" class="edge">
 <title>clo_concept:clo_id&#45;&gt;course_learning_outcome:clo_id</title>
 <g id="a_FK15"><a xlink:title="clo_concept_clo_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M1217.52,-4197.99C1199.12,-4197.99 1205.35,-4226.54 1218.52,-4239.39 1249.08,-4269.22 1560.74,-4246.92 1602.77,-4239.39 1939.26,-4179.14 1985.43,-3974.06 2320.91,-3969.66"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="2320.46,-3973.17 2330.43,-3969.6 2320.41,-3966.17 2320.46,-3973.17"/>
+<path fill="none" stroke="#2e75b6" d="M1217.52,-4197.99C1199.12,-4197.99 1205.35,-4226.54 1218.52,-4239.39 1249.08,-4269.22 1561.1,-4248.68 1602.77,-4239.39 1644.26,-4230.15 2224.86,-3929.87 2320.97,-3899.98"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="2321.44,-3903.46 2330.47,-3897.92 2319.95,-3896.62 2321.44,-3903.46"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4228.64" font-family="Arial" font-size="11.00">FK15 clo_id</text>
-<text xml:space="preserve" text-anchor="middle" x="2328.89" y="-3959.69" font-family="Arial" font-size="11.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4214" font-family="Arial" font-size="11.00">FK15 clo_id</text>
+<text xml:space="preserve" text-anchor="middle" x="2328.89" y="-3887.69" font-family="Arial" font-size="11.00">1</text>
 <text xml:space="preserve" text-anchor="middle" x="1207.44" y="-4188.09" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- course_learning_outcome&#45;&gt;account -->
 <g id="FK23" class="edge">
 <title>course_learning_outcome:created_by&#45;&gt;account:account_id</title>
 <g id="a_FK23"><a xlink:title="course_learning_outcome_created_by_fkey">
-<path fill="none" stroke="#2e75b6" d="M2330.95,-3831.59C2312.54,-3831.59 2322.86,-3806.2 2331.95,-3790.19 2418.1,-3638.34 2547.98,-3710.9 2664.17,-3580.59 3128.29,-3060.07 3127.58,-2829.41 3344.39,-2166.59 3359.37,-2120.8 3338.87,-1962.95 3376.51,-1938.57"/>
+<path fill="none" stroke="#2e75b6" d="M2330.95,-3759.59C2312.54,-3759.59 2321.54,-3733.37 2331.95,-3718.19 2422.34,-3586.39 2548.06,-3690.41 2664.17,-3580.59 3170.84,-3101.4 3127.58,-2829.41 3344.39,-2166.59 3359.37,-2120.8 3338.87,-1962.95 3376.51,-1938.57"/>
 <polygon fill="#2e75b6" stroke="#2e75b6" points="3377.32,-1941.98 3385.94,-1935.82 3375.36,-1935.26 3377.32,-1941.98"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="2902.19" y="-3526.52" font-family="Arial" font-size="11.00">FK23 created_by</text>
+<text xml:space="preserve" text-anchor="middle" x="2902.19" y="-3530.83" font-family="Arial" font-size="11.00">FK23 created_by</text>
 <text xml:space="preserve" text-anchor="middle" x="3384.33" y="-1925.49" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="2320.86" y="-3821.69" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="2320.86" y="-3749.69" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- competency_gap -->
 <g id="node18" class="node">
 <title>competency_gap</title>
-<path fill="#eff5fb" stroke="none" d="M963.21,-3953.99C963.21,-3953.99 568.24,-3953.99 568.24,-3953.99 562.24,-3953.99 556.24,-3947.99 556.24,-3941.99 556.24,-3941.99 556.24,-3745.19 556.24,-3745.19 556.24,-3739.19 562.24,-3733.19 568.24,-3733.19 568.24,-3733.19 963.21,-3733.19 963.21,-3733.19 969.21,-3733.19 975.21,-3739.19 975.21,-3745.19 975.21,-3745.19 975.21,-3941.99 975.21,-3941.99 975.21,-3947.99 969.21,-3953.99 963.21,-3953.99"/>
-<polygon fill="#dceaf7" stroke="none" points="556.24,-3926.39 556.24,-3953.99 975.21,-3953.99 975.21,-3926.39 556.24,-3926.39"/>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3926.39 556.24,-3953.99 975.21,-3953.99 975.21,-3926.39 556.24,-3926.39"/>
-<text xml:space="preserve" text-anchor="start" x="712.62" y="-3937.29" font-family="Arial" font-weight="bold" font-size="13.00">competency_gap</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3898.79 556.24,-3926.39 719.3,-3926.39 719.3,-3898.79 556.24,-3898.79"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3907.39" font-family="Arial" font-size="13.00">gap_id</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3898.79 719.3,-3926.39 877.97,-3926.39 877.97,-3898.79 719.3,-3898.79"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3907.39" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3898.79 877.97,-3926.39 975.21,-3926.39 975.21,-3898.79 877.97,-3898.79"/>
-<text xml:space="preserve" text-anchor="start" x="883.97" y="-3907.39" font-family="Arial" font-size="13.00">PK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3871.19 556.24,-3898.79 719.3,-3898.79 719.3,-3871.19 556.24,-3871.19"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3879.79" font-family="Arial" font-size="13.00">session_id</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3871.19 719.3,-3898.79 877.97,-3898.79 877.97,-3871.19 719.3,-3871.19"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3879.79" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3871.19 877.97,-3898.79 975.21,-3898.79 975.21,-3871.19 877.97,-3871.19"/>
-<text xml:space="preserve" text-anchor="start" x="884.33" y="-3879.79" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3843.59 556.24,-3871.19 719.3,-3871.19 719.3,-3843.59 556.24,-3843.59"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3852.19" font-family="Arial" font-size="13.00">concept_id</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3843.59 719.3,-3871.19 877.97,-3871.19 877.97,-3843.59 719.3,-3843.59"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3852.19" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3843.59 877.97,-3871.19 975.21,-3871.19 975.21,-3843.59 877.97,-3843.59"/>
-<text xml:space="preserve" text-anchor="start" x="884.33" y="-3852.19" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3815.99 556.24,-3843.59 719.3,-3843.59 719.3,-3815.99 556.24,-3815.99"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3824.59" font-family="Arial" font-size="13.00">llm_explanation</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3815.99 719.3,-3843.59 877.97,-3843.59 877.97,-3815.99 719.3,-3815.99"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3824.59" font-family="Arial" font-size="13.00">text</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3815.99 877.97,-3843.59 975.21,-3843.59 975.21,-3815.99 877.97,-3815.99"/>
-<text xml:space="preserve" text-anchor="start" x="909.97" y="-3824.59" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3788.39 556.24,-3815.99 719.3,-3815.99 719.3,-3788.39 556.24,-3788.39"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3796.99" font-family="Arial" font-size="13.00">status</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3788.39 719.3,-3815.99 877.97,-3815.99 877.97,-3788.39 719.3,-3788.39"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3796.99" font-family="Arial" font-size="13.00">character varying(20)</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3788.39 877.97,-3815.99 975.21,-3815.99 975.21,-3788.39 877.97,-3788.39"/>
-<text xml:space="preserve" text-anchor="start" x="894.44" y="-3796.99" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3760.79 556.24,-3788.39 719.3,-3788.39 719.3,-3760.79 556.24,-3760.79"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3769.39" font-family="Arial" font-size="13.00">created_at</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3760.79 719.3,-3788.39 877.97,-3788.39 877.97,-3760.79 719.3,-3760.79"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3769.39" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3760.79 877.97,-3788.39 975.21,-3788.39 975.21,-3760.79 877.97,-3760.79"/>
-<text xml:space="preserve" text-anchor="start" x="894.44" y="-3769.39" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="556.24,-3733.19 556.24,-3760.79 719.3,-3760.79 719.3,-3733.19 556.24,-3733.19"/>
-<text xml:space="preserve" text-anchor="start" x="562.24" y="-3741.79" font-family="Arial" font-size="13.00">explanation_context_hash</text>
-<polygon fill="none" stroke="#1f3864" points="719.3,-3733.19 719.3,-3760.79 877.97,-3760.79 877.97,-3733.19 719.3,-3733.19"/>
-<text xml:space="preserve" text-anchor="start" x="725.3" y="-3741.79" font-family="Arial" font-size="13.00">character varying(64)</text>
-<polygon fill="none" stroke="#1f3864" points="877.97,-3733.19 877.97,-3760.79 975.21,-3760.79 975.21,-3733.19 877.97,-3733.19"/>
-<text xml:space="preserve" text-anchor="start" x="909.97" y="-3741.79" font-family="Arial" font-size="13.00">NULL</text>
+<path fill="#eff5fb" stroke="none" d="M963.21,-3942.99C963.21,-3942.99 568.24,-3942.99 568.24,-3942.99 562.24,-3942.99 556.24,-3936.99 556.24,-3930.99 556.24,-3930.99 556.24,-3734.19 556.24,-3734.19 556.24,-3728.19 562.24,-3722.19 568.24,-3722.19 568.24,-3722.19 963.21,-3722.19 963.21,-3722.19 969.21,-3722.19 975.21,-3728.19 975.21,-3734.19 975.21,-3734.19 975.21,-3930.99 975.21,-3930.99 975.21,-3936.99 969.21,-3942.99 963.21,-3942.99"/>
+<polygon fill="#dceaf7" stroke="none" points="556.24,-3915.39 556.24,-3942.99 975.21,-3942.99 975.21,-3915.39 556.24,-3915.39"/>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3915.39 556.24,-3942.99 975.21,-3942.99 975.21,-3915.39 556.24,-3915.39"/>
+<text xml:space="preserve" text-anchor="start" x="712.62" y="-3926.29" font-family="Arial" font-weight="bold" font-size="13.00">competency_gap</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3887.79 556.24,-3915.39 719.3,-3915.39 719.3,-3887.79 556.24,-3887.79"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3896.39" font-family="Arial" font-size="13.00">gap_id</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3887.79 719.3,-3915.39 877.97,-3915.39 877.97,-3887.79 719.3,-3887.79"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3896.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3887.79 877.97,-3915.39 975.21,-3915.39 975.21,-3887.79 877.97,-3887.79"/>
+<text xml:space="preserve" text-anchor="start" x="883.97" y="-3896.39" font-family="Arial" font-size="13.00">PK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3860.19 556.24,-3887.79 719.3,-3887.79 719.3,-3860.19 556.24,-3860.19"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3868.79" font-family="Arial" font-size="13.00">session_id</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3860.19 719.3,-3887.79 877.97,-3887.79 877.97,-3860.19 719.3,-3860.19"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3868.79" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3860.19 877.97,-3887.79 975.21,-3887.79 975.21,-3860.19 877.97,-3860.19"/>
+<text xml:space="preserve" text-anchor="start" x="884.33" y="-3868.79" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3832.59 556.24,-3860.19 719.3,-3860.19 719.3,-3832.59 556.24,-3832.59"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3841.19" font-family="Arial" font-size="13.00">concept_id</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3832.59 719.3,-3860.19 877.97,-3860.19 877.97,-3832.59 719.3,-3832.59"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3841.19" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3832.59 877.97,-3860.19 975.21,-3860.19 975.21,-3832.59 877.97,-3832.59"/>
+<text xml:space="preserve" text-anchor="start" x="884.33" y="-3841.19" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3804.99 556.24,-3832.59 719.3,-3832.59 719.3,-3804.99 556.24,-3804.99"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3813.59" font-family="Arial" font-size="13.00">llm_explanation</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3804.99 719.3,-3832.59 877.97,-3832.59 877.97,-3804.99 719.3,-3804.99"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3813.59" font-family="Arial" font-size="13.00">text</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3804.99 877.97,-3832.59 975.21,-3832.59 975.21,-3804.99 877.97,-3804.99"/>
+<text xml:space="preserve" text-anchor="start" x="909.97" y="-3813.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3777.39 556.24,-3804.99 719.3,-3804.99 719.3,-3777.39 556.24,-3777.39"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3785.99" font-family="Arial" font-size="13.00">status</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3777.39 719.3,-3804.99 877.97,-3804.99 877.97,-3777.39 719.3,-3777.39"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3785.99" font-family="Arial" font-size="13.00">character varying(20)</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3777.39 877.97,-3804.99 975.21,-3804.99 975.21,-3777.39 877.97,-3777.39"/>
+<text xml:space="preserve" text-anchor="start" x="894.44" y="-3785.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3749.79 556.24,-3777.39 719.3,-3777.39 719.3,-3749.79 556.24,-3749.79"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3758.39" font-family="Arial" font-size="13.00">created_at</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3749.79 719.3,-3777.39 877.97,-3777.39 877.97,-3749.79 719.3,-3749.79"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3758.39" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3749.79 877.97,-3777.39 975.21,-3777.39 975.21,-3749.79 877.97,-3749.79"/>
+<text xml:space="preserve" text-anchor="start" x="894.44" y="-3758.39" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="556.24,-3722.19 556.24,-3749.79 719.3,-3749.79 719.3,-3722.19 556.24,-3722.19"/>
+<text xml:space="preserve" text-anchor="start" x="562.24" y="-3730.79" font-family="Arial" font-size="13.00">explanation_context_hash</text>
+<polygon fill="none" stroke="#1f3864" points="719.3,-3722.19 719.3,-3749.79 877.97,-3749.79 877.97,-3722.19 719.3,-3722.19"/>
+<text xml:space="preserve" text-anchor="start" x="725.3" y="-3730.79" font-family="Arial" font-size="13.00">character varying(64)</text>
+<polygon fill="none" stroke="#1f3864" points="877.97,-3722.19 877.97,-3749.79 975.21,-3749.79 975.21,-3722.19 877.97,-3722.19"/>
+<text xml:space="preserve" text-anchor="start" x="909.97" y="-3730.79" font-family="Arial" font-size="13.00">NULL</text>
 </g>
 <!-- competency_gap&#45;&gt;assessment_session -->
 <g id="FK18" class="edge">
 <title>competency_gap:session_id&#45;&gt;assessment_session:session_id</title>
 <g id="a_FK18"><a xlink:title="competency_gap_session_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M555.24,-3884.99C524.57,-3884.99 534.4,-3932.46 556.24,-3953.99 688.86,-4084.7 822.3,-4060.26 975.21,-3953.99 1020.22,-3922.71 993.62,-3887.39 1018.21,-3838.39 1068.26,-3738.67 1121.63,-3734.2 1154.56,-3627.59 1182.75,-3536.36 1120.3,-1962.26 1205.07,-1854.76"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="1206.58,-1857.94 1213.34,-1849.77 1202.97,-1851.95 1206.58,-1857.94"/>
+<path fill="none" stroke="#2e75b6" d="M555.24,-3873.99C524.57,-3873.99 534.4,-3921.46 556.24,-3942.99 688.86,-4073.7 820.52,-4046.65 975.21,-3942.99 1016.96,-3915.01 993.93,-3882.41 1018.21,-3838.39 1068.72,-3746.81 1121.52,-3745.83 1154.56,-3646.59 1185.06,-3555.03 1119.47,-1963.52 1204.98,-1854.83"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="1206.59,-1857.94 1213.34,-1849.78 1202.97,-1851.95 1206.59,-1857.94"/>
 </a>
 </g>
 <text xml:space="preserve" text-anchor="middle" x="1086.39" y="-3841.69" font-family="Arial" font-size="11.00">FK18 session_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1211.57" y="-1839.09" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="545.16" y="-3875.09" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="545.16" y="-3864.09" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- competency_gap&#45;&gt;concept -->
 <g id="FK17" class="edge">
 <title>competency_gap:concept_id&#45;&gt;concept:concept_id</title>
 <g id="a_FK17"><a xlink:title="competency_gap_concept_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M555.24,-3857.39C533.77,-3857.39 540.98,-3938.89 556.24,-3953.99 688.59,-4084.98 790.49,-3977.53 975.21,-3953.99 1076.48,-3941.09 1096.75,-3912.45 1197.56,-3896.39 1511.84,-3846.34 1596.68,-3851.07 1909.45,-3851.19"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="1909.15,-3854.69 1919.16,-3851.19 1909.16,-3847.69 1909.15,-3854.69"/>
+<path fill="none" stroke="#2e75b6" d="M555.24,-3846.39C533.77,-3846.39 540.98,-3927.89 556.24,-3942.99 688.59,-4073.98 789.99,-3962.19 975.21,-3942.99 1075.64,-3932.58 1097.51,-3909.93 1197.56,-3896.39 1512.92,-3853.72 1596.71,-3851.25 1909.45,-3851.19"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="1909.16,-3854.69 1919.16,-3851.19 1909.16,-3847.69 1909.16,-3854.69"/>
 </a>
 </g>
 <text xml:space="preserve" text-anchor="middle" x="1410.65" y="-3899.69" font-family="Arial" font-size="11.00">FK17 concept_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1917.61" y="-3841.29" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="545.16" y="-3847.49" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="545.16" y="-3836.49" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- concept_competency -->
 <g id="node19" class="node">
 <title>concept_competency</title>
-<path fill="#eff5fb" stroke="none" d="M935.01,-3652.79C935.01,-3652.79 596.44,-3652.79 596.44,-3652.79 590.44,-3652.79 584.44,-3646.79 584.44,-3640.79 584.44,-3640.79 584.44,-3416.39 584.44,-3416.39 584.44,-3410.39 590.44,-3404.39 596.44,-3404.39 596.44,-3404.39 935.01,-3404.39 935.01,-3404.39 941.01,-3404.39 947.01,-3410.39 947.01,-3416.39 947.01,-3416.39 947.01,-3640.79 947.01,-3640.79 947.01,-3646.79 941.01,-3652.79 935.01,-3652.79"/>
-<polygon fill="#dceaf7" stroke="none" points="584.44,-3625.19 584.44,-3652.79 947.01,-3652.79 947.01,-3625.19 584.44,-3625.19"/>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3625.19 584.44,-3652.79 947.01,-3652.79 947.01,-3625.19 584.44,-3625.19"/>
-<text xml:space="preserve" text-anchor="start" x="699.26" y="-3636.09" font-family="Arial" font-weight="bold" font-size="13.00">concept_competency</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3597.59 584.44,-3625.19 691.1,-3625.19 691.1,-3597.59 584.44,-3597.59"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3606.19" font-family="Arial" font-size="13.00">competency_id</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3597.59 691.1,-3625.19 849.77,-3625.19 849.77,-3597.59 691.1,-3597.59"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3606.19" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3597.59 849.77,-3625.19 947.01,-3625.19 947.01,-3597.59 849.77,-3597.59"/>
-<text xml:space="preserve" text-anchor="start" x="855.77" y="-3606.19" font-family="Arial" font-size="13.00">PK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3569.99 584.44,-3597.59 691.1,-3597.59 691.1,-3569.99 584.44,-3569.99"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3578.59" font-family="Arial" font-size="13.00">session_id</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3569.99 691.1,-3597.59 849.77,-3597.59 849.77,-3569.99 691.1,-3569.99"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3578.59" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3569.99 849.77,-3597.59 947.01,-3597.59 947.01,-3569.99 849.77,-3569.99"/>
-<text xml:space="preserve" text-anchor="start" x="856.13" y="-3578.59" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3542.39 584.44,-3569.99 691.1,-3569.99 691.1,-3542.39 584.44,-3542.39"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3550.99" font-family="Arial" font-size="13.00">concept_id</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3542.39 691.1,-3569.99 849.77,-3569.99 849.77,-3542.39 691.1,-3542.39"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3550.99" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3542.39 849.77,-3569.99 947.01,-3569.99 947.01,-3542.39 849.77,-3542.39"/>
-<text xml:space="preserve" text-anchor="start" x="856.13" y="-3550.99" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3514.79 584.44,-3542.39 691.1,-3542.39 691.1,-3514.79 584.44,-3514.79"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3523.39" font-family="Arial" font-size="13.00">points_earned</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3514.79 691.1,-3542.39 849.77,-3542.39 849.77,-3514.79 691.1,-3514.79"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3523.39" font-family="Arial" font-size="13.00">numeric(10,2)</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3514.79 849.77,-3542.39 947.01,-3542.39 947.01,-3514.79 849.77,-3514.79"/>
-<text xml:space="preserve" text-anchor="start" x="866.24" y="-3523.39" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3487.19 584.44,-3514.79 691.1,-3514.79 691.1,-3487.19 584.44,-3487.19"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3495.79" font-family="Arial" font-size="13.00">points_possible</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3487.19 691.1,-3514.79 849.77,-3514.79 849.77,-3487.19 691.1,-3487.19"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3495.79" font-family="Arial" font-size="13.00">numeric(10,2)</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3487.19 849.77,-3514.79 947.01,-3514.79 947.01,-3487.19 849.77,-3487.19"/>
-<text xml:space="preserve" text-anchor="start" x="866.24" y="-3495.79" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3459.59 584.44,-3487.19 691.1,-3487.19 691.1,-3459.59 584.44,-3459.59"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3468.19" font-family="Arial" font-size="13.00">competency_pct</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3459.59 691.1,-3487.19 849.77,-3487.19 849.77,-3459.59 691.1,-3459.59"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3468.19" font-family="Arial" font-size="13.00">numeric(5,2)</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3459.59 849.77,-3487.19 947.01,-3487.19 947.01,-3459.59 849.77,-3459.59"/>
-<text xml:space="preserve" text-anchor="start" x="866.24" y="-3468.19" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3431.99 584.44,-3459.59 691.1,-3459.59 691.1,-3431.99 584.44,-3431.99"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3440.59" font-family="Arial" font-size="13.00">below_target</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3431.99 691.1,-3459.59 849.77,-3459.59 849.77,-3431.99 691.1,-3431.99"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3440.59" font-family="Arial" font-size="13.00">boolean</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3431.99 849.77,-3459.59 947.01,-3459.59 947.01,-3431.99 849.77,-3431.99"/>
-<text xml:space="preserve" text-anchor="start" x="866.24" y="-3440.59" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="584.44,-3404.39 584.44,-3431.99 691.1,-3431.99 691.1,-3404.39 584.44,-3404.39"/>
-<text xml:space="preserve" text-anchor="start" x="590.44" y="-3412.99" font-family="Arial" font-size="13.00">computed_at</text>
-<polygon fill="none" stroke="#1f3864" points="691.1,-3404.39 691.1,-3431.99 849.77,-3431.99 849.77,-3404.39 691.1,-3404.39"/>
-<text xml:space="preserve" text-anchor="start" x="697.1" y="-3412.99" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="849.77,-3404.39 849.77,-3431.99 947.01,-3431.99 947.01,-3404.39 849.77,-3404.39"/>
-<text xml:space="preserve" text-anchor="start" x="866.24" y="-3412.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<path fill="#eff5fb" stroke="none" d="M935.01,-3674.79C935.01,-3674.79 596.44,-3674.79 596.44,-3674.79 590.44,-3674.79 584.44,-3668.79 584.44,-3662.79 584.44,-3662.79 584.44,-3438.39 584.44,-3438.39 584.44,-3432.39 590.44,-3426.39 596.44,-3426.39 596.44,-3426.39 935.01,-3426.39 935.01,-3426.39 941.01,-3426.39 947.01,-3432.39 947.01,-3438.39 947.01,-3438.39 947.01,-3662.79 947.01,-3662.79 947.01,-3668.79 941.01,-3674.79 935.01,-3674.79"/>
+<polygon fill="#dceaf7" stroke="none" points="584.44,-3647.19 584.44,-3674.79 947.01,-3674.79 947.01,-3647.19 584.44,-3647.19"/>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3647.19 584.44,-3674.79 947.01,-3674.79 947.01,-3647.19 584.44,-3647.19"/>
+<text xml:space="preserve" text-anchor="start" x="699.26" y="-3658.09" font-family="Arial" font-weight="bold" font-size="13.00">concept_competency</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3619.59 584.44,-3647.19 691.1,-3647.19 691.1,-3619.59 584.44,-3619.59"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3628.19" font-family="Arial" font-size="13.00">competency_id</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3619.59 691.1,-3647.19 849.77,-3647.19 849.77,-3619.59 691.1,-3619.59"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3628.19" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3619.59 849.77,-3647.19 947.01,-3647.19 947.01,-3619.59 849.77,-3619.59"/>
+<text xml:space="preserve" text-anchor="start" x="855.77" y="-3628.19" font-family="Arial" font-size="13.00">PK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3591.99 584.44,-3619.59 691.1,-3619.59 691.1,-3591.99 584.44,-3591.99"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3600.59" font-family="Arial" font-size="13.00">session_id</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3591.99 691.1,-3619.59 849.77,-3619.59 849.77,-3591.99 691.1,-3591.99"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3600.59" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3591.99 849.77,-3619.59 947.01,-3619.59 947.01,-3591.99 849.77,-3591.99"/>
+<text xml:space="preserve" text-anchor="start" x="856.13" y="-3600.59" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3564.39 584.44,-3591.99 691.1,-3591.99 691.1,-3564.39 584.44,-3564.39"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3572.99" font-family="Arial" font-size="13.00">concept_id</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3564.39 691.1,-3591.99 849.77,-3591.99 849.77,-3564.39 691.1,-3564.39"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3572.99" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3564.39 849.77,-3591.99 947.01,-3591.99 947.01,-3564.39 849.77,-3564.39"/>
+<text xml:space="preserve" text-anchor="start" x="856.13" y="-3572.99" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3536.79 584.44,-3564.39 691.1,-3564.39 691.1,-3536.79 584.44,-3536.79"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3545.39" font-family="Arial" font-size="13.00">points_earned</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3536.79 691.1,-3564.39 849.77,-3564.39 849.77,-3536.79 691.1,-3536.79"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3545.39" font-family="Arial" font-size="13.00">numeric(10,2)</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3536.79 849.77,-3564.39 947.01,-3564.39 947.01,-3536.79 849.77,-3536.79"/>
+<text xml:space="preserve" text-anchor="start" x="866.24" y="-3545.39" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3509.19 584.44,-3536.79 691.1,-3536.79 691.1,-3509.19 584.44,-3509.19"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3517.79" font-family="Arial" font-size="13.00">points_possible</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3509.19 691.1,-3536.79 849.77,-3536.79 849.77,-3509.19 691.1,-3509.19"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3517.79" font-family="Arial" font-size="13.00">numeric(10,2)</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3509.19 849.77,-3536.79 947.01,-3536.79 947.01,-3509.19 849.77,-3509.19"/>
+<text xml:space="preserve" text-anchor="start" x="866.24" y="-3517.79" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3481.59 584.44,-3509.19 691.1,-3509.19 691.1,-3481.59 584.44,-3481.59"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3490.19" font-family="Arial" font-size="13.00">competency_pct</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3481.59 691.1,-3509.19 849.77,-3509.19 849.77,-3481.59 691.1,-3481.59"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3490.19" font-family="Arial" font-size="13.00">numeric(5,2)</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3481.59 849.77,-3509.19 947.01,-3509.19 947.01,-3481.59 849.77,-3481.59"/>
+<text xml:space="preserve" text-anchor="start" x="866.24" y="-3490.19" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3453.99 584.44,-3481.59 691.1,-3481.59 691.1,-3453.99 584.44,-3453.99"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3462.59" font-family="Arial" font-size="13.00">below_target</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3453.99 691.1,-3481.59 849.77,-3481.59 849.77,-3453.99 691.1,-3453.99"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3462.59" font-family="Arial" font-size="13.00">boolean</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3453.99 849.77,-3481.59 947.01,-3481.59 947.01,-3453.99 849.77,-3453.99"/>
+<text xml:space="preserve" text-anchor="start" x="866.24" y="-3462.59" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="584.44,-3426.39 584.44,-3453.99 691.1,-3453.99 691.1,-3426.39 584.44,-3426.39"/>
+<text xml:space="preserve" text-anchor="start" x="590.44" y="-3434.99" font-family="Arial" font-size="13.00">computed_at</text>
+<polygon fill="none" stroke="#1f3864" points="691.1,-3426.39 691.1,-3453.99 849.77,-3453.99 849.77,-3426.39 691.1,-3426.39"/>
+<text xml:space="preserve" text-anchor="start" x="697.1" y="-3434.99" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="849.77,-3426.39 849.77,-3453.99 947.01,-3453.99 947.01,-3426.39 849.77,-3426.39"/>
+<text xml:space="preserve" text-anchor="start" x="866.24" y="-3434.99" font-family="Arial" font-size="13.00">NOT NULL</text>
 </g>
 <!-- concept_competency&#45;&gt;assessment_session -->
 <g id="FK20" class="edge">
 <title>concept_competency:session_id&#45;&gt;assessment_session:session_id</title>
 <g id="a_FK20"><a xlink:title="concept_competency_session_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M583.44,-3583.79C552.77,-3583.79 562.6,-3631.26 584.44,-3652.79 641.83,-3709.35 875.91,-3690.7 947.01,-3652.79 1093.06,-3574.93 1103.97,-3501.18 1154.56,-3343.59 1178.95,-3267.64 1135.29,-1960.2 1205.27,-1855.62"/>
+<path fill="none" stroke="#2e75b6" d="M583.44,-3605.79C552.77,-3605.79 562.6,-3653.26 584.44,-3674.79 613.13,-3703.07 911.75,-3694.28 947.01,-3674.79 1098.73,-3590.96 1104.06,-3510.41 1154.56,-3344.59 1177.82,-3268.23 1135.15,-1960.25 1205.26,-1855.63"/>
 <polygon fill="#2e75b6" stroke="#2e75b6" points="1207.26,-1858.5 1213.4,-1849.87 1203.21,-1852.79 1207.26,-1858.5"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1086.39" y="-3609.16" font-family="Arial" font-size="11.00">FK20 session_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1086.39" y="-3627.48" font-family="Arial" font-size="11.00">FK20 session_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1211.57" y="-1839.09" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="573.35" y="-3573.89" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="573.35" y="-3595.89" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- concept_competency&#45;&gt;concept -->
 <g id="FK19" class="edge">
 <title>concept_competency:concept_id&#45;&gt;concept:concept_id</title>
 <g id="a_FK19"><a xlink:title="concept_competency_concept_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M583.44,-3556.19C561.97,-3556.19 570.32,-3636.62 584.44,-3652.79 596.35,-3666.43 1856.16,-3838.46 1873.98,-3841.59 1890.61,-3844.52 1896.93,-3848.88 1909.53,-3850.53"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="1908.97,-3854 1919.16,-3851.1 1909.38,-3847.01 1908.97,-3854"/>
+<path fill="none" stroke="#2e75b6" d="M583.44,-3578.19C561.97,-3578.19 569.77,-3659.12 584.44,-3674.79 614.2,-3706.58 931.96,-3699.55 975.21,-3704.59 1074.58,-3716.18 1098.7,-3724.29 1197.56,-3739.59 1498.08,-3786.12 1574.1,-3792.15 1873.98,-3842.59 1890.4,-3845.35 1896.84,-3849.11 1909.19,-3850.57"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="1908.98,-3854.07 1919.16,-3851.11 1909.36,-3847.08 1908.98,-3854.07"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1410.65" y="-3809.33" font-family="Arial" font-size="11.00">FK19 concept_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1410.65" y="-3805.21" font-family="Arial" font-size="11.00">FK19 concept_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1917.61" y="-3841.29" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="573.35" y="-3546.29" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="573.35" y="-3568.29" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- concept_dependency -->
 <g id="node20" class="node">
@@ -1525,11 +1543,11 @@
 <g id="FK21" class="edge">
 <title>concept_dependency:concept_id&#45;&gt;concept:concept_id</title>
 <g id="a_FK21"><a xlink:title="concept_dependency_concept_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M1196.56,-3996.39C1178.16,-3996.39 1184.39,-4024.94 1197.56,-4037.79 1231.45,-4070.87 1576.99,-4045.36 1623.73,-4037.79 1739.43,-4019.06 1786.94,-4033.09 1873.98,-3954.59 1908.21,-3923.73 1876.74,-3862.9 1909.59,-3852.67"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="1909.72,-3856.18 1919.17,-3851.39 1908.79,-3849.24 1909.72,-3856.18"/>
+<path fill="none" stroke="#2e75b6" d="M1196.56,-3996.39C1178.16,-3996.39 1184.39,-4024.94 1197.56,-4037.79 1231.45,-4070.87 1577.84,-4049.47 1623.73,-4037.79 1644.82,-4032.43 1646.6,-4022.66 1666.73,-4014.39 1755.41,-3977.98 1801.52,-4017.36 1873.98,-3954.59 1908.82,-3924.42 1876.85,-3863.01 1909.6,-3852.68"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="1909.73,-3856.2 1919.17,-3851.39 1908.79,-3849.26 1909.73,-3856.2"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4034.45" font-family="Arial" font-size="11.00">FK21 concept_id</text>
+<text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4017.69" font-family="Arial" font-size="11.00">FK21 concept_id</text>
 <text xml:space="preserve" text-anchor="middle" x="1917.61" y="-3841.29" font-family="Arial" font-size="11.00">1</text>
 <text xml:space="preserve" text-anchor="middle" x="1186.48" y="-3986.49" font-family="Arial" font-size="11.00">0..N</text>
 </g>
@@ -1634,76 +1652,76 @@
 <!-- grade_edit_audit -->
 <g id="node22" class="node">
 <title>grade_edit_audit</title>
-<path fill="#eff5fb" stroke="none" d="M360.54,-3904.99C360.54,-3904.99 50.16,-3904.99 50.16,-3904.99 44.16,-3904.99 38.16,-3898.99 38.16,-3892.99 38.16,-3892.99 38.16,-3696.19 38.16,-3696.19 38.16,-3690.19 44.16,-3684.19 50.16,-3684.19 50.16,-3684.19 360.54,-3684.19 360.54,-3684.19 366.54,-3684.19 372.54,-3690.19 372.54,-3696.19 372.54,-3696.19 372.54,-3892.99 372.54,-3892.99 372.54,-3898.99 366.54,-3904.99 360.54,-3904.99"/>
-<polygon fill="#dceaf7" stroke="none" points="38.16,-3877.39 38.16,-3904.99 372.54,-3904.99 372.54,-3877.39 38.16,-3877.39"/>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3877.39 38.16,-3904.99 372.54,-3904.99 372.54,-3877.39 38.16,-3877.39"/>
-<text xml:space="preserve" text-anchor="start" x="153.34" y="-3888.29" font-family="Arial" font-weight="bold" font-size="13.00">grade_edit_audit</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3849.79 38.16,-3877.39 116.64,-3877.39 116.64,-3849.79 38.16,-3849.79"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3858.39" font-family="Arial" font-size="13.00">audit_id</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3849.79 116.64,-3877.39 275.3,-3877.39 275.3,-3849.79 116.64,-3849.79"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3858.39" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3849.79 275.3,-3877.39 372.54,-3877.39 372.54,-3849.79 275.3,-3849.79"/>
-<text xml:space="preserve" text-anchor="start" x="281.3" y="-3858.39" font-family="Arial" font-size="13.00">PK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3822.19 38.16,-3849.79 116.64,-3849.79 116.64,-3822.19 38.16,-3822.19"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3830.79" font-family="Arial" font-size="13.00">attempt_id</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3822.19 116.64,-3849.79 275.3,-3849.79 275.3,-3822.19 116.64,-3822.19"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3830.79" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3822.19 275.3,-3849.79 372.54,-3849.79 372.54,-3822.19 275.3,-3822.19"/>
-<text xml:space="preserve" text-anchor="start" x="281.66" y="-3830.79" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3794.59 38.16,-3822.19 116.64,-3822.19 116.64,-3794.59 38.16,-3794.59"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3803.19" font-family="Arial" font-size="13.00">reviewer_id</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3794.59 116.64,-3822.19 275.3,-3822.19 275.3,-3794.59 116.64,-3794.59"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3803.19" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3794.59 275.3,-3822.19 372.54,-3822.19 372.54,-3794.59 275.3,-3794.59"/>
-<text xml:space="preserve" text-anchor="start" x="281.66" y="-3803.19" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3766.99 38.16,-3794.59 116.64,-3794.59 116.64,-3766.99 38.16,-3766.99"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3775.59" font-family="Arial" font-size="13.00">old_score</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3766.99 116.64,-3794.59 275.3,-3794.59 275.3,-3766.99 116.64,-3766.99"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3775.59" font-family="Arial" font-size="13.00">numeric(5,2)</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3766.99 275.3,-3794.59 372.54,-3794.59 372.54,-3766.99 275.3,-3766.99"/>
-<text xml:space="preserve" text-anchor="start" x="307.3" y="-3775.59" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3739.39 38.16,-3766.99 116.64,-3766.99 116.64,-3739.39 38.16,-3739.39"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3747.99" font-family="Arial" font-size="13.00">new_score</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3739.39 116.64,-3766.99 275.3,-3766.99 275.3,-3739.39 116.64,-3739.39"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3747.99" font-family="Arial" font-size="13.00">numeric(5,2)</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3739.39 275.3,-3766.99 372.54,-3766.99 372.54,-3739.39 275.3,-3739.39"/>
-<text xml:space="preserve" text-anchor="start" x="291.78" y="-3747.99" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3711.79 38.16,-3739.39 116.64,-3739.39 116.64,-3711.79 38.16,-3711.79"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3720.39" font-family="Arial" font-size="13.00">reason</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3711.79 116.64,-3739.39 275.3,-3739.39 275.3,-3711.79 116.64,-3711.79"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3720.39" font-family="Arial" font-size="13.00">character varying(1000)</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3711.79 275.3,-3739.39 372.54,-3739.39 372.54,-3711.79 275.3,-3711.79"/>
-<text xml:space="preserve" text-anchor="start" x="291.78" y="-3720.39" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="38.16,-3684.19 38.16,-3711.79 116.64,-3711.79 116.64,-3684.19 38.16,-3684.19"/>
-<text xml:space="preserve" text-anchor="start" x="44.16" y="-3692.79" font-family="Arial" font-size="13.00">created_at</text>
-<polygon fill="none" stroke="#1f3864" points="116.64,-3684.19 116.64,-3711.79 275.3,-3711.79 275.3,-3684.19 116.64,-3684.19"/>
-<text xml:space="preserve" text-anchor="start" x="122.64" y="-3692.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="275.3,-3684.19 275.3,-3711.79 372.54,-3711.79 372.54,-3684.19 275.3,-3684.19"/>
-<text xml:space="preserve" text-anchor="start" x="291.78" y="-3692.79" font-family="Arial" font-size="13.00">NOT NULL</text>
+<path fill="#eff5fb" stroke="none" d="M360.54,-3905.99C360.54,-3905.99 50.16,-3905.99 50.16,-3905.99 44.16,-3905.99 38.16,-3899.99 38.16,-3893.99 38.16,-3893.99 38.16,-3697.19 38.16,-3697.19 38.16,-3691.19 44.16,-3685.19 50.16,-3685.19 50.16,-3685.19 360.54,-3685.19 360.54,-3685.19 366.54,-3685.19 372.54,-3691.19 372.54,-3697.19 372.54,-3697.19 372.54,-3893.99 372.54,-3893.99 372.54,-3899.99 366.54,-3905.99 360.54,-3905.99"/>
+<polygon fill="#dceaf7" stroke="none" points="38.16,-3878.39 38.16,-3905.99 372.54,-3905.99 372.54,-3878.39 38.16,-3878.39"/>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3878.39 38.16,-3905.99 372.54,-3905.99 372.54,-3878.39 38.16,-3878.39"/>
+<text xml:space="preserve" text-anchor="start" x="153.34" y="-3889.29" font-family="Arial" font-weight="bold" font-size="13.00">grade_edit_audit</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3850.79 38.16,-3878.39 116.64,-3878.39 116.64,-3850.79 38.16,-3850.79"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3859.39" font-family="Arial" font-size="13.00">audit_id</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3850.79 116.64,-3878.39 275.3,-3878.39 275.3,-3850.79 116.64,-3850.79"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3859.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3850.79 275.3,-3878.39 372.54,-3878.39 372.54,-3850.79 275.3,-3850.79"/>
+<text xml:space="preserve" text-anchor="start" x="281.3" y="-3859.39" font-family="Arial" font-size="13.00">PK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3823.19 38.16,-3850.79 116.64,-3850.79 116.64,-3823.19 38.16,-3823.19"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3831.79" font-family="Arial" font-size="13.00">attempt_id</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3823.19 116.64,-3850.79 275.3,-3850.79 275.3,-3823.19 116.64,-3823.19"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3831.79" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3823.19 275.3,-3850.79 372.54,-3850.79 372.54,-3823.19 275.3,-3823.19"/>
+<text xml:space="preserve" text-anchor="start" x="281.66" y="-3831.79" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3795.59 38.16,-3823.19 116.64,-3823.19 116.64,-3795.59 38.16,-3795.59"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3804.19" font-family="Arial" font-size="13.00">reviewer_id</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3795.59 116.64,-3823.19 275.3,-3823.19 275.3,-3795.59 116.64,-3795.59"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3804.19" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3795.59 275.3,-3823.19 372.54,-3823.19 372.54,-3795.59 275.3,-3795.59"/>
+<text xml:space="preserve" text-anchor="start" x="281.66" y="-3804.19" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3767.99 38.16,-3795.59 116.64,-3795.59 116.64,-3767.99 38.16,-3767.99"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3776.59" font-family="Arial" font-size="13.00">old_score</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3767.99 116.64,-3795.59 275.3,-3795.59 275.3,-3767.99 116.64,-3767.99"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3776.59" font-family="Arial" font-size="13.00">numeric(5,2)</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3767.99 275.3,-3795.59 372.54,-3795.59 372.54,-3767.99 275.3,-3767.99"/>
+<text xml:space="preserve" text-anchor="start" x="307.3" y="-3776.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3740.39 38.16,-3767.99 116.64,-3767.99 116.64,-3740.39 38.16,-3740.39"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3748.99" font-family="Arial" font-size="13.00">new_score</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3740.39 116.64,-3767.99 275.3,-3767.99 275.3,-3740.39 116.64,-3740.39"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3748.99" font-family="Arial" font-size="13.00">numeric(5,2)</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3740.39 275.3,-3767.99 372.54,-3767.99 372.54,-3740.39 275.3,-3740.39"/>
+<text xml:space="preserve" text-anchor="start" x="291.78" y="-3748.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3712.79 38.16,-3740.39 116.64,-3740.39 116.64,-3712.79 38.16,-3712.79"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3721.39" font-family="Arial" font-size="13.00">reason</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3712.79 116.64,-3740.39 275.3,-3740.39 275.3,-3712.79 116.64,-3712.79"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3721.39" font-family="Arial" font-size="13.00">character varying(1000)</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3712.79 275.3,-3740.39 372.54,-3740.39 372.54,-3712.79 275.3,-3712.79"/>
+<text xml:space="preserve" text-anchor="start" x="291.78" y="-3721.39" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="38.16,-3685.19 38.16,-3712.79 116.64,-3712.79 116.64,-3685.19 38.16,-3685.19"/>
+<text xml:space="preserve" text-anchor="start" x="44.16" y="-3693.79" font-family="Arial" font-size="13.00">created_at</text>
+<polygon fill="none" stroke="#1f3864" points="116.64,-3685.19 116.64,-3712.79 275.3,-3712.79 275.3,-3685.19 116.64,-3685.19"/>
+<text xml:space="preserve" text-anchor="start" x="122.64" y="-3693.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="275.3,-3685.19 275.3,-3712.79 372.54,-3712.79 372.54,-3685.19 275.3,-3685.19"/>
+<text xml:space="preserve" text-anchor="start" x="291.78" y="-3693.79" font-family="Arial" font-size="13.00">NOT NULL</text>
 </g>
 <!-- grade_edit_audit&#45;&gt;account -->
 <g id="FK58" class="edge">
 <title>grade_edit_audit:reviewer_id&#45;&gt;account:account_id</title>
 <g id="a_FK58"><a xlink:title="grade_edit_audit_reviewer_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M37.16,-3808.39C15.7,-3808.39 25.29,-3887.81 38.16,-3904.99 228.13,-4158.56 1092.81,-4294.59 1409.65,-4294.59 1409.65,-4294.59 1409.65,-4294.59 2903.19,-4294.59 2949.68,-4294.59 3299.58,-2799.21 3344.39,-2511.59 3353.72,-2451.75 3326.58,-1992.04 3377.38,-1940.15"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="3378.5,-1943.5 3386.03,-1936.04 3375.49,-1937.17 3378.5,-1943.5"/>
+<path fill="none" stroke="#2e75b6" d="M37.16,-3809.39C15.7,-3809.39 25.29,-3888.82 38.16,-3905.99 228.19,-4159.44 1092.88,-4294.59 1409.65,-4294.59 1409.65,-4294.59 1409.65,-4294.59 2903.19,-4294.59 2942.02,-4294.59 3303.01,-2806.21 3344.39,-2542.59 3349.25,-2511.66 3352.98,-2017.59 3380.34,-1944.42"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="3383.07,-1946.62 3386.46,-1936.59 3377.55,-1942.31 3383.07,-1946.62"/>
 </a>
 </g>
 <text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4297.89" font-family="Arial" font-size="11.00">FK58 reviewer_id</text>
 <text xml:space="preserve" text-anchor="middle" x="3384.33" y="-1925.49" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="27.08" y="-3798.49" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="27.08" y="-3799.49" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- grade_edit_audit&#45;&gt;attempt -->
 <g id="FK57" class="edge">
 <title>grade_edit_audit:attempt_id&#45;&gt;attempt:attempt_id</title>
 <g id="a_FK57"><a xlink:title="grade_edit_audit_attempt_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M37.16,-3835.99C6.49,-3835.99 16.32,-3883.46 38.16,-3904.99 144.01,-4009.31 251.76,-3991.58 372.54,-3904.99 427.02,-3865.94 498.37,-3357.8 565.84,-3308.27"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="566.65,-3311.71 574.78,-3304.92 564.19,-3305.15 566.65,-3311.71"/>
+<path fill="none" stroke="#2e75b6" d="M37.16,-3836.99C6.49,-3836.99 16.32,-3884.46 38.16,-3905.99 144.01,-4010.31 251.77,-3992.59 372.54,-3905.99 427.06,-3866.9 498.31,-3358.25 565.84,-3308.67"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="566.65,-3312.11 574.78,-3305.32 564.19,-3305.55 566.65,-3312.11"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="472.89" y="-3738.14" font-family="Arial" font-size="11.00">FK57 attempt_id</text>
-<text xml:space="preserve" text-anchor="middle" x="573.14" y="-3294.49" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="27.08" y="-3826.09" font-family="Arial" font-size="11.00">0..N</text>
+<text xml:space="preserve" text-anchor="middle" x="472.89" y="-3738.97" font-family="Arial" font-size="11.00">FK57 attempt_id</text>
+<text xml:space="preserve" text-anchor="middle" x="573.14" y="-3294.89" font-family="Arial" font-size="11.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="27.08" y="-3827.09" font-family="Arial" font-size="11.00">0..N</text>
 </g>
 <!-- grade_review -->
 <g id="node23" class="node">
@@ -1765,8 +1783,8 @@
 <g id="FK25" class="edge">
 <title>grade_review:reviewer_id&#45;&gt;account:account_id</title>
 <g id="a_FK25"><a xlink:title="grade_review_reviewer_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M20.17,-4336.19C-1.29,-4336.19 5.92,-4417.69 21.17,-4432.79 50.26,-4461.58 348.75,-4436.26 389.53,-4432.79 558.1,-4418.47 595.55,-4368.59 764.73,-4368.59 764.73,-4368.59 764.73,-4368.59 2903.19,-4368.59 3546.68,-4368.59 3272.43,-3629.05 3344.39,-2989.59 3350.61,-2934.36 3331,-2035.98 3378.93,-1943.13"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="3381.25,-1945.74 3386.28,-1936.41 3376.53,-1940.57 3381.25,-1945.74"/>
+<path fill="none" stroke="#2e75b6" d="M20.17,-4336.19C-1.29,-4336.19 5.92,-4417.69 21.17,-4432.79 50.26,-4461.58 348.75,-4436.26 389.53,-4432.79 558.1,-4418.47 595.55,-4368.59 764.73,-4368.59 764.73,-4368.59 764.73,-4368.59 2903.19,-4368.59 3538.22,-4368.59 3272.76,-3640.57 3344.39,-3009.59 3350.79,-2953.26 3329.97,-2036 3378.92,-1942.99"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="3381.16,-1945.68 3386.27,-1936.4 3376.48,-1940.47 3381.16,-1945.68"/>
 </a>
 </g>
 <text xml:space="preserve" text-anchor="middle" x="1770.36" y="-4371.89" font-family="Arial" font-size="11.00">FK25 reviewer_id</text>
@@ -1777,81 +1795,81 @@
 <g id="FK24" class="edge">
 <title>grade_review:attempt_id&#45;&gt;attempt:attempt_id</title>
 <g id="a_FK24"><a xlink:title="grade_review_attempt_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M20.17,-4363.79C-10.5,-4363.79 -0.67,-4411.26 21.17,-4432.79 35.75,-4447.16 373.81,-4445.9 389.53,-4432.79 448.2,-4383.88 501.95,-3832.13 513.24,-3756.59 520.23,-3709.85 524.81,-3357.71 566.43,-3309.79"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="567.81,-3313.02 574.88,-3305.12 564.43,-3306.89 567.81,-3313.02"/>
+<path fill="none" stroke="#2e75b6" d="M20.17,-4363.79C-10.5,-4363.79 -0.67,-4411.26 21.17,-4432.79 35.75,-4447.16 373.81,-4445.89 389.53,-4432.79 448.12,-4383.96 501.7,-3832.99 513.24,-3757.59 520.4,-3710.81 524.78,-3358.19 566.42,-3310.2"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="567.82,-3313.42 574.88,-3305.52 564.43,-3307.29 567.82,-3313.42"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="472.89" y="-4308.26" font-family="Arial" font-size="11.00">FK24 attempt_id</text>
-<text xml:space="preserve" text-anchor="middle" x="573.14" y="-3294.49" font-family="Arial" font-size="11.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="472.89" y="-4308.44" font-family="Arial" font-size="11.00">FK24 attempt_id</text>
+<text xml:space="preserve" text-anchor="middle" x="573.14" y="-3294.89" font-family="Arial" font-size="11.00">1</text>
 <text xml:space="preserve" text-anchor="middle" x="11" y="-4353.89" font-family="Arial" font-size="11.00">0..1</text>
 </g>
 <!-- grading_job -->
 <g id="node24" class="node">
 <title>grading_job</title>
-<path fill="#eff5fb" stroke="none" d="M372.47,-3372.79C372.47,-3372.79 38.24,-3372.79 38.24,-3372.79 32.24,-3372.79 26.24,-3366.79 26.24,-3360.79 26.24,-3360.79 26.24,-3136.39 26.24,-3136.39 26.24,-3130.39 32.24,-3124.39 38.24,-3124.39 38.24,-3124.39 372.47,-3124.39 372.47,-3124.39 378.47,-3124.39 384.47,-3130.39 384.47,-3136.39 384.47,-3136.39 384.47,-3360.79 384.47,-3360.79 384.47,-3366.79 378.47,-3372.79 372.47,-3372.79"/>
-<polygon fill="#dceaf7" stroke="none" points="26.24,-3345.19 26.24,-3372.79 384.47,-3372.79 384.47,-3345.19 26.24,-3345.19"/>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3345.19 26.24,-3372.79 384.47,-3372.79 384.47,-3345.19 26.24,-3345.19"/>
-<text xml:space="preserve" text-anchor="start" x="168.16" y="-3356.09" font-family="Arial" font-weight="bold" font-size="13.00">grading_job</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3317.59 26.24,-3345.19 128.56,-3345.19 128.56,-3317.59 26.24,-3317.59"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3326.19" font-family="Arial" font-size="13.00">job_id</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3317.59 128.56,-3345.19 287.23,-3345.19 287.23,-3317.59 128.56,-3317.59"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3326.19" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3317.59 287.23,-3345.19 384.47,-3345.19 384.47,-3317.59 287.23,-3317.59"/>
-<text xml:space="preserve" text-anchor="start" x="293.23" y="-3326.19" font-family="Arial" font-size="13.00">PK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3289.99 26.24,-3317.59 128.56,-3317.59 128.56,-3289.99 26.24,-3289.99"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3298.59" font-family="Arial" font-size="13.00">attempt_id</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3289.99 128.56,-3317.59 287.23,-3317.59 287.23,-3289.99 128.56,-3289.99"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3298.59" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3289.99 287.23,-3317.59 384.47,-3317.59 384.47,-3289.99 287.23,-3289.99"/>
-<text xml:space="preserve" text-anchor="start" x="293.59" y="-3298.59" font-family="Arial" font-size="13.00">FK NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3262.39 26.24,-3289.99 128.56,-3289.99 128.56,-3262.39 26.24,-3262.39"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3270.99" font-family="Arial" font-size="13.00">status</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3262.39 128.56,-3289.99 287.23,-3289.99 287.23,-3262.39 128.56,-3262.39"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3270.99" font-family="Arial" font-size="13.00">character varying(20)</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3262.39 287.23,-3289.99 384.47,-3289.99 384.47,-3262.39 287.23,-3262.39"/>
-<text xml:space="preserve" text-anchor="start" x="303.7" y="-3270.99" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3234.79 26.24,-3262.39 128.56,-3262.39 128.56,-3234.79 26.24,-3234.79"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3243.39" font-family="Arial" font-size="13.00">attempt_count</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3234.79 128.56,-3262.39 287.23,-3262.39 287.23,-3234.79 128.56,-3234.79"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3243.39" font-family="Arial" font-size="13.00">integer</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3234.79 287.23,-3262.39 384.47,-3262.39 384.47,-3234.79 287.23,-3234.79"/>
-<text xml:space="preserve" text-anchor="start" x="303.7" y="-3243.39" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3207.19 26.24,-3234.79 128.56,-3234.79 128.56,-3207.19 26.24,-3207.19"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3215.79" font-family="Arial" font-size="13.00">available_at</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3207.19 128.56,-3234.79 287.23,-3234.79 287.23,-3207.19 128.56,-3207.19"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3215.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3207.19 287.23,-3234.79 384.47,-3234.79 384.47,-3207.19 287.23,-3207.19"/>
-<text xml:space="preserve" text-anchor="start" x="303.7" y="-3215.79" font-family="Arial" font-size="13.00">NOT NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3179.59 26.24,-3207.19 128.56,-3207.19 128.56,-3179.59 26.24,-3179.59"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3188.19" font-family="Arial" font-size="13.00">lease_until</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3179.59 128.56,-3207.19 287.23,-3207.19 287.23,-3179.59 128.56,-3179.59"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3188.19" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3179.59 287.23,-3207.19 384.47,-3207.19 384.47,-3179.59 287.23,-3179.59"/>
-<text xml:space="preserve" text-anchor="start" x="319.23" y="-3188.19" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3151.99 26.24,-3179.59 128.56,-3179.59 128.56,-3151.99 26.24,-3151.99"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3160.59" font-family="Arial" font-size="13.00">last_error_code</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3151.99 128.56,-3179.59 287.23,-3179.59 287.23,-3151.99 128.56,-3151.99"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3160.59" font-family="Arial" font-size="13.00">character varying(80)</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3151.99 287.23,-3179.59 384.47,-3179.59 384.47,-3151.99 287.23,-3151.99"/>
-<text xml:space="preserve" text-anchor="start" x="319.23" y="-3160.59" font-family="Arial" font-size="13.00">NULL</text>
-<polygon fill="none" stroke="#1f3864" points="26.24,-3124.39 26.24,-3151.99 128.56,-3151.99 128.56,-3124.39 26.24,-3124.39"/>
-<text xml:space="preserve" text-anchor="start" x="32.24" y="-3132.99" font-family="Arial" font-size="13.00">finished_at</text>
-<polygon fill="none" stroke="#1f3864" points="128.56,-3124.39 128.56,-3151.99 287.23,-3151.99 287.23,-3124.39 128.56,-3124.39"/>
-<text xml:space="preserve" text-anchor="start" x="134.56" y="-3132.99" font-family="Arial" font-size="13.00">timestamp with time zone</text>
-<polygon fill="none" stroke="#1f3864" points="287.23,-3124.39 287.23,-3151.99 384.47,-3151.99 384.47,-3124.39 287.23,-3124.39"/>
-<text xml:space="preserve" text-anchor="start" x="319.23" y="-3132.99" font-family="Arial" font-size="13.00">NULL</text>
+<path fill="#eff5fb" stroke="none" d="M372.47,-3373.79C372.47,-3373.79 38.24,-3373.79 38.24,-3373.79 32.24,-3373.79 26.24,-3367.79 26.24,-3361.79 26.24,-3361.79 26.24,-3137.39 26.24,-3137.39 26.24,-3131.39 32.24,-3125.39 38.24,-3125.39 38.24,-3125.39 372.47,-3125.39 372.47,-3125.39 378.47,-3125.39 384.47,-3131.39 384.47,-3137.39 384.47,-3137.39 384.47,-3361.79 384.47,-3361.79 384.47,-3367.79 378.47,-3373.79 372.47,-3373.79"/>
+<polygon fill="#dceaf7" stroke="none" points="26.24,-3346.19 26.24,-3373.79 384.47,-3373.79 384.47,-3346.19 26.24,-3346.19"/>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3346.19 26.24,-3373.79 384.47,-3373.79 384.47,-3346.19 26.24,-3346.19"/>
+<text xml:space="preserve" text-anchor="start" x="168.16" y="-3357.09" font-family="Arial" font-weight="bold" font-size="13.00">grading_job</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3318.59 26.24,-3346.19 128.56,-3346.19 128.56,-3318.59 26.24,-3318.59"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3327.19" font-family="Arial" font-size="13.00">job_id</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3318.59 128.56,-3346.19 287.23,-3346.19 287.23,-3318.59 128.56,-3318.59"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3327.19" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3318.59 287.23,-3346.19 384.47,-3346.19 384.47,-3318.59 287.23,-3318.59"/>
+<text xml:space="preserve" text-anchor="start" x="293.23" y="-3327.19" font-family="Arial" font-size="13.00">PK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3290.99 26.24,-3318.59 128.56,-3318.59 128.56,-3290.99 26.24,-3290.99"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3299.59" font-family="Arial" font-size="13.00">attempt_id</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3290.99 128.56,-3318.59 287.23,-3318.59 287.23,-3290.99 128.56,-3290.99"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3299.59" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3290.99 287.23,-3318.59 384.47,-3318.59 384.47,-3290.99 287.23,-3290.99"/>
+<text xml:space="preserve" text-anchor="start" x="293.59" y="-3299.59" font-family="Arial" font-size="13.00">FK NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3263.39 26.24,-3290.99 128.56,-3290.99 128.56,-3263.39 26.24,-3263.39"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3271.99" font-family="Arial" font-size="13.00">status</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3263.39 128.56,-3290.99 287.23,-3290.99 287.23,-3263.39 128.56,-3263.39"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3271.99" font-family="Arial" font-size="13.00">character varying(20)</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3263.39 287.23,-3290.99 384.47,-3290.99 384.47,-3263.39 287.23,-3263.39"/>
+<text xml:space="preserve" text-anchor="start" x="303.7" y="-3271.99" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3235.79 26.24,-3263.39 128.56,-3263.39 128.56,-3235.79 26.24,-3235.79"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3244.39" font-family="Arial" font-size="13.00">attempt_count</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3235.79 128.56,-3263.39 287.23,-3263.39 287.23,-3235.79 128.56,-3235.79"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3244.39" font-family="Arial" font-size="13.00">integer</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3235.79 287.23,-3263.39 384.47,-3263.39 384.47,-3235.79 287.23,-3235.79"/>
+<text xml:space="preserve" text-anchor="start" x="303.7" y="-3244.39" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3208.19 26.24,-3235.79 128.56,-3235.79 128.56,-3208.19 26.24,-3208.19"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3216.79" font-family="Arial" font-size="13.00">available_at</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3208.19 128.56,-3235.79 287.23,-3235.79 287.23,-3208.19 128.56,-3208.19"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3216.79" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3208.19 287.23,-3235.79 384.47,-3235.79 384.47,-3208.19 287.23,-3208.19"/>
+<text xml:space="preserve" text-anchor="start" x="303.7" y="-3216.79" font-family="Arial" font-size="13.00">NOT NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3180.59 26.24,-3208.19 128.56,-3208.19 128.56,-3180.59 26.24,-3180.59"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3189.19" font-family="Arial" font-size="13.00">lease_until</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3180.59 128.56,-3208.19 287.23,-3208.19 287.23,-3180.59 128.56,-3180.59"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3189.19" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3180.59 287.23,-3208.19 384.47,-3208.19 384.47,-3180.59 287.23,-3180.59"/>
+<text xml:space="preserve" text-anchor="start" x="319.23" y="-3189.19" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3152.99 26.24,-3180.59 128.56,-3180.59 128.56,-3152.99 26.24,-3152.99"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3161.59" font-family="Arial" font-size="13.00">last_error_code</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3152.99 128.56,-3180.59 287.23,-3180.59 287.23,-3152.99 128.56,-3152.99"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3161.59" font-family="Arial" font-size="13.00">character varying(80)</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3152.99 287.23,-3180.59 384.47,-3180.59 384.47,-3152.99 287.23,-3152.99"/>
+<text xml:space="preserve" text-anchor="start" x="319.23" y="-3161.59" font-family="Arial" font-size="13.00">NULL</text>
+<polygon fill="none" stroke="#1f3864" points="26.24,-3125.39 26.24,-3152.99 128.56,-3152.99 128.56,-3125.39 26.24,-3125.39"/>
+<text xml:space="preserve" text-anchor="start" x="32.24" y="-3133.99" font-family="Arial" font-size="13.00">finished_at</text>
+<polygon fill="none" stroke="#1f3864" points="128.56,-3125.39 128.56,-3152.99 287.23,-3152.99 287.23,-3125.39 128.56,-3125.39"/>
+<text xml:space="preserve" text-anchor="start" x="134.56" y="-3133.99" font-family="Arial" font-size="13.00">timestamp with time zone</text>
+<polygon fill="none" stroke="#1f3864" points="287.23,-3125.39 287.23,-3152.99 384.47,-3152.99 384.47,-3125.39 287.23,-3125.39"/>
+<text xml:space="preserve" text-anchor="start" x="319.23" y="-3133.99" font-family="Arial" font-size="13.00">NULL</text>
 </g>
 <!-- grading_job&#45;&gt;attempt -->
 <g id="FK26" class="edge">
 <title>grading_job:attempt_id&#45;&gt;attempt:attempt_id</title>
 <g id="a_FK26"><a xlink:title="grading_job_attempt_id_fkey">
-<path fill="none" stroke="#2e75b6" d="M25.24,-3303.79C-5.43,-3303.79 4.39,-3351.26 26.24,-3372.79 139.63,-3484.56 227.59,-3399.94 384.47,-3372.79 469.79,-3358.03 484.54,-3308.88 564.96,-3304.68"/>
-<polygon fill="#2e75b6" stroke="#2e75b6" points="564.78,-3308.18 574.69,-3304.43 564.6,-3301.19 564.78,-3308.18"/>
+<path fill="none" stroke="#2e75b6" d="M25.24,-3304.79C-5.43,-3304.79 4.39,-3352.26 26.24,-3373.79 139.63,-3485.56 227.62,-3401.16 384.47,-3373.79 469.85,-3358.9 484.47,-3309.31 564.95,-3305.08"/>
+<polygon fill="#2e75b6" stroke="#2e75b6" points="564.78,-3308.59 574.69,-3304.83 564.6,-3301.59 564.78,-3308.59"/>
 </a>
 </g>
-<text xml:space="preserve" text-anchor="middle" x="472.89" y="-3361.89" font-family="Arial" font-size="11.00">FK26 attempt_id</text>
-<text xml:space="preserve" text-anchor="middle" x="573.14" y="-3294.49" font-family="Arial" font-size="11.00">1</text>
-<text xml:space="preserve" text-anchor="middle" x="16.06" y="-3293.89" font-family="Arial" font-size="11.00">0..1</text>
+<text xml:space="preserve" text-anchor="middle" x="472.89" y="-3362.77" font-family="Arial" font-size="11.00">FK26 attempt_id</text>
+<text xml:space="preserve" text-anchor="middle" x="573.14" y="-3294.89" font-family="Arial" font-size="11.00">1</text>
+<text xml:space="preserve" text-anchor="middle" x="16.06" y="-3294.89" font-family="Arial" font-size="11.00">0..1</text>
 </g>
 <!-- llm_cache -->
 <g id="node25" class="node">
