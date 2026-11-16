@@ -111,6 +111,12 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt, locale="en") 
     )
 
 
+def _draft_has_answer(attempt) -> bool:
+    draft = attempt.draft_answer or {}
+    return any(value is not None and (not isinstance(value, str) or value.strip())
+               for value in draft.values())
+
+
 def _state(
     repo: AssessmentRepository,
     session: AssessmentSession,
@@ -121,6 +127,9 @@ def _state(
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
+    snapshot = session.config_snapshot or {}
+    runner_mode = snapshot.get("runner_mode")
+    fixed = runner_mode == "fixed"
     now = repo.server_time()
     expires_at = session.expires_at
     if expires_at.tzinfo is None:
@@ -146,8 +155,10 @@ def _state(
         result_release_policy=session.result_release_policy,
         release_status=session.release_status,
         selected_concept_ids=(session.config_snapshot or {}).get("selected_concept_ids", []),
-        difficulty=(session.config_snapshot or {}).get("difficulty"),
-        assembly_mode=(session.config_snapshot or {}).get("assembly_mode"),
+        difficulty=snapshot.get("difficulty"),
+        assembly_mode=snapshot.get("assembly_mode"),
+        runner_mode=runner_mode,
+        result_kind=snapshot.get("result_kind"),
         adaptive_progress=progress(session, attempts),
         status=session.status,
         started_at=started_at,
@@ -156,10 +167,12 @@ def _state(
         remaining_seconds=max(0, int((expires_at - now).total_seconds())),
         server_now=now,
         max_questions=assessment.max_questions,
-        served_count=len(attempts),
-        answered_count=sum(1 for a in attempts if a.submitted_at is not None),
+        served_count=(sum(1 for a in attempts if a.first_opened_at is not None)
+                      if fixed else len(attempts)),
+        answered_count=(sum(1 for a in attempts if _draft_has_answer(a))
+                        if fixed else sum(1 for a in attempts if a.submitted_at is not None)),
         current_question=_served_question(repo, pending, display_locale or session.locale or "en") if pending else None,
-        done=finalized or len(attempts) >= assessment.max_questions,
+        done=finalized if fixed else finalized or len(attempts) >= assessment.max_questions,
     )
 
 
@@ -441,6 +454,9 @@ def serve_next(
     repo = AssessmentRepository(db)
     session = load_owned_active_session(repo, session_id, learner)
     assessment = assessment_view(session, repo)
+    if (session.config_snapshot or {}).get("runner_mode") == "fixed":
+        raise AppError(409, "paper_requires_final_submit",
+                       "FIXED papers are graded only on final submit")
 
     attempts = repo.session_attempts(session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)

@@ -6,7 +6,8 @@ import pytest
 from sqlalchemy import select, func, text
 
 from app.models import (Assessment, AssessmentSession, Attempt, GradeEditAudit,
-                        EvaluationRecord, SessionFinalResult, ResultReleaseEvent)
+                        EvaluationRecord, GradingJob, SelectionLog, SessionFinalResult,
+                        SessionQuestionPlan, ResultReleaseEvent)
 from app.errors import AppError
 from app.services import evaluation_service as evaluations, practice_service as practice, grading_review
 from test_adaptive_engine import _make_account, _concept, _mcq, _sql, _essay
@@ -331,6 +332,92 @@ def test_typed_practice_reports_band_shortage_without_mixing(client, db_session)
     assert detail["requested_by_type"] == {"mcq": 50}
     assert detail["shortage_by_type"]["mcq"] > 0
     assert detail["concept_ids"] == sorted(c.concept_id for c in concepts)
+
+
+def _fixed_payload(concepts):
+    return {
+        **selection(concepts),
+        "assessment_style": "FIXED",
+        "question_count": 3,
+        "question_mix": {"mcq": 2, "sql": 1, "essay": 0},
+        "difficulties": ["EASY"],
+    }
+
+
+def test_fixed_start_precreates_the_whole_paper(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    response = client.post('/api/v1/practice/start', headers=headers(learner), json=_fixed_payload(concepts))
+    assert response.status_code == 200, response.text
+    state = response.json()
+    session = db_session.get(AssessmentSession, state["session_id"])
+    snapshot = session.config_snapshot
+    assert session.assessment_id is None
+    assert snapshot["runner_mode"] == "fixed"
+    assert snapshot["result_kind"] == "official_score"
+    assert snapshot["assessment_style"] == "FIXED"
+    assert len(snapshot["question_plan"]) == 3
+    assert state["runner_mode"] == "fixed" and state["done"] is False
+    assert state["served_count"] == 0 and state["answered_count"] == 0
+
+    attempts = list(db_session.scalars(select(Attempt).where(
+        Attempt.session_id == session.session_id).order_by(Attempt.seq_no)))
+    assert len(attempts) == 3
+    for attempt, plan in zip(attempts, snapshot["question_plan"]):
+        assert attempt.question_id == plan["question_id"]
+        assert attempt.question_snapshot == plan
+        assert attempt.submitted_at is None
+        assert attempt.score is None
+        assert attempt.grading_status == "unsubmitted"
+        assert attempt.is_flagged is False
+        assert attempt.flag_revision == 0
+        assert attempt.first_opened_at is None
+    assert db_session.scalar(select(func.count()).select_from(GradingJob)) == 0
+    assert db_session.scalar(select(func.count()).select_from(EvaluationRecord)) == 0
+    assert db_session.scalar(select(func.count()).select_from(SelectionLog).where(
+        SelectionLog.session_id == session.session_id)) == 3
+    assert db_session.scalar(select(func.count()).select_from(SessionQuestionPlan).where(
+        SessionQuestionPlan.session_id == session.session_id)) == 3
+
+
+def test_fixed_start_requires_explicit_question_mix_and_rejects_adaptive(client, db_session):
+    from pydantic import ValidationError
+    from app.services.practice_service import PracticeStart
+    base = dict(concept_ids=[1], difficulties=["EASY"], source="bank",
+                request_id=str(uuid4()), assessment_style="FIXED")
+    with pytest.raises(ValidationError):
+        PracticeStart(**base)
+    _, learner, concepts = fixture(db_session)
+    payload = {**selection(concepts[:1]), "assessment_style": "ADAPTIVE",
+               "question_count": 5}
+    response = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "not_available_yet"
+
+
+def test_fixed_start_blocks_old_per_answer_endpoints(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    state = client.post('/api/v1/practice/start', headers=headers(learner),
+                        json=_fixed_payload(concepts)).json()
+    question_id = state["current_question"]["question_id"]
+    submit = client.post(f'/api/v1/sessions/{state["session_id"]}/submit',
+                         headers=headers(learner), json={"question_id": question_id})
+    assert submit.status_code == 409
+    assert submit.json()["error"]["code"] == "paper_requires_final_submit"
+    served = client.post(f'/api/v1/sessions/{state["session_id"]}/serve-next',
+                         headers=headers(learner))
+    assert served.status_code == 409
+    assert served.json()["error"]["code"] == "paper_requires_final_submit"
+
+
+def test_fixed_selector_handles_fifty_questions():
+    # Selector-level sanity for the maximum PR #17 single-type paper. The
+    # end-to-end pre-create path is covered with a small paper above.
+    from app.services.practice_selection import Candidate, select_bank_mix
+    candidates = [Candidate(i, "mcq", 1, frozenset({1}), i, f"prompt-{i}", i)
+                  for i in range(1, 51)]
+    picks = select_bank_mix(candidates, {1}, "EASY", {"mcq": 50}, seed="fixed-50")
+    assert len(picks) == 50
+    assert len({pick.candidate.identity for pick in picks}) == 50
 
 
 def test_evaluation_is_held_for_mandatory_admin_review_then_released(client, db_session):

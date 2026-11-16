@@ -56,6 +56,8 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT count(*) FROM pg_constraint WHERE conrelid='account_identity'::regclass AND contype='f'").fetchone()[0] == 1
             assert conn.execute("SELECT to_regclass('concept_dependency')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='attempt' AND column_name IN ('draft_answer','question_snapshot','grading_status')").fetchone()[0] == 3
+            assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='attempt' AND column_name IN ('is_flagged','flag_revision','first_opened_at')").fetchone()[0] == 3
+            assert conn.execute("SELECT count(*) FROM pg_constraint WHERE conrelid='attempt'::regclass AND conname='attempt_flag_revision_check'").fetchone()[0] == 1
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name='locale'").fetchone()[0] == 1
             assert conn.execute("SELECT can_manage_roles FROM account WHERE email='preserved@migration.test'").fetchone()[0] is False
             assert conn.execute("SELECT to_regclass('account_role_audit')").fetchone()[0]
@@ -118,7 +120,13 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             def rows():
                 snapshots = {}
                 for (table,) in tables:
-                    projection = "to_jsonb(t) - 'status'" if table == 'assessment' else 'to_jsonb(t)'
+                    if table == 'assessment':
+                        projection = "to_jsonb(t) - 'status'"
+                    elif table == 'attempt':
+                        projection = ("to_jsonb(t) - 'is_flagged' - 'flag_revision' "
+                                      "- 'first_opened_at'")
+                    else:
+                        projection = "to_jsonb(t)"
                     snapshots[table] = conn.execute(
                         f'SELECT {projection} FROM "{table}" t ORDER BY ({projection})::text'
                     ).fetchall()
@@ -128,6 +136,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             assert apply_migrations(conn) == [
                 '019_archive_prebuilt_exams.sql',
                 '020_provisional_ai_final_results.sql',
+                '021_fixed_paper_attempt_state.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -136,7 +145,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 20
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 21
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -283,7 +292,10 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "INSERT INTO result_release_event(session_id,previous_status,new_status,reviewer_id) VALUES (%s,'pending_review','published',%s)",
                 (session_id, account_id),
             )
-            assert apply_migrations(conn) == ["020_provisional_ai_final_results.sql"]
+            assert apply_migrations(conn) == [
+                "020_provisional_ai_final_results.sql",
+                "021_fixed_paper_attempt_state.sql",
+            ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
             ).fetchone()

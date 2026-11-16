@@ -1,7 +1,7 @@
 {
   "source": "PostgreSQL introspection of db/schema.sql",
   "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
-  "schema_sha256": "216461b5225528024ad89439e2149f5184dd241a9baf8b9ebcaf293a52baba4f",
+  "schema_sha256": "87d45646a4b9350bca3317dcf5e43248797f0117cbcea32d78c7c433c67b8bba",
   "migrations": {
     "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
     "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
@@ -21,7 +21,9 @@
     "016_refresh_sessions.sql": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
     "017_assessment_question_pool.sql": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
     "018_learner_practice_evaluations.sql": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
-    "019_archive_prebuilt_exams.sql": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772"
+    "019_archive_prebuilt_exams.sql": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772",
+    "020_provisional_ai_final_results.sql": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715",
+    "021_fixed_paper_attempt_state.sql": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b"
   },
   "tables": [
     {
@@ -1560,6 +1562,39 @@
           "numeric_scale": null
         },
         {
+          "name": "is_flagged",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "flag_revision",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "first_opened_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
           "name": "question_snapshot",
           "type": "jsonb",
           "udt": "jsonb",
@@ -1638,6 +1673,14 @@
         }
       ],
       "constraints": [
+        {
+          "name": "attempt_flag_revision_check",
+          "type": "c",
+          "definition": "CHECK ((flag_revision >= 0))",
+          "columns": [
+            "flag_revision"
+          ]
+        },
         {
           "name": "attempt_pkey",
           "type": "p",

@@ -964,6 +964,8 @@ class SessionStateResult(BaseModel):
     selected_concept_ids: list[int] = []
     difficulty: Optional[str] = None
     assembly_mode: Optional[str] = None
+    runner_mode: Optional[str] = None
+    result_kind: Optional[str] = None
     adaptive_progress: Optional[dict] = None
     status: str
     started_at: datetime
