@@ -61,6 +61,7 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT to_regclass('account_role_audit')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM pg_trigger WHERE tgrelid='account_role_audit'::regclass AND tgname='account_role_audit_immutable'").fetchone()[0] == 1
             assert conn.execute("SELECT to_regclass('question_translation')").fetchone()[0]
+            assert conn.execute("SELECT to_regclass('question_clo')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='account' AND column_name IN ('password_set','password_changed_at')").fetchone()[0] == 2
             assert conn.execute("SELECT password_set FROM account WHERE email='preserved@migration.test'").fetchone()[0] is True
             assert conn.execute("SELECT password_changed_at FROM account WHERE email='preserved@migration.test'").fetchone()[0] is None
@@ -128,6 +129,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             assert apply_migrations(conn) == [
                 '019_archive_prebuilt_exams.sql',
                 '020_provisional_ai_final_results.sql',
+                '022_question_clo_tagging.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -136,7 +138,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 20
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 21
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -237,6 +239,93 @@ def test_supervisor_upgrade_preserves_completed_evidence_and_fails_closed_for_ne
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
 
+def test_022_backfills_single_clo_once_and_preserves_existing_rows():
+    """Create the table from pre-022, backfill once, then rerun safely."""
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
+    namespace = "clo022_" + uuid.uuid4().hex[:12]
+    migration = (ROOT_DIR / "db/migrations/022_question_clo_tagging.sql").read_text()
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            conn.execute((ROOT_DIR / "db/schema.sql").read_text(), prepare=False)
+            # Emulate a database upgraded from 021: the fresh schema already
+            # contains the table, so remove it before exercising the migration.
+            conn.execute("DROP TABLE question_clo")
+            conn.execute(migration, prepare=False)
+
+            account_id = conn.execute(
+                "INSERT INTO account(email,password_hash) "
+                "VALUES ('clo022@migration.test','not-a-login-hash') RETURNING account_id"
+            ).fetchone()[0]
+            clo1 = conn.execute(
+                "INSERT INTO course_learning_outcome(clo_code,title,created_by) "
+                "VALUES ('CLO-22-A','Querying',%s) RETURNING clo_id",
+                (account_id,),
+            ).fetchone()[0]
+            clo2 = conn.execute(
+                "INSERT INTO course_learning_outcome(clo_code,title,created_by) "
+                "VALUES ('CLO-22-B','Design',%s) RETURNING clo_id",
+                (account_id,),
+            ).fetchone()[0]
+            concept1 = conn.execute(
+                "INSERT INTO concept(concept_code,concept_name,subject_area) "
+                "VALUES ('C22-A','Single concept','SQL') RETURNING concept_id"
+            ).fetchone()[0]
+            concept2 = conn.execute(
+                "INSERT INTO concept(concept_code,concept_name,subject_area) "
+                "VALUES ('C22-B','Ambiguous concept','SQL') RETURNING concept_id"
+            ).fetchone()[0]
+            conn.execute(
+                "INSERT INTO clo_concept(clo_id,concept_id,mapping_source,status) VALUES "
+                "(%s,%s,'admin','confirmed'),(%s,%s,'admin','confirmed'),"
+                "(%s,%s,'admin','confirmed')",
+                (clo1, concept1, clo1, concept2, clo2, concept2),
+            )
+            questions = []
+            for prompt in ("single", "ambiguous", "admin", "unmapped"):
+                questions.append(
+                    conn.execute(
+                        "INSERT INTO question(question_type,prompt,created_by) "
+                        "VALUES ('mcq',%s,%s) RETURNING question_id",
+                        (prompt, account_id),
+                    ).fetchone()[0]
+                )
+            conn.execute(
+                "INSERT INTO question_concept(question_id,concept_id,confirmed,review_status) VALUES "
+                "(%s,%s,TRUE,'confirmed'),(%s,%s,TRUE,'confirmed'),(%s,%s,TRUE,'confirmed')",
+                (
+                    questions[0], concept1,
+                    questions[1], concept2,
+                    questions[2], concept1,
+                ),
+            )
+            conn.execute(
+                "INSERT INTO question_clo(question_id,clo_id,is_primary,status,tag_source,confirmed_at) "
+                "VALUES (%s,%s,TRUE,'confirmed','admin',NOW())",
+                (questions[2], clo2),
+            )
+
+            conn.execute(migration, prepare=False)
+            conn.execute(migration, prepare=False)
+
+            rows = conn.execute(
+                "SELECT question_id,clo_id,is_primary,status,tag_source,confirmed_at IS NOT NULL "
+                "FROM question_clo ORDER BY question_id"
+            ).fetchall()
+            assert rows == [
+                (questions[0], clo1, True, "confirmed", "auto", True),
+                (questions[2], clo2, True, "confirmed", "admin", True),
+            ]
+            assert conn.execute(
+                "SELECT count(*) FROM question_clo WHERE question_id IN (%s,%s)",
+                (questions[1], questions[3]),
+            ).fetchone()[0] == 0
+        finally:
+            conn.execute('SET search_path TO public')
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
+
+
 def test_020_backfills_legacy_published_practice_once(tmp_path):
     """Existing published practice results get one legacy snapshot, repeatably."""
     directory = ROOT_DIR / "db/migrations"
@@ -283,7 +372,10 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "INSERT INTO result_release_event(session_id,previous_status,new_status,reviewer_id) VALUES (%s,'pending_review','published',%s)",
                 (session_id, account_id),
             )
-            assert apply_migrations(conn) == ["020_provisional_ai_final_results.sql"]
+            assert apply_migrations(conn) == [
+                "020_provisional_ai_final_results.sql",
+                "022_question_clo_tagging.sql",
+            ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
             ).fetchone()
