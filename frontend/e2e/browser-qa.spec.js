@@ -8,13 +8,14 @@ import {
   demoPassword,
   checkArithmetic,
   approveWithApi,
+  providerControl,
 } from './practice-harness.js'
 
 const provider = process.env.DBCAS_QA_PROVIDER_URL
 if (!provider)
   throw new Error('Run browser-qa.spec.js with npm run test:qa and its local fake provider')
 async function control(page, data) {
-  expect((await page.request.post(`${provider}/control`, { data })).ok()).toBe(true)
+  await providerControl(page, data)
 }
 
 test('a stalled workspace module offers Retry and recovers when the download completes', async ({

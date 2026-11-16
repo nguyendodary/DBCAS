@@ -10,6 +10,7 @@ import {
   take,
   checkArithmetic,
   checkViewport,
+  providerControl,
 } from './practice-harness.js'
 
 test.describe.configure({ mode: 'serial' })
@@ -86,11 +87,7 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
 test('AI-generated source stays inside chosen concepts and hard difficulty', async ({
   page,
 }, info) => {
-  const provider = process.env.DBCAS_QA_PROVIDER_URL
-  if (provider)
-    await page.request.post(`${provider}/control`, {
-      data: { delay_seconds: 1, failure: false, hold: false },
-    })
+  await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   await register(page, 'generated')
   await page.goto('/assessments')
   const options = await api(page, '/practice/options')
@@ -288,15 +285,7 @@ test('390px mobile learner setup, attempt and evaluation fit the viewport', asyn
 test('provider outage uses a bounded fallback and caches the unchanged evaluation', async ({
   page,
 }, info) => {
-  const provider = process.env.DBCAS_QA_PROVIDER_URL
-  if (provider)
-    expect(
-      (
-        await page.request.post(`${provider}/control`, {
-          data: { delay_seconds: 1, failure: true },
-        })
-      ).ok(),
-    ).toBe(true)
+  await providerControl(page, { delay_seconds: 1, failure: true })
   try {
     await register(page, 'outage')
     const state = await start(page, 'bank', 3)
@@ -325,8 +314,7 @@ test('provider outage uses a bounded fallback and caches the unchanged evaluatio
     expect(second.input_hash).toBe(first.input_hash)
     await page.screenshot({ path: info.outputPath('provider-fallback.png'), fullPage: true })
   } finally {
-    if (provider)
-      await page.request.post(`${provider}/control`, { data: { delay_seconds: 1, failure: false } })
+    if (provider) await providerControl(page, { delay_seconds: 1, failure: false })
   }
 })
 
@@ -339,9 +327,7 @@ test('AI provider failure fills the exact count from the validated bank', async 
   const options = await api(page, '/practice/options')
   const concept = options.concepts.find((c) => c.concept_name === 'ER modeling')
   expect(concept).toBeTruthy()
-  await page.request.post(`${provider}/control`, {
-    data: { delay_seconds: 1, failure: true, hold: false },
-  })
+  await providerControl(page, { delay_seconds: 1, failure: true, hold: false })
   try {
     const state = await start(page, 'ai', 5, { concept_ids: [concept.concept_id] })
     expect(state.max_questions).toBe(5)
@@ -354,9 +340,7 @@ test('AI provider failure fills the exact count from the validated bank', async 
     const result = await take(page, state)
     expect(result.kinds).toHaveLength(5)
   } finally {
-    await page.request.post(`${provider}/control`, {
-      data: { delay_seconds: 1, failure: false, hold: false },
-    })
+    await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   }
 })
 
@@ -366,9 +350,7 @@ test('AI generation timeout falls back within the request deadline at exact coun
   const provider = process.env.DBCAS_QA_PROVIDER_URL
   test.skip(!provider, 'Requires the deterministic local provider')
   await register(page, 'generation-timeout')
-  await page.request.post(`${provider}/control`, {
-    data: { delay_seconds: 60, failure: false, hold: false },
-  })
+  await providerControl(page, { delay_seconds: 60, failure: false, hold: false })
   const began = Date.now()
   try {
     const state = await start(page, 'ai', 3, {}, 70_000)
@@ -384,9 +366,7 @@ test('AI generation timeout falls back within the request deadline at exact coun
       fullPage: true,
     })
   } finally {
-    await page.request.post(`${provider}/control`, {
-      data: { delay_seconds: 1, failure: false, hold: false },
-    })
+    await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   }
 })
 
@@ -400,9 +380,7 @@ test('transport failure offers one-click retry with unchanged setup and request 
   await page.getByRole('button', { name: 'ER modeling', exact: true }).click()
   await page.getByRole('radio', { name: 'AI tạo câu hỏi', exact: true }).check()
   await expect(page.getByRole('button', { name: 'Bắt đầu', exact: true })).toBeEnabled()
-  await page.request.post(`${provider}/control`, {
-    data: { delay_seconds: 1, failure: false, hold: false },
-  })
+  await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   const unavailable = (route) =>
     route.fulfill({
       status: 503,
@@ -450,8 +428,6 @@ test('transport failure offers one-click retry with unchanged setup and request 
     await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
     await page.screenshot({ path: info.outputPath('generation-recovered.png'), fullPage: true })
   } finally {
-    await page.request.post(`${provider}/control`, {
-      data: { delay_seconds: 1, failure: false, hold: false },
-    })
+    await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   }
 })

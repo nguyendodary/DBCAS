@@ -114,5 +114,13 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(400, {"error": "invalid_request"})
 
 
+class ProviderServer(ThreadingHTTPServer):
+    # Held completions, healthchecks and parallel learners can exceed the
+    # default 5-entry listen backlog; an overflow is reported to clients as
+    # ECONNREFUSED on the published host port.
+    request_queue_size = 128
+    daemon_threads = True
+
+
 if __name__ == "__main__":
-    ThreadingHTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+    ProviderServer(("0.0.0.0", 8080), Handler).serve_forever()
