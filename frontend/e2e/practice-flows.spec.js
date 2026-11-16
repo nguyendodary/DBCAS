@@ -231,7 +231,7 @@ test('Admin navigation has five focused screens and no exam creation surface', a
 }, info) => {
   await login(page, 'admin@dbcas.local')
   const menu = page.locator('.app-sidebar nav')
-  expect(await menu.getByRole('link').count()).toBe(5)
+  expect(await menu.getByRole('link').count()).toBe(6)
   expect(
     await menu
       .getByRole('link')
