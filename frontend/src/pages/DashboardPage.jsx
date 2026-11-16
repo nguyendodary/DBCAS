@@ -10,7 +10,7 @@ import {
   CompetencyRadar,
 } from '../components/CompetencyCharts'
 import { EmptyState, ErrorState, Loading } from '../components/States'
-import { Badge, Card, CardTitle, Icon, ScoreBar, btnPrimary } from '../components/ui'
+import { Badge, Card, CardTitle, Icon, ScoreBar } from '../components/ui'
 import heroBg from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
 import BackgroundVideo from '../components/BackgroundVideo'
@@ -50,13 +50,6 @@ function DashboardHero({
             <p className="mt-1.5 text-xs text-sub">{t('dashboard.subtitle')}</p>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2.5">
-            <Link to="/assessments" className={btnPrimary}>
-              {t('dashboard.startAssessment')}
-              <Icon name="arrowRight" className="h-4 w-4" />
-            </Link>
-            <Link to="/competency" className="hero-tag text-cyan-300 underline">
-              {t('supervisor.cumulative')}
-            </Link>
             {finalized.length > 0 && (
               <label className="hero-tag">
                 <Icon name="list" className="hero-tag-icon" />
@@ -178,9 +171,6 @@ function DashboardState({ children }) {
       <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
         <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
         <div className="content-wrap hero-photo-inner">
-          <Link to="/competency" className="mb-3 inline-block text-sm text-cyan-300 underline">
-            {t('supervisor.cumulative')}
-          </Link>
           <h1 className="text-2xl font-extrabold leading-snug tracking-[-1px] text-ink lg:text-display">
             {t('dashboard.title')}
           </h1>
@@ -320,9 +310,6 @@ export default function DashboardPage() {
           {sessions.some((s) => FINAL_STATES.has(s.status))
             ? t('supervisor.pendingHelp')
             : t('dashboard.emptyBody')}
-          <Link to="/assessments" className="mt-3 block font-medium text-cyan-300 hover:underline">
-            {t('dashboard.browse')}
-          </Link>
         </EmptyState>
         <button
           type="button"
