@@ -285,6 +285,7 @@ test('390px mobile learner setup, attempt and evaluation fit the viewport', asyn
 test('provider outage uses a bounded fallback and caches the unchanged evaluation', async ({
   page,
 }, info) => {
+  const provider = process.env.DBCAS_QA_PROVIDER_URL
   await providerControl(page, { delay_seconds: 1, failure: true })
   try {
     await register(page, 'outage')
