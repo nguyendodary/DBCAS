@@ -379,7 +379,7 @@ def test_fixed_start_precreates_the_whole_paper(client, db_session):
         SessionQuestionPlan.session_id == session.session_id)) == 3
 
 
-def test_fixed_start_requires_explicit_question_mix_and_rejects_adaptive(client, db_session):
+def test_fixed_start_requires_explicit_question_mix_and_adaptive_scope(client, db_session):
     from pydantic import ValidationError
     from app.services.practice_service import PracticeStart
     base = dict(concept_ids=[1], difficulties=["EASY"], source="bank",
@@ -387,11 +387,13 @@ def test_fixed_start_requires_explicit_question_mix_and_rejects_adaptive(client,
     with pytest.raises(ValidationError):
         PracticeStart(**base)
     _, learner, concepts = fixture(db_session)
-    payload = {**selection(concepts[:1]), "assessment_style": "ADAPTIVE",
-               "question_count": 5}
-    response = client.post('/api/v1/practice/preview', headers=headers(learner), json=payload)
-    assert response.status_code == 422
-    assert response.json()["error"]["code"] == "not_available_yet"
+    for override in ({"difficulties": ["EASY", "MEDIUM"]},
+                     {"concept_ids": [c.concept_id for c in concepts]}):
+        payload = {**selection(concepts[:1]), "assessment_style": "ADAPTIVE",
+                   "question_count": 5, **override}
+        response = client.post('/api/v1/practice/start', headers=headers(learner), json=payload)
+        assert response.status_code == 422
+        assert response.json()["error"]["code"] == "validation_error"
 
 
 def test_fixed_start_blocks_old_per_answer_endpoints(client, db_session):

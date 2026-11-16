@@ -22,7 +22,8 @@ def list_learner_sessions(db: Session, learner: Account) -> list[SessionSummary]
 
 def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary]:
     """Shared by the learner endpoint and the admin drill-down."""
-    from .batch_adaptive import progress
+    from .adaptive_engine import progress
+    from .continuous_adaptive import estimate
     repo = AssessmentRepository(db)
     sessions = repo.sessions_for_learner(learner_id)
     grouped = defaultdict(list)
@@ -38,6 +39,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
         practice = bool((s.config_snapshot or {}).get("learner_defined"))
         provisional = practice and not is_published(s) and s.release_status in ("provisional_ai", "pending_review")
         final = is_published(s) or provisional
+        adaptive = (s.config_snapshot or {}).get("runner_mode") == "adaptive"
         items.append(
             SessionSummary(
                 session_id=s.session_id,
@@ -49,7 +51,10 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 selected_concept_ids=(s.config_snapshot or {}).get("selected_concept_ids", []),
                 difficulty=(s.config_snapshot or {}).get("difficulty"),
                 assembly_mode=(s.config_snapshot or {}).get("assembly_mode"),
+                runner_mode=(s.config_snapshot or {}).get("runner_mode"),
+                result_kind=(s.config_snapshot or {}).get("result_kind"),
                 adaptive_progress=progress(s, attempts),
+                ability_estimate=estimate(s, attempts) if adaptive else None,
                 started_at=s.started_at,
                 expires_at=s.expires_at,
                 submitted_at=s.submitted_at,
@@ -58,8 +63,8 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 graded_count=len(graded),
                 pending_grading_count=sum(a.grading_status == "pending" for a in submitted),
                 failed_grading_count=sum(a.grading_status == "failed" for a in submitted),
-                overall_result_pct=(earned / possible * 100).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) if final and possible and len(graded) == len(submitted) else None,
-                concepts=concept_items(s, _aggregate(graded), targets_for_session(s, CompetencyRepository(db))) if final else [],
+                overall_result_pct=(earned / possible * 100).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) if final and not adaptive and possible and len(graded) == len(submitted) else None,
+                concepts=[] if adaptive else (concept_items(s, _aggregate(graded), targets_for_session(s, CompetencyRepository(db))) if final else []),
                 provisional=provisional,
             )
         )
