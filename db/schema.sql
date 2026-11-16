@@ -233,6 +233,9 @@ CREATE TABLE attempt (
   grading_detail JSONB,
   served_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   submitted_at TIMESTAMPTZ,
+  is_flagged BOOLEAN NOT NULL DEFAULT FALSE,
+  flag_revision INT NOT NULL DEFAULT 0 CHECK (flag_revision >= 0),
+  first_opened_at TIMESTAMPTZ,
   UNIQUE (session_id, seq_no)
 );
 

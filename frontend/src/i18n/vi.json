@@ -1446,5 +1446,18 @@
       "item5": "Nếu kết quả vẫn chờ, hãy kiểm tra chính sách công bố và trạng thái duyệt chấm; liên hệ quản trị viên nếu vẫn chờ quá quy trình đã nêu.",
       "item6": "Nếu truy vấn SQL hết thời gian hoặc bị từ chối, hãy đơn giản hóa, bảo đảm chỉ một câu lệnh SELECT và nằm trong giới hạn số hàng."
     }
+  },
+  "weakPractice": {
+    "promptTitle": "Luyện tập điểm yếu?",
+    "promptBody": "Kết quả cho thấy một số khái niệm chưa đạt mục tiêu. Bạn có thể mở phần tạo bài luyện tập với các khái niệm này được chọn sẵn.",
+    "promptListLabel": "Khái niệm chưa đạt mục tiêu",
+    "promptAction": "Luyện tập điểm yếu",
+    "promptDismiss": "Để sau",
+    "promptHint": "Hệ thống không tự bắt đầu. Bạn chọn độ khó và số câu trước khi bắt đầu.",
+    "preselectedNotice": "Các khái niệm từ kết quả gần nhất đã được chọn sẵn. Bạn có thể thêm hoặc bỏ khái niệm trước khi bắt đầu.",
+    "selectedTitle": "Khái niệm đã chọn và chuẩn đầu ra",
+    "selectedHelp": "Mỗi khái niệm đã chọn được hiển thị kèm chuẩn đầu ra liên quan.",
+    "noClo": "Khái niệm này chưa được gắn chuẩn đầu ra.",
+    "cloLabel": "Chuẩn đầu ra"
   }
 }

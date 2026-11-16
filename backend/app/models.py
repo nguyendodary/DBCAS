@@ -14,6 +14,7 @@ from sqlalchemy import (
     ForeignKeyConstraint,
     CheckConstraint,
     BigInteger,
+    Boolean,
     DateTime,
     Index,
     Numeric,
@@ -489,7 +490,10 @@ class Attempt(Base):
     """One row per served question. A row is graded iff submitted_at is set."""
 
     __tablename__ = "attempt"
-    __table_args__ = (UniqueConstraint("session_id", "seq_no"),)
+    __table_args__ = (
+        UniqueConstraint("session_id", "seq_no"),
+        CheckConstraint("flag_revision >= 0"),
+    )
 
     attempt_id: Mapped[int] = mapped_column(primary_key=True)
     session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"))
@@ -509,6 +513,9 @@ class Attempt(Base):
     submission_hash: Mapped[Optional[str]] = mapped_column(String(64))
     grading_status: Mapped[str] = mapped_column(String(20), default="unsubmitted")
     review_revision: Mapped[int] = mapped_column(default=0)
+    is_flagged: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
+    flag_revision: Mapped[int] = mapped_column(default=0)
+    first_opened_at: Mapped[Optional[datetime]]
 
     question: Mapped[Question] = relationship()
     session: Mapped[AssessmentSession] = relationship(back_populates="attempts")

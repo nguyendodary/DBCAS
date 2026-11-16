@@ -1446,5 +1446,18 @@
       "item5": "If results stay pending, check the release policy and grading review status; contact your administrator if it remains pending beyond the stated process.",
       "item6": "If SQL queries time out or are rejected, simplify the query, ensure it is a single SELECT statement and stay within the row limits."
     }
+  },
+  "weakPractice": {
+    "promptTitle": "Practice your weak skills?",
+    "promptBody": "Your result shows concepts below their target. You can open the practice builder with these concepts preselected.",
+    "promptListLabel": "Concepts below target",
+    "promptAction": "Practice weak skills",
+    "promptDismiss": "Not now",
+    "promptHint": "Nothing starts automatically. Choose difficulty and question count before you begin.",
+    "preselectedNotice": "Concepts from your latest result are preselected. You can add or remove concepts before starting.",
+    "selectedTitle": "Selected concepts and learning outcomes",
+    "selectedHelp": "Each selected concept is shown with its related course learning outcome.",
+    "noClo": "No course learning outcome is linked to this concept.",
+    "cloLabel": "Learning outcome"
   }
 }

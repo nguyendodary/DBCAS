@@ -3768,8 +3768,38 @@
         "title": "PointMetric",
         "type": "object"
       },
+      "PracticeClo": {
+        "properties": {
+          "clo_code": {
+            "title": "Clo Code",
+            "type": "string"
+          },
+          "clo_id": {
+            "title": "Clo Id",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "clo_id",
+          "clo_code",
+          "title"
+        ],
+        "title": "PracticeClo",
+        "type": "object"
+      },
       "PracticeConcept": {
         "properties": {
+          "clos": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeClo"
+            },
+            "title": "Clos",
+            "type": "array"
+          },
           "concept_id": {
             "title": "Concept Id",
             "type": "integer"
@@ -3916,6 +3946,21 @@
       "PracticeStart": {
         "additionalProperties": false,
         "properties": {
+          "assessment_style": {
+            "anyOf": [
+              {
+                "enum": [
+                  "FIXED",
+                  "ADAPTIVE"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Style"
+          },
           "concept_ids": {
             "items": {
               "exclusiveMinimum": 0.0,
@@ -5751,6 +5796,17 @@
             "title": "Remaining Seconds",
             "type": "integer"
           },
+          "result_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Kind"
+          },
           "result_release_policy": {
             "default": "HUMAN_VERIFIED",
             "enum": [
@@ -5759,6 +5815,17 @@
             ],
             "title": "Result Release Policy",
             "type": "string"
+          },
+          "runner_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runner Mode"
           },
           "selected_concept_ids": {
             "default": [],

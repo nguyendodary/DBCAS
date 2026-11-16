@@ -172,7 +172,10 @@ def test_populated_upgrade_withholds_legacy_stale_scores_and_preserves_all_grade
             assert conn.execute("SELECT release_status FROM assessment_session ORDER BY session_id").fetchall() == [
                 ("auto_grading",), ("auto_grading",), ("grading_failed",), ("published",)]
             # Migration 008 adds a review revision; every original evidence value remains.
-            assert conn.execute("SELECT to_jsonb(a)-'review_revision' FROM attempt a ORDER BY attempt_id").fetchall() == evidence
+            assert conn.execute(
+                "SELECT to_jsonb(a)-'review_revision'-'is_flagged'-'flag_revision'-'first_opened_at' "
+                "FROM attempt a ORDER BY attempt_id"
+            ).fetchall() == evidence
             events = conn.execute("SELECT previous_status,new_status FROM result_release_event ORDER BY session_id").fetchall()
             assert events == [("published", "auto_grading"), ("published", "auto_grading")]
             assert apply_migrations(conn) == []
@@ -223,6 +226,7 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "018_learner_practice_evaluations.sql",
                 "019_archive_prebuilt_exams.sql",
                 "020_provisional_ai_final_results.sql",
+                "021_fixed_paper_attempt_state.sql",
                 "022_question_clo_tagging.sql",
             ]
             assert apply_migrations(conn) == []

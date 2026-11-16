@@ -1,11 +1,11 @@
 {
   "source": "docs/qa/schema-introspection.json + docs/qa/project-facts.json + system-context-model.json",
   "tables": 41,
-  "columns": 293,
+  "columns": 296,
   "foreign_keys": 59,
   "indexes": 87,
   "enums": 0,
-  "migrations": 20,
+  "migrations": 21,
   "table_names": [
     "account",
     "account_identity",
@@ -113,6 +113,8 @@
     "failures",
     "family_id",
     "finished_at",
+    "first_opened_at",
+    "flag_revision",
     "full_name",
     "gap_id",
     "grading_detail",
@@ -122,6 +124,7 @@
     "is_correct",
     "is_edge_case",
     "is_fallback",
+    "is_flagged",
     "is_required",
     "job_id",
     "jti_hash",
@@ -478,7 +481,7 @@
   ],
   "erd_size": [
     950,
-    6667
+    6727
   ],
   "erd_pages": 9,
   "table_relationship_pages": 3

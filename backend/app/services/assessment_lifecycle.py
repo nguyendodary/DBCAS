@@ -147,6 +147,9 @@ def result_for(attempt):
 
 def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempotent=True):
     session = owned_locked_session(db, session_id, learner)
+    if (session.config_snapshot or {}).get("runner_mode") == "fixed":
+        raise AppError(409, "paper_requires_final_submit",
+                       "FIXED papers are graded only on final submit")
     repo = AssessmentRepository(db)
     attempt = _attempt(repo, session_id, payload.question_id)
     question = _snapshot(repo, attempt)

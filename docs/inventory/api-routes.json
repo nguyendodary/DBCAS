@@ -9,7 +9,7 @@
     "backend/app/routers/auth.py": "d9a54d4433088689a76d8de8cb9c61e38970fb1cd4460a7e5f0a008bddd320aa",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "bfae5a90f5e5fbffcebf9b53dc707e80117dee692131bc43d13703042aeb60fd",
-    "backend/app/routers/practice.py": "e91cb117648bd37cd718234803621def5c2d975ece67fca512e453ad306f26b6",
+    "backend/app/routers/practice.py": "f1aa2bda52fbf28129c6d3f7b213ce86036e069a02971d38955dd36767763f6c",
     "backend/app/routers/sessions.py": "6ac89b13fd78ff126978dd453fbd894eabfb182325ab536693a9666ac9b6add3"
   },
   "count": 93,
@@ -63,7 +63,7 @@
       "path": "/api/v1/admin/accounts/{account_id}/reset-password",
       "router": "practice.py",
       "handler": "reset_account_password",
-      "line": 103,
+      "line": 143,
       "guards": [
         "AdminOnly"
       ],
@@ -305,7 +305,7 @@
       "path": "/api/v1/admin/grading-reviews/{session_id}/run-sql",
       "router": "practice.py",
       "handler": "verify_sql",
-      "line": 125,
+      "line": 165,
       "guards": [
         "AdminOnly"
       ],
@@ -569,7 +569,7 @@
       "path": "/api/v1/admin/system",
       "router": "practice.py",
       "handler": "system_status",
-      "line": 87,
+      "line": 127,
       "guards": [
         "AdminOnly"
       ],
@@ -725,7 +725,7 @@
       "path": "/api/v1/evaluations/attempts/{session_id}",
       "router": "practice.py",
       "handler": "attempt_evaluation",
-      "line": 77,
+      "line": 117,
       "guards": [
         "LearnerOnly"
       ],
@@ -736,7 +736,7 @@
       "path": "/api/v1/evaluations/attempts/{session_id}/retry",
       "router": "practice.py",
       "handler": "retry_attempt",
-      "line": 82,
+      "line": 122,
       "guards": [
         "LearnerOnly"
       ],
@@ -747,7 +747,7 @@
       "path": "/api/v1/evaluations/overall",
       "router": "practice.py",
       "handler": "overall_evaluation",
-      "line": 67,
+      "line": 107,
       "guards": [
         "LearnerOnly"
       ],
@@ -758,7 +758,7 @@
       "path": "/api/v1/evaluations/overall/retry",
       "router": "practice.py",
       "handler": "retry_overall",
-      "line": 72,
+      "line": 112,
       "guards": [
         "LearnerOnly"
       ],
@@ -778,7 +778,7 @@
       "path": "/api/v1/practice/options",
       "router": "practice.py",
       "handler": "practice_options",
-      "line": 41,
+      "line": 78,
       "guards": [
         "LearnerOnly"
       ],
@@ -789,7 +789,7 @@
       "path": "/api/v1/practice/preview",
       "router": "practice.py",
       "handler": "preview_practice",
-      "line": 51,
+      "line": 91,
       "guards": [
         "LearnerOnly"
       ],
@@ -800,7 +800,7 @@
       "path": "/api/v1/practice/start",
       "router": "practice.py",
       "handler": "start_practice",
-      "line": 57,
+      "line": 97,
       "guards": [
         "LearnerOnly"
       ],

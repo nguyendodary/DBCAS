@@ -41,6 +41,7 @@ class PracticeStart(BaseModel):
     source: Literal["bank", "ai"] = "bank"
     question_count: int = Field(default=DEFAULT_QUESTIONS, ge=MIN_QUESTIONS, le=MAX_SINGLE_TYPE_QUESTIONS, strict=True)
     question_mix: PracticeMix | None = None
+    assessment_style: Literal["FIXED", "ADAPTIVE"] | None = None
     request_id: UUID
 
     @field_validator("source")
@@ -53,6 +54,8 @@ class PracticeStart(BaseModel):
     def typed_question_limits(self):
         """Keep the legacy 13 cap and enforce the typed-practice caps."""
         mix = self.question_mix
+        if self.assessment_style == "FIXED" and mix is None:
+            raise ValueError("FIXED assessment style requires question_mix")
         if mix is None:
             if self.question_count > LEGACY_MAX_QUESTIONS:
                 raise ValueError(
@@ -171,10 +174,16 @@ def _coverage_notice(uncovered):
     return f"Một số khái niệm chưa có câu hỏi phù hợp: {names}{suffix}. Bài vẫn có thể bắt đầu."
 
 
+def _require_style_supported(payload):
+    if payload.assessment_style == "ADAPTIVE":
+        raise AppError(422, "not_available_yet", "Adaptive assessment style is not available yet")
+
+
 def preview(db, learner, payload):
     """Deterministic, read-only coverage preview; never calls an LLM."""
     from ..config import get_settings
     from .practice_bank import preview_plan
+    _require_style_supported(payload)
     get_preview_throttle().check(learner.account_id, get_settings())
     request_id = str(payload.request_id)
     binding = db.get(SessionStartRequest, (learner.account_id, request_id))
@@ -222,6 +231,7 @@ def preview(db, learner, payload):
 
 def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     from . import adaptive_engine
+    _require_style_supported(payload)
     request_id = str(payload.request_id)
     SecurityRepository(db).lock(f"practice-start:{learner.account_id}")
     binding = db.get(SessionStartRequest, (learner.account_id, request_id))
@@ -249,26 +259,43 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     template_fallback = any(p.candidate.origin == "template" for p in picks)
     ai_generated_count = sum(p.candidate.origin == "ai" for p in picks)
     counts, repo = Counter(q.question_type for q in questions), AssessmentRepository(db)
-    now = repo.server_time()
-    session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
-                                 locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id)
-    session.config_snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
+    fixed = payload.assessment_style == "FIXED"
+    provenance = [{"tier": p.tier, "distance": p.distance, "origin": p.candidate.origin} for p in picks]
+    snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
         "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],
         "question_mix": payload.question_mix.model_dump() if payload.question_mix is not None else None,
-        "result_release_policy": session.result_release_policy, "selection": selection, "source": payload.source,
+        "result_release_policy": "HUMAN_VERIFIED",
+        "selection": selection, "source": payload.source,
         "generation_fallback": fallback, "bank_mixed": bank_mixed, "template_fallback": template_fallback,
         "ai_generated_count": ai_generated_count, "generation_diagnostics": diagnostics,
         "selection_notice": notice, "coverage_notice": coverage_notice,
         "uncovered_concepts": [c.model_dump() for c in uncovered],
-        "selection_provenance": [{"tier": p.tier, "distance": p.distance, "origin": p.candidate.origin} for p in picks], "selected_concept_ids": payload.concept_ids, "difficulty": ",".join(payload.difficulties),
+        "selection_provenance": provenance, "selected_concept_ids": payload.concept_ids, "difficulty": ",".join(payload.difficulties),
         "concepts": [{"concept_id": c.concept_id, "concept_code": c.concept_code, "concept_name": c.concept_name, "description": c.description,
             "subject_area": c.subject_area, "keywords": c.keywords, "learning_objectives": c.learning_objectives,
             "min_difficulty": min(levels(payload)), "max_difficulty": max(levels(payload)), "target_pct": "70"} for c in concepts],
         "question_ids": [q.question_id for q in questions], "question_plan": [capture_question(repo, q) for q in questions]}
+    if fixed:
+        snapshot.update(runner_mode="fixed", result_kind="official_score", assessment_style="FIXED")
+    now = repo.server_time()
+    session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
+                                 locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id)
+    session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id, session_id=session.session_id))
     db.add_all([SessionQuestionPlan(session_id=session.session_id, seq_no=i+1, question_id=q.question_id) for i,q in enumerate(questions)])
     db.flush()
-    serve_planned(repo, session, 1)
+    if fixed:
+        for seq, plan in enumerate(snapshot["question_plan"], start=1):
+            attempt = repo.create_attempt(session.session_id, plan["question_id"], seq)
+            attempt.question_snapshot = plan
+            source = snapshot["selection_provenance"][seq - 1] if seq <= len(provenance) else {}
+            repo.create_selection_log(session.session_id, seq, plan["question_id"],
+                is_fallback=bool(source.get("tier") or source.get("origin") == "template"),
+                decision_detail={"phase": "fixed_paper", "selection": source,
+                                 "selected_concept_ids": payload.concept_ids,
+                                 "difficulty": snapshot["difficulty"]})
+    else:
+        serve_planned(repo, session, 1)
     db.commit()
     return adaptive_engine._state(repo, session)
