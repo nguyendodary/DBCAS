@@ -74,6 +74,7 @@
     "/api/v1/admin/concepts",
     "/api/v1/admin/concepts/{concept_id}",
     "/api/v1/admin/concepts/{concept_id}/prerequisites",
+    "/api/v1/admin/financial-report",
     "/api/v1/admin/grading-reviews",
     "/api/v1/admin/grading-reviews/{session_id}",
     "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
@@ -142,13 +143,14 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 83,
-  "openapi_operation_count": 93,
+  "openapi_path_count": 84,
+  "openapi_operation_count": 94,
   "frontend_routes": [
     "*",
     "/",
     "/admin",
     "/admin/accounts",
+    "/admin/chi-phi",
     "/admin/curriculum",
     "/admin/grading",
     "/admin/grading/:reviewSessionId",
@@ -167,14 +169,16 @@
     "/login",
     "/register",
     "/reset-password",
-    "/settings"
+    "/settings",
+    "/upgrade"
   ],
   "admin_nav": [
     "/admin",
     "/admin/grading",
     "/admin/accounts",
     "/admin/questions",
-    "/admin/system"
+    "/admin/system",
+    "/admin/chi-phi"
   ],
   "learner_nav": [
     "/dashboard",

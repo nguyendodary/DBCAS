@@ -22,6 +22,7 @@ const ADMIN_LINKS = [
   { to: '/admin/accounts', label: 'nav.accounts', icon: 'users' },
   { to: '/admin/questions', label: 'nav.bank', icon: 'book' },
   { to: '/admin/system', label: 'nav.system', icon: 'settings' },
+  { to: '/admin/chi-phi', label: 'Chi phí', icon: 'chart', custom: true },
 ]
 
 const sideLinkCls = ({ isActive }) =>
@@ -34,12 +35,13 @@ const sideLinkCls = ({ isActive }) =>
 const topLinkCls = ({ isActive }) => `nav-pill ${isActive ? 'active' : ''}`
 
 function AccountChip({ account, onLogout }) {
-  useLocale()
+  const { locale } = useLocale()
   return (
     <div className="flex min-w-0 items-center gap-2.5">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25">
+      <span className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-400/10 text-xs font-bold text-cyan-300 ring-1 ring-inset ring-cyan-400/25 sm:flex">
         {(account.full_name || account.email || '?').slice(0, 1).toUpperCase()}
       </span>
+
       <div className="hidden min-w-0 max-w-[220px] 2xl:block">
         <p
           className="truncate text-sm font-medium leading-tight"
@@ -51,6 +53,15 @@ function AccountChip({ account, onLogout }) {
           {account.email}
         </p>
       </div>
+      <Link
+        to="/upgrade"
+        aria-label={locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+        title={locale === 'en' ? 'Upgrade' : 'Nâng cấp'}
+        className="flex shrink-0 items-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 px-2 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/20 sm:px-3"
+      >
+        <span className="sm:hidden">Pro</span>
+        <span className="hidden sm:inline">{locale === 'en' ? 'Upgrade' : 'Nâng cấp'}</span>
+      </Link>
       <button
         type="button"
         onClick={onLogout}
@@ -111,7 +122,7 @@ function LearnerTopbar({ onLogout }) {
 // logo lockup, the primary "new assessment" CTA, flat navigation and a
 // full-width logout button at the bottom.
 function AdminSidebar({ onLogout, isLearner }) {
-  useLocale()
+  const { locale } = useLocale()
   const { account } = useAuth()
   return (
     <aside className="app-sidebar fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-edge md:flex">
@@ -150,7 +161,13 @@ function AdminSidebar({ onLogout, isLearner }) {
         {ADMIN_LINKS.map((l) => (
           <NavLink key={l.to} to={l.to} end={l.end} className={sideLinkCls}>
             <Icon name={l.icon} className="h-4 w-4 shrink-0" />
-            {t(l.label)}
+            {l.custom
+              ? l.to === '/admin/chi-phi'
+                ? locale === 'en'
+                  ? 'Costs'
+                  : 'Chi phí'
+                : l.label
+              : t(l.label)}
           </NavLink>
         ))}
       </nav>
@@ -171,7 +188,7 @@ function AdminSidebar({ onLogout, isLearner }) {
 }
 
 function MobileTopbar({ links, onLogout }) {
-  useLocale()
+  const { locale } = useLocale()
   const { account } = useAuth()
   return (
     <header className="chrome-dark sticky top-0 z-40 border-b md:hidden">
@@ -198,7 +215,13 @@ function MobileTopbar({ links, onLogout }) {
       <nav aria-label={t('nav.primary')} className="flex gap-1 overflow-x-auto px-3 pb-2.5">
         {links.map((l) => (
           <NavLink key={l.to} to={l.to} end={l.end} className={topLinkCls}>
-            {t(l.label)}
+            {l.custom
+              ? l.to === '/admin/chi-phi'
+                ? locale === 'en'
+                  ? 'Costs'
+                  : 'Chi phí'
+                : l.label
+              : t(l.label)}
           </NavLink>
         ))}
       </nav>
@@ -229,7 +252,7 @@ function ChromeFooter({ className = '' }) {
 // App frame: role-aware chrome ported from the frontend branch — learner
 // topbar, admin sidebar — with the real role guard and session logout.
 export default function Layout({ children }) {
-  useLocale()
+  const { locale } = useLocale()
   const { account, hasRole, logout } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -262,7 +285,11 @@ export default function Layout({ children }) {
               <span aria-hidden="true" className="mx-3 text-mute">
                 ›
               </span>
-              {t(pageLabel || 'nav.administration')}
+              {pageLabel === 'Chi phí'
+                ? locale === 'en'
+                  ? 'Costs'
+                  : 'Chi phí'
+                : t(pageLabel || 'nav.administration')}
             </p>
             <div className="flex items-center gap-3">
               <HelpButton />

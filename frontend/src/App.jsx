@@ -17,6 +17,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 
 // Heavy chart and assessment workspaces load only when their route is opened.
 const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const UpgradePage = lazy(() => import('./pages/UpgradePage'))
 const EvidencePage = lazy(() => import('./pages/EvidencePage'))
 const ExamPage = lazy(() => import('./pages/ExamPage'))
 const HistoryPage = lazy(() => import('./pages/HistoryPage'))
@@ -28,6 +29,7 @@ const EvaluationPage = lazy(() => import('./pages/EvaluationPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const CumulativePage = lazy(() => import('./pages/CumulativePage'))
 const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
+const AdminCostsPage = lazy(() => import('./pages/admin/AdminCostsPage'))
 
 function RequireAuth({ children }) {
   useLocale()
@@ -94,6 +96,7 @@ export default function App() {
 
           {/* learner */}
           <Route path="/dashboard" element={learner(<DashboardPage />)} />
+          <Route path="/upgrade" element={learner(<UpgradePage />)} />
           <Route path="/competency" element={learner(<EvaluationPage overall />)} />
           <Route path="/evaluations/:sessionId" element={learner(<EvaluationPage />)} />
           <Route path="/assessments" element={learner(<AssessmentsPage />)} />
@@ -113,6 +116,7 @@ export default function App() {
           <Route path="/admin/questions" element={admin(<AdminBankPage />)} />
           <Route path="/admin/system" element={admin(<AdminSystemPage />)} />
           <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
+          <Route path="/admin/chi-phi" element={admin(<AdminCostsPage />)} />
           <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
           <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
           <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />

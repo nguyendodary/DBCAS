@@ -357,7 +357,7 @@
     "mailpit",
     "qa-ai"
   ],
-  "openapi_path_count": 83,
+  "openapi_path_count": 84,
   "openapi_operation_count": 93,
   "openapi_paths": [
     "/api/v1/admin/accounts",
