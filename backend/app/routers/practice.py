@@ -1,6 +1,6 @@
 """Minimal practice, evaluation and local administration endpoints."""
 from fastapi import APIRouter, Depends, Request
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy.orm import Session
 from ..db import get_db
 from ..deps import LearnerOnly, AdminOnly, get_sandbox_runner, get_llm_service
@@ -26,10 +26,17 @@ class CountOptions(BaseModel):
     typed: TypedLimits
 
 
+class PracticeClo(BaseModel):
+    clo_id: int
+    clo_code: str
+    title: str
+
+
 class PracticeConcept(BaseModel):
     concept_id: int
     concept_name: str
     subject_area: str
+    clos: list[PracticeClo] = Field(default_factory=list)
 
 
 class PracticeOptions(BaseModel):
@@ -37,12 +44,45 @@ class PracticeOptions(BaseModel):
     question_count: CountOptions
 
 
+def _confirmed_clos(db: Session) -> dict[int, list[dict]]:
+    """Learner-visible CLO labels for each confirmed concept link.
+
+    CLO titles are curriculum metadata; only active outcomes with confirmed
+    concept mappings are exposed. No question, answer, or result data is read.
+    """
+    from sqlalchemy import select
+    from ..models import CloConcept, CourseLearningOutcome
+    rows = db.execute(
+        select(
+            CloConcept.concept_id,
+            CourseLearningOutcome.clo_id,
+            CourseLearningOutcome.clo_code,
+            CourseLearningOutcome.title,
+        )
+        .join(CourseLearningOutcome, CourseLearningOutcome.clo_id == CloConcept.clo_id)
+        .where(
+            CloConcept.status == "confirmed",
+            CourseLearningOutcome.status == "active",
+        )
+        .order_by(CourseLearningOutcome.clo_code, CourseLearningOutcome.clo_id)
+    )
+    grouped: dict[int, list[dict]] = {}
+    for concept_id, clo_id, clo_code, title in rows:
+        grouped.setdefault(concept_id, []).append(
+            {"clo_id": clo_id, "clo_code": clo_code, "title": title}
+        )
+    return grouped
+
+
 @router.get("/practice/options", response_model=PracticeOptions)
 def practice_options(_: Account = LearnerOnly, db: Session = Depends(get_db)):
     from sqlalchemy import select
     from ..models import Concept
     from ..services.practice_config import public_config
-    return {"concepts": [{"concept_id": c.concept_id, "concept_name": c.concept_name, "subject_area": c.subject_area}
+    clos = _confirmed_clos(db)
+    return {"concepts": [{"concept_id": c.concept_id, "concept_name": c.concept_name,
+                          "subject_area": c.subject_area,
+                          "clos": clos.get(c.concept_id, [])}
                          for c in db.scalars(select(Concept).order_by(Concept.subject_area, Concept.concept_name))],
             "question_count": public_config()}
 

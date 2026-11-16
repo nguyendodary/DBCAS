@@ -3768,8 +3768,38 @@
         "title": "PointMetric",
         "type": "object"
       },
+      "PracticeClo": {
+        "properties": {
+          "clo_code": {
+            "title": "Clo Code",
+            "type": "string"
+          },
+          "clo_id": {
+            "title": "Clo Id",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "clo_id",
+          "clo_code",
+          "title"
+        ],
+        "title": "PracticeClo",
+        "type": "object"
+      },
       "PracticeConcept": {
         "properties": {
+          "clos": {
+            "items": {
+              "$ref": "#/components/schemas/PracticeClo"
+            },
+            "title": "Clos",
+            "type": "array"
+          },
           "concept_id": {
             "title": "Concept Id",
             "type": "integer"

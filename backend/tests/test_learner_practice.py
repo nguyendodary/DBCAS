@@ -50,6 +50,40 @@ def selection(concepts, **kw):
                 source="bank", question_count=3, request_id=str(uuid4()), **kw)
 
 
+def test_practice_options_expose_confirmed_active_clo_labels_only(client, db_session):
+    """Learner options add CLO metadata without exposing question content."""
+    admin, learner, concepts = fixture(db_session)
+    from app.models import CloConcept, CourseLearningOutcome
+    second = CourseLearningOutcome(clo_code="CLO-02", title="Second outcome",
+                                   created_by=admin.account_id)
+    first = CourseLearningOutcome(clo_code="CLO-01", title="First outcome",
+                                  created_by=admin.account_id)
+    archived = CourseLearningOutcome(clo_code="CLO-00", title="Archived outcome",
+                                     status="archived", created_by=admin.account_id)
+    db_session.add_all([second, first, archived])
+    db_session.flush()
+    db_session.add_all([
+        CloConcept(clo_id=second.clo_id, concept_id=concepts[0].concept_id,
+                   mapping_source="admin", status="confirmed"),
+        CloConcept(clo_id=first.clo_id, concept_id=concepts[0].concept_id,
+                   mapping_source="admin", status="confirmed"),
+        CloConcept(clo_id=archived.clo_id, concept_id=concepts[0].concept_id,
+                   mapping_source="admin", status="confirmed"),
+        CloConcept(clo_id=first.clo_id, concept_id=concepts[1].concept_id,
+                   mapping_source="ai", status="pending"),
+    ])
+    db_session.commit()
+    response = client.get("/api/v1/practice/options", headers=headers(learner))
+    assert response.status_code == 200, response.text
+    by_concept = {item["concept_id"]: item for item in response.json()["concepts"]}
+    clos = by_concept[concepts[0].concept_id]["clos"]
+    assert [(item["clo_code"], item["title"]) for item in clos] == [
+        ("CLO-01", "First outcome"), ("CLO-02", "Second outcome")]
+    assert by_concept[concepts[1].concept_id]["clos"] == []
+    payload = str(response.json())
+    assert "prompt" not in payload and "reference_answer" not in payload
+
+
 def complete(client, db, learner, state):
     while state["current_question"]:
         question = state["current_question"]
