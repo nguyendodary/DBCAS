@@ -1,11 +1,11 @@
 {
   "source": "docs/qa/schema-introspection.json + docs/qa/project-facts.json + system-context-model.json",
-  "tables": 41,
-  "columns": 296,
-  "foreign_keys": 59,
-  "indexes": 87,
+  "tables": 42,
+  "columns": 303,
+  "foreign_keys": 61,
+  "indexes": 91,
   "enums": 0,
-  "migrations": 21,
+  "migrations": 22,
   "table_names": [
     "account",
     "account_identity",
@@ -36,6 +36,7 @@
     "password_reset_token",
     "question",
     "question_candidate",
+    "question_clo",
     "question_concept",
     "question_translation",
     "refresh_session",
@@ -82,6 +83,7 @@
     "concept_name",
     "config_snapshot",
     "confirmed",
+    "confirmed_at",
     "consumed_at",
     "created_at",
     "created_by",
@@ -125,6 +127,7 @@
     "is_edge_case",
     "is_fallback",
     "is_flagged",
+    "is_primary",
     "is_required",
     "job_id",
     "jti_hash",
@@ -279,6 +282,8 @@
     "question_family_id_fkey",
     "question_candidate_concept_id_fkey",
     "question_candidate_promoted_question_id_fkey",
+    "question_clo_clo_fk",
+    "question_clo_question_fk",
     "question_concept_concept_id_fkey",
     "question_concept_question_id_fkey",
     "question_translation_question_id_fkey",
@@ -481,8 +486,8 @@
   ],
   "erd_size": [
     950,
-    6727
+    6845
   ],
-  "erd_pages": 9,
-  "table_relationship_pages": 3
+  "erd_pages": 10,
+  "table_relationship_pages": 4
 }

@@ -885,5 +885,35 @@
     "children_per_parent": "0..N",
     "constraint": "system_setting_updated_by_fkey",
     "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK60",
+    "source": "question_clo",
+    "columns": [
+      "clo_id"
+    ],
+    "destination": "course_learning_outcome",
+    "reference_columns": [
+      "clo_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_clo_clo_fk",
+    "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+  },
+  {
+    "id": "FK61",
+    "source": "question_clo",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_clo_question_fk",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
   }
 ]

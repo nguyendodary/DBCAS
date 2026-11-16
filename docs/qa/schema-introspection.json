@@ -1,7 +1,7 @@
 {
   "source": "PostgreSQL introspection of db/schema.sql",
   "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
-  "schema_sha256": "87d45646a4b9350bca3317dcf5e43248797f0117cbcea32d78c7c433c67b8bba",
+  "schema_sha256": "d617b528a20c32be18bab37e61cac4343876fa7d8fbe7bb37b13be7abcfb59c3",
   "migrations": {
     "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
     "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
@@ -23,7 +23,8 @@
     "018_learner_practice_evaluations.sql": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
     "019_archive_prebuilt_exams.sql": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772",
     "020_provisional_ai_final_results.sql": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715",
-    "021_fixed_paper_attempt_state.sql": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b"
+    "021_fixed_paper_attempt_state.sql": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b",
+    "022_question_clo_tagging.sql": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9"
   },
   "tables": [
     {
@@ -3784,6 +3785,131 @@
       ]
     },
     {
+      "table": "question_clo",
+      "columns": [
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "clo_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "is_primary",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'pending'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "tag_source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'admin'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "confirmed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_clo_clo_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)",
+          "columns": [
+            "clo_id"
+          ]
+        },
+        {
+          "name": "question_clo_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_id, clo_id)",
+          "columns": [
+            "question_id",
+            "clo_id"
+          ]
+        },
+        {
+          "name": "question_clo_question_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "question_clo_source_check",
+          "type": "c",
+          "definition": "CHECK (((tag_source)::text = ANY ((ARRAY['admin'::character varying, 'auto'::character varying, 'ai'::character varying])::text[])))",
+          "columns": [
+            "tag_source"
+          ]
+        },
+        {
+          "name": "question_clo_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'confirmed'::character varying, 'rejected'::character varying])::text[])))",
+          "columns": [
+            "status"
+          ]
+        }
+      ]
+    },
+    {
       "table": "question_concept",
       "columns": [
         {
@@ -5554,6 +5680,34 @@
       "definition": "FOREIGN KEY (promoted_question_id) REFERENCES question(question_id)"
     },
     {
+      "constraint": "question_clo_clo_fk",
+      "source": "question_clo",
+      "columns": [
+        "clo_id"
+      ],
+      "destination": "course_learning_outcome",
+      "reference_columns": [
+        "clo_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
+    },
+    {
+      "constraint": "question_clo_question_fk",
+      "source": "question_clo",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
       "constraint": "question_concept_concept_id_fkey",
       "source": "question_concept",
       "columns": [
@@ -6081,6 +6235,26 @@
       "table": "question_candidate",
       "name": "question_candidate_promoted_question_id_key",
       "definition": "CREATE UNIQUE INDEX question_candidate_promoted_question_id_key ON public.question_candidate USING btree (promoted_question_id)"
+    },
+    {
+      "table": "question_clo",
+      "name": "question_clo_clo_idx",
+      "definition": "CREATE INDEX question_clo_clo_idx ON public.question_clo USING btree (clo_id)"
+    },
+    {
+      "table": "question_clo",
+      "name": "question_clo_pkey",
+      "definition": "CREATE UNIQUE INDEX question_clo_pkey ON public.question_clo USING btree (question_id, clo_id)"
+    },
+    {
+      "table": "question_clo",
+      "name": "question_clo_primary_idx",
+      "definition": "CREATE UNIQUE INDEX question_clo_primary_idx ON public.question_clo USING btree (question_id) WHERE (is_primary AND ((status)::text <> 'rejected'::text))"
+    },
+    {
+      "table": "question_clo",
+      "name": "question_clo_status_idx",
+      "definition": "CREATE INDEX question_clo_status_idx ON public.question_clo USING btree (status)"
     },
     {
       "table": "question_concept",
