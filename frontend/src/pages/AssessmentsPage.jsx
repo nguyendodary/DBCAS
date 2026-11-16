@@ -22,7 +22,7 @@ export default function AssessmentsPage() {
   const [active, setActive] = useState(null)
   const [preview, setPreview] = useState(null)
   const [error, setError] = useState(null)
-  const [planInfo, setPlanInfo] = useState(null)
+  const [planInfo] = useState(null)
   const [busy, setBusy] = useState(false)
   const requestId = useRef(crypto.randomUUID())
   const guard = useRef(false)
