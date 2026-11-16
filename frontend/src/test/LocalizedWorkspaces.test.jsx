@@ -72,7 +72,7 @@ it('keeps the Vietnamese practice setup and real resume route when locale change
   await act(() => setLocale('vi'))
   expect(screen.getByRole('heading', { name: 'Tạo bài luyện tập', level: 1 })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Tiếp tục bài làm' })).toHaveAttribute('href', '/exam/9')
-  expect(api.get).toHaveBeenCalledTimes(3)
+  expect(api.get).toHaveBeenCalledTimes(2)
 })
 it('localizes history results without changing concept content or evidence links', async () => {
   api.get.mockResolvedValue({
