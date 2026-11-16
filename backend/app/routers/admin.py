@@ -610,3 +610,86 @@ def admin_session_competency(
     """Per-learner radar data: the same deterministic competency profile
     the learner sees, without the ownership restriction."""
     return analytics_service.session_competency(db, session_id)
+
+@router.get("/financial-report")
+def get_financial_report(
+    month: str = Query(
+        ...,
+        pattern=r"^(19|20)\d{2}-(0[1-9]|1[0-2])$",
+        description="Reporting month in YYYY-MM format",
+    ),
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    from datetime import datetime, timezone
+    from decimal import Decimal
+    from zoneinfo import ZoneInfo
+    from sqlalchemy import text
+
+    # Month boundaries follow Vietnam time.
+    year, month_number = map(int, month.split("-"))
+    vietnam_tz = ZoneInfo("Asia/Ho_Chi_Minh")
+
+    start_local = datetime(year, month_number, 1, tzinfo=vietnam_tz)
+
+    if month_number == 12:
+        end_local = datetime(year + 1, 1, 1, tzinfo=vietnam_tz)
+    else:
+        end_local = datetime(year, month_number + 1, 1, tzinfo=vietnam_tz)
+
+    start_at = start_local.astimezone(timezone.utc)
+    end_at = end_local.astimezone(timezone.utc)
+
+    params = {
+        "start_at": start_at,
+        "end_at": end_at,
+    }
+
+    # Total revenue from simulated Pro purchases.
+    purchases = db.execute(
+        text("""
+            SELECT
+                COUNT(*) AS purchase_count,
+                COALESCE(SUM(amount_usd), 0) AS revenue
+            FROM pro_purchase
+            WHERE purchased_at >= :start_at
+              AND purchased_at < :end_at
+              AND simulated = TRUE
+        """),
+        params,
+    ).mappings().one()
+
+    # Total recorded AI and hosting costs.
+    costs = db.execute(
+        text("""
+            SELECT
+                COALESCE(
+                    SUM(amount_usd) FILTER (WHERE kind = 'ai'),
+                    0
+                ) AS ai_cost,
+                COALESCE(
+                    SUM(amount_usd) FILTER (WHERE kind = 'hosting'),
+                    0
+                ) AS hosting_cost
+            FROM operating_cost
+            WHERE created_at >= :start_at
+              AND created_at < :end_at
+        """),
+        params,
+    ).mappings().one()
+
+    revenue = Decimal(purchases["revenue"])
+    ai_cost = Decimal(costs["ai_cost"])
+    hosting_cost = Decimal(costs["hosting_cost"])
+    balance = revenue - ai_cost - hosting_cost
+
+    return {
+        "month": month,
+        "timezone": "Asia/Ho_Chi_Minh",
+        "currency": "USD",
+        "purchase_count": purchases["purchase_count"],
+        "revenue": float(revenue),
+        "ai_cost": float(ai_cost),
+        "hosting_cost": float(hosting_cost),
+        "balance": float(balance),
+    }
