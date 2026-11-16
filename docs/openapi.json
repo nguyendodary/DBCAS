@@ -9858,7 +9858,23 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "number"
+                      }
+                    ]
+                  },
+                  "title": "Response Get Financial Report Api V1 Admin Financial Report Get",
+                  "type": "object"
+                }
               }
             },
             "description": "Successful Response"
