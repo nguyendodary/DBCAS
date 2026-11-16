@@ -325,6 +325,14 @@ class AssessmentRepository:
             )
         )
 
+    def get_attempt_by_seq(self, session_id: int, seq_no: int) -> Optional[Attempt]:
+        """One frozen paper item by position; FIXED pre-creates every seq."""
+        return self.db.scalar(
+            select(Attempt)
+            .options(selectinload(Attempt.question).selectinload(Question.options))
+            .where(Attempt.session_id == session_id, Attempt.seq_no == seq_no)
+        )
+
     # ----- assessment configuration (UC09) -----
 
     def get_assessment(self, assessment_id: int) -> Optional[Assessment]:

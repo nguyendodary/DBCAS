@@ -1,6 +1,53 @@
 {
   "components": {
     "schemas": {
+      "AbilityEstimate": {
+        "description": "Estimated adaptive ability; deliberately not an official score.",
+        "properties": {
+          "band": {
+            "enum": [
+              "EASY",
+              "MEDIUM",
+              "HARD"
+            ],
+            "title": "Band",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "evidence_count": {
+            "minimum": 0.0,
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "index": {
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Index",
+            "type": "number"
+          },
+          "provisional": {
+            "default": true,
+            "title": "Provisional",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "band",
+          "index",
+          "confidence",
+          "evidence_count"
+        ],
+        "title": "AbilityEstimate",
+        "type": "object"
+      },
       "AccountRoleAuditItem": {
         "properties": {
           "action_type": {
@@ -3063,6 +3110,16 @@
       },
       "EvidenceResult": {
         "properties": {
+          "ability_estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AbilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "adaptive_progress": {
             "anyOf": [
               {
@@ -3087,6 +3144,17 @@
             "title": "Provisional",
             "type": "boolean"
           },
+          "result_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Kind"
+          },
           "session_id": {
             "title": "Session Id",
             "type": "integer"
@@ -3094,6 +3162,14 @@
           "status": {
             "title": "Status",
             "type": "string"
+          },
+          "study_suggestions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/StudySuggestion"
+            },
+            "title": "Study Suggestions",
+            "type": "array"
           }
         },
         "required": [
@@ -3934,6 +4010,464 @@
           "competency_pct"
         ],
         "title": "OwnRank",
+        "type": "object"
+      },
+      "PaperDraftResult": {
+        "properties": {
+          "answered": {
+            "default": false,
+            "title": "Answered",
+            "type": "boolean"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "saved_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Saved At"
+          },
+          "seq_no": {
+            "title": "Seq No",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "seq_no",
+          "revision"
+        ],
+        "title": "PaperDraftResult",
+        "type": "object"
+      },
+      "PaperDraftSaveRequest": {
+        "additionalProperties": false,
+        "description": "By-seq draft save; reuses the legacy answer validation and revision chain.",
+        "properties": {
+          "essay_answer": {
+            "anyOf": [
+              {
+                "maxLength": 30000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Essay Answer"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "selected_option_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Option Id"
+          },
+          "sql_answer": {
+            "anyOf": [
+              {
+                "maxLength": 16000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sql Answer"
+          }
+        },
+        "required": [
+          "revision"
+        ],
+        "title": "PaperDraftSaveRequest",
+        "type": "object"
+      },
+      "PaperFlagRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "flagged": {
+            "title": "Flagged",
+            "type": "boolean"
+          },
+          "revision": {
+            "minimum": 0.0,
+            "title": "Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "flagged",
+          "revision"
+        ],
+        "title": "PaperFlagRequest",
+        "type": "object"
+      },
+      "PaperFlagResult": {
+        "properties": {
+          "flagged": {
+            "title": "Flagged",
+            "type": "boolean"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "seq_no": {
+            "title": "Seq No",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "seq_no",
+          "flagged",
+          "revision"
+        ],
+        "title": "PaperFlagResult",
+        "type": "object"
+      },
+      "PaperMetadata": {
+        "properties": {
+          "answered_count": {
+            "title": "Answered Count",
+            "type": "integer"
+          },
+          "assessment_title": {
+            "title": "Assessment Title",
+            "type": "string"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "flagged_count": {
+            "title": "Flagged Count",
+            "type": "integer"
+          },
+          "last_opened_seq": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Opened Seq"
+          },
+          "question_count": {
+            "title": "Question Count",
+            "type": "integer"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/PaperQuestionMeta"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "remaining_seconds": {
+            "title": "Remaining Seconds",
+            "type": "integer"
+          },
+          "runner_mode": {
+            "default": "fixed",
+            "title": "Runner Mode",
+            "type": "string"
+          },
+          "server_now": {
+            "format": "date-time",
+            "title": "Server Now",
+            "type": "string"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "status",
+          "assessment_title",
+          "started_at",
+          "expires_at",
+          "server_now",
+          "remaining_seconds",
+          "question_count",
+          "answered_count",
+          "flagged_count"
+        ],
+        "title": "PaperMetadata",
+        "type": "object"
+      },
+      "PaperOption": {
+        "description": "No is_correct — correctness is never exposed before final submit.",
+        "properties": {
+          "option_id": {
+            "title": "Option Id",
+            "type": "integer"
+          },
+          "option_label": {
+            "title": "Option Label",
+            "type": "string"
+          },
+          "option_text": {
+            "title": "Option Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "option_id",
+          "option_label",
+          "option_text"
+        ],
+        "title": "PaperOption",
+        "type": "object"
+      },
+      "PaperQuestionMeta": {
+        "description": "Palette metadata only — no prompt, options, keys or scores.",
+        "properties": {
+          "answered": {
+            "default": false,
+            "title": "Answered",
+            "type": "boolean"
+          },
+          "draft_revision": {
+            "default": 0,
+            "title": "Draft Revision",
+            "type": "integer"
+          },
+          "flagged": {
+            "default": false,
+            "title": "Flagged",
+            "type": "boolean"
+          },
+          "opened": {
+            "default": false,
+            "title": "Opened",
+            "type": "boolean"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "integer"
+          },
+          "question_type": {
+            "title": "Question Type",
+            "type": "string"
+          },
+          "seq_no": {
+            "title": "Seq No",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "seq_no",
+          "question_id",
+          "question_type"
+        ],
+        "title": "PaperQuestionMeta",
+        "type": "object"
+      },
+      "PaperQuestionView": {
+        "description": "Sanitized question content for one seq; the learner's own draft only.",
+        "properties": {
+          "answered": {
+            "default": false,
+            "title": "Answered",
+            "type": "boolean"
+          },
+          "content_locale": {
+            "default": "en",
+            "title": "Content Locale",
+            "type": "string"
+          },
+          "draft": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Draft"
+          },
+          "draft_revision": {
+            "default": 0,
+            "title": "Draft Revision",
+            "type": "integer"
+          },
+          "first_opened_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Opened At"
+          },
+          "flag_revision": {
+            "default": 0,
+            "title": "Flag Revision",
+            "type": "integer"
+          },
+          "flagged": {
+            "default": false,
+            "title": "Flagged",
+            "type": "boolean"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/PaperOption"
+            },
+            "title": "Options",
+            "type": "array"
+          },
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "integer"
+          },
+          "question_type": {
+            "title": "Question Type",
+            "type": "string"
+          },
+          "remaining_seconds": {
+            "title": "Remaining Seconds",
+            "type": "integer"
+          },
+          "schema_sql": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema Sql"
+          },
+          "seq_no": {
+            "title": "Seq No",
+            "type": "integer"
+          },
+          "server_now": {
+            "format": "date-time",
+            "title": "Server Now",
+            "type": "string"
+          }
+        },
+        "required": [
+          "seq_no",
+          "question_id",
+          "question_type",
+          "prompt",
+          "remaining_seconds",
+          "server_now"
+        ],
+        "title": "PaperQuestionView",
+        "type": "object"
+      },
+      "PaperSubmitRequest": {
+        "additionalProperties": false,
+        "description": "Optional idempotency key; repeated final submit returns the summary.",
+        "properties": {
+          "request_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "title": "PaperSubmitRequest",
+        "type": "object"
+      },
+      "PaperSubmitResult": {
+        "properties": {
+          "answered_count": {
+            "title": "Answered Count",
+            "type": "integer"
+          },
+          "final": {
+            "default": true,
+            "title": "Final",
+            "type": "boolean"
+          },
+          "flagged_count": {
+            "title": "Flagged Count",
+            "type": "integer"
+          },
+          "next": {
+            "title": "Next",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          },
+          "unanswered_count": {
+            "title": "Unanswered Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "status",
+          "answered_count",
+          "unanswered_count",
+          "flagged_count",
+          "next"
+        ],
+        "title": "PaperSubmitResult",
         "type": "object"
       },
       "PasswordResetConfirmRequest": {
@@ -6012,6 +6546,16 @@
       },
       "SessionStateResult": {
         "properties": {
+          "ability_estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AbilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "adaptive_progress": {
             "anyOf": [
               {
@@ -6219,6 +6763,14 @@
             "title": "Status",
             "type": "string"
           },
+          "study_suggestions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/StudySuggestion"
+            },
+            "title": "Study Suggestions",
+            "type": "array"
+          },
           "submitted_at": {
             "anyOf": [
               {
@@ -6264,6 +6816,16 @@
       "SessionSummary": {
         "description": "One of the learner's own sessions — history list and pickers.",
         "properties": {
+          "ability_estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AbilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "adaptive_progress": {
             "anyOf": [
               {
@@ -6373,6 +6935,17 @@
             "title": "Release Status",
             "type": "string"
           },
+          "result_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Kind"
+          },
           "result_release_policy": {
             "default": "HUMAN_VERIFIED",
             "enum": [
@@ -6381,6 +6954,17 @@
             ],
             "title": "Result Release Policy",
             "type": "string"
+          },
+          "runner_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runner Mode"
           },
           "selected_concept_ids": {
             "default": [],
@@ -6906,6 +7490,40 @@
           "guidance"
         ],
         "title": "StudyGuidanceResult",
+        "type": "object"
+      },
+      "StudySuggestion": {
+        "description": "A below-benchmark concept reused from the existing gap path.",
+        "properties": {
+          "concept_code": {
+            "title": "Concept Code",
+            "type": "string"
+          },
+          "concept_id": {
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "concept_name": {
+            "title": "Concept Name",
+            "type": "string"
+          },
+          "reason": {
+            "default": "below_target",
+            "title": "Reason",
+            "type": "string"
+          },
+          "subject_area": {
+            "title": "Subject Area",
+            "type": "string"
+          }
+        },
+        "required": [
+          "concept_id",
+          "concept_code",
+          "concept_name",
+          "subject_area"
+        ],
+        "title": "StudySuggestion",
         "type": "object"
       },
       "SubmissionResult": {
@@ -20588,6 +21206,780 @@
           }
         ],
         "summary": "Get Study Guidance",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/{session_id}/paper": {
+      "get": {
+        "description": "FIXED only: paper metadata; no prompts, options, keys or scores.",
+        "operationId": "get_paper_api_v1_sessions__session_id__paper_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperMetadata"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Get Paper",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/{session_id}/paper/submit": {
+      "post": {
+        "description": "FIXED only: finalize the whole paper once; later calls return the summary.",
+        "operationId": "submit_paper_api_v1_sessions__session_id__paper_submit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/PaperSubmitRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperSubmitResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Submit Paper",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/{session_id}/paper/{seq_no}": {
+      "get": {
+        "description": "FIXED only: sanitized question and saved draft; records the first open.",
+        "operationId": "get_paper_question_api_v1_sessions__session_id__paper__seq_no__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "seq_no",
+            "required": true,
+            "schema": {
+              "title": "Seq No",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperQuestionView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Get Paper Question",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/{session_id}/paper/{seq_no}/draft": {
+      "put": {
+        "description": "FIXED only: save an ungraded, revision-controlled draft by seq.",
+        "operationId": "save_paper_draft_api_v1_sessions__session_id__paper__seq_no__draft_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "seq_no",
+            "required": true,
+            "schema": {
+              "title": "Seq No",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperDraftSaveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperDraftResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Save Paper Draft",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/{session_id}/paper/{seq_no}/flag": {
+      "put": {
+        "description": "FIXED only: flag a question with its own optimistic revision.",
+        "operationId": "set_paper_flag_api_v1_sessions__session_id__paper__seq_no__flag_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "seq_no",
+            "required": true,
+            "schema": {
+              "title": "Seq No",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperFlagRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperFlagResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Set Paper Flag",
         "tags": [
           "assessment"
         ],

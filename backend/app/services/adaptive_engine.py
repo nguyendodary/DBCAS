@@ -117,19 +117,32 @@ def _draft_has_answer(attempt) -> bool:
                for value in draft.values())
 
 
+def progress(session: AssessmentSession, attempts: list[Attempt]):
+    """Dispatch frozen progress by runner mode; old sessions keep batch rules."""
+    if (session.config_snapshot or {}).get("runner_mode") == "adaptive":
+        from .continuous_adaptive import progress as continuous_progress
+        return continuous_progress(session, attempts)
+    from .batch_adaptive import progress as batch_progress
+    return batch_progress(session, attempts)
+
+
 def _state(
     repo: AssessmentRepository,
     session: AssessmentSession,
     assessment: Assessment = None,
     display_locale: str | None = None,
 ) -> SessionStateResult:
-    from .batch_adaptive import progress
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
     snapshot = session.config_snapshot or {}
     runner_mode = snapshot.get("runner_mode")
     fixed = runner_mode == "fixed"
+    ability_estimate, study_suggestions = None, []
+    if runner_mode == "adaptive":
+        from .continuous_adaptive import estimate, study_suggestions as suggestions_for
+        ability_estimate = estimate(session, attempts)
+        study_suggestions = suggestions_for(repo.db, session)
     now = repo.server_time()
     expires_at = session.expires_at
     if expires_at.tzinfo is None:
@@ -160,6 +173,8 @@ def _state(
         runner_mode=runner_mode,
         result_kind=snapshot.get("result_kind"),
         adaptive_progress=progress(session, attempts),
+        ability_estimate=ability_estimate,
+        study_suggestions=study_suggestions,
         status=session.status,
         started_at=started_at,
         expires_at=expires_at,
@@ -454,7 +469,8 @@ def serve_next(
     repo = AssessmentRepository(db)
     session = load_owned_active_session(repo, session_id, learner)
     assessment = assessment_view(session, repo)
-    if (session.config_snapshot or {}).get("runner_mode") == "fixed":
+    snapshot = session.config_snapshot or {}
+    if snapshot.get("runner_mode") == "fixed":
         raise AppError(409, "paper_requires_final_submit",
                        "FIXED papers are graded only on final submit")
 
@@ -463,7 +479,15 @@ def serve_next(
     if pending is not None:
         return ServeResult(done=False, question=_served_question(repo, pending, session.locale or "en"))
 
-    if (session.config_snapshot or {}).get("assembly_mode") == "ADAPTIVE":
+    if snapshot.get("runner_mode") == "adaptive":
+        from .continuous_adaptive import advance
+        attempt = advance(repo, session, attempts)
+        if commit:
+            db.commit()
+        return ServeResult(done=attempt is None,
+                           question=_served_question(repo, attempt, session.locale or "en") if attempt else None)
+
+    if snapshot.get("assembly_mode") == "ADAPTIVE":
         from .batch_adaptive import advance
         attempt = advance(repo, session, attempts)
         if commit:
@@ -582,10 +606,16 @@ def get_evidence(
     db: Session, session_id: int, learner: Account, display_locale: str | None = None
 ) -> EvidenceResult:
     """UC18 — per-question evidence records, finalized sessions only."""
-    from .batch_adaptive import progress
     repo = AssessmentRepository(db)
-    session = load_owned_finalized_session(repo, session_id, learner, allow_provisional=True)
+    session = load_owned_finalized_session(repo, session_id, learner,
+                                           allow_provisional=True, allow_estimated=True)
     attempts = repo.session_attempts(session.session_id)
+    adaptive = (session.config_snapshot or {}).get("runner_mode") == "adaptive"
+    ability_estimate, study_suggestions = None, []
+    if adaptive:
+        from .continuous_adaptive import estimate, study_suggestions as suggestions_for
+        ability_estimate = estimate(session, attempts)
+        study_suggestions = suggestions_for(db, session)
     items = []
     for a in attempts:
         q = question_view(a, display_locale or session.locale or "en")
@@ -641,5 +671,7 @@ def get_evidence(
     return EvidenceResult(
         session_id=session.session_id, status=session.status,
         provisional=session.release_status in ("provisional_ai", "pending_review"),
+        result_kind=(session.config_snapshot or {}).get("result_kind"),
+        ability_estimate=ability_estimate, study_suggestions=study_suggestions,
         items=items, adaptive_progress=progress(session, attempts)
     )

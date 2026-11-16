@@ -54,6 +54,18 @@ class PracticeStart(BaseModel):
     def typed_question_limits(self):
         """Keep the legacy 13 cap and enforce the typed-practice caps."""
         mix = self.question_mix
+        if self.assessment_style == "ADAPTIVE":
+            if self.source != "bank":
+                raise ValueError("ADAPTIVE practice is bank-only")
+            if len(self.concept_ids) != 1:
+                raise ValueError("ADAPTIVE practice requires exactly one concept")
+            if len(self.difficulties) != 1:
+                raise ValueError("ADAPTIVE practice requires exactly one starting difficulty band")
+            if self.question_count < 3:
+                raise ValueError("ADAPTIVE practice requires at least three questions")
+            if mix is not None and (mix.sql or mix.essay or mix.mcq != self.question_count):
+                raise ValueError("ADAPTIVE practice is MCQ-only; question_mix must match question_count")
+            return self
         if self.assessment_style == "FIXED" and mix is None:
             raise ValueError("FIXED assessment style requires question_mix")
         if mix is None:
@@ -174,16 +186,10 @@ def _coverage_notice(uncovered):
     return f"Một số khái niệm chưa có câu hỏi phù hợp: {names}{suffix}. Bài vẫn có thể bắt đầu."
 
 
-def _require_style_supported(payload):
-    if payload.assessment_style == "ADAPTIVE":
-        raise AppError(422, "not_available_yet", "Adaptive assessment style is not available yet")
-
-
 def preview(db, learner, payload):
     """Deterministic, read-only coverage preview; never calls an LLM."""
     from ..config import get_settings
     from .practice_bank import preview_plan
-    _require_style_supported(payload)
     get_preview_throttle().check(learner.account_id, get_settings())
     request_id = str(payload.request_id)
     binding = db.get(SessionStartRequest, (learner.account_id, request_id))
@@ -193,6 +199,13 @@ def preview(db, learner, payload):
         concepts = list(db.scalars(select(Concept).where(
             Concept.concept_id.in_(snapshot.get("selected_concept_ids", []))
         ).order_by(Concept.concept_id)))
+        if snapshot.get("runner_mode") == "adaptive":
+            covered, uncovered = _coverage(concepts, set(snapshot.get("selected_concept_ids", [])))
+            count = snapshot.get("max_questions", 0)
+            return PracticePreviewResult(
+                can_start=True, question_count=count, type_counts={"mcq": count},
+                covered_concepts=covered, uncovered_concepts=uncovered, notice=None,
+            )
         covered_ids = {c["concept_id"] for item in snapshot.get("question_plan", [])
                        for c in item.get("concepts", [])}
         covered, uncovered = _coverage(concepts, covered_ids)
@@ -216,6 +229,15 @@ def preview(db, learner, payload):
                        "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.",
                        details={"session_id": active.session_id})
     SecurityRepository(db).lock("question-bank-publication", shared=True)
+    if payload.assessment_style == "ADAPTIVE":
+        from .continuous_adaptive import build_inventory
+        inventory = build_inventory(db, concepts[0], payload.difficulties[0])
+        count = min(payload.question_count, len(inventory))
+        covered, uncovered = _coverage(concepts, {concepts[0].concept_id})
+        return PracticePreviewResult(
+            can_start=True, question_count=count, type_counts={"mcq": count},
+            covered_concepts=covered, uncovered_concepts=uncovered, notice=None,
+        )
     # A provider-backed start may fill a deterministic shortfall; bank plans
     # stay fail-closed because nothing can extend them.
     concepts, picks = preview_plan(db, learner, payload, require_full=payload.source != "ai")
@@ -231,7 +253,6 @@ def preview(db, learner, payload):
 
 def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     from . import adaptive_engine
-    _require_style_supported(payload)
     request_id = str(payload.request_id)
     SecurityRepository(db).lock(f"practice-start:{learner.account_id}")
     binding = db.get(SessionStartRequest, (learner.account_id, request_id))
@@ -248,6 +269,11 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     if active:
         raise AppError(409, "active_practice", "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.", details={"session_id": active.session_id})
     SecurityRepository(db).lock("question-bank-publication", shared=True)
+    if payload.assessment_style == "ADAPTIVE":
+        from .continuous_adaptive import create
+        session = create(db, learner, payload, concepts, selection, request_id, locale=locale)
+        db.commit()
+        return adaptive_engine._state(AssessmentRepository(db), session)
     diagnostics = []
     generated = generate_entries(concepts, payload, learner, runner, llm, diagnostics=diagnostics) if payload.source == "ai" else []
     questions, picks, notice = assemble(db, learner, payload, generated)
