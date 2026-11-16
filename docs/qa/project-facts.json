@@ -74,6 +74,11 @@
     "/api/v1/admin/concepts",
     "/api/v1/admin/concepts/{concept_id}",
     "/api/v1/admin/concepts/{concept_id}/prerequisites",
+    "/api/v1/admin/documents",
+    "/api/v1/admin/documents/{document_id}",
+    "/api/v1/admin/documents/{document_id}/approve",
+    "/api/v1/admin/documents/{document_id}/archive",
+    "/api/v1/admin/documents/{document_id}/clos",
     "/api/v1/admin/grading-reviews",
     "/api/v1/admin/grading-reviews/{session_id}",
     "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
@@ -142,8 +147,8 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 83,
-  "openapi_operation_count": 93,
+  "openapi_path_count": 88,
+  "openapi_operation_count": 99,
   "frontend_routes": [
     "*",
     "/",
@@ -206,8 +211,7 @@
     "cpus": 1
   },
   "prompt_builder": {
-    "setting": "PROMPT_BUILDER_MODEL_PATH",
-    "timeout": "PROMPT_BUILDER_TIMEOUT_SECONDS",
+    "builder": "deterministic template",
     "fallback": "template",
     "hash_field": "prompt_hash"
   },
