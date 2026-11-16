@@ -1,6 +1,6 @@
 from typing import Literal, Optional
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -30,6 +30,10 @@ from ..schemas import (
     ConceptPrerequisitesResult,
     ConceptUpdateRequest,
     ConceptUpsertRequest,
+    DocumentCloSelection,
+    DocumentDetail,
+    DocumentSummary,
+    DocumentUploadRequest,
     ProvisionAccountRequest,
     QuestionCandidateDetail,
     QuestionCandidateItem,
@@ -50,6 +54,7 @@ from ..services import (
     auth_service,
     concept_graph_service,
     curriculum_service,
+    document_service,
     question_service,
 )
 from ..services.llm.service import LLMService
@@ -547,6 +552,71 @@ def reject_question_candidate(
 ):
     """Hide the draft from active review (kept for audit)."""
     return ai_admin_service.reject_candidate(db, candidate_id, admin)
+
+
+# ---------- course documents for document-grounded generation ----------
+
+
+def _document_upload_size(request: Request) -> None:
+    document_service.check_content_length(request.headers.get("content-length"))
+
+
+@router.post("/documents", status_code=201, response_model=DocumentDetail)
+def upload_document(
+    payload: DocumentUploadRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    _: None = Depends(_document_upload_size),
+):
+    """Ingest a TXT/MD/PDF upload. Only extracted text and metadata are stored."""
+    return document_service.ingest(db, payload, admin)
+
+
+@router.get("/documents", response_model=list[DocumentSummary])
+def list_documents(
+    status: Optional[Literal["draft", "approved", "archived"]] = None,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return document_service.list_documents(db, status)
+
+
+@router.get("/documents/{document_id}", response_model=DocumentDetail)
+def get_document(
+    document_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return document_service.get_document(db, document_id)
+
+
+@router.post("/documents/{document_id}/approve", response_model=DocumentDetail)
+def approve_document(
+    document_id: int,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return document_service.approve_document(db, document_id, admin)
+
+
+@router.post("/documents/{document_id}/archive", response_model=DocumentDetail)
+def archive_document(
+    document_id: int,
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return document_service.archive_document(db, document_id)
+
+
+@router.put("/documents/{document_id}/clos", response_model=DocumentDetail)
+def set_document_clos(
+    document_id: int,
+    payload: DocumentCloSelection,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Attach the document to active CLOs; an empty list detaches all of them."""
+    return document_service.set_document_clos(db, document_id, payload, admin)
 
 
 # ---------- UC09 — adaptive assessment configuration ----------
