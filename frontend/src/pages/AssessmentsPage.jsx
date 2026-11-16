@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost, inputCls } from '../components/ui'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import heroBg from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
 
 const BANDS = [
   ['EASY', 'Dễ'],
@@ -86,12 +89,18 @@ export default function AssessmentsPage() {
     }
   }
   return (
-    <div className="content-wrap mx-auto max-w-4xl space-y-6 py-8">
+    <>
+      <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
+        <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
+        <div className="content-wrap mx-auto max-w-4xl hero-photo-inner">
       <header>
         <p className="text-sm font-semibold text-cyan-300">Luyện tập cơ sở dữ liệu</p>
         <h1 className="mt-2 text-3xl font-bold text-ink">Tạo bài luyện tập</h1>
         <p className="mt-3 text-sub">Chọn nội dung bạn muốn ôn và bắt đầu ngay.</p>
       </header>
+        </div>
+      </section>
+      <div className="content-wrap mx-auto max-w-4xl space-y-6 py-8">
       {error && !options && <ErrorState message={error} onRetry={load} />}
       {!options ? (
         !error && <Loading />
@@ -257,6 +266,7 @@ export default function AssessmentsPage() {
           </Card>
         </form>
       )}
-    </div>
+      </div>
+    </>
   )
 }

@@ -4,6 +4,9 @@ import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost } from '../components/ui'
 import { ActionSpinner, ErrorState } from '../components/States'
 import { EvaluationCharts } from '../components/EvaluationCharts'
+import heroBg from '../assets/brand/nen1.jpg'
+import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
 
 function validateView(data) {
   if (
@@ -183,15 +186,31 @@ export default function EvaluationPage({ overall = false }) {
   }
   const waiting = !data || ['pending', 'processing'].includes(data.status)
   return (
-    <div className="content-wrap mx-auto max-w-5xl space-y-5 py-8">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-bold">{overall ? 'Đánh giá tổng thể' : 'Đánh giá bài làm'}</h1>
+    <>
+      {overall && (
+        <section className="hero-photo" style={{ '--hero-img': `url(${heroBg})` }}>
+          <BackgroundVideo className="hero-video" src={heroVideo} poster={heroBg} />
+          <div className="content-wrap mx-auto max-w-5xl hero-photo-inner">
+            <header>
+              <h1 className="text-2xl font-extrabold leading-snug tracking-[-1px] text-ink lg:text-display">
+                Đánh giá tổng thể
+              </h1>
+              <p className="mt-1.5 text-sm text-slate-200">
+                Theo dõi tiến độ và năng lực của bạn qua các bài đánh giá đã hoàn thành.
+              </p>
+            </header>
+          </div>
+        </section>
+      )}
+      <div className="content-wrap mx-auto max-w-5xl space-y-5 py-8">
         {!overall && (
-          <Link className={btnGhost} to={`/history/${sessionId}`}>
-            Xem bài làm
-          </Link>
+          <header className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="text-3xl font-bold">Đánh giá bài làm</h1>
+            <Link className={btnGhost} to={`/history/${sessionId}`}>
+              Xem bài làm
+            </Link>
+          </header>
         )}
-      </header>
       {error && <ErrorState message={error} onRetry={retry} />}
       {data?.status === 'empty' ? (
         <Card className="space-y-4 p-6">
@@ -238,6 +257,7 @@ export default function EvaluationPage({ overall = false }) {
       ) : (
         <EvaluationContent data={data} overall={overall} />
       )}
-    </div>
+      </div>
+    </>
   )
 }
