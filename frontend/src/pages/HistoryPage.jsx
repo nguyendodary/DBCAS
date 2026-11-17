@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import AdaptiveOutcome from '../components/AdaptiveOutcome'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
-import { Card, HeroBand, IconChip, StatusBadge } from '../components/ui'
+import { Card, IconChip, StatusBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
 import usePendingResults from '../usePendingResults'
 
 // UC18 — the learner's assessment history. Row composition follows the
@@ -63,14 +64,20 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-5">
-      <HeroBand
-        className="hero-band-wide"
-        eyebrow={t('history.heroEyebrow')}
-        title={t('history.title')}
-        subtitle={t('history.heroSub')}
-        videoSrc={heroVideo}
-        videoPoster={heroPoster}
-      />
+      <section className="hero-photo" style={{ '--hero-img': `url(${heroPoster})` }}>
+        <BackgroundVideo className="hero-video" src={heroVideo} poster={heroPoster} />
+        <div className="content-wrap hero-photo-inner">
+          <p className="text-xs font-semibold tracking-wide text-cyan-200">
+            {t('history.heroEyebrow')}
+          </p>
+          <h1 className="mt-2 text-2xl font-extrabold leading-snug tracking-[-1px] text-white lg:text-display">
+            {t('history.title')}
+          </h1>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-slate-200">
+            {t('history.heroSub')}
+          </p>
+        </div>
+      </section>
       <button
         type="button"
         className="ml-4 inline-flex items-center gap-1.5 text-sm text-cyan-300 underline disabled:cursor-not-allowed disabled:opacity-60"

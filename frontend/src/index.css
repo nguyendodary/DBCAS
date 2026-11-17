@@ -3802,7 +3802,12 @@
 }
 
 :root[data-theme='light'] .landing-title {
-  background: linear-gradient(125deg, #f8fafc 25%, var(--brand-soft) 100%);
+  background: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  color: #f8fafc;
+  -webkit-text-fill-color: #f8fafc;
+  text-shadow: 0 2px 14px rgb(0 0 0 / 0.6);
 }
 
 :root[data-theme='light'] .option-dark[data-selected='true'] {

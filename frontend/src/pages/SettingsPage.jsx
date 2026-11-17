@@ -1,10 +1,11 @@
 import { t, useLocale, statusLabel } from '../i18n'
 import { useAuth } from '../auth'
-import { Card, CardTitle, HeroBand, IconChip, PageHeader, TagPill } from '../components/ui'
+import { Card, CardTitle, IconChip, PageHeader, TagPill } from '../components/ui'
 import LanguageSelector from '../components/LanguageSelector'
 import ThemeSelector from '../components/ThemeSelector'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
+import BackgroundVideo from '../components/BackgroundVideo'
 
 // Shared settings view — the frontend branch's Cai_dat screens mapped onto
 // what the real product actually supports: account identity (from /auth/me)
@@ -20,13 +21,17 @@ export default function SettingsPage() {
       {isAdmin ? (
         <PageHeader title={t('settings.title')} subtitle={t('settings.subtitle')} />
       ) : (
-        <HeroBand
-          className="hero-band-wide"
-          title={t('settings.title')}
-          subtitle={t('settings.subtitle')}
-          videoSrc={heroVideo}
-          videoPoster={heroPoster}
-        />
+        <section className="hero-photo" style={{ '--hero-img': `url(${heroPoster})` }}>
+          <BackgroundVideo className="hero-video" src={heroVideo} poster={heroPoster} />
+          <div className="content-wrap hero-photo-inner">
+            <h1 className="text-2xl font-extrabold leading-snug tracking-[-1px] text-white lg:text-display">
+              {t('settings.title')}
+            </h1>
+            <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-slate-200">
+              {t('settings.subtitle')}
+            </p>
+          </div>
+        </section>
       )}
 
       <div className={isAdmin ? 'space-y-6' : 'content-wrap space-y-6 pb-6'}>
