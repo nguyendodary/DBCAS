@@ -2,8 +2,8 @@ import { defineConfig } from '@playwright/test'
 export default defineConfig({
   testDir: './e2e',
   testMatch: process.env.DBCAS_QA_PROVIDER_URL
-    ? ['practice-flows.spec.js', 'browser-qa.spec.js']
-    : 'practice-flows.spec.js',
+    ? ['practice-flows.spec.js', 'browser-qa.spec.js', 'free-navigation.spec.js']
+    : ['practice-flows.spec.js', 'free-navigation.spec.js'],
   workers: 1,
   fullyParallel: false,
   retries: 0,
