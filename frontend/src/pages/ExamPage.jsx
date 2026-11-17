@@ -12,6 +12,7 @@ import { BrandWordmark } from '../components/BrandLogo'
 import { useAnswerDraft } from '../useAnswerDraft'
 import SqlEditor from '../components/SqlEditor'
 import SqlSchema from '../components/SqlSchema'
+import FixedPaperRunner from './FixedPaperRunner'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -70,10 +71,64 @@ function splitParagraphs(text, maxLength = 280) {
 
 export default function ExamPage() {
   const { sessionId } = useParams()
-  return <ExamWorkspace key={sessionId} sessionId={sessionId} />
+  return <ExamEntry key={sessionId} sessionId={sessionId} />
 }
 
-function ExamWorkspace({ sessionId }) {
+// The session state already exposes runner_mode. Read it once, then mount a
+// dedicated runner so legacy/adaptive effects never fire for a fixed paper.
+function ExamEntry({ sessionId }) {
+  const navigate = useNavigate()
+  const [initial, setInitial] = useState(undefined)
+  const [loadError, setLoadError] = useState(null)
+  const [retry, setRetry] = useState(0)
+
+  useEffect(() => {
+    let active = true
+    setInitial(undefined)
+    api
+      .get(`/sessions/${sessionId}`)
+      .then(({ data }) => {
+        if (!active) return
+        setInitial(data)
+        if (data.status !== 'in_progress')
+          navigate(`${data.assessment_id === null ? '/evaluations' : '/history'}/${sessionId}`, {
+            replace: true,
+          })
+      })
+      .catch((cause) => {
+        if (active) setLoadError(apiMessage(cause, message('exam.loadError')))
+      })
+    return () => {
+      active = false
+    }
+  }, [sessionId, retry, navigate])
+
+  if (initial === undefined)
+    return (
+      <div className="exam-shell">
+        {loadError ? (
+          <div className="p-8">
+            <ErrorState
+              message={loadError}
+              onRetry={() => {
+                setLoadError(null)
+                setRetry((value) => value + 1)
+              }}
+            />
+          </div>
+        ) : (
+          <Loading label={t('exam.loading')} />
+        )}
+      </div>
+    )
+  return initial.runner_mode === 'fixed' ? (
+    <FixedPaperRunner sessionId={sessionId} initialState={initial} />
+  ) : (
+    <ExamWorkspace sessionId={sessionId} initialState={initial} />
+  )
+}
+
+function ExamWorkspace({ sessionId, initialState }) {
   const { locale } = useLocale()
   const navigate = useNavigate()
   const [state, setState] = useState(null)
@@ -166,7 +221,11 @@ function ExamWorkspace({ sessionId }) {
       .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
   }, [sessionId, navigate, acceptState])
 
-  useEffect(load, [load])
+  // The dispatcher already fetched the state; keep `load` for refresh/retry.
+  useEffect(() => {
+    if (initialState) acceptState(initialState)
+    else load()
+  }, [initialState, acceptState, load])
 
   useEffect(() => {
     if (reviewSeq === null) return

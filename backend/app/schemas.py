@@ -1231,3 +1231,60 @@ class QuestionCandidateItem(BaseModel):
 class QuestionCandidateDetail(QuestionCandidateItem):
     payload: dict
     validation_detail: Optional[dict] = None
+
+
+# ---------- admin course documents (migration 023) ----------
+
+
+class DocumentUploadRequest(BaseModel):
+    """A TXT/MD/PDF supplied as base64; the server never stores the file."""
+
+    model_config = ConfigDict(extra="forbid")
+    title: str = Field(min_length=1, max_length=300)
+    filename: str = Field(min_length=1, max_length=255)
+    content_base64: str = Field(min_length=4)
+    clo_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(default_factory=list, max_length=50)
+
+
+class DocumentCloSelection(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    clo_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(default_factory=list, max_length=50)
+
+
+class DocumentChunkResult(BaseModel):
+    chunk_id: int
+    ordinal: int
+    page_from: Optional[int] = None
+    page_to: Optional[int] = None
+    heading: Optional[str] = None
+    text: str
+    text_hash: str
+    char_count: int
+
+
+class DocumentCloResult(BaseModel):
+    clo_id: int
+    clo_code: str
+    title: str
+    status: str
+
+
+class DocumentSummary(BaseModel):
+    document_id: int
+    title: str
+    mime_type: str
+    original_filename: Optional[str] = None
+    sha256: str
+    char_count: int
+    page_count: Optional[int] = None
+    chunk_count: int
+    status: str
+    text_policy_version: str
+    uploaded_by: int
+    uploaded_at: datetime
+    approved_at: Optional[datetime] = None
+
+
+class DocumentDetail(DocumentSummary):
+    chunks: list[DocumentChunkResult] = []
+    clos: list[DocumentCloResult] = []

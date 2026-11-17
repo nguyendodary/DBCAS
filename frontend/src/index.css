@@ -2222,6 +2222,14 @@
   border-radius: 50%;
   background: var(--danger-text);
 }
+.exam-shell .question-cell.flagged {
+  border-color: var(--warning);
+  background: var(--warning-surface);
+  color: var(--warning-text);
+}
+.exam-shell .question-cell.answered.flagged {
+  border-color: var(--warning);
+}
 .exam-shell .navigation-note {
   margin: 13px 0 0;
   color: var(--text-muted);
