@@ -211,7 +211,7 @@ test('local Admin and Learner complete grading, publication and competency with 
     const download = admin.waitForEvent('download')
     await admin.getByRole('button', { name: text.analytics.export }).click()
     const csv = await readFile(await (await download).path(), 'utf8')
-    expect(csv).toContain(text.analytics.clos)
+    expect(csv).toContain(text.analytics.distribution)
     expect(csv).toContain(text.analytics.learner)
     const access = await learner.evaluate(() => localStorage.getItem('dbcas_token'))
     const logout = learner.waitForResponse((response) => response.url().endsWith('/auth/logout'))
