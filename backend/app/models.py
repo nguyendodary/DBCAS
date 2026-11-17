@@ -564,6 +564,8 @@ class AssessmentBlueprint(Base):
 class AssessmentSession(Base):
     __tablename__ = "assessment_session"
     __table_args__ = (CheckConstraint("locale ~ '^[a-z]{2}(-[A-Z]{2})?$'"),
+                      CheckConstraint("purpose IN ('TEST', 'PRACTICE')"),
+                      CheckConstraint("purpose_source IN ('SERVER', 'BACKFILL')"),
                       UniqueConstraint("session_id", "learner_id", name="session_owner_unique"))
 
     session_id: Mapped[int] = mapped_column(primary_key=True)
@@ -571,6 +573,11 @@ class AssessmentSession(Base):
     learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
     # 'in_progress' | 'completed' | 'timed_out' | 'cancelled'
     status: Mapped[str] = mapped_column(String(20), default="in_progress")
+    # Server-owned TEST/PRACTICE; purpose_source marks server-created vs
+    # deterministic migration backfill. Only SERVER TEST rows count toward
+    # cumulative competency.
+    purpose: Mapped[str] = mapped_column(String(10), default="PRACTICE", server_default="PRACTICE")
+    purpose_source: Mapped[str] = mapped_column(String(10), default="SERVER", server_default="SERVER")
     locale: Mapped[str] = mapped_column(String(16), default="en")
     started_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[datetime]

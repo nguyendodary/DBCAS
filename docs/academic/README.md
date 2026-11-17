@@ -23,6 +23,11 @@ What the v1.2 documents state (all verifiable in the repository):
 - User-defined practice only (concepts, 3 difficulty bands, count 1–20,
   default 5, source `bank`/`ai`); no prebuilt exams, no admin exam creation,
   no fixed 10/2/1 mix, no 13-question/60-minute contract.
+- Each session has a server-owned `purpose`: `TEST` sessions are scored tests
+  (including bank-only FIXED and adaptive runs) and only published `SERVER`
+  `TEST` rows contribute to cumulative competency; `PRACTICE` sessions are
+  learning evidence and are excluded. Migration 025 backfills historical rows
+  with `purpose_source=BACKFILL`; history still shows their Test/Practice label.
 - `source=ai`: AI generates MCQ/essay only; SQL always comes from the validated
   bank; exact-count guarantee; one-line `bank_mixed` notice.
 - One mandatory release flow: AI grades/evaluates first, then an administrator
@@ -36,8 +41,8 @@ What the v1.2 documents state (all verifiable in the repository):
   Single-use handoffs issue rotating access/refresh sessions.
 - Admin navigation has five destinations: Cohort overview, Grading, Accounts,
   Questions, System.
-- PostgreSQL 17: 47 tables, 349 columns, 70 foreign keys, 105 indexes,
-  0 enum types, 24 migrations. Four legacy/retired tables are marked, never
+- PostgreSQL 17: 47 tables, 351 columns, 70 foreign keys, 106 indexes,
+  0 enum types, 25 migrations. Four legacy/retired tables are marked, never
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
 - 6 Compose services (7 with QA-only `qa-ai`; the opt-in real-QA run reuses

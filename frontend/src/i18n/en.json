@@ -815,7 +815,15 @@
     "nextImprove": "Review {{name}}, then practice related questions and compare your answers with the feedback in published results.",
     "nextMaintain": "Continue practicing {{name}} in different question formats to consolidate it.",
     "nextUnbenchmarked": "Review the published assessments that covered {{name}}; your instructor sets the benchmark.",
-    "limitedSkill": "This concept currently draws on evidence from one published assessment."
+    "limitedSkill": "This concept currently draws on evidence from one published assessment.",
+    "adaptiveTitle": "Adaptive ability estimates",
+    "adaptiveHelp": "These results are separate from the official percentage above. Each published adaptive test shows an estimated ability band and index; the two are never combined.",
+    "session": "Session",
+    "date": "Date"
+  },
+  "sessionPurpose": {
+    "TEST": "Test",
+    "PRACTICE": "Practice"
   },
   "guidance": {
     "title": "What to study next",

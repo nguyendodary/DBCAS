@@ -59,6 +59,7 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='attempt' AND column_name IN ('is_flagged','flag_revision','first_opened_at')").fetchone()[0] == 3
             assert conn.execute("SELECT count(*) FROM pg_constraint WHERE conrelid='attempt'::regclass AND conname='attempt_flag_revision_check'").fetchone()[0] == 1
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name IN ('tab_leave_count','cancelled_at','cancel_reason')").fetchone()[0] == 3
+            assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name IN ('purpose','purpose_source')").fetchone()[0] == 2
             assert conn.execute("SELECT to_regclass('tab_leave_interval')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name='locale'").fetchone()[0] == 1
             assert conn.execute("SELECT can_manage_roles FROM account WHERE email='preserved@migration.test'").fetchone()[0] is False
@@ -134,7 +135,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                                       "- 'first_opened_at'")
                     elif table == 'assessment_session':
                         projection = ("to_jsonb(t) - 'tab_leave_count' - 'cancelled_at' "
-                                      "- 'cancel_reason'")
+                                      "- 'cancel_reason' - 'purpose' - 'purpose_source'")
                     else:
                         projection = "to_jsonb(t)"
                     snapshots[table] = conn.execute(
@@ -150,6 +151,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                 '022_question_clo_tagging.sql',
                 '023_document_grounding.sql',
                 '024_tab_leave_guard.sql',
+                '025_session_purpose.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -158,7 +160,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 24
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 25
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -191,7 +193,7 @@ def test_original_language_upgrade_preserves_translations_and_snapshots():
             # the additive key is excluded so fingerprints assert row data only.
             def fingerprints():
                 return {table: conn.execute(
-                    f"SELECT to_jsonb(t) {'- \'blueprint_id\' - \'tab_leave_count\' - \'cancelled_at\' - \'cancel_reason\'' if table == 'assessment_session' else ''} "
+                    f"SELECT to_jsonb(t) {'- \'blueprint_id\' - \'tab_leave_count\' - \'cancelled_at\' - \'cancel_reason\' - \'purpose\' - \'purpose_source\'' if table == 'assessment_session' else ''} "
                     f"FROM {table} t ORDER BY to_jsonb(t)::text"
                 ).fetchall() for table in protected}
             preserved = fingerprints()
@@ -398,6 +400,7 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "022_question_clo_tagging.sql",
                 "023_document_grounding.sql",
                 "024_tab_leave_guard.sql",
+                "025_session_purpose.sql",
             ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
@@ -448,7 +451,8 @@ def test_023_document_tables_are_additive_and_repeatable(tmp_path):
             ).fetchone()[0]
 
             assert apply_migrations(conn) == [
-                "023_document_grounding.sql", "024_tab_leave_guard.sql"]
+                "023_document_grounding.sql", "024_tab_leave_guard.sql",
+                "025_session_purpose.sql"]
             assert apply_migrations(conn) == []
             for table in ("course_document", "document_chunk", "document_clo", "question_evidence"):
                 assert conn.execute(f"SELECT to_regclass('{table}')").fetchone()[0]
@@ -492,6 +496,90 @@ def test_023_document_tables_are_additive_and_repeatable(tmp_path):
             assert conn.execute("SELECT count(*) FROM document_chunk").fetchone()[0] == 1
             assert conn.execute("SELECT count(*) FROM document_clo").fetchone()[0] == 1
             assert conn.execute("SELECT count(*) FROM question_evidence").fetchone()[0] == 1
+        finally:
+            conn.execute("SET search_path TO public")
+            conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
+
+
+def test_025_backfills_historical_purpose_once_and_marks_new_rows_server(tmp_path):
+    """Classify pre-025 sessions deterministically; never rewrite after upgrade."""
+    directory = ROOT_DIR / "db/migrations"
+    prior = tmp_path / "pre025"
+    prior.mkdir()
+    for path in directory.glob("[0-9][0-9][0-9]_*.sql"):
+        if path.name < "025":
+            (prior / path.name).write_bytes(path.read_bytes())
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://")
+    namespace = "purpose025_" + uuid.uuid4().hex[:12]
+    migration = (directory / "025_session_purpose.sql").read_text()
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{namespace}"')
+        try:
+            conn.execute(f'SET search_path TO "{namespace}"')
+            conn.execute((ROOT_DIR / "db/schema.sql").read_text(), prepare=False)
+            # Emulate a real pre-025 volume: the fresh schema already carries
+            # the additive columns and index that migration 025 introduces.
+            conn.execute("DROP INDEX assessment_session_purpose_idx")
+            conn.execute("ALTER TABLE assessment_session DROP COLUMN purpose, DROP COLUMN purpose_source")
+            assert len(apply_migrations(conn, prior)) == 24
+            account_id = conn.execute(
+                "INSERT INTO account(email,password_hash) VALUES ('purpose025@migration.test','not-a-login-hash') "
+                "RETURNING account_id"
+            ).fetchone()[0]
+            assessment_id = conn.execute(
+                "INSERT INTO assessment(title,status,created_by) VALUES ('Historical', 'published', %s) "
+                "RETURNING assessment_id", (account_id,)
+            ).fetchone()[0]
+            cases = {
+                "formal_without_mode": (assessment_id, '{"version":1}'),
+                "formal_practice": (assessment_id, '{"assembly_mode":"PRACTICE"}'),
+                "fixed_practice": (None, '{"learner_defined":true,"assembly_mode":"PRACTICE",'
+                                         '"assessment_style":"FIXED","runner_mode":"fixed"}'),
+                "adaptive_practice": (None, '{"assessment_style":"ADAPTIVE","runner_mode":"adaptive",'
+                                            '"result_kind":"estimated_ability"}'),
+                "free_choice": (None, '{"learner_defined":true,"assembly_mode":"PRACTICE","source":"ai"}'),
+                "legacy_runner_only": (None, '{"runner_mode":"fixed"}'),
+            }
+            ids = {}
+            for key, (aid, snapshot) in cases.items():
+                ids[key] = conn.execute(
+                    "INSERT INTO assessment_session(assessment_id,learner_id,status,expires_at,config_snapshot) "
+                    "VALUES (%s,%s,'completed',NOW()+INTERVAL '1 hour',%s::jsonb) RETURNING session_id",
+                    (aid, account_id, snapshot),
+                ).fetchone()[0]
+            assert apply_migrations(conn) == ["025_session_purpose.sql"]
+            rows = conn.execute(
+                "SELECT session_id,purpose,purpose_source FROM assessment_session ORDER BY session_id"
+            ).fetchall()
+            by_id = {sid: (purpose, source) for sid, purpose, source in rows}
+            assert by_id == {
+                ids["formal_without_mode"]: ("TEST", "BACKFILL"),
+                ids["formal_practice"]: ("PRACTICE", "BACKFILL"),
+                ids["fixed_practice"]: ("TEST", "BACKFILL"),
+                ids["adaptive_practice"]: ("TEST", "BACKFILL"),
+                ids["free_choice"]: ("PRACTICE", "BACKFILL"),
+                ids["legacy_runner_only"]: ("TEST", "BACKFILL"),
+            }
+            new_session = conn.execute(
+                "INSERT INTO assessment_session(assessment_id,learner_id,expires_at) "
+                "VALUES (%s,%s,NOW()+INTERVAL '1 hour') RETURNING session_id,purpose,purpose_source",
+                (assessment_id, account_id),
+            ).fetchone()
+            assert new_session[1:] == ("PRACTICE", "SERVER")
+            with pytest.raises(psycopg.errors.CheckViolation):
+                conn.execute("INSERT INTO assessment_session(assessment_id,learner_id,expires_at,purpose) "
+                             "VALUES (%s,%s,NOW()+INTERVAL '1 hour','OTHER')",
+                             (assessment_id, account_id))
+            with pytest.raises(psycopg.errors.CheckViolation):
+                conn.execute("INSERT INTO assessment_session(assessment_id,learner_id,expires_at,purpose_source) "
+                             "VALUES (%s,%s,NOW()+INTERVAL '1 hour','OTHER')",
+                             (assessment_id, account_id))
+            # A direct rerun after a later correction must not reclassify rows.
+            conn.execute("UPDATE assessment_session SET purpose='PRACTICE' WHERE session_id=%s",
+                         (ids["formal_without_mode"],))
+            conn.execute(migration, prepare=False)
+            assert conn.execute("SELECT purpose,purpose_source FROM assessment_session WHERE session_id=%s",
+                                (ids["formal_without_mode"],)).fetchone() == ("PRACTICE", "BACKFILL")
         finally:
             conn.execute("SET search_path TO public")
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')

@@ -1,7 +1,7 @@
 {
   "source": "PostgreSQL introspection of db/schema.sql",
   "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
-  "schema_sha256": "df4e0acc6d49f8a8f7aba16dfd54152be8a9a1c836ce0fc71af3d3e0f6c0e3a6",
+  "schema_sha256": "7e401ff30d8d666d0baf2099d5051408fa03bb437817faabb72d9060283ec45d",
   "migrations": {
     "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
     "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
@@ -26,7 +26,8 @@
     "021_fixed_paper_attempt_state.sql": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b",
     "022_question_clo_tagging.sql": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9",
     "023_document_grounding.sql": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59",
-    "024_tab_leave_guard.sql": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5"
+    "024_tab_leave_guard.sql": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
+    "025_session_purpose.sql": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7"
   },
   "tables": [
     {
@@ -1249,6 +1250,28 @@
           "numeric_scale": null
         },
         {
+          "name": "purpose",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'PRACTICE'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "purpose_source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'SERVER'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
           "name": "locale",
           "type": "character varying",
           "udt": "varchar",
@@ -1442,6 +1465,22 @@
           "definition": "PRIMARY KEY (session_id)",
           "columns": [
             "session_id"
+          ]
+        },
+        {
+          "name": "assessment_session_purpose_check",
+          "type": "c",
+          "definition": "CHECK (((purpose)::text = ANY ((ARRAY['TEST'::character varying, 'PRACTICE'::character varying])::text[])))",
+          "columns": [
+            "purpose"
+          ]
+        },
+        {
+          "name": "assessment_session_purpose_source_check",
+          "type": "c",
+          "definition": "CHECK (((purpose_source)::text = ANY ((ARRAY['SERVER'::character varying, 'BACKFILL'::character varying])::text[])))",
+          "columns": [
+            "purpose_source"
           ]
         },
         {
@@ -6943,6 +6982,11 @@
       "table": "assessment_session",
       "name": "assessment_session_pkey",
       "definition": "CREATE UNIQUE INDEX assessment_session_pkey ON public.assessment_session USING btree (session_id)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "assessment_session_purpose_idx",
+      "definition": "CREATE INDEX assessment_session_purpose_idx ON public.assessment_session USING btree (learner_id, purpose, purpose_source, started_at DESC)"
     },
     {
       "table": "assessment_session",

@@ -815,7 +815,15 @@
     "nextImprove": "Ôn lại {{name}}, sau đó luyện thêm câu hỏi liên quan và đối chiếu với nhận xét trong các bài đã công bố.",
     "nextMaintain": "Tiếp tục luyện {{name}} ở nhiều dạng câu để củng cố kiến thức.",
     "nextUnbenchmarked": "Xem lại các bài đã công bố có nội dung {{name}}; giảng viên thiết lập mức chuẩn cho khái niệm này.",
-    "limitedSkill": "Khái niệm này hiện chỉ có dữ liệu từ một bài đã công bố."
+    "limitedSkill": "Khái niệm này hiện chỉ có dữ liệu từ một bài đã công bố.",
+    "adaptiveTitle": "Ước tính năng lực thích ứng",
+    "adaptiveHelp": "Kết quả này tách biệt với tỉ lệ phần trăm chính thức ở trên. Mỗi bài test thích ứng đã công bố hiển thị dải năng lực ước tính và chỉ số; hai kết quả không bao giờ được gộp lại.",
+    "session": "Bài làm",
+    "date": "Ngày"
+  },
+  "sessionPurpose": {
+    "TEST": "Bài test",
+    "PRACTICE": "Bài luyện tập"
   },
   "guidance": {
     "title": "Gợi ý học tập",

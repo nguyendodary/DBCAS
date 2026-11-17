@@ -95,6 +95,9 @@ export default function HistoryPage() {
                   />
                   <div className="min-w-0">
                     <p className="font-medium text-ink">{s.assessment_title}</p>
+                    {(s.purpose === 'TEST' || s.purpose === 'PRACTICE') && (
+                      <p className="text-xs text-mute">{t(`sessionPurpose.${s.purpose}`)}</p>
+                    )}
                     {s.assembly_mode && (
                       <p className="text-xs text-mute">{t(`supervisor.${s.assembly_mode}`)}</p>
                     )}

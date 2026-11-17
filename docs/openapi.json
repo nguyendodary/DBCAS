@@ -1933,8 +1933,73 @@
         "title": "CountOptions",
         "type": "object"
       },
+      "CumulativeAdaptiveItem": {
+        "description": "One published continuous-adaptive TEST estimate; never merged with %.",
+        "properties": {
+          "ability_index": {
+            "title": "Ability Index",
+            "type": "number"
+          },
+          "assessment_title": {
+            "title": "Assessment Title",
+            "type": "string"
+          },
+          "band": {
+            "title": "Band",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "evidence_count": {
+            "title": "Evidence Count",
+            "type": "integer"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          }
+        },
+        "required": [
+          "session_id",
+          "assessment_title",
+          "started_at",
+          "band",
+          "ability_index",
+          "confidence",
+          "evidence_count"
+        ],
+        "title": "CumulativeAdaptiveItem",
+        "type": "object"
+      },
       "CumulativeCompetencyResult": {
         "properties": {
+          "adaptive_estimates": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CumulativeAdaptiveItem"
+            },
+            "title": "Adaptive Estimates",
+            "type": "array"
+          },
           "categories": {
             "default": [],
             "items": {
@@ -6834,6 +6899,15 @@
             "title": "Max Questions",
             "type": "integer"
           },
+          "purpose": {
+            "default": "PRACTICE",
+            "enum": [
+              "TEST",
+              "PRACTICE"
+            ],
+            "title": "Purpose",
+            "type": "string"
+          },
           "question_source": {
             "anyOf": [
               {
@@ -7115,6 +7189,15 @@
             "default": false,
             "title": "Provisional",
             "type": "boolean"
+          },
+          "purpose": {
+            "default": "PRACTICE",
+            "enum": [
+              "TEST",
+              "PRACTICE"
+            ],
+            "title": "Purpose",
+            "type": "string"
           },
           "release_status": {
             "default": "published",

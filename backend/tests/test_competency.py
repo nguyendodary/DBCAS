@@ -69,7 +69,7 @@ def _make_concept(
     return concept
 
 
-def _make_session(db, learner, *, status="completed", targets=None):
+def _make_session(db, learner, *, status="completed", targets=None, purpose="TEST"):
     """A finalized (default) session; ``targets`` maps Concept -> target_pct."""
     assessment = Assessment(
         title="Assessment", status="published", created_by=learner.account_id
@@ -90,6 +90,7 @@ def _make_session(db, learner, *, status="completed", targets=None):
         assessment_id=assessment.assessment_id,
         learner_id=learner.account_id,
         status=status,
+        purpose=purpose,
         release_status="published" if status != "in_progress" else "unsubmitted",
         result_release_policy="IMMEDIATE",
         expires_at=now + timedelta(minutes=60),

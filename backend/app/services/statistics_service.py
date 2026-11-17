@@ -5,7 +5,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from ..errors import AppError
 from ..repositories import AccountRepository, AssessmentRepository, CompetencyRepository, StatisticsRepository
 from .competency_dimensions import extract_evidence, metric, rank_learners, summarize
-from .cumulative_competency import aggregate_sessions, is_official
+from .cumulative_competency import aggregate_sessions, is_official, is_pending_official
 from .evidence_context import targets_for_session
 
 CENT = Decimal("0.01")
@@ -47,7 +47,7 @@ def dashboard(db, *, learner_id=None, assessment_id=None, include_ranking=False,
         raise AppError(404, "assessment_not_found", "Assessment not found")
     statistics_repo = StatisticsRepository(db)
     sessions = [s for s in statistics_repo.published_sessions(learner_id, assessment_id) if is_official(s)]
-    pending = sum(is_official(s) for s in statistics_repo.pending_sessions(learner_id, assessment_id))
+    pending = sum(is_pending_official(s) for s in statistics_repo.pending_sessions(learner_id, assessment_id))
     attempts = defaultdict(list)
     for attempt in AssessmentRepository(db).history_attempts([s.session_id for s in sessions]):
         attempts[attempt.session_id].append(attempt)

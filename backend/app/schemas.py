@@ -235,6 +235,7 @@ class SessionSummary(BaseModel):
     assessment_id: Optional[int]
     assessment_title: str
     status: str  # 'in_progress' | 'completed' | 'timed_out'
+    purpose: Literal["TEST", "PRACTICE"] = "PRACTICE"
     locale: str = "en"
     result_release_policy: ReleasePolicy = "HUMAN_VERIFIED"
     release_status: str = "published"
@@ -349,12 +350,26 @@ class CumulativeConceptItem(ConceptCompetencyItem):
     meeting_target_assessments: int = 0
 
 
+class CumulativeAdaptiveItem(BaseModel):
+    """One published continuous-adaptive TEST estimate; never merged with %."""
+
+    session_id: int
+    assessment_title: str
+    started_at: datetime
+    submitted_at: Optional[datetime] = None
+    band: str
+    ability_index: float
+    confidence: str
+    evidence_count: int
+
+
 class CumulativeCompetencyResult(BaseModel):
     learner_id: int
     concepts: list[CumulativeConceptItem]
     gaps: list[CumulativeConceptItem]
     categories: list[CompetencyCategory] = []
     summary: ProfileSummary = ProfileSummary()
+    adaptive_estimates: list[CumulativeAdaptiveItem] = []
 
 
 # ---------- skill gaps (UC17) ----------
@@ -976,6 +991,7 @@ class SessionStateResult(BaseModel):
     session_id: int
     assessment_id: Optional[int]
     assessment_title: str
+    purpose: Literal["TEST", "PRACTICE"] = "PRACTICE"
     question_source: Optional[str] = None
     generation_fallback: bool = False
     bank_mixed: bool = False

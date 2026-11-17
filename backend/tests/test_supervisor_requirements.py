@@ -366,6 +366,7 @@ def test_cumulative_pooling_is_weighted_published_and_uses_historical_context():
     c = {"concept_id": 1, "concept_code": "C", "concept_name": "Original", "subject_area": "SQL", "description": None}
     def session(sid, status="published"):
         return Row(session_id=sid, status="completed", release_status=status, started_at=now,
+                   purpose="TEST", purpose_source="SERVER",
                    config_snapshot={"concepts": [{**c, "target_pct": "70"}]})
     def attempt(aid, earned, possible, submitted=True):
         return Row(attempt_id=aid, submitted_at=now if submitted else None, score=Decimal(earned) if earned is not None else None,
@@ -506,7 +507,7 @@ def test_practice_sessions_never_enter_official_competency(client, db_session):
     from test_competency import _make_learner, _make_concept, _make_session, _add_question, _add_attempt
     learner = _make_learner(db_session, email="practice-exclusion@test.dev")
     c = _make_concept(db_session, "PRACTICE-EXCLUDED")
-    practice = _make_session(db_session, learner, targets={c: 60})
+    practice = _make_session(db_session, learner, targets={c: 60}, purpose="PRACTICE")
     practice.config_snapshot = {"assembly_mode": "PRACTICE"}
     formal = _make_session(db_session, learner, targets={c: 80})
     formal.config_snapshot = {"assembly_mode": "FORMAL"}

@@ -643,6 +643,16 @@
           "nullable": false
         },
         {
+          "name": "purpose",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "purpose_source",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
           "name": "locale",
           "type": "character varying(16)",
           "nullable": false
@@ -738,6 +748,16 @@
           "name": "assessment_session_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (session_id)"
+        },
+        {
+          "name": "assessment_session_purpose_check",
+          "type": "c",
+          "definition": "CHECK (((purpose)::text = ANY ((ARRAY['TEST'::character varying, 'PRACTICE'::character varying])::text[])))"
+        },
+        {
+          "name": "assessment_session_purpose_source_check",
+          "type": "c",
+          "definition": "CHECK (((purpose_source)::text = ANY ((ARRAY['SERVER'::character varying, 'BACKFILL'::character varying])::text[])))"
         },
         {
           "name": "assessment_session_status_check",
@@ -3081,7 +3101,7 @@
       ]
     }
   ],
-  "schema_sha256": "df4e0acc6d49f8a8f7aba16dfd54152be8a9a1c836ce0fc71af3d3e0f6c0e3a6",
+  "schema_sha256": "7e401ff30d8d666d0baf2099d5051408fa03bb437817faabb72d9060283ec45d",
   "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
   "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
   "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
@@ -3105,5 +3125,6 @@
   "migration_021_sha256": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b",
   "migration_022_sha256": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9",
   "migration_023_sha256": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59",
-  "migration_024_sha256": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5"
+  "migration_024_sha256": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
+  "migration_025_sha256": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7"
 }

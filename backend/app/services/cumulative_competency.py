@@ -10,13 +10,43 @@ from .grading_review import is_published
 CENT = Decimal("0.01")
 
 
-def is_official(session):
-    """Practice runs are learning evidence and never official competency.
+def is_test_evidence(session):
+    """Only server-created TEST rows count; backfill is history-only."""
+    return session.purpose == "TEST" and session.purpose_source == "SERVER"
 
-    Legacy sessions without an assembly mode retain their historical formal
-    treatment; explicit PRACTICE and ADAPTIVE selections are excluded.
+
+def is_adaptive_estimate(session):
+    snapshot = session.config_snapshot or {}
+    return is_test_evidence(session) and (
+        snapshot.get("result_kind") == "estimated_ability"
+        and snapshot.get("runner_mode") == "adaptive"
+    )
+
+
+def is_official(session):
+    """Table 1: published server TEST rows with an official percentage.
+
+    Continuous adaptive rows go to the separate estimated-ability table.
+    Formal adaptive sessions are intentionally in neither table in this PR.
     """
-    return bool((session.config_snapshot or {}).get("learner_defined")) or (session.config_snapshot or {}).get("assembly_mode") not in ("PRACTICE", "ADAPTIVE")
+    snapshot = session.config_snapshot or {}
+    return (
+        is_test_evidence(session)
+        and is_published(session)
+        and not is_adaptive_estimate(session)
+        and snapshot.get("assembly_mode") != "ADAPTIVE"
+    )
+
+
+def is_pending_official(session):
+    """Pending counterpart of table 1, used by dashboard counts."""
+    snapshot = session.config_snapshot or {}
+    return (
+        is_test_evidence(session)
+        and not is_published(session)
+        and not is_adaptive_estimate(session)
+        and snapshot.get("assembly_mode") != "ADAPTIVE"
+    )
 
 
 def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
@@ -26,8 +56,8 @@ def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
     replacing earlier evidence. A multi-tag item contributes fully to each
     confirmed concept, following the established session scoring formula.
     Benchmarks are weighted by possible points where a target was defined.
-    Practice sessions are excluded so practice scores never enter official
-    competency.
+    Only published server TEST rows are included, so learning-only PRACTICE
+    sessions never enter official competency.
     """
     totals = {}
     for session in sorted(sessions, key=lambda s: (s.started_at, s.session_id)):
@@ -62,15 +92,45 @@ def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
 
 
 def profile(db, learner_id):
-    from ..schemas import CumulativeCompetencyResult, CumulativeConceptItem, ProfileSummary
+    from ..schemas import (
+        CumulativeAdaptiveItem,
+        CumulativeCompetencyResult,
+        CumulativeConceptItem,
+        ProfileSummary,
+    )
+    from .continuous_adaptive import estimate
+
     repo = AssessmentRepository(db)
-    sessions = [s for s in repo.sessions_for_learner(learner_id)
-                if is_published(s) and is_official(s)]
+    all_sessions = repo.sessions_for_learner(learner_id)
+    sessions = [s for s in all_sessions if is_official(s)]
+    adaptive_sessions = [s for s in all_sessions
+                         if is_adaptive_estimate(s) and is_published(s)]
     grouped = defaultdict(list)
-    for attempt in repo.history_attempts([s.session_id for s in sessions]):
+    for attempt in repo.history_attempts(
+        [s.session_id for s in sessions] + [s.session_id for s in adaptive_sessions]
+    ):
         grouped[attempt.session_id].append(attempt)
     targets = {s.session_id: targets_for_session(s, CompetencyRepository(db)) for s in sessions}
     totals = aggregate_sessions(sessions, grouped, targets)
+    adaptive_estimates = []
+    for session in adaptive_sessions:
+        estimate_result = estimate(session, grouped.get(session.session_id, []))
+        if estimate_result is None:
+            continue
+        adaptive_estimates.append(
+            CumulativeAdaptiveItem(
+                session_id=session.session_id,
+                assessment_title=(session.config_snapshot or {}).get(
+                    "title", session.assessment.title if session.assessment else ""
+                ),
+                started_at=session.started_at,
+                submitted_at=session.submitted_at,
+                band=estimate_result["band"],
+                ability_index=estimate_result["index"],
+                confidence=estimate_result["confidence"],
+                evidence_count=estimate_result["evidence_count"],
+            )
+        )
     items = []
     for cid, slot in sorted(totals.items()):
         c = slot["concept"]
@@ -86,6 +146,7 @@ def profile(db, learner_id):
     gaps = sorted([i for i in items if i.below_target], key=lambda i: (-(i.target_pct - i.competency_pct), i.concept_id))
     return CumulativeCompetencyResult(learner_id=learner_id, concepts=items, gaps=gaps,
         categories=category_display(items),
+        adaptive_estimates=adaptive_estimates,
         summary=ProfileSummary(assessed_concepts=len(items), benchmarked_concepts=len(benchmarked),
             meeting_target=sum(not i.below_target for i in benchmarked),
             unbenchmarked_concepts=len(items) - len(benchmarked), finalized_assessments=len(sessions)))
