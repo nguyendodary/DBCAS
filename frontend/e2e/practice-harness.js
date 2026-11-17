@@ -43,6 +43,27 @@ export async function checkQuestionTypography(page, kind) {
   await checkInterfaceTypography(page)
 }
 
+// The fake provider is reached over a published host port. Docker's port proxy
+// can briefly drop a connection mid-suite (ECONNREFUSED), so retry the control
+// POST with a bounded budget. The strict ok() assertion is unchanged: a real
+// provider outage still fails the test, only a transient drop is absorbed.
+export async function providerControl(page, data, { attempts = 5, retryMs = 250 } = {}) {
+  const url = process.env.DBCAS_QA_PROVIDER_URL
+  if (!url) return null
+  let lastError
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await page.request.post(`${url}/control`, { data })
+      expect(response.ok(), `provider control: HTTP ${response.status()}`).toBe(true)
+      return response
+    } catch (error) {
+      lastError = error
+      if (attempt < attempts) await page.waitForTimeout(retryMs)
+    }
+  }
+  throw lastError
+}
+
 export async function api(page, path, method = 'GET', data) {
   const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
   const r = await page.request.fetch(`/api/v1${path}`, {

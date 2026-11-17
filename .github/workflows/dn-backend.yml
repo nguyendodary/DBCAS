@@ -144,6 +144,8 @@ jobs:
       - run: python -m pip install --upgrade pip==26.3
       - run: python -m pip install -r backend/requirements-dev.txt
       - run: npm --prefix frontend ci
+      - name: Verify every e2e spec is assigned to exactly one shard
+        run: bash scripts/e2e-shards.sh check
       - run: node --test scripts/browser_config.test.mjs
       - run: npm --prefix frontend run lint
       - run: npm --prefix frontend run format:check
@@ -168,7 +170,8 @@ jobs:
         include:
           - name: e2e-1
             kind: e2e
-            shard: '1/2'
+            shard_arg: ''
+            mode: localization
             project: dbcas-e2e-1
             api_port: 18100
             web_port: 18180
@@ -178,13 +181,25 @@ jobs:
             qa_load: '0'
           - name: e2e-2
             kind: e2e
-            shard: '2/2'
+            shard_arg: '--shard=1/2'
+            mode: rest
             project: dbcas-e2e-2
             api_port: 18101
             web_port: 18181
             mail_port: 18126
             smtp_port: 11126
             qa_port: 18209
+            qa_load: '0'
+          - name: e2e-3
+            kind: e2e
+            shard_arg: '--shard=2/2'
+            mode: rest
+            project: dbcas-e2e-3
+            api_port: 18102
+            web_port: 18182
+            mail_port: 18127
+            smtp_port: 11127
+            qa_port: 18219
             qa_load: '0'
           - name: qa-1
             kind: qa
@@ -290,7 +305,15 @@ jobs:
           docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml up -d --wait mailpit
       - name: Run e2e shard
         if: matrix.kind == 'e2e'
-        run: npm --prefix frontend run test:e2e -- --shard=${{ matrix.shard }}
+        shell: bash
+        run: |
+          cd frontend
+          # Single source of truth for spec assignment; QA/smoke/manual specs
+          # are derived from their Playwright configs, so a spec added to one
+          # of those configs is never also run by an e2e shard.
+          files=$(bash ../scripts/e2e-shards.sh ${{ matrix.mode }})
+          echo "e2e files: $files"
+          npm run test:e2e -- $files ${{ matrix.shard_arg }}
       - name: Start local stack for smoke
         if: matrix.kind == 'smoke'
         run: npm start
@@ -345,7 +368,7 @@ jobs:
         if: github.event_name != 'pull_request' || needs.changes.outputs.docs_only != 'true'
         shell: bash
         run: |
-          expected=8
+          expected=9
           actual=$(find shards -type f -name '*.txt' | wc -l)
           echo "shard_artifacts=$actual expected=$expected"
           test "$actual" -eq "$expected"

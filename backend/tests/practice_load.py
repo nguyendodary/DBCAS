@@ -22,6 +22,12 @@ import httpx
 from release_load import summary
 
 
+# Only a transient sandbox capacity fault may be retried. A completed query or
+# any other product error is a real limit violation and must fail immediately;
+# a later measurement must never be able to mask it.
+TRANSIENT_SANDBOX_ERRORS = frozenset({"sandbox_busy", "sandbox_unavailable"})
+
+
 class Probe:
     def __init__(self):
         self.samples = defaultdict(list)
@@ -170,8 +176,30 @@ async def run(args):
                                     ("sql_cell_limit", "SELECT repeat('x',20000)", "result_too_large"),
                                     ("sql_row_limit", "SELECT generate_series(1,2000)", "result_too_large"),
                                 ]:
-                                    bounded = await learner.request(phase, "POST", f"sessions/{sid}/sql-run",
-                                        {"question_id": question["question_id"], "sql": sql})
+                                    # The sandbox executor has two slots and runners are
+                                    # loaded, so a measurement can hit a transient capacity
+                                    # fault once. Retry only that case (bounded to one
+                                    # retry); a real violation is never retried and is
+                                    # asserted below before any second measurement can
+                                    # overwrite it. The product timeout is unchanged.
+                                    measurements = []
+                                    for attempt in range(2):
+                                        bounded = await learner.request(phase, "POST", f"sessions/{sid}/sql-run",
+                                            {"question_id": question["question_id"], "sql": sql})
+                                        measurements.append(bounded)
+                                        enforced = bounded["success"] is False and bounded.get("error_type") == expected_error
+                                        transient = (bounded["success"] is False
+                                                     and bounded.get("error_type") in TRANSIENT_SANDBOX_ERRORS)
+                                        if enforced or not transient or attempt == 1:
+                                            break
+                                        report["sql_limit_retries"] = report.get("sql_limit_retries", 0) + 1
+                                    # Every measurement must stay inside the enforced
+                                    # budget: none may report a completed query or an
+                                    # unexpected product error. This proves the retry
+                                    # cannot mask a real violation.
+                                    allowed = TRANSIENT_SANDBOX_ERRORS | {expected_error}
+                                    assert all(m["success"] is False and m.get("error_type") in allowed for m in measurements), (
+                                        f"{phase} produced a measurement outside the enforced budget")
                                     assert bounded["success"] is False and bounded["error_type"] == expected_error, f"{phase} did not enforce its configured limit"
                                     report.setdefault("sql_limit_results", {})[phase] = {
                                         "error_type": bounded["error_type"], "execution_time_ms": bounded["execution_time_ms"]}
