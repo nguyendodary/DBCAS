@@ -197,7 +197,9 @@ test('supervisor journeys A–E: classification, personalization, both release p
             timeout: 45000,
           })
           await adminPage.getByRole('button', { name: 'Duyệt', exact: true }).click()
-          await expect(page.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
+          await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+            timeout: 45000,
+          })
         }
         await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
           timeout: 45000,

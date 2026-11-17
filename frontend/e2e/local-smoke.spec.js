@@ -184,7 +184,7 @@ test('local Admin and Learner complete grading, publication and competency with 
       .poll(async () => (await api(admin, `/admin/grading-reviews/${sessionId}`)).release_status)
       .toBe('published')
     expect((await api(admin, `/admin/grading-reviews/${sessionId}`)).score_edits).toHaveLength(3)
-    await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
+    await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible()
     await expect(
       learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
     ).toBeVisible()

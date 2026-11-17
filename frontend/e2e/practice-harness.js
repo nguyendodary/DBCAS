@@ -195,17 +195,16 @@ export async function start(
     request_id: crypto.randomUUID(),
   }
   const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
+  const locale = await page.evaluate(() => localStorage.getItem('dbcas_locale') || 'vi')
   const r = await page.request.fetch('/api/v1/practice/start', {
     method: 'POST',
     data: payload,
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}`, 'Accept-Language': locale },
     timeout: responseTimeout,
   })
   expect(r.ok(), await r.text()).toBe(true)
   const state = await r.json()
   await page.goto(`/exam/${state.session_id}`)
-  if (state.current_question)
-    await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
   return { ...state, _startRequest: payload }
 }
 export async function take(

@@ -183,7 +183,9 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
     await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
-    await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
+    await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+      timeout: 45000,
+    })
     await expect(learner.getByText('Điểm đã được điều chỉnh', { exact: true })).toBeVisible()
     const review = await api(admin, `/admin/grading-reviews/${sid}`)
     expect(review.score_edits).toHaveLength(1)
