@@ -3,6 +3,16 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost, inputCls } from '../components/ui'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import AssessmentStylePicker from '../components/AssessmentStylePicker'
+import {
+  ADAPTIVE,
+  ADAPTIVE_MAX_QUESTIONS,
+  ADAPTIVE_MIN_QUESTIONS,
+  FIXED,
+  buildPracticePayload,
+  clampAdaptiveCount,
+  isSelectionValid,
+} from '../assessmentStyle'
 import { t, useLocale } from '../i18n'
 
 const BANDS = [
@@ -30,6 +40,7 @@ export default function AssessmentsPage() {
   const [searchParams] = useSearchParams()
   const requestedConcepts = searchParams.get('concepts') || ''
   const [options, setOptions] = useState(null)
+  const [style, setStyle] = useState(FIXED)
   const [selected, setSelected] = useState([])
   const [bands, setBands] = useState(BANDS.map(([value]) => value))
   const [source, setSource] = useState('bank')
@@ -77,6 +88,21 @@ export default function AssessmentsPage() {
     requestId.current = crypto.randomUUID()
     setPreview(null)
   }, [selected, bands, source, count])
+  // Keep the browser selection inside the backend's ADAPTIVE constraints:
+  // bank-only, exactly one concept and one starting band, 3..50 MCQ questions.
+  useEffect(() => {
+    if (style !== ADAPTIVE) return
+    setSource('bank')
+    setSelected((previous) => previous.slice(0, 1))
+    setBands((previous) => (previous.length ? previous.slice(0, 1) : ['MEDIUM']))
+    setCount((previous) => clampAdaptiveCount(previous))
+  }, [style])
+  function toggleConcept(id) {
+    setSelected(style === ADAPTIVE ? [id] : toggle(selected, id))
+  }
+  function toggleBand(value) {
+    setBands(style === ADAPTIVE ? [value] : toggle(bands, value))
+  }
   function handleStartError(e) {
     const code = e?.response?.data?.error?.code
     const details = e?.response?.data?.error?.details
@@ -96,13 +122,14 @@ export default function AssessmentsPage() {
     guard.current = true
     setBusy(true)
     setError(null)
-    const payload = {
-      concept_ids: selected,
-      difficulties: bands,
+    const payload = buildPracticePayload({
+      style,
+      selected,
+      bands,
       source,
-      question_count: Number(count),
-      request_id: requestId.current,
-    }
+      count,
+      requestId: requestId.current,
+    })
     try {
       const checked = await api.post('/practice/preview', payload)
       if (checked.data?.uncovered_concepts?.length) {
@@ -134,6 +161,20 @@ export default function AssessmentsPage() {
   }
   const selectedConcepts =
     options?.concepts.filter((concept) => selected.includes(concept.concept_id)) || []
+  const baseLimits = options?.question_count
+  const limits =
+    style === ADAPTIVE
+      ? {
+          min: ADAPTIVE_MIN_QUESTIONS,
+          max: ADAPTIVE_MAX_QUESTIONS,
+          presets: (baseLimits?.presets || []).filter(
+            (value) => value >= ADAPTIVE_MIN_QUESTIONS && value <= ADAPTIVE_MAX_QUESTIONS,
+          ),
+        }
+      : baseLimits
+  const selectionValid = options
+    ? isSelectionValid({ style, selected, bands, source, count, limits })
+    : false
   return (
     <div className="content-wrap mx-auto max-w-4xl space-y-6 py-8">
       <header>
@@ -188,15 +229,22 @@ export default function AssessmentsPage() {
         <form onSubmit={start}>
           <Card className="space-y-7 p-5 sm:p-7">
             <fieldset disabled={busy} className="space-y-7">
+              <AssessmentStylePicker value={style} onChange={setStyle} disabled={busy} />
               <fieldset className="min-w-0">
                 <legend className="text-lg font-semibold">1. Chọn khái niệm</legend>
-                <button
-                  type="button"
-                  className={`${btnGhost} my-3`}
-                  onClick={() => setSelected(options.concepts.map((c) => c.concept_id))}
-                >
-                  Chọn tất cả khái niệm
-                </button>
+                {style === ADAPTIVE ? (
+                  <p role="status" className="my-3 text-sm text-sub">
+                    {t('assessmentStyle.adaptive.conceptNote')}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    className={`${btnGhost} my-3`}
+                    onClick={() => setSelected(options.concepts.map((c) => c.concept_id))}
+                  >
+                    Chọn tất cả khái niệm
+                  </button>
+                )}
                 {options.concepts.length > 12 && (
                   <label className="mb-3 block text-sm text-sub">
                     Tìm khái niệm
@@ -222,7 +270,7 @@ export default function AssessmentsPage() {
                         aria-label={c.concept_name}
                         aria-pressed={selected.includes(c.concept_id)}
                         className={`max-w-full whitespace-normal break-words rounded-full border px-4 py-2 text-left text-sm ${selected.includes(c.concept_id) ? 'border-cyan-400 bg-cyan-400/15 font-semibold text-ink' : 'border-edge text-sub'}`}
-                        onClick={() => setSelected(toggle(selected, c.concept_id))}
+                        onClick={() => toggleConcept(c.concept_id)}
                       >
                         {selected.includes(c.concept_id) && <span aria-hidden="true">✓ </span>}
                         {c.concept_name}
@@ -270,6 +318,11 @@ export default function AssessmentsPage() {
               </fieldset>
               <fieldset>
                 <legend className="mb-3 text-lg font-semibold">2. Chọn độ khó</legend>
+                {style === ADAPTIVE && (
+                  <p className="mb-3 text-sm text-sub">
+                    {t('assessmentStyle.adaptive.difficultyNote')}
+                  </p>
+                )}
                 <div className="flex flex-wrap gap-3">
                   {BANDS.map(([value, label]) => (
                     <button
@@ -277,7 +330,7 @@ export default function AssessmentsPage() {
                       key={value}
                       aria-pressed={bands.includes(value)}
                       className={`rounded-lg border px-5 py-2 ${bands.includes(value) ? 'border-cyan-400 bg-cyan-400/15 font-semibold text-ink' : 'border-edge text-sub'}`}
-                      onClick={() => setBands(toggle(bands, value))}
+                      onClick={() => toggleBand(value)}
                     >
                       {bands.includes(value) && <span aria-hidden="true">✓ </span>}
                       {label}
@@ -287,31 +340,37 @@ export default function AssessmentsPage() {
               </fieldset>
               <fieldset>
                 <legend className="mb-3 text-lg font-semibold">3. Chọn nguồn câu hỏi</legend>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {[
-                    ['bank', 'Từ ngân hàng câu hỏi'],
-                    ['ai', 'AI tạo câu hỏi'],
-                  ].map(([value, label]) => (
-                    <label
-                      key={value}
-                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-edge p-4"
-                    >
-                      <input
-                        type="radio"
-                        name="source"
-                        value={value}
-                        checked={source === value}
-                        onChange={() => setSource(value)}
-                      />
-                      {label}
-                    </label>
-                  ))}
-                </div>
+                {style === ADAPTIVE ? (
+                  <p role="status" className="rounded-lg border border-edge p-4 text-sm text-sub">
+                    {t('assessmentStyle.adaptive.sourceNote')}
+                  </p>
+                ) : (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {[
+                      ['bank', 'Từ ngân hàng câu hỏi'],
+                      ['ai', 'AI tạo câu hỏi'],
+                    ].map(([value, label]) => (
+                      <label
+                        key={value}
+                        className="flex cursor-pointer items-center gap-3 rounded-xl border border-edge p-4"
+                      >
+                        <input
+                          type="radio"
+                          name="source"
+                          value={value}
+                          checked={source === value}
+                          onChange={() => setSource(value)}
+                        />
+                        {label}
+                      </label>
+                    ))}
+                  </div>
+                )}
               </fieldset>
               <fieldset>
                 <legend className="mb-3 text-lg font-semibold">4. Số câu</legend>
                 <div className="mb-3 flex flex-wrap gap-2">
-                  {options.question_count.presets.map((value) => (
+                  {limits.presets.map((value) => (
                     <button
                       type="button"
                       key={value}
@@ -324,11 +383,11 @@ export default function AssessmentsPage() {
                   ))}
                 </div>
                 <label className="text-sm text-sub">
-                  Số câu ({options.question_count.min}–{options.question_count.max})
+                  Số câu ({limits.min}–{limits.max})
                   <input
                     type="number"
-                    min={options.question_count.min}
-                    max={options.question_count.max}
+                    min={limits.min}
+                    max={limits.max}
                     required
                     value={count ?? ''}
                     onChange={(e) => setCount(e.target.value)}
@@ -336,23 +395,16 @@ export default function AssessmentsPage() {
                   />
                 </label>
               </fieldset>
-              <p className="text-sm text-sub">
-                AI sẽ chấm và đánh giá sơ bộ sau khi nộp; Admin kiểm tra, chạy SQL, điều chỉnh điểm
-                nếu cần rồi duyệt trước khi công bố kết quả chính thức.
-              </p>
+              {style === ADAPTIVE ? (
+                <p className="text-sm text-sub">{t('assessmentStyle.adaptive.startNote')}</p>
+              ) : (
+                <p className="text-sm text-sub">
+                  AI sẽ chấm và đánh giá sơ bộ sau khi nộp; Admin kiểm tra, chạy SQL, điều chỉnh
+                  điểm nếu cần rồi duyệt trước khi công bố kết quả chính thức.
+                </p>
+              )}
               {error && <ErrorState message={error} />}
-              <button
-                type="submit"
-                className={btnPrimary}
-                disabled={
-                  busy ||
-                  !selected.length ||
-                  !bands.length ||
-                  !Number.isInteger(Number(count)) ||
-                  Number(count) < options.question_count.min ||
-                  Number(count) > options.question_count.max
-                }
-              >
+              <button type="submit" className={btnPrimary} disabled={busy || !selectionValid}>
                 {busy && <ActionSpinner />}
                 {busy
                   ? source === 'ai'

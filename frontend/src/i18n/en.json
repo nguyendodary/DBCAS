@@ -1501,5 +1501,49 @@
     "selectedHelp": "Each selected concept is shown with its related course learning outcome.",
     "noClo": "No course learning outcome is linked to this concept.",
     "cloLabel": "Learning outcome"
+  },
+  "assessmentStyle": {
+    "title": "Assessment style",
+    "fixed": {
+      "title": "Free practice",
+      "description": "A graded practice paper with an official percentage score after review. Choose your concepts, difficulty, source and question count as before.",
+      "resultLabel": "Official score"
+    },
+    "adaptive": {
+      "title": "Adaptive practice",
+      "description": "Estimated ability on a 1–5 scale with a confidence level and study suggestions — not a score.",
+      "constraintsTitle": "Adaptive practice constraints",
+      "constraintBank": "Question bank only",
+      "constraintConcept": "Exactly one concept",
+      "constraintMcq": "Multiple-choice questions only",
+      "constraintRange": "{{min}}–{{max}} questions",
+      "sourceNote": "Adaptive practice draws from the question bank only; AI-generated questions are not available.",
+      "conceptNote": "Choose exactly one concept for an adaptive session.",
+      "difficultyNote": "Choose one starting difficulty band.",
+      "startNote": "Your result is an estimated ability with study suggestions, not a percentage score.",
+      "resultLabel": "Estimated ability",
+      "notOfficial": "This estimate is not an official score. No percentage is awarded for adaptive practice.",
+      "band": "Ability band",
+      "index": "Ability index",
+      "confidence": "Confidence",
+      "evidence": "Answers collected",
+      "estimateNote": " provisional — more answers make the estimate more reliable.",
+      "pendingEstimate": "The ability estimate will appear here once the session is finalized.",
+      "provisional": "Provisional — the estimate may change after instructor review.",
+      "approved": "Reviewed — this is the finalized adaptive outcome.",
+      "suggestionsTitle": "Study suggestions",
+      "suggestionsEmpty": "No study suggestions for this session.",
+      "suggestionReason": "review this concept next",
+      "bandValues": {
+        "EASY": "Easy",
+        "MEDIUM": "Medium",
+        "HARD": "Hard"
+      },
+      "confidenceValues": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    }
   }
 }
