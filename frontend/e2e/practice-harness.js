@@ -181,55 +181,49 @@ export async function start(
   selection = {},
   responseTimeout = 45_000,
 ) {
-  await page.goto('/assessments')
-  if (selection.concept_ids) {
-    const options = await api(page, '/practice/options')
-    for (const c of options.concepts)
-      if (selection.concept_ids.includes(c.concept_id))
-        await page.getByRole('button', { name: c.concept_name, exact: true }).click()
-  } else await page.getByRole('button', { name: 'Chọn tất cả khái niệm' }).click()
-  if (selection.difficulties) {
-    for (const [key, label] of [
-      ['EASY', 'Dễ'],
-      ['MEDIUM', 'Vừa'],
-      ['HARD', 'Khó'],
-    ])
-      if (!selection.difficulties.includes(key))
-        await page.getByRole('button', { name: new RegExp(label) }).click()
+  // Legacy practice has no picker in this UI. Exercise its documented API so
+  // the existing practice/fallback journeys keep their original semantics;
+  // the FIXED picker has its own deterministic spec.
+  const options = await api(page, '/practice/options')
+  const concept_ids = selection.concept_ids ?? options.concepts.map((concept) => concept.concept_id)
+  const difficulties = selection.difficulties ?? ['EASY', 'MEDIUM', 'HARD']
+  const payload = {
+    concept_ids,
+    difficulties,
+    source,
+    question_count: count,
+    request_id: crypto.randomUUID(),
   }
-  await page
-    .getByRole('radio', {
-      name: source === 'bank' ? 'Từ ngân hàng câu hỏi' : 'AI tạo câu hỏi',
-      exact: true,
-    })
-    .check()
-  await page.getByLabel('Số câu (1–13)').fill(String(count))
-  // A bounded 50-second provider call plus validation/cleanup can exceed the
-  // ordinary 20-second action deadline; the API client allows 60 seconds.
-  const response = page.waitForResponse(
-    (r) =>
-      new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
-    { timeout: responseTimeout },
-  )
-  await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
-  const warning = page.getByRole('heading', {
-    name: 'Một số khái niệm chưa có câu hỏi phù hợp',
+  const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
+  const locale = await page.evaluate(() => localStorage.getItem('dbcas_locale') || 'vi')
+  const r = await page.request.fetch('/api/v1/practice/start', {
+    method: 'POST',
+    data: payload,
+    headers: { Authorization: `Bearer ${token}`, 'Accept-Language': locale },
+    timeout: responseTimeout,
   })
-  const first = await Promise.race([
-    response.then((value) => ({ response: value })),
-    warning
-      .waitFor({ state: 'visible', timeout: 10_000 })
-      .then(() => ({ warning: true }))
-      .catch(() => null),
-  ])
-  if (first?.warning) await page.getByRole('button', { name: 'Tiếp tục' }).click()
-  const r = await response
   expect(r.ok(), await r.text()).toBe(true)
-  await expect(page).toHaveURL(/\/exam\/\d+$/)
   const state = await r.json()
-  if (state.current_question)
+  await page.goto(`/exam/${state.session_id}`)
+  if (state.runner_mode === 'fixed') {
+    // The legacy prompt assertion cannot apply unchanged: FixedPaperRunner
+    // fetches its own paper snapshot and splits SQL prompts, so verify the
+    // palette and first paper question instead.
+    const first = await api(page, `/sessions/${state.session_id}/paper/1`)
+    await expect(page.locator('.question-navigation').first()).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /^(QUESTION|CÂU)\s*1\s*\/\s*\d+$/ }),
+    ).toBeVisible()
+    if (first.question_type === 'sql') {
+      const firstSentence = first.prompt.split(/(?<=[.!?])\s/)[0]
+      await expect(page.getByText(firstSentence, { exact: false }).first()).toBeVisible()
+    } else {
+      await expect(page.getByText(first.prompt, { exact: true })).toBeVisible()
+    }
+  } else if (state.current_question) {
     await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
-  return { ...state, _startRequest: r.request().postDataJSON() }
+  }
+  return { ...state, _startRequest: payload }
 }
 export async function take(
   page,

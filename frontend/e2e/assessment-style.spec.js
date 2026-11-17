@@ -100,16 +100,67 @@ const adaptiveSession = {
   adaptive_progress: null,
 }
 
+const NOW = '2030-01-01T00:00:00.000Z'
+const END = '2030-01-01T00:30:00.000Z'
 const fixedSession = {
   session_id: 98,
   assessment_id: null,
-  status: 'completed',
-  assessment_title: 'Free practice',
-  runner_mode: null,
-  result_kind: null,
+  status: 'in_progress',
+  assessment_title: 'Test',
+  runner_mode: 'fixed',
+  result_kind: 'official_score',
   ability_estimate: null,
   study_suggestions: [],
   adaptive_progress: null,
+  server_now: NOW,
+  expires_at: END,
+  remaining_seconds: 1800,
+}
+const paperMetadata = {
+  session_id: 98,
+  runner_mode: 'fixed',
+  status: 'in_progress',
+  assessment_title: 'Test',
+  started_at: NOW,
+  expires_at: END,
+  server_now: NOW,
+  remaining_seconds: 1800,
+  question_count: 13,
+  answered_count: 0,
+  flagged_count: 0,
+  last_opened_seq: 1,
+  tab_leave_count: 0,
+  tab_leave_grace_seconds: 3,
+  tab_leave_violation_limit: 3,
+  questions: Array.from({ length: 13 }, (_, index) => ({
+    seq_no: index + 1,
+    question_id: 101 + index,
+    question_type: 'mcq',
+    answered: false,
+    flagged: false,
+    opened: index === 0,
+    draft_revision: 0,
+  })),
+}
+const paperQuestion = {
+  seq_no: 1,
+  question_id: 101,
+  question_type: 'mcq',
+  content_locale: 'en',
+  prompt: 'First test question',
+  options: [
+    { option_id: 1, option_label: 'A', option_text: 'First option' },
+    { option_id: 2, option_label: 'B', option_text: 'Second option' },
+  ],
+  schema_sql: null,
+  draft: null,
+  draft_revision: 0,
+  answered: false,
+  flagged: false,
+  flag_revision: 0,
+  first_opened_at: null,
+  remaining_seconds: 1800,
+  server_now: NOW,
 }
 
 test('adaptive style constrains the builder and never reports a percentage', async ({ page }) => {
@@ -120,7 +171,7 @@ test('adaptive style constrains the builder and never reports a percentage', asy
   })
 
   await page.goto('/assessments')
-  await expect(page.getByRole('radio', { name: 'Free practice' })).toBeChecked()
+  await expect(page.getByRole('radio', { name: 'Test' })).toBeChecked()
   await expect(page.getByRole('radio', { name: 'Adaptive practice' })).toBeVisible()
 
   await page.getByRole('button', { name: 'SELECT', exact: true }).click()
@@ -130,16 +181,15 @@ test('adaptive style constrains the builder and never reports a percentage', asy
   await expect(page.getByText('Exactly one concept', { exact: true })).toBeVisible()
   await expect(page.getByText('Multiple-choice questions only')).toBeVisible()
   await expect(page.getByText('3–50 questions')).toBeVisible()
-  await expect(page.getByRole('radio', { name: 'AI tạo câu hỏi' })).toHaveCount(0)
-  await expect(page.getByLabel('Số câu (3–50)')).toHaveAttribute('min', '3')
-  await expect(page.getByLabel('Số câu (3–50)')).toHaveAttribute('max', '50')
+  await expect(page.getByLabel('Number of questions (3–50)')).toHaveAttribute('min', '3')
+  await expect(page.getByLabel('Number of questions (3–50)')).toHaveAttribute('max', '50')
 
   await page.getByRole('button', { name: 'JOIN', exact: true }).click()
   await expect(page.getByRole('button', { name: 'SELECT', exact: true })).toHaveAttribute(
     'aria-pressed',
     'false',
   )
-  await page.getByRole('button', { name: 'Bắt đầu' }).click()
+  await page.getByRole('button', { name: 'Start' }).click()
 
   await expect.poll(() => starts.length).toBe(1)
   expect(starts[0]).toMatchObject({
@@ -157,14 +207,35 @@ test('adaptive style constrains the builder and never reports a percentage', asy
   await expect(page.locator('.content-wrap')).not.toContainText('%')
 })
 
-test('free practice labels its result as an official score', async ({ page }) => {
+test('test mode creates a FIXED paper and lands in the free-navigation runner', async ({
+  page,
+}) => {
   await stubApp(page, fixedSession)
-  await page.goto('/assessments')
-  await page.getByRole('button', { name: 'SELECT', exact: true }).click()
-  await page.getByRole('button', { name: 'Bắt đầu' }).click()
+  await page.route(/\/api\/v1\/sessions\/98\/paper$/, (route) => route.fulfill(json(paperMetadata)))
+  await page.route(/\/api\/v1\/sessions\/98\/paper\/1$/, (route) =>
+    route.fulfill(json(paperQuestion)),
+  )
+  const starts = []
+  page.on('request', (request) => {
+    if (/\/api\/v1\/practice\/start$/.test(request.url())) starts.push(request.postDataJSON())
+  })
 
-  await expect(page).toHaveURL(/\/evaluations\/98$/)
-  await expect(page.getByText('Official score')).toBeVisible()
-  await expect(page.getByText('80.00%')).toBeVisible()
-  await expect(page.getByText('Estimated ability')).toHaveCount(0)
+  await page.goto('/assessments')
+  await expect(page.getByRole('radio', { name: 'Test' })).toBeChecked()
+  await page.getByRole('button', { name: 'SELECT', exact: true }).click()
+  await page.getByRole('button', { name: 'Start' }).click()
+
+  await expect.poll(() => starts.length).toBe(1)
+  expect(starts[0]).toMatchObject({
+    assessment_style: 'FIXED',
+    source: 'bank',
+    concept_ids: [1],
+    difficulties: ['EASY'],
+    question_count: 13,
+    question_mix: { mcq: 10, sql: 2, essay: 1 },
+  })
+
+  await expect(page).toHaveURL(/\/exam\/98$/)
+  await expect(page.getByText('QUESTION 1 / 13')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Submit final answers' })).toBeVisible()
 })

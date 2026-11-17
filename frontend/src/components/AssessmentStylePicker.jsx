@@ -49,6 +49,19 @@ export default function AssessmentStylePicker({ value, onChange, disabled = fals
           )
         })}
       </div>
+      {value === FIXED && (
+        <div
+          role="status"
+          className="mt-3 rounded-lg border border-cyan-400/40 bg-cyan-400/10 p-3 text-sm text-sub"
+        >
+          <p className="font-semibold text-ink">{t('assessmentStyle.fixed.constraintsTitle')}</p>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li>{t('assessmentStyle.fixed.constraintBank')}</li>
+            <li>{t('assessmentStyle.fixed.constraintBand')}</li>
+            <li>{t('assessmentStyle.fixed.constraintScore')}</li>
+          </ul>
+        </div>
+      )}
       {value === ADAPTIVE && (
         <div
           role="status"

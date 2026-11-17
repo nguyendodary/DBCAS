@@ -65,17 +65,19 @@ export function EvaluationContent({ data, overall = false }) {
     <div className="space-y-5">
       {data.provisional && (
         <p role="status" className="rounded-xl border border-amber-500 p-4 font-semibold">
-          Kết quả tạm thời – AI đã chấm, chưa được giảng viên xác nhận
+          {t('assessmentStyle.fixed.provisionalTitle')}
           <span className="mt-1 block text-sm font-normal">
-            Điểm và nhận xét có thể thay đổi sau khi giảng viên kiểm tra và duyệt.
+            {t('assessmentStyle.fixed.provisionalBody')}
           </span>
         </p>
       )}
       {data.approved && (
         <p role="status" className="rounded-xl border border-emerald-500 p-4 font-semibold">
-          ✓ Đã được giảng viên duyệt — kết quả chính thức
+          {t('assessmentStyle.fixed.approvedTitle')}
           {data.adjusted && (
-            <span className="mt-1 block text-sm font-normal">Điểm đã được điều chỉnh</span>
+            <span className="mt-1 block text-sm font-normal">
+              {t('assessmentStyle.fixed.approvedAdjusted')}
+            </span>
           )}
         </p>
       )}
@@ -95,7 +97,11 @@ export function EvaluationContent({ data, overall = false }) {
       {data.score && (
         <Card className="p-5">
           <p className="text-sm font-semibold uppercase tracking-wide text-cyan-300">
-            {t('assessmentStyle.fixed.resultLabel')}
+            {t(
+              data.provisional || data.status === 'provisional'
+                ? 'assessmentStyle.fixed.provisionalLabel'
+                : 'assessmentStyle.fixed.resultLabel',
+            )}
           </p>
           <h2 className="mt-1 text-lg font-semibold">
             {overall ? 'Điểm tích lũy' : 'Điểm bài làm'}

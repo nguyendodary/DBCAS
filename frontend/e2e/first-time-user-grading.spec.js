@@ -194,7 +194,9 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
       timeout: 45000,
     })
     await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
-    await expect(page.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
+    await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+      timeout: 45000,
+    })
     await expect(page.getByText('Điểm đã được điều chỉnh', { exact: true })).toBeVisible()
     const result = await api(admin, `/admin/grading-reviews/${sid}`)
     expect(result.score_edits).toHaveLength(1)
