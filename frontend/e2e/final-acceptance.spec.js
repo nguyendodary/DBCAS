@@ -272,9 +272,10 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
       timeout: 45000,
     })
     await expect(page.getByRole('heading', { name: 'Xu hướng qua các bài' })).toBeVisible()
+    expect(history.every((record) => record.purpose === 'PRACTICE')).toBe(true)
     const cumulative = await call('/api/v1/sessions/competency/cumulative', learner)
-    expect(cumulative.summary.finalized_assessments).toBe(3)
-    expect(cumulative.concepts.length).toBeGreaterThan(0)
+    expect(cumulative.summary.finalized_assessments).toBe(0)
+    expect(cumulative.concepts).toEqual([])
     await page.reload()
     await expect(page.getByRole('heading', { name: 'Nhận xét', exact: true })).toBeVisible()
     expect(await call('/api/v1/sessions/competency/cumulative', learner)).toEqual(cumulative)

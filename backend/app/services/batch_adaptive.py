@@ -106,7 +106,9 @@ def start(db, repo, assessment, learner, payload, snapshot, *, locale):
     now = repo.server_time()
     session = repo.create_session(assessment.assessment_id, learner.account_id,
         now + timedelta(minutes=assessment.duration_min), started_at=now, locale=normalize_locale(locale),
-        result_release_policy=assessment.result_release_policy, start_request_id=seed)
+        result_release_policy=assessment.result_release_policy, start_request_id=seed,
+        purpose="TEST")
+    snapshot["purpose"] = "TEST"
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=seed, session_id=session.session_id))
     _append_batch(repo, session, [], payload.difficulty)

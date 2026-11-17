@@ -314,7 +314,8 @@ export async function checkArithmetic(page, sid) {
   const row = history.find((item) => item.session_id === sid)
   expect(Number(row.overall_result_pct)).toBeCloseTo((earned / possible) * 100, 2)
   const stats = await api(page, '/sessions/statistics')
-  expect(stats.published_formal_sessions).toBeGreaterThan(0)
+  // Legacy practice is learning-only; it must never enter formal statistics.
+  expect(stats.published_formal_sessions).toBe(0)
   return { earned, possible, percentage: Number(row.overall_result_pct) }
 }
 export async function checkViewport(page) {

@@ -252,12 +252,13 @@ def create(db, learner, payload, concepts, selection, request_id, *, locale):
         "concepts": [concept_row], "question_ids": [], "question_plan": [],
         "adaptive_inventory_ids": [item["question_id"] for item in inventory],
         "adaptive": adaptive, "runner_mode": "adaptive", "result_kind": "estimated_ability",
-        "assessment_style": "ADAPTIVE",
+        "assessment_style": "ADAPTIVE", "purpose": "TEST",
     }
     now = repo.server_time()
     session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30),
                                   started_at=now, locale=normalize_locale(locale),
-                                  result_release_policy="HUMAN_VERIFIED", start_request_id=request_id)
+                                  result_release_policy="HUMAN_VERIFIED", start_request_id=request_id,
+                                  purpose="TEST")
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id,
                                session_id=session.session_id))

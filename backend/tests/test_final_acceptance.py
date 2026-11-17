@@ -13,7 +13,8 @@ def test_cumulative_excludes_nonfinal_grades_even_when_a_legacy_score_is_present
     now = datetime.now(timezone.utc)
     concept = dict(concept_id=1, concept_code="SQL", concept_name="SQL", subject_area="SQL")
     session = SimpleNamespace(session_id=1, started_at=now, status="completed",
-                              release_status="published", config_snapshot={"concepts": []})
+                              release_status="published", purpose="TEST", purpose_source="SERVER",
+                              config_snapshot={"concepts": []})
 
     def evidence(aid, status):
         return SimpleNamespace(attempt_id=aid, score=Decimal(1), submitted_at=now,
@@ -39,7 +40,8 @@ def test_cumulative_api_uses_only_final_grades_from_incomplete_historical_record
     concept = _concept(db_session, "AUDIT-CUMULATIVE")
     assessment = _assessment(db_session, admin, [concept], complete=False)
     session = AssessmentRepository(db_session).create_session(
-        assessment.assessment_id, learner.account_id, datetime.now(timezone.utc))
+        assessment.assessment_id, learner.account_id, datetime.now(timezone.utc),
+        purpose="TEST")
     session.status, session.release_status = "completed", "published"
     session.config_snapshot = capture_assessment(assessment)
     good = _add_attempt(db_session, session,
@@ -230,6 +232,7 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "022_question_clo_tagging.sql",
                 "023_document_grounding.sql",
                 "024_tab_leave_guard.sql",
+                "025_session_purpose.sql",
             ]
             assert apply_migrations(conn) == []
         finally:

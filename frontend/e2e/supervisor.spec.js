@@ -191,7 +191,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
           expect(
             (await practiceApi(page, '/sessions/competency/cumulative')).summary
               .finalized_assessments,
-          ).toBe(1)
+          ).toBe(0)
           await adminPage.goto(`/admin/grading/${sid}`)
           await expect(adminPage.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
             timeout: 45000,
@@ -214,8 +214,11 @@ test('supervisor journeys A–E: classification, personalization, both release p
       timeout: 45000,
     })
     const cumulative = await practiceApi(page, '/sessions/competency/cumulative')
-    expect(cumulative.summary.finalized_assessments).toBe(2)
-    expect(cumulative.concepts.length).toBeGreaterThan(0)
+    expect(cumulative.summary.finalized_assessments).toBe(0)
+    expect(cumulative.concepts).toEqual([])
+    expect(
+      (await practiceApi(page, '/sessions')).every((item) => item.purpose === 'PRACTICE'),
+    ).toBe(true)
     expect(
       (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,
     ).toEqual([])

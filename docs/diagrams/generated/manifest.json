@@ -1,11 +1,11 @@
 {
   "source": "docs/qa/schema-introspection.json + docs/qa/project-facts.json + system-context-model.json",
   "tables": 47,
-  "columns": 349,
+  "columns": 351,
   "foreign_keys": 70,
-  "indexes": 105,
+  "indexes": 106,
   "enums": 0,
-  "migrations": 24,
+  "migrations": 25,
   "table_names": [
     "account",
     "account_identity",
@@ -198,6 +198,8 @@
     "provider_email",
     "provider_user_id",
     "published_at",
+    "purpose",
+    "purpose_source",
     "question_id",
     "question_snapshot",
     "question_type",
@@ -541,7 +543,7 @@
   ],
   "erd_size": [
     950,
-    7858
+    7898
   ],
   "erd_pages": 11,
   "table_relationship_pages": 4

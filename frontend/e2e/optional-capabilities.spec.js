@@ -48,7 +48,8 @@ test('learner practice preserves selected difficulty, saved state and score boun
       expect(Number(q.score)).toBeLessThanOrEqual(Number(q.points))
     }
   }
-  expect((await api(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(3)
+  expect((await api(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(0)
+  expect((await api(page, '/sessions')).every((item) => item.purpose === 'PRACTICE')).toBe(true)
 })
 
 test('mobile early finish counts every planned unanswered item as zero', async ({ page }) => {

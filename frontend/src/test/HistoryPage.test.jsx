@@ -1,14 +1,19 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { vi } from 'vitest'
+import { beforeEach, vi } from 'vitest'
 import HistoryPage from '../pages/HistoryPage'
 import api from '../api'
+import { setLocale } from '../i18n'
 
 vi.mock('../api', () => ({ default: { get: vi.fn() }, apiMessage: (e) => e.message }))
+beforeEach(async () => {
+  await act(() => setLocale('en'))
+})
 const session = {
   session_id: 1,
   assessment_title: 'Recorded assessment',
   status: 'completed',
+  purpose: 'TEST',
   started_at: '2026-10-10T10:00:00Z',
   submitted_at: '2026-10-10T11:00:00Z',
   served_count: 3,
@@ -42,9 +47,17 @@ it('shows the server answer result and per-concept history with an evidence link
   api.get.mockResolvedValue({ data: [session] })
   renderPage()
   expect(await screen.findByText('Answer result: 42.25%')).toBeInTheDocument()
+  expect(screen.getByText('Test')).toBeInTheDocument()
   expect(screen.getByText('Joins: 50.00% · below target')).toBeInTheDocument()
   expect(screen.getByText('ER modeling: 100.00% · no benchmark')).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Evidence' })).toHaveAttribute('href', '/history/1')
+})
+
+it('labels a practice session separately from a test', async () => {
+  api.get.mockResolvedValue({ data: [{ ...session, purpose: 'PRACTICE' }] })
+  renderPage()
+  expect(await screen.findByText('Practice')).toBeInTheDocument()
+  expect(screen.queryByText('Test')).not.toBeInTheDocument()
 })
 
 it('distinguishes pending grading from a scored final result', async () => {

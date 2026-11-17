@@ -55,7 +55,8 @@ test('local Admin and Learner complete grading, publication and competency with 
     await visit(admin, '/admin', '/admin/analytics/statistics')
     const adminToken = await admin.evaluate(() => localStorage.getItem('dbcas_token'))
     const before = await api(admin, '/admin/analytics/statistics')
-    expect(before.published_formal_sessions).toBeGreaterThanOrEqual(4)
+    // The demo seed creates legacy practice history, which is learning-only.
+    expect(before.published_formal_sessions).toBe(0)
     await expect(admin.getByRole('button', { name: text.analytics.export })).toBeEnabled()
     await admin.screenshot({ path: testInfo.outputPath('admin-dashboard.png'), fullPage: true })
     for (const [route, endpoint] of [
@@ -70,7 +71,7 @@ test('local Admin and Learner complete grading, publication and competency with 
 
     await login(learner, 'learner@dbcas.local')
     const demo = await api(learner, '/sessions/statistics')
-    expect(demo.published_formal_sessions).toBeGreaterThanOrEqual(2)
+    expect(demo.published_formal_sessions).toBe(0)
     const email = `smoke-${Date.now()}-${testInfo.repeatEachIndex}@dbcas.local`
     await api(learner, '/auth/register', {
       method: 'POST',
@@ -193,8 +194,8 @@ test('local Admin and Learner complete grading, publication and competency with 
     expect(evidence.items.every((item) => item.score != null)).toBe(true)
     await visit(learner, '/competency', '/evaluations/overall')
     const statistics = await api(learner, '/sessions/statistics')
-    expect(statistics.published_formal_sessions).toBe(1)
-    expect(statistics.dimensions.clos.length).toBeGreaterThan(0)
+    expect(statistics.published_formal_sessions).toBe(0)
+    expect(statistics.dimensions.clos).toEqual([])
     await expect(learner.getByText('Làm thêm bài để xem xu hướng', { exact: true })).toBeVisible()
     await expect(learner.getByText(text.analytics.ownRank, { exact: true })).toHaveCount(0)
     await expect(learner.getByRole('heading', { name: text.analytics.progress })).toHaveCount(0)
@@ -210,8 +211,8 @@ test('local Admin and Learner complete grading, publication and competency with 
     const download = admin.waitForEvent('download')
     await admin.getByRole('button', { name: text.analytics.export }).click()
     const csv = await readFile(await (await download).path(), 'utf8')
-    expect(csv).toContain(text.analytics.clos)
-    expect(csv).toContain('Học viên kiểm thử')
+    expect(csv).toContain(text.analytics.distribution)
+    expect(csv).toContain(text.analytics.learner)
     const access = await learner.evaluate(() => localStorage.getItem('dbcas_token'))
     const logout = learner.waitForResponse((response) => response.url().endsWith('/auth/logout'))
     await learner.getByRole('button', { name: text.nav.logout, exact: true }).click()

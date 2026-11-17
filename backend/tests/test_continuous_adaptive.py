@@ -54,12 +54,15 @@ def test_start_freezes_inventory_and_serves_three_anchors(client, db_session):
     replay_start = client.post("/api/v1/practice/start", headers=headers(learner), json=body)
     assert replay_start.status_code == 200 and replay_start.json()["session_id"] == state["session_id"]
     sid = state["session_id"]
-    snapshot = db_session.get(AssessmentSession, sid).config_snapshot
+    session = db_session.get(AssessmentSession, sid)
+    snapshot = session.config_snapshot
     adaptive = snapshot["adaptive"]
     assert snapshot["runner_mode"] == "adaptive"
     assert snapshot["result_kind"] == "estimated_ability"
     assert snapshot["assessment_style"] == "ADAPTIVE"
     assert snapshot["assembly_mode"] == "PRACTICE"
+    assert (session.purpose, session.purpose_source) == ("TEST", "SERVER")
+    assert snapshot["purpose"] == "TEST"
     assert adaptive["policy_version"] == "continuous-mcq-v1"
     assert adaptive["start_band"] == "MEDIUM" and adaptive["ability"] == 3.0
     assert adaptive["evidence_count"] == 0

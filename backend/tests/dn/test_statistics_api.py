@@ -32,7 +32,7 @@ def evidence_fixture(client, db):
     a2 = _add_attempt(db, second, q2, 1, score=1)
     third = _make_session(db, other)
     a3 = _add_attempt(db, third, q1, 1, score=10)
-    practice = _make_session(db, learner)
+    practice = _make_session(db, learner, purpose="PRACTICE")
     practice.assessment_id = None
     practice.release_status = "provisional_ai"
     practice.config_snapshot = {"learner_defined": True, "assembly_mode": "PRACTICE"}
@@ -56,7 +56,7 @@ def test_learner_dashboard_is_owned_and_only_published_formal(client, db_session
     assert body["learner_id"] == learner.account_id
     assert Decimal(body["dimensions"]["overall"]["competency_pct"]) == 75
     assert body["published_formal_sessions"] == 2 and body["progress_total"] == 2
-    assert body["pending_formal_sessions"] == 2
+    assert body["pending_formal_sessions"] == 1
     assert len(body["progress"]) == 1 and body["ranking"] == []
     assert body["dimensions"]["clos"][0]["label"].startswith("DN-CLO")
     assert body["dimensions"]["clo_mapping_unknown_attempts"] == 0
@@ -94,7 +94,7 @@ def test_administrator_distribution_ranking_filtering_and_bounds(client, db_sess
     learner, other, first, headers = evidence_fixture(client, db_session)
     body = client.get("/api/v1/admin/analytics/statistics", headers=headers).json()
     assert body["progress_total"] == 3
-    assert body["pending_formal_sessions"] == 2
+    assert body["pending_formal_sessions"] == 1
     assert [(r["learner_id"], r["rank"]) for r in body["ranking"]] == [(other.account_id, 1), (learner.account_id, 2)]
     assert body["score_distribution"][-1]["count"] == 2  # 80 and 100 are included once.
     selected = client.get(f"/api/v1/admin/analytics/statistics?learner_id={learner.account_id}&offset=1&limit=1", headers=headers).json()

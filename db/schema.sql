@@ -214,6 +214,10 @@ CREATE TABLE assessment_session (
   assessment_id INT NOT NULL,
   learner_id INT NOT NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'in_progress',
+  purpose VARCHAR(10) NOT NULL DEFAULT 'PRACTICE'
+    CHECK (purpose IN ('TEST', 'PRACTICE')),
+  purpose_source VARCHAR(10) NOT NULL DEFAULT 'SERVER'
+    CHECK (purpose_source IN ('SERVER', 'BACKFILL')),
   locale VARCHAR(16) NOT NULL DEFAULT 'en' CHECK (locale ~ '^[a-z]{2}(-[A-Z]{2})?$'),
   started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   expires_at TIMESTAMPTZ NOT NULL,
@@ -532,6 +536,7 @@ CREATE TABLE IF NOT EXISTS grading_job (
 CREATE INDEX IF NOT EXISTS grading_job_ready_idx ON grading_job(status,available_at);
 CREATE INDEX IF NOT EXISTS assessment_session_learner_idx ON assessment_session(learner_id,started_at DESC);
 CREATE INDEX IF NOT EXISTS assessment_session_expiry_idx ON assessment_session(status,expires_at);
+CREATE INDEX IF NOT EXISTS assessment_session_purpose_idx ON assessment_session(learner_id,purpose,purpose_source,started_at DESC);
 CREATE INDEX IF NOT EXISTS attempt_question_idx ON attempt(question_id);
 CREATE INDEX IF NOT EXISTS question_concept_concept_idx ON question_concept(concept_id,confirmed);
 

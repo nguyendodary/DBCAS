@@ -46,7 +46,8 @@ def test_rounding_ranks_and_invalid_evidence():
 
 
 def test_publication_practice_pending_and_unknown_historical_clos():
-    session = Record(session_id=1, learner_id=1, status="completed", release_status="published", config_snapshot={})
+    session = Record(session_id=1, learner_id=1, status="completed", release_status="published",
+                     purpose="TEST", purpose_source="SERVER", config_snapshot={})
     question = Record(points=Decimal(10), difficulty_level=1, concept_tags=[])
     attempt = Record(attempt_id=1, submitted_at=1, score=Decimal(8), grading_status="graded",
                      question_snapshot=None, question=question)
@@ -54,8 +55,9 @@ def test_publication_practice_pending_and_unknown_historical_clos():
     session.release_status = "pending_review"
     assert extract_evidence([session], {1: [attempt]}) == []
     session.release_status = "published"
-    session.config_snapshot = {"assembly_mode": "PRACTICE"}
+    session.purpose = "PRACTICE"
     assert extract_evidence([session], {1: [attempt]}) == []
+    session.purpose = "TEST"
     session.config_snapshot = {}
     attempt.grading_status = "pending"
     assert extract_evidence([session], {1: [attempt]}) == []

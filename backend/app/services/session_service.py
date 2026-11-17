@@ -54,6 +54,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 assessment_id=s.assessment_id,
                 assessment_title=(s.config_snapshot or {}).get("title", s.assessment.title if s.assessment else ""),
                 status=s.status,
+                purpose=s.purpose,
                 locale=s.locale or "en",
                 result_release_policy=s.result_release_policy, release_status=s.release_status,
                 selected_concept_ids=(s.config_snapshot or {}).get("selected_concept_ids", []),
