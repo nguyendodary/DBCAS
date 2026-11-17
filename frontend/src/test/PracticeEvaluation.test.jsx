@@ -99,7 +99,8 @@ it('shows loading, automatically refreshes and renders per-question feedback', a
   renderEvaluation()
   expect(screen.getByText('Đang chờ AI đánh giá...')).toBeInTheDocument()
   expect(await screen.findByText('Câu trả lời đúng.', {}, { timeout: 3000 })).toBeInTheDocument()
-  expect(api.get).toHaveBeenCalledTimes(2)
+  // one evaluation fetch, one session-result-kind fetch, then the bounded poll
+  expect(api.get).toHaveBeenCalledTimes(3)
   expect(screen.getByText(/Đánh giá dự phòng/)).toBeInTheDocument()
 })
 it('recovers from an offline request with a bounded explicit retry', async () => {

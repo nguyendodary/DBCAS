@@ -4,6 +4,8 @@ import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost } from '../components/ui'
 import { ActionSpinner, ErrorState } from '../components/States'
 import { EvaluationCharts } from '../components/EvaluationCharts'
+import AdaptiveResult from '../components/AdaptiveResult'
+import { isAdaptiveResult } from '../assessmentStyle'
 import { t, useLocale } from '../i18n'
 
 const MAX_POLL_DURATION_MS = 5 * 60 * 1000
@@ -92,7 +94,12 @@ export function EvaluationContent({ data, overall = false }) {
       )}
       {data.score && (
         <Card className="p-5">
-          <h2 className="text-lg font-semibold">{overall ? 'Điểm tích lũy' : 'Điểm bài làm'}</h2>
+          <p className="text-sm font-semibold uppercase tracking-wide text-cyan-300">
+            {t('assessmentStyle.fixed.resultLabel')}
+          </p>
+          <h2 className="mt-1 text-lg font-semibold">
+            {overall ? 'Điểm tích lũy' : 'Điểm bài làm'}
+          </h2>
           <p className="mt-3 text-3xl font-bold tabular-nums">
             {Number(data.score.percentage).toFixed(2)}%
           </p>
@@ -246,6 +253,7 @@ export function EvaluationContent({ data, overall = false }) {
 export default function EvaluationPage({ overall = false }) {
   const { sessionId } = useParams()
   const [data, setData] = useState(null)
+  const [sessionResult, setSessionResult] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
   const [expired, setExpired] = useState(false)
@@ -301,6 +309,23 @@ export default function EvaluationPage({ overall = false }) {
       sequence.current += 1
     }
   }, [path, reload])
+  // The evaluation endpoint does not carry the result kind. Session state does,
+  // so read it here to decide between an official score and estimated ability.
+  useEffect(() => {
+    if (overall || !sessionId) return
+    let active = true
+    api
+      .get(`/sessions/${sessionId}`)
+      .then(({ data: session }) => {
+        if (active) setSessionResult(session)
+      })
+      .catch(() => {
+        /* the evaluation view still renders if session metadata is unavailable */
+      })
+    return () => {
+      active = false
+    }
+  }, [overall, sessionId])
   async function retry() {
     if (busy) return
     setBusy(true)
@@ -320,6 +345,7 @@ export default function EvaluationPage({ overall = false }) {
     }
   }
   const waiting = !data || ['pending', 'processing'].includes(data.status)
+  const adaptive = isAdaptiveResult(sessionResult)
   return (
     <div className="content-wrap mx-auto max-w-5xl space-y-5 py-8">
       <header className="flex flex-wrap items-center justify-between gap-3">
@@ -424,6 +450,8 @@ export default function EvaluationPage({ overall = false }) {
             Lịch sử bài làm
           </Link>
         </Card>
+      ) : adaptive ? (
+        <AdaptiveResult session={sessionResult} data={data} />
       ) : (
         <EvaluationContent data={data} overall={overall} />
       )}

@@ -1511,5 +1511,49 @@
     "selectedHelp": "Mỗi khái niệm đã chọn được hiển thị kèm chuẩn đầu ra liên quan.",
     "noClo": "Khái niệm này chưa được gắn chuẩn đầu ra.",
     "cloLabel": "Chuẩn đầu ra"
+  },
+  "assessmentStyle": {
+    "title": "Kiểu bài đánh giá",
+    "fixed": {
+      "title": "Làm bài tự do",
+      "description": "Bài luyện tập được chấm điểm, cho điểm phần trăm chính thức sau khi duyệt. Bạn chọn khái niệm, độ khó, nguồn câu hỏi và số câu như trước.",
+      "resultLabel": "Điểm chính thức"
+    },
+    "adaptive": {
+      "title": "Làm bài thích ứng",
+      "description": "Ước tính năng lực trên thang điểm 1–5, kèm mức độ tin cậy và gợi ý học tập — không phải điểm số.",
+      "constraintsTitle": "Giới hạn của bài thích ứng",
+      "constraintBank": "Chỉ dùng ngân hàng câu hỏi",
+      "constraintConcept": "Đúng một khái niệm",
+      "constraintMcq": "Chỉ câu hỏi trắc nghiệm",
+      "constraintRange": "{{min}}–{{max}} câu",
+      "sourceNote": "Bài thích ứng chỉ lấy câu từ ngân hàng; câu do AI tạo không dùng được.",
+      "conceptNote": "Chọn đúng một khái niệm cho bài thích ứng.",
+      "difficultyNote": "Chọn một độ khó bắt đầu.",
+      "startNote": "Kết quả là năng lực ước tính kèm gợi ý học tập, không phải điểm phần trăm.",
+      "resultLabel": "Năng lực ước tính",
+      "notOfficial": "Đây là ước tính, không phải điểm chính thức. Bài thích ứng không có điểm phần trăm.",
+      "band": "Mức năng lực",
+      "index": "Chỉ số năng lực",
+      "confidence": "Mức tin cậy",
+      "evidence": "Số câu đã trả lời",
+      "estimateNote": " tạm thời — thêm câu trả lời sẽ giúp ước tính tin cậy hơn.",
+      "pendingEstimate": "Năng lực ước tính sẽ hiển thị ở đây sau khi bài kết thúc.",
+      "provisional": "Tạm thời — ước tính có thể thay đổi sau khi giảng viên duyệt.",
+      "approved": "Đã duyệt — đây là kết quả thích ứng cuối cùng.",
+      "suggestionsTitle": "Gợi ý học tập",
+      "suggestionsEmpty": "Không có gợi ý học tập cho bài này.",
+      "suggestionReason": "nên ôn khái niệm này tiếp",
+      "bandValues": {
+        "EASY": "Dễ",
+        "MEDIUM": "Trung bình",
+        "HARD": "Khó"
+      },
+      "confidenceValues": {
+        "low": "Thấp",
+        "medium": "Trung bình",
+        "high": "Cao"
+      }
+    }
   }
 }

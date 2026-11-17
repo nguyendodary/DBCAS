@@ -65,6 +65,8 @@ it('labels a tab-leave cancellation with its violation count and zero points', a
         overall_result_pct: '0',
         tab_leave_count: 3,
         cancel_reason: 'tab_leave_limit',
+        runner_mode: 'adaptive',
+        result_kind: 'estimated_ability',
         concepts: [],
       },
     ],
@@ -74,6 +76,8 @@ it('labels a tab-leave cancellation with its violation count and zero points', a
     await screen.findByText('Cancelled after 3 tab-leave violations · 0 points'),
   ).toBeInTheDocument()
   expect(screen.getByText('Cancelled')).toBeInTheDocument()
+  // Cancellation wins over the adaptive ability label from PR #29.
+  expect(screen.queryByText('Estimated ability')).not.toBeInTheDocument()
 })
 
 it('offers resume for an in-progress session instead of reporting final scores', async () => {

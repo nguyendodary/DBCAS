@@ -8,6 +8,7 @@ import { Card, HeroBand, IconChip, StatusBadge } from '../components/ui'
 import heroPoster from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
 import usePendingResults from '../usePendingResults'
+import { isAdaptiveResult } from '../assessmentStyle'
 
 // UC18 — the learner's assessment history. Row composition follows the
 // learner prototype's result list: icon chip, title + meta, status pill and
@@ -107,6 +108,14 @@ export default function HistoryPage() {
                     </p>
                     {s.status !== 'in_progress' && (
                       <>
+                        {s.status !== 'cancelled' && isAdaptiveResult(s) && (
+                          <p className="mt-2 text-sm text-sub">
+                            {t('assessmentStyle.adaptive.resultLabel')}
+                            {s.ability_estimate
+                              ? `: ${t(`assessmentStyle.adaptive.bandValues.${s.ability_estimate.band}`)} · ${number(s.ability_estimate.index, { maximumFractionDigits: 2 })}/5 · ${t(`assessmentStyle.adaptive.confidenceValues.${s.ability_estimate.confidence}`)}`
+                              : ''}
+                          </p>
+                        )}
                         <p className="mt-2 text-sm text-sub">
                           {s.status === 'cancelled'
                             ? t('history.cancelledResult', { count: s.tab_leave_count })
@@ -118,7 +127,9 @@ export default function HistoryPage() {
                                   ? t('history.retryGrade')
                                   : s.overall_result_pct != null
                                     ? t('history.result', { value: percent(s.overall_result_pct) })
-                                    : t('history.noGraded')}
+                                    : isAdaptiveResult(s)
+                                      ? null
+                                      : t('history.noGraded')}
                         </p>
                         <ul
                           aria-label={t('history.perConcept')}
