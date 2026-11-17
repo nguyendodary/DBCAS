@@ -2811,6 +2811,29 @@
             "title": "Attempt Count",
             "type": "integer"
           },
+          "cancel_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancel Reason"
+          },
+          "cancelled_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancelled At"
+          },
           "concept_results": {
             "default": [],
             "items": {
@@ -2917,10 +2940,16 @@
               "updating",
               "provisional",
               "ready",
-              "failed"
+              "failed",
+              "cancelled"
             ],
             "title": "Status",
             "type": "string"
+          },
+          "tab_leave_count": {
+            "default": 0,
+            "title": "Tab Leave Count",
+            "type": "integer"
           },
           "uncovered_concepts": {
             "default": [],
@@ -4208,6 +4237,21 @@
           "status": {
             "title": "Status",
             "type": "string"
+          },
+          "tab_leave_count": {
+            "default": 0,
+            "title": "Tab Leave Count",
+            "type": "integer"
+          },
+          "tab_leave_grace_seconds": {
+            "default": 3,
+            "title": "Tab Leave Grace Seconds",
+            "type": "integer"
+          },
+          "tab_leave_violation_limit": {
+            "default": 3,
+            "title": "Tab Leave Violation Limit",
+            "type": "integer"
           }
         },
         "required": [
@@ -4426,6 +4470,22 @@
             "title": "Answered Count",
             "type": "integer"
           },
+          "cancel_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancel Reason"
+          },
+          "cancelled": {
+            "default": false,
+            "title": "Cancelled",
+            "type": "boolean"
+          },
           "final": {
             "default": true,
             "title": "Final",
@@ -4468,6 +4528,109 @@
           "next"
         ],
         "title": "PaperSubmitResult",
+        "type": "object"
+      },
+      "PaperTabLeaveRequest": {
+        "additionalProperties": false,
+        "description": "Client-reported focus event; the server supplies both timestamps.",
+        "properties": {
+          "event": {
+            "enum": [
+              "leave",
+              "return"
+            ],
+            "title": "Event",
+            "type": "string"
+          },
+          "event_id": {
+            "format": "uuid",
+            "title": "Event Id",
+            "type": "string"
+          },
+          "leave_event_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leave Event Id"
+          }
+        },
+        "required": [
+          "event",
+          "event_id"
+        ],
+        "title": "PaperTabLeaveRequest",
+        "type": "object"
+      },
+      "PaperTabLeaveState": {
+        "description": "Authoritative anti-cheat state after one reported event.",
+        "properties": {
+          "cancel_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancel Reason"
+          },
+          "cancelled": {
+            "default": false,
+            "title": "Cancelled",
+            "type": "boolean"
+          },
+          "counted": {
+            "default": false,
+            "title": "Counted",
+            "type": "boolean"
+          },
+          "grace_seconds": {
+            "title": "Grace Seconds",
+            "type": "integer"
+          },
+          "server_now": {
+            "format": "date-time",
+            "title": "Server Now",
+            "type": "string"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "violation_count": {
+            "title": "Violation Count",
+            "type": "integer"
+          },
+          "violation_limit": {
+            "title": "Violation Limit",
+            "type": "integer"
+          },
+          "warning_level": {
+            "default": 0,
+            "title": "Warning Level",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session_id",
+          "status",
+          "violation_count",
+          "violation_limit",
+          "grace_seconds",
+          "server_now"
+        ],
+        "title": "PaperTabLeaveState",
         "type": "object"
       },
       "PasswordResetConfirmRequest": {
@@ -6869,6 +7032,29 @@
             "title": "Assessment Title",
             "type": "string"
           },
+          "cancel_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancel Reason"
+          },
+          "cancelled_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancelled At"
+          },
           "concepts": {
             "default": [],
             "items": {
@@ -7003,6 +7189,11 @@
               }
             ],
             "title": "Submitted At"
+          },
+          "tab_leave_count": {
+            "default": 0,
+            "title": "Tab Leave Count",
+            "type": "integer"
           }
         },
         "required": [
@@ -21507,6 +21698,158 @@
           }
         ],
         "summary": "Submit Paper",
+        "tags": [
+          "assessment"
+        ],
+        "x-required-roles": [
+          "Learner"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/sessions/{session_id}/paper/tab-leave": {
+      "post": {
+        "description": "FIXED only: report focus leave/return; the server owns the counter.",
+        "operationId": "report_paper_tab_leave_api_v1_sessions__session_id__paper_tab_leave_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperTabLeaveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperTabLeaveState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Report Paper Tab Leave",
         "tags": [
           "assessment"
         ],

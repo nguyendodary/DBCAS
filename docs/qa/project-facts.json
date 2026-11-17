@@ -142,6 +142,7 @@
     "/api/v1/sessions/{session_id}/guidance",
     "/api/v1/sessions/{session_id}/paper",
     "/api/v1/sessions/{session_id}/paper/submit",
+    "/api/v1/sessions/{session_id}/paper/tab-leave",
     "/api/v1/sessions/{session_id}/paper/{seq_no}",
     "/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
     "/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
@@ -152,8 +153,8 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 93,
-  "openapi_operation_count": 104,
+  "openapi_path_count": 94,
+  "openapi_operation_count": 105,
   "frontend_routes": [
     "*",
     "/",
