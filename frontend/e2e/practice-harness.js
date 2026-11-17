@@ -205,6 +205,24 @@ export async function start(
   expect(r.ok(), await r.text()).toBe(true)
   const state = await r.json()
   await page.goto(`/exam/${state.session_id}`)
+  if (state.runner_mode === 'fixed') {
+    // The legacy prompt assertion cannot apply unchanged: FixedPaperRunner
+    // fetches its own paper snapshot and splits SQL prompts, so verify the
+    // palette and first paper question instead.
+    const first = await api(page, `/sessions/${state.session_id}/paper/1`)
+    await expect(page.locator('.question-navigation').first()).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /^(QUESTION|CÂU)\s*1\s*\/\s*\d+$/ }),
+    ).toBeVisible()
+    if (first.question_type === 'sql') {
+      const firstSentence = first.prompt.split(/(?<=[.!?])\s/)[0]
+      await expect(page.getByText(firstSentence, { exact: false }).first()).toBeVisible()
+    } else {
+      await expect(page.getByText(first.prompt, { exact: true })).toBeVisible()
+    }
+  } else if (state.current_question) {
+    await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
+  }
   return { ...state, _startRequest: payload }
 }
 export async function take(
