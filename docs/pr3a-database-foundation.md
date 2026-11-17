@@ -6,6 +6,8 @@
   `7176d588f11fea13945708cbdcb8cbe1a1bd9b81`.
 - Implementation branch: `feat/pr3a-db-foundation`.
 - Migration owned by PR 3A: `026_pr3a_database_foundation.sql`.
+  `LlmCache.expires_at` is supplied by the ORM default so legacy repository
+  inserts retain the 60-day retention window.
 - Later migrations remain owned by later PRs:
   - 027: review request lifecycle, draft revisions, confirmation.
   - 028: reports, corrections, regrades.
@@ -92,6 +94,7 @@ could not be started. No shared or production database was used.
 | Apply `db/schema.sql` then migrations 001-026 via `app.migrate` | PASS |
 | Re-run `app.migrate` (already current) | PASS |
 | Direct re-run of migration 026 SQL | PASS after adding `DROP TRIGGER IF EXISTS` before deferred triggers |
+| `LlmCache` ORM default supplies 60-day `expires_at` | PASS |
 | Migration text audit (regex, no `count()`, no `LIKE 'v2:%'`) | PASS |
 | Schema shape and session-scoped active index | PASS |
 | AI run uniqueness, regex, and AI2 ordering | PASS |
@@ -107,6 +110,10 @@ Existing tests were updated only where migration 026 adds rows/columns:
 migration lists now include 026, `schema_migration` count is 26, and row
 fingerprints exclude the additive `review_policy` and
 `current_result_version_id` columns.
+
+CI run 44147491001 exposed two PR 3A defects: the missing `LlmCache.expires_at`
+ORM default and a hard-coded pre-026 migration list in `test_final_acceptance.py`.
+Both are fixed here; the corrected branch must run CI again.
 
 Standalone runner used:
 

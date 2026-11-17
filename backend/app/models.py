@@ -5,7 +5,7 @@ models declare the corresponding data-access types and principal constraints;
 DDL-only operational indexes are intentional and checked by migration tests.
 """
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Optional
 from uuid import UUID
@@ -776,6 +776,9 @@ class LlmCache(Base):
     model: Mapped[str] = mapped_column(String(50))
     response: Mapped[dict] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(timezone.utc) + timedelta(days=60)
+    )
 
 
 class OAuthHandoff(Base):
