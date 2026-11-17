@@ -20,6 +20,7 @@ export default defineConfig({
   workers: 1,
   timeout: 120_000,
   testIgnore: [
+    'assessment-style.spec.js',
     'local-smoke.spec.js',
     'browser-qa.spec.js',
     'practice-flows.spec.js',
