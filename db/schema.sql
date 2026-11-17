@@ -218,7 +218,7 @@ CREATE TABLE assessment_session (
   started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   expires_at TIMESTAMPTZ NOT NULL,
   submitted_at TIMESTAMPTZ,
-  CHECK (status IN ('in_progress', 'completed', 'timed_out'))
+  CHECK (status IN ('in_progress', 'completed', 'timed_out', 'cancelled'))
 );
 
 CREATE TABLE attempt (
@@ -1039,3 +1039,31 @@ FOR EACH ROW EXECUTE FUNCTION reject_grade_edit_mutation();
 
 -- Preserve all historical FKs and snapshots; prebuilt exams cannot be started.
 UPDATE assessment SET status = 'closed' WHERE status = 'published';
+
+-- 024_tab_leave_guard.sql: FIXED-paper v1 tab-leave anti-cheat.
+-- Additive only. The server measures each reported leave interval; clients
+-- never supply the away duration. Existing sessions keep zero violations.
+ALTER TABLE assessment_session ADD COLUMN IF NOT EXISTS tab_leave_count INT NOT NULL DEFAULT 0;
+ALTER TABLE assessment_session ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMPTZ;
+ALTER TABLE assessment_session ADD COLUMN IF NOT EXISTS cancel_reason VARCHAR(40);
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid='assessment_session'::regclass
+                 AND conname='assessment_session_tab_leave_count_check') THEN
+    ALTER TABLE assessment_session ADD CONSTRAINT assessment_session_tab_leave_count_check
+      CHECK (tab_leave_count >= 0);
+  END IF;
+END $$;
+CREATE TABLE IF NOT EXISTS tab_leave_interval (
+  leave_event_id UUID PRIMARY KEY,
+  session_id INT NOT NULL REFERENCES assessment_session(session_id) ON DELETE CASCADE,
+  left_at TIMESTAMPTZ NOT NULL,
+  returned_at TIMESTAMPTZ,
+  return_event_id UUID UNIQUE,
+  away_seconds INT,
+  counted BOOLEAN NOT NULL DEFAULT FALSE,
+  CHECK (away_seconds IS NULL OR away_seconds >= 0)
+);
+CREATE UNIQUE INDEX IF NOT EXISTS tab_leave_interval_open_idx
+  ON tab_leave_interval(session_id) WHERE returned_at IS NULL;
+CREATE INDEX IF NOT EXISTS tab_leave_interval_session_idx
+  ON tab_leave_interval(session_id, left_at DESC);

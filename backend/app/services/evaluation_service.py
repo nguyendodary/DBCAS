@@ -303,6 +303,26 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
     session = owned_session(db, learner_id, session_id) if session_id else None
     if session and session.status == "in_progress":
         raise AppError(409, "session_in_progress", "Hãy hoàn thành bài trước khi xem đánh giá.")
+    if session and session.status == "cancelled":
+        # Integrity cancellation is final and already zeroed; never queue an
+        # AI evaluation or expose partial draft evidence for it.
+        attempts = AssessmentRepository(db).session_attempts(session.session_id)
+        possible = sum((question_view(a).points for a in attempts), Decimal(0))
+        return {
+            "status": "cancelled", "provisional": False, "final": True,
+            "attempt_count": len(attempts), "pending_count": 0,
+            "dimensions": {}, "history": [],
+            "score": {"earned": "0.00", "possible": _metric_text(possible),
+                      "percentage": 0.0},
+            "details_truncated": False, "input_hash": "",
+            "result": None, "approved": False, "adjusted": False,
+            "source": None, "approved_at": None,
+            "uncovered_concepts": [], "question_results": [],
+            "concept_results": [],
+            "cancel_reason": session.cancel_reason,
+            "cancelled_at": session.cancelled_at,
+            "tab_leave_count": int(session.tab_leave_count or 0),
+        }
     row, data, pending = ensure(db, learner_id, session_id)
     # A stale worker is safely recoverable, even after a process restart.
     now = datetime.now(timezone.utc)

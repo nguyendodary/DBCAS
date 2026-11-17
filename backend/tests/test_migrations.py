@@ -58,6 +58,8 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='attempt' AND column_name IN ('draft_answer','question_snapshot','grading_status')").fetchone()[0] == 3
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='attempt' AND column_name IN ('is_flagged','flag_revision','first_opened_at')").fetchone()[0] == 3
             assert conn.execute("SELECT count(*) FROM pg_constraint WHERE conrelid='attempt'::regclass AND conname='attempt_flag_revision_check'").fetchone()[0] == 1
+            assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name IN ('tab_leave_count','cancelled_at','cancel_reason')").fetchone()[0] == 3
+            assert conn.execute("SELECT to_regclass('tab_leave_interval')").fetchone()[0]
             assert conn.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='assessment_session' AND column_name='locale'").fetchone()[0] == 1
             assert conn.execute("SELECT can_manage_roles FROM account WHERE email='preserved@migration.test'").fetchone()[0] is False
             assert conn.execute("SELECT to_regclass('account_role_audit')").fetchone()[0]
@@ -130,6 +132,9 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                     elif table == 'attempt':
                         projection = ("to_jsonb(t) - 'is_flagged' - 'flag_revision' "
                                       "- 'first_opened_at'")
+                    elif table == 'assessment_session':
+                        projection = ("to_jsonb(t) - 'tab_leave_count' - 'cancelled_at' "
+                                      "- 'cancel_reason'")
                     else:
                         projection = "to_jsonb(t)"
                     snapshots[table] = conn.execute(
@@ -144,6 +149,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                 '021_fixed_paper_attempt_state.sql',
                 '022_question_clo_tagging.sql',
                 '023_document_grounding.sql',
+                '024_tab_leave_guard.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -152,7 +158,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 23
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 24
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -185,7 +191,7 @@ def test_original_language_upgrade_preserves_translations_and_snapshots():
             # the additive key is excluded so fingerprints assert row data only.
             def fingerprints():
                 return {table: conn.execute(
-                    f"SELECT to_jsonb(t) {'- \'blueprint_id\'' if table == 'assessment_session' else ''} "
+                    f"SELECT to_jsonb(t) {'- \'blueprint_id\' - \'tab_leave_count\' - \'cancelled_at\' - \'cancel_reason\'' if table == 'assessment_session' else ''} "
                     f"FROM {table} t ORDER BY to_jsonb(t)::text"
                 ).fetchall() for table in protected}
             preserved = fingerprints()
@@ -391,6 +397,7 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "021_fixed_paper_attempt_state.sql",
                 "022_question_clo_tagging.sql",
                 "023_document_grounding.sql",
+                "024_tab_leave_guard.sql",
             ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
@@ -440,7 +447,8 @@ def test_023_document_tables_are_additive_and_repeatable(tmp_path):
                 "SELECT to_jsonb(t) FROM question t WHERE question_id=%s", (question_id,)
             ).fetchone()[0]
 
-            assert apply_migrations(conn) == ["023_document_grounding.sql"]
+            assert apply_migrations(conn) == [
+                "023_document_grounding.sql", "024_tab_leave_guard.sql"]
             assert apply_migrations(conn) == []
             for table in ("course_document", "document_chunk", "document_clo", "question_evidence"):
                 assert conn.execute(f"SELECT to_regclass('{table}')").fetchone()[0]

@@ -1,11 +1,11 @@
 {
   "source": "docs/qa/schema-introspection.json + docs/qa/project-facts.json + system-context-model.json",
-  "tables": 46,
-  "columns": 339,
-  "foreign_keys": 69,
-  "indexes": 101,
+  "tables": 47,
+  "columns": 349,
+  "foreign_keys": 70,
+  "indexes": 105,
   "enums": 0,
-  "migrations": 23,
+  "migrations": 24,
   "table_names": [
     "account",
     "account_identity",
@@ -52,6 +52,7 @@
     "session_start_request",
     "sql_test_dataset",
     "system_setting",
+    "tab_leave_interval",
     "user_profile"
   ],
   "column_names": [
@@ -71,10 +72,13 @@
     "automated_detail",
     "automated_score",
     "available_at",
+    "away_seconds",
     "below_target",
     "blueprint_id",
     "cache_id",
     "can_manage_roles",
+    "cancel_reason",
+    "cancelled_at",
     "candidate_id",
     "char_count",
     "chunk_id",
@@ -91,6 +95,7 @@
     "confirmed",
     "confirmed_at",
     "consumed_at",
+    "counted",
     "created_at",
     "created_by",
     "credential_version",
@@ -147,6 +152,8 @@
     "learner_id",
     "learning_objectives",
     "lease_until",
+    "leave_event_id",
+    "left_at",
     "level_name",
     "linked_at",
     "llm_explanation",
@@ -203,6 +210,8 @@
     "requested_at",
     "response",
     "result_release_policy",
+    "return_event_id",
+    "returned_at",
     "review_id",
     "review_revision",
     "review_status",
@@ -238,6 +247,7 @@
     "subject_area",
     "submission_hash",
     "submitted_at",
+    "tab_leave_count",
     "tag_source",
     "tags",
     "target_account_id",
@@ -331,6 +341,7 @@
     "session_start_request_session_id_learner_id_fkey",
     "sql_test_dataset_question_id_fkey",
     "system_setting_updated_by_fkey",
+    "tab_leave_interval_session_id_fkey",
     "user_profile_account_id_fkey"
   ],
   "legacy_tables": [
@@ -398,8 +409,8 @@
     "mailpit",
     "qa-ai"
   ],
-  "openapi_path_count": 93,
-  "openapi_operation_count": 104,
+  "openapi_path_count": 94,
+  "openapi_operation_count": 105,
   "openapi_paths": [
     "/api/v1/admin/accounts",
     "/api/v1/admin/accounts/role-audit",
@@ -485,6 +496,7 @@
     "/api/v1/sessions/{session_id}/guidance",
     "/api/v1/sessions/{session_id}/paper",
     "/api/v1/sessions/{session_id}/paper/submit",
+    "/api/v1/sessions/{session_id}/paper/tab-leave",
     "/api/v1/sessions/{session_id}/paper/{seq_no}",
     "/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
     "/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
@@ -529,8 +541,8 @@
   ],
   "erd_size": [
     950,
-    7565
+    7858
   ],
-  "erd_pages": 10,
+  "erd_pages": 11,
   "table_relationship_pages": 4
 }

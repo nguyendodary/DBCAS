@@ -256,6 +256,10 @@ class SessionSummary(BaseModel):
     overall_result_pct: Optional[Decimal] = None
     concepts: list["ConceptCompetencyItem"] = []
     provisional: bool = False
+    # FIXED-paper integrity state; also exposed to the admin drill-down.
+    tab_leave_count: int = 0
+    cancelled_at: Optional[datetime] = None
+    cancel_reason: Optional[str] = None
 
 
 # ---------- assessment / grading ----------
@@ -1063,6 +1067,33 @@ class PaperMetadata(BaseModel):
     flagged_count: int
     last_opened_seq: Optional[int] = None
     questions: list[PaperQuestionMeta] = Field(default_factory=list)
+    tab_leave_count: int = 0
+    tab_leave_grace_seconds: int = 3
+    tab_leave_violation_limit: int = 3
+
+
+class PaperTabLeaveRequest(BaseModel):
+    """Client-reported focus event; the server supplies both timestamps."""
+
+    model_config = ConfigDict(extra="forbid")
+    event: Literal["leave", "return"]
+    event_id: UUID
+    leave_event_id: Optional[UUID] = None
+
+
+class PaperTabLeaveState(BaseModel):
+    """Authoritative anti-cheat state after one reported event."""
+
+    session_id: int
+    status: str
+    violation_count: int
+    violation_limit: int
+    grace_seconds: int
+    counted: bool = False
+    warning_level: int = 0
+    cancelled: bool = False
+    cancel_reason: Optional[str] = None
+    server_now: datetime
 
 
 class PaperOption(BaseModel):
@@ -1121,6 +1152,8 @@ class PaperSubmitResult(BaseModel):
     flagged_count: int
     final: bool = True
     next: str
+    cancelled: bool = False
+    cancel_reason: Optional[str] = None
 
 
 class EvidenceRubric(BaseModel):

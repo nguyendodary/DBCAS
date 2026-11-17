@@ -420,6 +420,7 @@
     "in_progress": "Đang làm",
     "completed": "Đã hoàn thành",
     "timed_out": "Đã hết giờ",
+    "cancelled": "Đã hủy",
     "draft": "Bản nháp",
     "active": "Đang hoạt động",
     "closed": "Đã đóng",
@@ -632,6 +633,11 @@
     "warning10": "Còn dưới 10 phút.",
     "warning5": "Còn dưới 5 phút. Bài sẽ được nộp khi đồng hồ về 00:00.",
     "warning1": "Còn dưới 1 phút. Bài sẽ được nộp khi đồng hồ về 00:00.",
+    "tabLeaveWarning": "Cảnh báo {{count}}/{{limit}}: bạn đã rời khỏi tab bài thi quá {{seconds}} giây. Các lần vi phạm tiếp theo có thể hủy bài thi với 0 điểm.",
+    "tabLeaveCancelledTitle": "Bài thi đã bị hủy",
+    "tabLeaveCancelledBody": "Bạn đã rời khỏi tab bài thi {{count}} lần. Bài thi đã bị hủy với 0 điểm và không thể chỉnh sửa.",
+    "tabLeaveCancelledReason": "Lý do: vượt giới hạn rời tab.",
+    "viewResult": "Xem kết quả",
     "answeredCount": "ĐÃ TRẢ LỜI {{answered}}/{{max}} · {{flagged}} ĐÁNH DẤU"
   },
   "sql": {
@@ -710,6 +716,7 @@
     "evidence": "Xem kết quả",
     "answered": "Đã trả lời {{answered}}/{{served}} câu",
     "result": "Kết quả: {{value}}",
+    "cancelledResult": "Đã hủy sau {{count}} lần rời tab · 0 điểm",
     "unbenchmarked": " · chưa có mức chuẩn",
     "below": " · dưới mức chuẩn",
     "meets": " · đạt mức chuẩn"
@@ -894,6 +901,9 @@
       "selectLearner": "Chọn người dùng để xem kết quả",
       "loadingLearner": "Đang tải thông tin người dùng…",
       "selectSession": "Chọn lần làm bài",
+      "tabLeaveCount": "Số lần rời tab: {{count}}",
+      "cancelledReason": "Lý do hủy: {{reason}}",
+      "reasonTabLeave": "vượt giới hạn rời tab",
       "noSessions": "Chưa có lượt làm bài nào kết thúc",
       "noEvidence": "Chưa có kết quả năng lực cho lần làm bài này",
       "loadingCompetency": "Đang tải kết quả năng lực…",

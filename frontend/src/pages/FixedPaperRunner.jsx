@@ -6,13 +6,21 @@ import { useNavigate } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, ErrorState, Loading } from '../components/States'
 import GradingStatusPanel from '../components/GradingStatusPanel'
-import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
+import {
+  Card,
+  ConfirmDialog,
+  Icon,
+  btnGhost,
+  btnPrimary,
+  focusDialogTrigger,
+} from '../components/ui'
 import { HelpButton } from '../components/HelpGuide'
 import { BrandWordmark } from '../components/BrandLogo'
 import { usePaperDraft } from '../usePaperDraft'
 import QuestionPalette from '../components/QuestionPalette'
 import SqlEditor from '../components/SqlEditor'
 import SqlSchema from '../components/SqlSchema'
+import { useTabLeaveGuard } from '../useTabLeaveGuard'
 
 function fmtClock(sec) {
   const m = Math.floor(sec / 60)
@@ -88,6 +96,26 @@ export default function FixedPaperRunner({ sessionId, initialState }) {
   const submittingRef = useRef(false)
   const navigationToken = useRef(0)
   const currentSeqRef = useRef(null)
+
+  const tabLeave = useTabLeaveGuard({
+    sessionId,
+    enabled: paper?.status === 'in_progress' && !submitting,
+    initialState: paper
+      ? {
+          status: paper.status,
+          violation_count: paper.tab_leave_count ?? 0,
+          violation_limit: paper.tab_leave_violation_limit ?? 3,
+          grace_seconds: paper.tab_leave_grace_seconds ?? 3,
+          warning_level:
+            paper.tab_leave_count > 0 &&
+            paper.tab_leave_count < (paper.tab_leave_violation_limit ?? 3)
+              ? paper.tab_leave_count
+              : 0,
+          cancelled: paper.status === 'cancelled',
+        }
+      : null,
+  })
+  const leaveWarning = tabLeave?.warning_level ?? 0
 
   const resultPath = useCallback(
     (next) =>
@@ -418,6 +446,33 @@ export default function FixedPaperRunner({ sessionId, initialState }) {
         <Loading label={t('paper.loading')} />
       </div>
     )
+  if (tabLeave?.cancelled)
+    return (
+      <div className="exam-shell">
+        <div className="content-wrap mx-auto max-w-2xl py-12">
+          <Card className="space-y-4 p-6">
+            <p role="alert" className="flex items-center gap-2 text-lg font-semibold text-rose-300">
+              <Icon name="alert" className="h-5 w-5" />
+              {t('paper.tabLeaveCancelledTitle')}
+            </p>
+            <p className="text-sub">
+              {t('paper.tabLeaveCancelledBody', {
+                count: tabLeave.violation_count,
+                limit: tabLeave.violation_limit,
+              })}
+            </p>
+            <p className="text-sm text-mute">{t('paper.tabLeaveCancelledReason')}</p>
+            <button
+              type="button"
+              className={btnPrimary}
+              onClick={() => navigate(resultPath(), { replace: true })}
+            >
+              {t('paper.viewResult')}
+            </button>
+          </Card>
+        </div>
+      </div>
+    )
   if (submitting)
     return (
       <div className="exam-shell">
@@ -505,6 +560,20 @@ export default function FixedPaperRunner({ sessionId, initialState }) {
                 : warning === 5
                   ? t('paper.warning5')
                   : t('paper.warning10')}
+            </p>
+          )}
+          {leaveWarning > 0 && (
+            <p
+              role="alert"
+              className="ex-banner mb-4"
+              style={{ width: '100%', margin: '0 0 16px' }}
+            >
+              <Icon name="alert" className="icon" />
+              {t('paper.tabLeaveWarning', {
+                count: leaveWarning,
+                limit: tabLeave.violation_limit,
+                seconds: tabLeave.grace_seconds,
+              })}
             </p>
           )}
           {error && <ErrorState message={error} onRetry={() => setRetry((value) => value + 1)} />}

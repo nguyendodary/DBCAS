@@ -22,6 +22,7 @@ function validateView(data) {
       'provisional',
       'ready',
       'awaiting_approval',
+      'cancelled',
     ].includes(data.status) ||
     (['provisional', 'ready'].includes(data.status) && !data.result?.evaluation)
   )
@@ -365,6 +366,23 @@ export default function EvaluationPage({ overall = false }) {
           )}
           <Link className={btnPrimary} to="/assessments">
             Bắt đầu luyện tập
+          </Link>
+        </Card>
+      ) : data?.status === 'cancelled' ? (
+        <Card className="space-y-4 p-6">
+          <h2 className="text-xl font-semibold">{t('paper.tabLeaveCancelledTitle')}</h2>
+          <p role="alert" className="text-sub">
+            {t('paper.tabLeaveCancelledBody', {
+              count: data.tab_leave_count ?? 0,
+              limit: 3,
+            })}
+          </p>
+          <p className="text-3xl font-bold tabular-nums">
+            {Number(data.score?.percentage ?? 0).toFixed(2)}%
+          </p>
+          <p className="text-sm text-mute">{t('paper.tabLeaveCancelledReason')}</p>
+          <Link className="underline" to="/history">
+            {t('nav.history')}
           </Link>
         </Card>
       ) : !error &&

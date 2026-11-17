@@ -1035,5 +1035,20 @@
     "children_per_parent": "0..N",
     "constraint": "question_evidence_question_fk",
     "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK70",
+    "source": "tab_leave_interval",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "tab_leave_interval_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id) ON DELETE CASCADE"
   }
 ]

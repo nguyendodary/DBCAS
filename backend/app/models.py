@@ -8,6 +8,7 @@ DDL-only operational indexes are intentional and checked by migration tests.
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Optional
+from uuid import UUID
 
 from sqlalchemy import (
     ForeignKey,
@@ -25,7 +26,7 @@ from sqlalchemy import (
     func,
     text,
 )
-from sqlalchemy.dialects.postgresql import ARRAY, JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID as PGUUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, validates
 
 
@@ -568,7 +569,8 @@ class AssessmentSession(Base):
     session_id: Mapped[int] = mapped_column(primary_key=True)
     assessment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("assessment.assessment_id"))
     learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
-    status: Mapped[str] = mapped_column(String(20), default="in_progress")  # 'in_progress' | 'completed' | 'timed_out'
+    # 'in_progress' | 'completed' | 'timed_out' | 'cancelled'
+    status: Mapped[str] = mapped_column(String(20), default="in_progress")
     locale: Mapped[str] = mapped_column(String(16), default="en")
     started_at: Mapped[datetime] = mapped_column(server_default=func.now())
     expires_at: Mapped[datetime]
@@ -582,10 +584,36 @@ class AssessmentSession(Base):
     )
     review_revision: Mapped[int] = mapped_column(default=0)
     published_at: Mapped[Optional[datetime]]
+    tab_leave_count: Mapped[int] = mapped_column(default=0, server_default="0")
+    cancelled_at: Mapped[Optional[datetime]]
+    cancel_reason: Mapped[Optional[str]] = mapped_column(String(40))
 
     assessment: Mapped[Optional[Assessment]] = relationship()
     attempts: Mapped[list["Attempt"]] = relationship()
     adaptive_events: Mapped[list["AdaptiveEvent"]] = relationship(order_by="AdaptiveEvent.round_no, AdaptiveEvent.event_type")
+
+
+class TabLeaveInterval(Base):
+    """Server-timed leave/return interval for FIXED-paper anti-cheat.
+
+    The client supplies opaque event ids only; ``left_at`` and
+    ``returned_at`` are server clock values. At most one interval per session
+    may be open (database partial unique index). Short intervals are stored
+    but not counted.
+    """
+
+    __tablename__ = "tab_leave_interval"
+    __table_args__ = (CheckConstraint("away_seconds IS NULL OR away_seconds >= 0"),)
+
+    leave_event_id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment_session.session_id", ondelete="CASCADE"))
+    left_at: Mapped[datetime]
+    returned_at: Mapped[Optional[datetime]]
+    return_event_id: Mapped[Optional[UUID]] = mapped_column(
+        PGUUID(as_uuid=True), unique=True)
+    away_seconds: Mapped[Optional[int]]
+    counted: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
 
 class AdaptiveEvent(Base):

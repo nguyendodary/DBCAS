@@ -23,6 +23,7 @@ from ..schemas import (
     ServedQuestion,
     PaperDraftResult, PaperDraftSaveRequest, PaperFlagRequest, PaperFlagResult,
     PaperMetadata, PaperQuestionView, PaperSubmitRequest, PaperSubmitResult,
+    PaperTabLeaveRequest, PaperTabLeaveState,
 )
 from ..services import (
     adaptive_engine,
@@ -86,6 +87,13 @@ def submit_paper(session_id: int, payload: PaperSubmitRequest | None = None, lea
                  db: Session = Depends(get_db)):
     """FIXED only: finalize the whole paper once; later calls return the summary."""
     return fixed_paper.final_submit(db, session_id, learner, payload or PaperSubmitRequest())
+
+
+@router.post("/{session_id}/paper/tab-leave", response_model=PaperTabLeaveState)
+def report_paper_tab_leave(session_id: int, payload: PaperTabLeaveRequest,
+                           learner: Account = LearnerOnly, db: Session = Depends(get_db)):
+    """FIXED only: report focus leave/return; the server owns the counter."""
+    return fixed_paper.report_tab_leave(db, session_id, learner, payload)
 
 
 @router.get("/{session_id}/paper/{seq_no}", response_model=PaperQuestionView)
