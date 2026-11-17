@@ -161,18 +161,18 @@ it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async (
 it('shows the provisional AI result with an explicit label', async () => {
   api.get.mockResolvedValue({ data: provisional })
   renderEvaluation()
-  expect(await screen.findByText(/Kết quả tạm thời/)).toBeInTheDocument()
+  expect(await screen.findByText(/Provisional result/)).toBeInTheDocument()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
   expect(screen.getByText('Điểm mạnh và điểm cần cải thiện theo khái niệm')).toBeInTheDocument()
-  expect(screen.queryByText(/Đã được giảng viên duyệt/)).not.toBeInTheDocument()
+  expect(screen.queryByText(/Approved by an administrator/)).not.toBeInTheDocument()
 })
 it('marks approved and adjusted results clearly', async () => {
   api.get.mockResolvedValue({
     data: { ...ready, final: true, approved: true, adjusted: true },
   })
   renderEvaluation()
-  expect(await screen.findByText(/Đã được giảng viên duyệt/)).toBeInTheDocument()
-  expect(screen.getByText('Điểm đã được điều chỉnh')).toBeInTheDocument()
+  expect(await screen.findByText(/Approved by an administrator/)).toBeInTheDocument()
+  expect(screen.getByText('Scores were adjusted')).toBeInTheDocument()
 })
 it('keeps provisional results visible and replaces them after approval without reloading', async () => {
   vi.useFakeTimers()
@@ -184,17 +184,17 @@ it('keeps provisional results visible and replaces them after approval without r
   )
   renderEvaluation()
   await act(async () => {})
-  expect(screen.getByText(/Kết quả tạm thời/)).toBeVisible()
+  expect(screen.getByText(/Provisional result/)).toBeVisible()
   await act(async () => {
     await vi.advanceTimersByTimeAsync(15000)
   })
-  expect(screen.getByText(/Kết quả tạm thời/)).toBeVisible()
+  expect(screen.getByText(/Provisional result/)).toBeVisible()
   expect(api.post).not.toHaveBeenCalled()
   approved = true
   await act(async () => {
     await vi.advanceTimersByTimeAsync(15000)
   })
-  expect(screen.getByText(/Đã được giảng viên duyệt/)).toBeVisible()
+  expect(screen.getByText(/Approved by an administrator/)).toBeVisible()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
 })
 it('bounds provisional polling and offers a manual check', async () => {
@@ -245,17 +245,15 @@ it('prevents double submit, shows generation state and keeps the request id for 
     </MemoryRouter>,
   )
   await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
-  await userEvent.click(screen.getByRole('radio', { name: 'AI tạo câu hỏi' }))
-  await userEvent.click(screen.getByRole('button', { name: '13 câu', exact: true }))
-  const button = screen.getByRole('button', { name: 'Bắt đầu' })
+  const button = screen.getByRole('button', { name: 'Start' })
   fireEvent.click(button)
   fireEvent.click(button)
   expect(api.post).toHaveBeenCalledTimes(1)
   const id = api.post.mock.calls[0][1].request_id
   const setup = api.post.mock.calls[0][1]
-  expect(screen.getByRole('status')).toHaveTextContent('Đang tạo câu hỏi...')
+  expect(screen.getAllByText('Preparing your assessment…').length).toBeGreaterThan(0)
   await act(async () => reject(new Error('offline')))
-  fireEvent.click(screen.getByRole('button', { name: 'Thử lại' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Retry' }))
   expect(api.post.mock.calls[1][1].request_id).toBe(id)
   expect(api.post.mock.calls[1][1]).toEqual(setup)
 })

@@ -70,7 +70,7 @@ it('keeps the Vietnamese practice setup and real resume route when locale change
   )
   await screen.findByText('Bạn có bài đang làm')
   await act(() => setLocale('vi'))
-  expect(screen.getByRole('heading', { name: 'Tạo bài luyện tập', level: 1 })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: 'Tạo bài đánh giá', level: 1 })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Tiếp tục bài làm' })).toHaveAttribute('href', '/exam/9')
   expect(api.get).toHaveBeenCalledTimes(2)
 })

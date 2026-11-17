@@ -126,10 +126,10 @@
     "practiceRecommendation": "Review the foundations of {{skill}}, then take a focused assessment to check your progress.",
     "competencyEvidence": "Scores and supporting evidence",
     "ADAPTIVE": "Adaptive practice",
-    "adaptiveHelp": "Choose one skill. Each round has up to five multiple-choice questions, and difficulty adjusts to your graded answers. At least five answers are required. The session stops when your performance is stable, the question pool runs out, 13 questions have been served, or time runs out. This practice does not count toward official competency.",
+    "adaptiveHelp": "Choose one concept and one starting difficulty. Every session opens with 3 anchor MCQs at that band, then serves 3–50 multiple-choice questions from the question bank as ability updates. The result is an estimated ability, not a percentage, and does not count toward official competency.",
     "adaptiveRound": "Round {{round}} · {{answered}} / {{count}} answered",
     "adaptiveEvidenceMet": "Minimum evidence collected. This is a practice outcome, not an official mastery certification.",
-    "adaptiveEvidenceLow": "Fewer than five finalized answers: there is insufficient evidence for an adaptive outcome.",
+    "adaptiveEvidenceLow": "Fewer than three finalized answers: there is insufficient evidence for an adaptive outcome.",
     "adaptiveLimited": "Available inventory limited the difficulty or length. Interpret this outcome within the questions actually answered.",
     "adaptiveStop": {
       "maximum_questions": "Adaptive practice completed: question limit reached.",
@@ -1470,7 +1470,7 @@
     },
     "learner": {
       "heading": "Working as a user",
-      "item1": "Open Practice, choose concepts, difficulties and a question source, then start.",
+      "item1": "Open Assessments, choose a test or adaptive practice, select concepts and one difficulty, then start.",
       "item2": "Watch the draft-save status and the timer. Saving a draft is not the same as submitting an answer.",
       "item3": "Open the evaluation in History. The waiting screen offers Retry for slow AI or a lost connection.",
       "item4": "Open Overall evaluation for all released attempts and suggested next steps."
@@ -1513,11 +1513,44 @@
     "cloLabel": "Learning outcome"
   },
   "assessmentStyle": {
-    "title": "Assessment style",
+    "title": "Assessment mode",
+    "pageEyebrow": "Database assessment",
+    "pageTitle": "Create an assessment",
+    "pageSubtitle": "Choose a scored test or an adaptive ability estimate.",
+    "sourceTitle": "3. Question source",
+    "questionCountTitle": "4. Number of questions",
+    "starting": "Preparing your assessment…",
+    "retry": "Retry",
+    "start": "Start",
     "fixed": {
-      "title": "Free practice",
-      "description": "A graded practice paper with an official percentage score after review. Choose your concepts, difficulty, source and question count as before.",
-      "resultLabel": "Official score"
+      "title": "Test",
+      "description": "A bank-only test at one difficulty. Choose concepts and the question mix; the score is official only after review.",
+      "constraintsTitle": "Test constraints",
+      "constraintBank": "Question bank only",
+      "constraintBand": "Exactly one difficulty band",
+      "constraintScore": "Official score only after administrator publication",
+      "sourceNote": "This test uses the validated question bank only.",
+      "difficultyNote": "Choose one difficulty band.",
+      "mixTitle": "4. Question mix",
+      "mixHelp": "Set how many MCQ, SQL and essay questions the test contains.",
+      "mixTotal": "{{total}} questions in this test.",
+      "types": {
+        "mcq": "MCQ",
+        "sql": "SQL",
+        "essay": "Essay"
+      },
+      "mixEmpty": "Add at least one question.",
+      "mixInvalid": "Question counts must be whole numbers zero or greater.",
+      "mixSingleLimit": "A single-type test allows at most {{limit}} {{type}} questions.",
+      "mixTypeLimit": "A mixed test allows at most {{limit}} {{type}} questions.",
+      "mixTotalLimit": "A mixed test allows at most {{limit}} questions.",
+      "startNote": "All questions open for free navigation. AI grades after submission; an administrator reviews and publishes the official score.",
+      "resultLabel": "Official score",
+      "provisionalLabel": "Provisional score",
+      "provisionalTitle": "Provisional result — AI graded, not yet approved",
+      "provisionalBody": "The score and feedback may change after administrator review.",
+      "approvedTitle": "✓ Approved by an administrator — official result",
+      "approvedAdjusted": "Scores were adjusted"
     },
     "adaptive": {
       "title": "Adaptive practice",
@@ -1531,6 +1564,7 @@
       "conceptNote": "Choose exactly one concept for an adaptive session.",
       "difficultyNote": "Choose one starting difficulty band.",
       "startNote": "Your result is an estimated ability with study suggestions, not a percentage score.",
+      "countLabel": "Number of questions ({{min}}–{{max}})",
       "resultLabel": "Estimated ability",
       "notOfficial": "This estimate is not an official score. No percentage is awarded for adaptive practice.",
       "band": "Ability band",

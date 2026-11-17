@@ -1,5 +1,5 @@
-// Practice assessment styles. The backend owns the authoritative constraints;
-// these helpers keep the browser selection inside them before a start request.
+// Assessment modes. The backend owns the authoritative constraints; these
+// helpers keep the browser selection inside them before a start request.
 export const FIXED = 'FIXED'
 export const ADAPTIVE = 'ADAPTIVE'
 
@@ -7,6 +7,15 @@ export const ADAPTIVE = 'ADAPTIVE'
 // bank-only, one concept, one starting band, MCQ-only, 3..50 questions.
 export const ADAPTIVE_MIN_QUESTIONS = 3
 export const ADAPTIVE_MAX_QUESTIONS = 50
+
+// Mirrors the FIXED branch of PracticeStart.typed_question_limits. The mixed
+// caps apply only when at least two question types are selected; a single-type
+// test uses the larger single-type cap.
+export const FIXED_SINGLE_LIMITS = Object.freeze({ mcq: 50, sql: 5, essay: 10 })
+export const FIXED_MIXED_LIMITS = Object.freeze({ mcq: 20, sql: 2, essay: 3 })
+export const FIXED_MIXED_TOTAL_LIMIT = 25
+export const FIXED_QUESTION_TYPES = Object.freeze(['mcq', 'sql', 'essay'])
+export const FIXED_DEFAULT_MIX = Object.freeze({ mcq: 10, sql: 2, essay: 1 })
 
 export function clampAdaptiveCount(value, fallback = ADAPTIVE_MIN_QUESTIONS) {
   const parsed = Number(value)
@@ -20,29 +29,83 @@ export function isAdaptiveResult(session) {
   )
 }
 
-// FREE/FIXED practice keeps the existing self-selected payload: concept,
-// difficulty, source and count choices are assembled by the backend and the
-// published result is an official percentage score. ADAPTIVE opts into the
-// dedicated runner and sends only the fields its validator accepts.
-export function buildPracticePayload({ style, selected, bands, source, count, requestId }) {
-  const adaptive = style === ADAPTIVE
-  const payload = {
-    concept_ids: adaptive ? selected.slice(0, 1) : selected,
-    difficulties: adaptive ? bands.slice(0, 1) : bands,
-    source: adaptive ? 'bank' : source,
-    question_count: adaptive ? clampAdaptiveCount(count) : Number(count),
-    request_id: requestId,
-  }
-  if (adaptive) payload.assessment_style = ADAPTIVE
-  return payload
+export function normalizeFixedMix(mix = FIXED_DEFAULT_MIX) {
+  return Object.fromEntries(FIXED_QUESTION_TYPES.map((kind) => [kind, Number(mix?.[kind] ?? 0)]))
 }
 
-export function isSelectionValid({ style, selected, bands, source, count, limits }) {
+export function fixedMixTotal(mix) {
+  const counts = normalizeFixedMix(mix)
+  return FIXED_QUESTION_TYPES.reduce(
+    (total, kind) => total + (Number.isFinite(counts[kind]) ? counts[kind] : 0),
+    0,
+  )
+}
+
+// Returns structured errors so the UI can translate one shared contract.
+export function validateFixedMix(mix) {
+  const counts = normalizeFixedMix(mix)
+  const errors = []
+  if (FIXED_QUESTION_TYPES.some((kind) => !Number.isInteger(counts[kind]) || counts[kind] < 0)) {
+    errors.push({ code: 'invalid' })
+  }
+  const active = FIXED_QUESTION_TYPES.filter((kind) => counts[kind] > 0)
+  const total = FIXED_QUESTION_TYPES.reduce(
+    (sum, kind) => sum + (Number.isFinite(counts[kind]) ? counts[kind] : 0),
+    0,
+  )
+  if (!errors.length) {
+    if (!active.length) {
+      errors.push({ code: 'empty' })
+    } else if (active.length === 1) {
+      const kind = active[0]
+      if (counts[kind] > FIXED_SINGLE_LIMITS[kind]) {
+        errors.push({ code: 'single_limit', kind, limit: FIXED_SINGLE_LIMITS[kind] })
+      }
+    } else {
+      for (const kind of active) {
+        if (counts[kind] > FIXED_MIXED_LIMITS[kind]) {
+          errors.push({ code: 'type_limit', kind, limit: FIXED_MIXED_LIMITS[kind] })
+        }
+      }
+      if (total > FIXED_MIXED_TOTAL_LIMIT) {
+        errors.push({ code: 'total_limit', limit: FIXED_MIXED_TOTAL_LIMIT })
+      }
+    }
+  }
+  return { counts, total, active, errors, valid: errors.length === 0 }
+}
+
+export function buildPracticePayload({ style, selected, bands, count, mix, requestId }) {
+  if (style === ADAPTIVE) {
+    return {
+      concept_ids: selected.slice(0, 1),
+      difficulties: bands.slice(0, 1),
+      source: 'bank',
+      question_count: clampAdaptiveCount(count),
+      request_id: requestId,
+      assessment_style: ADAPTIVE,
+    }
+  }
+  const fixed = validateFixedMix(mix)
+  return {
+    concept_ids: selected,
+    difficulties: bands.slice(0, 1),
+    source: 'bank',
+    question_count: fixed.total,
+    question_mix: fixed.counts,
+    request_id: requestId,
+    assessment_style: FIXED,
+  }
+}
+
+export function isSelectionValid({ style, selected, bands, source, count, limits, mix }) {
+  if (style === FIXED) {
+    return (
+      selected.length > 0 && bands.length === 1 && source === 'bank' && validateFixedMix(mix).valid
+    )
+  }
+  if (style !== ADAPTIVE) return false
   const parsed = Number(count)
   const countValid = Number.isInteger(parsed) && parsed >= limits.min && parsed <= limits.max
-  if (!countValid) return false
-  if (style === ADAPTIVE) {
-    return selected.length === 1 && bands.length === 1 && source === 'bank'
-  }
-  return selected.length > 0 && bands.length > 0
+  return countValid && selected.length === 1 && bands.length === 1 && source === 'bank'
 }
