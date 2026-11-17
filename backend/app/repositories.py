@@ -42,6 +42,7 @@ from .models import (
     Role,
     Rubric,
     SqlTestDataset,
+    TabLeaveInterval,
     UserProfile,
 )
 
@@ -331,6 +332,27 @@ class AssessmentRepository:
             select(Attempt)
             .options(selectinload(Attempt.question).selectinload(Question.options))
             .where(Attempt.session_id == session_id, Attempt.seq_no == seq_no)
+        )
+
+    def tab_leave_interval(self, leave_event_id):
+        return self.db.scalar(
+            select(TabLeaveInterval).where(
+                TabLeaveInterval.leave_event_id == leave_event_id)
+        )
+
+    def open_tab_leave_interval(self, session_id: int) -> Optional[TabLeaveInterval]:
+        """The one open leave interval, if the learner is still away."""
+        return self.db.scalar(
+            select(TabLeaveInterval)
+            .where(TabLeaveInterval.session_id == session_id,
+                   TabLeaveInterval.returned_at.is_(None))
+            .order_by(TabLeaveInterval.left_at.desc())
+        )
+
+    def tab_leave_return_event(self, return_event_id):
+        return self.db.scalar(
+            select(TabLeaveInterval).where(
+                TabLeaveInterval.return_event_id == return_event_id)
         )
 
     # ----- assessment configuration (UC09) -----

@@ -62,10 +62,9 @@ export default function AdminPage() {
       .then((r) => {
         if (cancelled) return
         setLearnerDetail(r.data)
+        const isFinal = (s) => ['completed', 'timed_out', 'cancelled'].includes(s.status)
         const latestFinal = (r.data.sessions || []).find(
-          (s) =>
-            (s.status === 'completed' || s.status === 'timed_out') &&
-            (!assessmentId || s.assessment_id === Number(assessmentId)),
+          (s) => isFinal(s) && (!assessmentId || s.assessment_id === Number(assessmentId)),
         )
         if (latestFinal) setSessionId(latestFinal.session_id)
       })
@@ -277,7 +276,7 @@ export default function AdminPage() {
                   {learnerDetail.sessions
                     .filter(
                       (s) =>
-                        (s.status === 'completed' || s.status === 'timed_out') &&
+                        ['completed', 'timed_out', 'cancelled'].includes(s.status) &&
                         (!assessmentId || s.assessment_id === Number(assessmentId)),
                     )
                     .map((s) => (
@@ -288,6 +287,29 @@ export default function AdminPage() {
                     ))}
                 </select>
               </label>
+              {(() => {
+                const session = learnerDetail.sessions.find((item) => item.session_id === sessionId)
+                if (!session) return null
+                return (
+                  <div className="mb-3 space-y-1 text-xs text-mute">
+                    <p>
+                      {t('admin.analytics.tabLeaveCount', {
+                        count: session.tab_leave_count ?? 0,
+                      })}
+                    </p>
+                    {session.cancel_reason && (
+                      <p>
+                        {t('admin.analytics.cancelledReason', {
+                          reason:
+                            session.cancel_reason === 'tab_leave_limit'
+                              ? t('admin.analytics.reasonTabLeave')
+                              : session.cancel_reason,
+                        })}
+                      </p>
+                    )}
+                  </div>
+                )
+              })()}
               {!sessionId && <EmptyState title={t('admin.analytics.noSessions')} />}
               {profile?.concepts?.length ? (
                 <div className="relative h-72 min-w-0 w-full">

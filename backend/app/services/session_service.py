@@ -38,8 +38,16 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
         earned = sum((a.score for a in graded), Decimal(0))
         practice = bool((s.config_snapshot or {}).get("learner_defined"))
         provisional = practice and not is_published(s) and s.release_status in ("provisional_ai", "pending_review")
+        cancelled = s.status == "cancelled"
         final = is_published(s) or provisional
         adaptive = (s.config_snapshot or {}).get("runner_mode") == "adaptive"
+        if cancelled:
+            overall = Decimal("0")
+        elif final and not adaptive and possible and len(graded) == len(submitted):
+            overall = (earned / possible * 100).quantize(
+                Decimal("0.01"), rounding=ROUND_HALF_UP)
+        else:
+            overall = None
         items.append(
             SessionSummary(
                 session_id=s.session_id,
@@ -63,9 +71,12 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 graded_count=len(graded),
                 pending_grading_count=sum(a.grading_status == "pending" for a in submitted),
                 failed_grading_count=sum(a.grading_status == "failed" for a in submitted),
-                overall_result_pct=(earned / possible * 100).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) if final and not adaptive and possible and len(graded) == len(submitted) else None,
+                overall_result_pct=overall,
                 concepts=[] if adaptive else (concept_items(s, _aggregate(graded), targets_for_session(s, CompetencyRepository(db))) if final else []),
                 provisional=provisional,
+                tab_leave_count=int(s.tab_leave_count or 0),
+                cancelled_at=s.cancelled_at,
+                cancel_reason=s.cancel_reason,
             )
         )
     return items

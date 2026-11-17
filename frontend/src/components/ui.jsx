@@ -123,6 +123,7 @@ const STATUS_TONES = {
   in_progress: 'blue',
   completed: 'green',
   timed_out: 'amber',
+  cancelled: 'red',
   draft: 'gray',
   active: 'green',
   closed: 'gray',

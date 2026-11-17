@@ -56,6 +56,26 @@ it('distinguishes pending grading from a scored final result', async () => {
   expect(screen.queryByText(/Answer result:/)).not.toBeInTheDocument()
 })
 
+it('labels a tab-leave cancellation with its violation count and zero points', async () => {
+  api.get.mockResolvedValue({
+    data: [
+      {
+        ...session,
+        status: 'cancelled',
+        overall_result_pct: '0',
+        tab_leave_count: 3,
+        cancel_reason: 'tab_leave_limit',
+        concepts: [],
+      },
+    ],
+  })
+  renderPage()
+  expect(
+    await screen.findByText('Cancelled after 3 tab-leave violations · 0 points'),
+  ).toBeInTheDocument()
+  expect(screen.getByText('Cancelled')).toBeInTheDocument()
+})
+
 it('offers resume for an in-progress session instead of reporting final scores', async () => {
   api.get.mockResolvedValue({
     data: [{ ...session, status: 'in_progress', overall_result_pct: null, concepts: [] }],

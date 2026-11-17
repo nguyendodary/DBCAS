@@ -175,6 +175,34 @@ describe('AdminPage', () => {
     expect(chart.datasets[1].data).toEqual([60])
   })
 
+  it('shows the tab-leave violation count and cancellation reason', async () => {
+    mockApi()
+    const base = api.get.getMockImplementation()
+    api.get.mockImplementation((url, config) => {
+      if (url === '/admin/learners/7/sessions') {
+        return Promise.resolve({
+          data: {
+            ...LEARNER_7_SESSIONS,
+            sessions: [
+              {
+                ...LEARNER_7_SESSIONS.sessions[0],
+                status: 'cancelled',
+                tab_leave_count: 3,
+                cancel_reason: 'tab_leave_limit',
+              },
+            ],
+          },
+        })
+      }
+      return base(url, config)
+    })
+    renderPage()
+    await screen.findByText('Learner One')
+    await userEvent.click(screen.getByText('Learner One'))
+    expect(await screen.findByText('Tab-leave violations: 3')).toBeInTheDocument()
+    expect(screen.getByText('Cancellation reason: tab-leave limit reached')).toBeInTheDocument()
+  })
+
   it('formats both cohort table counts by locale without refetching or changing data', async () => {
     mockApi()
     const original = api.get.getMockImplementation()

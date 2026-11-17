@@ -62,6 +62,26 @@ const provisional = {
     },
   ],
 }
+it('shows the zero-point cancellation result instead of waiting for AI evaluation', async () => {
+  api.get.mockResolvedValue({
+    data: {
+      status: 'cancelled',
+      final: true,
+      attempt_count: 3,
+      tab_leave_count: 3,
+      cancel_reason: 'tab_leave_limit',
+      score: { percentage: 0, earned: '0.00', possible: '3.00' },
+      dimensions: {},
+      history: [],
+    },
+  })
+  renderEvaluation()
+  await act(async () => {})
+  expect(screen.getByRole('heading', { name: 'Attempt cancelled' })).toBeInTheDocument()
+  expect(screen.getByText('0.00%')).toBeInTheDocument()
+  expect(screen.getByText('Reason: tab-leave limit reached.')).toBeInTheDocument()
+})
+
 function renderEvaluation(overall = false) {
   return render(
     <MemoryRouter initialEntries={['/evaluations/7']}>

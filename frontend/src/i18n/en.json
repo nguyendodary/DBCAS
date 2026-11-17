@@ -420,6 +420,7 @@
     "in_progress": "In progress",
     "completed": "Completed",
     "timed_out": "Timed out",
+    "cancelled": "Cancelled",
     "draft": "Draft",
     "active": "Active",
     "closed": "Closed",
@@ -632,6 +633,11 @@
     "warning10": "Less than 10 minutes remain.",
     "warning5": "Less than 5 minutes remain. The paper submits at 00:00.",
     "warning1": "Less than 1 minute remains. The paper submits at 00:00.",
+    "tabLeaveWarning": "Warning {{count}} of {{limit}}: you were away from the exam tab for more than {{seconds}} seconds. Further violations can cancel this attempt with 0 points.",
+    "tabLeaveCancelledTitle": "Attempt cancelled",
+    "tabLeaveCancelledBody": "You left the exam tab {{count}} times. This attempt has been cancelled with 0 points and can no longer be edited.",
+    "tabLeaveCancelledReason": "Reason: tab-leave limit reached.",
+    "viewResult": "View result",
     "answeredCount": "{{answered}}/{{max}} ANSWERED · {{flagged}} FLAGGED"
   },
   "sql": {
@@ -710,6 +716,7 @@
     "evidence": "Evidence",
     "answered": "{{answered}}/{{served}} answered",
     "result": "Answer result: {{value}}",
+    "cancelledResult": "Cancelled after {{count}} tab-leave violations · 0 points",
     "unbenchmarked": " · no benchmark",
     "below": " · below target",
     "meets": " · meets target"
@@ -894,6 +901,9 @@
       "selectLearner": "Select a user to view their competency profile",
       "loadingLearner": "Loading user…",
       "selectSession": "Select user session",
+      "tabLeaveCount": "Tab-leave violations: {{count}}",
+      "cancelledReason": "Cancellation reason: {{reason}}",
+      "reasonTabLeave": "tab-leave limit reached",
       "noSessions": "No finalized user sessions for this selection",
       "noEvidence": "No graded concept evidence for this session",
       "loadingCompetency": "Loading competency…",

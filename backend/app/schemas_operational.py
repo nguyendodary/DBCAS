@@ -94,7 +94,7 @@ class QuestionResult(BaseModel):
 
 
 class EvaluationView(BaseModel):
-    status: Literal["empty", "pending", "processing", "updating", "provisional", "ready", "failed"]
+    status: Literal["empty", "pending", "processing", "updating", "provisional", "ready", "failed", "cancelled"]
     provisional: bool = False
     final: bool = False
     attempt_count: int
@@ -112,6 +112,9 @@ class EvaluationView(BaseModel):
     uncovered_concepts: list[dict[str, Any]] = []
     question_results: list[QuestionResult] = []
     concept_results: list[ConceptResult] = []
+    cancel_reason: str | None = None
+    cancelled_at: datetime | None = None
+    tab_leave_count: int = 0
 
 
 class AwaitingApproval(BaseModel):

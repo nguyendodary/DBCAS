@@ -108,15 +108,17 @@ export default function HistoryPage() {
                     {s.status !== 'in_progress' && (
                       <>
                         <p className="mt-2 text-sm text-sub">
-                          {s.release_status && s.release_status !== 'published'
-                            ? t(`supervisor.${s.release_status}`)
-                            : s.pending_grading_count
-                              ? t('history.pending')
-                              : s.failed_grading_count
-                                ? t('history.retryGrade')
-                                : s.overall_result_pct != null
-                                  ? t('history.result', { value: percent(s.overall_result_pct) })
-                                  : t('history.noGraded')}
+                          {s.status === 'cancelled'
+                            ? t('history.cancelledResult', { count: s.tab_leave_count })
+                            : s.release_status && s.release_status !== 'published'
+                              ? t(`supervisor.${s.release_status}`)
+                              : s.pending_grading_count
+                                ? t('history.pending')
+                                : s.failed_grading_count
+                                  ? t('history.retryGrade')
+                                  : s.overall_result_pct != null
+                                    ? t('history.result', { value: percent(s.overall_result_pct) })
+                                    : t('history.noGraded')}
                         </p>
                         <ul
                           aria-label={t('history.perConcept')}

@@ -29,6 +29,7 @@ async function mockFixedPaper(page, sid, { expired = false } = {}) {
   const flags = new Map()
   let lastOpened = 1
   let submits = 0
+  let violations = 0
 
   const meta = () => ({
     session_id: sid,
@@ -43,6 +44,9 @@ async function mockFixedPaper(page, sid, { expired = false } = {}) {
     answered_count: drafts.size,
     flagged_count: [...flags.values()].filter(Boolean).length,
     last_opened_seq: lastOpened,
+    tab_leave_count: violations,
+    tab_leave_grace_seconds: 3,
+    tab_leave_violation_limit: 3,
     questions: [1, 2, 3].map((seq) => ({
       seq_no: seq,
       question_id: 100 + seq,
@@ -81,6 +85,25 @@ async function mockFixedPaper(page, sid, { expired = false } = {}) {
     }
     if (path === `/api/v1/sessions/${sid}/paper`) {
       await route.fulfill(json(meta()))
+      return
+    }
+    if (path === `/api/v1/sessions/${sid}/paper/tab-leave`) {
+      const body = route.request().postDataJSON()
+      if (body.event === 'return') violations += 1
+      await route.fulfill(
+        json({
+          session_id: sid,
+          status: violations >= 3 ? 'cancelled' : 'in_progress',
+          violation_count: violations,
+          violation_limit: 3,
+          grace_seconds: 3,
+          counted: body.event === 'return',
+          warning_level: violations > 0 && violations < 3 ? violations : 0,
+          cancelled: violations >= 3,
+          cancel_reason: violations >= 3 ? 'tab_leave_limit' : null,
+          server_now: now,
+        }),
+      )
       return
     }
     if (path === `/api/v1/sessions/${sid}/paper/submit`) {
@@ -186,6 +209,36 @@ test.describe('FIXED free navigation', () => {
     await expect(dialog).toContainText(vi.paper.finishTitle)
     await dialog.getByRole('button', { name: vi.paper.confirm, exact: true }).click()
     await expect(page).toHaveURL(/\/evaluations\/\d+$/)
+  })
+
+  test('counts debounced tab leaves and cancels on the third violation', async ({ page }) => {
+    await register(page)
+    const sid = 424244
+    await mockFixedPaper(page, sid)
+    await page.clock.install({ time: new Date('2030-01-01T00:00:00Z') })
+    await page.goto(`/exam/${sid}`)
+    await expect(page.getByText('Question 1', { exact: true })).toBeVisible()
+
+    const cycle = async (count) => {
+      await page.evaluate(() => window.dispatchEvent(new Event('blur')))
+      await page.clock.fastForward(250)
+      await page.evaluate(() => window.dispatchEvent(new Event('focus')))
+      await page.clock.fastForward(250)
+      if (count < 3) {
+        await expect(page.getByRole('alert')).toContainText(
+          vi.paper.tabLeaveWarning
+            .replace('{{count}}', String(count))
+            .replace('{{limit}}', '3')
+            .replace('{{seconds}}', '3'),
+        )
+      }
+    }
+
+    await cycle(1)
+    await cycle(2)
+    await cycle(3)
+    await expect(page.getByText(vi.paper.tabLeaveCancelledTitle, { exact: true })).toBeVisible()
+    await expect(page.getByText(vi.paper.tabLeaveCancelledReason, { exact: true })).toBeVisible()
   })
 
   test('finalizes automatically when the server clock has expired', async ({ page }) => {
