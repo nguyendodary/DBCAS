@@ -243,7 +243,12 @@ async def run(args):
                 history = await learner.request("history", "GET", "sessions")
                 assert len(history) == 1 and Decimal(history[0]["overall_result_pct"]) == expected
                 stats = await learner.request("statistics", "GET", "sessions/statistics")
-                assert stats["published_formal_sessions"] == 1
+                assert stats["published_formal_sessions"] == 0, \
+                    "legacy practice must not enter formal statistics"
+                cumulative = await learner.request(
+                    "cumulative", "GET", "sessions/competency/cumulative")
+                assert cumulative["summary"]["finalized_assessments"] == 0, \
+                    "legacy practice must not enter cumulative competency"
                 return sid
             sessions = await settled(*(finish(learner) for learner in learners))
             for index, learner in enumerate(learners):
