@@ -1,7 +1,7 @@
 name: Local quality gate
 on:
   push:
-    branches: [develop2, main]
+    branches: [develop2, main, frontend]
   pull_request:
     branches: [develop2, main]
 permissions:
@@ -11,6 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   secrets:
+    if: github.ref_name != 'frontend'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +21,7 @@ jobs:
       - run: python -m unittest discover -s scripts/tests -p test_secret_scan.py
       - run: python scripts/scan_secrets.py
   backend:
+    if: github.ref_name != 'frontend'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
@@ -52,6 +54,7 @@ jobs:
       - run: docker compose -f docker-compose.dn.yml config -q
       - run: docker build -f backend/Dockerfile -t dbcas-dn-ci .
   frontend-local:
+    if: github.ref_name != 'frontend'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     env:
@@ -102,3 +105,20 @@ jobs:
           if [ -f .env ]; then
             docker compose -p dbcas-local -f docker-compose.local.yml down --volumes
           fi
+  frontend-smoke:
+    if: github.ref_name == 'frontend'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm test -- --reporter=dot src/test/LearnerPages.test.jsx src/test/BackgroundVideo.test.jsx
+      - run: npm run build
