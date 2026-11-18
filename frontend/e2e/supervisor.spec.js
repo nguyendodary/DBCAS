@@ -173,7 +173,7 @@ test('supervisor journeys A–E: classification, personalization, both release p
       await row.getByRole('button', { name: 'Actions', exact: true }).click()
       await adminPage.getByRole('menuitem', { name: 'Validate', exact: true }).click()
       await expect(row).toContainText('Validated')
-      await expect(adminPage.locator('.app-sidebar nav').getByRole('link')).toHaveCount(5)
+      await expect(adminPage.locator('.app-sidebar nav').getByRole('link')).toHaveCount(6)
     })
     await registerPractice(page, 'supervisor')
     for (const policy of ['IMMEDIATE', 'HUMAN_VERIFIED']) {
