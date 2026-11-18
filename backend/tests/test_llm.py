@@ -364,6 +364,21 @@ class TestSanitize:
         out = sanitize_learner_text("3NF removes transitive dependency in 2 steps")
         assert "3NF" in out and "2" in out
 
+    def test_unlabelled_phone_and_mobile_are_redacted(self):
+        out = sanitize_learner_text("Contact 090-123-4567 or 0912345678 about step 3")
+        assert "090-123-4567" not in out and "0912345678" not in out
+        assert "3" in out  # ordinary content numerals survive
+
+    def test_national_id_like_digit_sequences_are_redacted(self):
+        out = sanitize_learner_text("Synthetic record 123456789012 scores 42 points")
+        assert "123456789012" not in out and "42" in out
+
+    def test_labelled_person_name_is_redacted(self):
+        out = sanitize_learner_text(
+            "Full name: Nguyen Van A submitted the synthetic answer."
+        )
+        assert "Nguyen Van A" not in out and "[name]" in out
+
 
 class TestProviderGetsSanitizedContent:
     """End-to-end-ish: sanitizer output is what actually goes on the wire."""

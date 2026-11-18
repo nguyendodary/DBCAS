@@ -255,17 +255,38 @@ def test_approve_archive_and_clo_attachment_lifecycle(client, db_session):
     )
     assert missing.status_code == 404 and missing.json()["error"]["code"] == "clo_not_found"
 
-    approved = client.post(f"{BASE}/{document_id}/approve", headers=headers).json()
+    confirmation = {"confirm_no_personal_data": True}
+    approved = client.post(f"{BASE}/{document_id}/approve", headers=headers, json=confirmation).json()
     assert approved["status"] == "approved" and approved["approved_at"]
     assert db_session.get(CourseDocument, document_id).approved_by == admin.account_id
-    again = client.post(f"{BASE}/{document_id}/approve", headers=headers)
+    again = client.post(f"{BASE}/{document_id}/approve", headers=headers, json=confirmation)
     assert again.status_code == 200
 
     assert client.post(f"{BASE}/{document_id}/archive", headers=headers).json()["status"] == "archived"
-    conflict = client.post(f"{BASE}/{document_id}/approve", headers=headers)
+    conflict = client.post(f"{BASE}/{document_id}/approve", headers=headers, json=confirmation)
     assert conflict.status_code == 409 and conflict.json()["error"]["code"] == "document_archived"
     conflict = client.put(f"{BASE}/{document_id}/clos", headers=headers, json={"clo_ids": []})
     assert conflict.status_code == 409 and conflict.json()["error"]["code"] == "document_archived"
+
+
+def test_document_approval_requires_explicit_personal_data_confirmation(client, db_session):
+    admin = _make_account(db_session, "privacy-admin@test.dev", "Administrator")
+    headers = _headers(client, admin.email)
+    document_id = _upload(client, headers, b"Synthetic course text about query clauses.").json()["document_id"]
+    url = f"{BASE}/{document_id}/approve"
+
+    missing = client.post(url, headers=headers)
+    assert missing.status_code == 422
+    assert missing.json()["error"]["code"] == "validation_error"
+    implicit = client.post(url, headers=headers, json={"confirm_no_personal_data": 1})
+    assert implicit.status_code == 422
+    assert db_session.get(CourseDocument, document_id).status == "draft"
+
+    approved = client.post(url, headers=headers, json={"confirm_no_personal_data": True})
+    assert approved.status_code == 200
+    document = db_session.get(CourseDocument, document_id)
+    assert document.status == "approved"
+    assert document.approved_by == admin.account_id and document.approved_at is not None
 
 
 def test_document_text_is_stored_as_data_and_no_model_is_called(client, db_session, monkeypatch):

@@ -1305,6 +1305,25 @@ class DocumentCloSelection(BaseModel):
     clo_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(default_factory=list, max_length=50)
 
 
+class DocumentApprovalRequest(BaseModel):
+    """Explicit admin confirmation required before a document can generate drafts.
+
+    The confirmation event is recorded on approval through the existing
+    ``approved_by`` (admin id) and ``approved_at`` (timestamp) columns; no new
+    migration is needed.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    confirm_no_personal_data: Literal[True]
+
+    @field_validator("confirm_no_personal_data", mode="before")
+    @classmethod
+    def explicit_confirmation(cls, value):
+        if type(value) is not bool or value is not True:
+            raise ValueError("An explicit 'no personal data' confirmation is required")
+        return value
+
+
 class DocumentCandidateGenerateRequest(BaseModel):
     """Draft questions from explicitly selected, approved chunks for one CLO."""
 

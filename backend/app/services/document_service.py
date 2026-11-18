@@ -388,7 +388,20 @@ def get_document(db: Session, document_id: int) -> DocumentDetail:
     return _detail(_get(document_id, db))
 
 
-def approve_document(db: Session, document_id: int, admin) -> DocumentDetail:
+def approve_document(db: Session, document_id: int, admin, confirmation) -> DocumentDetail:
+    """Approve for generation; the confirmation flag is required at the API.
+
+    Automated redaction is best-effort and cannot guarantee that names are
+    absent, so the administrator's explicit 'no personal data' confirmation is
+    the safeguard. ``approved_by``/``approved_at`` record which admin confirmed
+    and when; no new column or migration is required.
+    """
+    if not confirmation.confirm_no_personal_data:
+        raise AppError(
+            422,
+            "personal_data_confirmation_required",
+            "Confirm the document contains no personal data before approval",
+        )
     repo = DocumentRepository(db)
     document = _get(document_id, db)
     if document.status == "archived":

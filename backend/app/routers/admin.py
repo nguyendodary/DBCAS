@@ -34,6 +34,7 @@ from ..schemas import (
     ConceptUpdateRequest,
     ConceptUpsertRequest,
     DocumentCandidateGenerateRequest,
+    DocumentApprovalRequest,
     DocumentCloSelection,
     DocumentDetail,
     DocumentSummary,
@@ -598,10 +599,17 @@ def get_document(
 @router.post("/documents/{document_id}/approve", response_model=DocumentDetail)
 def approve_document(
     document_id: int,
+    payload: DocumentApprovalRequest,
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
-    return document_service.approve_document(db, document_id, admin)
+    """Approve a document for generation after an explicit privacy confirmation.
+
+    Redaction is best-effort only, so the administrator must confirm the
+    document contains no personal data. The confirmation is recorded with the
+    approving admin id and timestamp on the document row.
+    """
+    return document_service.approve_document(db, document_id, admin, payload)
 
 
 @router.post("/documents/{document_id}/archive", response_model=DocumentDetail)
