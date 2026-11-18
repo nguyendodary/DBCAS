@@ -2205,9 +2205,25 @@
         "title": "DimensionMetric",
         "type": "object"
       },
+      "DocumentApprovalRequest": {
+        "additionalProperties": false,
+        "description": "Explicit admin confirmation required before a document can generate drafts.\n\nThe confirmation event is recorded on approval through the existing\n``approved_by`` (admin id) and ``approved_at`` (timestamp) columns; no new\nmigration is needed.",
+        "properties": {
+          "confirm_no_personal_data": {
+            "const": true,
+            "title": "Confirm No Personal Data",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "confirm_no_personal_data"
+        ],
+        "title": "DocumentApprovalRequest",
+        "type": "object"
+      },
       "DocumentCandidateGenerateRequest": {
         "additionalProperties": false,
-        "description": "Draft questions from approved chunks linked to one CLO.",
+        "description": "Draft questions from explicitly selected, approved chunks for one CLO.",
         "properties": {
           "clo_id": {
             "exclusiveMinimum": 0.0,
@@ -2242,6 +2258,7 @@
               "type": "integer"
             },
             "maxItems": 20,
+            "minItems": 1,
             "title": "Document Ids",
             "type": "array"
           },
@@ -2279,6 +2296,7 @@
         "required": [
           "clo_id",
           "concept_id",
+          "document_ids",
           "question_type"
         ],
         "title": "DocumentCandidateGenerateRequest",
@@ -5410,6 +5428,32 @@
             "title": "Candidate Id",
             "type": "integer"
           },
+          "citation_support": {
+            "anyOf": [
+              {
+                "enum": [
+                  "ok",
+                  "weak"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Citation Support"
+          },
+          "citation_warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Citation Warning"
+          },
           "concept_code": {
             "anyOf": [
               {
@@ -5456,6 +5500,17 @@
           "question_type": {
             "title": "Question Type",
             "type": "string"
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote"
           },
           "validation_detail": {
             "anyOf": [
@@ -11297,7 +11352,7 @@
     },
     "/api/v1/admin/document-candidates/generate": {
       "post": {
-        "description": "Draft questions from approved document chunks for one confirmed CLO.\n\nEach draft carries a CLO and a verbatim chunk citation and stays outside the\nbank until an administrator approves it through the candidate review flow.",
+        "description": "Draft questions from selected, approved chunks for one confirmed CLO.\n\nThe 500 ms standard-request target does not apply to this LLM-backed flow.\nRetrieval and generation are bounded, the blocking work runs in a worker\nthread so the event loop stays responsive, and a disconnected client is\nobserved through ``cancel`` so the work stops at the next phase boundary.\nEach draft carries a CLO and a verbatim chunk citation and stays outside the\nbank until an administrator approves it through the candidate review flow.",
         "operationId": "generate_document_candidates_api_v1_admin_document_candidates_generate_post",
         "parameters": [],
         "requestBody": {
@@ -11881,6 +11936,7 @@
     },
     "/api/v1/admin/documents/{document_id}/approve": {
       "post": {
+        "description": "Approve a document for generation after an explicit privacy confirmation.\n\nRedaction is best-effort only, so the administrator must confirm the\ndocument contains no personal data. The confirmation is recorded with the\napproving admin id and timestamp on the document row.",
         "operationId": "approve_document_api_v1_admin_documents__document_id__approve_post",
         "parameters": [
           {
@@ -11893,6 +11949,16 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentApprovalRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "content": {
