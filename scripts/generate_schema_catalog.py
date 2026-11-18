@@ -192,7 +192,10 @@ def render_dot(catalog: dict, relationships: list[dict], header: str) -> str:
     """Render the physical ERD exactly as the committed model was drawn."""
     lines = [
         "digraph schema {",
-        'graph [rankdir=LR,bgcolor="white",pad="0.5",nodesep="0.5",ranksep="1.2",fontname="Arial",fontsize=22]; '
+        # splines=curved + xlabel keeps every port-qualified FK edge routable on
+        # dense catalogs; dot's straight spline router loses edges when many FKs
+        # converge on a single column port (PR 3A added 30 such edges).
+        'graph [rankdir=LR,splines=curved,bgcolor="white",pad="0.5",nodesep="0.5",ranksep="1.2",fontname="Arial",fontsize=22]; '
         'node [shape=box,style="rounded,filled",fillcolor="#EFF5FB",color="#1F3864",fontname="Arial",fontsize=13,margin="0.16"]; '
         'edge [color="#2E75B6",fontname="Arial",fontsize=11];',
         f'graph [label="{header}\\n{len(catalog["tables"])} real tables; every declared foreign key; '
@@ -216,7 +219,7 @@ def render_dot(catalog: dict, relationships: list[dict], header: str) -> str:
             label = f'{edge["id"]} {", ".join(edge["columns"])}' + (f' {action.group(0)}' if action else "")
             lines.append(f'"{edge["source"]}":"{edge["columns"][0]}" -> '
                          f'"{edge["destination"]}":"{edge["reference_columns"][0]}" '
-                         f'[id="{edge["id"]}",label="{label}",'
+                         f'[id="{edge["id"]}",xlabel="{label}",'
                          f'taillabel="{edge["children_per_parent"]}",headlabel="{edge["parent_per_child"]}",'
                          f'tooltip="{edge["constraint"]}"];')
     lines.append("}")

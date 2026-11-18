@@ -233,6 +233,7 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "023_document_grounding.sql",
                 "024_tab_leave_guard.sql",
                 "025_session_purpose.sql",
+                "026_pr3a_database_foundation.sql",
             ]
             assert apply_migrations(conn) == []
         finally:

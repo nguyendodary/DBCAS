@@ -41,8 +41,8 @@ What the v1.2 documents state (all verifiable in the repository):
   Single-use handoffs issue rotating access/refresh sessions.
 - Admin navigation has five destinations: Cohort overview, Grading, Accounts,
   Questions, System.
-- PostgreSQL 17: 47 tables, 351 columns, 70 foreign keys, 106 indexes,
-  0 enum types, 25 migrations. Four legacy/retired tables are marked, never
+- PostgreSQL 17: 62 tables, 495 columns, 100 foreign keys, 143 indexes,
+  0 enum types, 26 migrations. Four legacy/retired tables are marked, never
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
 - 6 Compose services (7 with QA-only `qa-ai`; the opt-in real-QA run reuses

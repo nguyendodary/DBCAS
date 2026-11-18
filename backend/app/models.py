@@ -5,7 +5,7 @@ models declare the corresponding data-access types and principal constraints;
 DDL-only operational indexes are intentional and checked by migration tests.
 """
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Optional
 from uuid import UUID
@@ -776,6 +776,9 @@ class LlmCache(Base):
     model: Mapped[str] = mapped_column(String(50))
     response: Mapped[dict] = mapped_column(JSONB)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(timezone.utc) + timedelta(days=60)
+    )
 
 
 class OAuthHandoff(Base):
@@ -934,3 +937,370 @@ class AssessmentQuestion(Base):
 
     assessment_id: Mapped[int] = mapped_column(ForeignKey("assessment.assessment_id", ondelete="CASCADE"), primary_key=True)
     question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"), primary_key=True)
+
+
+class QuestionRubricProfile(Base):
+    __tablename__ = "question_rubric_profile"
+    __table_args__ = (
+        UniqueConstraint("question_id", "version_no"),
+        UniqueConstraint("question_id", "rubric_profile_id"),
+        CheckConstraint("version_no > 0"),
+        CheckConstraint("status IN ('active','retired')"),
+    )
+
+    rubric_profile_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
+    version_no: Mapped[int] = mapped_column(SmallInteger)
+    status: Mapped[str] = mapped_column(String(10))
+    profile_hash: Mapped[str] = mapped_column(String(64))
+    created_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    retired_at: Mapped[Optional[datetime]]
+
+
+class QuestionRubricCriterion(Base):
+    __tablename__ = "question_rubric_criterion"
+    __table_args__ = (
+        UniqueConstraint("rubric_profile_id", "criterion_code"),
+        UniqueConstraint("rubric_profile_id", "sort_order"),
+        CheckConstraint("max_points > 0"),
+        CheckConstraint("sort_order > 0"),
+    )
+
+    criterion_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    rubric_profile_id: Mapped[int] = mapped_column(
+        ForeignKey("question_rubric_profile.rubric_profile_id")
+    )
+    criterion_code: Mapped[str] = mapped_column(String(40))
+    criterion_name: Mapped[str] = mapped_column(String(120))
+    description: Mapped[str] = mapped_column(Text)
+    scoring_guidance: Mapped[str] = mapped_column(Text)
+    max_points: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    sort_order: Mapped[int] = mapped_column(SmallInteger)
+    criterion_hash: Mapped[str] = mapped_column(String(64))
+
+
+class AttemptRubricCriterion(Base):
+    __tablename__ = "attempt_rubric_criterion"
+    __table_args__ = (
+        UniqueConstraint("session_id", "attempt_id", "criterion_snapshot_id"),
+        UniqueConstraint("attempt_id", "criterion_id"),
+        ForeignKeyConstraint(
+            ["session_id", "attempt_id"], ["attempt.session_id", "attempt.attempt_id"]
+        ),
+        ForeignKeyConstraint(
+            ["question_id", "rubric_profile_id"],
+            ["question_rubric_profile.question_id", "question_rubric_profile.rubric_profile_id"],
+        ),
+    )
+
+    criterion_snapshot_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    attempt_id: Mapped[int]
+    question_id: Mapped[int]
+    rubric_profile_id: Mapped[int]
+    criterion_id: Mapped[int] = mapped_column(
+        ForeignKey("question_rubric_criterion.criterion_id")
+    )
+    criterion_code: Mapped[str] = mapped_column(String(40))
+    criterion_name: Mapped[str] = mapped_column(String(120))
+    description: Mapped[str] = mapped_column(Text)
+    scoring_guidance: Mapped[str] = mapped_column(Text)
+    max_points: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    sort_order: Mapped[int] = mapped_column(SmallInteger)
+    profile_snapshot_hash: Mapped[str] = mapped_column(String(64))
+    criterion_hash: Mapped[str] = mapped_column(String(64))
+
+
+class SessionResultVersion(Base):
+    __tablename__ = "session_result_version"
+    __table_args__ = (
+        UniqueConstraint("session_id", "version_no"),
+        UniqueConstraint("session_id", "result_version_id"),
+        CheckConstraint("version_no >= 1"),
+        CheckConstraint("total_score >= 0 AND total_score <= max_score"),
+        CheckConstraint("source IN ('V1','V2')"),
+        CheckConstraint("source = 'V1' OR approved_by IS NOT NULL"),
+    )
+
+    result_version_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"))
+    version_no: Mapped[int]
+    source: Mapped[str] = mapped_column(String(10))
+    supersedes_version_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("session_result_version.result_version_id")
+    )
+    total_score: Mapped[Decimal] = mapped_column(Numeric(7, 2))
+    max_score: Mapped[Decimal] = mapped_column(Numeric(7, 2))
+    result_hash: Mapped[str] = mapped_column(String(64))
+    approved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    approved_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    approved_draft_hash: Mapped[Optional[str]] = mapped_column(String(64))
+    approved_review_revision: Mapped[int] = mapped_column(default=0)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class SessionResultVersionScore(Base):
+    __tablename__ = "session_result_version_score"
+    __table_args__ = (
+        UniqueConstraint("session_id", "result_version_id", "attempt_id"),
+        ForeignKeyConstraint(
+            ["session_id", "result_version_id"],
+            ["session_result_version.session_id", "session_result_version.result_version_id"],
+        ),
+        ForeignKeyConstraint(
+            ["session_id", "attempt_id"], ["attempt.session_id", "attempt.attempt_id"]
+        ),
+        CheckConstraint("score >= 0 AND score <= max_score"),
+        CheckConstraint("source IN ('MACHINE','AI2','REVIEW','REGRADE')"),
+    )
+
+    version_score_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    result_version_id: Mapped[int]
+    attempt_id: Mapped[int]
+    score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    max_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    source: Mapped[str] = mapped_column(String(20))
+
+
+class SessionResultCriterionScore(Base):
+    __tablename__ = "session_result_criterion_score"
+    __table_args__ = (
+        UniqueConstraint("session_id", "result_version_id", "attempt_id", "criterion_snapshot_id"),
+        ForeignKeyConstraint(
+            ["session_id", "result_version_id", "attempt_id"],
+            [
+                "session_result_version_score.session_id",
+                "session_result_version_score.result_version_id",
+                "session_result_version_score.attempt_id",
+            ],
+        ),
+        ForeignKeyConstraint(
+            ["session_id", "attempt_id", "criterion_snapshot_id"],
+            [
+                "attempt_rubric_criterion.session_id",
+                "attempt_rubric_criterion.attempt_id",
+                "attempt_rubric_criterion.criterion_snapshot_id",
+            ],
+        ),
+        CheckConstraint("score >= 0 AND score <= max_points"),
+    )
+
+    criterion_score_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    result_version_id: Mapped[int]
+    attempt_id: Mapped[int]
+    criterion_snapshot_id: Mapped[int]
+    score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    max_points: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    comment: Mapped[Optional[str]] = mapped_column(String(2000))
+
+
+class SessionResultPublication(Base):
+    __tablename__ = "session_result_publication"
+    __table_args__ = (
+        UniqueConstraint("session_id", "result_version_id"),
+        ForeignKeyConstraint(
+            ["session_id", "result_version_id"],
+            ["session_result_version.session_id", "session_result_version.result_version_id"],
+        ),
+        CheckConstraint(
+            "state IN ('APPROVED_PENDING_ANALYSIS','ANALYSIS_FAILED','OFFICIAL')"
+        ),
+        CheckConstraint("state_revision >= 0"),
+    )
+
+    result_version_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    state: Mapped[str] = mapped_column(String(30))
+    state_revision: Mapped[int] = mapped_column(default=0)
+    published_at: Mapped[Optional[datetime]]
+    analysis_failed_at: Mapped[Optional[datetime]]
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    updated_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+
+
+class AiStageRun(Base):
+    __tablename__ = "ai_stage_run"
+    __table_args__ = (
+        UniqueConstraint("stage_run_id", "session_id"),
+        UniqueConstraint("session_id", "scope_key", "stage", "execution_run_no"),
+        CheckConstraint("scope_key = 'v1' OR scope_key ~ '^v2:[1-9][0-9]*$'"),
+        CheckConstraint("stage IN ('AI1','AI2')"),
+        CheckConstraint("run_mode IN ('V1_GRADING','V2_ANALYSIS')"),
+        CheckConstraint("status IN ('PENDING','PROCESSING','RETRY_WAIT','COMPLETED','FAILED','CANCELLED')"),
+        CheckConstraint("attempt_count BETWEEN 0 AND 3"),
+        CheckConstraint("execution_run_no >= 1"),
+        CheckConstraint(
+            "(scope_key = 'v1' AND run_mode = 'V1_GRADING') OR "
+            "(scope_key ~ '^v2:[1-9][0-9]*$' AND run_mode = 'V2_ANALYSIS')"
+        ),
+        CheckConstraint(
+            "(stage = 'AI1' AND predecessor_validation_id IS NULL) OR "
+            "(stage = 'AI2' AND predecessor_validation_id IS NOT NULL)"
+        ),
+    )
+
+    stage_run_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int] = mapped_column(ForeignKey("assessment_session.session_id"))
+    scope_key: Mapped[str] = mapped_column(String(40))
+    stage: Mapped[str] = mapped_column(String(3))
+    run_mode: Mapped[str] = mapped_column(String(20))
+    result_version_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("session_result_version.result_version_id")
+    )
+    execution_run_no: Mapped[int]
+    recovery_of_run_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("ai_stage_run.stage_run_id")
+    )
+    recovery_authorized_by: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("account.account_id")
+    )
+    recovery_reason: Mapped[Optional[str]] = mapped_column(String(1000))
+    predecessor_validation_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("ai_stage_validation.validation_id")
+    )
+    status: Mapped[str] = mapped_column(String(20))
+    attempt_count: Mapped[int] = mapped_column(default=0)
+    input_hash: Mapped[str] = mapped_column(String(64))
+    output_hash: Mapped[Optional[str]] = mapped_column(String(64))
+    last_error_code: Mapped[Optional[str]] = mapped_column(String(80))
+    available_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    lease_until: Mapped[Optional[datetime]]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    started_at: Mapped[Optional[datetime]]
+    finished_at: Mapped[Optional[datetime]]
+
+
+class AiStageValidation(Base):
+    __tablename__ = "ai_stage_validation"
+    __table_args__ = (
+        UniqueConstraint("stage_run_id"),
+        ForeignKeyConstraint(
+            ["stage_run_id", "session_id"], ["ai_stage_run.stage_run_id", "ai_stage_run.session_id"]
+        ),
+        CheckConstraint("status IN ('VALID','INVALID')"),
+    )
+
+    validation_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    stage_run_id: Mapped[int]
+    validator_version: Mapped[str] = mapped_column(String(40))
+    input_hash: Mapped[str] = mapped_column(String(64))
+    output_hash: Mapped[str] = mapped_column(String(64))
+    status: Mapped[str] = mapped_column(String(10))
+    validated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class AiStageAttempt(Base):
+    __tablename__ = "ai_stage_attempt"
+    __table_args__ = (
+        UniqueConstraint("session_id", "stage_run_id", "attempt_no"),
+        ForeignKeyConstraint(
+            ["stage_run_id", "session_id"], ["ai_stage_run.stage_run_id", "ai_stage_run.session_id"]
+        ),
+        CheckConstraint("attempt_no BETWEEN 1 AND 3"),
+        CheckConstraint("status IN ('STARTED','SUCCEEDED','FAILED')"),
+    )
+
+    stage_attempt_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    stage_run_id: Mapped[int]
+    attempt_no: Mapped[int]
+    status: Mapped[str] = mapped_column(String(20))
+    input_hash: Mapped[str] = mapped_column(String(64))
+    output_hash: Mapped[Optional[str]] = mapped_column(String(64))
+    error_code: Mapped[Optional[str]] = mapped_column(String(80))
+    started_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    finished_at: Mapped[Optional[datetime]]
+
+
+class AiPromptRecord(Base):
+    __tablename__ = "ai_prompt_record"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["stage_run_id", "session_id"], ["ai_stage_run.stage_run_id", "ai_stage_run.session_id"]
+        ),
+        CheckConstraint("stage IN ('AI1','AI2')"),
+    )
+
+    prompt_record_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    stage_run_id: Mapped[int]
+    stage: Mapped[str] = mapped_column(String(3))
+    prompt_hash: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+    purged_at: Mapped[Optional[datetime]]
+
+
+class AiPromptContent(Base):
+    __tablename__ = "ai_prompt_content"
+
+    prompt_record_id: Mapped[int] = mapped_column(
+        ForeignKey("ai_prompt_record.prompt_record_id"), primary_key=True
+    )
+    prompt_text: Mapped[Optional[str]] = mapped_column(Text)
+    model_identifier: Mapped[Optional[str]] = mapped_column(String(80))
+
+
+class RetentionPurgeAudit(Base):
+    __tablename__ = "retention_purge_audit"
+    __table_args__ = (
+        CheckConstraint("object_type IN ('PROMPT_CONTENT','LLM_CACHE')"),
+        CheckConstraint("purge_reason IN ('AGE_60_DAYS','MANUAL_ADMIN','MIGRATION_BACKFILL')"),
+    )
+
+    purge_audit_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    object_type: Mapped[str] = mapped_column(String(20))
+    object_id: Mapped[str] = mapped_column(Text)
+    content_hash: Mapped[Optional[str]] = mapped_column(String(64))
+    purged_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    purge_reason: Mapped[str] = mapped_column(String(40))
+    actor: Mapped[str] = mapped_column(String(80))
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class PromptAccessAudit(Base):
+    __tablename__ = "prompt_access_audit"
+    __table_args__ = (
+        CheckConstraint("result IN ('GRANTED','DENIED_EXPIRED','DENIED_PURGED')"),
+    )
+
+    access_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    prompt_record_id: Mapped[int] = mapped_column(
+        ForeignKey("ai_prompt_record.prompt_record_id")
+    )
+    actor_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    result: Mapped[str] = mapped_column(String(20))
+    accessed_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    request_id: Mapped[Optional[UUID]] = mapped_column(PGUUID(as_uuid=True))
+
+
+class SessionResultAnalysis(Base):
+    __tablename__ = "session_result_analysis"
+    __table_args__ = (
+        UniqueConstraint("session_id", "result_version_id"),
+        ForeignKeyConstraint(
+            ["session_id", "result_version_id"],
+            ["session_result_version.session_id", "session_result_version.result_version_id"],
+        ),
+        ForeignKeyConstraint(
+            ["ai1_run_id", "session_id"], ["ai_stage_run.stage_run_id", "ai_stage_run.session_id"]
+        ),
+        ForeignKeyConstraint(
+            ["ai2_run_id", "session_id"], ["ai_stage_run.stage_run_id", "ai_stage_run.session_id"]
+        ),
+        CheckConstraint("analysis_schema_version > 0"),
+    )
+
+    analysis_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int]
+    result_version_id: Mapped[int]
+    ai1_run_id: Mapped[int]
+    ai2_run_id: Mapped[int]
+    analysis_schema_version: Mapped[int]
+    analysis_hash: Mapped[str] = mapped_column(String(64))
+    analysis: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
