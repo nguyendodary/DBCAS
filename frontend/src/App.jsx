@@ -28,6 +28,7 @@ const EvaluationPage = lazy(() => import('./pages/EvaluationPage'))
 const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 const CumulativePage = lazy(() => import('./pages/CumulativePage'))
 const AdminGradingPage = lazy(() => import('./pages/admin/AdminGradingPage'))
+const AdminDocumentsPage = lazy(() => import('./pages/admin/AdminDocumentsPage'))
 
 function RequireAuth({ children }) {
   useLocale()
@@ -115,6 +116,7 @@ export default function App() {
           <Route path="/admin/accounts" element={admin(<AdminAccountsPage />)} />
           <Route path="/admin/grading" element={admin(<AdminGradingPage />)} />
           <Route path="/admin/grading/:reviewSessionId" element={admin(<AdminGradingPage />)} />
+          <Route path="/admin/documents" element={admin(<AdminDocumentsPage />)} />
           <Route path="/admin/learners/:learnerId/competency" element={admin(<CumulativePage />)} />
 
           <Route path="*" element={<Navigate to="/" replace />} />

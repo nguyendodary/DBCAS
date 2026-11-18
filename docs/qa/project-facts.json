@@ -162,6 +162,7 @@
     "/admin",
     "/admin/accounts",
     "/admin/curriculum",
+    "/admin/documents",
     "/admin/grading",
     "/admin/grading/:reviewSessionId",
     "/admin/learners/:learnerId/competency",
@@ -186,6 +187,7 @@
     "/admin/grading",
     "/admin/accounts",
     "/admin/questions",
+    "/admin/documents",
     "/admin/system"
   ],
   "learner_nav": [
