@@ -386,10 +386,25 @@ def _candidate_dto(row: QuestionCandidate) -> QuestionCandidateItem:
 
 
 def _candidate_detail(row: QuestionCandidate) -> QuestionCandidateDetail:
+    payload = row.payload or {}
+    grounding = payload.get("_grounding") if isinstance(payload, dict) else {}
+    grounding = grounding if isinstance(grounding, dict) else {}
+    quote = grounding.get("quote") or (
+        payload.get("quote") if isinstance(payload, dict) else None
+    )
+    support = payload.get("citation_support") if isinstance(payload, dict) else None
+    support = support if support in ("ok", "weak") else None
+    warning = None
+    if support == "weak":
+        from .document_generation import CITATION_WEAK_WARNING
+        warning = CITATION_WEAK_WARNING
     return QuestionCandidateDetail(
         **_candidate_dto(row).model_dump(),
-        payload=row.payload or {},
+        payload=payload,
         validation_detail=row.validation_detail,
+        quote=quote,
+        citation_support=support,
+        citation_warning=warning,
     )
 
 

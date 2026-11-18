@@ -1280,6 +1280,11 @@ class QuestionCandidateItem(BaseModel):
 class QuestionCandidateDetail(QuestionCandidateItem):
     payload: dict
     validation_detail: Optional[dict] = None
+    # Surfaced next to the question so a reviewer can judge the citation
+    # without unpacking the draft payload.
+    quote: Optional[str] = None
+    citation_support: Optional[Literal["ok", "weak"]] = None
+    citation_warning: Optional[str] = None
 
 
 # ---------- admin course documents (migration 023) ----------

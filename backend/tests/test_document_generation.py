@@ -748,3 +748,28 @@ def test_generation_honours_cancellation(db_session):
         )
     assert exc.value.code == "generation_cancelled"
     assert seen == [] and db_session.query(QuestionCandidate).count() == 0
+
+
+def test_citation_support_flags_weak_and_ok_pairs():
+    # The pre-existing SELECT question citing an unrelated WHERE sentence.
+    unrelated = {"prompt": "Which SQL clause chooses result columns?", "quote": QUOTE}
+    supported = {"prompt": "Which SQL clause filters rows before grouping?", "quote": QUOTE}
+    assert document_generation.assess_citation_support(unrelated) == "weak"
+    assert document_generation.assess_citation_support(supported) == "ok"
+
+
+def test_citation_support_is_stored_surfaced_and_never_blocks_approval(db_session):
+    admin, concept, clo, document, chunk = _prepare(db_session)
+    drafts = document_generation.generate(
+        db_session, _payload(concept, clo, document), admin,
+        _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}), None,
+    )
+    candidate = drafts[0]
+    assert candidate.payload["citation_support"] == "weak"
+    assert candidate.quote == QUOTE
+    assert candidate.citation_support == "weak"
+    assert "Confirm the quote supports the question" in candidate.citation_warning
+    # A weak warning is advisory: the draft still validates and can be approved.
+    assert candidate.validation_status == "validated"
+    approved = _approve(db_session, candidate, admin)
+    assert approved.promoted_question_id is not None

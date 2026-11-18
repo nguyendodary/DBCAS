@@ -36,6 +36,28 @@ from .blueprints import DIFFICULTY_BANDS
 from .llm import ChatMessage, LLMError
 from .llm.validation import validate_json_schema
 
+# Lightweight, human-reviewed citation warning. This is a lexical heuristic
+# only: it never approves and never blocks a draft. The administrator decides
+# whether the quote really supports the question.
+CITATION_STOPWORDS = frozenset({
+    "and", "are", "before", "clause", "does", "for", "from", "how", "into",
+    "its", "that", "the", "their", "this", "what", "when", "which",
+    "with", "why", "your",
+})
+CLAUSE_INTENT = {
+    "select": ("select", "columns", "chooses", "projects"),
+    "where": ("where", "filters", "filtering", "predicate", "condition"),
+    "group by": ("group by", "grouping", "aggregates", "aggregate"),
+    "order by": ("order by", "ordering", "sorts", "sorted"),
+    "join": ("join", "joins", "combines"),
+    "having": ("having",),
+    "limit": ("limit", "limits", "top"),
+}
+CITATION_WEAK_WARNING = (
+    "The question text has little overlap with the cited quote, or targets a "
+    "different SQL clause. Confirm the quote supports the question before approving."
+)
+
 VERSION = "document-grounded-v1"
 UNTRUSTED_SOURCE_BEGIN = "<<<UNTRUSTED_SOURCE>>>"
 UNTRUSTED_SOURCE_END = "<<<END_UNTRUSTED_SOURCE>>>"
@@ -387,6 +409,41 @@ def _overlap(field: str, chunk: str) -> int:
     ).size
 
 
+def _normalised_terms(text: str) -> set[str]:
+    return {
+        token for token in re.findall(r"[^\W_]+", str(text or "").casefold())
+        if len(token) >= 3 and token not in CITATION_STOPWORDS
+    }
+
+
+def _clause_intents(text: str) -> set[str]:
+    folded = " ".join(str(text or "").casefold().split())
+    return {
+        clause for clause, markers in CLAUSE_INTENT.items()
+        if any(re.search(r"\b" + re.escape(marker) + r"\b", folded) for marker in markers)
+    }
+
+
+def assess_citation_support(item: dict) -> str:
+    """Return ``ok`` or ``weak`` for a question and its cited quote.
+
+    Deliberately shallow: normalized lexical overlap plus obvious SQL-clause
+    type mismatches. The warning is stored with the draft so an administrator
+    can see it during review; it never auto-approves and never blocks approval.
+    """
+    question = str(item.get("prompt") or "")
+    quote = str(item.get("quote") or "")
+    question_terms = _normalised_terms(question)
+    quote_terms = _normalised_terms(quote)
+    overlap = len(question_terms & quote_terms) / max(1, len(quote_terms))
+    weak = overlap < 0.2
+    question_intents = _clause_intents(question)
+    quote_intents = _clause_intents(quote)
+    if question_intents and quote_intents and not (question_intents & quote_intents):
+        weak = True
+    return "weak" if weak else "ok"
+
+
 def check_evidence(item: dict, chunks: dict) -> tuple[int, int]:
     """Validate the citation and verbatim-copy rules; return quote offsets."""
     if type(item.get("clo_id")) is not int:
@@ -541,6 +598,9 @@ def generate(db, payload, admin, llm, runner, cancel=None):
             "version": VERSION, "request_id": request_id, "admin_id": admin.account_id,
             "model": getattr(getattr(llm, "_settings", None), "llm_model", "injected-provider"),
         }
+        # Advisory only: the administrator still decides whether the quote
+        # supports the question. It is never part of the validation verdict.
+        item["citation_support"] = assess_citation_support(item)
         # Citations stay in the admin-only evidence table after approval; the
         # served question never exposes source text through source_refs.
         item["source_refs"] = []
