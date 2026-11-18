@@ -21,6 +21,7 @@ const ADMIN_LINKS = [
   { to: '/admin/grading', label: 'supervisor.reviewTitle', icon: 'check' },
   { to: '/admin/accounts', label: 'nav.accounts', icon: 'users' },
   { to: '/admin/questions', label: 'nav.bank', icon: 'book' },
+  { to: '/admin/documents', label: 'admin.documents.navLabel', icon: 'file' },
   { to: '/admin/system', label: 'nav.system', icon: 'settings' },
 ]
 

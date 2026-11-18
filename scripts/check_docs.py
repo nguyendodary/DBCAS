@@ -107,7 +107,7 @@ def main():
     check("frontend routes", facts["frontend_routes"] == routes, "App.jsx changed; rerun doc_facts.py")
     layout = (ROOT / "frontend/src/components/Layout.jsx").read_text(encoding="utf-8")
     admin_nav = re.findall(r"to: '(/admin[^']*)'", layout)
-    check("admin nav (5 items)", facts["admin_nav"] == admin_nav and len(admin_nav) == 5)
+    check("admin nav (6 items)", facts["admin_nav"] == admin_nav and len(admin_nav) == 6)
 
     # 4. context model: every node/flow has evidence and valid endpoints
     node_ids = {n["id"] for n in model["nodes"]}
