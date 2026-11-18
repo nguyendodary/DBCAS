@@ -26,9 +26,9 @@ export function postProviderControl(payload) {
   const project = process.env.DBCAS_LOCAL_PROJECT || 'dbcas-local'
   const { executable, prefix } = dockerCommand()
   const code = [
-    'import json,sys,urllib.request',
+    'import sys,urllib.request',
     'req=urllib.request.Request("http://qa-ai:8080/control",',
-    '  data=json.loads(sys.argv[1]).encode(), headers={"Content-Type":"application/json"})',
+    '  data=sys.argv[1].encode(), headers={"Content-Type":"application/json"})',
     'print(urllib.request.urlopen(req, timeout=15).read().decode())',
   ].join('\n')
   const args = [
