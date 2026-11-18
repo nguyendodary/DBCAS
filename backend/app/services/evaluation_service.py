@@ -269,6 +269,43 @@ def _final_view(db, session, data, pending):
     }
 
 
+def _official_view(db, session, data, pending):
+    """AI score made official at finalize (PR 3B-2). No publication wait."""
+    from ..models import SessionResultVersionScore
+    rows = db.execute(
+        select(SessionResultVersionScore.attempt_id,
+               SessionResultVersionScore.score, SessionResultVersionScore.max_score)
+        .where(SessionResultVersionScore.session_id == session.session_id,
+               SessionResultVersionScore.result_version_id
+               == session.current_result_version_id)
+    ).all()
+    earned = sum((Decimal(str(row[1])) for row in rows), Decimal(0))
+    possible = sum((Decimal(str(row[2])) for row in rows), Decimal(0))
+    percentage = ((earned / possible * 100).quantize(Decimal("0.01"),
+                  rounding=ROUND_HALF_UP) if possible else Decimal(0))
+    scores = [{"attempt_id": attempt_id, "score": str(score),
+               "points": str(max_score), "grading_status": "graded"}
+              for attempt_id, score, max_score in rows]
+    snapshot = session.config_snapshot or {}
+    return {
+        "status": "ready", "provisional": False, "final": True,
+        "attempt_count": data["attempt_count"], "pending_count": pending,
+        "dimensions": data["dimensions"], "history": data["history"],
+        "score": {"earned": _metric_text(earned), "possible": _metric_text(possible),
+                  "percentage": float(percentage)},
+        "details_truncated": data["details_truncated"],
+        "input_hash": data.get("input_hash", ""),
+        "result": None, "approved": False, "adjusted": False,
+        "source": "ai", "approved_at": None,
+        "uncovered_concepts": snapshot.get("uncovered_concepts", []),
+        "question_results": _question_results(db, session, scores),
+        "concept_results": _concept_results(db, session, None),
+        "cancel_reason": session.cancel_reason,
+        "cancelled_at": session.cancelled_at,
+        "tab_leave_count": int(session.tab_leave_count or 0),
+    }
+
+
 def _provisional_view(db, session, row, data, pending):
     evaluation = (row.payload or {}).get("evaluation", {})
     snapshot = session.config_snapshot or {}
@@ -299,7 +336,7 @@ def _updating_view(row, data, pending, session):
     }
 
 
-def view(db, learner_id, session_id=None, *, admin=False, retry=False):
+def _view(db, learner_id, session_id=None, *, admin=False, retry=False):
     session = owned_session(db, learner_id, session_id) if session_id else None
     if session and session.status == "in_progress":
         raise AppError(409, "session_in_progress", "Hãy hoàn thành bài trước khi xem đánh giá.")
@@ -332,6 +369,10 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
         process_one(db, force_id=row.evaluation_id, force_fallback=True)
         db.refresh(row)
         data, pending = data_for(db, learner_id, session_id)
+    from .result_version import is_ai_official
+    if (session and session.current_result_version_id is not None
+            and is_ai_official(session)):
+        return _official_view(db, session, data, pending)
     if session and is_practice(session):
         from .grading_review import reconcile
         reconcile(db, session)
@@ -356,6 +397,16 @@ def view(db, learner_id, session_id=None, *, admin=False, retry=False):
     if session and not admin and session.release_status != "published":
         result.update(status="pending", dimensions={}, history=[], result=None, score=None)
     db.commit()
+    return result
+
+
+def view(db, learner_id, session_id=None, *, admin=False, retry=False):
+    """Learner result view decorated with PR 3B-2 result metadata."""
+    from .result_version import version_meta
+    result = _view(db, learner_id, session_id, admin=admin, retry=retry)
+    session = owned_session(db, learner_id, session_id) if session_id else None
+    if isinstance(result, dict) and session is not None:
+        result.update(version_meta(db, session))
     return result
 
 

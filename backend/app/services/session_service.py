@@ -24,6 +24,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
     """Shared by the learner endpoint and the admin drill-down."""
     from .adaptive_engine import progress
     from .continuous_adaptive import estimate
+    from .result_version import version_meta
     repo = AssessmentRepository(db)
     sessions = repo.sessions_for_learner(learner_id)
     grouped = defaultdict(list)
@@ -78,6 +79,7 @@ def sessions_for_learner_id(db: Session, learner_id: int) -> list[SessionSummary
                 tab_leave_count=int(s.tab_leave_count or 0),
                 cancelled_at=s.cancelled_at,
                 cancel_reason=s.cancel_reason,
+                **version_meta(db, s),
             )
         )
     return items

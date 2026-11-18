@@ -3045,6 +3045,11 @@
             "title": "Attempt Count",
             "type": "integer"
           },
+          "can_request_review": {
+            "default": false,
+            "title": "Can Request Review",
+            "type": "boolean"
+          },
           "cancel_reason": {
             "anyOf": [
               {
@@ -3113,6 +3118,11 @@
             "title": "Input Hash",
             "type": "string"
           },
+          "is_current": {
+            "default": false,
+            "title": "Is Current",
+            "type": "boolean"
+          },
           "pending_count": {
             "title": "Pending Count",
             "type": "integer"
@@ -3139,6 +3149,28 @@
                 "type": "null"
               }
             ]
+          },
+          "result_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Version"
+          },
+          "review_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Status"
           },
           "score": {
             "anyOf": [
@@ -4704,6 +4736,11 @@
             "title": "Answered Count",
             "type": "integer"
           },
+          "can_request_review": {
+            "default": false,
+            "title": "Can Request Review",
+            "type": "boolean"
+          },
           "cancel_reason": {
             "anyOf": [
               {
@@ -4729,9 +4766,36 @@
             "title": "Flagged Count",
             "type": "integer"
           },
+          "is_current": {
+            "default": false,
+            "title": "Is Current",
+            "type": "boolean"
+          },
           "next": {
             "title": "Next",
             "type": "string"
+          },
+          "result_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Version"
+          },
+          "review_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Status"
           },
           "status": {
             "title": "Status",
@@ -7042,6 +7106,11 @@
             "title": "Bank Mixed",
             "type": "boolean"
           },
+          "can_request_review": {
+            "default": false,
+            "title": "Can Request Review",
+            "type": "boolean"
+          },
           "coverage_notice": {
             "anyOf": [
               {
@@ -7094,6 +7163,11 @@
           "generation_fallback": {
             "default": false,
             "title": "Generation Fallback",
+            "type": "boolean"
+          },
+          "is_current": {
+            "default": false,
+            "title": "Is Current",
             "type": "boolean"
           },
           "locale": {
@@ -7153,6 +7227,28 @@
             ],
             "title": "Result Release Policy",
             "type": "string"
+          },
+          "result_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Version"
+          },
+          "review_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Status"
           },
           "runner_mode": {
             "anyOf": [
@@ -7312,6 +7408,11 @@
             "title": "Assessment Title",
             "type": "string"
           },
+          "can_request_review": {
+            "default": false,
+            "title": "Can Request Review",
+            "type": "boolean"
+          },
           "cancel_reason": {
             "anyOf": [
               {
@@ -7368,6 +7469,11 @@
             "default": 0,
             "title": "Graded Count",
             "type": "integer"
+          },
+          "is_current": {
+            "default": false,
+            "title": "Is Current",
+            "type": "boolean"
           },
           "locale": {
             "default": "en",
@@ -7429,6 +7535,28 @@
             ],
             "title": "Result Release Policy",
             "type": "string"
+          },
+          "result_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Version"
+          },
+          "review_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Status"
           },
           "runner_mode": {
             "anyOf": [

@@ -115,6 +115,10 @@ class EvaluationView(BaseModel):
     cancel_reason: str | None = None
     cancelled_at: datetime | None = None
     tab_leave_count: int = 0
+    result_version: int | None = None
+    is_current: bool = False
+    review_status: str | None = None
+    can_request_review: bool = False
 
 
 class AwaitingApproval(BaseModel):
