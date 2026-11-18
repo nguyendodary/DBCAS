@@ -278,15 +278,24 @@ def test_document_approval_requires_explicit_personal_data_confirmation(client, 
     missing = client.post(url, headers=headers)
     assert missing.status_code == 422
     assert missing.json()["error"]["code"] == "validation_error"
+    explicit_false = client.post(url, headers=headers, json={"confirm_no_personal_data": False})
+    assert explicit_false.status_code == 422
     implicit = client.post(url, headers=headers, json={"confirm_no_personal_data": 1})
     assert implicit.status_code == 422
+    db_session.expire_all()
     assert db_session.get(CourseDocument, document_id).status == "draft"
 
     approved = client.post(url, headers=headers, json={"confirm_no_personal_data": True})
     assert approved.status_code == 200
-    document = db_session.get(CourseDocument, document_id)
-    assert document.status == "approved"
-    assert document.approved_by == admin.account_id and document.approved_at is not None
+    # The confirmation is recorded by the approval event itself: the approving
+    # admin id and timestamp persist on course_document, not just in the body.
+    from app.db import get_session_factory
+
+    with get_session_factory()() as fresh:
+        document = fresh.get(CourseDocument, document_id)
+        assert document.status == "approved"
+        assert document.approved_by == admin.account_id
+        assert document.approved_at is not None
 
 
 def test_document_text_is_stored_as_data_and_no_model_is_called(client, db_session, monkeypatch):
