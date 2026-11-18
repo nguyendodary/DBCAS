@@ -50,9 +50,8 @@ try {
     cwd: root, env, stdio: ['ignore', eventsFd, eventsFd], windowsHide: true,
   })
   eventsProcess.unref?.()
-  const extraArgs = env.DBCAS_QA_PLAYWRIGHT_ARGS ? env.DBCAS_QA_PLAYWRIGHT_ARGS.split(' ').filter(Boolean) : []
   try {
-    run(process.execPath, [path.join(root, 'frontend/node_modules/@playwright/test/cli.js'), 'test', '--config', 'playwright.practice.config.js', `--repeat-each=${count}`, ...extraArgs], { cwd: path.join(root, 'frontend') })
+    run(process.execPath, [path.join(root, 'frontend/node_modules/@playwright/test/cli.js'), 'test', '--config', 'playwright.practice.config.js', `--repeat-each=${count}`], { cwd: path.join(root, 'frontend') })
   } finally {
     try { eventsProcess.kill('SIGTERM') } catch { /* already exited */ }
     try { fs.writeSync(eventsFd, `# end ${new Date().toISOString()}\n`); fs.closeSync(eventsFd) } catch { /* best effort */ }

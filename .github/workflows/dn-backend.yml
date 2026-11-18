@@ -329,7 +329,6 @@ jobs:
         if: matrix.kind == 'qa'
         env:
           DBCAS_QA_LOAD: ${{ matrix.qa_load }}
-          DBCAS_QA_PLAYWRIGHT_ARGS: '--grep=AI-generated'
         run: node scripts/browser-qa.mjs 1
       - name: Upload QA docker events
         if: always() && matrix.kind == 'qa'
