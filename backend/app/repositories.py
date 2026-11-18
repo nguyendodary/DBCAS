@@ -490,7 +490,7 @@ class AssessmentRepository:
     def create_session(
         self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
         result_release_policy="HUMAN_VERIFIED", start_request_id=None, blueprint_id=None,
-        purpose="PRACTICE",
+        purpose="PRACTICE", review_policy="LEGACY",
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
@@ -500,6 +500,7 @@ class AssessmentRepository:
             purpose=purpose, purpose_source="SERVER",
             result_release_policy=result_release_policy, release_status="unsubmitted",
             start_request_id=start_request_id, blueprint_id=blueprint_id,
+            review_policy=review_policy,
         )
         if started_at is not None:
             session.started_at = started_at

@@ -591,6 +591,11 @@ class AssessmentSession(Base):
     )
     review_revision: Mapped[int] = mapped_column(default=0)
     published_at: Mapped[Optional[datetime]]
+    # PR 3B-2: FIXED TEST sessions use the AI result as the official version.
+    review_policy: Mapped[str] = mapped_column(
+        String(20), default="LEGACY", server_default="LEGACY"
+    )
+    current_result_version_id: Mapped[Optional[int]]
     tab_leave_count: Mapped[int] = mapped_column(default=0, server_default="0")
     cancelled_at: Mapped[Optional[datetime]]
     cancel_reason: Mapped[Optional[str]] = mapped_column(String(40))

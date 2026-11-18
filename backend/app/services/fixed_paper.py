@@ -313,6 +313,7 @@ def report_tab_leave(db, session_id, learner, payload: PaperTabLeaveRequest) -> 
 
 
 def _summary(repo, session) -> PaperSubmitResult:
+    from .result_version import version_meta
     attempts = repo.session_attempts(session.session_id)
     answered = sum(_has_answer(a) for a in attempts)
     return PaperSubmitResult(
@@ -325,6 +326,7 @@ def _summary(repo, session) -> PaperSubmitResult:
         next=f"/evaluations/{session.session_id}",
         cancelled=session.status == "cancelled",
         cancel_reason=session.cancel_reason,
+        **version_meta(repo.db, session),
     )
 
 

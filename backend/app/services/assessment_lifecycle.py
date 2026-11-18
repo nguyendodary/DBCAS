@@ -226,8 +226,14 @@ def finalize(db, session, *, timed_out=False):
     db.flush()
     from .competency_service import detect_session_gaps
     detect_session_gaps(db, session, commit=False)
-    from .grading_review import reconcile
+    from .grading_review import reconcile, transition
     reconcile(db, session)
+    from .result_version import ensure_official_v1
+    ensure_official_v1(db, session)
+    if (getattr(session, "review_policy", "LEGACY") == "AI_OFFICIAL_REVIEW"
+            and session.current_result_version_id is not None):
+        # V1 is OFFICIAL at finalize: the learner sees the AI score now.
+        transition(db, session, "published")
     # Empty evidence/pending grades still need a durable finalization. Keep
     # session, drafts, jobs, competency and gaps inside the same transaction.
     db.commit()

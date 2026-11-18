@@ -261,6 +261,11 @@ class SessionSummary(BaseModel):
     tab_leave_count: int = 0
     cancelled_at: Optional[datetime] = None
     cancel_reason: Optional[str] = None
+    # PR 3B-2 result metadata; defaulted so LEGACY responses stay identical.
+    result_version: Optional[int] = None
+    is_current: bool = False
+    review_status: Optional[str] = None
+    can_request_review: bool = False
 
 
 # ---------- assessment / grading ----------
@@ -1023,6 +1028,10 @@ class SessionStateResult(BaseModel):
     answered_count: int
     current_question: Optional[ServedQuestion] = None
     done: bool  # finalized or max_questions reached
+    result_version: Optional[int] = None
+    is_current: bool = False
+    review_status: Optional[str] = None
+    can_request_review: bool = False
 
 
 class SubmissionResult(BaseModel):
@@ -1170,6 +1179,10 @@ class PaperSubmitResult(BaseModel):
     next: str
     cancelled: bool = False
     cancel_reason: Optional[str] = None
+    result_version: Optional[int] = None
+    is_current: bool = False
+    review_status: Optional[str] = None
+    can_request_review: bool = False
 
 
 class EvidenceRubric(BaseModel):
