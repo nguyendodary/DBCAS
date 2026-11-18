@@ -323,6 +323,40 @@ def test_non_admin_gets_403_without_access_audit(client, db_session):
     assert db_session.query(PromptAccessAudit).count() == 0
 
 
+def test_unauthenticated_and_denied_responses_never_leak_prompt_text(client, db_session, caplog):
+    _, session_id = _seed_session(db_session)
+    marker = "PROMPT-SECRET-LEAK-CHECK-9c1f"
+    ai1 = _service(db_session, StubLLM()).run_ai1(
+        session_id=session_id, data=DATA, admin_reason=f"Lý do: {marker}",
+    )
+    record, content = _prompt_for(db_session, ai1.stage_run_id)
+    assert marker in content.prompt_text
+    url = f"/api/v1/admin/prompts/{record.prompt_record_id}"
+
+    with caplog.at_level(logging.INFO, logger="dbcas.ai.stages"):
+        unauth = client.get(url)
+        assert unauth.status_code == 401
+        assert unauth.json()["error"]["code"] == "missing_token"
+        assert marker not in unauth.text
+
+        learner = client.get(url, headers=_learner_headers(client))
+        assert learner.status_code == 403
+        assert marker not in learner.text
+
+        record.created_at = utcnow() - timedelta(days=61)
+        record.expires_at = utcnow() - timedelta(seconds=1)
+        db_session.commit()
+        expired = client.get(url, headers=_admin_headers(client, db_session))
+        assert expired.status_code == 404
+        assert marker not in expired.text
+        assert "prompt_text" not in expired.text
+
+    assert marker not in caplog.text
+    # Only the denied administrator read is audited; role/token denials are not.
+    rows = db_session.query(PromptAccessAudit).all()
+    assert [row.result for row in rows] == ["DENIED_EXPIRED"]
+
+
 def test_injection_in_learner_text_and_admin_reason_is_data_only():
     reason = f"{INJECTION} Lý do duyệt."
     prompt, prompt_hash, _ = build_server_prompt({"items": [{"answer": INJECTION}]}, reason)
