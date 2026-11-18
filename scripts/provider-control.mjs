@@ -45,9 +45,10 @@ function describe(result) {
 // Runs only after a failed control POST. Never touches the success path, so a
 // healthy suite pays no extra cost. Every probe is bounded and failure of a
 // probe is reported, never allowed to replace the original error.
-function collectDiagnostics(project, docker) {
+function collectDiagnostics(project, docker, argv) {
   const lines = []
   const add = (label, result) => lines.push(`${label}: ${describe(result)}`)
+  lines.push(`failing compose argv: ${JSON.stringify([docker.executable, ...argv])}`)
   const now = Date.now()
   const since = new Date(now - 5 * 60_000).toISOString()
   const until = new Date(now + 2_000).toISOString()
@@ -78,7 +79,53 @@ function collectDiagnostics(project, docker) {
       else add(`${label} container id`, idResult)
     }
     const provider = (providerId.stdout || '').trim()
-    if (provider) add('qa-ai logs (tail 50)', probe(docker, ['logs', '--tail', '50', provider]))
+    if (provider) add('qa-ai logs (tail 50, by id)', probe(docker, ['logs', '--tail', '50', provider]))
+
+    // Raw Docker view (no Compose service lookup) and inspection by the real
+    // container name distinguish "not running" from "Compose cannot see it".
+    const psFormat = '{{.ID}}\t{{.Names}}\t{{.Status}}\t{{.CreatedAt}}\t{{.Ports}}'
+    add(
+      `docker ps -a --filter name=${project}-qa-ai-1`,
+      probe(docker, ['ps', '-a', '--no-trunc', '--filter', `name=${project}-qa-ai-1`, '--format', psFormat]),
+    )
+    add(
+      `docker ps -a --filter name=${project}-app-1`,
+      probe(docker, ['ps', '-a', '--no-trunc', '--filter', `name=${project}-app-1`, '--format', psFormat]),
+    )
+    const inspectFormat = [
+      'status={{.State.Status}}',
+      'started={{.State.StartedAt}}',
+      'finished={{.State.FinishedAt}}',
+      'exit={{.State.ExitCode}}',
+      'oom={{.State.OOMKilled}}',
+      'restarts={{.RestartCount}}',
+      'labels={{json .Config.Labels}}',
+    ].join(' ')
+    add(
+      `docker inspect ${project}-qa-ai-1`,
+      probe(docker, ['inspect', '-f', inspectFormat, `${project}-qa-ai-1`]),
+    )
+    add(
+      `docker logs --tail 50 ${project}-qa-ai-1`,
+      probe(docker, ['logs', '--tail', '50', `${project}-qa-ai-1`]),
+    )
+
+    // Compare the exact -p/-f set used by the failing exec with the base-only
+    // set, so an orphan/overlay mismatch cannot be mistaken for a dead provider.
+    const fullCompose = composeArgs(project)
+    const baseCompose = ['compose', '-p', project, '-f', 'docker-compose.local.yml']
+    lines.push(`compose argv used by failing exec: ${JSON.stringify([docker.executable, ...argv])}`)
+    lines.push(`compose argv base-only comparison: ${JSON.stringify([docker.executable, ...baseCompose, 'ps', '-a'])}`)
+    const fullPs = probe(docker, [...fullCompose, 'ps', '-a'])
+    const basePs = probe(docker, [...baseCompose, 'ps', '-a'])
+    add('compose ps -a (full -p/-f set)', fullPs)
+    add('compose ps -a (base-only -f set)', basePs)
+    const fullText = `${fullPs.stdout || ''}${fullPs.stderr || ''}`
+    const baseText = `${basePs.stdout || ''}${basePs.stderr || ''}`
+    lines.push(
+      `qa-ai visible: full-set=${/qa-ai/.test(fullText)} base-only=${/qa-ai/.test(baseText)} ` +
+        `outputs-differ=${fullText !== baseText}`,
+    )
   } catch (error) {
     lines.push(`diagnostics incomplete: ${error.message}`)
   }
@@ -116,7 +163,7 @@ export function postProviderControl(payload) {
   })
   if (result.error || result.status !== 0) {
     const detail = result.error?.message || result.stderr?.trim() || result.status
-    const diagnostics = collectDiagnostics(project, docker)
+    const diagnostics = collectDiagnostics(project, docker, args)
     throw new Error(
       `Provider control via Compose failed: ${detail}` +
         (diagnostics.length
