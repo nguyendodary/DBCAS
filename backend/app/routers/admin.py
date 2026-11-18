@@ -30,6 +30,7 @@ from ..schemas import (
     ConceptPrerequisitesResult,
     ConceptUpdateRequest,
     ConceptUpsertRequest,
+    DocumentCandidateGenerateRequest,
     DocumentCloSelection,
     DocumentDetail,
     DocumentSummary,
@@ -54,6 +55,7 @@ from ..services import (
     auth_service,
     concept_graph_service,
     curriculum_service,
+    document_generation,
     document_service,
     question_service,
 )
@@ -617,6 +619,29 @@ def set_document_clos(
 ):
     """Attach the document to active CLOs; an empty list detaches all of them."""
     return document_service.set_document_clos(db, document_id, payload, admin)
+
+
+# ---------- document-grounded question drafts ----------
+
+
+@router.post(
+    "/document-candidates/generate",
+    status_code=201,
+    response_model=list[QuestionCandidateDetail],
+)
+def generate_document_candidates(
+    payload: DocumentCandidateGenerateRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
+):
+    """Draft questions from approved document chunks for one confirmed CLO.
+
+    Each draft carries a CLO and a verbatim chunk citation and stays outside the
+    bank until an administrator approves it through the candidate review flow.
+    """
+    return document_generation.generate(db, payload, admin, llm, runner)
 
 
 # ---------- UC09 — adaptive assessment configuration ----------

@@ -2140,6 +2140,85 @@
         "title": "DimensionMetric",
         "type": "object"
       },
+      "DocumentCandidateGenerateRequest": {
+        "additionalProperties": false,
+        "description": "Draft questions from approved chunks linked to one CLO.",
+        "properties": {
+          "clo_id": {
+            "exclusiveMinimum": 0.0,
+            "title": "Clo Id",
+            "type": "integer"
+          },
+          "concept_id": {
+            "exclusiveMinimum": 0.0,
+            "title": "Concept Id",
+            "type": "integer"
+          },
+          "count": {
+            "default": 1,
+            "maximum": 3.0,
+            "minimum": 1.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "difficulty": {
+            "default": "EASY",
+            "enum": [
+              "EASY",
+              "MEDIUM",
+              "HARD"
+            ],
+            "title": "Difficulty",
+            "type": "string"
+          },
+          "document_ids": {
+            "items": {
+              "exclusiveMinimum": 0.0,
+              "type": "integer"
+            },
+            "maxItems": 20,
+            "title": "Document Ids",
+            "type": "array"
+          },
+          "locale": {
+            "default": "en",
+            "enum": [
+              "en",
+              "vi"
+            ],
+            "title": "Locale",
+            "type": "string"
+          },
+          "question_type": {
+            "enum": [
+              "mcq",
+              "sql",
+              "essay"
+            ],
+            "title": "Question Type",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          }
+        },
+        "required": [
+          "clo_id",
+          "concept_id",
+          "question_type"
+        ],
+        "title": "DocumentCandidateGenerateRequest",
+        "type": "object"
+      },
       "DocumentChunkResult": {
         "properties": {
           "char_count": {
@@ -10933,6 +11012,152 @@
           }
         ],
         "summary": "Set Concept Prerequisites",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/admin/document-candidates/generate": {
+      "post": {
+        "description": "Draft questions from approved document chunks for one confirmed CLO.\n\nEach draft carries a CLO and a verbatim chunk citation and stays outside the\nbank until an administrator approves it through the candidate review flow.",
+        "operationId": "generate_document_candidates_api_v1_admin_document_candidates_generate_post",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentCandidateGenerateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/QuestionCandidateDetail"
+                  },
+                  "title": "Response Generate Document Candidates Api V1 Admin Document Candidates Generate Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Generate Document Candidates",
         "tags": [
           "admin"
         ],

@@ -37,6 +37,8 @@ from ..models import (
     Account,
     Concept,
     QuestionCandidate,
+    QuestionClo,
+    QuestionEvidence,
 )
 from ..repositories import CurriculumRepository, QuestionRepository, SecurityRepository
 from ..schemas import (
@@ -582,8 +584,13 @@ def _validate_candidate(
             )
             ok = ok and passed
     detail["ok"] = ok
+    from . import document_generation
     from .governed_generation import digest, provenance_check
-    provenance = provenance_check(repo, row)
+    provenance = (
+        document_generation.provenance_check(repo, row)
+        if document_generation.is_document_grounded(payload)
+        else provenance_check(repo, row)
+    )
     detail["checks"].append(provenance)
     detail["ok"] = ok and provenance["ok"]
     detail["content_hash"] = digest(payload)
@@ -648,9 +655,18 @@ def approve_candidate(
             "Candidate must pass the pre-review checks first",
         )
     payload = row.payload or {}
+    from . import document_generation
     from .governed_generation import digest
+    raw_grounding = payload.get("_grounding")
+    grounding = raw_grounding if isinstance(raw_grounding, dict) else {}
+    grounded = document_generation.is_document_grounded(payload)
     if review is None or not review.reviewed or review.content_hash != digest(payload):
         raise AppError(409, "candidate_review_required", "Review the current answer, rubric, concept, difficulty and sources before approval")
+    if grounded:
+        document_generation.lock_grounding(
+            db, grounding.get("clo_id"), grounding.get("concept_id"),
+            [grounding.get("document_id")], [grounding.get("chunk_id")],
+        )
     # Repeat all eligibility checks under the publication lock. Validation is
     # evidence about a draft, never permanent permission to publish it later.
     db.scalar(select(Concept).where(Concept.concept_id == row.concept_id)
@@ -658,6 +674,14 @@ def approve_candidate(
     current = _validate_candidate(repo, row, runner)
     if not current["ok"]:
         raise AppError(409, "candidate_checks_changed", "Draft checks no longer pass. Revalidate and review the candidate.")
+    if grounded:
+        evidence_problems = document_generation.evidence_problems(db, grounding)
+        if evidence_problems:
+            raise AppError(
+                409, "grounding_context_changed",
+                "The cited CLO or document evidence is no longer valid: "
+                + "; ".join(evidence_problems),
+            )
     problems = _completeness_problems(row.question_type, payload)
     if problems:
         raise AppError(
@@ -680,7 +704,7 @@ def approve_candidate(
         created_by=admin.account_id,
         original_locale=payload.get("original_locale", "en"),
         explanation=payload.get("explanation"),
-        source_refs=payload.get("source_refs", []),
+        source_refs=[] if grounded else payload.get("source_refs", []),
         ai_review={"generation": payload.get("_generation"), "human_review": {
             "reviewer_id": admin.account_id, "reviewed_at": datetime.now(timezone.utc).isoformat(),
             "content_hash": review.content_hash, "decision": "approved"}},
@@ -715,6 +739,23 @@ def approve_candidate(
         confirmed=True,
         is_required=bool(payload.get("is_required_concept")),
     )
+    if grounded:
+        db.add(QuestionClo(
+            question_id=question.question_id,
+            clo_id=grounding["clo_id"],
+            is_primary=True,
+            status="confirmed",
+            tag_source="ai",
+            confirmed_at=datetime.now(timezone.utc),
+        ))
+        db.add(QuestionEvidence(
+            question_id=question.question_id,
+            chunk_id=grounding["chunk_id"],
+            quote=grounding["quote"],
+            start_offset=grounding.get("start_offset"),
+            end_offset=grounding.get("end_offset"),
+            source_hash=grounding["source_hash"],
+        ))
     row.validation_status = "validated"
     row.promoted_question_id = question.question_id
     row.validation_detail = {**current, "review": question.ai_review["human_review"]}

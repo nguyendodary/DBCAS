@@ -398,8 +398,8 @@
     "mailpit",
     "qa-ai"
   ],
-  "openapi_path_count": 93,
-  "openapi_operation_count": 104,
+  "openapi_path_count": 94,
+  "openapi_operation_count": 105,
   "openapi_paths": [
     "/api/v1/admin/accounts",
     "/api/v1/admin/accounts/role-audit",
@@ -417,6 +417,7 @@
     "/api/v1/admin/concepts",
     "/api/v1/admin/concepts/{concept_id}",
     "/api/v1/admin/concepts/{concept_id}/prerequisites",
+    "/api/v1/admin/document-candidates/generate",
     "/api/v1/admin/documents",
     "/api/v1/admin/documents/{document_id}",
     "/api/v1/admin/documents/{document_id}/approve",
