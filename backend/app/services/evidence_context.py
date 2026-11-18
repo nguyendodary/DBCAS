@@ -1,4 +1,6 @@
 """Immutable assessment/question context captured when a session/item starts."""
+import hashlib
+import json
 import logging
 from decimal import Decimal
 from types import SimpleNamespace as Record
@@ -37,6 +39,11 @@ def capture_question(repo, question):
     result["options"] = [{key: getattr(o, key) for key in ("option_id", "option_label", "option_text", "is_correct")} for o in question.options] if question.question_type == "mcq" else []
     result["datasets"] = [{key: getattr(d, key) for key in ("dataset_id", "dataset_name", "setup_sql", "expected_result", "is_edge_case")} for d in repo.get_datasets_for_question(question.question_id)] if question.question_type == "sql" else []
     result["rubrics"] = [{"level_name": r.level_name, "min_score": str(r.min_score), "max_score": str(r.max_score), "criteria": r.criteria} for r in repo.get_rubrics_for_question(question.question_id)] if question.question_type == "essay" else []
+    if question.question_type == "essay":
+        # PR 3B-2: immutable snapshot identity for the official result's
+        # attempt_rubric_criterion rows (026 requires the hashes to match).
+        payload = json.dumps(result["rubrics"], sort_keys=True, separators=(",", ":"))
+        result["rubric_snapshot_hash"] = hashlib.sha256(payload.encode("utf-8")).hexdigest()
     result["localized_content"] = {
         item.locale: {
             "prompt": item.prompt,

@@ -1,11 +1,13 @@
 """Published multi-assessment evidence; deterministic and provider independent."""
 from collections import defaultdict
 from decimal import Decimal, ROUND_HALF_UP
+from types import SimpleNamespace
 
 from ..repositories import AssessmentRepository, CompetencyRepository
 from .competency_service import _aggregate, category_display
 from .evidence_context import concept_context, targets_for_session
 from .grading_review import is_published
+from .result_version import current_scores, is_ai_official
 
 CENT = Decimal("0.01")
 
@@ -30,9 +32,11 @@ def is_official(session):
     Formal adaptive sessions are intentionally in neither table in this PR.
     """
     snapshot = session.config_snapshot or {}
+    official_pointer = (is_ai_official(session)
+                        and getattr(session, "current_result_version_id", None) is not None)
     return (
         is_test_evidence(session)
-        and is_published(session)
+        and (is_published(session) or official_pointer)
         and not is_adaptive_estimate(session)
         and snapshot.get("assembly_mode") != "ADAPTIVE"
     )
@@ -49,7 +53,8 @@ def is_pending_official(session):
     )
 
 
-def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
+def aggregate_sessions(sessions, attempts_by_session, targets_by_session,
+                       version_scores_by_session=None):
     """Pool point totals, not session percentages; keep evidence provenance.
 
     Repeated assessments count as separate observations without silently
@@ -57,15 +62,28 @@ def aggregate_sessions(sessions, attempts_by_session, targets_by_session):
     confirmed concept, following the established session scoring formula.
     Benchmarks are weighted by possible points where a target was defined.
     Only published server TEST rows are included, so learning-only PRACTICE
-    sessions never enter official competency.
+    sessions never enter official competency. AI-official sessions take their
+    scores from the current result version; LEGACY sessions keep attempt.score.
     """
     totals = {}
+    version_scores_by_session = version_scores_by_session or {}
     for session in sorted(sessions, key=lambda s: (s.started_at, s.session_id)):
-        if not is_published(session) or not is_official(session):
+        if not is_official(session):
             continue
-        evidence = [a for a in attempts_by_session.get(session.session_id, [])
-                    if a.submitted_at is not None and a.score is not None
-                    and a.grading_status == "graded"]
+        scores = version_scores_by_session.get(session.session_id) or {}
+        if scores:
+            evidence = []
+            for attempt in attempts_by_session.get(session.session_id, []):
+                if (attempt.submitted_at is None
+                        or attempt.attempt_id not in scores):
+                    continue
+                scored = SimpleNamespace(**vars(attempt))
+                scored.score = scores[attempt.attempt_id]
+                evidence.append(scored)
+        else:
+            evidence = [a for a in attempts_by_session.get(session.session_id, [])
+                        if a.submitted_at is not None and a.score is not None
+                        and a.grading_status == "graded"]
         agg = _aggregate(evidence)
         targets = targets_by_session.get(session.session_id, {})
         for cid, item in agg.items():
@@ -111,7 +129,8 @@ def profile(db, learner_id):
     ):
         grouped[attempt.session_id].append(attempt)
     targets = {s.session_id: targets_for_session(s, CompetencyRepository(db)) for s in sessions}
-    totals = aggregate_sessions(sessions, grouped, targets)
+    version_scores = {s.session_id: current_scores(db, s) for s in sessions}
+    totals = aggregate_sessions(sessions, grouped, targets, version_scores)
     adaptive_estimates = []
     for session in adaptive_sessions:
         estimate_result = estimate(session, grouped.get(session.session_id, []))

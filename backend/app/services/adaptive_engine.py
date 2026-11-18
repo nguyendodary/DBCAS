@@ -132,6 +132,7 @@ def _state(
     assessment: Assessment = None,
     display_locale: str | None = None,
 ) -> SessionStateResult:
+    from .result_version import version_meta
     assessment = assessment_view(session, repo)
     attempts = repo.session_attempts(session.session_id)
     pending = next((a for a in attempts if a.submitted_at is None), None)
@@ -189,6 +190,7 @@ def _state(
                         if fixed else sum(1 for a in attempts if a.submitted_at is not None)),
         current_question=_served_question(repo, pending, display_locale or session.locale or "en") if pending else None,
         done=finalized if fixed else finalized or len(attempts) >= assessment.max_questions,
+        **version_meta(repo.db, session),
     )
 
 

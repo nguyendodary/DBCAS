@@ -308,7 +308,8 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     now = repo.server_time()
     session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
                                  locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id,
-                                 purpose=purpose)
+                                 purpose=purpose,
+                                 review_policy="AI_OFFICIAL_REVIEW" if fixed else "LEGACY")
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id, session_id=session.session_id))
     db.add_all([SessionQuestionPlan(session_id=session.session_id, seq_no=i+1, question_id=q.question_id) for i,q in enumerate(questions)])
