@@ -44,16 +44,23 @@ export async function checkQuestionTypography(page, kind) {
   await checkInterfaceTypography(page)
 }
 
-// The fake provider is reached over a published host port. Docker's port proxy
-// can briefly stop forwarding mid-suite (ECONNREFUSED) while the container and
-// its internal port stay healthy. Re-probe the public /health path (the same
-// gate the launcher uses) before retrying such a drop. Only connection-level
-// errors are retried: a real provider outage (HTTP 503) still fails the strict
-// ok() assertion immediately, and an unreachable port fails when the probe
-// deadline expires.
-export async function providerControl(page, data, { attempts = 8, retryMs = 250 } = {}) {
+// The fake provider is reached over a published host port. Compose's
+// healthcheck probes 127.0.0.1:8080 inside the container, so it stays green
+// even when the host-side forwarder stops accepting mid-suite (ECONNREFUSED).
+// Gate every control group on the public /health path before the strict POST
+// instead of discovering the drop through a failing assertion. The same bounded
+// readiness window is used after a connection-level drop; a real provider
+// outage (HTTP 503) still fails the ok() assertion immediately, and a port that
+// never comes back fails when the probe deadline expires.
+export async function providerControl(
+  page,
+  data,
+  { attempts = 8, retryMs = 250, readinessMs = 45000 } = {},
+) {
   const url = process.env.DBCAS_QA_PROVIDER_URL
   if (!url) return null
+  const probe = { timeoutMs: readinessMs, requestTimeoutMs: 1500 }
+  await waitForProvider(url, probe)
   let lastError
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
@@ -67,7 +74,7 @@ export async function providerControl(page, data, { attempts = 8, retryMs = 250 
         throw error
       lastError = error
       if (attempt < attempts) {
-        await waitForProvider(url, { timeoutMs: 20000, requestTimeoutMs: 1500 })
+        await waitForProvider(url, probe)
         await page.waitForTimeout(retryMs)
       }
     }
