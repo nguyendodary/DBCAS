@@ -1,5 +1,5 @@
 {
-  "source": "db/schema.sql, loaded ONLY into disposable PostgreSQL 18.4",
+  "source": "db/schema.sql, loaded ONLY into disposable PostgreSQL 17.12 (Debian 17.12-1.pgdg13+1)",
   "tables": [
     {
       "table": "account",
@@ -47,49 +47,14 @@
       ],
       "constraints": [
         {
-          "name": "account_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
-          "name": "account_can_manage_roles_not_null",
-          "type": "n",
-          "definition": "NOT NULL can_manage_roles"
-        },
-        {
-          "name": "account_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "account_email_key",
           "type": "u",
           "definition": "UNIQUE (email)"
         },
         {
-          "name": "account_email_not_null",
-          "type": "n",
-          "definition": "NOT NULL email"
-        },
-        {
-          "name": "account_password_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL password_hash"
-        },
-        {
-          "name": "account_password_set_not_null",
-          "type": "n",
-          "definition": "NOT NULL password_set"
-        },
-        {
           "name": "account_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (account_id)"
-        },
-        {
-          "name": "account_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
         }
       ]
     },
@@ -139,44 +104,14 @@
           "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
         },
         {
-          "name": "account_identity_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
-          "name": "account_identity_email_verified_not_null",
-          "type": "n",
-          "definition": "NOT NULL email_verified"
-        },
-        {
-          "name": "account_identity_identity_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL identity_id"
-        },
-        {
-          "name": "account_identity_linked_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL linked_at"
-        },
-        {
           "name": "account_identity_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (identity_id)"
         },
         {
-          "name": "account_identity_provider_not_null",
-          "type": "n",
-          "definition": "NOT NULL provider"
-        },
-        {
           "name": "account_identity_provider_provider_user_id_key",
           "type": "u",
           "definition": "UNIQUE (provider, provider_user_id)"
-        },
-        {
-          "name": "account_identity_provider_user_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL provider_user_id"
         }
       ]
     },
@@ -206,16 +141,6 @@
           "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
         },
         {
-          "name": "account_role_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
-          "name": "account_role_assigned_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL assigned_at"
-        },
-        {
           "name": "account_role_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (account_id, role_id)"
@@ -224,11 +149,6 @@
           "name": "account_role_role_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (role_id) REFERENCES role(role_id)"
-        },
-        {
-          "name": "account_role_role_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL role_id"
         }
       ]
     },
@@ -278,24 +198,9 @@
           "definition": "CHECK (((((action_type)::text = ANY ((ARRAY['ROLE_GRANTED'::character varying, 'ROLE_REVOKED'::character varying])::text[])) AND (actor_account_id IS NOT NULL) AND ((previous_role)::text = ANY ((ARRAY['Learner'::character varying, 'Administrator'::character varying])::text[])) AND ((new_role)::text = ANY ((ARRAY['Learner'::character varying, 'Administrator'::character varying])::text[])) AND ((previous_role)::text <> (new_role)::text)) OR (((action_type)::text = 'ROLE_MANAGER_BOOTSTRAPPED'::text) AND (actor_account_id IS NULL) AND (previous_role IS NULL) AND (new_role IS NULL))))"
         },
         {
-          "name": "account_role_audit_action_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL action_type"
-        },
-        {
           "name": "account_role_audit_actor_account_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (actor_account_id) REFERENCES account(account_id)"
-        },
-        {
-          "name": "account_role_audit_audit_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL audit_id"
-        },
-        {
-          "name": "account_role_audit_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
         },
         {
           "name": "account_role_audit_pkey",
@@ -306,11 +211,6 @@
           "name": "account_role_audit_target_account_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (target_account_id) REFERENCES account(account_id)"
-        },
-        {
-          "name": "account_role_audit_target_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_account_id"
         }
       ]
     },
@@ -345,29 +245,14 @@
       ],
       "constraints": [
         {
-          "name": "adaptive_event_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "adaptive_event_event_type_check",
           "type": "c",
           "definition": "CHECK (((event_type)::text = ANY ((ARRAY['batch'::character varying, 'decision'::character varying])::text[])))"
         },
         {
-          "name": "adaptive_event_event_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL event_type"
-        },
-        {
           "name": "adaptive_event_payload_check",
           "type": "c",
           "definition": "CHECK ((jsonb_typeof(payload) = 'object'::text))"
-        },
-        {
-          "name": "adaptive_event_payload_not_null",
-          "type": "n",
-          "definition": "NOT NULL payload"
         },
         {
           "name": "adaptive_event_pkey",
@@ -380,19 +265,489 @@
           "definition": "CHECK (((round_no >= 1) AND (round_no <= 13)))"
         },
         {
-          "name": "adaptive_event_round_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL round_no"
+          "name": "adaptive_event_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        }
+      ]
+    },
+    {
+      "table": "ai_prompt_content",
+      "columns": [
+        {
+          "name": "prompt_record_id",
+          "type": "bigint",
+          "nullable": false
         },
         {
-          "name": "adaptive_event_session_id_fkey",
+          "name": "prompt_text",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "model_identifier",
+          "type": "character varying(80)",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ai_prompt_content_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (prompt_record_id)"
+        },
+        {
+          "name": "ai_prompt_content_prompt_record_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (prompt_record_id) REFERENCES ai_prompt_record(prompt_record_id)"
+        }
+      ]
+    },
+    {
+      "table": "ai_prompt_record",
+      "columns": [
+        {
+          "name": "prompt_record_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "stage_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "stage",
+          "type": "character varying(3)",
+          "nullable": false
+        },
+        {
+          "name": "prompt_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "purged_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ai_prompt_record_check",
+          "type": "c",
+          "definition": "CHECK ((expires_at > created_at))"
+        },
+        {
+          "name": "ai_prompt_record_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (prompt_record_id)"
+        },
+        {
+          "name": "ai_prompt_record_prompt_hash_check",
+          "type": "c",
+          "definition": "CHECK ((prompt_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "ai_prompt_record_stage_check",
+          "type": "c",
+          "definition": "CHECK (((stage)::text = ANY ((ARRAY['AI1'::character varying, 'AI2'::character varying])::text[])))"
+        },
+        {
+          "name": "ai_prompt_record_stage_run_id_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+        }
+      ]
+    },
+    {
+      "table": "ai_stage_attempt",
+      "columns": [
+        {
+          "name": "stage_attempt_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "stage_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "attempt_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "input_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "output_hash",
+          "type": "character(64)",
+          "nullable": true
+        },
+        {
+          "name": "error_code",
+          "type": "character varying(80)",
+          "nullable": true
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ai_stage_attempt_attempt_no_check",
+          "type": "c",
+          "definition": "CHECK (((attempt_no >= 1) AND (attempt_no <= 3)))"
+        },
+        {
+          "name": "ai_stage_attempt_input_hash_check",
+          "type": "c",
+          "definition": "CHECK ((input_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "ai_stage_attempt_output_hash_check",
+          "type": "c",
+          "definition": "CHECK (((output_hash IS NULL) OR (output_hash ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "ai_stage_attempt_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (stage_attempt_id)"
+        },
+        {
+          "name": "ai_stage_attempt_session_id_stage_run_id_attempt_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, stage_run_id, attempt_no)"
+        },
+        {
+          "name": "ai_stage_attempt_stage_run_id_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+        },
+        {
+          "name": "ai_stage_attempt_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['STARTED'::character varying, 'SUCCEEDED'::character varying, 'FAILED'::character varying])::text[])))"
+        }
+      ]
+    },
+    {
+      "table": "ai_stage_run",
+      "columns": [
+        {
+          "name": "stage_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "scope_key",
+          "type": "character varying(40)",
+          "nullable": false
+        },
+        {
+          "name": "stage",
+          "type": "character varying(3)",
+          "nullable": false
+        },
+        {
+          "name": "run_mode",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "result_version_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "execution_run_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "recovery_of_run_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "recovery_authorized_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "recovery_reason",
+          "type": "character varying(1000)",
+          "nullable": true
+        },
+        {
+          "name": "predecessor_validation_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "attempt_count",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "input_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "output_hash",
+          "type": "character(64)",
+          "nullable": true
+        },
+        {
+          "name": "last_error_code",
+          "type": "character varying(80)",
+          "nullable": true
+        },
+        {
+          "name": "available_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ai_stage_run_attempt_count_check",
+          "type": "c",
+          "definition": "CHECK (((attempt_count >= 0) AND (attempt_count <= 3)))"
+        },
+        {
+          "name": "ai_stage_run_check",
+          "type": "c",
+          "definition": "CHECK (((((scope_key)::text = 'v1'::text) AND ((run_mode)::text = 'V1_GRADING'::text)) OR (((scope_key)::text ~ '^v2:[1-9][0-9]*$'::text) AND ((run_mode)::text = 'V2_ANALYSIS'::text))))"
+        },
+        {
+          "name": "ai_stage_run_check1",
+          "type": "c",
+          "definition": "CHECK ((((recovery_of_run_id IS NULL) AND (recovery_authorized_by IS NULL) AND (recovery_reason IS NULL)) OR ((recovery_of_run_id IS NOT NULL) AND (recovery_authorized_by IS NOT NULL) AND (recovery_reason IS NOT NULL) AND (length(btrim((recovery_reason)::text)) >= 20))))"
+        },
+        {
+          "name": "ai_stage_run_check2",
+          "type": "c",
+          "definition": "CHECK (((((stage)::text = 'AI1'::text) AND (predecessor_validation_id IS NULL)) OR (((stage)::text = 'AI2'::text) AND (predecessor_validation_id IS NOT NULL))))"
+        },
+        {
+          "name": "ai_stage_run_execution_run_no_check",
+          "type": "c",
+          "definition": "CHECK ((execution_run_no >= 1))"
+        },
+        {
+          "name": "ai_stage_run_input_hash_check",
+          "type": "c",
+          "definition": "CHECK ((input_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "ai_stage_run_output_hash_check",
+          "type": "c",
+          "definition": "CHECK (((output_hash IS NULL) OR (output_hash ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "ai_stage_run_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (stage_run_id)"
+        },
+        {
+          "name": "ai_stage_run_predecessor_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (predecessor_validation_id) REFERENCES ai_stage_validation(validation_id)"
+        },
+        {
+          "name": "ai_stage_run_recovery_authorized_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (recovery_authorized_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "ai_stage_run_recovery_of_run_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (recovery_of_run_id) REFERENCES ai_stage_run(stage_run_id)"
+        },
+        {
+          "name": "ai_stage_run_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (result_version_id) REFERENCES session_result_version(result_version_id)"
+        },
+        {
+          "name": "ai_stage_run_run_mode_check",
+          "type": "c",
+          "definition": "CHECK (((run_mode)::text = ANY ((ARRAY['V1_GRADING'::character varying, 'V2_ANALYSIS'::character varying])::text[])))"
+        },
+        {
+          "name": "ai_stage_run_scope_key_check",
+          "type": "c",
+          "definition": "CHECK ((((scope_key)::text = 'v1'::text) OR ((scope_key)::text ~ '^v2:[1-9][0-9]*$'::text)))"
+        },
+        {
+          "name": "ai_stage_run_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
         },
         {
-          "name": "adaptive_event_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
+          "name": "ai_stage_run_session_id_scope_key_stage_execution_run_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, scope_key, stage, execution_run_no)"
+        },
+        {
+          "name": "ai_stage_run_stage_check",
+          "type": "c",
+          "definition": "CHECK (((stage)::text = ANY ((ARRAY['AI1'::character varying, 'AI2'::character varying])::text[])))"
+        },
+        {
+          "name": "ai_stage_run_stage_run_id_session_id_key",
+          "type": "u",
+          "definition": "UNIQUE (stage_run_id, session_id)"
+        },
+        {
+          "name": "ai_stage_run_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'PROCESSING'::character varying, 'RETRY_WAIT'::character varying, 'COMPLETED'::character varying, 'FAILED'::character varying, 'CANCELLED'::character varying])::text[])))"
+        }
+      ]
+    },
+    {
+      "table": "ai_stage_validation",
+      "columns": [
+        {
+          "name": "validation_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "stage_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "validator_version",
+          "type": "character varying(40)",
+          "nullable": false
+        },
+        {
+          "name": "input_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "output_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "validated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "ai_stage_validation_input_hash_check",
+          "type": "c",
+          "definition": "CHECK ((input_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "ai_stage_validation_output_hash_check",
+          "type": "c",
+          "definition": "CHECK ((output_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "ai_stage_validation_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (validation_id)"
+        },
+        {
+          "name": "ai_stage_validation_stage_run_id_key",
+          "type": "u",
+          "definition": "UNIQUE (stage_run_id)"
+        },
+        {
+          "name": "ai_stage_validation_stage_run_id_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+        },
+        {
+          "name": "ai_stage_validation_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['VALID'::character varying, 'INVALID'::character varying])::text[])))"
         }
       ]
     },
@@ -472,34 +827,14 @@
       ],
       "constraints": [
         {
-          "name": "assessment_assessment_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL assessment_id"
-        },
-        {
           "name": "assessment_check",
           "type": "c",
           "definition": "CHECK ((((target_mcq + target_sql) + target_essay) <= max_questions))"
         },
         {
-          "name": "assessment_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "assessment_created_by_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
-        },
-        {
-          "name": "assessment_created_by_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_by"
-        },
-        {
-          "name": "assessment_duration_min_not_null",
-          "type": "n",
-          "definition": "NOT NULL duration_min"
         },
         {
           "name": "assessment_family_id_fkey",
@@ -512,11 +847,6 @@
           "definition": "CHECK (((max_questions >= 1) AND (max_questions <= 13)))"
         },
         {
-          "name": "assessment_max_questions_not_null",
-          "type": "n",
-          "definition": "NOT NULL max_questions"
-        },
-        {
           "name": "assessment_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (assessment_id)"
@@ -527,44 +857,9 @@
           "definition": "CHECK (((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])))"
         },
         {
-          "name": "assessment_result_release_policy_not_null",
-          "type": "n",
-          "definition": "NOT NULL result_release_policy"
-        },
-        {
-          "name": "assessment_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "assessment_target_essay_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_essay"
-        },
-        {
-          "name": "assessment_target_mcq_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_mcq"
-        },
-        {
-          "name": "assessment_target_sql_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_sql"
-        },
-        {
           "name": "assessment_terms_check",
           "type": "c",
           "definition": "CHECK ((((status)::text = ANY ((ARRAY['draft'::character varying, 'published'::character varying, 'closed'::character varying])::text[])) AND (version_no > 0)))"
-        },
-        {
-          "name": "assessment_title_not_null",
-          "type": "n",
-          "definition": "NOT NULL title"
-        },
-        {
-          "name": "assessment_version_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL version_no"
         }
       ]
     },
@@ -654,19 +949,9 @@
       ],
       "constraints": [
         {
-          "name": "assessment_blueprint_approval_basis_not_null",
-          "type": "n",
-          "definition": "NOT NULL approval_basis"
-        },
-        {
           "name": "assessment_blueprint_approval_check",
           "type": "c",
           "definition": "CHECK ((length(btrim(approval_basis)) > 0))"
-        },
-        {
-          "name": "assessment_blueprint_approved_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL approved_at"
         },
         {
           "name": "assessment_blueprint_approved_by_fkey",
@@ -679,19 +964,9 @@
           "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
         },
         {
-          "name": "assessment_blueprint_assessment_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL assessment_id"
-        },
-        {
           "name": "assessment_blueprint_band_check",
           "type": "c",
           "definition": "CHECK (((difficulty_band)::text = ANY ((ARRAY['EASY'::character varying, 'MEDIUM'::character varying, 'HARD'::character varying])::text[])))"
-        },
-        {
-          "name": "assessment_blueprint_blueprint_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL blueprint_id"
         },
         {
           "name": "assessment_blueprint_counts_check",
@@ -699,29 +974,9 @@
           "definition": "CHECK (((max_questions > 0) AND (target_mcq >= 0) AND (target_sql >= 0) AND (target_essay >= 0) AND (((target_mcq + target_sql) + target_essay) = max_questions)))"
         },
         {
-          "name": "assessment_blueprint_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "assessment_blueprint_difficulty_band_not_null",
-          "type": "n",
-          "definition": "NOT NULL difficulty_band"
-        },
-        {
           "name": "assessment_blueprint_evidence_check",
           "type": "c",
           "definition": "CHECK ((jsonb_typeof(evidence_types) = 'array'::text))"
-        },
-        {
-          "name": "assessment_blueprint_evidence_types_not_null",
-          "type": "n",
-          "definition": "NOT NULL evidence_types"
-        },
-        {
-          "name": "assessment_blueprint_max_questions_not_null",
-          "type": "n",
-          "definition": "NOT NULL max_questions"
         },
         {
           "name": "assessment_blueprint_pkey",
@@ -734,49 +989,14 @@
           "definition": "CHECK ((jsonb_typeof(scoring) = 'object'::text))"
         },
         {
-          "name": "assessment_blueprint_scoring_not_null",
-          "type": "n",
-          "definition": "NOT NULL scoring"
-        },
-        {
           "name": "assessment_blueprint_status_check",
           "type": "c",
           "definition": "CHECK (((status)::text = ANY ((ARRAY['approved'::character varying, 'retired'::character varying])::text[])))"
         },
         {
-          "name": "assessment_blueprint_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "assessment_blueprint_subject_area_not_null",
-          "type": "n",
-          "definition": "NOT NULL subject_area"
-        },
-        {
-          "name": "assessment_blueprint_target_essay_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_essay"
-        },
-        {
-          "name": "assessment_blueprint_target_mcq_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_mcq"
-        },
-        {
-          "name": "assessment_blueprint_target_sql_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_sql"
-        },
-        {
           "name": "assessment_blueprint_version_check",
           "type": "c",
           "definition": "CHECK ((version_no > 0))"
-        },
-        {
-          "name": "assessment_blueprint_version_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL version_no"
         },
         {
           "name": "assessment_blueprint_version_unique",
@@ -821,11 +1041,6 @@
           "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)"
         },
         {
-          "name": "assessment_concept_assessment_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL assessment_id"
-        },
-        {
           "name": "assessment_concept_check",
           "type": "c",
           "definition": "CHECK (((max_difficulty >= min_difficulty) AND (max_difficulty <= 5)))"
@@ -836,24 +1051,9 @@
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
         },
         {
-          "name": "assessment_concept_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "assessment_concept_max_difficulty_not_null",
-          "type": "n",
-          "definition": "NOT NULL max_difficulty"
-        },
-        {
           "name": "assessment_concept_min_difficulty_check",
           "type": "c",
           "definition": "CHECK (((min_difficulty >= 1) AND (min_difficulty <= 5)))"
-        },
-        {
-          "name": "assessment_concept_min_difficulty_not_null",
-          "type": "n",
-          "definition": "NOT NULL min_difficulty"
         },
         {
           "name": "assessment_concept_pkey",
@@ -864,11 +1064,6 @@
           "name": "assessment_concept_target_pct_check",
           "type": "c",
           "definition": "CHECK (((target_pct >= (0)::numeric) AND (target_pct <= (100)::numeric)))"
-        },
-        {
-          "name": "assessment_concept_target_pct_not_null",
-          "type": "n",
-          "definition": "NOT NULL target_pct"
         }
       ]
     },
@@ -893,11 +1088,6 @@
           "definition": "FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE"
         },
         {
-          "name": "assessment_question_assessment_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL assessment_id"
-        },
-        {
           "name": "assessment_question_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (assessment_id, question_id)"
@@ -906,11 +1096,6 @@
           "name": "assessment_question_question_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
-        },
-        {
-          "name": "assessment_question_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
         }
       ]
     },
@@ -1016,6 +1201,16 @@
           "name": "cancel_reason",
           "type": "character varying(40)",
           "nullable": true
+        },
+        {
+          "name": "review_policy",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "current_result_version_id",
+          "type": "bigint",
+          "nullable": true
         }
       ],
       "constraints": [
@@ -1030,9 +1225,14 @@
           "definition": "FOREIGN KEY (blueprint_id) REFERENCES assessment_blueprint(blueprint_id)"
         },
         {
-          "name": "assessment_session_expires_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL expires_at"
+          "name": "assessment_session_current_pointer_check",
+          "type": "t",
+          "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+        },
+        {
+          "name": "assessment_session_current_version_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, current_result_version_id) REFERENCES session_result_version(session_id, result_version_id) DEFERRABLE INITIALLY DEFERRED"
         },
         {
           "name": "assessment_session_learner_id_fkey",
@@ -1040,19 +1240,9 @@
           "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
         },
         {
-          "name": "assessment_session_learner_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL learner_id"
-        },
-        {
           "name": "assessment_session_locale_check",
           "type": "c",
           "definition": "CHECK (((locale)::text ~ '^[a-z]{2}(-[A-Z]{2})?$'::text))"
-        },
-        {
-          "name": "assessment_session_locale_not_null",
-          "type": "n",
-          "definition": "NOT NULL locale"
         },
         {
           "name": "assessment_session_pkey",
@@ -1060,14 +1250,14 @@
           "definition": "PRIMARY KEY (session_id)"
         },
         {
+          "name": "assessment_session_pointer_policy_check",
+          "type": "c",
+          "definition": "CHECK (((current_result_version_id IS NULL) OR ((review_policy)::text = 'AI_OFFICIAL_REVIEW'::text)))"
+        },
+        {
           "name": "assessment_session_purpose_check",
           "type": "c",
           "definition": "CHECK (((purpose)::text = ANY ((ARRAY['TEST'::character varying, 'PRACTICE'::character varying])::text[])))"
-        },
-        {
-          "name": "assessment_session_purpose_not_null",
-          "type": "n",
-          "definition": "NOT NULL purpose"
         },
         {
           "name": "assessment_session_purpose_source_check",
@@ -1075,34 +1265,9 @@
           "definition": "CHECK (((purpose_source)::text = ANY ((ARRAY['SERVER'::character varying, 'BACKFILL'::character varying])::text[])))"
         },
         {
-          "name": "assessment_session_purpose_source_not_null",
-          "type": "n",
-          "definition": "NOT NULL purpose_source"
-        },
-        {
-          "name": "assessment_session_release_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL release_status"
-        },
-        {
-          "name": "assessment_session_result_release_policy_not_null",
-          "type": "n",
-          "definition": "NOT NULL result_release_policy"
-        },
-        {
-          "name": "assessment_session_review_revision_not_null",
-          "type": "n",
-          "definition": "NOT NULL review_revision"
-        },
-        {
-          "name": "assessment_session_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
-        },
-        {
-          "name": "assessment_session_started_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL started_at"
+          "name": "assessment_session_review_policy_check",
+          "type": "c",
+          "definition": "CHECK (((review_policy)::text = ANY ((ARRAY['LEGACY'::character varying, 'AI_OFFICIAL_REVIEW'::character varying])::text[])))"
         },
         {
           "name": "assessment_session_status_check",
@@ -1110,19 +1275,9 @@
           "definition": "CHECK (((status)::text = ANY ((ARRAY['in_progress'::character varying, 'completed'::character varying, 'timed_out'::character varying, 'cancelled'::character varying])::text[])))"
         },
         {
-          "name": "assessment_session_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
           "name": "assessment_session_tab_leave_count_check",
           "type": "c",
           "definition": "CHECK ((tab_leave_count >= 0))"
-        },
-        {
-          "name": "assessment_session_tab_leave_count_not_null",
-          "type": "n",
-          "definition": "NOT NULL tab_leave_count"
         },
         {
           "name": "session_owner_unique",
@@ -1247,34 +1402,9 @@
       ],
       "constraints": [
         {
-          "name": "attempt_attempt_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL attempt_id"
-        },
-        {
-          "name": "attempt_draft_revision_not_null",
-          "type": "n",
-          "definition": "NOT NULL draft_revision"
-        },
-        {
           "name": "attempt_flag_revision_check",
           "type": "c",
           "definition": "CHECK ((flag_revision >= 0))"
-        },
-        {
-          "name": "attempt_flag_revision_not_null",
-          "type": "n",
-          "definition": "NOT NULL flag_revision"
-        },
-        {
-          "name": "attempt_grading_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL grading_status"
-        },
-        {
-          "name": "attempt_is_flagged_not_null",
-          "type": "n",
-          "definition": "NOT NULL is_flagged"
         },
         {
           "name": "attempt_pkey",
@@ -1287,19 +1417,9 @@
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
         },
         {
-          "name": "attempt_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
           "name": "attempt_review_revision_check",
           "type": "c",
           "definition": "CHECK ((review_revision >= 0))"
-        },
-        {
-          "name": "attempt_review_revision_not_null",
-          "type": "n",
-          "definition": "NOT NULL review_revision"
         },
         {
           "name": "attempt_selected_option_id_fkey",
@@ -1307,14 +1427,9 @@
           "definition": "FOREIGN KEY (selected_option_id) REFERENCES mcq_option(option_id)"
         },
         {
-          "name": "attempt_seq_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL seq_no"
-        },
-        {
-          "name": "attempt_served_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL served_at"
+          "name": "attempt_session_attempt_uk",
+          "type": "u",
+          "definition": "UNIQUE (session_id, attempt_id)"
         },
         {
           "name": "attempt_session_id_fkey",
@@ -1322,14 +1437,136 @@
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
         },
         {
-          "name": "attempt_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
-        },
-        {
           "name": "attempt_session_id_seq_no_key",
           "type": "u",
           "definition": "UNIQUE (session_id, seq_no)"
+        }
+      ]
+    },
+    {
+      "table": "attempt_rubric_criterion",
+      "columns": [
+        {
+          "name": "criterion_snapshot_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "rubric_profile_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "criterion_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "criterion_code",
+          "type": "character varying(40)",
+          "nullable": false
+        },
+        {
+          "name": "criterion_name",
+          "type": "character varying(120)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "scoring_guidance",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "max_points",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "sort_order",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "profile_snapshot_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "criterion_hash",
+          "type": "character(64)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "attempt_rubric_criterion_attempt_id_criterion_id_key",
+          "type": "u",
+          "definition": "UNIQUE (attempt_id, criterion_id)"
+        },
+        {
+          "name": "attempt_rubric_criterion_criterion_hash_check",
+          "type": "c",
+          "definition": "CHECK ((criterion_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "attempt_rubric_criterion_criterion_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (criterion_id) REFERENCES question_rubric_criterion(criterion_id)"
+        },
+        {
+          "name": "attempt_rubric_criterion_max_points_check",
+          "type": "c",
+          "definition": "CHECK ((max_points > (0)::numeric))"
+        },
+        {
+          "name": "attempt_rubric_criterion_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (criterion_snapshot_id)"
+        },
+        {
+          "name": "attempt_rubric_criterion_profile_snapshot_hash_check",
+          "type": "c",
+          "definition": "CHECK ((profile_snapshot_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "attempt_rubric_criterion_question_id_rubric_profile_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id, rubric_profile_id) REFERENCES question_rubric_profile(question_id, rubric_profile_id)"
+        },
+        {
+          "name": "attempt_rubric_criterion_session_id_attempt_id_criterion_sn_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, attempt_id, criterion_snapshot_id)"
+        },
+        {
+          "name": "attempt_rubric_criterion_session_id_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)"
+        },
+        {
+          "name": "attempt_rubric_criterion_sort_order_check",
+          "type": "c",
+          "definition": "CHECK ((sort_order > 0))"
         }
       ]
     },
@@ -1369,39 +1606,14 @@
           "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
         },
         {
-          "name": "clo_concept_clo_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL clo_id"
-        },
-        {
           "name": "clo_concept_concept_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
         },
         {
-          "name": "clo_concept_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "clo_concept_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "clo_concept_mapping_source_not_null",
-          "type": "n",
-          "definition": "NOT NULL mapping_source"
-        },
-        {
           "name": "clo_concept_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (clo_id, concept_id)"
-        },
-        {
-          "name": "clo_concept_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
         },
         {
           "name": "clo_review_check",
@@ -1456,21 +1668,6 @@
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
         },
         {
-          "name": "competency_gap_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "competency_gap_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "competency_gap_gap_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL gap_id"
-        },
-        {
           "name": "competency_gap_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (gap_id)"
@@ -1484,16 +1681,6 @@
           "name": "competency_gap_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
-        },
-        {
-          "name": "competency_gap_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
-        },
-        {
-          "name": "competency_gap_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
         }
       ]
     },
@@ -1553,49 +1740,14 @@
           "definition": "UNIQUE (concept_code)"
         },
         {
-          "name": "concept_concept_code_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_code"
-        },
-        {
-          "name": "concept_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "concept_concept_name_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_name"
-        },
-        {
           "name": "concept_difficulty_level_check",
           "type": "c",
           "definition": "CHECK (((difficulty_level >= 1) AND (difficulty_level <= 5)))"
         },
         {
-          "name": "concept_difficulty_level_not_null",
-          "type": "n",
-          "definition": "NOT NULL difficulty_level"
-        },
-        {
-          "name": "concept_keywords_not_null",
-          "type": "n",
-          "definition": "NOT NULL keywords"
-        },
-        {
-          "name": "concept_learning_objectives_not_null",
-          "type": "n",
-          "definition": "NOT NULL learning_objectives"
-        },
-        {
           "name": "concept_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (concept_id)"
-        },
-        {
-          "name": "concept_subject_area_not_null",
-          "type": "n",
-          "definition": "NOT NULL subject_area"
         }
       ]
     },
@@ -1645,49 +1797,14 @@
       ],
       "constraints": [
         {
-          "name": "concept_competency_below_target_not_null",
-          "type": "n",
-          "definition": "NOT NULL below_target"
-        },
-        {
-          "name": "concept_competency_competency_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL competency_id"
-        },
-        {
-          "name": "concept_competency_competency_pct_not_null",
-          "type": "n",
-          "definition": "NOT NULL competency_pct"
-        },
-        {
-          "name": "concept_competency_computed_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL computed_at"
-        },
-        {
           "name": "concept_competency_concept_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
         },
         {
-          "name": "concept_competency_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
           "name": "concept_competency_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (competency_id)"
-        },
-        {
-          "name": "concept_competency_points_earned_not_null",
-          "type": "n",
-          "definition": "NOT NULL points_earned"
-        },
-        {
-          "name": "concept_competency_points_possible_not_null",
-          "type": "n",
-          "definition": "NOT NULL points_possible"
         },
         {
           "name": "concept_competency_session_id_concept_id_key",
@@ -1698,11 +1815,6 @@
           "name": "concept_competency_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
-        },
-        {
-          "name": "concept_competency_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
         }
       ]
     },
@@ -1737,16 +1849,6 @@
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
         },
         {
-          "name": "concept_dependency_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "concept_dependency_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "concept_dependency_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (concept_id, prerequisite_concept_id)"
@@ -1755,11 +1857,6 @@
           "name": "concept_dependency_prerequisite_concept_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (prerequisite_concept_id) REFERENCES concept(concept_id)"
-        },
-        {
-          "name": "concept_dependency_prerequisite_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL prerequisite_concept_id"
         }
       ]
     },
@@ -1844,24 +1941,9 @@
           "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
         },
         {
-          "name": "course_document_char_count_not_null",
-          "type": "n",
-          "definition": "NOT NULL char_count"
-        },
-        {
           "name": "course_document_counts_check",
           "type": "c",
           "definition": "CHECK (((char_count >= 1) AND ((page_count IS NULL) OR (page_count >= 1))))"
-        },
-        {
-          "name": "course_document_document_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL document_id"
-        },
-        {
-          "name": "course_document_mime_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL mime_type"
         },
         {
           "name": "course_document_pkey",
@@ -1874,19 +1956,9 @@
           "definition": "CHECK (((sha256)::text ~ '^[a-f0-9]{64}$'::text))"
         },
         {
-          "name": "course_document_sha256_not_null",
-          "type": "n",
-          "definition": "NOT NULL sha256"
-        },
-        {
           "name": "course_document_source_check",
           "type": "c",
           "definition": "CHECK (((source_type)::text = 'upload'::text))"
-        },
-        {
-          "name": "course_document_source_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL source_type"
         },
         {
           "name": "course_document_status_check",
@@ -1894,34 +1966,9 @@
           "definition": "CHECK (((status)::text = ANY ((ARRAY['draft'::character varying, 'approved'::character varying, 'archived'::character varying])::text[])))"
         },
         {
-          "name": "course_document_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "course_document_text_policy_version_not_null",
-          "type": "n",
-          "definition": "NOT NULL text_policy_version"
-        },
-        {
-          "name": "course_document_title_not_null",
-          "type": "n",
-          "definition": "NOT NULL title"
-        },
-        {
-          "name": "course_document_uploaded_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL uploaded_at"
-        },
-        {
           "name": "course_document_uploaded_by_fk",
           "type": "f",
           "definition": "FOREIGN KEY (uploaded_by) REFERENCES account(account_id)"
-        },
-        {
-          "name": "course_document_uploaded_by_not_null",
-          "type": "n",
-          "definition": "NOT NULL uploaded_by"
         }
       ]
     },
@@ -1971,44 +2018,14 @@
           "definition": "UNIQUE (clo_code)"
         },
         {
-          "name": "course_learning_outcome_clo_code_not_null",
-          "type": "n",
-          "definition": "NOT NULL clo_code"
-        },
-        {
-          "name": "course_learning_outcome_clo_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL clo_id"
-        },
-        {
-          "name": "course_learning_outcome_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "course_learning_outcome_created_by_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
         },
         {
-          "name": "course_learning_outcome_created_by_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_by"
-        },
-        {
           "name": "course_learning_outcome_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (clo_id)"
-        },
-        {
-          "name": "course_learning_outcome_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "course_learning_outcome_title_not_null",
-          "type": "n",
-          "definition": "NOT NULL title"
         }
       ]
     },
@@ -2063,29 +2080,14 @@
       ],
       "constraints": [
         {
-          "name": "document_chunk_char_count_not_null",
-          "type": "n",
-          "definition": "NOT NULL char_count"
-        },
-        {
           "name": "document_chunk_chars_check",
           "type": "c",
           "definition": "CHECK ((char_count = length(text)))"
         },
         {
-          "name": "document_chunk_chunk_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL chunk_id"
-        },
-        {
           "name": "document_chunk_document_fk",
           "type": "f",
           "definition": "FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE"
-        },
-        {
-          "name": "document_chunk_document_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL document_id"
         },
         {
           "name": "document_chunk_document_ordinal_key",
@@ -2103,11 +2105,6 @@
           "definition": "CHECK ((ordinal >= 1))"
         },
         {
-          "name": "document_chunk_ordinal_not_null",
-          "type": "n",
-          "definition": "NOT NULL ordinal"
-        },
-        {
           "name": "document_chunk_pages_check",
           "type": "c",
           "definition": "CHECK ((((page_from IS NULL) OR (page_from >= 1)) AND ((page_to IS NULL) OR (page_from IS NULL) OR (page_to >= page_from))))"
@@ -2121,16 +2118,6 @@
           "name": "document_chunk_text_check",
           "type": "c",
           "definition": "CHECK ((length(text) >= 1))"
-        },
-        {
-          "name": "document_chunk_text_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL text_hash"
-        },
-        {
-          "name": "document_chunk_text_not_null",
-          "type": "n",
-          "definition": "NOT NULL text"
         }
       ]
     },
@@ -2175,19 +2162,9 @@
           "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
         },
         {
-          "name": "document_clo_clo_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL clo_id"
-        },
-        {
           "name": "document_clo_document_fk",
           "type": "f",
           "definition": "FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE"
-        },
-        {
-          "name": "document_clo_document_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL document_id"
         },
         {
           "name": "document_clo_pkey",
@@ -2198,11 +2175,6 @@
           "name": "document_clo_status_check",
           "type": "c",
           "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'approved'::character varying, 'rejected'::character varying])::text[])))"
-        },
-        {
-          "name": "document_clo_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
         }
       ]
     },
@@ -2257,24 +2229,9 @@
       ],
       "constraints": [
         {
-          "name": "evaluation_record_evaluation_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL evaluation_id"
-        },
-        {
-          "name": "evaluation_record_input_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL input_hash"
-        },
-        {
           "name": "evaluation_record_learner_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
-        },
-        {
-          "name": "evaluation_record_learner_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL learner_id"
         },
         {
           "name": "evaluation_record_learner_id_scope_key_key",
@@ -2287,11 +2244,6 @@
           "definition": "PRIMARY KEY (evaluation_id)"
         },
         {
-          "name": "evaluation_record_scope_key_not_null",
-          "type": "n",
-          "definition": "NOT NULL scope_key"
-        },
-        {
           "name": "evaluation_record_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
@@ -2300,16 +2252,6 @@
           "name": "evaluation_record_status_check",
           "type": "c",
           "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'ready'::character varying])::text[])))"
-        },
-        {
-          "name": "evaluation_record_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "evaluation_record_updated_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL updated_at"
         }
       ]
     },
@@ -2359,29 +2301,9 @@
           "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
         },
         {
-          "name": "grade_edit_audit_attempt_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL attempt_id"
-        },
-        {
-          "name": "grade_edit_audit_audit_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL audit_id"
-        },
-        {
-          "name": "grade_edit_audit_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "grade_edit_audit_new_score_check",
           "type": "c",
           "definition": "CHECK ((new_score >= (0)::numeric))"
-        },
-        {
-          "name": "grade_edit_audit_new_score_not_null",
-          "type": "n",
-          "definition": "NOT NULL new_score"
         },
         {
           "name": "grade_edit_audit_pkey",
@@ -2394,19 +2316,9 @@
           "definition": "CHECK ((length(TRIM(BOTH FROM reason)) >= 3))"
         },
         {
-          "name": "grade_edit_audit_reason_not_null",
-          "type": "n",
-          "definition": "NOT NULL reason"
-        },
-        {
           "name": "grade_edit_audit_reviewer_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
-        },
-        {
-          "name": "grade_edit_audit_reviewer_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL reviewer_id"
         }
       ]
     },
@@ -2461,11 +2373,6 @@
           "definition": "CHECK ((approved_score >= (0)::numeric))"
         },
         {
-          "name": "grade_review_approved_score_not_null",
-          "type": "n",
-          "definition": "NOT NULL approved_score"
-        },
-        {
           "name": "grade_review_attempt_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
@@ -2476,34 +2383,14 @@
           "definition": "UNIQUE (attempt_id)"
         },
         {
-          "name": "grade_review_attempt_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL attempt_id"
-        },
-        {
           "name": "grade_review_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (review_id)"
         },
         {
-          "name": "grade_review_review_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL review_id"
-        },
-        {
-          "name": "grade_review_reviewed_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL reviewed_at"
-        },
-        {
           "name": "grade_review_reviewer_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
-        },
-        {
-          "name": "grade_review_reviewer_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL reviewer_id"
         }
       ]
     },
@@ -2558,11 +2445,6 @@
           "definition": "CHECK ((attempt_count >= 0))"
         },
         {
-          "name": "grading_job_attempt_count_not_null",
-          "type": "n",
-          "definition": "NOT NULL attempt_count"
-        },
-        {
           "name": "grading_job_attempt_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)"
@@ -2573,21 +2455,6 @@
           "definition": "UNIQUE (attempt_id)"
         },
         {
-          "name": "grading_job_attempt_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL attempt_id"
-        },
-        {
-          "name": "grading_job_available_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL available_at"
-        },
-        {
-          "name": "grading_job_job_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL job_id"
-        },
-        {
           "name": "grading_job_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (job_id)"
@@ -2596,11 +2463,6 @@
           "name": "grading_job_status_check",
           "type": "c",
           "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'processing'::character varying, 'completed'::character varying, 'failed'::character varying])::text[])))"
-        },
-        {
-          "name": "grading_job_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
         }
       ]
     },
@@ -2636,24 +2498,14 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "nullable": false
         }
       ],
       "constraints": [
-        {
-          "name": "llm_cache_cache_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL cache_id"
-        },
-        {
-          "name": "llm_cache_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "llm_cache_model_not_null",
-          "type": "n",
-          "definition": "NOT NULL model"
-        },
         {
           "name": "llm_cache_pkey",
           "type": "p",
@@ -2663,21 +2515,6 @@
           "name": "llm_cache_request_hash_key",
           "type": "u",
           "definition": "UNIQUE (request_hash)"
-        },
-        {
-          "name": "llm_cache_request_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL request_hash"
-        },
-        {
-          "name": "llm_cache_response_not_null",
-          "type": "n",
-          "definition": "NOT NULL response"
-        },
-        {
-          "name": "llm_cache_task_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL task_type"
         }
       ]
     },
@@ -2701,21 +2538,6 @@
         }
       ],
       "constraints": [
-        {
-          "name": "login_throttle_expires_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL expires_at"
-        },
-        {
-          "name": "login_throttle_failures_not_null",
-          "type": "n",
-          "definition": "NOT NULL failures"
-        },
-        {
-          "name": "login_throttle_key_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL key_hash"
-        },
         {
           "name": "login_throttle_pkey",
           "type": "p",
@@ -2754,26 +2576,6 @@
       ],
       "constraints": [
         {
-          "name": "mcq_option_is_correct_not_null",
-          "type": "n",
-          "definition": "NOT NULL is_correct"
-        },
-        {
-          "name": "mcq_option_option_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL option_id"
-        },
-        {
-          "name": "mcq_option_option_label_not_null",
-          "type": "n",
-          "definition": "NOT NULL option_label"
-        },
-        {
-          "name": "mcq_option_option_text_not_null",
-          "type": "n",
-          "definition": "NOT NULL option_text"
-        },
-        {
           "name": "mcq_option_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (option_id)"
@@ -2782,11 +2584,6 @@
           "name": "mcq_option_question_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
-        },
-        {
-          "name": "mcq_option_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
         }
       ]
     },
@@ -2826,26 +2623,6 @@
           "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
         },
         {
-          "name": "oauth_handoff_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
-          "name": "oauth_handoff_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "oauth_handoff_expires_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL expires_at"
-        },
-        {
-          "name": "oauth_handoff_jti_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL jti_hash"
-        },
-        {
           "name": "oauth_handoff_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (jti_hash)"
@@ -2883,29 +2660,9 @@
           "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
         },
         {
-          "name": "password_reset_audit_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
-          "name": "password_reset_audit_audit_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL audit_id"
-        },
-        {
-          "name": "password_reset_audit_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "password_reset_audit_event_check",
           "type": "c",
           "definition": "CHECK (((event)::text = ANY ((ARRAY['requested'::character varying, 'completed'::character varying])::text[])))"
-        },
-        {
-          "name": "password_reset_audit_event_not_null",
-          "type": "n",
-          "definition": "NOT NULL event"
         },
         {
           "name": "password_reset_audit_pkey",
@@ -2955,34 +2712,71 @@
           "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id)"
         },
         {
-          "name": "password_reset_token_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
           "name": "password_reset_token_check",
           "type": "c",
           "definition": "CHECK ((expires_at > requested_at))"
         },
         {
-          "name": "password_reset_token_expires_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL expires_at"
-        },
-        {
           "name": "password_reset_token_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (token_hash)"
+        }
+      ]
+    },
+    {
+      "table": "prompt_access_audit",
+      "columns": [
+        {
+          "name": "access_id",
+          "type": "bigint",
+          "nullable": false
         },
         {
-          "name": "password_reset_token_requested_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL requested_at"
+          "name": "prompt_record_id",
+          "type": "bigint",
+          "nullable": false
         },
         {
-          "name": "password_reset_token_token_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL token_hash"
+          "name": "actor_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "result",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "accessed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "request_id",
+          "type": "uuid",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "prompt_access_audit_actor_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (actor_id) REFERENCES account(account_id)"
+        },
+        {
+          "name": "prompt_access_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (access_id)"
+        },
+        {
+          "name": "prompt_access_audit_prompt_record_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (prompt_record_id) REFERENCES ai_prompt_record(prompt_record_id)"
+        },
+        {
+          "name": "prompt_access_audit_result_check",
+          "type": "c",
+          "definition": "CHECK (((result)::text = ANY ((ARRAY['GRANTED'::character varying, 'DENIED_EXPIRED'::character varying, 'DENIED_PURGED'::character varying])::text[])))"
         }
       ]
     },
@@ -3082,29 +2876,14 @@
       ],
       "constraints": [
         {
-          "name": "question_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
           "name": "question_created_by_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
         },
         {
-          "name": "question_created_by_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_by"
-        },
-        {
           "name": "question_difficulty_level_check",
           "type": "c",
           "definition": "CHECK (((difficulty_level >= 1) AND (difficulty_level <= 5)))"
-        },
-        {
-          "name": "question_difficulty_level_not_null",
-          "type": "n",
-          "definition": "NOT NULL difficulty_level"
         },
         {
           "name": "question_family_id_fkey",
@@ -3117,29 +2896,9 @@
           "definition": "CHECK (((original_locale)::text = ANY ((ARRAY['en'::character varying, 'vi'::character varying])::text[])))"
         },
         {
-          "name": "question_original_locale_not_null",
-          "type": "n",
-          "definition": "NOT NULL original_locale"
-        },
-        {
           "name": "question_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (question_id)"
-        },
-        {
-          "name": "question_points_not_null",
-          "type": "n",
-          "definition": "NOT NULL points"
-        },
-        {
-          "name": "question_prompt_not_null",
-          "type": "n",
-          "definition": "NOT NULL prompt"
-        },
-        {
-          "name": "question_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
         },
         {
           "name": "question_question_type_check",
@@ -3147,44 +2906,9 @@
           "definition": "CHECK (((question_type)::text = ANY ((ARRAY['mcq'::character varying, 'sql'::character varying, 'essay'::character varying])::text[])))"
         },
         {
-          "name": "question_question_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_type"
-        },
-        {
-          "name": "question_source_not_null",
-          "type": "n",
-          "definition": "NOT NULL source"
-        },
-        {
-          "name": "question_source_refs_not_null",
-          "type": "n",
-          "definition": "NOT NULL source_refs"
-        },
-        {
-          "name": "question_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "question_tags_not_null",
-          "type": "n",
-          "definition": "NOT NULL tags"
-        },
-        {
           "name": "question_terms_check",
           "type": "c",
           "definition": "CHECK ((((source)::text = ANY ((ARRAY['bank'::character varying, 'ai_generated'::character varying])::text[])) AND ((status)::text = ANY ((ARRAY['draft'::character varying, 'validated'::character varying, 'retired'::character varying])::text[])) AND (points > (0)::numeric) AND (version_no > 0)))"
-        },
-        {
-          "name": "question_updated_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL updated_at"
-        },
-        {
-          "name": "question_version_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL version_no"
         }
       ]
     },
@@ -3234,29 +2958,9 @@
       ],
       "constraints": [
         {
-          "name": "question_candidate_candidate_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL candidate_id"
-        },
-        {
           "name": "question_candidate_concept_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
-        },
-        {
-          "name": "question_candidate_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "question_candidate_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "question_candidate_payload_not_null",
-          "type": "n",
-          "definition": "NOT NULL payload"
         },
         {
           "name": "question_candidate_pkey",
@@ -3272,16 +2976,6 @@
           "name": "question_candidate_promoted_question_id_key",
           "type": "u",
           "definition": "UNIQUE (promoted_question_id)"
-        },
-        {
-          "name": "question_candidate_question_type_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_type"
-        },
-        {
-          "name": "question_candidate_validation_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL validation_status"
         }
       ]
     },
@@ -3331,21 +3025,6 @@
           "definition": "FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)"
         },
         {
-          "name": "question_clo_clo_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL clo_id"
-        },
-        {
-          "name": "question_clo_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "question_clo_is_primary_not_null",
-          "type": "n",
-          "definition": "NOT NULL is_primary"
-        },
-        {
           "name": "question_clo_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (question_id, clo_id)"
@@ -3356,11 +3035,6 @@
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
         },
         {
-          "name": "question_clo_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
           "name": "question_clo_source_check",
           "type": "c",
           "definition": "CHECK (((tag_source)::text = ANY ((ARRAY['admin'::character varying, 'auto'::character varying, 'ai'::character varying])::text[])))"
@@ -3369,16 +3043,6 @@
           "name": "question_clo_status_check",
           "type": "c",
           "definition": "CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'confirmed'::character varying, 'rejected'::character varying])::text[])))"
-        },
-        {
-          "name": "question_clo_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL status"
-        },
-        {
-          "name": "question_clo_tag_source_not_null",
-          "type": "n",
-          "definition": "NOT NULL tag_source"
         }
       ]
     },
@@ -3423,21 +3087,6 @@
           "definition": "FOREIGN KEY (concept_id) REFERENCES concept(concept_id)"
         },
         {
-          "name": "question_concept_concept_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL concept_id"
-        },
-        {
-          "name": "question_concept_confirmed_not_null",
-          "type": "n",
-          "definition": "NOT NULL confirmed"
-        },
-        {
-          "name": "question_concept_is_required_not_null",
-          "type": "n",
-          "definition": "NOT NULL is_required"
-        },
-        {
           "name": "question_concept_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (question_id, concept_id)"
@@ -3446,21 +3095,6 @@
           "name": "question_concept_question_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
-        },
-        {
-          "name": "question_concept_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
-          "name": "question_concept_review_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL review_status"
-        },
-        {
-          "name": "question_concept_tag_source_not_null",
-          "type": "n",
-          "definition": "NOT NULL tag_source"
         },
         {
           "name": "tag_review_check",
@@ -3520,21 +3154,6 @@
           "definition": "FOREIGN KEY (chunk_id) REFERENCES document_chunk(chunk_id)"
         },
         {
-          "name": "question_evidence_chunk_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL chunk_id"
-        },
-        {
-          "name": "question_evidence_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "question_evidence_evidence_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL evidence_id"
-        },
-        {
           "name": "question_evidence_hash_check",
           "type": "c",
           "definition": "CHECK (((source_hash)::text ~ '^[a-f0-9]{64}$'::text))"
@@ -3555,24 +3174,183 @@
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
         },
         {
-          "name": "question_evidence_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
           "name": "question_evidence_quote_check",
           "type": "c",
           "definition": "CHECK ((length(quote) >= 1))"
+        }
+      ]
+    },
+    {
+      "table": "question_rubric_criterion",
+      "columns": [
+        {
+          "name": "criterion_id",
+          "type": "bigint",
+          "nullable": false
         },
         {
-          "name": "question_evidence_quote_not_null",
-          "type": "n",
-          "definition": "NOT NULL quote"
+          "name": "rubric_profile_id",
+          "type": "bigint",
+          "nullable": false
         },
         {
-          "name": "question_evidence_source_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL source_hash"
+          "name": "criterion_code",
+          "type": "character varying(40)",
+          "nullable": false
+        },
+        {
+          "name": "criterion_name",
+          "type": "character varying(120)",
+          "nullable": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "scoring_guidance",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "max_points",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "sort_order",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "criterion_hash",
+          "type": "character(64)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_rubric_criterion_criterion_hash_check",
+          "type": "c",
+          "definition": "CHECK ((criterion_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "question_rubric_criterion_max_points_check",
+          "type": "c",
+          "definition": "CHECK ((max_points > (0)::numeric))"
+        },
+        {
+          "name": "question_rubric_criterion_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (criterion_id)"
+        },
+        {
+          "name": "question_rubric_criterion_rubric_profile_id_criterion_code_key",
+          "type": "u",
+          "definition": "UNIQUE (rubric_profile_id, criterion_code)"
+        },
+        {
+          "name": "question_rubric_criterion_rubric_profile_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (rubric_profile_id) REFERENCES question_rubric_profile(rubric_profile_id)"
+        },
+        {
+          "name": "question_rubric_criterion_rubric_profile_id_sort_order_key",
+          "type": "u",
+          "definition": "UNIQUE (rubric_profile_id, sort_order)"
+        },
+        {
+          "name": "question_rubric_criterion_sort_order_check",
+          "type": "c",
+          "definition": "CHECK ((sort_order > 0))"
+        }
+      ]
+    },
+    {
+      "table": "question_rubric_profile",
+      "columns": [
+        {
+          "name": "rubric_profile_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "profile_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "created_by",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "retired_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_rubric_profile_created_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "question_rubric_profile_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (rubric_profile_id)"
+        },
+        {
+          "name": "question_rubric_profile_profile_hash_check",
+          "type": "c",
+          "definition": "CHECK ((profile_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "question_rubric_profile_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+        },
+        {
+          "name": "question_rubric_profile_question_id_rubric_profile_id_key",
+          "type": "u",
+          "definition": "UNIQUE (question_id, rubric_profile_id)"
+        },
+        {
+          "name": "question_rubric_profile_question_id_version_no_key",
+          "type": "u",
+          "definition": "UNIQUE (question_id, version_no)"
+        },
+        {
+          "name": "question_rubric_profile_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['active'::character varying, 'retired'::character varying])::text[])))"
+        },
+        {
+          "name": "question_rubric_profile_version_no_check",
+          "type": "c",
+          "definition": "CHECK ((version_no > 0))"
         }
       ]
     },
@@ -3622,19 +3400,9 @@
       ],
       "constraints": [
         {
-          "name": "question_translation_locale_not_null",
-          "type": "n",
-          "definition": "NOT NULL locale"
-        },
-        {
           "name": "question_translation_option_texts_check",
           "type": "c",
           "definition": "CHECK ((jsonb_typeof(option_texts) = 'object'::text))"
-        },
-        {
-          "name": "question_translation_option_texts_not_null",
-          "type": "n",
-          "definition": "NOT NULL option_texts"
         },
         {
           "name": "question_translation_pkey",
@@ -3642,19 +3410,9 @@
           "definition": "PRIMARY KEY (question_id, locale)"
         },
         {
-          "name": "question_translation_prompt_not_null",
-          "type": "n",
-          "definition": "NOT NULL prompt"
-        },
-        {
           "name": "question_translation_question_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
-        },
-        {
-          "name": "question_translation_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
         },
         {
           "name": "question_translation_rubrics_check",
@@ -3662,24 +3420,9 @@
           "definition": "CHECK ((jsonb_typeof(rubrics) = 'object'::text))"
         },
         {
-          "name": "question_translation_rubrics_not_null",
-          "type": "n",
-          "definition": "NOT NULL rubrics"
-        },
-        {
-          "name": "question_translation_source_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL source_hash"
-        },
-        {
           "name": "question_translation_supported_locale_check",
           "type": "c",
           "definition": "CHECK (((locale)::text ~ '^[a-z]{2}(-[A-Z]{2})?$'::text))"
-        },
-        {
-          "name": "question_translation_updated_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL updated_at"
         }
       ]
     },
@@ -3734,39 +3477,14 @@
           "definition": "FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE"
         },
         {
-          "name": "refresh_session_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
           "name": "refresh_session_check",
           "type": "c",
           "definition": "CHECK ((expires_at > created_at))"
         },
         {
-          "name": "refresh_session_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "refresh_session_credential_version_not_null",
-          "type": "n",
-          "definition": "NOT NULL credential_version"
-        },
-        {
-          "name": "refresh_session_expires_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL expires_at"
-        },
-        {
           "name": "refresh_session_family_id_check",
           "type": "c",
           "definition": "CHECK (((family_id)::text ~ '^[0-9a-f]{32}$'::text))"
-        },
-        {
-          "name": "refresh_session_family_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL family_id"
         },
         {
           "name": "refresh_session_pkey",
@@ -3777,11 +3495,6 @@
           "name": "refresh_session_token_hash_check",
           "type": "c",
           "definition": "CHECK (((token_hash)::text ~ '^[0-9a-f]{64}$'::text))"
-        },
-        {
-          "name": "refresh_session_token_hash_not_null",
-          "type": "n",
-          "definition": "NOT NULL token_hash"
         }
       ]
     },
@@ -3821,29 +3534,9 @@
       ],
       "constraints": [
         {
-          "name": "result_release_event_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "result_release_event_event_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL event_id"
-        },
-        {
-          "name": "result_release_event_new_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL new_status"
-        },
-        {
           "name": "result_release_event_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (event_id)"
-        },
-        {
-          "name": "result_release_event_previous_status_not_null",
-          "type": "n",
-          "definition": "NOT NULL previous_status"
         },
         {
           "name": "result_release_event_reviewer_id_fkey",
@@ -3854,11 +3547,68 @@
           "name": "result_release_event_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        }
+      ]
+    },
+    {
+      "table": "retention_purge_audit",
+      "columns": [
+        {
+          "name": "purge_audit_id",
+          "type": "bigint",
+          "nullable": false
         },
         {
-          "name": "result_release_event_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
+          "name": "object_type",
+          "type": "character varying(20)",
+          "nullable": false
+        },
+        {
+          "name": "object_id",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "content_hash",
+          "type": "character(64)",
+          "nullable": true
+        },
+        {
+          "name": "purged_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "purge_reason",
+          "type": "character varying(40)",
+          "nullable": false
+        },
+        {
+          "name": "actor",
+          "type": "character varying(80)",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "retention_purge_audit_object_type_check",
+          "type": "c",
+          "definition": "CHECK (((object_type)::text = ANY ((ARRAY['PROMPT_CONTENT'::character varying, 'LLM_CACHE'::character varying])::text[])))"
+        },
+        {
+          "name": "retention_purge_audit_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (purge_audit_id)"
+        },
+        {
+          "name": "retention_purge_audit_purge_reason_check",
+          "type": "c",
+          "definition": "CHECK (((purge_reason)::text = ANY ((ARRAY['AGE_60_DAYS'::character varying, 'MANUAL_ADMIN'::character varying, 'MIGRATION_BACKFILL'::character varying])::text[])))"
         }
       ]
     },
@@ -3888,19 +3638,9 @@
           "definition": "PRIMARY KEY (role_id)"
         },
         {
-          "name": "role_role_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL role_id"
-        },
-        {
           "name": "role_role_name_key",
           "type": "u",
           "definition": "UNIQUE (role_name)"
-        },
-        {
-          "name": "role_role_name_not_null",
-          "type": "n",
-          "definition": "NOT NULL role_name"
         }
       ]
     },
@@ -3945,26 +3685,6 @@
           "definition": "CHECK ((min_score <= max_score))"
         },
         {
-          "name": "rubric_criteria_not_null",
-          "type": "n",
-          "definition": "NOT NULL criteria"
-        },
-        {
-          "name": "rubric_level_name_not_null",
-          "type": "n",
-          "definition": "NOT NULL level_name"
-        },
-        {
-          "name": "rubric_max_score_not_null",
-          "type": "n",
-          "definition": "NOT NULL max_score"
-        },
-        {
-          "name": "rubric_min_score_not_null",
-          "type": "n",
-          "definition": "NOT NULL min_score"
-        },
-        {
           "name": "rubric_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (rubric_id)"
@@ -3973,16 +3693,6 @@
           "name": "rubric_question_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
-        },
-        {
-          "name": "rubric_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
-          "name": "rubric_rubric_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL rubric_id"
         }
       ]
     },
@@ -4027,21 +3737,6 @@
       ],
       "constraints": [
         {
-          "name": "selection_log_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "selection_log_is_fallback_not_null",
-          "type": "n",
-          "definition": "NOT NULL is_fallback"
-        },
-        {
-          "name": "selection_log_log_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL log_id"
-        },
-        {
           "name": "selection_log_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (log_id)"
@@ -4052,24 +3747,9 @@
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
         },
         {
-          "name": "selection_log_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
-          "name": "selection_log_seq_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL seq_no"
-        },
-        {
           "name": "selection_log_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
-        },
-        {
-          "name": "selection_log_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
         },
         {
           "name": "selection_log_session_id_seq_no_key",
@@ -4109,19 +3789,9 @@
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
         },
         {
-          "name": "session_question_plan_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
           "name": "session_question_plan_seq_no_check",
           "type": "c",
           "definition": "CHECK ((seq_no > 0))"
-        },
-        {
-          "name": "session_question_plan_seq_no_not_null",
-          "type": "n",
-          "definition": "NOT NULL seq_no"
         },
         {
           "name": "session_question_plan_session_id_fkey",
@@ -4129,14 +3799,479 @@
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
         },
         {
-          "name": "session_question_plan_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
-        },
-        {
           "name": "session_question_plan_session_id_question_id_key",
           "type": "u",
           "definition": "UNIQUE (session_id, question_id)"
+        }
+      ]
+    },
+    {
+      "table": "session_result_analysis",
+      "columns": [
+        {
+          "name": "analysis_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "result_version_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "ai1_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "ai2_run_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "analysis_schema_version",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "analysis_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "analysis",
+          "type": "jsonb",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_result_analysis_ai1_run_id_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (ai1_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+        },
+        {
+          "name": "session_result_analysis_ai2_run_id_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (ai2_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+        },
+        {
+          "name": "session_result_analysis_analysis_hash_check",
+          "type": "c",
+          "definition": "CHECK ((analysis_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "session_result_analysis_analysis_schema_version_check",
+          "type": "c",
+          "definition": "CHECK ((analysis_schema_version > 0))"
+        },
+        {
+          "name": "session_result_analysis_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (analysis_id)"
+        },
+        {
+          "name": "session_result_analysis_session_id_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+        },
+        {
+          "name": "session_result_analysis_session_id_result_version_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, result_version_id)"
+        }
+      ]
+    },
+    {
+      "table": "session_result_criterion_score",
+      "columns": [
+        {
+          "name": "criterion_score_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "result_version_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "criterion_snapshot_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "max_points",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "comment",
+          "type": "character varying(2000)",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_result_criterion_scor_session_id_attempt_id_criter_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, attempt_id, criterion_snapshot_id) REFERENCES attempt_rubric_criterion(session_id, attempt_id, criterion_snapshot_id)"
+        },
+        {
+          "name": "session_result_criterion_scor_session_id_result_version_id__key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, result_version_id, attempt_id, criterion_snapshot_id)"
+        },
+        {
+          "name": "session_result_criterion_scor_session_id_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, result_version_id, attempt_id) REFERENCES session_result_version_score(session_id, result_version_id, attempt_id)"
+        },
+        {
+          "name": "session_result_criterion_score_all_check",
+          "type": "t",
+          "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+        },
+        {
+          "name": "session_result_criterion_score_check",
+          "type": "c",
+          "definition": "CHECK (((score >= (0)::numeric) AND (score <= max_points)))"
+        },
+        {
+          "name": "session_result_criterion_score_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (criterion_score_id)"
+        }
+      ]
+    },
+    {
+      "table": "session_result_publication",
+      "columns": [
+        {
+          "name": "result_version_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "character varying(30)",
+          "nullable": false
+        },
+        {
+          "name": "state_revision",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "analysis_failed_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "updated_by",
+          "type": "integer",
+          "nullable": true
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_result_publication_all_check",
+          "type": "t",
+          "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+        },
+        {
+          "name": "session_result_publication_check",
+          "type": "c",
+          "definition": "CHECK ((((state)::text = 'OFFICIAL'::text) = (published_at IS NOT NULL)))"
+        },
+        {
+          "name": "session_result_publication_check1",
+          "type": "c",
+          "definition": "CHECK ((((state)::text = 'ANALYSIS_FAILED'::text) = (analysis_failed_at IS NOT NULL)))"
+        },
+        {
+          "name": "session_result_publication_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (result_version_id)"
+        },
+        {
+          "name": "session_result_publication_session_id_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+        },
+        {
+          "name": "session_result_publication_session_id_result_version_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, result_version_id)"
+        },
+        {
+          "name": "session_result_publication_state_check",
+          "type": "c",
+          "definition": "CHECK (((state)::text = ANY ((ARRAY['APPROVED_PENDING_ANALYSIS'::character varying, 'ANALYSIS_FAILED'::character varying, 'OFFICIAL'::character varying])::text[])))"
+        },
+        {
+          "name": "session_result_publication_state_revision_check",
+          "type": "c",
+          "definition": "CHECK ((state_revision >= 0))"
+        },
+        {
+          "name": "session_result_publication_updated_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+        }
+      ]
+    },
+    {
+      "table": "session_result_version",
+      "columns": [
+        {
+          "name": "result_version_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "version_no",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "source",
+          "type": "character varying(10)",
+          "nullable": false
+        },
+        {
+          "name": "supersedes_version_id",
+          "type": "bigint",
+          "nullable": true
+        },
+        {
+          "name": "total_score",
+          "type": "numeric(7,2)",
+          "nullable": false
+        },
+        {
+          "name": "max_score",
+          "type": "numeric(7,2)",
+          "nullable": false
+        },
+        {
+          "name": "result_hash",
+          "type": "character(64)",
+          "nullable": false
+        },
+        {
+          "name": "approved_by",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        },
+        {
+          "name": "approved_draft_hash",
+          "type": "character(64)",
+          "nullable": true
+        },
+        {
+          "name": "approved_review_revision",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_result_version_all_check",
+          "type": "t",
+          "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+        },
+        {
+          "name": "session_result_version_approved_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "session_result_version_approved_review_revision_check",
+          "type": "c",
+          "definition": "CHECK ((approved_review_revision >= 0))"
+        },
+        {
+          "name": "session_result_version_check",
+          "type": "c",
+          "definition": "CHECK (((total_score >= (0)::numeric) AND (total_score <= max_score)))"
+        },
+        {
+          "name": "session_result_version_check1",
+          "type": "c",
+          "definition": "CHECK ((((source)::text = 'V1'::text) OR (approved_by IS NOT NULL)))"
+        },
+        {
+          "name": "session_result_version_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (result_version_id)"
+        },
+        {
+          "name": "session_result_version_result_hash_check",
+          "type": "c",
+          "definition": "CHECK ((result_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "session_result_version_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+        },
+        {
+          "name": "session_result_version_session_id_result_version_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, result_version_id)"
+        },
+        {
+          "name": "session_result_version_session_id_version_no_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, version_no)"
+        },
+        {
+          "name": "session_result_version_source_check",
+          "type": "c",
+          "definition": "CHECK (((source)::text = ANY ((ARRAY['V1'::character varying, 'V2'::character varying])::text[])))"
+        },
+        {
+          "name": "session_result_version_supersedes_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (supersedes_version_id) REFERENCES session_result_version(result_version_id)"
+        },
+        {
+          "name": "session_result_version_version_no_check",
+          "type": "c",
+          "definition": "CHECK ((version_no >= 1))"
+        }
+      ]
+    },
+    {
+      "table": "session_result_version_score",
+      "columns": [
+        {
+          "name": "version_score_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "result_version_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "max_score",
+          "type": "numeric(5,2)",
+          "nullable": false
+        },
+        {
+          "name": "source",
+          "type": "character varying(20)",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_result_version_score_all_check",
+          "type": "t",
+          "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+        },
+        {
+          "name": "session_result_version_score_check",
+          "type": "c",
+          "definition": "CHECK (((score >= (0)::numeric) AND (score <= max_score)))"
+        },
+        {
+          "name": "session_result_version_score_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (version_score_id)"
+        },
+        {
+          "name": "session_result_version_score_session_id_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)"
+        },
+        {
+          "name": "session_result_version_score_session_id_result_version_id_a_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, result_version_id, attempt_id)"
+        },
+        {
+          "name": "session_result_version_score_session_id_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+        },
+        {
+          "name": "session_result_version_score_source_check",
+          "type": "c",
+          "definition": "CHECK (((source)::text = ANY ((ARRAY['MACHINE'::character varying, 'AI2'::character varying, 'REVIEW'::character varying, 'REGRADE'::character varying])::text[])))"
         }
       ]
     },
@@ -4162,38 +4297,23 @@
           "name": "created_at",
           "type": "timestamp with time zone",
           "nullable": false
+        },
+        {
+          "name": "request_hash",
+          "type": "character(64)",
+          "nullable": true
         }
       ],
       "constraints": [
-        {
-          "name": "session_start_request_created_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL created_at"
-        },
-        {
-          "name": "session_start_request_learner_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL learner_id"
-        },
         {
           "name": "session_start_request_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (learner_id, request_id)"
         },
         {
-          "name": "session_start_request_request_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL request_id"
-        },
-        {
           "name": "session_start_request_session_id_learner_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id, learner_id) REFERENCES assessment_session(session_id, learner_id)"
-        },
-        {
-          "name": "session_start_request_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
         }
       ]
     },
@@ -4233,26 +4353,6 @@
       ],
       "constraints": [
         {
-          "name": "sql_test_dataset_dataset_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL dataset_id"
-        },
-        {
-          "name": "sql_test_dataset_dataset_name_not_null",
-          "type": "n",
-          "definition": "NOT NULL dataset_name"
-        },
-        {
-          "name": "sql_test_dataset_expected_result_not_null",
-          "type": "n",
-          "definition": "NOT NULL expected_result"
-        },
-        {
-          "name": "sql_test_dataset_is_edge_case_not_null",
-          "type": "n",
-          "definition": "NOT NULL is_edge_case"
-        },
-        {
           "name": "sql_test_dataset_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (dataset_id)"
@@ -4261,16 +4361,6 @@
           "name": "sql_test_dataset_question_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
-        },
-        {
-          "name": "sql_test_dataset_question_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL question_id"
-        },
-        {
-          "name": "sql_test_dataset_setup_sql_not_null",
-          "type": "n",
-          "definition": "NOT NULL setup_sql"
         }
       ]
     },
@@ -4305,24 +4395,9 @@
           "definition": "PRIMARY KEY (setting_key)"
         },
         {
-          "name": "system_setting_setting_key_not_null",
-          "type": "n",
-          "definition": "NOT NULL setting_key"
-        },
-        {
-          "name": "system_setting_updated_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL updated_at"
-        },
-        {
           "name": "system_setting_updated_by_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
-        },
-        {
-          "name": "system_setting_value_not_null",
-          "type": "n",
-          "definition": "NOT NULL value"
         }
       ]
     },
@@ -4372,21 +4447,6 @@
           "definition": "CHECK (((away_seconds IS NULL) OR (away_seconds >= 0)))"
         },
         {
-          "name": "tab_leave_interval_counted_not_null",
-          "type": "n",
-          "definition": "NOT NULL counted"
-        },
-        {
-          "name": "tab_leave_interval_leave_event_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL leave_event_id"
-        },
-        {
-          "name": "tab_leave_interval_left_at_not_null",
-          "type": "n",
-          "definition": "NOT NULL left_at"
-        },
-        {
           "name": "tab_leave_interval_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (leave_event_id)"
@@ -4400,11 +4460,6 @@
           "name": "tab_leave_interval_session_id_fkey",
           "type": "f",
           "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id) ON DELETE CASCADE"
-        },
-        {
-          "name": "tab_leave_interval_session_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL session_id"
         }
       ]
     },
@@ -4454,29 +4509,14 @@
           "definition": "UNIQUE (account_id)"
         },
         {
-          "name": "user_profile_account_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL account_id"
-        },
-        {
-          "name": "user_profile_full_name_not_null",
-          "type": "n",
-          "definition": "NOT NULL full_name"
-        },
-        {
           "name": "user_profile_pkey",
           "type": "p",
           "definition": "PRIMARY KEY (user_id)"
-        },
-        {
-          "name": "user_profile_user_id_not_null",
-          "type": "n",
-          "definition": "NOT NULL user_id"
         }
       ]
     }
   ],
-  "schema_sha256": "7e401ff30d8d666d0baf2099d5051408fa03bb437817faabb72d9060283ec45d",
+  "schema_sha256": "0c7edf5907cdeebc0cb027d9a387fd2b0ef16532280b4b32584ffc27d072184c",
   "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
   "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
   "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",

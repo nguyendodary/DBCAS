@@ -1050,5 +1050,487 @@
     "children_per_parent": "0..N",
     "constraint": "tab_leave_interval_session_id_fkey",
     "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id) ON DELETE CASCADE"
+  },
+  {
+    "id": "FK71",
+    "source": "ai_prompt_content",
+    "columns": [
+      "prompt_record_id"
+    ],
+    "destination": "ai_prompt_record",
+    "reference_columns": [
+      "prompt_record_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "ai_prompt_content_prompt_record_id_fkey",
+    "definition": "FOREIGN KEY (prompt_record_id) REFERENCES ai_prompt_record(prompt_record_id)"
+  },
+  {
+    "id": "FK72",
+    "source": "ai_prompt_record",
+    "columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "destination": "ai_stage_run",
+    "reference_columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_prompt_record_stage_run_id_session_id_fkey",
+    "definition": "FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+  },
+  {
+    "id": "FK73",
+    "source": "ai_stage_attempt",
+    "columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "destination": "ai_stage_run",
+    "reference_columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_stage_attempt_stage_run_id_session_id_fkey",
+    "definition": "FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+  },
+  {
+    "id": "FK74",
+    "source": "ai_stage_run",
+    "columns": [
+      "predecessor_validation_id"
+    ],
+    "destination": "ai_stage_validation",
+    "reference_columns": [
+      "validation_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_stage_run_predecessor_fk",
+    "definition": "FOREIGN KEY (predecessor_validation_id) REFERENCES ai_stage_validation(validation_id)"
+  },
+  {
+    "id": "FK75",
+    "source": "ai_stage_run",
+    "columns": [
+      "recovery_authorized_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_stage_run_recovery_authorized_by_fkey",
+    "definition": "FOREIGN KEY (recovery_authorized_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK76",
+    "source": "ai_stage_run",
+    "columns": [
+      "recovery_of_run_id"
+    ],
+    "destination": "ai_stage_run",
+    "reference_columns": [
+      "stage_run_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_stage_run_recovery_of_run_id_fkey",
+    "definition": "FOREIGN KEY (recovery_of_run_id) REFERENCES ai_stage_run(stage_run_id)"
+  },
+  {
+    "id": "FK77",
+    "source": "ai_stage_run",
+    "columns": [
+      "result_version_id"
+    ],
+    "destination": "session_result_version",
+    "reference_columns": [
+      "result_version_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_stage_run_result_version_id_fkey",
+    "definition": "FOREIGN KEY (result_version_id) REFERENCES session_result_version(result_version_id)"
+  },
+  {
+    "id": "FK78",
+    "source": "ai_stage_run",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "ai_stage_run_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK79",
+    "source": "ai_stage_validation",
+    "columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "destination": "ai_stage_run",
+    "reference_columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "ai_stage_validation_stage_run_id_session_id_fkey",
+    "definition": "FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+  },
+  {
+    "id": "FK80",
+    "source": "assessment_session",
+    "columns": [
+      "session_id",
+      "current_result_version_id"
+    ],
+    "destination": "session_result_version",
+    "reference_columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..1",
+    "constraint": "assessment_session_current_version_fk",
+    "definition": "FOREIGN KEY (session_id, current_result_version_id) REFERENCES session_result_version(session_id, result_version_id) DEFERRABLE INITIALLY DEFERRED"
+  },
+  {
+    "id": "FK81",
+    "source": "attempt_rubric_criterion",
+    "columns": [
+      "criterion_id"
+    ],
+    "destination": "question_rubric_criterion",
+    "reference_columns": [
+      "criterion_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "attempt_rubric_criterion_criterion_id_fkey",
+    "definition": "FOREIGN KEY (criterion_id) REFERENCES question_rubric_criterion(criterion_id)"
+  },
+  {
+    "id": "FK82",
+    "source": "attempt_rubric_criterion",
+    "columns": [
+      "question_id",
+      "rubric_profile_id"
+    ],
+    "destination": "question_rubric_profile",
+    "reference_columns": [
+      "question_id",
+      "rubric_profile_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "attempt_rubric_criterion_question_id_rubric_profile_id_fkey",
+    "definition": "FOREIGN KEY (question_id, rubric_profile_id) REFERENCES question_rubric_profile(question_id, rubric_profile_id)"
+  },
+  {
+    "id": "FK83",
+    "source": "attempt_rubric_criterion",
+    "columns": [
+      "session_id",
+      "attempt_id"
+    ],
+    "destination": "attempt",
+    "reference_columns": [
+      "session_id",
+      "attempt_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "attempt_rubric_criterion_session_id_attempt_id_fkey",
+    "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)"
+  },
+  {
+    "id": "FK84",
+    "source": "prompt_access_audit",
+    "columns": [
+      "actor_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "prompt_access_audit_actor_id_fkey",
+    "definition": "FOREIGN KEY (actor_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK85",
+    "source": "prompt_access_audit",
+    "columns": [
+      "prompt_record_id"
+    ],
+    "destination": "ai_prompt_record",
+    "reference_columns": [
+      "prompt_record_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "prompt_access_audit_prompt_record_id_fkey",
+    "definition": "FOREIGN KEY (prompt_record_id) REFERENCES ai_prompt_record(prompt_record_id)"
+  },
+  {
+    "id": "FK86",
+    "source": "question_rubric_criterion",
+    "columns": [
+      "rubric_profile_id"
+    ],
+    "destination": "question_rubric_profile",
+    "reference_columns": [
+      "rubric_profile_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_rubric_criterion_rubric_profile_id_fkey",
+    "definition": "FOREIGN KEY (rubric_profile_id) REFERENCES question_rubric_profile(rubric_profile_id)"
+  },
+  {
+    "id": "FK87",
+    "source": "question_rubric_profile",
+    "columns": [
+      "created_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_rubric_profile_created_by_fkey",
+    "definition": "FOREIGN KEY (created_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK88",
+    "source": "question_rubric_profile",
+    "columns": [
+      "question_id"
+    ],
+    "destination": "question",
+    "reference_columns": [
+      "question_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "question_rubric_profile_question_id_fkey",
+    "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+  },
+  {
+    "id": "FK89",
+    "source": "session_result_analysis",
+    "columns": [
+      "ai1_run_id",
+      "session_id"
+    ],
+    "destination": "ai_stage_run",
+    "reference_columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_analysis_ai1_run_id_session_id_fkey",
+    "definition": "FOREIGN KEY (ai1_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+  },
+  {
+    "id": "FK90",
+    "source": "session_result_analysis",
+    "columns": [
+      "ai2_run_id",
+      "session_id"
+    ],
+    "destination": "ai_stage_run",
+    "reference_columns": [
+      "stage_run_id",
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_analysis_ai2_run_id_session_id_fkey",
+    "definition": "FOREIGN KEY (ai2_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)"
+  },
+  {
+    "id": "FK91",
+    "source": "session_result_analysis",
+    "columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "destination": "session_result_version",
+    "reference_columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "session_result_analysis_session_id_result_version_id_fkey",
+    "definition": "FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+  },
+  {
+    "id": "FK92",
+    "source": "session_result_criterion_score",
+    "columns": [
+      "session_id",
+      "attempt_id",
+      "criterion_snapshot_id"
+    ],
+    "destination": "attempt_rubric_criterion",
+    "reference_columns": [
+      "session_id",
+      "attempt_id",
+      "criterion_snapshot_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_criterion_scor_session_id_attempt_id_criter_fkey",
+    "definition": "FOREIGN KEY (session_id, attempt_id, criterion_snapshot_id) REFERENCES attempt_rubric_criterion(session_id, attempt_id, criterion_snapshot_id)"
+  },
+  {
+    "id": "FK93",
+    "source": "session_result_criterion_score",
+    "columns": [
+      "session_id",
+      "result_version_id",
+      "attempt_id"
+    ],
+    "destination": "session_result_version_score",
+    "reference_columns": [
+      "session_id",
+      "result_version_id",
+      "attempt_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_criterion_scor_session_id_result_version_id_fkey",
+    "definition": "FOREIGN KEY (session_id, result_version_id, attempt_id) REFERENCES session_result_version_score(session_id, result_version_id, attempt_id)"
+  },
+  {
+    "id": "FK94",
+    "source": "session_result_publication",
+    "columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "destination": "session_result_version",
+    "reference_columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "session_result_publication_session_id_result_version_id_fkey",
+    "definition": "FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+  },
+  {
+    "id": "FK95",
+    "source": "session_result_publication",
+    "columns": [
+      "updated_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_publication_updated_by_fkey",
+    "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK96",
+    "source": "session_result_version",
+    "columns": [
+      "approved_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_version_approved_by_fkey",
+    "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK97",
+    "source": "session_result_version_score",
+    "columns": [
+      "session_id",
+      "attempt_id"
+    ],
+    "destination": "attempt",
+    "reference_columns": [
+      "session_id",
+      "attempt_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_version_score_session_id_attempt_id_fkey",
+    "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)"
+  },
+  {
+    "id": "FK98",
+    "source": "session_result_version_score",
+    "columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "destination": "session_result_version",
+    "reference_columns": [
+      "session_id",
+      "result_version_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_version_score_session_id_result_version_id_fkey",
+    "definition": "FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+  },
+  {
+    "id": "FK99",
+    "source": "session_result_version",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_version_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+  },
+  {
+    "id": "FK100",
+    "source": "session_result_version",
+    "columns": [
+      "supersedes_version_id"
+    ],
+    "destination": "session_result_version",
+    "reference_columns": [
+      "result_version_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "session_result_version_supersedes_version_id_fkey",
+    "definition": "FOREIGN KEY (supersedes_version_id) REFERENCES session_result_version(result_version_id)"
   }
 ]
