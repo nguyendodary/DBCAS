@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
+import { waitForProvider } from '../../scripts/readiness.mjs'
 export const vi = JSON.parse(
   await readFile(new URL('../src/i18n/vi.json', import.meta.url), 'utf8'),
 )
@@ -44,10 +45,13 @@ export async function checkQuestionTypography(page, kind) {
 }
 
 // The fake provider is reached over a published host port. Docker's port proxy
-// can briefly drop a connection mid-suite (ECONNREFUSED), so retry the control
-// POST with a bounded budget. The strict ok() assertion is unchanged: a real
-// provider outage still fails the test, only a transient drop is absorbed.
-export async function providerControl(page, data, { attempts = 5, retryMs = 250 } = {}) {
+// can briefly stop forwarding mid-suite (ECONNREFUSED) while the container and
+// its internal port stay healthy. Re-probe the public /health path (the same
+// gate the launcher uses) before retrying such a drop. Only connection-level
+// errors are retried: a real provider outage (HTTP 503) still fails the strict
+// ok() assertion immediately, and an unreachable port fails when the probe
+// deadline expires.
+export async function providerControl(page, data, { attempts = 8, retryMs = 250 } = {}) {
   const url = process.env.DBCAS_QA_PROVIDER_URL
   if (!url) return null
   let lastError
@@ -57,8 +61,15 @@ export async function providerControl(page, data, { attempts = 5, retryMs = 250 
       expect(response.ok(), `provider control: HTTP ${response.status()}`).toBe(true)
       return response
     } catch (error) {
+      if (
+        !/(ECONNREFUSED|ECONNRESET|ETIMEDOUT|socket hang up)/i.test(String(error?.message || error))
+      )
+        throw error
       lastError = error
-      if (attempt < attempts) await page.waitForTimeout(retryMs)
+      if (attempt < attempts) {
+        await waitForProvider(url, { timeoutMs: 20000, requestTimeoutMs: 1500 })
+        await page.waitForTimeout(retryMs)
+      }
     }
   }
   throw lastError
