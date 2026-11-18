@@ -92,6 +92,71 @@ def test_migration_matrix_preserves_data_and_is_repeatable(variant):
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
 
 
+CATALOG_SQL = {
+    "tables": """select c.relname from pg_class c
+     join pg_namespace n on n.oid=c.relnamespace
+     where n.nspname=current_schema() and c.relkind='r' and c.relpersistence='p'
+       and c.relname<>'schema_migration'
+     order by c.relname collate "C" """,
+    "columns": """select table_name, column_name, data_type, udt_name, is_nullable,
+     column_default, is_identity, character_maximum_length, numeric_precision, numeric_scale
+     from information_schema.columns
+     where table_schema=current_schema() and table_name<>'schema_migration'
+     order by table_name, column_name""",
+    "constraints": """select c.relname, con.conname, con.contype, pg_get_constraintdef(con.oid)
+     from pg_constraint con join pg_class c on c.oid=con.conrelid
+     join pg_namespace n on n.oid=c.relnamespace
+     where n.nspname=current_schema() and c.relname<>'schema_migration'
+     order by c.relname, con.conname collate "C" """,
+    "indexes": """select tablename, indexname,
+     regexp_replace(indexdef, current_schema(), 'SCHEMA', 'g')
+     from pg_indexes
+     where schemaname=current_schema() and tablename<>'schema_migration'
+     order by tablename collate "C", indexname collate "C" """,
+    "triggers": """select c.relname, t.tgname,
+     regexp_replace(pg_get_triggerdef(t.oid), current_schema(), 'SCHEMA', 'g')
+     from pg_trigger t join pg_class c on c.oid=t.tgrelid
+     join pg_namespace n on n.oid=c.relnamespace
+     where n.nspname=current_schema() and not t.tgisinternal and c.relname<>'schema_migration'
+     order by c.relname collate "C", t.tgname collate "C" """,
+}
+
+
+def catalog_shape(conn):
+    return {kind: tuple(tuple(row) for row in conn.execute(sql).fetchall())
+            for kind, sql in CATALOG_SQL.items()}
+
+
+def _load_catalog(conn, namespace, sql, migrate):
+    conn.execute(f'DROP SCHEMA IF EXISTS "{namespace}" CASCADE')
+    conn.execute(f'CREATE SCHEMA "{namespace}"')
+    conn.execute(f'SET search_path TO "{namespace}"')
+    try:
+        conn.execute(sql, prepare=False)
+        if migrate:
+            apply_migrations(conn)
+        return catalog_shape(conn)
+    finally:
+        conn.execute("SET search_path TO public")
+        conn.execute(f'DROP SCHEMA IF EXISTS "{namespace}" CASCADE')
+
+
+def test_schema_sql_matches_entire_migration_chain_catalog():
+    """db/schema.sql must already contain every migration's DDL.
+
+    Applying the whole real chain to a fresh load of db/schema.sql must be a
+    catalog no-op: table, column, constraint, index and trigger sets identical.
+    """
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://", 1)
+    sql = (ROOT_DIR / "db/schema.sql").read_text()
+    token = uuid.uuid4().hex[:10]
+    with psycopg.connect(url, autocommit=True) as conn:
+        embedded = _load_catalog(conn, f"schema_sql_{token}", sql, migrate=False)
+        chain = _load_catalog(conn, f"schema_chain_{token}", sql, migrate=True)
+    for kind in CATALOG_SQL:
+        assert embedded[kind] == chain[kind], f"schema.sql vs full migration chain differ in {kind}"
+
+
 def test_core_orm_constraints_and_types_match_ddl(db_session):
     assert any(c.__class__.__name__ == "UniqueConstraint" and {x.name for x in c.columns} == {"provider", "provider_user_id"} for c in Base.metadata.tables["account_identity"].constraints)
     assert any(c.__class__.__name__ == "UniqueConstraint" for c in Base.metadata.tables["attempt"].constraints)

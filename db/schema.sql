@@ -1045,6 +1045,49 @@ FOR EACH ROW EXECUTE FUNCTION reject_grade_edit_mutation();
 -- Preserve all historical FKs and snapshots; prebuilt exams cannot be started.
 UPDATE assessment SET status = 'closed' WHERE status = 'published';
 
+-- ---------------------------------------------------------------------------
+-- 020_provisional_ai_final_results.sql (provisional AI final results).
+-- Mirrored from db/migrations/020_provisional_ai_final_results.sql so a fresh
+-- load of this file describes the same catalog as the migration chain.
+-- Every statement is idempotent; the legacy backfill is data-only and stays in
+-- the migration so it runs exactly once per upgraded database.
+-- ---------------------------------------------------------------------------
+ALTER TABLE assessment_session DROP CONSTRAINT IF EXISTS session_release_check;
+ALTER TABLE assessment_session ADD CONSTRAINT session_release_check CHECK (
+  result_release_policy IN ('IMMEDIATE','HUMAN_VERIFIED') AND review_revision >= 0 AND
+  release_status IN ('unsubmitted','auto_grading','provisional_ai','pending_review','reviewed','published','grading_failed')
+);
+
+-- Score edits defer the next provider evaluation without delaying first results.
+ALTER TABLE evaluation_record ADD COLUMN IF NOT EXISTS available_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+CREATE INDEX IF NOT EXISTS evaluation_record_available ON evaluation_record(status, available_at);
+
+CREATE TABLE IF NOT EXISTS session_final_result (
+  result_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  session_id INT NOT NULL UNIQUE REFERENCES assessment_session(session_id),
+  reviewer_id INT REFERENCES account(account_id),
+  source VARCHAR(20) NOT NULL CHECK (source IN ('admin','legacy')),
+  evaluation_input_hash VARCHAR(64) NOT NULL,
+  approval_revision INT NOT NULL CHECK (approval_revision >= 0),
+  ai_evaluation JSONB NOT NULL,
+  final_evaluation JSONB NOT NULL,
+  concept_results JSONB NOT NULL DEFAULT '[]'::jsonb,
+  scores JSONB NOT NULL DEFAULT '[]'::jsonb,
+  overall JSONB NOT NULL,
+  uncovered_concepts JSONB NOT NULL DEFAULT '[]'::jsonb,
+  approved_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CHECK ((source = 'admin' AND reviewer_id IS NOT NULL) OR source = 'legacy')
+);
+CREATE INDEX IF NOT EXISTS session_final_result_reviewer_idx
+  ON session_final_result(reviewer_id, approved_at);
+
+CREATE OR REPLACE FUNCTION preserve_final_result() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN RAISE EXCEPTION 'Final result snapshots are immutable'; END $$;
+DROP TRIGGER IF EXISTS session_final_result_immutable ON session_final_result;
+CREATE TRIGGER session_final_result_immutable BEFORE UPDATE OR DELETE ON session_final_result
+FOR EACH ROW EXECUTE FUNCTION preserve_final_result();
+
 -- 024_tab_leave_guard.sql: FIXED-paper v1 tab-leave anti-cheat.
 -- Additive only. The server measures each reported leave interval; clients
 -- never supply the away duration. Existing sessions keep zero violations.

@@ -1532,5 +1532,35 @@
     "children_per_parent": "0..N",
     "constraint": "session_result_version_supersedes_version_id_fkey",
     "definition": "FOREIGN KEY (supersedes_version_id) REFERENCES session_result_version(result_version_id)"
+  },
+  {
+    "id": "FK101",
+    "source": "session_final_result",
+    "columns": [
+      "reviewer_id"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "0..1",
+    "children_per_parent": "0..N",
+    "constraint": "session_final_result_reviewer_id_fkey",
+    "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK102",
+    "source": "session_final_result",
+    "columns": [
+      "session_id"
+    ],
+    "destination": "assessment_session",
+    "reference_columns": [
+      "session_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "session_final_result_session_id_fkey",
+    "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
   }
 ]
