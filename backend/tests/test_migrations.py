@@ -219,6 +219,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                 '024_tab_leave_guard.sql',
                 '025_session_purpose.sql',
                 '026_pr3a_database_foundation.sql',
+                '027_review_flow.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -227,7 +228,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 26
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 27
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
@@ -469,6 +470,7 @@ def test_020_backfills_legacy_published_practice_once(tmp_path):
                 "024_tab_leave_guard.sql",
                 "025_session_purpose.sql",
                 "026_pr3a_database_foundation.sql",
+                "027_review_flow.sql",
             ]
             row = conn.execute(
                 "SELECT source,reviewer_id,ai_evaluation->'evaluation'->>'summary',final_evaluation->>'summary',jsonb_array_length(scores),overall->>'percentage',jsonb_array_length(uncovered_concepts) FROM session_final_result"
@@ -520,7 +522,8 @@ def test_023_document_tables_are_additive_and_repeatable(tmp_path):
 
             assert apply_migrations(conn) == [
                 "023_document_grounding.sql", "024_tab_leave_guard.sql",
-                "025_session_purpose.sql", "026_pr3a_database_foundation.sql"]
+                "025_session_purpose.sql", "026_pr3a_database_foundation.sql",
+                "027_review_flow.sql"]
             assert apply_migrations(conn) == []
             for table in ("course_document", "document_chunk", "document_clo", "question_evidence"):
                 assert conn.execute(f"SELECT to_regclass('{table}')").fetchone()[0]
@@ -616,7 +619,8 @@ def test_025_backfills_historical_purpose_once_and_marks_new_rows_server(tmp_pat
                     (aid, account_id, snapshot),
                 ).fetchone()[0]
             assert apply_migrations(conn) == [
-                "025_session_purpose.sql", "026_pr3a_database_foundation.sql"
+                "025_session_purpose.sql", "026_pr3a_database_foundation.sql",
+                "027_review_flow.sql"
             ]
             rows = conn.execute(
                 "SELECT session_id,purpose,purpose_source FROM assessment_session ORDER BY session_id"

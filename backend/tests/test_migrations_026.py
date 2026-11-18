@@ -103,21 +103,24 @@ def test_026_schema_sql_matches_migration_chain_catalog():
     """db/schema.sql carries the 026 DDL: loading it alone must match the chain.
 
     One isolated schema loads db/schema.sql as-is (what introspection sees);
-    a second loads the same file with the mirrored 026 block removed and then
-    applies the real migration. Their table/column/constraint/index sets must
-    be byte-for-byte identical, and re-applying the migration must be a no-op.
+    a second applies the real migration between the pre-026 prefix and the
+    trailing mirrored blocks (027+). Their table/column/constraint/index/
+    trigger sets must be identical, and re-applying the migration must be a
+    no-op.
     """
     schema_sql = SCHEMA_SQL.read_text(encoding="utf-8")
     assert BEGIN_MARKER in schema_sql and END_MARKER in schema_sql
     before, rest = schema_sql.split(BEGIN_MARKER, 1)
     _, after = rest.split(END_MARKER, 1)
-    without_026 = before + after
     migration_sql = MIGRATION_026.read_text(encoding="utf-8")
 
     token = uuid.uuid4().hex[:10]
     with psycopg.connect(_dsn(), autocommit=True) as conn:
         embedded = _load_shape(conn, f"pr3a_embedded_{token}", schema_sql)
-        chain = _load_shape(conn, f"pr3a_chain_{token}", without_026 + "\n" + migration_sql)
+        # Later mirrored blocks (027+) live after the 026 end marker and must
+        # run after the real 026 migration, never before it.
+        chain = _load_shape(conn, f"pr3a_chain_{token}",
+                            before + migration_sql + after)
         reapply = _load_shape(conn, f"pr3a_reapply_{token}", schema_sql + "\n" + migration_sql)
 
     assert PR3A_TABLES <= set(embedded["tables"])

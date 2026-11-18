@@ -1038,6 +1038,13 @@ class SessionResultVersion(Base):
     approved_draft_hash: Mapped[Optional[str]] = mapped_column(String(64))
     approved_review_revision: Mapped[int] = mapped_column(default=0)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    review_request_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey(
+            "review_request.review_request_id",
+            deferrable=True,
+            initially="DEFERRED",
+        )
+    )
 
 
 class SessionResultVersionScore(Base):
@@ -1303,4 +1310,168 @@ class SessionResultAnalysis(Base):
     analysis_schema_version: Mapped[int]
     analysis_hash: Mapped[str] = mapped_column(String(64))
     analysis: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class ReviewRequest(Base):
+    """One review case per session; the only v2 entry point."""
+
+    __tablename__ = "review_request"
+    __table_args__ = (
+        UniqueConstraint("session_id"),
+        UniqueConstraint("request_key"),
+        ForeignKeyConstraint(
+            ["session_id", "base_result_version_id"],
+            ["session_result_version.session_id", "session_result_version.result_version_id"],
+        ),
+        ForeignKeyConstraint(
+            ["session_id", "regraded_result_version_id"],
+            ["session_result_version.session_id", "session_result_version.result_version_id"],
+        ),
+        CheckConstraint("origin IN ('LEARNER','ADMIN_REPORT','ADMIN')"),
+        CheckConstraint(
+            "status IN ('REQUESTED','IN_REVIEW','REGRADED','REJECTED','EXPIRED')"
+        ),
+        CheckConstraint("length(btrim(reason)) >= 10"),
+        CheckConstraint("origin <> 'LEARNER' OR window_expires_at IS NOT NULL"),
+        CheckConstraint(
+            "claimed_by IS NULL OR (claimed_at IS NOT NULL AND claim_expires_at IS NOT NULL)"
+        ),
+        CheckConstraint("status <> 'REGRADED' OR regraded_result_version_id IS NOT NULL"),
+        CheckConstraint(
+            "status NOT IN ('REGRADED','REJECTED') OR resolved_at IS NOT NULL"
+        ),
+        Index("review_request_queue_idx", "status", "created_at"),
+    )
+
+    review_request_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    session_id: Mapped[int] = mapped_column(
+        ForeignKey("assessment_session.session_id")
+    )
+    learner_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    requested_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    origin: Mapped[str] = mapped_column(String(12))
+    request_key: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True))
+    reason: Mapped[str] = mapped_column(String(2000))
+    status: Mapped[str] = mapped_column(String(20), default="REQUESTED")
+    base_result_version_id: Mapped[int]
+    requested_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    window_expires_at: Mapped[Optional[datetime]]
+    claimed_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    claimed_at: Mapped[Optional[datetime]]
+    claim_expires_at: Mapped[Optional[datetime]]
+    resolved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    resolved_at: Mapped[Optional[datetime]]
+    resolution_note: Mapped[Optional[str]] = mapped_column(String(2000))
+    regraded_result_version_id: Mapped[Optional[int]]
+    revision: Mapped[int] = mapped_column(default=0)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class QuestionReport(Base):
+    """Wrong question/answer evidence; acceptance drives a regrade."""
+
+    __tablename__ = "question_report"
+    __table_args__ = (
+        UniqueConstraint("session_id", "attempt_id", "category"),
+        ForeignKeyConstraint(
+            ["session_id", "attempt_id"],
+            ["attempt.session_id", "attempt.attempt_id"],
+        ),
+        CheckConstraint(
+            "category IN ('WRONG_ANSWER','WRONG_QUESTION','AMBIGUOUS','TECHNICAL')"
+        ),
+        CheckConstraint("status IN ('OPEN','ACCEPTED','REJECTED')"),
+        CheckConstraint("length(btrim(details)) >= 10"),
+        CheckConstraint("status = 'OPEN' OR resolved_at IS NOT NULL"),
+        Index("question_report_open_idx", "status", "created_at"),
+        Index("question_report_review_idx", "review_request_id", "status"),
+    )
+
+    question_report_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    review_request_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("review_request.review_request_id")
+    )
+    session_id: Mapped[int]
+    attempt_id: Mapped[int]
+    question_id: Mapped[int] = mapped_column(ForeignKey("question.question_id"))
+    reported_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    category: Mapped[str] = mapped_column(String(20))
+    details: Mapped[str] = mapped_column(String(2000))
+    status: Mapped[str] = mapped_column(String(10), default="OPEN")
+    resolution_note: Mapped[Optional[str]] = mapped_column(String(2000))
+    resolved_by: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    resolved_at: Mapped[Optional[datetime]]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class ReviewDeviation(Base):
+    """Append-only >30% score-change evidence: second admin or long reason."""
+
+    __tablename__ = "review_deviation"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["session_id", "attempt_id"],
+            ["attempt.session_id", "attempt.attempt_id"],
+        ),
+        ForeignKeyConstraint(
+            ["session_id", "attempt_id", "criterion_snapshot_id"],
+            [
+                "attempt_rubric_criterion.session_id",
+                "attempt_rubric_criterion.attempt_id",
+                "attempt_rubric_criterion.criterion_snapshot_id",
+            ],
+        ),
+        CheckConstraint("max_points > 0"),
+        CheckConstraint("deviation_ratio > 0.30"),
+        CheckConstraint(
+            "deviation_ratio = round(abs(reviewed_score - ai_score) / max_points, 4)"
+        ),
+        CheckConstraint(
+            "second_reviewer_id IS NULL OR second_reviewer_id <> first_reviewer_id"
+        ),
+        CheckConstraint(
+            "(confirmation = 'SECOND_ADMIN') = (second_reviewer_id IS NOT NULL)"
+        ),
+        CheckConstraint(
+            "confirmation IN ('SECOND_ADMIN','SINGLE_ADMIN_LONG_REASON')"
+        ),
+        CheckConstraint("length(btrim(reason)) >= 10"),
+        CheckConstraint(
+            "confirmation <> 'SINGLE_ADMIN_LONG_REASON' OR length(btrim(reason)) >= 120"
+        ),
+        Index(
+            "review_deviation_attempt_uk",
+            "review_request_id",
+            "attempt_id",
+            unique=True,
+            postgresql_where=text("criterion_snapshot_id IS NULL"),
+        ),
+        Index(
+            "review_deviation_criterion_uk",
+            "review_request_id",
+            "attempt_id",
+            "criterion_snapshot_id",
+            unique=True,
+            postgresql_where=text("criterion_snapshot_id IS NOT NULL"),
+        ),
+    )
+
+    deviation_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    review_request_id: Mapped[int] = mapped_column(
+        ForeignKey("review_request.review_request_id")
+    )
+    session_id: Mapped[int]
+    attempt_id: Mapped[int]
+    criterion_snapshot_id: Mapped[Optional[int]]
+    ai_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    reviewed_score: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    max_points: Mapped[Decimal] = mapped_column(Numeric(5, 2))
+    deviation_ratio: Mapped[Decimal] = mapped_column(Numeric(6, 4))
+    reason: Mapped[str] = mapped_column(String(4000))
+    first_reviewer_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    second_reviewer_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("account.account_id")
+    )
+    confirmation: Mapped[str] = mapped_column(String(24))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
