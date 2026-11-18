@@ -1,7 +1,8 @@
-// Reach the QA provider through the Compose network the app already uses.
-// The provider's published host port can stop forwarding mid-suite while the
-// container and its internal :8080 listener stay healthy; the control POST is
-// fixture setup, so it must not depend on that host-side path.
+// Reach the QA provider through the listener inside its own container.
+// The published host port can stop forwarding mid-suite, and resolving the
+// service alias from inside the app container can fail with EAI_AGAIN while
+// the provider stays Healthy. The control POST is fixture setup, so use the
+// provider's loopback listener directly: both paths above are indirect.
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -19,44 +20,108 @@ function dockerCommand() {
   return { executable: 'wsl.exe', prefix: ['-e', 'docker'] }
 }
 
-// Execute one POST inside the app container against qa-ai:8080. The payload is
-// passed as a single argv element (no shell interpolation) and the provider's
-// JSON response is returned to the caller.
+function composeArgs(project) {
+  return ['compose', '-p', project, '-f', 'docker-compose.local.yml', '-f', 'docker-compose.qa.yml']
+}
+
+function probe({ executable, prefix }, args, timeout = 3000) {
+  return spawnSync(executable, [...prefix, ...args], {
+    cwd: root,
+    env: process.env,
+    encoding: 'utf8',
+    windowsHide: true,
+    timeout,
+  })
+}
+
+function describe(result) {
+  return [
+    result.error?.message,
+    (result.stdout || '').trim() && `stdout: ${result.stdout.trim()}`,
+    (result.stderr || '').trim() && `stderr: ${result.stderr.trim()}`,
+  ].filter(Boolean).join(' | ') || `exit ${result.status}`
+}
+
+// Runs only after a failed control POST. Never touches the success path, so a
+// healthy suite pays no extra cost. Every probe is bounded and failure of a
+// probe is reported, never allowed to replace the original error.
+function collectDiagnostics(project, docker) {
+  const lines = []
+  const add = (label, result) => lines.push(`${label}: ${describe(result)}`)
+  const now = Date.now()
+  const since = new Date(now - 5 * 60_000).toISOString()
+  const until = new Date(now + 2_000).toISOString()
+  try {
+    add(
+      'docker events (last 5m)',
+      probe(docker, [
+        'events', '--since', since, '--until', until,
+        '--format', '{{.Time}} {{.Type}} {{.Action}} {{.Actor.Attributes.name}}',
+      ]),
+    )
+    add(
+      'app /etc/resolv.conf',
+      probe(docker, [...composeArgs(project), 'exec', '-T', 'app', 'cat', '/etc/resolv.conf']),
+    )
+    add(
+      "getaddrinfo('qa-ai') from app",
+      probe(docker, [
+        ...composeArgs(project), 'exec', '-T', 'app', 'python', '-c',
+        'import socket; print(socket.getaddrinfo("qa-ai", 8080))',
+      ]),
+    )
+    const appId = probe(docker, [...composeArgs(project), 'ps', '-q', 'app'])
+    const providerId = probe(docker, [...composeArgs(project), 'ps', '-q', 'qa-ai'])
+    for (const [label, idResult] of [['app', appId], ['qa-ai', providerId]]) {
+      const id = (idResult.stdout || '').trim()
+      if (id) add(`${label} networks`, probe(docker, ['inspect', '-f', '{{json .NetworkSettings.Networks}}', id]))
+      else add(`${label} container id`, idResult)
+    }
+    const provider = (providerId.stdout || '').trim()
+    if (provider) add('qa-ai logs (tail 50)', probe(docker, ['logs', '--tail', '50', provider]))
+  } catch (error) {
+    lines.push(`diagnostics incomplete: ${error.message}`)
+  }
+  return lines
+}
+
+// Execute one POST inside the qa-ai container against its loopback listener.
+// The payload is passed as a single argv element (no shell interpolation) and
+// the provider's JSON response is returned to the caller.
 export function postProviderControl(payload) {
   const project = process.env.DBCAS_LOCAL_PROJECT || 'dbcas-local'
-  const { executable, prefix } = dockerCommand()
+  const docker = dockerCommand()
   const code = [
     'import sys,urllib.request',
-    'req=urllib.request.Request("http://qa-ai:8080/control",',
+    'req=urllib.request.Request("http://127.0.0.1:8080/control",',
     '  data=sys.argv[1].encode(), headers={"Content-Type":"application/json"})',
     'print(urllib.request.urlopen(req, timeout=15).read().decode())',
   ].join('\n')
   const args = [
-    ...prefix,
-    'compose',
-    '-p',
-    project,
-    '-f',
-    'docker-compose.local.yml',
-    '-f',
-    'docker-compose.qa.yml',
+    ...docker.prefix,
+    ...composeArgs(project),
     'exec',
     '-T',
-    'app',
+    'qa-ai',
     'python',
     '-c',
     code,
     JSON.stringify(payload),
   ]
-  const result = spawnSync(executable, args, {
+  const result = spawnSync(docker.executable, args, {
     cwd: root,
     env: process.env,
     encoding: 'utf8',
     windowsHide: true,
   })
   if (result.error || result.status !== 0) {
+    const detail = result.error?.message || result.stderr?.trim() || result.status
+    const diagnostics = collectDiagnostics(project, docker)
     throw new Error(
-      `Provider control via Compose failed: ${result.error?.message || result.stderr?.trim() || result.status}`,
+      `Provider control via Compose failed: ${detail}` +
+        (diagnostics.length
+          ? `\n--- provider-control diagnostics (error-only) ---\n${diagnostics.join('\n')}`
+          : ''),
     )
   }
   return JSON.parse(result.stdout.trim())
