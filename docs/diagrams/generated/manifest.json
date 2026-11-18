@@ -5,7 +5,7 @@
   "foreign_keys": 70,
   "indexes": 106,
   "enums": 0,
-  "migrations": 25,
+  "migrations": 26,
   "table_names": [
     "account",
     "account_identity",

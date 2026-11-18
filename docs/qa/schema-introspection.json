@@ -27,7 +27,8 @@
     "022_question_clo_tagging.sql": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9",
     "023_document_grounding.sql": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59",
     "024_tab_leave_guard.sql": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
-    "025_session_purpose.sql": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7"
+    "025_session_purpose.sql": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7",
+    "026_pr3a_database_foundation.sql": "435f44dcfa840bda9124f3af6b54ce6561f375c5b6fd2a6081c2700ecca376dc"
   },
   "tables": [
     {
