@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
-import { waitForProvider } from '../../scripts/readiness.mjs'
+import { postProviderControl } from '../../scripts/provider-control.mjs'
 export const vi = JSON.parse(
   await readFile(new URL('../src/i18n/vi.json', import.meta.url), 'utf8'),
 )
@@ -44,42 +44,16 @@ export async function checkQuestionTypography(page, kind) {
   await checkInterfaceTypography(page)
 }
 
-// The fake provider is reached over a published host port. Compose's
-// healthcheck probes 127.0.0.1:8080 inside the container, so it stays green
-// even when the host-side forwarder stops accepting mid-suite (ECONNREFUSED).
-// Gate every control group on the public /health path before the strict POST
-// instead of discovering the drop through a failing assertion. The same bounded
-// readiness window is used after a connection-level drop; a real provider
-// outage (HTTP 503) still fails the ok() assertion immediately, and a port that
-// never comes back fails when the probe deadline expires.
-export async function providerControl(
-  page,
-  data,
-  { attempts = 8, retryMs = 250, readinessMs = 45000 } = {},
-) {
-  const url = process.env.DBCAS_QA_PROVIDER_URL
-  if (!url) return null
-  const probe = { timeoutMs: readinessMs, requestTimeoutMs: 1500 }
-  await waitForProvider(url, probe)
-  let lastError
-  for (let attempt = 1; attempt <= attempts; attempt++) {
-    try {
-      const response = await page.request.post(`${url}/control`, { data })
-      expect(response.ok(), `provider control: HTTP ${response.status()}`).toBe(true)
-      return response
-    } catch (error) {
-      if (
-        !/(ECONNREFUSED|ECONNRESET|ETIMEDOUT|socket hang up)/i.test(String(error?.message || error))
-      )
-        throw error
-      lastError = error
-      if (attempt < attempts) {
-        await waitForProvider(url, probe)
-        await page.waitForTimeout(retryMs)
-      }
-    }
-  }
-  throw lastError
+// The provider's published host port can stop forwarding mid-suite while the
+// qa-ai container and its internal :8080 listener stay healthy (Compose's
+// healthcheck only probes the internal path). Control commands are fixture
+// setup, so send them through the same qa-ai:8080 network path the app uses
+// instead of depending on that host port. A failed command still throws; callers
+// keep the strict assertion on the provider's response. The launcher continues
+// to verify the published port at startup for the browser-facing path.
+export async function providerControl(_page, data) {
+  if (!process.env.DBCAS_QA_PROVIDER_URL) return null
+  return postProviderControl(data)
 }
 
 export async function api(page, path, method = 'GET', data) {
