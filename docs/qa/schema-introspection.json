@@ -1,7 +1,7 @@
 {
   "source": "PostgreSQL introspection of db/schema.sql",
   "postgres_version": "17.12 (Debian 17.12-1.pgdg13+1)",
-  "schema_sha256": "0c7edf5907cdeebc0cb027d9a387fd2b0ef16532280b4b32584ffc27d072184c",
+  "schema_sha256": "4e92d67fd42008e211d4ba36cb2d2c805c344bcc81dd1ec91df06646028d620e",
   "migrations": {
     "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
     "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
@@ -2477,7 +2477,7 @@
         {
           "name": "session_release_check",
           "type": "c",
-          "definition": "CHECK ((((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])) AND (review_revision >= 0) AND ((release_status)::text = ANY ((ARRAY['unsubmitted'::character varying, 'auto_grading'::character varying, 'pending_review'::character varying, 'reviewed'::character varying, 'published'::character varying, 'grading_failed'::character varying])::text[]))))",
+          "definition": "CHECK ((((result_release_policy)::text = ANY ((ARRAY['IMMEDIATE'::character varying, 'HUMAN_VERIFIED'::character varying])::text[])) AND (review_revision >= 0) AND ((release_status)::text = ANY ((ARRAY['unsubmitted'::character varying, 'auto_grading'::character varying, 'provisional_ai'::character varying, 'pending_review'::character varying, 'reviewed'::character varying, 'published'::character varying, 'grading_failed'::character varying])::text[]))))",
           "columns": [
             "result_release_policy",
             "review_revision",
@@ -4276,6 +4276,17 @@
         },
         {
           "name": "updated_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "available_at",
           "type": "timestamp with time zone",
           "udt": "timestamptz",
           "nullable": false,
@@ -7159,6 +7170,224 @@
       ]
     },
     {
+      "table": "session_final_result",
+      "columns": [
+        {
+          "name": "result_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "reviewer_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "evaluation_input_hash",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 64,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "approval_revision",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "ai_evaluation",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "final_evaluation",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "concept_results",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "scores",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "overall",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "uncovered_concepts",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "session_final_result_approval_revision_check",
+          "type": "c",
+          "definition": "CHECK ((approval_revision >= 0))",
+          "columns": [
+            "approval_revision"
+          ]
+        },
+        {
+          "name": "session_final_result_check",
+          "type": "c",
+          "definition": "CHECK (((((source)::text = 'admin'::text) AND (reviewer_id IS NOT NULL)) OR ((source)::text = 'legacy'::text)))",
+          "columns": [
+            "source",
+            "reviewer_id"
+          ]
+        },
+        {
+          "name": "session_final_result_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (result_id)",
+          "columns": [
+            "result_id"
+          ]
+        },
+        {
+          "name": "session_final_result_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)",
+          "columns": [
+            "reviewer_id"
+          ]
+        },
+        {
+          "name": "session_final_result_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "session_final_result_session_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "session_final_result_source_check",
+          "type": "c",
+          "definition": "CHECK (((source)::text = ANY ((ARRAY['admin'::character varying, 'legacy'::character varying])::text[])))",
+          "columns": [
+            "source"
+          ]
+        }
+      ]
+    },
+    {
       "table": "session_question_plan",
       "columns": [
         {
@@ -9721,6 +9950,34 @@
       "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
     },
     {
+      "constraint": "session_final_result_reviewer_id_fkey",
+      "source": "session_final_result",
+      "columns": [
+        "reviewer_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (reviewer_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "session_final_result_session_id_fkey",
+      "source": "session_final_result",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
       "constraint": "session_question_plan_question_id_fkey",
       "source": "session_question_plan",
       "columns": [
@@ -10312,6 +10569,11 @@
     },
     {
       "table": "evaluation_record",
+      "name": "evaluation_record_available",
+      "definition": "CREATE INDEX evaluation_record_available ON public.evaluation_record USING btree (status, available_at)"
+    },
+    {
+      "table": "evaluation_record",
       "name": "evaluation_record_jobs",
       "definition": "CREATE INDEX evaluation_record_jobs ON public.evaluation_record USING btree (status, updated_at)"
     },
@@ -10604,6 +10866,21 @@
       "table": "selection_log",
       "name": "selection_log_session_id_seq_no_key",
       "definition": "CREATE UNIQUE INDEX selection_log_session_id_seq_no_key ON public.selection_log USING btree (session_id, seq_no)"
+    },
+    {
+      "table": "session_final_result",
+      "name": "session_final_result_pkey",
+      "definition": "CREATE UNIQUE INDEX session_final_result_pkey ON public.session_final_result USING btree (result_id)"
+    },
+    {
+      "table": "session_final_result",
+      "name": "session_final_result_reviewer_idx",
+      "definition": "CREATE INDEX session_final_result_reviewer_idx ON public.session_final_result USING btree (reviewer_id, approved_at)"
+    },
+    {
+      "table": "session_final_result",
+      "name": "session_final_result_session_id_key",
+      "definition": "CREATE UNIQUE INDEX session_final_result_session_id_key ON public.session_final_result USING btree (session_id)"
     },
     {
       "table": "session_question_plan",
