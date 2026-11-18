@@ -12,10 +12,9 @@ import {
   ALLOWED_ADVISORY_DISPLAY,
   EXPIRY_DATE,
   assertNoLegacyOverrides,
+  evaluateNpmAuditResult,
   getAuditPlan,
-  parseAuditJson,
   utcDateString,
-  validateAuditReport,
 } from './lib/frontend_audit_gate.mjs';
 
 function runNpm(args, options = {}) {
@@ -69,23 +68,13 @@ function main() {
     process.stderr.write(auditResult.stderr);
   }
 
-  let report;
-  try {
-    report = parseAuditJson(auditResult.stdout || '');
-  } catch (error) {
-    console.error(`BLOCKED: ${error.message}`);
+  const outcome = evaluateNpmAuditResult(auditResult);
+  if (!outcome.ok) {
+    console.error(outcome.reason);
     return 1;
   }
 
-  const validation = validateAuditReport(report, {
-    npmExitStatus: auditResult.status,
-  });
-  if (!validation.ok) {
-    console.error(`BLOCKED: ${validation.reason}`);
-    return 1;
-  }
-
-  const summary = validation.summary;
+  const summary = outcome.summary;
   console.log(
     `npm audit summary: high=${summary.high} critical=${summary.critical} total=${summary.total}`
   );

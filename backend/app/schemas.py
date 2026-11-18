@@ -1280,6 +1280,11 @@ class QuestionCandidateItem(BaseModel):
 class QuestionCandidateDetail(QuestionCandidateItem):
     payload: dict
     validation_detail: Optional[dict] = None
+    # Surfaced next to the question so a reviewer can judge the citation
+    # without unpacking the draft payload.
+    quote: Optional[str] = None
+    citation_support: Optional[Literal["ok", "weak"]] = None
+    citation_warning: Optional[str] = None
 
 
 # ---------- admin course documents (migration 023) ----------
@@ -1298,6 +1303,39 @@ class DocumentUploadRequest(BaseModel):
 class DocumentCloSelection(BaseModel):
     model_config = ConfigDict(extra="forbid")
     clo_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(default_factory=list, max_length=50)
+
+
+class DocumentApprovalRequest(BaseModel):
+    """Explicit admin confirmation required before a document can generate drafts.
+
+    The confirmation event is recorded on approval through the existing
+    ``approved_by`` (admin id) and ``approved_at`` (timestamp) columns; no new
+    migration is needed.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    confirm_no_personal_data: Literal[True]
+
+    @field_validator("confirm_no_personal_data", mode="before")
+    @classmethod
+    def explicit_confirmation(cls, value):
+        if type(value) is not bool or value is not True:
+            raise ValueError("An explicit 'no personal data' confirmation is required")
+        return value
+
+
+class DocumentCandidateGenerateRequest(BaseModel):
+    """Draft questions from explicitly selected, approved chunks for one CLO."""
+
+    model_config = ConfigDict(extra="forbid")
+    clo_id: int = Field(gt=0, strict=True)
+    concept_id: int = Field(gt=0, strict=True)
+    document_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(min_length=1, max_length=20)
+    question_type: Literal["mcq", "sql", "essay"]
+    count: int = Field(default=1, ge=1, le=3, strict=True)
+    request_id: Optional[UUID] = None
+    difficulty: Literal["EASY", "MEDIUM", "HARD"] = "EASY"
+    locale: Literal["en", "vi"] = "en"
 
 
 class DocumentChunkResult(BaseModel):

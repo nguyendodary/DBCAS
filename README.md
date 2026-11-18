@@ -133,6 +133,27 @@ Chat Completions. Không commit `.env`; giao diện chỉ hiển thị trạng t
 Nghiên cứu model local cho Prompt Builder đã dừng và không được triển khai;
 xem [pipeline và quyết định](docs/ai-pipeline.md).
 
+### Sinh câu hỏi từ tài liệu (admin)
+
+Luồng sinh câu hỏi có LLM không áp dụng mục tiêu 500 ms của request thường.
+Mỗi yêu cầu phải **chọn rõ tài liệu**; hệ thống chỉ xếp hạng chunk của những
+tài liệu được chọn, giới hạn 5.000 chunk đủ điều kiện và đặt thời gian chờ
+câu truy vấn truy xuất là 5 s (quá hạn trả lỗi sạch, kết nối vẫn dùng lại
+được). Công việc chạy ngoài luồng sự kiện, có giới hạn và hủy được khi client
+ngắt kết nối. Tăng tốc bằng index/search tiền xử lý là thay đổi riêng, cần
+được phê duyệt riêng.
+
+Trước khi sinh, admin phê duyệt tài liệu phải gửi
+`confirm_no_personal_data=true`; thời điểm và người phê duyệt được ghi qua
+`approved_by`/`approved_at`. Khử nhận dạng chỉ là biện pháp tốt nhất và
+**không đảm bảo loại bỏ được tên hay mọi dữ liệu cá nhân**, nên confirmation
+của admin là bảo vệ chính.
+
+Mỗi bản nháp có trường `citation_support` (`ok`|`weak`) kèm câu trích dẫn trên
+API phê duyệt. Đây là cảnh báo tự động dựa trên độ trùng từ và kiểu mệnh đề
+SQL; **con người là người cuối cùng kiểm tra** trích dẫn có hỗ trợ câu hỏi hay
+không. Cảnh báo `weak` không tự động duyệt cũng không chặn phê duyệt.
+
 ## Dừng và kiểm thử
 
 `npm run stop` dừng stack. `npm run reset` **xóa volume của project local** rồi

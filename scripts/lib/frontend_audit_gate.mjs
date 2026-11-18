@@ -306,3 +306,71 @@ export function validateAuditReport(report, { npmExitStatus } = {}) {
     throw error;
   }
 }
+
+// npm stderr is audit-channel telemetry, not decoration: a registry or network
+// failure can be reported there while stdout still contains a usable-looking
+// JSON report and npm exits 1 for the exception advisory. Accept only stderr
+// we can prove is benign (empty or npm WARN lines) and block everything else.
+const BENIGN_STDERR_LINE = /^npm WARN\b/;
+const STDERR_ERROR_SIGNATURES = [
+  { name: 'ECONNREFUSED', pattern: /\bECONNREFUSED\b/i },
+  { name: 'ENOTFOUND', pattern: /\bENOTFOUND\b/i },
+  { name: 'ETIMEDOUT', pattern: /\bETIMEDOUT\b/i },
+  { name: 'ECONNRESET', pattern: /\bECONNRESET\b/i },
+  { name: 'EAI_AGAIN', pattern: /\bEAI_AGAIN\b/i },
+  {
+    name: 'audit endpoint error',
+    pattern: /audit endpoint returned an error/i,
+  },
+  { name: 'HTTP 4xx/5xx status', pattern: /\b[45]\d{2}\b/ },
+];
+
+export function checkNpmStderr(stderr) {
+  if (stderr === undefined || stderr === null || stderr === '') {
+    return { ok: true };
+  }
+  if (typeof stderr !== 'string') {
+    return { ok: false, reason: 'npm stderr is not text' };
+  }
+  for (const line of stderr.split(/\r?\n/)) {
+    if (line.trim() === '') continue;
+    for (const { name, pattern } of STDERR_ERROR_SIGNATURES) {
+      if (pattern.test(line)) {
+        return {
+          ok: false,
+          reason: `npm stderr contains a registry/network/audit-endpoint error (${name})`,
+        };
+      }
+    }
+    if (!BENIGN_STDERR_LINE.test(line.trimStart())) {
+      return {
+        ok: false,
+        reason:
+          'npm stderr contains an unrecognized line; only empty stderr or npm WARN lines are accepted',
+      };
+    }
+  }
+  return { ok: true };
+}
+
+// Single decision point used by the wrapper. Checking stderr before the JSON
+// makes the gate fail closed even when the report and exit status are valid.
+export function evaluateNpmAuditResult({ stdout, stderr, status } = {}) {
+  const stderrCheck = checkNpmStderr(stderr);
+  if (!stderrCheck.ok) {
+    return { ok: false, reason: `BLOCKED: ${stderrCheck.reason}` };
+  }
+
+  let report;
+  try {
+    report = parseAuditJson(stdout || '');
+  } catch (error) {
+    return { ok: false, reason: `BLOCKED: ${error.message}` };
+  }
+
+  const validation = validateAuditReport(report, { npmExitStatus: status });
+  if (!validation.ok) {
+    return { ok: false, reason: `BLOCKED: ${validation.reason}` };
+  }
+  return { ok: true, summary: validation.summary };
+}

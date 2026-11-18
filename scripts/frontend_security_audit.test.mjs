@@ -1,5 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import {
   ALLOWED_ADVISORY,
@@ -356,4 +361,202 @@ test('valid JSON with UTF-8 BOM -> PASS', () => {
   const parsed = parseAuditJson(`\uFEFF${JSON.stringify(baselineReport())}`);
   const result = validateAuditReport(parsed, { npmExitStatus: 1 });
   assert.equal(result.ok, true);
+});
+
+// ---------------------------------------------------------------------------
+// npm stderr fail-closed regression tests (gap in the wrapper merged in #34).
+//
+// evaluateNpmAuditResult is the pure decision function the wrapper delegates
+// to. Testing it here covers the exact combination reported by the mock:
+// allowed-only audit JSON + npm exit 1 + registry error on stderr.
+// ---------------------------------------------------------------------------
+
+async function loadEvaluateNpmAuditResult() {
+  const gate = await import('./lib/frontend_audit_gate.mjs');
+  assert.equal(
+    typeof gate.evaluateNpmAuditResult,
+    'function',
+    'evaluateNpmAuditResult must be exported by the audit gate'
+  );
+  return gate.evaluateNpmAuditResult;
+}
+
+test('mock: allowed-only JSON + exit 1 + registry error on stderr -> BLOCKED', async () => {
+  const evaluate = await loadEvaluateNpmAuditResult();
+  const stdout = JSON.stringify(baselineReport());
+
+  // Control: the exact same JSON and exit status are accepted without stderr.
+  const control = evaluate({ stdout, stderr: '', status: 1 });
+  assert.equal(
+    control.ok,
+    true,
+    'control: allowed-only JSON with exit 1 must pass without stderr'
+  );
+
+  const outcome = evaluate({
+    stdout,
+    stderr:
+      'npm error code ECONNREFUSED\n' +
+      'npm error request to https://registry.npmjs.org/-/npm/v1/security/advisories/bulk failed\n',
+    status: 1,
+  });
+  assert.equal(outcome.ok, false, 'registry error on stderr must fail closed');
+  assert.match(outcome.reason, /BLOCKED:/);
+  assert.match(outcome.reason, /ECONNREFUSED/);
+});
+
+test('registry/network/audit-endpoint stderr signatures -> BLOCKED', async () => {
+  const evaluate = await loadEvaluateNpmAuditResult();
+  const stdout = JSON.stringify(baselineReport());
+  const cases = [
+    ['ECONNREFUSED', 'npm error code ECONNREFUSED'],
+    ['ENOTFOUND', 'npm error code ENOTFOUND'],
+    ['ETIMEDOUT', 'npm error code ETIMEDOUT'],
+    ['ECONNRESET', 'npm error code ECONNRESET'],
+    ['EAI_AGAIN', 'npm error getaddrinfo EAI_AGAIN registry.npmjs.org'],
+    [
+      'audit endpoint returned an error',
+      'npm error audit endpoint returned an error',
+    ],
+    ['HTTP 4xx', 'npm error 404 Not Found'],
+    ['HTTP 5xx', 'npm error 503 Service Unavailable'],
+  ];
+  for (const [label, stderr] of cases) {
+    const outcome = evaluate({ stdout, stderr, status: 1 });
+    assert.equal(outcome.ok, false, `${label} on stderr must block`);
+    assert.match(outcome.reason, /BLOCKED:/, `${label} must give a BLOCKED reason`);
+  }
+});
+
+test('error signature inside an npm WARN line -> BLOCKED', async () => {
+  const evaluate = await loadEvaluateNpmAuditResult();
+  const outcome = evaluate({
+    stdout: JSON.stringify(baselineReport()),
+    stderr: 'npm WARN registry audit endpoint returned an error (ECONNRESET)',
+    status: 1,
+  });
+  assert.equal(outcome.ok, false);
+  assert.match(outcome.reason, /ECONNRESET|audit-endpoint error/);
+});
+
+test('stderr failure overrides valid JSON and any exit code', async () => {
+  const evaluate = await loadEvaluateNpmAuditResult();
+  for (const status of [0, 1]) {
+    const outcome = evaluate({
+      stdout: JSON.stringify(noVulnerabilityReport()),
+      stderr: 'npm error code ETIMEDOUT',
+      status,
+    });
+    assert.equal(
+      outcome.ok,
+      false,
+      `registry stderr must block even with exit ${status}`
+    );
+  }
+});
+
+test('benign stderr (empty or npm WARN lines) -> PASS', async () => {
+  const evaluate = await loadEvaluateNpmAuditResult();
+  const stdout = JSON.stringify(baselineReport());
+  const benign = [
+    '',
+    '   \n',
+    'npm WARN deprecated foo@1.0.0: use bar instead\n',
+    'npm WARN EBADENGINE Unsupported engine\n' +
+      "npm WARN EBADENGINE   package: 'foo@1.0.0'\n",
+    '  npm WARN old lockfile\n',
+  ];
+  for (const stderr of benign) {
+    const outcome = evaluate({ stdout, stderr, status: 1 });
+    assert.equal(
+      outcome.ok,
+      true,
+      `benign stderr ${JSON.stringify(stderr)} must be accepted`
+    );
+  }
+});
+
+test('unknown stderr -> BLOCKED (allowlist)', async () => {
+  const evaluate = await loadEvaluateNpmAuditResult();
+  const stdout = JSON.stringify(baselineReport());
+  for (const stderr of [
+    'something unexpected happened\n',
+    'npm ERR! code E500\n',
+    'registry unavailable\n',
+  ]) {
+    const outcome = evaluate({ stdout, stderr, status: 1 });
+    assert.equal(
+      outcome.ok,
+      false,
+      `unknown stderr ${JSON.stringify(stderr)} must block`
+    );
+  }
+});
+
+test('wrapper process fails closed on mocked registry stderr', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'dbcas-audit-npm-'));
+  try {
+    fs.writeFileSync(
+      path.join(tmp, 'stdout.txt'),
+      JSON.stringify(baselineReport())
+    );
+    fs.writeFileSync(
+      path.join(tmp, 'stderr.txt'),
+      'npm error code ECONNREFUSED\n'
+    );
+    fs.writeFileSync(path.join(tmp, 'exit.txt'), '1\n');
+    fs.writeFileSync(
+      path.join(tmp, 'npm-shim.cjs'),
+      [
+        "const fs = require('node:fs');",
+        "const path = require('node:path');",
+        "const dir = __dirname;",
+        "process.stdout.write(fs.readFileSync(path.join(dir, 'stdout.txt'), 'utf8'));",
+        "process.stderr.write(fs.readFileSync(path.join(dir, 'stderr.txt'), 'utf8'));",
+        "process.exit(Number(fs.readFileSync(path.join(dir, 'exit.txt'), 'utf8').trim()));",
+      ].join('\n')
+    );
+    if (process.platform === 'win32') {
+      const cmd = '@echo off\r\nnode "%~dp0npm-shim.cjs"\r\n';
+      fs.writeFileSync(path.join(tmp, 'npm.cmd'), cmd);
+      fs.writeFileSync(path.join(tmp, 'npm.bat'), cmd);
+    } else {
+      const shim = path.join(tmp, 'npm');
+      fs.writeFileSync(shim, "#!/usr/bin/env node\nrequire('./npm-shim.cjs');\n");
+      fs.chmodSync(shim, 0o755);
+    }
+
+    const pathKey =
+      Object.keys(process.env).find((key) => key.toUpperCase() === 'PATH') ||
+      'PATH';
+    const env = { ...process.env };
+    for (const name of [
+      'DBCAS_AUDIT_EXCEPTION_EXPIRY',
+      'DBCAS_SECURITY_AUDIT_NOW',
+      'DBCAS_AUDIT_JSON_FILE',
+    ]) {
+      delete env[name];
+    }
+    env[pathKey] = `${tmp}${path.delimiter}${env[pathKey] || ''}`;
+
+    const repoRoot = path.resolve(
+      path.dirname(fileURLToPath(import.meta.url)),
+      '..'
+    );
+    const result = spawnSync(
+      process.execPath,
+      ['scripts/frontend_security_audit.mjs'],
+      { cwd: repoRoot, env, encoding: 'utf8' }
+    );
+    const combined = `${result.stdout || ''}${result.stderr || ''}`;
+    assert.equal(
+      result.status,
+      1,
+      `wrapper must block; stdout=${result.stdout} stderr=${result.stderr}`
+    );
+    assert.match(combined, /ECONNREFUSED/);
+    assert.match(combined, /BLOCKED/);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
 });
