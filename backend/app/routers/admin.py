@@ -1,6 +1,9 @@
+import asyncio
+import threading
 from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, Query, Request
+from fastapi.concurrency import run_in_threadpool
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -30,6 +33,8 @@ from ..schemas import (
     ConceptPrerequisitesResult,
     ConceptUpdateRequest,
     ConceptUpsertRequest,
+    DocumentCandidateGenerateRequest,
+    DocumentApprovalRequest,
     DocumentCloSelection,
     DocumentDetail,
     DocumentSummary,
@@ -54,6 +59,7 @@ from ..services import (
     auth_service,
     concept_graph_service,
     curriculum_service,
+    document_generation,
     document_service,
     question_service,
 )
@@ -593,10 +599,17 @@ def get_document(
 @router.post("/documents/{document_id}/approve", response_model=DocumentDetail)
 def approve_document(
     document_id: int,
+    payload: DocumentApprovalRequest,
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
-    return document_service.approve_document(db, document_id, admin)
+    """Approve a document for generation after an explicit privacy confirmation.
+
+    Redaction is best-effort only, so the administrator must confirm the
+    document contains no personal data. The confirmation is recorded with the
+    approving admin id and timestamp on the document row.
+    """
+    return document_service.approve_document(db, document_id, admin, payload)
 
 
 @router.post("/documents/{document_id}/archive", response_model=DocumentDetail)
@@ -617,6 +630,55 @@ def set_document_clos(
 ):
     """Attach the document to active CLOs; an empty list detaches all of them."""
     return document_service.set_document_clos(db, document_id, payload, admin)
+
+
+# ---------- document-grounded question drafts ----------
+
+
+@router.post(
+    "/document-candidates/generate",
+    status_code=201,
+    response_model=list[QuestionCandidateDetail],
+)
+async def generate_document_candidates(
+    payload: DocumentCandidateGenerateRequest,
+    request: Request,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+    runner: SandboxRunner = Depends(get_sandbox_runner),
+):
+    """Draft questions from selected, approved chunks for one confirmed CLO.
+
+    The 500 ms standard-request target does not apply to this LLM-backed flow.
+    Retrieval and generation are bounded, the blocking work runs in a worker
+    thread so the event loop stays responsive, and a disconnected client is
+    observed through ``cancel`` so the work stops at the next phase boundary.
+    Each draft carries a CLO and a verbatim chunk citation and stays outside the
+    bank until an administrator approves it through the candidate review flow.
+    """
+    cancel = threading.Event()
+
+    async def watch_disconnect():
+        while not cancel.is_set():
+            try:
+                if await request.is_disconnected():
+                    cancel.set()
+                    return
+                await asyncio.sleep(0.25)
+            except asyncio.CancelledError:
+                return
+            except Exception:
+                return
+
+    watcher = asyncio.create_task(watch_disconnect())
+    try:
+        return await run_in_threadpool(
+            document_generation.generate, db, payload, admin, llm, runner, cancel
+        )
+    finally:
+        cancel.set()
+        watcher.cancel()
 
 
 # ---------- UC09 — adaptive assessment configuration ----------
