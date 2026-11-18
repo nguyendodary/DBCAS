@@ -1,5 +1,6 @@
 import asyncio
 import threading
+import uuid
 from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, Query, Request
@@ -9,9 +10,14 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runner
 from ..errors import AppError
-from ..models import Account
+from ..models import Account, AiPromptContent
 from ..schemas_analytics import StatisticsDashboard
-from ..schemas_operational import CapabilityResult, GradingSummary, GradingDetail
+from ..schemas_operational import (
+    AdminPromptView,
+    CapabilityResult,
+    GradingSummary,
+    GradingDetail,
+)
 from ..schemas import (
     AccountStatusUpdate,
     AccountRoleUpdate,
@@ -55,6 +61,7 @@ from ..schemas import (
 )
 from ..services import (
     ai_admin_service,
+    ai_stage_service,
     analytics_service,
     auth_service,
     concept_graph_service,
@@ -742,3 +749,41 @@ def admin_session_competency(
     """Per-learner radar data: the same deterministic competency profile
     the learner sees, without the ownership restriction."""
     return analytics_service.session_competency(db, session_id)
+
+
+@router.get("/prompts/{prompt_record_id}", response_model=AdminPromptView)
+def read_prompt(
+    prompt_record_id: int,
+    request: Request,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Read one retained prompt (administrator only).
+
+    Every attempt writes a ``prompt_access_audit`` row: GRANTED, DENIED_EXPIRED
+    or DENIED_PURGED. Prompt text goes only into the response body — it is never
+    logged and never appears in a learner-facing response.
+    """
+    request_id = None
+    raw_request_id = request.headers.get("x-request-id")
+    if raw_request_id:
+        try:
+            request_id = uuid.UUID(raw_request_id)
+        except ValueError:
+            request_id = None
+    result, record = ai_stage_service.record_prompt_access(
+        db, prompt_record_id, admin.account_id, request_id=request_id
+    )
+    if record is None or result != "GRANTED":
+        raise ai_stage_service.prompt_unavailable_error()
+    content = db.get(AiPromptContent, prompt_record_id)
+    return AdminPromptView(
+        prompt_record_id=prompt_record_id,
+        stage=record.stage,
+        prompt_hash=record.prompt_hash,
+        prompt_text=content.prompt_text if content else None,
+        model_identifier=content.model_identifier if content else None,
+        created_at=record.created_at,
+        expires_at=record.expires_at,
+        purged_at=record.purged_at,
+    )
