@@ -184,10 +184,8 @@ def ensure_official_v1(db, session):
     ``None`` for sessions that are not on the AI-official path. A second
     finalize (or a late caller) never duplicates the version or its scores.
     """
-    if not is_fixed_test_shape(session):
+    if not is_ai_official(session):
         return None
-    if getattr(session, "review_policy", "LEGACY") != "AI_OFFICIAL_REVIEW":
-        session.review_policy = "AI_OFFICIAL_REVIEW"
     if session.current_result_version_id is not None:
         return None
     existing = db.scalar(
