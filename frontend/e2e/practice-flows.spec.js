@@ -203,18 +203,31 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
   }
 })
 
-test('Admin navigation has five focused screens and no exam creation surface', async ({
+test('Admin navigation has six focused screens and no exam creation surface', async ({
   page,
 }, info) => {
   await login(page, 'admin@dbcas.local')
   const menu = page.locator('.app-sidebar nav')
-  expect(await menu.getByRole('link').count()).toBe(5)
+  expect(await menu.getByRole('link').count()).toBe(6)
   expect(
     await menu
       .getByRole('link')
       .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href'))),
-  ).toEqual(['/admin', '/admin/grading', '/admin/accounts', '/admin/questions', '/admin/system'])
-  for (const route of ['/admin/grading', '/admin/accounts', '/admin/questions', '/admin/system']) {
+  ).toEqual([
+    '/admin',
+    '/admin/grading',
+    '/admin/accounts',
+    '/admin/questions',
+    '/admin/documents',
+    '/admin/system',
+  ])
+  for (const route of [
+    '/admin/grading',
+    '/admin/accounts',
+    '/admin/questions',
+    '/admin/documents',
+    '/admin/system',
+  ]) {
     await page.goto(route)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await checkViewport(page)

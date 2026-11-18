@@ -1,7 +1,7 @@
 {
   "source": "PostgreSQL introspection of db/schema.sql",
   "postgres_version": "17.12 (Debian 17.12-1.pgdg13+1)",
-  "schema_sha256": "4e92d67fd42008e211d4ba36cb2d2c805c344bcc81dd1ec91df06646028d620e",
+  "schema_sha256": "639e78d421dea557f512c32314ccaa7a0ede03e24f16929d0af838fc5bd4e40f",
   "migrations": {
     "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
     "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
@@ -28,7 +28,8 @@
     "023_document_grounding.sql": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59",
     "024_tab_leave_guard.sql": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
     "025_session_purpose.sql": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7",
-    "026_pr3a_database_foundation.sql": "435f44dcfa840bda9124f3af6b54ce6561f375c5b6fd2a6081c2700ecca376dc"
+    "026_pr3a_database_foundation.sql": "435f44dcfa840bda9124f3af6b54ce6561f375c5b6fd2a6081c2700ecca376dc",
+    "027_review_flow.sql": "fb1db8067711afa1598cdd30d391eea7c91bc8bdfceff9c2631f468c5f437da0"
   },
   "tables": [
     {
@@ -6086,6 +6087,248 @@
       ]
     },
     {
+      "table": "question_report",
+      "columns": [
+        {
+          "name": "question_report_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "review_request_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "question_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "reported_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "category",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "details",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 2000,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'OPEN'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "resolution_note",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 2000,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "resolved_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "resolved_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "question_report_category_check",
+          "type": "c",
+          "definition": "CHECK (((category)::text = ANY ((ARRAY['WRONG_ANSWER'::character varying, 'WRONG_QUESTION'::character varying, 'AMBIGUOUS'::character varying, 'TECHNICAL'::character varying])::text[])))",
+          "columns": [
+            "category"
+          ]
+        },
+        {
+          "name": "question_report_check",
+          "type": "c",
+          "definition": "CHECK ((((status)::text = 'OPEN'::text) OR (resolved_at IS NOT NULL)))",
+          "columns": [
+            "status",
+            "resolved_at"
+          ]
+        },
+        {
+          "name": "question_report_details_check",
+          "type": "c",
+          "definition": "CHECK ((length(btrim((details)::text)) >= 10))",
+          "columns": [
+            "details"
+          ]
+        },
+        {
+          "name": "question_report_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (question_report_id)",
+          "columns": [
+            "question_report_id"
+          ]
+        },
+        {
+          "name": "question_report_question_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)",
+          "columns": [
+            "question_id"
+          ]
+        },
+        {
+          "name": "question_report_reported_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (reported_by) REFERENCES account(account_id)",
+          "columns": [
+            "reported_by"
+          ]
+        },
+        {
+          "name": "question_report_resolved_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (resolved_by) REFERENCES account(account_id)",
+          "columns": [
+            "resolved_by"
+          ]
+        },
+        {
+          "name": "question_report_review_request_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id)",
+          "columns": [
+            "review_request_id"
+          ]
+        },
+        {
+          "name": "question_report_session_id_attempt_id_category_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id, attempt_id, category)",
+          "columns": [
+            "session_id",
+            "attempt_id",
+            "category"
+          ]
+        },
+        {
+          "name": "question_report_session_id_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)",
+          "columns": [
+            "session_id",
+            "attempt_id"
+          ]
+        },
+        {
+          "name": "question_report_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['OPEN'::character varying, 'ACCEPTED'::character varying, 'REJECTED'::character varying])::text[])))",
+          "columns": [
+            "status"
+          ]
+        }
+      ]
+    },
+    {
       "table": "question_rubric_criterion",
       "columns": [
         {
@@ -6894,6 +7137,666 @@
           "definition": "CHECK (((purge_reason)::text = ANY ((ARRAY['AGE_60_DAYS'::character varying, 'MANUAL_ADMIN'::character varying, 'MIGRATION_BACKFILL'::character varying])::text[])))",
           "columns": [
             "purge_reason"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "review_deviation",
+      "columns": [
+        {
+          "name": "deviation_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "review_request_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "attempt_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "criterion_snapshot_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "ai_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "reviewed_score",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "max_points",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 5,
+          "numeric_scale": 2
+        },
+        {
+          "name": "deviation_ratio",
+          "type": "numeric",
+          "udt": "numeric",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 6,
+          "numeric_scale": 4
+        },
+        {
+          "name": "reason",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 4000,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "first_reviewer_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "second_reviewer_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "confirmation",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 24,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "review_deviation_check",
+          "type": "c",
+          "definition": "CHECK ((deviation_ratio = round((abs((reviewed_score - ai_score)) / max_points), 4)))",
+          "columns": [
+            "deviation_ratio",
+            "reviewed_score",
+            "ai_score",
+            "max_points"
+          ]
+        },
+        {
+          "name": "review_deviation_check1",
+          "type": "c",
+          "definition": "CHECK (((second_reviewer_id IS NULL) OR (second_reviewer_id <> first_reviewer_id)))",
+          "columns": [
+            "second_reviewer_id",
+            "first_reviewer_id"
+          ]
+        },
+        {
+          "name": "review_deviation_check2",
+          "type": "c",
+          "definition": "CHECK ((((confirmation)::text = 'SECOND_ADMIN'::text) = (second_reviewer_id IS NOT NULL)))",
+          "columns": [
+            "confirmation",
+            "second_reviewer_id"
+          ]
+        },
+        {
+          "name": "review_deviation_check3",
+          "type": "c",
+          "definition": "CHECK ((((confirmation)::text <> 'SINGLE_ADMIN_LONG_REASON'::text) OR (length(btrim((reason)::text)) >= 120)))",
+          "columns": [
+            "confirmation",
+            "reason"
+          ]
+        },
+        {
+          "name": "review_deviation_confirmation_check",
+          "type": "c",
+          "definition": "CHECK (((confirmation)::text = ANY ((ARRAY['SECOND_ADMIN'::character varying, 'SINGLE_ADMIN_LONG_REASON'::character varying])::text[])))",
+          "columns": [
+            "confirmation"
+          ]
+        },
+        {
+          "name": "review_deviation_deviation_ratio_check",
+          "type": "c",
+          "definition": "CHECK ((deviation_ratio > 0.30))",
+          "columns": [
+            "deviation_ratio"
+          ]
+        },
+        {
+          "name": "review_deviation_first_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (first_reviewer_id) REFERENCES account(account_id)",
+          "columns": [
+            "first_reviewer_id"
+          ]
+        },
+        {
+          "name": "review_deviation_max_points_check",
+          "type": "c",
+          "definition": "CHECK ((max_points > (0)::numeric))",
+          "columns": [
+            "max_points"
+          ]
+        },
+        {
+          "name": "review_deviation_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (deviation_id)",
+          "columns": [
+            "deviation_id"
+          ]
+        },
+        {
+          "name": "review_deviation_reason_check",
+          "type": "c",
+          "definition": "CHECK ((length(btrim((reason)::text)) >= 10))",
+          "columns": [
+            "reason"
+          ]
+        },
+        {
+          "name": "review_deviation_review_request_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id)",
+          "columns": [
+            "review_request_id"
+          ]
+        },
+        {
+          "name": "review_deviation_second_reviewer_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (second_reviewer_id) REFERENCES account(account_id)",
+          "columns": [
+            "second_reviewer_id"
+          ]
+        },
+        {
+          "name": "review_deviation_session_id_attempt_id_criterion_snapshot__fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, attempt_id, criterion_snapshot_id) REFERENCES attempt_rubric_criterion(session_id, attempt_id, criterion_snapshot_id)",
+          "columns": [
+            "session_id",
+            "attempt_id",
+            "criterion_snapshot_id"
+          ]
+        },
+        {
+          "name": "review_deviation_session_id_attempt_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)",
+          "columns": [
+            "session_id",
+            "attempt_id"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "review_request",
+      "columns": [
+        {
+          "name": "review_request_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": null,
+          "identity": true,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "learner_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "requested_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "origin",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 12,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "request_key",
+          "type": "uuid",
+          "udt": "uuid",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "reason",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": 2000,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'REQUESTED'::character varying",
+          "identity": false,
+          "max_length": 20,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "base_result_version_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "requested_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "window_expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "claimed_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "claimed_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "claim_expires_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "resolved_by",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "resolved_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "resolution_note",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 2000,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "regraded_result_version_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
+        },
+        {
+          "name": "revision",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "review_request_check",
+          "type": "c",
+          "definition": "CHECK ((((origin)::text <> 'LEARNER'::text) OR (window_expires_at IS NOT NULL)))",
+          "columns": [
+            "origin",
+            "window_expires_at"
+          ]
+        },
+        {
+          "name": "review_request_check1",
+          "type": "c",
+          "definition": "CHECK (((claimed_by IS NULL) OR ((claimed_at IS NOT NULL) AND (claim_expires_at IS NOT NULL))))",
+          "columns": [
+            "claimed_by",
+            "claimed_at",
+            "claim_expires_at"
+          ]
+        },
+        {
+          "name": "review_request_check2",
+          "type": "c",
+          "definition": "CHECK ((((status)::text <> 'REGRADED'::text) OR (regraded_result_version_id IS NOT NULL)))",
+          "columns": [
+            "status",
+            "regraded_result_version_id"
+          ]
+        },
+        {
+          "name": "review_request_check3",
+          "type": "c",
+          "definition": "CHECK ((((status)::text <> ALL ((ARRAY['REGRADED'::character varying, 'REJECTED'::character varying])::text[])) OR (resolved_at IS NOT NULL)))",
+          "columns": [
+            "status",
+            "resolved_at"
+          ]
+        },
+        {
+          "name": "review_request_claimed_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (claimed_by) REFERENCES account(account_id)",
+          "columns": [
+            "claimed_by"
+          ]
+        },
+        {
+          "name": "review_request_learner_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)",
+          "columns": [
+            "learner_id"
+          ]
+        },
+        {
+          "name": "review_request_origin_check",
+          "type": "c",
+          "definition": "CHECK (((origin)::text = ANY ((ARRAY['LEARNER'::character varying, 'ADMIN_REPORT'::character varying, 'ADMIN'::character varying])::text[])))",
+          "columns": [
+            "origin"
+          ]
+        },
+        {
+          "name": "review_request_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (review_request_id)",
+          "columns": [
+            "review_request_id"
+          ]
+        },
+        {
+          "name": "review_request_reason_check",
+          "type": "c",
+          "definition": "CHECK ((length(btrim((reason)::text)) >= 10))",
+          "columns": [
+            "reason"
+          ]
+        },
+        {
+          "name": "review_request_request_key_key",
+          "type": "u",
+          "definition": "UNIQUE (request_key)",
+          "columns": [
+            "request_key"
+          ]
+        },
+        {
+          "name": "review_request_requested_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (requested_by) REFERENCES account(account_id)",
+          "columns": [
+            "requested_by"
+          ]
+        },
+        {
+          "name": "review_request_resolved_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (resolved_by) REFERENCES account(account_id)",
+          "columns": [
+            "resolved_by"
+          ]
+        },
+        {
+          "name": "review_request_revision_check",
+          "type": "c",
+          "definition": "CHECK ((revision >= 0))",
+          "columns": [
+            "revision"
+          ]
+        },
+        {
+          "name": "review_request_session_id_base_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, base_result_version_id) REFERENCES session_result_version(session_id, result_version_id)",
+          "columns": [
+            "session_id",
+            "base_result_version_id"
+          ]
+        },
+        {
+          "name": "review_request_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "review_request_session_id_key",
+          "type": "u",
+          "definition": "UNIQUE (session_id)",
+          "columns": [
+            "session_id"
+          ]
+        },
+        {
+          "name": "review_request_session_id_regraded_result_version_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id, regraded_result_version_id) REFERENCES session_result_version(session_id, result_version_id)",
+          "columns": [
+            "session_id",
+            "regraded_result_version_id"
+          ]
+        },
+        {
+          "name": "review_request_status_check",
+          "type": "c",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['REQUESTED'::character varying, 'IN_REVIEW'::character varying, 'REGRADED'::character varying, 'REJECTED'::character varying, 'EXPIRED'::character varying])::text[])))",
+          "columns": [
+            "status"
           ]
         }
       ]
@@ -8098,6 +9001,17 @@
           "max_length": null,
           "numeric_precision": null,
           "numeric_scale": null
+        },
+        {
+          "name": "review_request_id",
+          "type": "bigint",
+          "udt": "int8",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 64,
+          "numeric_scale": 0
         }
       ],
       "constraints": [
@@ -8155,6 +9069,14 @@
           "definition": "CHECK ((result_hash ~ '^[0-9a-f]{64}$'::text))",
           "columns": [
             "result_hash"
+          ]
+        },
+        {
+          "name": "session_result_version_review_request_fk",
+          "type": "f",
+          "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id) DEFERRABLE INITIALLY DEFERRED",
+          "columns": [
+            "review_request_id"
           ]
         },
         {
@@ -9810,6 +10732,78 @@
       "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE"
     },
     {
+      "constraint": "question_report_question_id_fkey",
+      "source": "question_report",
+      "columns": [
+        "question_id"
+      ],
+      "destination": "question",
+      "reference_columns": [
+        "question_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (question_id) REFERENCES question(question_id)"
+    },
+    {
+      "constraint": "question_report_reported_by_fkey",
+      "source": "question_report",
+      "columns": [
+        "reported_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (reported_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "question_report_resolved_by_fkey",
+      "source": "question_report",
+      "columns": [
+        "resolved_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (resolved_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "question_report_review_request_id_fkey",
+      "source": "question_report",
+      "columns": [
+        "review_request_id"
+      ],
+      "destination": "review_request",
+      "reference_columns": [
+        "review_request_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id)"
+    },
+    {
+      "constraint": "question_report_session_id_attempt_id_fkey",
+      "source": "question_report",
+      "columns": [
+        "session_id",
+        "attempt_id"
+      ],
+      "destination": "attempt",
+      "reference_columns": [
+        "session_id",
+        "attempt_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)"
+    },
+    {
       "constraint": "question_rubric_criterion_rubric_profile_id_fkey",
       "source": "question_rubric_criterion",
       "columns": [
@@ -9906,6 +10900,184 @@
       "on_delete": "NO ACTION",
       "on_update": "NO ACTION",
       "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "review_deviation_first_reviewer_id_fkey",
+      "source": "review_deviation",
+      "columns": [
+        "first_reviewer_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (first_reviewer_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "review_deviation_review_request_id_fkey",
+      "source": "review_deviation",
+      "columns": [
+        "review_request_id"
+      ],
+      "destination": "review_request",
+      "reference_columns": [
+        "review_request_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id)"
+    },
+    {
+      "constraint": "review_deviation_second_reviewer_id_fkey",
+      "source": "review_deviation",
+      "columns": [
+        "second_reviewer_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (second_reviewer_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "review_deviation_session_id_attempt_id_criterion_snapshot__fkey",
+      "source": "review_deviation",
+      "columns": [
+        "session_id",
+        "attempt_id",
+        "criterion_snapshot_id"
+      ],
+      "destination": "attempt_rubric_criterion",
+      "reference_columns": [
+        "session_id",
+        "attempt_id",
+        "criterion_snapshot_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id, attempt_id, criterion_snapshot_id) REFERENCES attempt_rubric_criterion(session_id, attempt_id, criterion_snapshot_id)"
+    },
+    {
+      "constraint": "review_deviation_session_id_attempt_id_fkey",
+      "source": "review_deviation",
+      "columns": [
+        "session_id",
+        "attempt_id"
+      ],
+      "destination": "attempt",
+      "reference_columns": [
+        "session_id",
+        "attempt_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)"
+    },
+    {
+      "constraint": "review_request_claimed_by_fkey",
+      "source": "review_request",
+      "columns": [
+        "claimed_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (claimed_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "review_request_learner_id_fkey",
+      "source": "review_request",
+      "columns": [
+        "learner_id"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (learner_id) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "review_request_requested_by_fkey",
+      "source": "review_request",
+      "columns": [
+        "requested_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (requested_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "review_request_resolved_by_fkey",
+      "source": "review_request",
+      "columns": [
+        "resolved_by"
+      ],
+      "destination": "account",
+      "reference_columns": [
+        "account_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (resolved_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "review_request_session_id_base_result_version_id_fkey",
+      "source": "review_request",
+      "columns": [
+        "session_id",
+        "base_result_version_id"
+      ],
+      "destination": "session_result_version",
+      "reference_columns": [
+        "session_id",
+        "result_version_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id, base_result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
+    },
+    {
+      "constraint": "review_request_session_id_fkey",
+      "source": "review_request",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)"
+    },
+    {
+      "constraint": "review_request_session_id_regraded_result_version_id_fkey",
+      "source": "review_request",
+      "columns": [
+        "session_id",
+        "regraded_result_version_id"
+      ],
+      "destination": "session_result_version",
+      "reference_columns": [
+        "session_id",
+        "result_version_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id, regraded_result_version_id) REFERENCES session_result_version(session_id, result_version_id)"
     },
     {
       "constraint": "rubric_question_id_fkey",
@@ -10132,6 +11304,20 @@
       "on_delete": "NO ACTION",
       "on_update": "NO ACTION",
       "definition": "FOREIGN KEY (approved_by) REFERENCES account(account_id)"
+    },
+    {
+      "constraint": "session_result_version_review_request_fk",
+      "source": "session_result_version",
+      "columns": [
+        "review_request_id"
+      ],
+      "destination": "review_request",
+      "reference_columns": [
+        "review_request_id"
+      ],
+      "on_delete": "NO ACTION",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id) DEFERRABLE INITIALLY DEFERRED"
     },
     {
       "constraint": "session_result_version_session_id_fkey",
@@ -10763,6 +11949,26 @@
       "definition": "CREATE INDEX question_evidence_question_idx ON public.question_evidence USING btree (question_id)"
     },
     {
+      "table": "question_report",
+      "name": "question_report_open_idx",
+      "definition": "CREATE INDEX question_report_open_idx ON public.question_report USING btree (status, created_at)"
+    },
+    {
+      "table": "question_report",
+      "name": "question_report_pkey",
+      "definition": "CREATE UNIQUE INDEX question_report_pkey ON public.question_report USING btree (question_report_id)"
+    },
+    {
+      "table": "question_report",
+      "name": "question_report_review_idx",
+      "definition": "CREATE INDEX question_report_review_idx ON public.question_report USING btree (review_request_id, status)"
+    },
+    {
+      "table": "question_report",
+      "name": "question_report_session_id_attempt_id_category_key",
+      "definition": "CREATE UNIQUE INDEX question_report_session_id_attempt_id_category_key ON public.question_report USING btree (session_id, attempt_id, category)"
+    },
+    {
       "table": "question_rubric_criterion",
       "name": "question_rubric_criterion_pkey",
       "definition": "CREATE UNIQUE INDEX question_rubric_criterion_pkey ON public.question_rubric_criterion USING btree (criterion_id)"
@@ -10841,6 +12047,41 @@
       "table": "retention_purge_audit",
       "name": "retention_purge_audit_pkey",
       "definition": "CREATE UNIQUE INDEX retention_purge_audit_pkey ON public.retention_purge_audit USING btree (purge_audit_id)"
+    },
+    {
+      "table": "review_deviation",
+      "name": "review_deviation_attempt_uk",
+      "definition": "CREATE UNIQUE INDEX review_deviation_attempt_uk ON public.review_deviation USING btree (review_request_id, attempt_id) WHERE (criterion_snapshot_id IS NULL)"
+    },
+    {
+      "table": "review_deviation",
+      "name": "review_deviation_criterion_uk",
+      "definition": "CREATE UNIQUE INDEX review_deviation_criterion_uk ON public.review_deviation USING btree (review_request_id, attempt_id, criterion_snapshot_id) WHERE (criterion_snapshot_id IS NOT NULL)"
+    },
+    {
+      "table": "review_deviation",
+      "name": "review_deviation_pkey",
+      "definition": "CREATE UNIQUE INDEX review_deviation_pkey ON public.review_deviation USING btree (deviation_id)"
+    },
+    {
+      "table": "review_request",
+      "name": "review_request_pkey",
+      "definition": "CREATE UNIQUE INDEX review_request_pkey ON public.review_request USING btree (review_request_id)"
+    },
+    {
+      "table": "review_request",
+      "name": "review_request_queue_idx",
+      "definition": "CREATE INDEX review_request_queue_idx ON public.review_request USING btree (status, created_at)"
+    },
+    {
+      "table": "review_request",
+      "name": "review_request_request_key_key",
+      "definition": "CREATE UNIQUE INDEX review_request_request_key_key ON public.review_request USING btree (request_key)"
+    },
+    {
+      "table": "review_request",
+      "name": "review_request_session_id_key",
+      "definition": "CREATE UNIQUE INDEX review_request_session_id_key ON public.review_request USING btree (session_id)"
     },
     {
       "table": "role",

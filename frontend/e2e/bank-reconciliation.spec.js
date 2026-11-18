@@ -106,7 +106,7 @@ for (const locale of ['en', 'vi'])
     ]) {
       expect((await api(path, { method, data: {} })).status()).toBe(404)
     }
-    expect(await page.locator('.app-sidebar nav').getByRole('link').count()).toBe(5)
+    expect(await page.locator('.app-sidebar nav').getByRole('link').count()).toBe(6)
     await expect(
       page.locator('.app-sidebar nav').getByRole('link', { name: /Assessment|Đề thi/ }),
     ).toHaveCount(0)
