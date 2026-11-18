@@ -2,14 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import api, { apiMessage } from '../../api'
 import { useLocale } from '../../i18n'
 
-// FE-only prototype. Prices are browser-local; the backend remains the source of truth
-// for purchases, subscriptions, payment amounts and accounting numbers.
 const COST_TEXT = {
   admin: { vi: 'Quản trị', en: 'Administration' },
   title: { vi: 'Quản lý chi phí & gói dịch vụ', en: 'Costs & Subscription Management' },
   intro: {
-    vi: 'Theo dõi người dùng, xem thông tin gói nếu hệ thống có dữ liệu và thử cấu hình giá trên giao diện.',
-    en: 'View users, available subscription details, and test display-only pricing settings.',
+    vi: 'Xem doanh thu, chi phí và trạng thái gói tài khoản.',
+    en: 'View revenue, costs and account plans.',
   },
   overview: { vi: 'Tổng quan', en: 'Overview' },
   accounts: { vi: 'Tổng tài khoản', en: 'Total accounts' },
@@ -26,33 +24,9 @@ const COST_TEXT = {
   },
   unknownAccounts: { vi: 'Chưa có dữ liệu gói', en: 'No plan data' },
   unknownHint: { vi: 'Không tự mặc định là Free', en: 'Not assumed to be Free' },
-  pricing: { vi: 'Bảng giá', en: 'Pricing' },
-  freePackage: { vi: 'Gói Free', en: 'Free plan' },
-  proPackage: { vi: 'Gói Pro', en: 'Pro plan' },
-  freeNote: {
-    vi: 'Miễn phí 3 lượt làm bài mỗi tháng.',
-    en: 'Get 3 free assessment sessions per month.',
-  },
-  freeBadge: { vi: 'Miễn phí', en: 'Free' },
-  proNote: {
-    vi: 'Giá gói Pro: 99.000đ / 30 ngày.',
-    en: 'Pro plan price: VND 99,000 / 30 days.',
-  },
-  priceLabel: { vi: 'Điều chỉnh giá hiển thị (VNĐ)', en: 'Adjust displayed price (VND)' },
-  savePrice: { vi: 'Lưu giá giao diện', en: 'Save displayed price' },
-  invalidPrice: {
-    vi: 'Giá Pro phải là số nguyên không âm.',
-    en: 'The Pro price must be a non-negative integer.',
-  },
-  savedPrice: {
-    vi: 'Đã lưu giá HIỂN THỊ trên trình duyệt này. Chưa thay đổi giá thanh toán thật.',
-    en: 'DISPLAY price saved in this browser only. The actual checkout price has not changed.',
-  },
+  reportError: { vi: 'Không tải được báo cáo thu chi.', en: 'Could not load the financial report.' },
+  unpriced: { vi: 'lượt gọi AI chưa tính được giá', en: 'AI calls without a price' },
   usersTitle: { vi: 'Danh sách người dùng & gói đang sử dụng', en: 'Users & Current Plans' },
-  usersHelp: {
-    vi: 'Lấy tài khoản thật từ API hiện có; chỉ hiển thị trạng thái mua khi API cung cấp.',
-    en: 'Accounts are loaded from the existing API; purchase status appears only when supplied by the API.',
-  },
   reload: { vi: 'Tải lại', en: 'Reload' },
   searchLabel: { vi: 'Tìm người dùng', en: 'Search users' },
   searchPlaceholder: { vi: 'Tìm tên hoặc email...', en: 'Search name or email...' },
@@ -67,27 +41,6 @@ const COST_TEXT = {
   notUpdated: { vi: 'Chưa cập nhật', en: 'Not updated' },
   noPurchaseData: { vi: 'Chưa có dữ liệu mua gói', en: 'No purchase data' },
   noMatches: { vi: 'Không có tài khoản phù hợp.', en: 'No matching accounts.' },
-  footerNote: {
-    vi: 'Lưu ý: Trang này chưa có số liệu thu, chi AI, hosting hoặc lợi nhuận vì API hiện tại chưa cung cấp dữ liệu tài chính tương ứng.',
-    en: 'Note: Revenue, AI costs, hosting costs, and profit are not shown because the current API does not provide those financial figures.',
-  },
-}
-
-const STORAGE_KEY = 'dbcas_admin_ui_plan_prices_v1'
-const DEFAULT_PRICES = { free: 0, pro: 99000 }
-const money = (value) =>
-  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
-
-function readPrices() {
-  try {
-    const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
-    return {
-      free: 0,
-      pro: Number.isFinite(value.pro) && value.pro >= 0 ? value.pro : DEFAULT_PRICES.pro,
-    }
-  } catch {
-    return DEFAULT_PRICES
-  }
 }
 
 function knownPlan(account) {
@@ -98,18 +51,24 @@ function knownPlan(account) {
   return value === 'pro' || value === 'free' ? value : null
 }
 
-const USD_TO_VND = 26000
-
-function usdToVnd(value) {
+function money(value, locale, currency = 'VND') {
   const amount = Number(value)
 
   if (value == null || !Number.isFinite(amount)) {
     return '—'
   }
 
-  return `${new Intl.NumberFormat('vi-VN', {
-    maximumFractionDigits: 0,
-  }).format(Math.round(amount * USD_TO_VND))} đ`
+  return new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'vi-VN', {
+    style: 'currency', currency, maximumFractionDigits: currency === 'VND' ? 0 : 8,
+  }).format(amount)
+}
+
+function currentVietnamMonth() {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit',
+  }).formatToParts(new Date())
+  const get = (type) => parts.find((part) => part.type === type)?.value
+  return `${get('year')}-${get('month')}`
 }
 
 function knownSubscriptionStatus(account, locale = 'vi') {
@@ -145,11 +104,9 @@ const field =
 export default function AdminCostsPage() {
   const { locale } = useLocale()
   const tx = (key) => COST_TEXT[key][locale === 'en' ? 'en' : 'vi']
-  const [prices, setPrices] = useState(readPrices)
-  const [proInput, setProInput] = useState(String(readPrices().pro))
-  const [notice, setNotice] = useState('')
   const [accounts, setAccounts] = useState([])
   const [financialReport, setFinancialReport] = useState(null)
+  const [financialError, setFinancialError] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [query, setQuery] = useState('')
@@ -175,30 +132,17 @@ export default function AdminCostsPage() {
     async function loadFinancialReport() {
       try {
         const response = await api.get('/admin/financial-report', {
-          params: { month: '2026-11' },
+          params: { month: currentVietnamMonth() },
         })
 
         setFinancialReport(response.data)
       } catch (error) {
-        console.error('Không tải được báo cáo tài chính:', error)
+        setFinancialError(apiMessage(error))
       }
     }
 
     loadFinancialReport()
   }, [])
-
-  function savePrices(e) {
-    e.preventDefault()
-    const value = Number(proInput)
-    if (!Number.isSafeInteger(value) || value < 0) {
-      setNotice('invalidPrice')
-      return
-    }
-    const next = { free: 0, pro: value }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-    setPrices(next)
-    setNotice('savedPrice')
-  }
 
   const summary = useMemo(() => {
     const plans = accounts.map(knownPlan)
@@ -228,20 +172,31 @@ export default function AdminCostsPage() {
         <h1 className="mt-2 text-3xl font-bold text-ink">{tx('title')}</h1>
         <p className="mt-2 text-sm text-sub">{tx('intro')}</p>
       </div>
+      {financialError && <p role="alert" className="text-rose-300">{tx('reportError')} {financialError}</p>}
       {financialReport && (
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            ['Doanh thu', financialReport.revenue],
-            ['Chi phí AI', financialReport.ai_cost],
-            ['Chi phí Hosting', financialReport.hosting_cost],
-            ['Số dư còn lại', financialReport.balance],
-          ].map(([label, value]) => (
-            <div className={panel} key={label}>
-              <p className="text-sm text-sub">{label}</p>
-              <p className="mt-2 text-3xl font-bold text-cyan-300">{usdToVnd(value)}</p>
-            </div>
-          ))}
-        </section>
+        <>
+          <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {[
+              [locale === 'en' ? 'Revenue' : 'Doanh thu', financialReport.revenue],
+              [locale === 'en' ? 'Estimated AI cost' : 'Chi phí AI ước tính', financialReport.ai_cost],
+              [locale === 'en' ? 'Hosting cost' : 'Chi phí Hosting', financialReport.hosting_cost],
+              [locale === 'en' ? 'Remaining' : 'Số dư còn lại', financialReport.balance],
+            ].map(([label, value]) => (
+              <div className={panel} key={label}>
+                <p className="text-sm text-sub">{label}</p>
+                <p className="mt-2 text-3xl font-bold text-cyan-300">{money(value, locale, financialReport.currency)}</p>
+              </div>
+            ))}
+          </section>
+          <p className="text-xs text-mute">
+            {locale === 'en' ? 'Demo purchase data; no real payment is collected.' : 'Dữ liệu mua gói trong môi trường demo; không thu tiền thật.'}
+          </p>
+          {financialReport.unpriced_ai_calls > 0 && (
+            <p role="status" className="text-sm text-amber-300">
+              {financialReport.unpriced_ai_calls} {tx('unpriced')}. {locale === 'en' ? 'The AI total does not include these calls.' : 'Tổng chi phí AI chưa gồm các lượt này.'}
+            </p>
+          )}
+        </>
       )}
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label={tx('overview')}>
@@ -259,55 +214,10 @@ export default function AdminCostsPage() {
         ))}
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-2" aria-label={tx('pricing')}>
-        <div className={panel}>
-          <h2 className="text-lg font-semibold text-ink">{tx('freePackage')}</h2>
-          <p className="mt-3 text-3xl font-bold text-ink">{money(prices.free)}</p>
-          <p className="mt-3 text-sm text-sub">{tx('freeNote')}</p>
-          <span className="mt-4 inline-block rounded-full bg-cyan-400/10 px-3 py-1 text-xs text-cyan-300">
-            {tx('freeBadge')}
-          </span>
-        </div>
-        <div className={panel}>
-          <h2 className="text-lg font-semibold text-ink">{tx('proPackage')}</h2>
-          <p className="mt-3 text-3xl font-bold text-cyan-300">{money(prices.pro)}</p>
-          <p className="mt-3 text-sm text-sub">{tx('proNote')}</p>
-          <form className="mt-5 space-y-3" onSubmit={savePrices}>
-            <label htmlFor="pro-price" className="block text-sm font-medium text-ink">
-              {tx('priceLabel')}
-            </label>
-            <input
-              id="pro-price"
-              type="number"
-              min="0"
-              step="1"
-              value={proInput}
-              onChange={(e) => {
-                setProInput(e.target.value)
-                setNotice('')
-              }}
-              className={field}
-            />
-            <button
-              type="submit"
-              className="rounded-lg bg-cyan-400 px-4 py-2 font-semibold text-slate-950 hover:bg-cyan-300"
-            >
-              {tx('savePrice')}
-            </button>
-            {notice && (
-              <p role="status" className="text-sm text-sub">
-                {tx(notice)}
-              </p>
-            )}
-          </form>
-        </div>
-      </section>
-
       <section className={panel}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-ink">{tx('usersTitle')}</h2>
-            <p className="mt-1 text-sm text-sub">{tx('usersHelp')}</p>
           </div>
           <button
             type="button"

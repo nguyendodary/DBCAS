@@ -1,4 +1,5 @@
 from functools import lru_cache
+from decimal import Decimal
 from pathlib import Path
 from typing import Literal, Optional
 from urllib.parse import unquote, urlsplit
@@ -106,6 +107,16 @@ class Settings(BaseSettings):
     llm_max_retries: int = Field(default=2, ge=0, le=3)
     llm_backoff_seconds: float = Field(default=0.5, ge=0, le=10, allow_inf_nan=False)
     llm_prompt_version: str = "2026-10-11-v1"
+    llm_input_usd_per_million: float = Field(default=0, ge=0)
+    llm_output_usd_per_million: float = Field(default=0, ge=0)
+    # For deepseek-flash, the above are OFF-PEAK cache-miss input and output
+    # rates; a separate cache-hit rate is required to estimate its bill.
+    llm_cache_hit_usd_per_million: float = Field(default=0, ge=0)
+    llm_peak_multiplier: float = Field(default=2, ge=1)
+    # The group-agreed 30-day demo price; no payment gateway or real charge occurs.
+    pro_demo_price_vnd: int = Field(default=99000, ge=0)
+    # Explicit demonstration conversion for costs recorded in USD.
+    demo_usd_to_vnd: Decimal = Field(default=Decimal("26000"), gt=0)
     # Separate opt-in: existing grading credentials do not enable translation.
     question_translation_enabled: bool = False
     grading_job_max_attempts: int = 3

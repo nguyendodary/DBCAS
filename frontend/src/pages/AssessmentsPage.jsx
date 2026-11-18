@@ -22,13 +22,21 @@ export default function AssessmentsPage() {
   const [active, setActive] = useState(null)
   const [preview, setPreview] = useState(null)
   const [error, setError] = useState(null)
-  const [planInfo] = useState(null)
+  const [planInfo, setPlanInfo] = useState(null)
   const [busy, setBusy] = useState(false)
   const requestId = useRef(crypto.randomUUID())
   const guard = useRef(false)
   const navigate = useNavigate()
 
-  // TODO: Kết nối lại API /auth/plan khi Backend hoàn thiện.
+  useEffect(() => {
+    let mounted = true
+    api.get('/auth/plan').then(({ data }) => {
+      if (mounted) setPlanInfo(data)
+    }).catch(() => {
+      // The server still enforces the allowance if plan status is unavailable.
+    })
+    return () => { mounted = false }
+  }, [])
 
   const load = useCallback(() => {
     setError(null)
@@ -69,6 +77,12 @@ export default function AssessmentsPage() {
     const details = e?.response?.data?.error?.details
     if (code === 'active_practice' && details?.session_id) {
       navigate(`/exam/${details.session_id}`)
+      return
+    }
+    if (code === 'free_limit_reached') {
+      setPlanInfo((current) => ({ ...current, plan: 'free', free_sessions_remaining: 0 }))
+      setPreview(null)
+      setError(null)
       return
     }
     setError(apiMessage(e, 'Chưa tạo được bài luyện tập. Hãy thử lại.'))
@@ -193,7 +207,7 @@ export default function AssessmentsPage() {
       ) : (
         <form onSubmit={start}>
           <Card className="space-y-7 p-5 sm:p-7">
-            <fieldset disabled={busy} className="space-y-7">
+            <fieldset disabled={busy || (planInfo?.plan === 'free' && planInfo.free_sessions_remaining === 0)} className="space-y-7">
               <fieldset className="min-w-0">
                 <legend className="text-lg font-semibold">1. Chọn khái niệm</legend>
                 <button

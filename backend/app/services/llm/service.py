@@ -53,10 +53,12 @@ class LLMService:
         *,
         provider: Optional[LLMProvider] = None,
         cache: Optional[CacheStore] = None,
+        cost_observer=None,
     ):
         self._settings = settings
         self._provider = provider
         self._cache = cache
+        self._cost_observer = cost_observer
 
     def with_budget(self, *, timeout_seconds=10, max_retries=1):
         settings = self._settings.model_copy(update={
@@ -65,7 +67,8 @@ class LLMService:
         })
         provider = (self._provider.with_budget(timeout_seconds=settings.llm_timeout_seconds, max_retries=settings.llm_max_retries)
                     if isinstance(self._provider, ChatCompletionsProvider) else self._provider)
-        return LLMService(settings, provider=provider, cache=self._cache)
+        return LLMService(settings, provider=provider, cache=self._cache,
+                          cost_observer=self._cost_observer)
 
     # ---------- configuration ----------
 
@@ -90,6 +93,7 @@ class LLMService:
             timeout_seconds=self._settings.llm_timeout_seconds,
             max_retries=self._settings.llm_max_retries,
             backoff_seconds=self._settings.llm_backoff_seconds,
+            on_attempt=self._cost_observer,
         )
         return self._provider
 
@@ -259,8 +263,10 @@ def _request_hash(request: StructuredRequest, *, provider="", prompt_version="1"
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
-def build_llm_service(settings: Settings, db=None) -> LLMService:
+def build_llm_service(settings: Settings, db=None, *, use_cache=True) -> LLMService:
     """Factory used by FastAPI deps: wires the DB-backed cache when a
     session is available."""
-    cache = LlmCacheRepository(db) if db is not None else None
-    return LLMService(settings, cache=cache)
+    cache = LlmCacheRepository(db) if db is not None and use_cache else None
+    from .costs import make_cost_observer
+    observer = make_cost_observer(db.get_bind(), settings) if db is not None else None
+    return LLMService(settings, cache=cache, cost_observer=observer)

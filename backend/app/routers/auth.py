@@ -1,9 +1,12 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
+from pydantic import BaseModel
+from typing import Literal
+from uuid import UUID
 from sqlalchemy.orm import Session
 
 from ..config import Settings, get_settings
 from ..db import get_db
-from ..deps import CurrentAccount
+from ..deps import CurrentAccount, LearnerOnly
 from ..errors import AppError
 from ..models import Account
 from ..schemas_operational import StatusResult
@@ -16,7 +19,7 @@ from ..schemas import (
     TokenResponse,
     RefreshTokenRequest,
 )
-from ..services import auth_service, password_reset, refresh_tokens
+from ..services import auth_service, password_reset, refresh_tokens, subscription_service
 from ..services.mail import Mailer
 from ..security import decode_access_token, create_access_token
 from ..services.login_throttle import (
@@ -28,6 +31,12 @@ from ..services.login_throttle import (
 )
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+
+class DemoCheckoutRequest(BaseModel):
+    request_id: UUID
+    # A public demo token, never a card number or payment credential.
+    test_token: Literal["dbcas-demo-visa-approved"]
 
 
 def get_mailer(settings: Settings = Depends(get_settings)) -> Mailer:
@@ -80,6 +89,22 @@ def login(
             raise
         throttle.record_success(key)
     return refresh_tokens.issue(db, account.account_id, settings)
+
+
+@router.get("/plan")
+def plan(account: Account = LearnerOnly, db: Session = Depends(get_db)):
+    return subscription_service.status(db, account)
+
+
+@router.get("/pro-demo-offer")
+def pro_demo_offer(_: Account = LearnerOnly, settings: Settings = Depends(get_settings)):
+    return {"price_vnd": settings.pro_demo_price_vnd, "currency": "VND", "days": 30}
+
+
+@router.post("/buy-pro-demo")
+def buy_pro_demo(payload: DemoCheckoutRequest, account: Account = LearnerOnly, db: Session = Depends(get_db),
+                 settings: Settings = Depends(get_settings)):
+    return subscription_service.buy_pro_demo(db, account, settings.pro_demo_price_vnd, payload.request_id)
 
 
 @router.post("/refresh", response_model=TokenResponse)

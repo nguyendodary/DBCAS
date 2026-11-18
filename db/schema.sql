@@ -11,6 +11,8 @@ CREATE TABLE account (
   password_changed_at TIMESTAMPTZ,
   status VARCHAR(20) NOT NULL DEFAULT 'active',
   can_manage_roles BOOLEAN NOT NULL DEFAULT FALSE,
+  plan VARCHAR(10) NOT NULL DEFAULT 'free' CHECK (plan IN ('free','pro')),
+  pro_expires_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -26,6 +28,35 @@ CREATE TABLE account_role (
   assigned_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   PRIMARY KEY (account_id, role_id)
 );
+
+CREATE TABLE pro_purchase (
+  purchase_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES account(account_id),
+  amount_usd NUMERIC(12,6) NOT NULL DEFAULT 0 CHECK (amount_usd >= 0),
+  amount_vnd BIGINT NOT NULL DEFAULT 0 CHECK (amount_vnd >= 0),
+  checkout_request_id UUID UNIQUE,
+  simulated BOOLEAN NOT NULL DEFAULT TRUE CHECK (simulated),
+  purchased_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL,
+  CHECK (expires_at > purchased_at)
+);
+CREATE INDEX pro_purchase_account_idx ON pro_purchase(account_id, purchased_at DESC);
+
+CREATE TABLE operating_cost (
+  cost_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  kind VARCHAR(16) NOT NULL CHECK (kind IN ('ai','hosting')),
+  account_id INT REFERENCES account(account_id),
+  task_type VARCHAR(64),
+  model VARCHAR(100),
+  prompt_tokens INT CHECK (prompt_tokens >= 0),
+  completion_tokens INT CHECK (completion_tokens >= 0),
+  amount_usd NUMERIC(12,8) CHECK (amount_usd >= 0),
+  outcome VARCHAR(20) NOT NULL CHECK (outcome IN ('success','http_error','network_error','provider_error')),
+  http_status INT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CHECK (kind <> 'ai' OR task_type IS NOT NULL)
+);
+CREATE INDEX operating_cost_kind_time_idx ON operating_cost(kind, created_at DESC);
 
 CREATE TABLE user_profile (
   user_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

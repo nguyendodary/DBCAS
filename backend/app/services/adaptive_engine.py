@@ -412,6 +412,8 @@ def start_session(
 
     from .assessment_validation import validate_assessment_bank
     validate_assessment_bank(db, assessment)
+    from .subscription_service import require_new_session
+    require_new_session(db, learner)
     started_at = repo.server_time()
     expires = started_at + timedelta(
         minutes=assessment.duration_min

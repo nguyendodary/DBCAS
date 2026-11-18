@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, Query
@@ -7,6 +8,7 @@ from ..db import get_db
 from ..deps import AdminOnly, RoleManagerOnly, get_llm_service, get_sandbox_runner
 from ..errors import AppError
 from ..models import Account
+from ..repositories import CurriculumRepository
 from ..schemas_analytics import StatisticsDashboard
 from ..schemas_operational import CapabilityResult, GradingSummary, GradingDetail
 from ..schemas import (
@@ -52,6 +54,7 @@ from ..services import (
     curriculum_service,
     question_service,
 )
+from ..services.subscription_service import effective_plan
 from ..services.llm.service import LLMService
 from ..services.sandbox_runner import SandboxRunner
 from ..config import Settings, get_settings
@@ -59,6 +62,13 @@ from ..deps import get_translation_llm
 from ..services import question_translation
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+class AdminAccountSummary(AccountSummary):
+    """Admin roster includes the effective subscription, not only account identity."""
+
+    plan: Literal["free", "pro"]
+    pro_expires_at: Optional[datetime] = None
 
 
 @router.get("/grading-reviews", response_model=list[GradingSummary])
@@ -114,13 +124,22 @@ def provision_account(
     return auth_service.provision_account(db, payload, actor)
 
 
-@router.get("/accounts", response_model=list[AccountSummary])
+@router.get("/accounts", response_model=list[AdminAccountSummary])
 def list_accounts(
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
 ):
     """UC04 — the full account roster (needed to find disabled accounts)."""
-    return auth_service.list_accounts(db)
+    now = datetime.now(timezone.utc)
+    result = []
+    for account in CurriculumRepository(db).list_accounts():
+        plan = effective_plan(account, now)
+        result.append(AdminAccountSummary(
+            **auth_service.to_summary(account).model_dump(),
+            plan=plan,
+            pro_expires_at=account.pro_expires_at if plan == "pro" else None,
+        ))
+    return result
 
 
 @router.get("/role-management/capability", response_model=RoleManagementCapability)
@@ -620,15 +639,15 @@ def get_financial_report(
     ),
     _: Account = AdminOnly,
     db: Session = Depends(get_db),
+    settings: Settings = Depends(get_settings),
 ):
-    from datetime import datetime, timezone
-    from decimal import Decimal
-    from zoneinfo import ZoneInfo
+    from datetime import datetime, timedelta, timezone
+    from decimal import Decimal, ROUND_HALF_UP
     from sqlalchemy import text
 
     # Month boundaries follow Vietnam time.
     year, month_number = map(int, month.split("-"))
-    vietnam_tz = ZoneInfo("Asia/Ho_Chi_Minh")
+    vietnam_tz = timezone(timedelta(hours=7))
 
     start_local = datetime(year, month_number, 1, tzinfo=vietnam_tz)
 
@@ -650,7 +669,8 @@ def get_financial_report(
         text("""
             SELECT
                 COUNT(*) AS purchase_count,
-                COALESCE(SUM(amount_usd), 0) AS revenue
+                COALESCE(SUM(amount_vnd), 0) AS revenue_vnd,
+                COALESCE(SUM(amount_usd), 0) AS legacy_revenue_usd
             FROM pro_purchase
             WHERE purchased_at >= :start_at
               AND purchased_at < :end_at
@@ -670,7 +690,9 @@ def get_financial_report(
                 COALESCE(
                     SUM(amount_usd) FILTER (WHERE kind = 'hosting'),
                     0
-                ) AS hosting_cost
+                ) AS hosting_cost,
+                COUNT(*) FILTER (WHERE kind = 'ai' AND amount_usd IS NULL)
+                    AS unpriced_ai_calls
             FROM operating_cost
             WHERE created_at >= :start_at
               AND created_at < :end_at
@@ -678,18 +700,24 @@ def get_financial_report(
         params,
     ).mappings().one()
 
-    revenue = Decimal(purchases["revenue"])
-    ai_cost = Decimal(costs["ai_cost"])
-    hosting_cost = Decimal(costs["hosting_cost"])
+    rate = settings.demo_usd_to_vnd
+    vnd = lambda value: (Decimal(value) * rate).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+    revenue = Decimal(purchases["revenue_vnd"]) + vnd(purchases["legacy_revenue_usd"])
+    ai_cost = vnd(costs["ai_cost"])
+    hosting_cost = vnd(costs["hosting_cost"])
     balance = revenue - ai_cost - hosting_cost
 
     return {
         "month": month,
         "timezone": "Asia/Ho_Chi_Minh",
-        "currency": "USD",
+        "currency": "VND",
+        "demo_usd_to_vnd": str(rate),
         "purchase_count": purchases["purchase_count"],
-        "revenue": float(revenue),
-        "ai_cost": float(ai_cost),
-        "hosting_cost": float(hosting_cost),
-        "balance": float(balance),
+        "revenue": int(revenue),
+        "ai_cost": int(ai_cost),
+        "ai_cost_usd": str(costs["ai_cost"]),
+        "unpriced_ai_calls": costs["unpriced_ai_calls"],
+        "hosting_cost": int(hosting_cost),
+        "hosting_cost_usd": str(costs["hosting_cost"]),
+        "balance": int(balance),
     }

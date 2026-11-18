@@ -106,9 +106,9 @@ def get_llm_service(
     return build_llm_service(settings, db)
 
 
-def get_translation_llm(settings: Settings = Depends(get_settings)):
+def get_translation_llm(settings: Settings = Depends(get_settings), db: Session = Depends(get_db)):
     """Drafts have no database cache; at most one bounded provider attempt."""
-    from .services.llm import LLMService
-    return LLMService(settings.model_copy(update={
+    from .services.llm import build_llm_service
+    return build_llm_service(settings.model_copy(update={
         "llm_max_retries": 0, "llm_timeout_seconds": max(1, min(30, settings.llm_timeout_seconds)),
-    }))
+    }), db, use_cache=False)

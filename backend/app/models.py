@@ -8,6 +8,7 @@ DDL-only operational indexes are intentional and checked by migration tests.
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Optional
+from uuid import UUID
 
 from sqlalchemy import (
     ForeignKey,
@@ -52,6 +53,8 @@ class Account(Base):
     # Separate capability: Administrator alone never implies authority to
     # grant or revoke administrative roles.
     can_manage_roles: Mapped[bool] = mapped_column(default=False, server_default="false")
+    plan: Mapped[str] = mapped_column(String(10), default="free", server_default="free")
+    pro_expires_at: Mapped[Optional[datetime]]
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     profile: Mapped[Optional["UserProfile"]] = relationship(back_populates="account")
@@ -86,6 +89,33 @@ class AccountRole(Base):
     account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"), primary_key=True)
     role_id: Mapped[int] = mapped_column(ForeignKey("role.role_id"), primary_key=True)
     assigned_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class ProPurchase(Base):
+    __tablename__ = "pro_purchase"
+    purchase_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    amount_usd: Mapped[Decimal] = mapped_column(Numeric(12, 6), default=0)
+    amount_vnd: Mapped[int] = mapped_column(BigInteger, default=0, server_default="0")
+    checkout_request_id: Mapped[Optional[UUID]] = mapped_column(unique=True)
+    simulated: Mapped[bool] = mapped_column(default=True)
+    purchased_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    expires_at: Mapped[datetime]
+
+
+class OperatingCost(Base):
+    __tablename__ = "operating_cost"
+    cost_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    kind: Mapped[str] = mapped_column(String(16))
+    account_id: Mapped[Optional[int]] = mapped_column(ForeignKey("account.account_id"))
+    task_type: Mapped[Optional[str]] = mapped_column(String(64))
+    model: Mapped[Optional[str]] = mapped_column(String(100))
+    prompt_tokens: Mapped[Optional[int]]
+    completion_tokens: Mapped[Optional[int]]
+    amount_usd: Mapped[Optional[Decimal]] = mapped_column(Numeric(12, 8))
+    outcome: Mapped[str] = mapped_column(String(20))
+    http_status: Mapped[Optional[int]]
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 class AccountRoleAudit(Base):

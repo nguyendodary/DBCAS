@@ -183,6 +183,8 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
         AssessmentSession.status == "in_progress").with_for_update())
     if active:
         raise AppError(409, "active_practice", "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.", details={"session_id": active.session_id})
+    from .subscription_service import require_new_session
+    require_new_session(db, learner)
     SecurityRepository(db).lock("question-bank-publication", shared=True)
     diagnostics = []
     generated = generate_entries(concepts, payload, learner, runner, llm, diagnostics=diagnostics) if payload.source == "ai" else []
