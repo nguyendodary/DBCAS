@@ -75,6 +75,20 @@ it('uses the administrator assessment filter and exports an actual named ranking
   expect(statisticsCsv(stats, { 77: 'Learner Linh' })).toContain('"1","Learner Linh","75"')
 })
 
+it('exports learner and CLO rows for a published formal session', () => {
+  const formal = {
+    ...stats,
+    dimensions: {
+      ...stats.dimensions,
+      clos: [{ ...metric, key: 'CLO-PURPOSE', label: 'CLO-PURPOSE - Purpose evidence' }],
+    },
+    ranking: [{ ...metric, learner_id: 77, rank: 1 }],
+  }
+  const csv = statisticsCsv(formal, { 77: 'Learner Linh' })
+  expect(csv).toContain('"Learning outcomes","CLO-PURPOSE - Purpose evidence"')
+  expect(csv).toContain('"1","Learner Linh","75"')
+})
+
 it('retries a failed statistics load with one click', async () => {
   let first = true
   api.get.mockImplementation((path) => {

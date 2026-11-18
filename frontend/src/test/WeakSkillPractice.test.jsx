@@ -139,9 +139,7 @@ it('uses the Vietnamese labels in the practice builder', async () => {
   expect(
     await screen.findByRole('heading', { name: 'Khái niệm đã chọn và chuẩn đầu ra' }),
   ).toBeVisible()
-  expect(screen.getByRole('status')).toHaveTextContent(
-    'Các khái niệm từ kết quả gần nhất đã được chọn sẵn.',
-  )
+  expect(screen.getByText(/Các khái niệm từ kết quả gần nhất đã được chọn sẵn/)).toBeVisible()
 })
 
 it('preselects requested concepts, shows their CLOs and allows manual changes', async () => {

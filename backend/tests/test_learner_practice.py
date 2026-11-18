@@ -114,6 +114,8 @@ def test_no_exam_and_frozen_scope_idempotent(client, db_session, source):
     assert second.json()["session_id"] == first.json()["session_id"]
     session = db_session.get(AssessmentSession, first.json()["session_id"])
     assert session.assessment_id is None and db_session.scalar(select(func.count()).select_from(Assessment)) == 0
+    assert (session.purpose, session.purpose_source) == ("PRACTICE", "SERVER")
+    assert session.config_snapshot["purpose"] == "PRACTICE"
     for item in session.config_snapshot["question_plan"]:
         assert item["difficulty_level"] in (4, 5)
         assert {c["concept_id"] for c in item["concepts"]} <= set(payload["concept_ids"])
@@ -352,6 +354,8 @@ def test_fixed_start_precreates_the_whole_paper(client, db_session):
     session = db_session.get(AssessmentSession, state["session_id"])
     snapshot = session.config_snapshot
     assert session.assessment_id is None
+    assert (session.purpose, session.purpose_source) == ("TEST", "SERVER")
+    assert snapshot["purpose"] == "TEST"
     assert snapshot["runner_mode"] == "fixed"
     assert snapshot["result_kind"] == "official_score"
     assert snapshot["assessment_style"] == "FIXED"
@@ -377,6 +381,14 @@ def test_fixed_start_precreates_the_whole_paper(client, db_session):
         SelectionLog.session_id == session.session_id)) == 3
     assert db_session.scalar(select(func.count()).select_from(SessionQuestionPlan).where(
         SessionQuestionPlan.session_id == session.session_id)) == 3
+
+
+def test_practice_start_rejects_a_client_supplied_purpose(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    response = client.post('/api/v1/practice/start', headers=headers(learner),
+                           json={**selection(concepts), "purpose": "TEST"})
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "validation_error"
 
 
 def test_fixed_start_requires_explicit_question_mix_and_adaptive_scope(client, db_session):
@@ -555,7 +567,9 @@ def test_flow_two_sql_edit_reason_audit_and_approve(client, db_session, monkeypa
     assert approved.status_code == 200, approved.text
     view = client.get(path, headers=headers(learner)).json()
     assert view["status"] == "ready" and view["approved"] and view["adjusted"]
-    assert client.get('/api/v1/sessions/statistics', headers=headers(learner)).json()["published_formal_sessions"] == 1
+    assert client.get('/api/v1/sessions/statistics', headers=headers(learner)).json()["published_formal_sessions"] == 0
+    cumulative = client.get('/api/v1/sessions/competency/cumulative', headers=headers(learner)).json()
+    assert cumulative["summary"]["finalized_assessments"] == 0 and cumulative["concepts"] == []
 
 
 def test_score_edit_shows_updating_and_debounces_provider(client, db_session, monkeypatch):

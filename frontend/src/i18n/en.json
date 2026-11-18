@@ -126,10 +126,10 @@
     "practiceRecommendation": "Review the foundations of {{skill}}, then take a focused assessment to check your progress.",
     "competencyEvidence": "Scores and supporting evidence",
     "ADAPTIVE": "Adaptive practice",
-    "adaptiveHelp": "Choose one skill. Each round has up to five multiple-choice questions, and difficulty adjusts to your graded answers. At least five answers are required. The session stops when your performance is stable, the question pool runs out, 13 questions have been served, or time runs out. This practice does not count toward official competency.",
+    "adaptiveHelp": "Choose one concept and one starting difficulty. Every session opens with 3 anchor MCQs at that band, then serves 3–50 multiple-choice questions from the question bank as ability updates. The result is an estimated ability, not a percentage, and does not count toward official competency.",
     "adaptiveRound": "Round {{round}} · {{answered}} / {{count}} answered",
     "adaptiveEvidenceMet": "Minimum evidence collected. This is a practice outcome, not an official mastery certification.",
-    "adaptiveEvidenceLow": "Fewer than five finalized answers: there is insufficient evidence for an adaptive outcome.",
+    "adaptiveEvidenceLow": "Fewer than three finalized answers: there is insufficient evidence for an adaptive outcome.",
     "adaptiveLimited": "Available inventory limited the difficulty or length. Interpret this outcome within the questions actually answered.",
     "adaptiveStop": {
       "maximum_questions": "Adaptive practice completed: question limit reached.",
@@ -420,6 +420,7 @@
     "in_progress": "In progress",
     "completed": "Completed",
     "timed_out": "Timed out",
+    "cancelled": "Cancelled",
     "draft": "Draft",
     "active": "Active",
     "closed": "Closed",
@@ -632,6 +633,11 @@
     "warning10": "Less than 10 minutes remain.",
     "warning5": "Less than 5 minutes remain. The paper submits at 00:00.",
     "warning1": "Less than 1 minute remains. The paper submits at 00:00.",
+    "tabLeaveWarning": "Warning {{count}} of {{limit}}: you were away from the exam tab for more than {{seconds}} seconds. Further violations can cancel this attempt with 0 points.",
+    "tabLeaveCancelledTitle": "Attempt cancelled",
+    "tabLeaveCancelledBody": "You left the exam tab {{count}} times. This attempt has been cancelled with 0 points and can no longer be edited.",
+    "tabLeaveCancelledReason": "Reason: tab-leave limit reached.",
+    "viewResult": "View result",
     "answeredCount": "{{answered}}/{{max}} ANSWERED · {{flagged}} FLAGGED"
   },
   "sql": {
@@ -710,6 +716,7 @@
     "evidence": "Evidence",
     "answered": "{{answered}}/{{served}} answered",
     "result": "Answer result: {{value}}",
+    "cancelledResult": "Cancelled after {{count}} tab-leave violations · 0 points",
     "unbenchmarked": " · no benchmark",
     "below": " · below target",
     "meets": " · meets target"
@@ -808,7 +815,15 @@
     "nextImprove": "Review {{name}}, then practice related questions and compare your answers with the feedback in published results.",
     "nextMaintain": "Continue practicing {{name}} in different question formats to consolidate it.",
     "nextUnbenchmarked": "Review the published assessments that covered {{name}}; your instructor sets the benchmark.",
-    "limitedSkill": "This concept currently draws on evidence from one published assessment."
+    "limitedSkill": "This concept currently draws on evidence from one published assessment.",
+    "adaptiveTitle": "Adaptive ability estimates",
+    "adaptiveHelp": "These results are separate from the official percentage above. Each published adaptive test shows an estimated ability band and index; the two are never combined.",
+    "session": "Session",
+    "date": "Date"
+  },
+  "sessionPurpose": {
+    "TEST": "Test",
+    "PRACTICE": "Practice"
   },
   "guidance": {
     "title": "What to study next",
@@ -894,6 +909,9 @@
       "selectLearner": "Select a user to view their competency profile",
       "loadingLearner": "Loading user…",
       "selectSession": "Select user session",
+      "tabLeaveCount": "Tab-leave violations: {{count}}",
+      "cancelledReason": "Cancellation reason: {{reason}}",
+      "reasonTabLeave": "tab-leave limit reached",
       "noSessions": "No finalized user sessions for this selection",
       "noEvidence": "No graded concept evidence for this session",
       "loadingCompetency": "Loading competency…",
@@ -1460,7 +1478,7 @@
     },
     "learner": {
       "heading": "Working as a user",
-      "item1": "Open Practice, choose concepts, difficulties and a question source, then start.",
+      "item1": "Open Assessments, choose a test or adaptive practice, select concepts and one difficulty, then start.",
       "item2": "Watch the draft-save status and the timer. Saving a draft is not the same as submitting an answer.",
       "item3": "Open the evaluation in History. The waiting screen offers Retry for slow AI or a lost connection.",
       "item4": "Open Overall evaluation for all released attempts and suggested next steps."
@@ -1501,5 +1519,83 @@
     "selectedHelp": "Each selected concept is shown with its related course learning outcome.",
     "noClo": "No course learning outcome is linked to this concept.",
     "cloLabel": "Learning outcome"
+  },
+  "assessmentStyle": {
+    "title": "Assessment mode",
+    "pageEyebrow": "Database assessment",
+    "pageTitle": "Create an assessment",
+    "pageSubtitle": "Choose a scored test or an adaptive ability estimate.",
+    "sourceTitle": "3. Question source",
+    "questionCountTitle": "4. Number of questions",
+    "starting": "Preparing your assessment…",
+    "retry": "Retry",
+    "start": "Start",
+    "fixed": {
+      "title": "Test",
+      "description": "A bank-only test at one difficulty. Choose concepts and the question mix; the score is official only after review.",
+      "constraintsTitle": "Test constraints",
+      "constraintBank": "Question bank only",
+      "constraintBand": "Exactly one difficulty band",
+      "constraintScore": "Official score only after administrator publication",
+      "sourceNote": "This test uses the validated question bank only.",
+      "difficultyNote": "Choose one difficulty band.",
+      "mixTitle": "4. Question mix",
+      "mixHelp": "Set how many MCQ, SQL and essay questions the test contains.",
+      "mixTotal": "{{total}} questions in this test.",
+      "types": {
+        "mcq": "MCQ",
+        "sql": "SQL",
+        "essay": "Essay"
+      },
+      "mixEmpty": "Add at least one question.",
+      "mixInvalid": "Question counts must be whole numbers zero or greater.",
+      "mixSingleLimit": "A single-type test allows at most {{limit}} {{type}} questions.",
+      "mixTypeLimit": "A mixed test allows at most {{limit}} {{type}} questions.",
+      "mixTotalLimit": "A mixed test allows at most {{limit}} questions.",
+      "startNote": "All questions open for free navigation. AI grades after submission; an administrator reviews and publishes the official score.",
+      "resultLabel": "Official score",
+      "provisionalLabel": "Provisional score",
+      "provisionalTitle": "Provisional result — AI graded, not yet approved",
+      "provisionalBody": "The score and feedback may change after administrator review.",
+      "approvedTitle": "✓ Approved by an administrator — official result",
+      "approvedAdjusted": "Scores were adjusted"
+    },
+    "adaptive": {
+      "title": "Adaptive practice",
+      "description": "Estimated ability on a 1–5 scale with a confidence level and study suggestions — not a score.",
+      "constraintsTitle": "Adaptive practice constraints",
+      "constraintBank": "Question bank only",
+      "constraintConcept": "Exactly one concept",
+      "constraintMcq": "Multiple-choice questions only",
+      "constraintRange": "{{min}}–{{max}} questions",
+      "sourceNote": "Adaptive practice draws from the question bank only; AI-generated questions are not available.",
+      "conceptNote": "Choose exactly one concept for an adaptive session.",
+      "difficultyNote": "Choose one starting difficulty band.",
+      "startNote": "Your result is an estimated ability with study suggestions, not a percentage score.",
+      "countLabel": "Number of questions ({{min}}–{{max}})",
+      "resultLabel": "Estimated ability",
+      "notOfficial": "This estimate is not an official score. No percentage is awarded for adaptive practice.",
+      "band": "Ability band",
+      "index": "Ability index",
+      "confidence": "Confidence",
+      "evidence": "Answers collected",
+      "estimateNote": " provisional — more answers make the estimate more reliable.",
+      "pendingEstimate": "The ability estimate will appear here once the session is finalized.",
+      "provisional": "Provisional — the estimate may change after instructor review.",
+      "approved": "Reviewed — this is the finalized adaptive outcome.",
+      "suggestionsTitle": "Study suggestions",
+      "suggestionsEmpty": "No study suggestions for this session.",
+      "suggestionReason": "review this concept next",
+      "bandValues": {
+        "EASY": "Easy",
+        "MEDIUM": "Medium",
+        "HARD": "Hard"
+      },
+      "confidenceValues": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    }
   }
 }

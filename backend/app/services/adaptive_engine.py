@@ -155,6 +155,7 @@ def _state(
         session_id=session.session_id,
         assessment_id=session.assessment_id,
         assessment_title=assessment.title,
+        purpose=session.purpose,
         question_source=(session.config_snapshot or {}).get("source"),
         generation_fallback=(session.config_snapshot or {}).get("generation_fallback", False),
         bank_mixed=(session.config_snapshot or {}).get("bank_mixed", False),
@@ -446,8 +447,9 @@ def start_session(
     )
     from .question_localization import normalize_locale
     session = repo.create_session(assessment_id, learner.account_id, expires, started_at=started_at,
-                                  locale=normalize_locale(locale), result_release_policy=assessment.result_release_policy)
-    session.config_snapshot = capture_assessment(assessment)
+                                  locale=normalize_locale(locale), result_release_policy=assessment.result_release_policy,
+                                  purpose="TEST")
+    session.config_snapshot = {**capture_assessment(assessment), "purpose": "TEST"}
 
     question, detail = _pick(assessment, [], _eligible_pool(assessment, set(), repo, opening_only=True))
     if question is None:

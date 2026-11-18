@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="950" height="890" viewBox="0 0 950 890" role="img" aria-label="Entity Relationship Diagram — DBCAS (2/10)">
-<title>Entity Relationship Diagram — DBCAS (2/10)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="990" viewBox="0 0 950 990" role="img" aria-label="Entity Relationship Diagram — DBCAS (2/11)">
+<title>Entity Relationship Diagram — DBCAS (2/11)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
 <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
-<rect width="950" height="890" fill="#ffffff"/>
-<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (2/10)</text>
+<rect width="950" height="990" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (2/11)</text>
 <text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
 <g id="table_assessment_blueprint"><rect x="30" y="92" width="430" height="370" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#f6d99a"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_blueprint [legacy/retired]</text>
 <text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">blueprint_id: integer PK NOT NULL</text>
@@ -33,21 +33,26 @@
 <text x="38" y="534" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer PK,FK NOT NULL</text>
 <text x="38" y="554" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
 </g>
-<g id="table_assessment_session"><rect x="490" y="486" width="430" height="350" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="486" width="430" height="28" fill="#dceaf7"/><text x="498" y="505" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_session</text>
+<g id="table_assessment_session"><rect x="490" y="486" width="430" height="450" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="486" width="430" height="28" fill="#dceaf7"/><text x="498" y="505" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_session</text>
 <text x="498" y="534" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer PK NOT NULL</text>
 <text x="498" y="554" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer FK NULL</text>
 <text x="498" y="574" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer FK NOT NULL</text>
 <text x="498" y="594" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
-<text x="498" y="614" font-family="Consolas,monospace" font-size="15" fill="#26384a">locale: character varying(16) NOT NULL</text>
-<text x="498" y="634" font-family="Consolas,monospace" font-size="15" fill="#26384a">started_at: timestamp with time zone NOT NULL</text>
-<text x="498" y="654" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
-<text x="498" y="674" font-family="Consolas,monospace" font-size="15" fill="#26384a">submitted_at: timestamp with time zone NULL</text>
-<text x="498" y="694" font-family="Consolas,monospace" font-size="15" fill="#26384a">config_snapshot: jsonb NULL</text>
-<text x="498" y="714" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_release_policy: character varying(20) NOT NULL</text>
-<text x="498" y="734" font-family="Consolas,monospace" font-size="15" fill="#26384a">release_status: character varying(20) NOT NULL</text>
-<text x="498" y="754" font-family="Consolas,monospace" font-size="15" fill="#26384a">start_request_id: character varying(36) NULL</text>
-<text x="498" y="774" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_revision: integer NOT NULL</text>
-<text x="498" y="794" font-family="Consolas,monospace" font-size="15" fill="#26384a">published_at: timestamp with time zone NULL</text>
-<text x="498" y="814" font-family="Consolas,monospace" font-size="15" fill="#26384a">blueprint_id: integer FK NULL</text>
+<text x="498" y="614" font-family="Consolas,monospace" font-size="15" fill="#26384a">purpose: character varying(10) NOT NULL</text>
+<text x="498" y="634" font-family="Consolas,monospace" font-size="15" fill="#26384a">purpose_source: character varying(10) NOT NULL</text>
+<text x="498" y="654" font-family="Consolas,monospace" font-size="15" fill="#26384a">locale: character varying(16) NOT NULL</text>
+<text x="498" y="674" font-family="Consolas,monospace" font-size="15" fill="#26384a">started_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="694" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="714" font-family="Consolas,monospace" font-size="15" fill="#26384a">submitted_at: timestamp with time zone NULL</text>
+<text x="498" y="734" font-family="Consolas,monospace" font-size="15" fill="#26384a">config_snapshot: jsonb NULL</text>
+<text x="498" y="754" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_release_policy: character varying(20) NOT NULL</text>
+<text x="498" y="774" font-family="Consolas,monospace" font-size="15" fill="#26384a">release_status: character varying(20) NOT NULL</text>
+<text x="498" y="794" font-family="Consolas,monospace" font-size="15" fill="#26384a">start_request_id: character varying(36) NULL</text>
+<text x="498" y="814" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_revision: integer NOT NULL</text>
+<text x="498" y="834" font-family="Consolas,monospace" font-size="15" fill="#26384a">published_at: timestamp with time zone NULL</text>
+<text x="498" y="854" font-family="Consolas,monospace" font-size="15" fill="#26384a">blueprint_id: integer FK NULL</text>
+<text x="498" y="874" font-family="Consolas,monospace" font-size="15" fill="#26384a">tab_leave_count: integer NOT NULL</text>
+<text x="498" y="894" font-family="Consolas,monospace" font-size="15" fill="#26384a">cancelled_at: timestamp with time zone NULL</text>
+<text x="498" y="914" font-family="Consolas,monospace" font-size="15" fill="#26384a">cancel_reason: character varying(40) NULL</text>
 </g>
 </svg>

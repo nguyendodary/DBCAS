@@ -23,6 +23,11 @@ What the v1.2 documents state (all verifiable in the repository):
 - User-defined practice only (concepts, 3 difficulty bands, count 1–20,
   default 5, source `bank`/`ai`); no prebuilt exams, no admin exam creation,
   no fixed 10/2/1 mix, no 13-question/60-minute contract.
+- Each session has a server-owned `purpose`: `TEST` sessions are scored tests
+  (including bank-only FIXED and adaptive runs) and only published `SERVER`
+  `TEST` rows contribute to cumulative competency; `PRACTICE` sessions are
+  learning evidence and are excluded. Migration 025 backfills historical rows
+  with `purpose_source=BACKFILL`; history still shows their Test/Practice label.
 - `source=ai`: AI generates MCQ/essay only; SQL always comes from the validated
   bank; exact-count guarantee; one-line `bank_mixed` notice.
 - One mandatory release flow: AI grades/evaluates first, then an administrator
@@ -36,12 +41,12 @@ What the v1.2 documents state (all verifiable in the repository):
   Single-use handoffs issue rotating access/refresh sessions.
 - Admin navigation has five destinations: Cohort overview, Grading, Accounts,
   Questions, System.
-- PostgreSQL 17: 46 tables, 339 columns, 69 foreign keys, 101 indexes,
-  0 enum types, 23 migrations. Four legacy/retired tables are marked, never
+- PostgreSQL 17: 47 tables, 351 columns, 70 foreign keys, 106 indexes,
+  0 enum types, 25 migrations. Four legacy/retired tables are marked, never
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
 - 6 Compose services (7 with QA-only `qa-ai`; the opt-in real-QA run reuses
-  `app`), 94 OpenAPI paths / 105 operations, 23 frontend routes.
+  `app`), 95 OpenAPI paths / 106 operations, 23 frontend routes.
 
 OAuth text reconciliation (20261112 request, performed 2026-11-11): 31 minimal
 English replacements across the three v1.2 files, including the read-only

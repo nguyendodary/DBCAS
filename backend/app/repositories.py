@@ -42,6 +42,7 @@ from .models import (
     Role,
     Rubric,
     SqlTestDataset,
+    TabLeaveInterval,
     UserProfile,
 )
 
@@ -333,6 +334,27 @@ class AssessmentRepository:
             .where(Attempt.session_id == session_id, Attempt.seq_no == seq_no)
         )
 
+    def tab_leave_interval(self, leave_event_id):
+        return self.db.scalar(
+            select(TabLeaveInterval).where(
+                TabLeaveInterval.leave_event_id == leave_event_id)
+        )
+
+    def open_tab_leave_interval(self, session_id: int) -> Optional[TabLeaveInterval]:
+        """The one open leave interval, if the learner is still away."""
+        return self.db.scalar(
+            select(TabLeaveInterval)
+            .where(TabLeaveInterval.session_id == session_id,
+                   TabLeaveInterval.returned_at.is_(None))
+            .order_by(TabLeaveInterval.left_at.desc())
+        )
+
+    def tab_leave_return_event(self, return_event_id):
+        return self.db.scalar(
+            select(TabLeaveInterval).where(
+                TabLeaveInterval.return_event_id == return_event_id)
+        )
+
     # ----- assessment configuration (UC09) -----
 
     def get_assessment(self, assessment_id: int) -> Optional[Assessment]:
@@ -467,13 +489,15 @@ class AssessmentRepository:
 
     def create_session(
         self, assessment_id: int, learner_id: int, expires_at, *, started_at=None, locale="en",
-        result_release_policy="HUMAN_VERIFIED", start_request_id=None, blueprint_id=None
+        result_release_policy="HUMAN_VERIFIED", start_request_id=None, blueprint_id=None,
+        purpose="PRACTICE",
     ) -> AssessmentSession:
         session = AssessmentSession(
             assessment_id=assessment_id,
             learner_id=learner_id,
             expires_at=expires_at,
             locale=locale,
+            purpose=purpose, purpose_source="SERVER",
             result_release_policy=result_release_policy, release_status="unsubmitted",
             start_request_id=start_request_id, blueprint_id=blueprint_id,
         )

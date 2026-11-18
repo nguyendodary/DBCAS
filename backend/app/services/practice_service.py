@@ -286,12 +286,13 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     ai_generated_count = sum(p.candidate.origin == "ai" for p in picks)
     counts, repo = Counter(q.question_type for q in questions), AssessmentRepository(db)
     fixed = payload.assessment_style == "FIXED"
+    purpose = "TEST" if payload.assessment_style in ("FIXED", "ADAPTIVE") else "PRACTICE"
     provenance = [{"tier": p.tier, "distance": p.distance, "origin": p.candidate.origin} for p in picks]
     snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
         "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],
         "question_mix": payload.question_mix.model_dump() if payload.question_mix is not None else None,
-        "result_release_policy": "HUMAN_VERIFIED",
+        "result_release_policy": "HUMAN_VERIFIED", "purpose": purpose,
         "selection": selection, "source": payload.source,
         "generation_fallback": fallback, "bank_mixed": bank_mixed, "template_fallback": template_fallback,
         "ai_generated_count": ai_generated_count, "generation_diagnostics": diagnostics,
@@ -306,7 +307,8 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
         snapshot.update(runner_mode="fixed", result_kind="official_score", assessment_style="FIXED")
     now = repo.server_time()
     session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
-                                 locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id)
+                                 locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id,
+                                 purpose=purpose)
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id, session_id=session.session_id))
     db.add_all([SessionQuestionPlan(session_id=session.session_id, seq_no=i+1, question_id=q.question_id) for i,q in enumerate(questions)])

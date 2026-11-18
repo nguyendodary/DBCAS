@@ -2,9 +2,12 @@
 flags, and one final grading transaction. Gated by ``runner_mode == "fixed"``;
 legacy and adaptive sessions keep their existing per-answer endpoints.
 """
-from datetime import timezone
+from datetime import datetime, timezone
+from decimal import Decimal
 
+from ..config import get_settings
 from ..errors import AppError
+from ..models import TabLeaveInterval
 from ..repositories import AssessmentRepository
 from ..schemas import (
     PaperDraftResult,
@@ -17,6 +20,8 @@ from ..schemas import (
     PaperQuestionView,
     PaperSubmitRequest,
     PaperSubmitResult,
+    PaperTabLeaveRequest,
+    PaperTabLeaveState,
 )
 from .assessment_lifecycle import (
     _answer_dict,
@@ -25,6 +30,32 @@ from .assessment_lifecycle import (
     finalize,
 )
 from .evidence_context import question_view
+
+
+TAB_LEAVE_CANCEL_REASON = "tab_leave_limit"
+
+
+def _tab_leave_limits() -> tuple[int, int]:
+    settings = get_settings()
+    return settings.tab_leave_grace_seconds, settings.tab_leave_violation_limit
+
+
+def _tab_leave_state(session, now: datetime, *, counted: bool = False) -> PaperTabLeaveState:
+    grace, limit = _tab_leave_limits()
+    count = int(session.tab_leave_count or 0)
+    cancelled = session.status == "cancelled"
+    return PaperTabLeaveState(
+        session_id=session.session_id,
+        status=session.status,
+        violation_count=count,
+        violation_limit=limit,
+        grace_seconds=grace,
+        counted=counted,
+        warning_level=count if 0 < count < limit and not cancelled else 0,
+        cancelled=cancelled,
+        cancel_reason=session.cancel_reason,
+        server_now=now,
+    )
 
 
 def _fixed_session(db, session_id, learner):
@@ -123,6 +154,9 @@ def paper_metadata(db, session_id, learner) -> PaperMetadata:
         flagged_count=sum(q.flagged for q in questions),
         last_opened_seq=last.seq_no if last else None,
         questions=questions,
+        tab_leave_count=int(session.tab_leave_count or 0),
+        tab_leave_grace_seconds=_tab_leave_limits()[0],
+        tab_leave_violation_limit=_tab_leave_limits()[1],
     )
 
 
@@ -204,6 +238,80 @@ def set_flag(db, session_id, seq_no, learner, payload: PaperFlagRequest) -> Pape
                            revision=attempt.flag_revision)
 
 
+def _cancel_for_tab_leave(repo, session, now: datetime) -> None:
+    """Cancel once with zero evidence; the locked session + status guard make
+    repeated violation reports idempotent."""
+    if session.status != "in_progress":
+        return
+    for attempt in repo.session_attempts(session.session_id):
+        attempt.submitted_at = now
+        attempt.score = Decimal(0)
+        attempt.grading_status = "graded"
+        attempt.grading_detail = {
+            "grader": "tab_leave_cancel",
+            "reason": TAB_LEAVE_CANCEL_REASON,
+            "points_earned": "0",
+            "points_possible": str(question_view(attempt).points),
+        }
+    session.status = "cancelled"
+    session.submitted_at = now
+    session.cancelled_at = now
+    session.cancel_reason = TAB_LEAVE_CANCEL_REASON
+    from .competency_service import detect_session_gaps
+    detect_session_gaps(repo.db, session, commit=False)
+
+
+def report_tab_leave(db, session_id, learner, payload: PaperTabLeaveRequest) -> PaperTabLeaveState:
+    """Server-owned tab-leave counting for FIXED papers.
+
+    ``leave`` opens the latest interval; ``return`` closes it using the
+    server clock. A retried event id is a no-op. Short absences are recorded
+    but never counted, and the configured limit cancels the attempt once.
+    """
+    repo, session = _fixed_session(db, session_id, learner)
+    now = repo.server_time()
+    if session.status != "in_progress":
+        return _tab_leave_state(session, now)
+
+    if payload.event == "leave":
+        if (repo.tab_leave_interval(payload.event_id) is None
+                and repo.open_tab_leave_interval(session.session_id) is None):
+            db.add(TabLeaveInterval(
+                leave_event_id=payload.event_id,
+                session_id=session.session_id,
+                left_at=now,
+            ))
+            db.commit()
+        return _tab_leave_state(session, now)
+
+    if repo.tab_leave_return_event(payload.event_id) is not None:
+        return _tab_leave_state(session, now)
+
+    interval = (repo.tab_leave_interval(payload.leave_event_id)
+                if payload.leave_event_id else
+                repo.open_tab_leave_interval(session.session_id))
+    if (interval is None or interval.session_id != session.session_id
+            or interval.returned_at is not None):
+        return _tab_leave_state(session, now)
+
+    left_at = interval.left_at
+    if left_at.tzinfo is None:
+        left_at = left_at.replace(tzinfo=timezone.utc)
+    away = max(0, int((now - left_at).total_seconds()))
+    grace, limit = _tab_leave_limits()
+    counted = away > grace
+    interval.returned_at = now
+    interval.return_event_id = payload.event_id
+    interval.away_seconds = away
+    interval.counted = counted
+    if counted:
+        session.tab_leave_count = int(session.tab_leave_count or 0) + 1
+        if session.tab_leave_count >= limit:
+            _cancel_for_tab_leave(repo, session, now)
+    db.commit()
+    return _tab_leave_state(session, now, counted=counted)
+
+
 def _summary(repo, session) -> PaperSubmitResult:
     attempts = repo.session_attempts(session.session_id)
     answered = sum(_has_answer(a) for a in attempts)
@@ -215,6 +323,8 @@ def _summary(repo, session) -> PaperSubmitResult:
         flagged_count=sum(1 for a in attempts if a.is_flagged),
         final=True,
         next=f"/evaluations/{session.session_id}",
+        cancelled=session.status == "cancelled",
+        cancel_reason=session.cancel_reason,
     )
 
 

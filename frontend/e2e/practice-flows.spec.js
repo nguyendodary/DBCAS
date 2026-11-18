@@ -89,33 +89,12 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
 }, info) => {
   await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   await register(page, 'generated')
-  await page.goto('/assessments')
   const options = await api(page, '/practice/options')
   const chosen = options.concepts[0]
-  await page.getByRole('button', { name: chosen.concept_name, exact: true }).click()
-  await page.getByRole('button', { name: /Dễ/ }).click()
-  await page.getByRole('button', { name: /Vừa/ }).click()
-  await page.getByRole('radio', { name: 'AI tạo câu hỏi', exact: true }).check()
-  await page.getByLabel('Số câu (1–13)').fill('3')
-  const started = page.waitForResponse(
-    (r) =>
-      new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
-  )
-  await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
-  const warning = page.getByRole('heading', {
-    name: 'Một số khái niệm chưa có câu hỏi phù hợp',
+  const state = await start(page, 'ai', 3, {
+    concept_ids: [chosen.concept_id],
+    difficulties: ['HARD'],
   })
-  const first = await Promise.race([
-    started.then((value) => ({ response: value })),
-    warning
-      .waitFor({ state: 'visible', timeout: 10_000 })
-      .then(() => ({ warning: true }))
-      .catch(() => null),
-  ])
-  if (first?.warning) await page.getByRole('button', { name: 'Tiếp tục' }).click()
-  const response = await started
-  expect(response.ok()).toBe(true)
-  const state = await response.json()
   expect(state.selected_concept_ids).toEqual([chosen.concept_id])
   expect(state.question_source).toBe('ai')
   if (process.env.DBCAS_QA_PROVIDER_URL) {
@@ -124,7 +103,6 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
     expect(state.template_fallback).toBe(false)
     expect(state.ai_generated_count).toBe(2)
   }
-  await expect(page).toHaveURL(/\/exam\/\d+$/)
   expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(4)
   await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
   await page.screenshot({ path: info.outputPath('generated-source.png'), fullPage: true })
@@ -205,7 +183,9 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
     await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
-    await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
+    await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+      timeout: 45000,
+    })
     await expect(learner.getByText('Điểm đã được điều chỉnh', { exact: true })).toBeVisible()
     const review = await api(admin, `/admin/grading-reviews/${sid}`)
     expect(review.score_edits).toHaveLength(1)
@@ -371,17 +351,13 @@ test('AI generation timeout falls back within the request deadline at exact coun
   }
 })
 
-test('transport failure offers one-click retry with unchanged setup and request id', async ({
+test('start failure offers one-click retry with unchanged setup and request id', async ({
   page,
 }, info) => {
-  const provider = process.env.DBCAS_QA_PROVIDER_URL
-  test.skip(!provider, 'Requires the deterministic local provider')
   await register(page, 'generation-retry')
   await page.goto('/assessments')
-  await page.getByRole('button', { name: 'ER modeling', exact: true }).click()
-  await page.getByRole('radio', { name: 'AI tạo câu hỏi', exact: true }).check()
+  await page.getByRole('button', { name: 'Chọn tất cả khái niệm' }).click()
   await expect(page.getByRole('button', { name: 'Bắt đầu', exact: true })).toBeEnabled()
-  await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
   const unavailable = (route) =>
     route.fulfill({
       status: 503,
@@ -398,37 +374,33 @@ test('transport failure offers one-click retry with unchanged setup and request 
     }),
   )
   await page.route('**/api/v1/practice/start', unavailable)
-  try {
-    const failed = page.waitForResponse(
-      (r) =>
-        new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
-    )
-    await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
-    const failure = await failed
-    expect(failure.status()).toBe(503)
-    expect((await failure.json()).error.code).toBe('service_unavailable')
-    await expect(page.getByRole('alert')).toHaveText(vi.errors.unknown)
-    await expect(page.getByRole('button', { name: 'Thử lại', exact: true })).toBeEnabled()
-    await page.screenshot({ path: info.outputPath('generation-unavailable.png'), fullPage: true })
-    await page.unroute('**/api/v1/practice/start', unavailable)
-    const recovered = page.waitForResponse(
-      (r) =>
-        new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
-    )
-    await page.getByRole('button', { name: 'Thử lại', exact: true }).click()
-    const response = await recovered
-    expect(response.ok()).toBe(true)
-    expect(response.request().postDataJSON()).toEqual(failure.request().postDataJSON())
-    const state = await response.json()
-    expect(state.generation_fallback).toBe(true)
-    expect(state.bank_mixed).toBe(true)
-    expect(state.template_fallback).toBe(false)
-    // Count 5 is two MCQ + two bank SQL + one essay, so the AI batch is three.
-    expect(state.ai_generated_count).toBe(3)
-    await expect(page).toHaveURL(/\/exam\/\d+$/, { timeout: 45000 })
-    await expect(page.getByText(state.current_question.prompt, { exact: true })).toBeVisible()
-    await page.screenshot({ path: info.outputPath('generation-recovered.png'), fullPage: true })
-  } finally {
-    await providerControl(page, { delay_seconds: 1, failure: false, hold: false })
-  }
+  const failed = page.waitForResponse(
+    (r) =>
+      new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
+  )
+  await page.getByRole('button', { name: 'Bắt đầu', exact: true }).click()
+  const failure = await failed
+  expect(failure.status()).toBe(503)
+  expect((await failure.json()).error.code).toBe('service_unavailable')
+  const failedPayload = failure.request().postDataJSON()
+  expect(failedPayload).toMatchObject({
+    assessment_style: 'FIXED',
+    source: 'bank',
+    question_mix: { mcq: 10, sql: 2, essay: 1 },
+  })
+  await expect(page.getByRole('alert')).toHaveText(vi.errors.unknown)
+  await expect(page.getByRole('button', { name: 'Thử lại', exact: true })).toBeEnabled()
+  await page.screenshot({ path: info.outputPath('start-unavailable.png'), fullPage: true })
+  await page.unroute('**/api/v1/practice/start', unavailable)
+  const recovered = page.waitForResponse(
+    (r) =>
+      new URL(r.url()).pathname === '/api/v1/practice/start' && r.request().method() === 'POST',
+  )
+  await page.getByRole('button', { name: 'Thử lại', exact: true }).click()
+  const response = await recovered
+  expect(response.ok()).toBe(true)
+  expect(response.request().postDataJSON()).toEqual(failedPayload)
+  await expect(page).toHaveURL(/\/exam\/\d+$/, { timeout: 45000 })
+  await expect(page.getByText('CÂU 1/13')).toBeVisible()
+  await page.screenshot({ path: info.outputPath('start-recovered.png'), fullPage: true })
 })

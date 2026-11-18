@@ -1,7 +1,7 @@
 {
   "source": "PostgreSQL introspection of db/schema.sql",
   "postgres_version": "17.11 (Debian 17.11-1.pgdg13+2)",
-  "schema_sha256": "9f4b2bf8cb24cb0e228072b2d60774f0844baffd11cb5a24d072cbb311653ba1",
+  "schema_sha256": "7e401ff30d8d666d0baf2099d5051408fa03bb437817faabb72d9060283ec45d",
   "migrations": {
     "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
     "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
@@ -25,7 +25,9 @@
     "020_provisional_ai_final_results.sql": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715",
     "021_fixed_paper_attempt_state.sql": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b",
     "022_question_clo_tagging.sql": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9",
-    "023_document_grounding.sql": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59"
+    "023_document_grounding.sql": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59",
+    "024_tab_leave_guard.sql": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
+    "025_session_purpose.sql": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7"
   },
   "tables": [
     {
@@ -1248,6 +1250,28 @@
           "numeric_scale": null
         },
         {
+          "name": "purpose",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'PRACTICE'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "purpose_source",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": false,
+          "default": "'SERVER'::character varying",
+          "identity": false,
+          "max_length": 10,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
           "name": "locale",
           "type": "character varying",
           "udt": "varchar",
@@ -1367,6 +1391,39 @@
           "max_length": null,
           "numeric_precision": 32,
           "numeric_scale": 0
+        },
+        {
+          "name": "tab_leave_count",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": "0",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "cancelled_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "cancel_reason",
+          "type": "character varying",
+          "udt": "varchar",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": 40,
+          "numeric_precision": null,
+          "numeric_scale": null
         }
       ],
       "constraints": [
@@ -1411,11 +1468,35 @@
           ]
         },
         {
+          "name": "assessment_session_purpose_check",
+          "type": "c",
+          "definition": "CHECK (((purpose)::text = ANY ((ARRAY['TEST'::character varying, 'PRACTICE'::character varying])::text[])))",
+          "columns": [
+            "purpose"
+          ]
+        },
+        {
+          "name": "assessment_session_purpose_source_check",
+          "type": "c",
+          "definition": "CHECK (((purpose_source)::text = ANY ((ARRAY['SERVER'::character varying, 'BACKFILL'::character varying])::text[])))",
+          "columns": [
+            "purpose_source"
+          ]
+        },
+        {
           "name": "assessment_session_status_check",
           "type": "c",
-          "definition": "CHECK (((status)::text = ANY ((ARRAY['in_progress'::character varying, 'completed'::character varying, 'timed_out'::character varying])::text[])))",
+          "definition": "CHECK (((status)::text = ANY ((ARRAY['in_progress'::character varying, 'completed'::character varying, 'timed_out'::character varying, 'cancelled'::character varying])::text[])))",
           "columns": [
             "status"
+          ]
+        },
+        {
+          "name": "assessment_session_tab_leave_count_check",
+          "type": "c",
+          "definition": "CHECK ((tab_leave_count >= 0))",
+          "columns": [
+            "tab_leave_count"
           ]
         },
         {
@@ -5604,6 +5685,122 @@
       ]
     },
     {
+      "table": "tab_leave_interval",
+      "columns": [
+        {
+          "name": "leave_event_id",
+          "type": "uuid",
+          "udt": "uuid",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "session_id",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "left_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": false,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "returned_at",
+          "type": "timestamp with time zone",
+          "udt": "timestamptz",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "return_event_id",
+          "type": "uuid",
+          "udt": "uuid",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        },
+        {
+          "name": "away_seconds",
+          "type": "integer",
+          "udt": "int4",
+          "nullable": true,
+          "default": null,
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": 32,
+          "numeric_scale": 0
+        },
+        {
+          "name": "counted",
+          "type": "boolean",
+          "udt": "bool",
+          "nullable": false,
+          "default": "false",
+          "identity": false,
+          "max_length": null,
+          "numeric_precision": null,
+          "numeric_scale": null
+        }
+      ],
+      "constraints": [
+        {
+          "name": "tab_leave_interval_away_seconds_check",
+          "type": "c",
+          "definition": "CHECK (((away_seconds IS NULL) OR (away_seconds >= 0)))",
+          "columns": [
+            "away_seconds"
+          ]
+        },
+        {
+          "name": "tab_leave_interval_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (leave_event_id)",
+          "columns": [
+            "leave_event_id"
+          ]
+        },
+        {
+          "name": "tab_leave_interval_return_event_id_key",
+          "type": "u",
+          "definition": "UNIQUE (return_event_id)",
+          "columns": [
+            "return_event_id"
+          ]
+        },
+        {
+          "name": "tab_leave_interval_session_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id) ON DELETE CASCADE",
+          "columns": [
+            "session_id"
+          ]
+        }
+      ]
+    },
+    {
       "table": "user_profile",
       "columns": [
         {
@@ -6657,6 +6854,20 @@
       "definition": "FOREIGN KEY (updated_by) REFERENCES account(account_id)"
     },
     {
+      "constraint": "tab_leave_interval_session_id_fkey",
+      "source": "tab_leave_interval",
+      "columns": [
+        "session_id"
+      ],
+      "destination": "assessment_session",
+      "reference_columns": [
+        "session_id"
+      ],
+      "on_delete": "CASCADE",
+      "on_update": "NO ACTION",
+      "definition": "FOREIGN KEY (session_id) REFERENCES assessment_session(session_id) ON DELETE CASCADE"
+    },
+    {
       "constraint": "user_profile_account_id_fkey",
       "source": "user_profile",
       "columns": [
@@ -6771,6 +6982,11 @@
       "table": "assessment_session",
       "name": "assessment_session_pkey",
       "definition": "CREATE UNIQUE INDEX assessment_session_pkey ON public.assessment_session USING btree (session_id)"
+    },
+    {
+      "table": "assessment_session",
+      "name": "assessment_session_purpose_idx",
+      "definition": "CREATE INDEX assessment_session_purpose_idx ON public.assessment_session USING btree (learner_id, purpose, purpose_source, started_at DESC)"
     },
     {
       "table": "assessment_session",
@@ -7166,6 +7382,26 @@
       "table": "system_setting",
       "name": "system_setting_pkey",
       "definition": "CREATE UNIQUE INDEX system_setting_pkey ON public.system_setting USING btree (setting_key)"
+    },
+    {
+      "table": "tab_leave_interval",
+      "name": "tab_leave_interval_open_idx",
+      "definition": "CREATE UNIQUE INDEX tab_leave_interval_open_idx ON public.tab_leave_interval USING btree (session_id) WHERE (returned_at IS NULL)"
+    },
+    {
+      "table": "tab_leave_interval",
+      "name": "tab_leave_interval_pkey",
+      "definition": "CREATE UNIQUE INDEX tab_leave_interval_pkey ON public.tab_leave_interval USING btree (leave_event_id)"
+    },
+    {
+      "table": "tab_leave_interval",
+      "name": "tab_leave_interval_return_event_id_key",
+      "definition": "CREATE UNIQUE INDEX tab_leave_interval_return_event_id_key ON public.tab_leave_interval USING btree (return_event_id)"
+    },
+    {
+      "table": "tab_leave_interval",
+      "name": "tab_leave_interval_session_idx",
+      "definition": "CREATE INDEX tab_leave_interval_session_idx ON public.tab_leave_interval USING btree (session_id, left_at DESC)"
     },
     {
       "table": "user_profile",

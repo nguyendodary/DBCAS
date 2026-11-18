@@ -96,7 +96,7 @@ def _session(db, session_id):
 def list_pending(db, *, limit=100, offset=0):
     from ..models import AssessmentSession
     sessions = list(db.scalars(select(AssessmentSession).where(
-        AssessmentSession.status != "in_progress",
+        AssessmentSession.status.notin_(["in_progress", "cancelled"]),
         ((AssessmentSession.result_release_policy == "HUMAN_VERIFIED") & (AssessmentSession.release_status != "published")) |
         (AssessmentSession.release_status.in_(["grading_failed", "pending_review"])))
         .order_by(AssessmentSession.submitted_at, AssessmentSession.session_id).limit(limit).offset(offset)))

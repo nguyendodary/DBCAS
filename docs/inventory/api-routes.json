@@ -10,9 +10,9 @@
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "bfae5a90f5e5fbffcebf9b53dc707e80117dee692131bc43d13703042aeb60fd",
     "backend/app/routers/practice.py": "f1aa2bda52fbf28129c6d3f7b213ce86036e069a02971d38955dd36767763f6c",
-    "backend/app/routers/sessions.py": "506988a51537629633b99facae1270907e4fd3f7a26d06138a6b7dee6a054bdb"
+    "backend/app/routers/sessions.py": "0cf5855292dd51a86a354e99ffea5199f038f0e5ebfd30afd2ea3bfcf9e797b6"
   },
-  "count": 105,
+  "count": 106,
   "routes": [
     {
       "method": "GET",
@@ -888,7 +888,7 @@
       "path": "/api/v1/sessions",
       "router": "sessions.py",
       "handler": "list_sessions",
-      "line": 130,
+      "line": 138,
       "guards": [
         "LearnerOnly"
       ],
@@ -899,7 +899,7 @@
       "path": "/api/v1/sessions/competency/cumulative",
       "router": "sessions.py",
       "handler": "cumulative_competency",
-      "line": 62,
+      "line": 63,
       "guards": [
         "LearnerOnly"
       ],
@@ -910,7 +910,7 @@
       "path": "/api/v1/sessions/ranking",
       "router": "sessions.py",
       "handler": "learner_ranking",
-      "line": 54,
+      "line": 55,
       "guards": [
         "LearnerOnly"
       ],
@@ -921,7 +921,7 @@
       "path": "/api/v1/sessions/statistics",
       "router": "sessions.py",
       "handler": "learner_statistics",
-      "line": 45,
+      "line": 46,
       "guards": [
         "LearnerOnly"
       ],
@@ -932,7 +932,7 @@
       "path": "/api/v1/sessions/{session_id}",
       "router": "sessions.py",
       "handler": "get_session_state",
-      "line": 139,
+      "line": 147,
       "guards": [
         "LearnerOnly"
       ],
@@ -943,7 +943,7 @@
       "path": "/api/v1/sessions/{session_id}/answers",
       "router": "sessions.py",
       "handler": "submit_answer",
-      "line": 200,
+      "line": 208,
       "guards": [
         "LearnerOnly"
       ],
@@ -954,7 +954,7 @@
       "path": "/api/v1/sessions/{session_id}/competency",
       "router": "sessions.py",
       "handler": "get_competency_profile",
-      "line": 215,
+      "line": 223,
       "guards": [
         "LearnerOnly"
       ],
@@ -965,7 +965,7 @@
       "path": "/api/v1/sessions/{session_id}/draft",
       "router": "sessions.py",
       "handler": "get_answer_draft",
-      "line": 74,
+      "line": 75,
       "guards": [
         "LearnerOnly"
       ],
@@ -976,7 +976,7 @@
       "path": "/api/v1/sessions/{session_id}/draft",
       "router": "sessions.py",
       "handler": "save_answer_draft",
-      "line": 68,
+      "line": 69,
       "guards": [
         "LearnerOnly"
       ],
@@ -987,7 +987,7 @@
       "path": "/api/v1/sessions/{session_id}/evidence",
       "router": "sessions.py",
       "handler": "get_session_evidence",
-      "line": 187,
+      "line": 195,
       "guards": [
         "LearnerOnly"
       ],
@@ -998,7 +998,7 @@
       "path": "/api/v1/sessions/{session_id}/finish",
       "router": "sessions.py",
       "handler": "finish_session",
-      "line": 174,
+      "line": 182,
       "guards": [
         "LearnerOnly"
       ],
@@ -1009,7 +1009,7 @@
       "path": "/api/v1/sessions/{session_id}/gaps",
       "router": "sessions.py",
       "handler": "get_gap_report",
-      "line": 226,
+      "line": 234,
       "guards": [
         "LearnerOnly"
       ],
@@ -1020,7 +1020,7 @@
       "path": "/api/v1/sessions/{session_id}/guidance",
       "router": "sessions.py",
       "handler": "get_study_guidance",
-      "line": 239,
+      "line": 247,
       "guards": [
         "LearnerOnly"
       ],
@@ -1031,7 +1031,7 @@
       "path": "/api/v1/sessions/{session_id}/paper",
       "router": "sessions.py",
       "handler": "get_paper",
-      "line": 79,
+      "line": 80,
       "guards": [
         "LearnerOnly"
       ],
@@ -1042,18 +1042,29 @@
       "path": "/api/v1/sessions/{session_id}/paper/submit",
       "router": "sessions.py",
       "handler": "submit_paper",
-      "line": 85,
+      "line": 86,
       "guards": [
         "LearnerOnly"
       ],
       "response_model": "PaperSubmitResult"
     },
     {
+      "method": "POST",
+      "path": "/api/v1/sessions/{session_id}/paper/tab-leave",
+      "router": "sessions.py",
+      "handler": "report_paper_tab_leave",
+      "line": 93,
+      "guards": [
+        "LearnerOnly"
+      ],
+      "response_model": "PaperTabLeaveState"
+    },
+    {
       "method": "GET",
       "path": "/api/v1/sessions/{session_id}/paper/{seq_no}",
       "router": "sessions.py",
       "handler": "get_paper_question",
-      "line": 92,
+      "line": 100,
       "guards": [
         "LearnerOnly"
       ],
@@ -1064,7 +1075,7 @@
       "path": "/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
       "router": "sessions.py",
       "handler": "save_paper_draft",
-      "line": 98,
+      "line": 106,
       "guards": [
         "LearnerOnly"
       ],
@@ -1075,7 +1086,7 @@
       "path": "/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
       "router": "sessions.py",
       "handler": "set_paper_flag",
-      "line": 105,
+      "line": 113,
       "guards": [
         "LearnerOnly"
       ],
@@ -1086,7 +1097,7 @@
       "path": "/api/v1/sessions/{session_id}/questions",
       "router": "sessions.py",
       "handler": "get_served_questions",
-      "line": 152,
+      "line": 160,
       "guards": [
         "LearnerOnly"
       ],
@@ -1097,7 +1108,7 @@
       "path": "/api/v1/sessions/{session_id}/serve-next",
       "router": "sessions.py",
       "handler": "serve_next_question",
-      "line": 163,
+      "line": 171,
       "guards": [
         "LearnerOnly"
       ],
@@ -1108,7 +1119,7 @@
       "path": "/api/v1/sessions/{session_id}/sql-run",
       "router": "sessions.py",
       "handler": "run_sql",
-      "line": 255,
+      "line": 263,
       "guards": [
         "LearnerOnly"
       ],
@@ -1119,7 +1130,7 @@
       "path": "/api/v1/sessions/{session_id}/submit",
       "router": "sessions.py",
       "handler": "submit_and_advance",
-      "line": 112,
+      "line": 120,
       "guards": [
         "LearnerOnly"
       ],

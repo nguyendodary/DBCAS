@@ -128,11 +128,8 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
   const result = await call(page, `/sessions/${sid}/evidence`, learner)
   expect(result.items).toHaveLength(3)
   const profile = await call(page, '/sessions/competency/cumulative', learner)
-  expect(profile.summary.finalized_assessments).toBe(1)
-  const evidencedConcepts = [
-    ...new Set(result.items.flatMap((item) => item.concepts.map((c) => c.concept_id))),
-  ].sort((a, b) => a - b)
-  expect(profile.concepts.map((c) => c.concept_id).sort((a, b) => a - b)).toEqual(evidencedConcepts)
+  expect(profile.summary.finalized_assessments).toBe(0)
+  expect(profile.concepts).toEqual([])
   await page.goto('/competency')
   await expect(page.getByText('Làm thêm bài để xem xu hướng', { exact: true })).toBeVisible()
   expect(

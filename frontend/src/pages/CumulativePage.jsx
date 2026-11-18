@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
-import { t, useLocale, number, percent } from '../i18n'
+import { t, useLocale, number, percent, dateTime } from '../i18n'
 import { Badge, Card, HeroBand, Icon, btnGhost, inputCls } from '../components/ui'
 import { Loading, EmptyState, ErrorState } from '../components/States'
 import { CompetencyConceptBars } from '../components/CompetencyCharts'
@@ -64,6 +64,7 @@ export default function CumulativePage() {
   }, [load])
 
   const concepts = data?.concepts || []
+  const adaptiveEstimates = data?.adaptive_estimates || []
   const counts = useMemo(
     () => ({
       all: concepts.length,
@@ -459,6 +460,40 @@ export default function CumulativePage() {
                   </div>
                 </details>
               </>
+            )}
+            {adaptiveEstimates.length > 0 && (
+              <Card className="p-5">
+                <h2 className="font-semibold text-ink">{t('cumulativeView.adaptiveTitle')}</h2>
+                <p className="mt-1 text-sm text-sub">{t('cumulativeView.adaptiveHelp')}</p>
+                <div className="mt-4 overflow-x-auto">
+                  <table className="data-table min-w-[720px]">
+                    <thead>
+                      <tr>
+                        <th>{t('cumulativeView.session')}</th>
+                        <th>{t('cumulativeView.date')}</th>
+                        <th>{t('assessmentStyle.adaptive.band')}</th>
+                        <th>{t('assessmentStyle.adaptive.index')}</th>
+                        <th>{t('assessmentStyle.adaptive.confidence')}</th>
+                        <th>{t('assessmentStyle.adaptive.evidence')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {adaptiveEstimates.map((item) => (
+                        <tr key={item.session_id}>
+                          <td>{item.assessment_title}</td>
+                          <td>{dateTime(item.submitted_at || item.started_at)}</td>
+                          <td>{t(`assessmentStyle.adaptive.bandValues.${item.band}`)}</td>
+                          <td>{number(item.ability_index, { maximumFractionDigits: 2 })}/5</td>
+                          <td>
+                            {t(`assessmentStyle.adaptive.confidenceValues.${item.confidence}`)}
+                          </td>
+                          <td>{number(item.evidence_count)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
             )}
           </>
         )}

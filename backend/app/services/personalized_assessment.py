@@ -278,15 +278,17 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
             or not set(requested_ids) <= locked_skills
             or len(locked_families) != len(chosen)):
         raise AppError(409, "question_bank_changed", "Question classification changed. Retry assessment creation.")
+    purpose = "PRACTICE" if payload.mode == "PRACTICE" else "TEST"
     snapshot.update(personalized=True, selected_concept_ids=requested_ids, difficulty=payload.difficulty,
                     assembly_mode=payload.mode, requested_question_count=payload.question_count,
                     question_ids=[q.question_id for q in chosen],
-                    question_plan=[plan[q.question_id] for q in chosen])
+                    question_plan=[plan[q.question_id] for q in chosen], purpose=purpose)
     now = repo.server_time()
     session = repo.create_session(assessment_id, learner.account_id, now + timedelta(minutes=assessment.duration_min),
                                   started_at=now, locale=normalize_locale(locale),
                                   result_release_policy=assessment.result_release_policy, start_request_id=request_id,
-                                  blueprint_id=blueprint.blueprint_id if blueprint is not None else None)
+                                  blueprint_id=blueprint.blueprint_id if blueprint is not None else None,
+                                  purpose=purpose)
     session.config_snapshot = snapshot
     db.add(SessionStartRequest(learner_id=learner.account_id, request_id=request_id,
                                session_id=session.session_id))

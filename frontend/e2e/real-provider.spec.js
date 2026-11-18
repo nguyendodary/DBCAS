@@ -202,7 +202,9 @@ test('real provider: three attempts, automatic release, admin approval and overa
           timeout: 90000,
         })
         await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
-        await expect(learner.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 90000 })
+        await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+          timeout: 90000,
+        })
         const review = await api(admin, `/admin/grading-reviews/${sid}`)
         expect(review.score_edits).toHaveLength(1)
         expect(review.score_edits[0].reason).toContain('rubric')

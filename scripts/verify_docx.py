@@ -6,11 +6,11 @@
 Checks, from the actual .docx packages:
   - every document opens and still contains its original media;
   - version/date/revision metadata is 1.2 / 08-11-2026;
-  - the Database Design documents exactly 46 tables and 339 columns, matching
+  - the Database Design documents every introspected table and column, matching
     docs/qa/schema-introspection.json (names, types, nullability);
-  - the Table Overview lists all 46 tables;
+  - the Table Overview lists all tables;
   - no retired formal/adaptive statements or Vietnamese body text remains;
-  - all three documents state 46 tables and mandatory administrator review;
+  - all three documents state the current table count and mandatory review;
   - the four legacy tables are explicitly marked in Architecture/Database.
 """
 import json
@@ -39,6 +39,8 @@ EXPECTED_MEDIA = {
     "DatabaseDesign": 8,
 }
 LEGACY = ["assessment", "assessment_concept", "assessment_question", "assessment_blueprint"]
+TABLE_COUNT = len(SCHEMA["tables"])
+COLUMN_COUNT = sum(len(t["columns"]) for t in SCHEMA["tables"])
 
 problems = []
 checks = 0
@@ -124,7 +126,7 @@ def main():
         require(f"Version 1.2 {stem}", "Version 1.2" in t)
         require(f"document date {stem}", "November 8th, 2026" in t or "08/11/2026" in t)
         require(f"revision row {stem}", "1.2" in t and "08/11/2026" in t)
-        require(f"46 tables {stem}", "46 tables" in t)
+        require(f"{TABLE_COUNT} tables {stem}", f"{TABLE_COUNT} tables" in t)
         require(f"mandatory review {stem}", bool(re.search(
             r"administrator (review|approval)|review and approval|admin review|admin approval",
             t, re.I)))
@@ -185,8 +187,9 @@ def main():
         for c in doc:
             if c not in {x["name"] for x in real[name]["columns"]}:
                 wrong.append(f"{name}.{c} extra")
-    require("data-dictionary exact", not wrong and len(seen) == 46, "; ".join(wrong[:8]))
-    require("documented columns 339", sum(len(r) - 1 for r in sections.values()) == 339)
+    require("data-dictionary exact", not wrong and len(seen) == TABLE_COUNT, "; ".join(wrong[:8]))
+    require(f"documented columns {COLUMN_COUNT}",
+            sum(len(r) - 1 for r in sections.values()) == COLUMN_COUNT)
 
     # Table Overview completeness.
     overview = None
@@ -197,7 +200,7 @@ def main():
     require("Table Overview present", overview is not None)
     if overview:
         listed = [r[0] for r in overview[1:] if r and r[0]]
-        require("Table Overview 46 rows", len(listed) == 46, f"{len(listed)}")
+        require(f"Table Overview {TABLE_COUNT} rows", len(listed) == TABLE_COUNT, f"{len(listed)}")
         listed_keys = {key(n) for n in listed}
         require("Table Overview names", all(key(n) in listed_keys for n in real), "missing names")
 

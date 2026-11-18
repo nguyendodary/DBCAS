@@ -3,6 +3,22 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost, inputCls } from '../components/ui'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
+import AssessmentStylePicker from '../components/AssessmentStylePicker'
+import {
+  ADAPTIVE,
+  ADAPTIVE_MAX_QUESTIONS,
+  ADAPTIVE_MIN_QUESTIONS,
+  FIXED,
+  FIXED_DEFAULT_MIX,
+  FIXED_MIXED_TOTAL_LIMIT,
+  FIXED_QUESTION_TYPES,
+  FIXED_SINGLE_LIMITS,
+  buildPracticePayload,
+  clampAdaptiveCount,
+  fixedMixTotal,
+  isSelectionValid,
+  validateFixedMix,
+} from '../assessmentStyle'
 import { t, useLocale } from '../i18n'
 
 const BANDS = [
@@ -12,6 +28,19 @@ const BANDS = [
 ]
 const toggle = (items, value) =>
   items.includes(value) ? items.filter((item) => item !== value) : [...items, value]
+
+function mixErrorText(error) {
+  const kind = error.kind ? t(`assessmentStyle.fixed.types.${error.kind}`) : ''
+  if (error.code === 'empty') return t('assessmentStyle.fixed.mixEmpty')
+  if (error.code === 'invalid') return t('assessmentStyle.fixed.mixInvalid')
+  if (error.code === 'single_limit')
+    return t('assessmentStyle.fixed.mixSingleLimit', { limit: error.limit, type: kind })
+  if (error.code === 'type_limit')
+    return t('assessmentStyle.fixed.mixTypeLimit', { limit: error.limit, type: kind })
+  if (error.code === 'total_limit')
+    return t('assessmentStyle.fixed.mixTotalLimit', { limit: error.limit })
+  return t('assessmentStyle.fixed.mixInvalid')
+}
 
 export function parseConceptIds(value) {
   if (!value) return []
@@ -30,9 +59,10 @@ export default function AssessmentsPage() {
   const [searchParams] = useSearchParams()
   const requestedConcepts = searchParams.get('concepts') || ''
   const [options, setOptions] = useState(null)
+  const [style, setStyle] = useState(FIXED)
   const [selected, setSelected] = useState([])
   const [bands, setBands] = useState(BANDS.map(([value]) => value))
-  const [source, setSource] = useState('bank')
+  const [mix, setMix] = useState({ ...FIXED_DEFAULT_MIX })
   const [count, setCount] = useState(null)
   const [search, setSearch] = useState('')
   const [active, setActive] = useState(null)
@@ -76,7 +106,30 @@ export default function AssessmentsPage() {
   useEffect(() => {
     requestId.current = crypto.randomUUID()
     setPreview(null)
-  }, [selected, bands, source, count])
+  }, [selected, bands, count, mix])
+  // Both modes are bank-only and use exactly one band. ADAPTIVE additionally
+  // requires one concept and 3..50 MCQ questions.
+  useEffect(() => {
+    if (style === ADAPTIVE) {
+      setSelected((previous) => previous.slice(0, 1))
+      setBands((previous) => (previous.length ? previous.slice(0, 1) : ['MEDIUM']))
+      setCount((previous) => clampAdaptiveCount(previous))
+      return
+    }
+    setBands((previous) =>
+      previous.length === 1 ? previous : previous.length ? [previous[0]] : ['MEDIUM'],
+    )
+  }, [style])
+  function toggleConcept(id) {
+    setSelected(style === ADAPTIVE ? [id] : toggle(selected, id))
+  }
+  function toggleBand(value) {
+    setBands([value])
+  }
+  function updateMix(kind, value) {
+    const parsed = value === '' ? 0 : Number(value)
+    setMix((previous) => ({ ...previous, [kind]: Number.isFinite(parsed) ? parsed : 0 }))
+  }
   function handleStartError(e) {
     const code = e?.response?.data?.error?.code
     const details = e?.response?.data?.error?.details
@@ -84,7 +137,7 @@ export default function AssessmentsPage() {
       navigate(`/exam/${details.session_id}`)
       return
     }
-    setError(apiMessage(e, 'Chưa tạo được bài luyện tập. Hãy thử lại.'))
+    setError(apiMessage(e, 'Chưa tạo được bài đánh giá. Hãy thử lại.'))
   }
   async function create(payload) {
     const r = await api.post('/practice/start', payload)
@@ -96,13 +149,15 @@ export default function AssessmentsPage() {
     guard.current = true
     setBusy(true)
     setError(null)
-    const payload = {
-      concept_ids: selected,
-      difficulties: bands,
-      source,
-      question_count: Number(count),
-      request_id: requestId.current,
-    }
+    const payload = buildPracticePayload({
+      style,
+      selected,
+      bands,
+      source: 'bank',
+      count,
+      mix,
+      requestId: requestId.current,
+    })
     try {
       const checked = await api.post('/practice/preview', payload)
       if (checked.data?.uncovered_concepts?.length) {
@@ -134,12 +189,27 @@ export default function AssessmentsPage() {
   }
   const selectedConcepts =
     options?.concepts.filter((concept) => selected.includes(concept.concept_id)) || []
+  const baseLimits = options?.question_count
+  const limits =
+    style === ADAPTIVE
+      ? {
+          min: ADAPTIVE_MIN_QUESTIONS,
+          max: ADAPTIVE_MAX_QUESTIONS,
+          presets: (baseLimits?.presets || []).filter(
+            (value) => value >= ADAPTIVE_MIN_QUESTIONS && value <= ADAPTIVE_MAX_QUESTIONS,
+          ),
+        }
+      : { min: 1, max: FIXED_MIXED_TOTAL_LIMIT, presets: [] }
+  const fixedMix = validateFixedMix(mix)
+  const selectionValid = options
+    ? isSelectionValid({ style, selected, bands, source: 'bank', count, limits, mix })
+    : false
   return (
     <div className="content-wrap mx-auto max-w-4xl space-y-6 py-8">
       <header>
-        <p className="text-sm font-semibold text-cyan-300">Luyện tập cơ sở dữ liệu</p>
-        <h1 className="mt-2 text-3xl font-bold text-ink">Tạo bài luyện tập</h1>
-        <p className="mt-3 text-sub">Chọn nội dung bạn muốn ôn và bắt đầu ngay.</p>
+        <p className="text-sm font-semibold text-cyan-300">{t('assessmentStyle.pageEyebrow')}</p>
+        <h1 className="mt-2 text-3xl font-bold text-ink">{t('assessmentStyle.pageTitle')}</h1>
+        <p className="mt-3 text-sub">{t('assessmentStyle.pageSubtitle')}</p>
       </header>
       {error && !options && <ErrorState message={error} onRetry={load} />}
       {!options ? (
@@ -188,15 +258,22 @@ export default function AssessmentsPage() {
         <form onSubmit={start}>
           <Card className="space-y-7 p-5 sm:p-7">
             <fieldset disabled={busy} className="space-y-7">
+              <AssessmentStylePicker value={style} onChange={setStyle} disabled={busy} />
               <fieldset className="min-w-0">
                 <legend className="text-lg font-semibold">1. Chọn khái niệm</legend>
-                <button
-                  type="button"
-                  className={`${btnGhost} my-3`}
-                  onClick={() => setSelected(options.concepts.map((c) => c.concept_id))}
-                >
-                  Chọn tất cả khái niệm
-                </button>
+                {style === ADAPTIVE ? (
+                  <p role="status" className="my-3 text-sm text-sub">
+                    {t('assessmentStyle.adaptive.conceptNote')}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    className={`${btnGhost} my-3`}
+                    onClick={() => setSelected(options.concepts.map((c) => c.concept_id))}
+                  >
+                    Chọn tất cả khái niệm
+                  </button>
+                )}
                 {options.concepts.length > 12 && (
                   <label className="mb-3 block text-sm text-sub">
                     Tìm khái niệm
@@ -222,7 +299,7 @@ export default function AssessmentsPage() {
                         aria-label={c.concept_name}
                         aria-pressed={selected.includes(c.concept_id)}
                         className={`max-w-full whitespace-normal break-words rounded-full border px-4 py-2 text-left text-sm ${selected.includes(c.concept_id) ? 'border-cyan-400 bg-cyan-400/15 font-semibold text-ink' : 'border-edge text-sub'}`}
-                        onClick={() => setSelected(toggle(selected, c.concept_id))}
+                        onClick={() => toggleConcept(c.concept_id)}
                       >
                         {selected.includes(c.concept_id) && <span aria-hidden="true">✓ </span>}
                         {c.concept_name}
@@ -270,6 +347,13 @@ export default function AssessmentsPage() {
               </fieldset>
               <fieldset>
                 <legend className="mb-3 text-lg font-semibold">2. Chọn độ khó</legend>
+                <p className="mb-3 text-sm text-sub">
+                  {t(
+                    style === ADAPTIVE
+                      ? 'assessmentStyle.adaptive.difficultyNote'
+                      : 'assessmentStyle.fixed.difficultyNote',
+                  )}
+                </p>
                 <div className="flex flex-wrap gap-3">
                   {BANDS.map(([value, label]) => (
                     <button
@@ -277,7 +361,7 @@ export default function AssessmentsPage() {
                       key={value}
                       aria-pressed={bands.includes(value)}
                       className={`rounded-lg border px-5 py-2 ${bands.includes(value) ? 'border-cyan-400 bg-cyan-400/15 font-semibold text-ink' : 'border-edge text-sub'}`}
-                      onClick={() => setBands(toggle(bands, value))}
+                      onClick={() => toggleBand(value)}
                     >
                       {bands.includes(value) && <span aria-hidden="true">✓ </span>}
                       {label}
@@ -286,85 +370,107 @@ export default function AssessmentsPage() {
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-3 text-lg font-semibold">3. Chọn nguồn câu hỏi</legend>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {[
-                    ['bank', 'Từ ngân hàng câu hỏi'],
-                    ['ai', 'AI tạo câu hỏi'],
-                  ].map(([value, label]) => (
-                    <label
-                      key={value}
-                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-edge p-4"
-                    >
-                      <input
-                        type="radio"
-                        name="source"
-                        value={value}
-                        checked={source === value}
-                        onChange={() => setSource(value)}
-                      />
-                      {label}
-                    </label>
-                  ))}
-                </div>
+                <legend className="mb-3 text-lg font-semibold">
+                  {t('assessmentStyle.sourceTitle')}
+                </legend>
+                <p role="status" className="rounded-lg border border-edge p-4 text-sm text-sub">
+                  {t(
+                    style === ADAPTIVE
+                      ? 'assessmentStyle.adaptive.sourceNote'
+                      : 'assessmentStyle.fixed.sourceNote',
+                  )}
+                </p>
               </fieldset>
-              <fieldset>
-                <legend className="mb-3 text-lg font-semibold">4. Số câu</legend>
-                <div className="mb-3 flex flex-wrap gap-2">
-                  {options.question_count.presets.map((value) => (
-                    <button
-                      type="button"
-                      key={value}
-                      aria-pressed={Number(count) === value}
-                      onClick={() => setCount(value)}
-                      className={`${btnGhost} ${Number(count) === value ? 'border-cyan-400 text-cyan-300' : ''}`}
+              {style === ADAPTIVE ? (
+                <fieldset>
+                  <legend className="mb-3 text-lg font-semibold">
+                    {t('assessmentStyle.questionCountTitle')}
+                  </legend>
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {limits.presets.map((value) => (
+                      <button
+                        type="button"
+                        key={value}
+                        aria-pressed={Number(count) === value}
+                        onClick={() => setCount(value)}
+                        className={`${btnGhost} ${Number(count) === value ? 'border-cyan-400 text-cyan-300' : ''}`}
+                      >
+                        {value} câu
+                      </button>
+                    ))}
+                  </div>
+                  <label className="text-sm text-sub">
+                    {t('assessmentStyle.adaptive.countLabel', {
+                      min: limits.min,
+                      max: limits.max,
+                    })}
+                    <input
+                      type="number"
+                      min={limits.min}
+                      max={limits.max}
+                      required
+                      value={count ?? ''}
+                      onChange={(e) => setCount(e.target.value)}
+                      className={`${inputCls} ml-3 w-24`}
+                    />
+                  </label>
+                </fieldset>
+              ) : (
+                <fieldset>
+                  <legend className="mb-3 text-lg font-semibold">
+                    {t('assessmentStyle.fixed.mixTitle')}
+                  </legend>
+                  <p className="mb-3 text-sm text-sub">{t('assessmentStyle.fixed.mixHelp')}</p>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {FIXED_QUESTION_TYPES.map((kind) => (
+                      <label key={kind} className="text-sm text-sub">
+                        {t(`assessmentStyle.fixed.types.${kind}`)}
+                        <input
+                          type="number"
+                          min="0"
+                          max={FIXED_SINGLE_LIMITS[kind]}
+                          step="1"
+                          aria-label={t(`assessmentStyle.fixed.types.${kind}`)}
+                          value={mix[kind] ?? 0}
+                          onChange={(e) => updateMix(kind, e.target.value)}
+                          className={`${inputCls} mt-1 w-full`}
+                        />
+                      </label>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-sm text-sub">
+                    {t('assessmentStyle.fixed.mixTotal', { total: fixedMixTotal(mix) })}
+                  </p>
+                  {fixedMix.errors.map((mixError, index) => (
+                    <p
+                      key={`${mixError.code}-${mixError.kind ?? index}`}
+                      role="alert"
+                      className="mt-2 text-sm text-amber-300"
                     >
-                      {value} câu
-                    </button>
+                      {mixErrorText(mixError)}
+                    </p>
                   ))}
-                </div>
-                <label className="text-sm text-sub">
-                  Số câu ({options.question_count.min}–{options.question_count.max})
-                  <input
-                    type="number"
-                    min={options.question_count.min}
-                    max={options.question_count.max}
-                    required
-                    value={count ?? ''}
-                    onChange={(e) => setCount(e.target.value)}
-                    className={`${inputCls} ml-3 w-24`}
-                  />
-                </label>
-              </fieldset>
+                </fieldset>
+              )}
               <p className="text-sm text-sub">
-                AI sẽ chấm và đánh giá sơ bộ sau khi nộp; Admin kiểm tra, chạy SQL, điều chỉnh điểm
-                nếu cần rồi duyệt trước khi công bố kết quả chính thức.
+                {t(
+                  style === ADAPTIVE
+                    ? 'assessmentStyle.adaptive.startNote'
+                    : 'assessmentStyle.fixed.startNote',
+                )}
               </p>
               {error && <ErrorState message={error} />}
-              <button
-                type="submit"
-                className={btnPrimary}
-                disabled={
-                  busy ||
-                  !selected.length ||
-                  !bands.length ||
-                  !Number.isInteger(Number(count)) ||
-                  Number(count) < options.question_count.min ||
-                  Number(count) > options.question_count.max
-                }
-              >
+              <button type="submit" className={btnPrimary} disabled={busy || !selectionValid}>
                 {busy && <ActionSpinner />}
                 {busy
-                  ? source === 'ai'
-                    ? 'Đang tạo câu hỏi...'
-                    : 'Đang chuẩn bị bài...'
+                  ? t('assessmentStyle.starting')
                   : error
-                    ? 'Thử lại'
-                    : 'Bắt đầu'}
+                    ? t('assessmentStyle.retry')
+                    : t('assessmentStyle.start')}
               </button>
               {busy && (
                 <p role="status" className="text-sm text-sub">
-                  {source === 'ai' ? 'Đang tạo câu hỏi...' : 'Đang chuẩn bị bài...'}
+                  {t('assessmentStyle.starting')}
                 </p>
               )}
             </fieldset>

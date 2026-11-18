@@ -112,6 +112,11 @@ class Settings(BaseSettings):
     auto_grade_essays: bool = False
     grading_job_retry_seconds: int = 30
     session_sweep_seconds: int = 5
+    # FIXED-paper tab-leave guard. The server owns both values: a reported
+    # leave shorter than the grace period is ignored, and the third counted
+    # violation cancels the attempt with zero points.
+    tab_leave_grace_seconds: int = Field(default=3, ge=1, le=60)
+    tab_leave_violation_limit: int = Field(default=3, ge=1, le=10)
     # Tolerated for environment compatibility; the prompt builder is template-only.
     prompt_builder_model_path: str = ""
     prompt_builder_timeout_seconds: int = Field(default=8, ge=1, le=30)

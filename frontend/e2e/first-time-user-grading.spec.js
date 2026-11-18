@@ -70,12 +70,14 @@ test('practice: learner source selection, resume, help, bilingual draft and sand
     timeout: 45000,
   })
   await checkArithmetic(page, sid)
-  expect((await api(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(1)
+  expect((await api(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(0)
+  const history = await api(page, '/sessions')
+  expect(history[0].purpose).toBe('PRACTICE')
   await accessible(page)
   expect(browserDiagnostics.records.pageErrors).toEqual([])
 })
 
-test('easy and hard learner practice completions become released cumulative evidence', async ({
+test('easy and hard learner practice completions stay out of cumulative evidence', async ({
   page,
 }) => {
   test.setTimeout(180000)
@@ -99,8 +101,9 @@ test('easy and hard learner practice completions become released cumulative evid
     await checkArithmetic(page, sid)
   }
   const cumulative = await api(page, '/sessions/competency/cumulative')
-  expect(cumulative.summary.finalized_assessments).toBe(2)
-  expect(cumulative.concepts.length).toBeGreaterThan(0)
+  expect(cumulative.summary.finalized_assessments).toBe(0)
+  expect(cumulative.concepts).toEqual([])
+  expect((await api(page, '/sessions')).every((item) => item.purpose === 'PRACTICE')).toBe(true)
   await page.goto('/competency')
   await expect(page.getByRole('heading', { name: 'Xu hướng qua các bài' })).toBeVisible({
     timeout: 45000,
@@ -194,7 +197,9 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
       timeout: 45000,
     })
     await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
-    await expect(page.getByText(/Đã được giảng viên duyệt/)).toBeVisible({ timeout: 45000 })
+    await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+      timeout: 45000,
+    })
     await expect(page.getByText('Điểm đã được điều chỉnh', { exact: true })).toBeVisible()
     const result = await api(admin, `/admin/grading-reviews/${sid}`)
     expect(result.score_edits).toHaveLength(1)

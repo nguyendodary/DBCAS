@@ -126,10 +126,10 @@
     "practiceRecommendation": "Ôn lại kiến thức nền tảng về {{skill}}, sau đó làm bài đánh giá tập trung để kiểm tra tiến bộ.",
     "competencyEvidence": "Điểm số và bằng chứng đánh giá",
     "ADAPTIVE": "Luyện tập thích ứng",
-    "adaptiveHelp": "Chọn một kỹ năng. Mỗi vòng gồm tối đa năm câu trắc nghiệm; độ khó điều chỉnh theo kết quả đáp án đã chấm. Cần ít nhất năm câu trả lời. Bài dừng khi kết quả ổn định, hết câu phù hợp, đủ 13 câu hoặc hết giờ. Luyện tập này không tính vào năng lực chính thức.",
+    "adaptiveHelp": "Chọn một khái niệm và một độ khó bắt đầu. Mỗi bài mở đầu bằng 3 câu trắc nghiệm neo tại mức đã chọn, sau đó phục vụ 3–50 câu trắc nghiệm từ ngân hàng theo năng lực cập nhật. Kết quả là năng lực ước tính, không phải điểm phần trăm và không tính vào năng lực chính thức.",
     "adaptiveRound": "Vòng {{round}} · Đã trả lời {{answered}} / {{count}} câu",
     "adaptiveEvidenceMet": "Đã có đủ bằng chứng tối thiểu. Đây là kết quả luyện tập, không phải chứng nhận thành thạo chính thức.",
-    "adaptiveEvidenceLow": "Chưa đủ năm câu trả lời đã chấm: chưa đủ bằng chứng để kết luận kết quả thích ứng.",
+    "adaptiveEvidenceLow": "Chưa đủ ba câu trả lời đã chấm: chưa đủ bằng chứng để kết luận kết quả thích ứng.",
     "adaptiveLimited": "Ngân hàng câu hỏi giới hạn độ khó hoặc độ dài. Chỉ diễn giải kết quả theo những câu đã thực sự trả lời.",
     "adaptiveStop": {
       "maximum_questions": "Hoàn tất luyện tập thích ứng: đã đạt giới hạn số câu.",
@@ -321,7 +321,7 @@
   "nav": {
     "primary": "Điều hướng chính",
     "dashboard": "Tổng quan",
-    "assessments": "Luyện tập",
+    "assessments": "Bài đánh giá",
     "history": "Lịch sử",
     "cohort": "Tổng quan nhóm",
     "curriculum": "Chương trình học",
@@ -420,6 +420,7 @@
     "in_progress": "Đang làm",
     "completed": "Đã hoàn thành",
     "timed_out": "Đã hết giờ",
+    "cancelled": "Đã hủy",
     "draft": "Bản nháp",
     "active": "Đang hoạt động",
     "closed": "Đã đóng",
@@ -632,6 +633,11 @@
     "warning10": "Còn dưới 10 phút.",
     "warning5": "Còn dưới 5 phút. Bài sẽ được nộp khi đồng hồ về 00:00.",
     "warning1": "Còn dưới 1 phút. Bài sẽ được nộp khi đồng hồ về 00:00.",
+    "tabLeaveWarning": "Cảnh báo {{count}}/{{limit}}: bạn đã rời khỏi tab bài thi quá {{seconds}} giây. Các lần vi phạm tiếp theo có thể hủy bài thi với 0 điểm.",
+    "tabLeaveCancelledTitle": "Bài thi đã bị hủy",
+    "tabLeaveCancelledBody": "Bạn đã rời khỏi tab bài thi {{count}} lần. Bài thi đã bị hủy với 0 điểm và không thể chỉnh sửa.",
+    "tabLeaveCancelledReason": "Lý do: vượt giới hạn rời tab.",
+    "viewResult": "Xem kết quả",
     "answeredCount": "ĐÃ TRẢ LỜI {{answered}}/{{max}} · {{flagged}} ĐÁNH DẤU"
   },
   "sql": {
@@ -710,6 +716,7 @@
     "evidence": "Xem kết quả",
     "answered": "Đã trả lời {{answered}}/{{served}} câu",
     "result": "Kết quả: {{value}}",
+    "cancelledResult": "Đã hủy sau {{count}} lần rời tab · 0 điểm",
     "unbenchmarked": " · chưa có mức chuẩn",
     "below": " · dưới mức chuẩn",
     "meets": " · đạt mức chuẩn"
@@ -808,7 +815,15 @@
     "nextImprove": "Ôn lại {{name}}, sau đó luyện thêm câu hỏi liên quan và đối chiếu với nhận xét trong các bài đã công bố.",
     "nextMaintain": "Tiếp tục luyện {{name}} ở nhiều dạng câu để củng cố kiến thức.",
     "nextUnbenchmarked": "Xem lại các bài đã công bố có nội dung {{name}}; giảng viên thiết lập mức chuẩn cho khái niệm này.",
-    "limitedSkill": "Khái niệm này hiện chỉ có dữ liệu từ một bài đã công bố."
+    "limitedSkill": "Khái niệm này hiện chỉ có dữ liệu từ một bài đã công bố.",
+    "adaptiveTitle": "Ước tính năng lực thích ứng",
+    "adaptiveHelp": "Kết quả này tách biệt với tỉ lệ phần trăm chính thức ở trên. Mỗi bài test thích ứng đã công bố hiển thị dải năng lực ước tính và chỉ số; hai kết quả không bao giờ được gộp lại.",
+    "session": "Bài làm",
+    "date": "Ngày"
+  },
+  "sessionPurpose": {
+    "TEST": "Bài test",
+    "PRACTICE": "Bài luyện tập"
   },
   "guidance": {
     "title": "Gợi ý học tập",
@@ -894,6 +909,9 @@
       "selectLearner": "Chọn người dùng để xem kết quả",
       "loadingLearner": "Đang tải thông tin người dùng…",
       "selectSession": "Chọn lần làm bài",
+      "tabLeaveCount": "Số lần rời tab: {{count}}",
+      "cancelledReason": "Lý do hủy: {{reason}}",
+      "reasonTabLeave": "vượt giới hạn rời tab",
       "noSessions": "Chưa có lượt làm bài nào kết thúc",
       "noEvidence": "Chưa có kết quả năng lực cho lần làm bài này",
       "loadingCompetency": "Đang tải kết quả năng lực…",
@@ -1460,7 +1478,7 @@
     },
     "learner": {
       "heading": "Làm bài với tư cách người dùng",
-      "item1": "Mở Luyện tập, chọn khái niệm, độ khó, nguồn câu hỏi rồi Bắt đầu.",
+      "item1": "Mở Bài đánh giá, chọn bài kiểm tra hoặc bài thích ứng, chọn khái niệm và một mức độ khó rồi bắt đầu.",
       "item2": "Theo dõi trạng thái lưu nháp và đồng hồ. Lưu nháp không giống với nộp câu trả lời.",
       "item3": "Mở Xem đánh giá trong Lịch sử; màn hình chờ có Thử lại khi kết nối hoặc AI chậm.",
       "item4": "Mở Đánh giá tổng thể để xem mọi bài đã công bố và gợi ý học tiếp."
@@ -1501,5 +1519,83 @@
     "selectedHelp": "Mỗi khái niệm đã chọn được hiển thị kèm chuẩn đầu ra liên quan.",
     "noClo": "Khái niệm này chưa được gắn chuẩn đầu ra.",
     "cloLabel": "Chuẩn đầu ra"
+  },
+  "assessmentStyle": {
+    "title": "Kiểu bài đánh giá",
+    "pageEyebrow": "Đánh giá cơ sở dữ liệu",
+    "pageTitle": "Tạo bài đánh giá",
+    "pageSubtitle": "Chọn bài kiểm tra có điểm số hoặc bài thích ứng ước tính năng lực.",
+    "sourceTitle": "3. Nguồn câu hỏi",
+    "questionCountTitle": "4. Số câu",
+    "starting": "Đang chuẩn bị bài…",
+    "retry": "Thử lại",
+    "start": "Bắt đầu",
+    "fixed": {
+      "title": "Bài kiểm tra",
+      "description": "Bài kiểm tra chỉ dùng ngân hàng câu hỏi, một mức độ khó. Chọn khái niệm và cơ cấu câu hỏi; điểm chỉ chính thức sau khi được duyệt.",
+      "constraintsTitle": "Giới hạn của bài kiểm tra",
+      "constraintBank": "Chỉ dùng ngân hàng câu hỏi",
+      "constraintBand": "Đúng một mức độ khó",
+      "constraintScore": "Điểm chính thức chỉ sau khi quản trị viên công bố",
+      "sourceNote": "Bài kiểm tra chỉ dùng ngân hàng câu hỏi đã kiểm chứng.",
+      "difficultyNote": "Chọn một mức độ khó.",
+      "mixTitle": "4. Cơ cấu câu hỏi",
+      "mixHelp": "Chọn số câu trắc nghiệm, SQL và tự luận cho bài kiểm tra.",
+      "mixTotal": "Tổng {{total}} câu trong bài kiểm tra.",
+      "types": {
+        "mcq": "Trắc nghiệm",
+        "sql": "SQL",
+        "essay": "Tự luận"
+      },
+      "mixEmpty": "Thêm ít nhất một câu hỏi.",
+      "mixInvalid": "Số câu phải là số nguyên không âm.",
+      "mixSingleLimit": "Bài một loại câu chỉ cho tối đa {{limit}} câu {{type}}.",
+      "mixTypeLimit": "Bài trộn cho tối đa {{limit}} câu {{type}}.",
+      "mixTotalLimit": "Bài trộn cho tối đa {{limit}} câu.",
+      "startNote": "Mọi câu hỏi đều mở để di chuyển tự do. AI chấm sau khi nộp; quản trị viên kiểm tra và công bố điểm chính thức.",
+      "resultLabel": "Điểm chính thức",
+      "provisionalLabel": "Điểm tạm thời",
+      "provisionalTitle": "Kết quả tạm thời — AI đã chấm, chưa được duyệt",
+      "provisionalBody": "Điểm và nhận xét có thể thay đổi sau khi quản trị viên kiểm tra và duyệt.",
+      "approvedTitle": "✓ Đã được quản trị viên duyệt — kết quả chính thức",
+      "approvedAdjusted": "Điểm đã được điều chỉnh"
+    },
+    "adaptive": {
+      "title": "Làm bài thích ứng",
+      "description": "Ước tính năng lực trên thang điểm 1–5, kèm mức độ tin cậy và gợi ý học tập — không phải điểm số.",
+      "constraintsTitle": "Giới hạn của bài thích ứng",
+      "constraintBank": "Chỉ dùng ngân hàng câu hỏi",
+      "constraintConcept": "Đúng một khái niệm",
+      "constraintMcq": "Chỉ câu hỏi trắc nghiệm",
+      "constraintRange": "{{min}}–{{max}} câu",
+      "sourceNote": "Bài thích ứng chỉ lấy câu từ ngân hàng; câu do AI tạo không dùng được.",
+      "conceptNote": "Chọn đúng một khái niệm cho bài thích ứng.",
+      "difficultyNote": "Chọn một độ khó bắt đầu.",
+      "startNote": "Kết quả là năng lực ước tính kèm gợi ý học tập, không phải điểm phần trăm.",
+      "countLabel": "Số câu ({{min}}–{{max}})",
+      "resultLabel": "Năng lực ước tính",
+      "notOfficial": "Đây là ước tính, không phải điểm chính thức. Bài thích ứng không có điểm phần trăm.",
+      "band": "Mức năng lực",
+      "index": "Chỉ số năng lực",
+      "confidence": "Mức tin cậy",
+      "evidence": "Số câu đã trả lời",
+      "estimateNote": " tạm thời — thêm câu trả lời sẽ giúp ước tính tin cậy hơn.",
+      "pendingEstimate": "Năng lực ước tính sẽ hiển thị ở đây sau khi bài kết thúc.",
+      "provisional": "Tạm thời — ước tính có thể thay đổi sau khi giảng viên duyệt.",
+      "approved": "Đã duyệt — đây là kết quả thích ứng cuối cùng.",
+      "suggestionsTitle": "Gợi ý học tập",
+      "suggestionsEmpty": "Không có gợi ý học tập cho bài này.",
+      "suggestionReason": "nên ôn khái niệm này tiếp",
+      "bandValues": {
+        "EASY": "Dễ",
+        "MEDIUM": "Trung bình",
+        "HARD": "Khó"
+      },
+      "confidenceValues": {
+        "low": "Thấp",
+        "medium": "Trung bình",
+        "high": "Cao"
+      }
+    }
   }
 }

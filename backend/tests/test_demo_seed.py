@@ -35,8 +35,9 @@ def test_demo_seed_creates_real_published_evidence_and_preserves_edits(db_sessio
         assert len(attempts) == 13 and all(a.score is not None and a.question_snapshot for a in attempts)
         assert {a.question_snapshot["question_type"] for a in attempts} == {"mcq", "sql", "essay"}
     stats = dashboard(db_session, learner_id=learner.account_id)
-    assert stats["published_formal_sessions"] == 2
-    assert stats["dimensions"]["clos"] and stats["recommendations"]
+    assert stats["published_formal_sessions"] == 0
+    assert stats["dimensions"]["clos"] == [] and stats["recommendations"] == []
+    assert all(session.purpose == "PRACTICE" for session in sessions)
     learner.profile.full_name = "Updated by the learner"
     old_hash = learner.password_hash
     db_session.commit()
