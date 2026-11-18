@@ -43,7 +43,7 @@ PR3A_TABLES = {
     "retention_purge_audit", "prompt_access_audit",
 }
 
-# The four catalog sets that must agree between schema.sql and the migration.
+# The five catalog sets that must agree between schema.sql and the migration.
 TABLES_SQL = """select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
  where n.nspname=current_schema() and c.relkind='r' and c.relpersistence='p'
  order by c.relname collate "C" """
@@ -62,6 +62,12 @@ INDEXES_SQL = """select tablename, indexname,
  from pg_indexes
  where schemaname=current_schema() and tablename<>'schema_migration'
  order by tablename collate "C", indexname collate "C" """
+TRIGGERS_SQL = """select c.relname, t.tgname,
+ regexp_replace(pg_get_triggerdef(t.oid), current_schema(), 'SCHEMA', 'g')
+ from pg_trigger t join pg_class c on c.oid=t.tgrelid
+ join pg_namespace n on n.oid=c.relnamespace
+ where n.nspname=current_schema() and not t.tgisinternal and c.relname<>'schema_migration'
+ order by c.relname collate "C", t.tgname collate "C" """
 
 
 def _dsn():
@@ -71,12 +77,13 @@ def _dsn():
 
 
 def _catalog_shape(conn):
-    """Return the table, column, constraint and index sets of the current schema."""
+    """Return the table, column, constraint, index and trigger sets."""
     return {
         "tables": tuple(r[0] for r in conn.execute(TABLES_SQL).fetchall()),
         "columns": tuple(tuple(r) for r in conn.execute(COLUMNS_SQL).fetchall()),
         "constraints": tuple(tuple(r) for r in conn.execute(CONSTRAINTS_SQL).fetchall()),
         "indexes": tuple(tuple(r) for r in conn.execute(INDEXES_SQL).fetchall()),
+        "triggers": tuple(tuple(r) for r in conn.execute(TRIGGERS_SQL).fetchall()),
     }
 
 
