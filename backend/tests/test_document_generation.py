@@ -92,8 +92,9 @@ def _item(chunk, quote, clo_id, **over):
     return item
 
 
-def _payload(concept, clo, **over):
+def _payload(concept, clo, document, **over):
     values = {"clo_id": clo.clo_id, "concept_id": concept.concept_id,
+              "document_ids": [document.document_id],
               "question_type": "mcq", "request_id": uuid4()}
     values.update(over)
     return DocumentCandidateGenerateRequest(**values)
@@ -115,7 +116,7 @@ def test_grounded_draft_is_guarded_by_approval_and_copies_evidence(db_session):
     seen = []
     service = _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}, seen=seen)
     drafts = document_generation.generate(
-        db_session, _payload(concept, clo), admin, service, None
+        db_session, _payload(concept, clo, document), admin, service, None
     )
     candidate = drafts[0]
     assert candidate.validation_status == "validated"
@@ -162,7 +163,7 @@ def test_injected_delimiter_in_chunk_is_escaped_on_the_wire(db_session):
     seen = []
     quote = QUOTE
     document_generation.generate(
-        db_session, _payload(concept, clo), admin,
+        db_session, _payload(concept, clo, _document), admin,
         _service(db_session, {"questions": [_item(chunk, quote, clo.clo_id)]}, seen=seen), None,
     )
     user_message = seen[0]["messages"][1]["content"]
@@ -177,9 +178,9 @@ def test_only_approved_documents_and_links_are_retrievable(db_session, status, l
         db_session, document_status=status, link_status=link
     )
     seen = []
-    with pytest.raises(AppError, match="No approved document chunks"):
+    with pytest.raises(AppError, match="not eligible|No approved document chunks"):
         document_generation.generate(
-            db_session, _payload(concept, clo), admin,
+            db_session, _payload(concept, clo, _document), admin,
             _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}, seen=seen), None,
         )
     assert seen == []
@@ -194,7 +195,7 @@ def test_unlinked_concept_cannot_ground_a_draft(db_session):
     db_session.commit()
     with pytest.raises(AppError, match="confirmed on this course learning outcome"):
         document_generation.generate(
-            db_session, _payload(concept, clo), admin,
+            db_session, _payload(concept, clo, _document), admin,
             _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}), None,
         )
 
@@ -211,7 +212,7 @@ def test_evidence_validation_rejects_bad_citations(db_session, change):
         item["prompt"] = "What does this mean? " + DOC_TEXT[:120]
     with pytest.raises(LLMError) as exc:
         document_generation.generate(
-            db_session, _payload(concept, clo), admin,
+            db_session, _payload(concept, clo, _document), admin,
             _service(db_session, {"questions": [item]}), None,
         )
     assert exc.value.code == LLMError.INVALID_RESPONSE
@@ -221,7 +222,7 @@ def test_evidence_validation_rejects_bad_citations(db_session, change):
 def test_grounded_approval_rechecks_archived_document(db_session):
     admin, concept, clo, document, chunk = _prepare(db_session)
     drafts = document_generation.generate(
-        db_session, _payload(concept, clo), admin,
+        db_session, _payload(concept, clo, document), admin,
         _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}), None,
     )
     document.status = "archived"
@@ -237,6 +238,7 @@ def test_generation_endpoint_is_admin_only_and_uses_mocked_model(db_session, cli
     learner = _make_account(db_session, f"learner-{uuid4().hex[:8]}@test.dev", "Learner")
     body = {
         "clo_id": clo.clo_id, "concept_id": concept.concept_id,
+        "document_ids": [_document.document_id],
         "question_type": "mcq", "count": 1,
     }
     assert client.post(BASE, json=body).status_code == 401
@@ -385,17 +387,28 @@ def test_retrieval_query_requires_approval_and_limits_candidates():
               (CloConcept, (1, 2)): SimpleNamespace(status="confirmed")}
     statements = []
 
-    def execute(stmt):
-        statements.append(stmt.compile(dialect=postgresql.dialect()))
+    def execute(stmt, params=None):
+        compiled = stmt.compile(dialect=postgresql.dialect())
+        statements.append((str(compiled), compiled.params))
+        if "set_config" in str(compiled):
+            return []
         return [(chunk, SimpleNamespace())]
 
-    db = SimpleNamespace(get=lambda model, key, **kwargs: values.get((model, key)), execute=execute)
-    context, chunks = document_generation.build_context(
-        db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[])
+    db = SimpleNamespace(
+        get=lambda model, key, **kwargs: values.get((model, key)),
+        scalars=lambda stmt: iter([10]),
+        scalar=lambda stmt: 1,
+        execute=execute,
     )
-    sql = str(statements[0])
+    context, chunks = document_generation.build_context(
+        db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[10])
+    )
+    retrieval = [(sql, params) for sql, params in statements if "LIMIT" in sql]
+    assert len(retrieval) == 1
+    sql, params = retrieval[0]
     assert "course_document.status" in sql and "document_clo.status" in sql
-    assert "LIMIT" in sql and document_generation.MAX_RETRIEVAL_CANDIDATES in statements[0].params.values()
+    assert document_generation.MAX_RETRIEVAL_CANDIDATES in params.values()
+    assert any("statement_timeout" in sql for sql, _ in statements)
     assert list(chunks) == [20] and context["sources"][0]["chunk_id"] == 20
 
 
@@ -407,10 +420,11 @@ def test_oversized_curriculum_metadata_is_rejected_before_retrieval():
               (CloConcept, (1, 2)): SimpleNamespace(status="confirmed")}
     db = SimpleNamespace(
         get=lambda model, key, **kwargs: values.get((model, key)),
-        execute=lambda stmt: pytest.fail("oversized metadata reached retrieval"),
+        scalars=lambda stmt: iter([10]),
+        execute=lambda stmt, params=None: pytest.fail("oversized metadata reached retrieval"),
     )
     with pytest.raises(AppError) as exc:
-        document_generation.build_context(db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[]))
+        document_generation.build_context(db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[10]))
     assert exc.value.code == "generation_metadata_too_large"
 
 
@@ -423,15 +437,16 @@ def test_corrupt_selected_chunk_is_rejected_before_generation():
     values = {(CourseLearningOutcome, 1): clo, (Concept, 2): concept,
               (CloConcept, (1, 2)): SimpleNamespace(status="confirmed")}
     db = SimpleNamespace(get=lambda model, key, **kwargs: values.get((model, key)),
-                         execute=lambda stmt: [(chunk, SimpleNamespace())])
+                         scalars=lambda stmt: iter([10]), scalar=lambda stmt: 1,
+                         execute=lambda stmt, params=None: [(chunk, SimpleNamespace())])
     with pytest.raises(AppError) as exc:
-        document_generation.build_context(db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[]))
+        document_generation.build_context(db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[10]))
     assert exc.value.code == "document_integrity_error"
 
 
 def test_grounded_request_retry_is_idempotent_and_changed_intent_conflicts(db_session):
     admin, concept, clo, _document, chunk = _prepare(db_session)
-    payload = _payload(concept, clo)
+    payload = _payload(concept, clo, _document)
     seen = []
     service = _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}, seen=seen)
     first = document_generation.generate(db_session, payload, admin, service, None)
@@ -449,7 +464,7 @@ def test_malformed_grounded_candidate_is_rejected_by_review(db_session, groundin
 
     admin, concept, clo, _document, chunk = _prepare(db_session)
     candidate = document_generation.generate(
-        db_session, _payload(concept, clo), admin,
+        db_session, _payload(concept, clo, _document), admin,
         _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}), None,
     )[0]
     stored = db_session.get(QuestionCandidate, candidate.candidate_id)
@@ -467,8 +482,8 @@ def test_malformed_grounded_candidate_is_rejected_by_review(db_session, groundin
 def test_duplicate_grounded_draft_cannot_be_approved(db_session):
     admin, concept, clo, _document, chunk = _prepare(db_session)
     service = _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]})
-    first = document_generation.generate(db_session, _payload(concept, clo), admin, service, None)[0]
-    second = document_generation.generate(db_session, _payload(concept, clo), admin, service, None)[0]
+    first = document_generation.generate(db_session, _payload(concept, clo, _document), admin, service, None)[0]
+    second = document_generation.generate(db_session, _payload(concept, clo, _document), admin, service, None)[0]
     assert first.validation_status == "validated"
     assert second.validation_status == "pending"
     with pytest.raises(AppError, match="pre-review checks"):
@@ -482,7 +497,8 @@ def test_mixed_eligible_and_ineligible_documents_are_rejected(db_session):
     seen = []
     with pytest.raises(AppError) as exc:
         document_generation.generate(
-            db_session, _payload(concept, clo, document_ids=[document.document_id, draft_document.document_id]),
+            db_session, _payload(concept, clo, document,
+                                 document_ids=[document.document_id, draft_document.document_id]),
             admin, _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}, seen=seen), None,
         )
     assert exc.value.code == "document_not_eligible"
@@ -506,7 +522,7 @@ def test_retrieval_ranks_relevant_chunks_and_applies_bounds(db_session, locale):
                                      page_from=1, page_to=1, text=text,
                                      text_hash=_digest(text), char_count=len(text)))
     db_session.commit()
-    payload = _payload(concept, clo, locale=locale)
+    payload = _payload(concept, clo, document, locale=locale)
     first, _ = document_generation.build_context(db_session, payload)
     again, _ = document_generation.build_context(db_session, payload)
     assert first == again
@@ -519,7 +535,7 @@ def test_concurrent_grounded_requests_create_one_draft(db_session):
     from app.db import get_session_factory
 
     admin, concept, clo, _document, chunk = _prepare(db_session)
-    payload = _payload(concept, clo)
+    payload = _payload(concept, clo, _document)
     item = _item(chunk, QUOTE, clo.clo_id)
     seen = []
 
@@ -546,7 +562,7 @@ def test_archived_document_during_model_call_cannot_create_a_draft(db_session):
             return kwargs["validator"]({"questions": [item]})
 
     with pytest.raises(AppError):
-        document_generation.generate(db_session, _payload(concept, clo), admin, ArchiveDuringGeneration(), None)
+        document_generation.generate(db_session, _payload(concept, clo, document), admin, ArchiveDuringGeneration(), None)
     assert db_session.query(QuestionCandidate).count() == 0
 
 
@@ -556,7 +572,7 @@ def test_concurrent_grounded_approvals_publish_once(db_session):
 
     admin, concept, clo, _document, chunk = _prepare(db_session)
     candidate = document_generation.generate(
-        db_session, _payload(concept, clo), admin,
+        db_session, _payload(concept, clo, _document), admin,
         _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}), None,
     )[0]
     review = CandidateApprovalRequest(reviewed=True, content_hash=candidate.validation_detail["content_hash"])
@@ -618,7 +634,7 @@ def test_grounded_sql_and_essay_candidates_keep_review_and_evidence(db_session, 
 
         runner = sandbox_runner
     candidate = document_generation.generate(
-        db_session, _payload(concept, clo, question_type=kind), admin,
+        db_session, _payload(concept, clo, _document, question_type=kind), admin,
         _service(db_session, {"questions": [item]}), runner,
     )[0]
     assert candidate.validation_status == "validated" and candidate.promoted_question_id is None
@@ -629,3 +645,106 @@ def test_grounded_sql_and_essay_candidates_keep_review_and_evidence(db_session, 
         QuestionEvidence.question_id == approved.promoted_question_id
     ))
     assert evidence.chunk_id == chunk.chunk_id and evidence.quote == QUOTE
+
+
+def test_retrieval_requires_explicit_document_selection():
+    db = SimpleNamespace(execute=lambda *_args, **_kwargs: pytest.fail("unselected retrieval ran"))
+    payload = SimpleNamespace(clo_id=1, concept_id=2, document_ids=[])
+    with pytest.raises(AppError) as exc:
+        document_generation.build_context(db, payload)
+    assert exc.value.code == "document_selection_required"
+
+
+def test_generate_endpoint_rejects_a_request_without_selected_documents(db_session, client):
+    admin, concept, clo, _document, _chunk = _prepare(db_session)
+    body = {"clo_id": clo.clo_id, "concept_id": concept.concept_id,
+            "question_type": "mcq", "count": 1}
+    response = client.post(
+        BASE, json=body,
+        headers={"Authorization": "Bearer " + _login(client, admin.email)},
+    )
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "validation_error"
+
+
+def test_retrieval_ranks_only_explicitly_selected_documents(db_session):
+    admin, concept, clo, document, _chunk = _prepare(db_session)
+    # A second approved, CLO-linked document whose chunk matches every
+    # relevance term. It must never be ranked when it is not selected.
+    other_text = " ".join([DESCRIPTION, *KEYWORDS, *OBJECTIVES, "Query clauses"])
+    other = CourseDocument(
+        title="Not selected", mime_type="text/plain", sha256=_digest(other_text),
+        char_count=len(other_text), page_count=1, status="approved",
+        uploaded_by=admin.account_id,
+    )
+    db_session.add(other)
+    db_session.flush()
+    db_session.add(DocumentClo(
+        document_id=other.document_id, clo_id=clo.clo_id, status="approved",
+        approved_by=admin.account_id, approved_at=datetime.now(timezone.utc),
+    ))
+    db_session.add(DocumentChunk(
+        document_id=other.document_id, ordinal=1, text=other_text,
+        text_hash=_digest(other_text), char_count=len(other_text),
+    ))
+    db_session.commit()
+
+    context, chunks = document_generation.build_context(
+        db_session, _payload(concept, clo, document)
+    )
+    assert {chunk.document_id for chunk in chunks.values()} == {document.document_id}
+    assert all(source["document_id"] == document.document_id for source in context["sources"])
+    assert context["document_ids"] == [document.document_id]
+
+
+def test_eligible_chunk_cap_rejects_large_selection():
+    clo = SimpleNamespace(clo_id=1, clo_code="C1", title="CLO", description="", status="active")
+    concept = SimpleNamespace(concept_id=2, concept_code="C2", concept_name="SQL",
+                              subject_area="SQL", learning_objectives=[], keywords=[])
+    values = {(CourseLearningOutcome, 1): clo, (Concept, 2): concept,
+              (CloConcept, (1, 2)): SimpleNamespace(status="confirmed")}
+    db = SimpleNamespace(
+        get=lambda model, key, **kwargs: values.get((model, key)),
+        scalars=lambda stmt: iter([10]),
+        scalar=lambda stmt: document_generation.MAX_ELIGIBLE_CHUNKS + 1,
+        execute=lambda stmt, params=None: [] if "set_config" in str(stmt) else pytest.fail("capped selection reached retrieval"),
+    )
+    with pytest.raises(AppError) as exc:
+        document_generation.build_context(
+            db, SimpleNamespace(clo_id=1, concept_id=2, document_ids=[10])
+        )
+    assert exc.value.code == "too_many_eligible_chunks"
+    assert "Select fewer documents" in exc.value.message
+
+
+def test_statement_timeout_57014_is_clean_and_connection_reusable(db_session):
+    from psycopg.errors import QueryCanceled
+    from sqlalchemy import text
+    from sqlalchemy.exc import OperationalError
+
+    with pytest.raises(AppError) as exc:
+        with document_generation._bounded_retrieval(db_session):
+            raise OperationalError(
+                "SELECT ...", {}, QueryCanceled("canceling statement due to statement timeout")
+            )
+    assert exc.value.code == "retrieval_timeout"
+    assert "Select fewer documents" in exc.value.message
+    # The rollback inside the handler leaves the pooled connection usable.
+    assert db_session.execute(text("SELECT 1")).scalar() == 1
+
+
+def test_generation_honours_cancellation(db_session):
+    from threading import Event
+
+    admin, concept, clo, document, chunk = _prepare(db_session)
+    seen = []
+    cancel = Event()
+    cancel.set()
+    with pytest.raises(AppError) as exc:
+        document_generation.generate(
+            db_session, _payload(concept, clo, document), admin,
+            _service(db_session, {"questions": [_item(chunk, QUOTE, clo.clo_id)]}, seen=seen),
+            None, cancel,
+        )
+    assert exc.value.code == "generation_cancelled"
+    assert seen == [] and db_session.query(QuestionCandidate).count() == 0

@@ -1,6 +1,9 @@
+import asyncio
+import threading
 from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, Query, Request
+from fastapi.concurrency import run_in_threadpool
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -629,19 +632,45 @@ def set_document_clos(
     status_code=201,
     response_model=list[QuestionCandidateDetail],
 )
-def generate_document_candidates(
+async def generate_document_candidates(
     payload: DocumentCandidateGenerateRequest,
+    request: Request,
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
     llm: LLMService = Depends(get_llm_service),
     runner: SandboxRunner = Depends(get_sandbox_runner),
 ):
-    """Draft questions from approved document chunks for one confirmed CLO.
+    """Draft questions from selected, approved chunks for one confirmed CLO.
 
+    The 500 ms standard-request target does not apply to this LLM-backed flow.
+    Retrieval and generation are bounded, the blocking work runs in a worker
+    thread so the event loop stays responsive, and a disconnected client is
+    observed through ``cancel`` so the work stops at the next phase boundary.
     Each draft carries a CLO and a verbatim chunk citation and stays outside the
     bank until an administrator approves it through the candidate review flow.
     """
-    return document_generation.generate(db, payload, admin, llm, runner)
+    cancel = threading.Event()
+
+    async def watch_disconnect():
+        while not cancel.is_set():
+            try:
+                if await request.is_disconnected():
+                    cancel.set()
+                    return
+                await asyncio.sleep(0.25)
+            except asyncio.CancelledError:
+                return
+            except Exception:
+                return
+
+    watcher = asyncio.create_task(watch_disconnect())
+    try:
+        return await run_in_threadpool(
+            document_generation.generate, db, payload, admin, llm, runner, cancel
+        )
+    finally:
+        cancel.set()
+        watcher.cancel()
 
 
 # ---------- UC09 — adaptive assessment configuration ----------

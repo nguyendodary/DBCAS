@@ -1301,12 +1301,12 @@ class DocumentCloSelection(BaseModel):
 
 
 class DocumentCandidateGenerateRequest(BaseModel):
-    """Draft questions from approved chunks linked to one CLO."""
+    """Draft questions from explicitly selected, approved chunks for one CLO."""
 
     model_config = ConfigDict(extra="forbid")
     clo_id: int = Field(gt=0, strict=True)
     concept_id: int = Field(gt=0, strict=True)
-    document_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(default_factory=list, max_length=20)
+    document_ids: list[Annotated[int, Field(strict=True, gt=0)]] = Field(min_length=1, max_length=20)
     question_type: Literal["mcq", "sql", "essay"]
     count: int = Field(default=1, ge=1, le=3, strict=True)
     request_id: Optional[UUID] = None

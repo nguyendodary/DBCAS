@@ -8,6 +8,7 @@ stored as a ``question_candidate`` draft and only becomes a question after the
 existing admin approval flow re-checks the evidence.
 """
 
+from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
@@ -16,7 +17,8 @@ import json
 import re
 from uuid import uuid4
 
-from sqlalchemy import and_, case, func, literal, literal_column, or_, select
+from sqlalchemy import and_, case, func, literal, literal_column, or_, select, text
+from sqlalchemy.exc import OperationalError
 
 from ..errors import AppError
 from ..models import (
@@ -46,6 +48,12 @@ MAX_SOURCE_CHUNKS = 12
 MAX_SOURCE_BYTES = 32 * 1024
 MAX_METADATA_BYTES = 16 * 1024
 MAX_RELEVANCE_TERMS = 16
+# Retrieval guardrails. The admin LLM workflow is deliberately outside the
+# 500 ms standard-request target, but every step is bounded: the eligible set
+# is counted first, the query is cancelled by PostgreSQL after 5 s, and the
+# ranked candidate set is capped before it reaches the prompt.
+MAX_ELIGIBLE_CHUNKS = 5000
+RETRIEVAL_STATEMENT_TIMEOUT_MS = 5000
 # PostgreSQL's C locale lower() does not fold Vietnamese uppercase letters.
 VIETNAMESE_UPPER = "ÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ"
 
@@ -67,6 +75,46 @@ def _digest(value) -> str:
 
 def _wrong(value, message: str):
     raise LLMError(LLMError.INVALID_RESPONSE, message)
+
+
+def _sqlstate(exc: Exception) -> str | None:
+    return getattr(getattr(exc, "orig", None), "sqlstate", None)
+
+
+@contextmanager
+def _bounded_retrieval(db):
+    """Cancel a slow retrieval in PostgreSQL without poisoning the connection.
+
+    ``set_config(..., true)`` is transaction-local, so the pool connection is
+    reusable with its original settings once this block exits. SQLSTATE 57014
+    (query_canceled) is translated into a clean client error after a rollback;
+    the rollback is what makes the connection reusable again.
+    """
+    db.execute(
+        text("SELECT set_config('statement_timeout', :value, true)"),
+        {"value": f"{RETRIEVAL_STATEMENT_TIMEOUT_MS}ms"},
+    )
+    try:
+        yield
+    except OperationalError as exc:
+        if _sqlstate(exc) == "57014":
+            db.rollback()
+            raise AppError(
+                504,
+                "retrieval_timeout",
+                "Document retrieval timed out. Select fewer documents and retry.",
+            ) from exc
+        raise
+    finally:
+        try:
+            db.execute(text("SELECT set_config('statement_timeout', NULL, true)"))
+        except Exception:  # the transaction is already aborted; rollback clears it
+            pass
+
+
+def _check_cancelled(cancel) -> None:
+    if cancel is not None and cancel.is_set():
+        raise AppError(499, "generation_cancelled", "Generation was cancelled")
 
 
 def _wrap_untrusted(chunk: DocumentChunk) -> str:
@@ -136,7 +184,13 @@ def _select_chunks(chunks, terms) -> list:
 
 
 def build_context(db, payload):
-    """Select only approved, CLO-linked chunks and build the wire context."""
+    """Select only explicitly chosen, approved chunks and build wire context."""
+    if not payload.document_ids:
+        raise AppError(
+            422,
+            "document_selection_required",
+            "Select at least one document to generate from",
+        )
     clo_id, concept_id = payload.clo_id, payload.concept_id
     clo = db.get(CourseLearningOutcome, clo_id, populate_existing=True)
     if clo is None or clo.status != "active":
@@ -152,20 +206,19 @@ def build_context(db, payload):
             "Select a concept confirmed on this course learning outcome",
         )
 
-    if payload.document_ids:
-        eligible = set(db.scalars(
-            select(CourseDocument.document_id)
-            .join(DocumentClo, DocumentClo.document_id == CourseDocument.document_id)
-            .join(DocumentChunk, DocumentChunk.document_id == CourseDocument.document_id)
-            .where(
-                CourseDocument.document_id.in_(payload.document_ids),
-                CourseDocument.status == "approved",
-                DocumentClo.clo_id == clo_id,
-                DocumentClo.status == "approved",
-            ).distinct()
-        ))
-        if eligible != set(payload.document_ids):
-            raise AppError(422, "document_not_eligible", "One or more selected documents are not eligible for this CLO")
+    eligible = set(db.scalars(
+        select(CourseDocument.document_id)
+        .join(DocumentClo, DocumentClo.document_id == CourseDocument.document_id)
+        .join(DocumentChunk, DocumentChunk.document_id == CourseDocument.document_id)
+        .where(
+            CourseDocument.document_id.in_(payload.document_ids),
+            CourseDocument.status == "approved",
+            DocumentClo.clo_id == clo_id,
+            DocumentClo.status == "approved",
+        ).distinct()
+    ))
+    if eligible != set(payload.document_ids):
+        raise AppError(422, "document_not_eligible", "One or more selected documents are not eligible for this CLO")
 
     clo_brief = {
         "clo_id": clo.clo_id, "clo_code": clo.clo_code, "title": clo.title,
@@ -179,6 +232,33 @@ def build_context(db, payload):
     }
     if len(json.dumps({"clo": clo_brief, "concept": concept_brief}, ensure_ascii=False).encode("utf-8")) > MAX_METADATA_BYTES:
         raise AppError(422, "generation_metadata_too_large", "The selected CLO or concept metadata is too large")
+    # Count before ranking so an oversized selection is rejected with an
+    # actionable error instead of doing the expensive Unicode-folded scan.
+    with _bounded_retrieval(db):
+        eligible_count = db.scalar(
+            select(func.count())
+            .select_from(DocumentChunk)
+            .join(CourseDocument, DocumentChunk.document_id == CourseDocument.document_id)
+            .join(
+                DocumentClo,
+                and_(
+                    DocumentClo.document_id == CourseDocument.document_id,
+                    DocumentClo.clo_id == clo_id,
+                    DocumentClo.status == "approved",
+                ),
+            )
+            .where(
+                CourseDocument.status == "approved",
+                CourseDocument.document_id.in_(payload.document_ids),
+            )
+        )
+    if eligible_count > MAX_ELIGIBLE_CHUNKS:
+        raise AppError(
+            422,
+            "too_many_eligible_chunks",
+            f"The selected documents have {eligible_count} eligible chunks, above the "
+            f"{MAX_ELIGIBLE_CHUNKS} per-request limit. Select fewer documents and retry.",
+        )
     terms = _relevance_terms(concept, clo)
     # Normalize each eligible chunk once before scoring its terms. Without the
     # materialization PostgreSQL repeats expensive Unicode folding per term.
@@ -203,8 +283,7 @@ def build_context(db, payload):
         )
         .where(CourseDocument.status == "approved")
     )
-    if payload.document_ids:
-        eligible_stmt = eligible_stmt.where(CourseDocument.document_id.in_(payload.document_ids))
+    eligible_stmt = eligible_stmt.where(CourseDocument.document_id.in_(payload.document_ids))
     eligible = eligible_stmt.cte("eligible_document_chunks").prefix_with("MATERIALIZED")
     rank = literal(0)
     for term in terms:
@@ -226,7 +305,8 @@ def build_context(db, payload):
         .order_by(ranked.c.relevance.desc(), ranked.c.document_id, ranked.c.ordinal, ranked.c.chunk_id)
         .execution_options(populate_existing=True)
     )
-    rows = list(db.execute(stmt))
+    with _bounded_retrieval(db):
+        rows = list(db.execute(stmt))
     if not rows:
         raise AppError(
             422,
@@ -351,9 +431,16 @@ def lock_grounding(db, clo_id, concept_id, document_ids, chunk_ids):
         db.execute(statement.with_for_update(read=True)).all()
 
 
-def generate(db, payload, admin, llm, runner):
+def generate(db, payload, admin, llm, runner, cancel=None):
+    """Build a bounded draft; ``cancel`` is an optional threading.Event.
+
+    The endpoint runs this off the event loop. Cancellation is checked between
+    phases (retrieval, model call, publication) so a disconnected client never
+    leaves an unbounded amount of work running on a request thread.
+    """
     from .ai_admin_service import _validate_candidate
 
+    _check_cancelled(cancel)
     request_id = str(payload.request_id or uuid4())
     identity = {
         **payload.model_dump(mode="json", exclude={"request_id"}),
@@ -377,6 +464,7 @@ def generate(db, payload, admin, llm, runner):
         return [_candidate_detail(row) for row in previous]
 
     context, chunks = build_context(db, payload)
+    _check_cancelled(cancel)
     wire = wire_schema(payload, sorted(chunks))
 
     def validate(result):
@@ -423,6 +511,7 @@ def generate(db, payload, admin, llm, runner):
         validator=validate, context_version=VERSION,
     )
     validate(result)
+    _check_cancelled(cancel)
 
     SecurityRepository(db).lock("question-bank-publication")
     lock_grounding(db, payload.clo_id, payload.concept_id,
@@ -459,6 +548,7 @@ def generate(db, payload, admin, llm, runner):
         row.validation_detail = _validate_candidate(repo, row, runner)
         row.validation_status = "validated" if row.validation_detail["ok"] else "pending"
         out.append(row)
+    _check_cancelled(cancel)
     db.commit()
     return [_candidate_detail(repo.get_candidate(row.candidate_id)) for row in out]
 
