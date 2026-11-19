@@ -14,7 +14,7 @@ const name = process.env.OOM_REPRO_NAME || 'dbcas-oom-repro'
 const limit = process.env.OOM_REPRO_LIMIT || '128m'
 const port = process.env.OOM_REPRO_PORT || '18099'
 const minutes = Number(process.env.OOM_REPRO_MINUTES || '5')
-const workers = Number(process.env.OOM_REPRO_WORKERS || '8')
+const workers = Number(process.env.OOM_REPRO_WORKERS || '32')
 const output = path.join(root, '_review', 'qa-oom-repro.log')
 const base = `http://127.0.0.1:${port}`
 
@@ -53,36 +53,65 @@ function state() {
   return `${r.stdout || ''}${r.stderr || ''}`.trim()
 }
 
+// Same shapes the browser QA suite sends: 13-question AI generation for the
+// four practice concepts, a full bank-practice evaluation snapshot, and an
+// essay grading prompt. Sizes are representative, not minimal.
+const concepts = ['ER modeling', 'Normalization', 'SQL joins', 'Transactions'].map((label, index) => ({
+  id: `3f1c4a52-1f7e-4c1e-9c3a-00000000000${index}`, code: `C${index + 1}`,
+  name: label, description: `${label} concept used by the QA harness`,
+}))
+const items = Array.from({ length: 13 }, (_, index) => ({
+  attempt_id: `attempt-${index}`, question_id: `question-${index}`,
+  type: ['mcq', 'sql', 'essay'][index % 3], points: 1, score: index % 4 === 0 ? 0.25 : 1,
+  clo: ['CLO1'], topics: ['ER modeling'], difficulty: 'HARD',
+  answer_text: `learner answer ${index} `.repeat(200),
+}))
+const evaluationData = JSON.stringify({
+  items, attempt_count: 3,
+  history: [{ percentage: 40 }, { percentage: 50 }, { percentage: 60 }],
+  dimensions: {
+    clo: [{ label: 'CLO1', earned: '5', possible: '13', percentage: 38.5 }],
+    topic: [{ label: 'ER modeling', earned: '5', possible: '13', percentage: 38.5 }],
+    difficulty: [{ label: 'HARD', earned: '5', possible: '13', percentage: 38.5 }],
+  },
+  recurring_weaknesses: [],
+})
 const payloads = {
   evaluation: {
     response_format: { json_schema: { name: 'evaluation' } },
-    messages: [{ role: 'user', content: '## DỮ LIỆU\n{"items":[],"dimensions":{},"attempt_count":1}\n## KHÁI NIỆM\n{}\n## RUBRIC\n' }],
+    messages: [{ role: 'user', content: `## DỮ LIỆU\n${evaluationData}\n## KHÁI NIỆM\n{"concepts":[]}\n## RUBRIC\n` }],
   },
   practice_questions: {
     response_format: { json_schema: { name: 'practice_questions' } },
     messages: [{ role: 'user', content: JSON.stringify({
-      concepts: [{ id: '3f1c4a52-1f7e-4c1e-9c3a-000000000001', code: 'C1', name: 'ER modeling', description: 'entities and relations' }],
-      difficulty_levels: [4], count: 1, type_counts: { mcq: 1 },
+      concepts, difficulty_levels: [2, 4], count: 13,
+      type_counts: { mcq: 10, sql: 2, essay: 1 },
     }) }],
   },
   essay_grade: {
     response_format: { json_schema: { name: 'essay_grade' } },
-    messages: [{ role: 'user', content: '- Complete: score 0.70 to 0.80\nSTUDENT ANSWER (identifiers redacted):\nrepro answer\n\nReturn JSON:' }],
+    messages: [{ role: 'user', content: `- Complete: score 0.70 to 0.80\nSTUDENT ANSWER (identifiers redacted):\n${'repro answer '.repeat(400)}\n\nReturn JSON:` }],
   },
 }
 const kinds = Object.keys(payloads)
 
 let stop = false
+const statusCounts = {}
 async function worker(index) {
   while (!stop) {
     const kind = kinds[index % kinds.length]
     try {
-      await fetch(`${base}/v1/chat/completions`, {
+      const response = await fetch(`${base}/v1/chat/completions`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payloads[kind]), signal: AbortSignal.timeout(10000),
       })
-    } catch { /* provider may be gone; sampler records the state */ }
-    await new Promise((resolve) => setTimeout(resolve, 20))
+      await response.arrayBuffer()
+      const key = `${kind}:${response.status}`
+      statusCounts[key] = (statusCounts[key] || 0) + 1
+    } catch {
+      statusCounts[`${kind}:error`] = (statusCounts[`${kind}:error`] || 0) + 1
+    }
+    await new Promise((resolve) => setTimeout(resolve, 5))
   }
 }
 
@@ -128,6 +157,7 @@ while (Date.now() < deadline && !oom) {
 }
 stop = true
 await Promise.allSettled(loops)
+write(`# responses ${JSON.stringify(statusCounts)}`)
 write(`# end ${new Date().toISOString()} oom=${oom}`)
 try { fs.closeSync(fd) } catch { /* best effort */ }
 docker(['rm', '-f', name], { allowFail: true })
