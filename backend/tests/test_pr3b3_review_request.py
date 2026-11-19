@@ -222,6 +222,10 @@ def test_self_review_forbidden_even_with_both_roles(client, db_session):
     db_session.commit()
     case = _request(client, learner, sid).json()
     h = headers(learner, "Administrator")
+    own_view = client.get(REVIEW.format(sid=sid), headers=h)
+    assert own_view.status_code == 200
+    assert own_view.json()["v2_state"] == "NONE"
+    assert {"claimed_by", "resolved_by", "resolution_note"}.isdisjoint(own_view.json())
     claim = client.post(f"{QUEUE}/{case['review_request_id']}/claim", headers=h,
                         json={"expected_revision": case["revision"]})
     assert claim.status_code == 403
