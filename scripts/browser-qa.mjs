@@ -31,8 +31,18 @@ env.WSLENV = [...new Set([...(env.WSLENV || '').split(':').filter(Boolean), ...O
 const compose = ['compose', '-p', env.DBCAS_LOCAL_PROJECT || 'dbcas-local', '-f', 'docker-compose.local.yml']
 function dc(args, fake = false) { return run(executable, [...prefix, ...compose, ...(fake ? ['-f', 'docker-compose.qa.yml'] : []), ...args]) }
 main('start', root)
+let memorySampler = null
 try {
   dc(['up', '-d', '--wait', '--wait-timeout', '180', 'qa-ai', 'app'], true)
+  // Diagnostic-only: sample the provider's cgroup memory from here until the
+  // launcher stops, uploaded as an artifact even on a passing shard.
+  const memoryLog = path.join(root, '_review', 'qa-memory.log')
+  fs.mkdirSync(path.dirname(memoryLog), { recursive: true })
+  memorySampler = spawn(process.execPath, [
+    path.join(root, 'scripts/qa-memory-sample.mjs'), memoryLog,
+    env.DBCAS_LOCAL_PROJECT || 'dbcas-local', JSON.stringify({ executable, prefix }),
+  ], { cwd: root, env, stdio: 'ignore', windowsHide: true })
+  memorySampler.unref?.()
   await waitForFrontend(`${env.DBCAS_LOCAL_URL}/readiness`)
   // Compose's internal healthcheck can pass before the published provider port
   // is reachable from the host; verify that path, then issue the control POST
@@ -63,6 +73,7 @@ try {
     { env: { ...env, DBCAS_QA_LOAD_GUARD: 'fake-provider-only' } })
   }
 } finally {
+  try { memorySampler?.kill('SIGTERM') } catch { /* already exited */ }
   try {
     dc(['up', '-d', '--wait', '--force-recreate', 'app'])
     await waitForFrontend(`${env.DBCAS_LOCAL_URL}/readiness`)

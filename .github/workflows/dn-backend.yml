@@ -337,6 +337,13 @@ jobs:
           name: qa-docker-events-${{ matrix.name }}
           path: _review/qa-docker-events.log
           if-no-files-found: warn
+      - name: Upload QA provider memory samples
+        if: always() && matrix.kind == 'qa'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-memory-${{ matrix.name }}
+          path: _review/qa-memory.log
+          if-no-files-found: warn
       - name: Cleanup compose project
         if: always() && (matrix.kind == 'e2e' || matrix.kind == 'smoke' || matrix.kind == 'qa')
         run: docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml -f docker-compose.qa.yml down --volumes --remove-orphans || true
