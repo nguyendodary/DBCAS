@@ -1,4 +1,21 @@
 {
+  "reviewRequest": {
+    "request": "Request admin review",
+    "reason": "Reason for review (10–2,000 characters)",
+    "deadline": "Request a review by {{date}}.",
+    "pending": "Pending",
+    "inReview": "In review",
+    "rejected": "Rejected",
+    "expired": "Expired",
+    "v1Official": "V1 official",
+    "v2Official": "V2 official",
+    "analysisPending": "V2 analysis is pending.",
+    "analysisFailed": "v1 kept, admin will retry",
+    "checkStatus": "Check review status",
+    "closed": "The review request window has closed.",
+    "forbidden": "You cannot access this review request.",
+    "unavailable": "This review request is unavailable."
+  },
   "local": {
     "mailbox": "Open this machine's demo inbox",
     "autoMcq": "Automatically graded MCQs (optional details)",
