@@ -7,11 +7,12 @@ services:
     volumes: ['./backend/tests/qa_provider.py:/qa/provider.py:ro']
     ports: ['127.0.0.1:${LOCAL_QA_PROVIDER_PORT:-18099}:8080']
     networks: [web]
-    # Measured peak RSS ~128MiB (cgroup memory.peak reaches the old 128m cap)
-    # during the first minute, then plateaus ~105-120MiB for the rest of the
-    # suite. 256m keeps ~2x headroom over the measured peak without removing
-    # the limit or masking a growing leak (the curve is flat after the steps).
-    mem_limit: 256m
+    # Sampled curves (qa-memory artifact) are step-like, not linear: ~18MiB at
+    # start, ~59MiB after the first evaluation import, then ~119-134MiB RSS
+    # after the practice-service import, flat for the rest of the suite.
+    # Measured cgroup peak with headroom is 141.4MiB; 288m is ~2.04x that peak.
+    # The limit stays in place and there is no restart policy.
+    mem_limit: 288m
     healthcheck:
       test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health',timeout=2)"]
       interval: 2s
