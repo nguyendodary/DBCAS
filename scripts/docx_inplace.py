@@ -13,7 +13,6 @@ or
     {"paragraph": "exact old paragraph text", "new": "..."}
 """
 import json
-import shutil
 import sys
 import zipfile
 from pathlib import Path
@@ -125,14 +124,17 @@ def apply_edits(root, edits):
     return counts
 
 
-def edit_docx(src, dst, edits):
+def edit_docx(src, dst, edits, *, require_matches=False):
     src, dst = Path(src), Path(dst)
-    shutil.copyfile(src, dst)
     with zipfile.ZipFile(src) as zin:
         xml = zin.read("word/document.xml")
     parser = etree.XMLParser(remove_blank_text=False, huge_tree=True)
     root = etree.fromstring(xml, parser)
     counts = apply_edits(root, edits)
+    if require_matches:
+        for old, done, want in counts:
+            if (want is None and not done) or (want is not None and done != want):
+                raise ValueError(f"Unmatched edit in {src.name}: {old!r} ({done}, expected {want})")
     new_xml = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     tmp = dst.with_suffix(".tmp")
