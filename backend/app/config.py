@@ -97,9 +97,17 @@ class Settings(BaseSettings):
     # External LLM provider (Task 3.4). Any OpenAI-compatible
     # chat-completions endpoint works; empty key = AI features disabled
     # gracefully (llm_not_configured), the rest of the app unaffected.
-    llm_api_key: str = ""
+    llm_provider: Literal["compatible", "openrouter"] = "compatible"
+    llm_api_key: str = Field(default="", repr=False)
     llm_base_url: str = ""
     llm_model: str = ""
+    openrouter_api_key: str = Field(default="", repr=False)
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
+    openrouter_model: str = ""
+    openrouter_http_referer: str = ""
+    openrouter_app_title: str = ""
+    openrouter_data_collection: Literal["deny", "allow"] = "deny"
+    openrouter_zdr: bool = True
     llm_temperature: float = 0.1
     llm_seed: Optional[int] = 42
     llm_timeout_seconds: float = Field(default=90.0, ge=1, le=120, allow_inf_nan=False)
@@ -130,6 +138,34 @@ class Settings(BaseSettings):
     database_connect_timeout_seconds: int = Field(default=5, ge=2, le=30)
     database_pool_timeout_seconds: int = Field(default=5, ge=1, le=30)
     readiness_database_timeout_seconds: int = Field(default=2, ge=2, le=10)
+
+    @model_validator(mode="after")
+    def _configure_openrouter(self):
+        if self.llm_provider != "openrouter":
+            return self
+        if not self.openrouter_api_key.strip():
+            raise ValueError("OPENROUTER_API_KEY is required when LLM_PROVIDER=openrouter")
+        model = self.openrouter_model.strip()
+        if not model or len(model) > 80:
+            raise ValueError("OPENROUTER_MODEL must contain 1–80 characters when LLM_PROVIDER=openrouter")
+        base_url = self.openrouter_base_url.strip()
+        try:
+            endpoint = urlsplit(base_url)
+            valid_url = (endpoint.scheme == "https" and endpoint.hostname and endpoint.username is None
+                         and not endpoint.query and not endpoint.fragment)
+        except ValueError:
+            valid_url = False
+        if not valid_url:
+            raise ValueError("OPENROUTER_BASE_URL must be an HTTPS URL without credentials, query or fragment")
+        for name in ("openrouter_http_referer", "openrouter_app_title"):
+            value = getattr(self, name)
+            if any(not 32 <= ord(char) <= 126 for char in value):
+                raise ValueError(f"{name.upper()} must use printable ASCII for HTTP headers")
+        # Keep auto-grading, translation and prompt audit on the same effective configuration.
+        self.llm_api_key = self.openrouter_api_key.strip()
+        self.llm_base_url = base_url
+        self.llm_model = model
+        return self
 
     @model_validator(mode="after")
     def _deployment_safety(self):

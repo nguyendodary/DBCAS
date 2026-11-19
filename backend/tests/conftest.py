@@ -146,6 +146,7 @@ if _docker_ok():
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"
     # Local credentials never enter the automated application's configuration.
     # Integration tests explicitly inject a real service with MockTransport.
+    os.environ["LLM_PROVIDER"] = "compatible"
     os.environ["LLM_API_KEY"] = ""
     os.environ["LLM_BASE_URL"] = ""
     os.environ["LLM_MODEL"] = ""

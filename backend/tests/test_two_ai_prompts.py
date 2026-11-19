@@ -5,6 +5,7 @@ import logging
 import uuid
 from datetime import timedelta
 
+import httpx
 import pytest
 from sqlalchemy import text
 
@@ -155,6 +156,34 @@ def _learner_headers(client):
 def _prompt_for(db, stage_run_id):
     record = db.query(AiPromptRecord).filter_by(stage_run_id=stage_run_id).one()
     return record, db.get(AiPromptContent, record.prompt_record_id)
+
+
+def test_openrouter_keeps_two_ai_prompt_storage_validation_and_retention(db_session):
+    from test_openrouter_provider import MODEL, mocked_service, settings
+
+    config = settings()
+    _, session_id = _seed_session(db_session)
+    requests = []
+
+    def respond(request):
+        requests.append(json.loads(request.content))
+        return httpx.Response(200, json={
+            "choices": [{"message": {"content": json.dumps(VALID_OUTPUT)}}],
+        })
+
+    service = AiStageService(db_session, llm=mocked_service(config, respond), settings=config)
+    ai1 = service.run_ai1(session_id=session_id, data=DATA)
+    assert requests == []
+    record, content = _prompt_for(db_session, ai1.stage_run_id)
+    assert content.model_identifier == MODEL
+    assert record.expires_at - record.created_at == timedelta(days=60)
+    validation = db_session.query(AiStageValidation).filter_by(stage_run_id=ai1.stage_run_id).one()
+    assert validation.status == "VALID"
+    ai2 = service.run_ai2(session_id=session_id, predecessor_validation_id=validation.validation_id)
+    assert ai2.status == "COMPLETED"
+    request, = requests
+    assert request["model"] == content.model_identifier
+    assert request["messages"] == [{"role": "user", "content": content.prompt_text}]
 
 
 def test_ai2_rejected_without_validated_ai1(db_session):
