@@ -123,6 +123,20 @@ def get_served_questions(
     return adaptive_engine.served_questions(db, session_id, learner, display_locale)
 
 
+@router.post("/{session_id}/questions/{seq_no}/serve", response_model=ServedQuestion)
+def serve_planned_question(
+    session_id: int,
+    seq_no: int,
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
+):
+    """UC12 â€” open any planned question in the learner's fixed practice."""
+    return adaptive_engine.serve_planned_question(
+        db, session_id, seq_no, learner, display_locale
+    )
+
+
 @router.post("/{session_id}/serve-next", response_model=ServeResult)
 def serve_next_question(
     session_id: int,

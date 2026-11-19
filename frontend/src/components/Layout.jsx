@@ -100,7 +100,7 @@ function LearnerTopbar({ onLogout }) {
           <HelpButton />
           <LanguageSelector />
           <ThemeSelector />
-          {account && <AccountMenu account={account} onLogout={onLogout} />}
+          {unaccount && <AccotMenu account={account} onLogout={onLogout} />}
         </div>
       </div>
       <nav

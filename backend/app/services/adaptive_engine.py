@@ -6,9 +6,11 @@ Session lifecycle
 assessment.duration_min``) and serves question 1. Resuming is
 idempotent: a second call returns the learner's existing live session.
 
-``serve_next`` returns the pending attempt as-is when one exists, so the
-UI can re-request the current question safely; otherwise it picks and
-persists the next Attempt plus one ``selection_log`` audit row.
+``serve_next`` returns the earliest pending attempt as-is when one exists,
+so the UI can re-request a question safely. Fixed practice sessions may have
+multiple pending attempts because learners can open questions out of order;
+otherwise the engine picks and persists the next Attempt plus one
+``selection_log`` audit row.
 
 ``finish_session`` finalizes to ``completed`` (or ``timed_out`` once the
 window has elapsed) and recomputes competency + gaps deterministically.
@@ -457,7 +459,18 @@ def serve_next(
 
     if (session.config_snapshot or {}).get("personalized"):
         from .personalized_assessment import serve_planned
-        attempt = serve_planned(repo, session, len(attempts) + 1)
+        config = session.config_snapshot or {}
+        if config.get("learner_defined") and config.get("assembly_mode") == "PRACTICE":
+            served_sequences = {item.seq_no for item in attempts}
+            next_sequence = next(
+                (seq for seq in range(1, assessment.max_questions + 1) if seq not in served_sequences),
+                None,
+            )
+            if next_sequence is None:
+                return ServeResult(done=True, question=None)
+        else:
+            next_sequence = len(attempts) + 1
+        attempt = serve_planned(repo, session, next_sequence)
         if commit:
             db.commit()
         return ServeResult(done=False, question=_served_question(repo, attempt, session.locale or "en"))
@@ -472,6 +485,30 @@ def serve_next(
     if commit:
         db.commit()
     return ServeResult(done=False, question=_served_question(repo, attempt, session.locale or "en"))
+
+
+def serve_planned_question(
+    db: Session, session_id: int, seq_no: int, learner: Account, display_locale=None
+) -> ServedQuestion:
+    """Serve or resume any planned question in a learner-defined practice."""
+    repo = AssessmentRepository(db)
+    session = load_owned_active_session(repo, session_id, learner)
+    config = session.config_snapshot or {}
+    if not config.get("learner_defined") or config.get("assembly_mode") != "PRACTICE":
+        raise AppError(409, "question_navigation_unavailable", "Questions can only be selected directly in a fixed practice session")
+    question_count = config.get("max_questions", 0)
+    if seq_no < 1 or seq_no > question_count:
+        raise AppError(404, "question_not_found", "Question not found in this practice session")
+
+    attempts = repo.session_attempts(session_id)
+    attempt = next((item for item in attempts if item.seq_no == seq_no), None)
+    if attempt is None:
+        from .personalized_assessment import serve_planned
+        attempt = serve_planned(repo, session, seq_no)
+        db.commit()
+    question = _served_question(repo, attempt, display_locale or session.locale or "en")
+    question.score = None
+    return question
 
 
 def _serve(

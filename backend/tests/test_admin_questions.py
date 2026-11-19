@@ -1,5 +1,8 @@
 """UC07 — question bank management endpoint tests."""
 
+from sqlalchemy import inspect
+from sqlalchemy.orm.attributes import NO_VALUE
+
 from app.models import (
     Account,
     AccountRole,
@@ -234,6 +237,23 @@ class TestSearch:
             client.get(f"{BASE}/questions?question_type=bad", headers=h).status_code
             == 422
         )
+
+    def test_list_does_not_eager_load_full_question_details(self, client, db_session):
+        h = _admin(client, db_session)
+        c = _concept(db_session, "SQL-LIST-LIGHT")
+        db_session.commit()
+        created = client.post(
+            f"{BASE}/questions", json=_sql_payload(c.concept_id), headers=h
+        )
+        assert created.status_code == 201, created.json()
+
+        db_session.expire_all()
+        listed = client.get(f"{BASE}/questions", headers=h)
+        assert listed.status_code == 200
+        question = db_session.get(Question, created.json()["question_id"])
+        state = inspect(question)
+        assert state.attrs.datasets.loaded_value is NO_VALUE
+        assert state.attrs.options.loaded_value is NO_VALUE
 
 
 class TestStatusFlow:

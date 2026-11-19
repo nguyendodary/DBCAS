@@ -33,7 +33,7 @@ const PILLARS = [
 const STATS = [
   { value: '3', label: 'landing.statTypes', sub: 'landing.statTypesSub', cls: '' },
   {
-    value: '30',
+    value: '20–45',
     label: 'landing.statMinutes',
     sub: 'landing.statMinutesSub',
     cls: 'landing-stat-green',

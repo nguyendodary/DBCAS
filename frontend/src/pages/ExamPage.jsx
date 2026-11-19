@@ -31,12 +31,12 @@ const SECTION_TYPES = [
 // Neither belongs in the learner's question card.
 function cleanPrompt(prompt) {
   return (prompt || '')
+    .replace(/\r\n?/g, '\n')
     .trim()
     .replace(
       /^(?:Nội dung câu hỏi|Question content):[^.]+\.\s*(?:Hiển thị bản dịch[^.]*\.|Shows the approved translation[^.]*\.)\s*/i,
       '',
     )
-    .replace(/\s+/g, ' ')
     .trim()
 }
 
@@ -47,24 +47,30 @@ function stripDataset(prompt, schema) {
     if (index >= 0) text = `${text.slice(0, index)} ${text.slice(index + schema.length)}`
   }
   text = text
-    .replace(/(?:Dữ liệu PostgreSQL cố định|Fixed PostgreSQL data)[^:]{0,160}:\s*/i, ' ')
-    .replace(/\bCREATE\s+TABLE\b[\s\S]*?;\s*/gi, ' ')
-    .replace(/\bINSERT\s+INTO\b[\s\S]*?;\s*/gi, ' ')
-  return text.replace(/\s+/g, ' ').trim()
+    .replace(/(?:Dữ liệu PostgreSQL cố định|Fixed PostgreSQL data)[^:]{0,160}:[ \t]*/i, '')
+    .replace(/\bCREATE\s+TABLE\b[\s\S]*?;[ \t]*/gi, '')
+    .replace(/\bINSERT\s+INTO\b[\s\S]*?;[ \t]*/gi, '')
+  return text
+    .split('\n')
+    .map((line) => line.replace(/[ \t]+/g, ' ').trim())
+    .join('\n')
+    .trim()
 }
 
 function splitParagraphs(text, maxLength = 280) {
-  const sentences = text.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ0-9"“(])/u).filter(Boolean)
   const paragraphs = []
-  let current = ''
-  for (const sentence of sentences) {
-    const next = current ? `${current} ${sentence}` : sentence
-    if (current && (next.length > maxLength || current.split(/(?<=[.!?])/).length >= 2)) {
-      paragraphs.push(current)
-      current = sentence
-    } else current = next
+  for (const line of text.split('\n')) {
+    const sentences = line.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ỹ0-9"“(])/u).filter(Boolean)
+    let current = ''
+    for (const sentence of sentences) {
+      const next = current ? `${current} ${sentence}` : sentence
+      if (current && (next.length > maxLength || current.split(/(?<=[.!?])/).length >= 2)) {
+        paragraphs.push(current)
+        current = sentence
+      } else current = next
+    }
+    if (current) paragraphs.push(current)
   }
-  if (current) paragraphs.push(current)
   return paragraphs.length ? paragraphs : [text]
 }
 
@@ -77,6 +83,7 @@ function ExamWorkspace({ sessionId }) {
   const { locale } = useLocale()
   const navigate = useNavigate()
   const [state, setState] = useState(null)
+  const [servedQuestions, setServedQuestions] = useState([])
   const [error, setError] = useState(null)
   const [secondsLeft, setSecondsLeft] = useState(null)
   const [submitting, setSubmitting] = useState(false)
@@ -89,6 +96,7 @@ function ExamWorkspace({ sessionId }) {
   const submitRef = useRef(false)
   const autoFinishRef = useRef(false)
   const clock = useRef(null)
+  const questionListRequest = useRef(0)
   const [warning, setWarning] = useState(null)
   const [displayError, setDisplayError] = useState(false)
   const [displayRetry, setDisplayRetry] = useState(0)
@@ -98,6 +106,8 @@ function ExamWorkspace({ sessionId }) {
   const [reviewRetry, setReviewRetry] = useState(0)
   const browseSequence = useRef(0)
   const q = state?.current_question
+  const isPracticeSession =
+    state?.assembly_mode === 'PRACTICE' || state?.assessment_id === null
   const { draft, setDraft, flushDraft, saveStatus, saveError, saveConflict, reloadSavedDraft } =
     useAnswerDraft(sessionId, q)
   const sqlParagraphs = useMemo(
@@ -114,6 +124,15 @@ function ExamWorkspace({ sessionId }) {
     setState(next)
     setSecondsLeft(Math.max(0, Math.ceil(remainingMs / 1000)))
   }, [])
+
+  const loadQuestionList = useCallback(async (displayLocale) => {
+    const request = ++questionListRequest.current
+    const { data } = await api.get(`/sessions/${sessionId}/questions`, {
+      params: displayLocale ? { display_locale: displayLocale } : {},
+    })
+    if (request === questionListRequest.current) setServedQuestions(data)
+    return data
+  }, [sessionId])
 
   const finish = useCallback(async () => {
     if (finishedRef.current) return
@@ -158,13 +177,14 @@ function ExamWorkspace({ sessionId }) {
       .get(`/sessions/${sessionId}`)
       .then((r) => {
         acceptState(r.data)
+        if (r.data.status === 'in_progress') loadQuestionList().catch(() => {})
         if (r.data.status !== 'in_progress')
           navigate(`${r.data.assessment_id === null ? '/evaluations' : '/history'}/${sessionId}`, {
             replace: true,
           })
       })
       .catch((e) => setError(apiMessage(e, message('exam.loadError'))))
-  }, [sessionId, navigate, acceptState])
+  }, [sessionId, navigate, acceptState, loadQuestionList])
 
   useEffect(load, [load])
 
@@ -198,10 +218,59 @@ function ExamWorkspace({ sessionId }) {
     }
     try {
       await flushDraft()
-      if (sequence === browseSequence.current) setReviewSeq(seq)
     } catch {
       /* keep the editable answer visible until its draft is safe */
+      return
     }
+    if (sequence !== browseSequence.current) return
+
+    if (isPracticeSession) {
+      const previouslyServed = servedQuestions.find((item) => item.seq_no === seq)
+      if (previouslyServed?.submitted_at) {
+        setReviewSeq(seq)
+        return
+      }
+      try {
+        const { data: question } = await api.post(
+          `/sessions/${sessionId}/questions/${seq}/serve`,
+          null,
+          { params: { display_locale: locale } },
+        )
+        if (question.submitted_at) {
+          await loadQuestionList(locale)
+          if (sequence === browseSequence.current) setReviewSeq(seq)
+          return
+        }
+        if (sequence !== browseSequence.current) return
+        setError(null)
+        setFeedback(null)
+        setRunResult(null)
+        setReviewSeq(null)
+        setState((current) => ({
+          ...current,
+          current_question: { ...question, _displayLocale: locale },
+        }))
+        loadQuestionList(locale).catch(() => {})
+        api
+          .get(`/sessions/${sessionId}`, { params: { display_locale: locale } })
+          .then(({ data }) => {
+            if (sequence === browseSequence.current)
+              acceptState({
+                ...data,
+                current_question: { ...question, _displayLocale: locale },
+              })
+          })
+          .catch((error) => {
+            if (sequence === browseSequence.current)
+              setError(apiMessage(error, message('exam.loadError')))
+          })
+      } catch (error) {
+        if (sequence === browseSequence.current)
+          setError(apiMessage(error, message('exam.loadError')))
+      }
+      return
+    }
+    if (sequence === browseSequence.current) setReviewSeq(seq)
   }
 
   // Display only reviewed content captured when this question was served.
@@ -278,6 +347,19 @@ function ExamWorkspace({ sessionId }) {
       const result = await api.post(`/sessions/${sessionId}/submit`, payload)
       setFeedback(result.data.answer)
       acceptState(result.data.state)
+      setServedQuestions((items) => {
+        const submitted = {
+          ...q,
+          submitted_at: result.data.answer.submitted_at,
+          selected_option_id: payload.selected_option_id ?? null,
+          sql_answer: payload.sql_answer ?? null,
+          essay_answer: payload.essay_answer ?? null,
+        }
+        return [...items.filter((item) => item.seq_no !== q.seq_no), submitted].sort(
+          (a, b) => a.seq_no - b.seq_no,
+        )
+      })
+      loadQuestionList().catch(() => {})
       if (result.data.state.status !== 'in_progress')
         navigate(
           `${result.data.state.assessment_id === null ? '/evaluations' : '/history'}/${sessionId}`,
@@ -289,6 +371,7 @@ function ExamWorkspace({ sessionId }) {
       try {
         const recovered = await api.get(`/sessions/${sessionId}`)
         acceptState(recovered.data)
+        loadQuestionList().catch(() => {})
         if (recovered.data.answered_count > state.answered_count) {
           setError(null)
           setFeedback({ grading_status: 'recovered' })
@@ -376,7 +459,7 @@ function ExamWorkspace({ sessionId }) {
               )}
               <p>
                 {t('exam.progress', {
-                  current: number(state.served_count),
+                  current: number(reviewSeq ?? q?.seq_no ?? state.served_count),
                   max: number(state.max_questions),
                   answered: number(state.answered_count),
                 })}
@@ -463,21 +546,32 @@ function ExamWorkspace({ sessionId }) {
             </div>
             <div className="ex-question-grid" role="list" aria-label={t('exam.questionList')}>
               {cells.map((i) => {
+                const servedQuestion = servedQuestions.find((item) => item.seq_no === i + 1)
                 const isActive =
-                  reviewSeq !== null ? i === reviewSeq - 1 : q && i === state.served_count - 1
-                const isAnswered = i < state.answered_count
+                  reviewSeq !== null ? i === reviewSeq - 1 : q?.seq_no === i + 1
+                const isAnswered = Boolean(servedQuestion?.submitted_at)
                 return (
                   <div key={i} role="listitem">
                     <button
                       type="button"
                       className={`question-cell w-full${isAnswered ? ' answered' : ''}${isActive ? ' active' : ''}`}
-                      disabled={i >= state.served_count || submitting || finishing}
+                      disabled={
+                        (!isPracticeSession && i >= state.served_count) || submitting || finishing
+                      }
                       onClick={() => browseQuestion(i + 1)}
                       aria-label={t('exam.navigateQuestion', { number: i + 1 })}
                       aria-current={isActive ? 'step' : undefined}
                     >
                       <span>{String(i + 1).padStart(2, '0')}</span>
-                      <small>{isActive ? t('exam.doingBadge') : isAnswered ? '✓' : '–'}</small>
+                      <small>
+                        {isActive
+                          ? t('exam.doingBadge')
+                          : isAnswered
+                            ? '✓'
+                            : servedQuestion
+                              ? '○'
+                              : '–'}
+                      </small>
                     </button>
                   </div>
                 )
@@ -646,7 +740,7 @@ function ExamWorkspace({ sessionId }) {
                 <div className="question-top">
                   <h2 id="question-number">
                     {t('exam.questionOf', {
-                      number: number(state.served_count),
+                      number: number(q.seq_no),
                       max: number(state.max_questions),
                     })}
                   </h2>

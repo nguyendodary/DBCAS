@@ -72,12 +72,14 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
     template_fallback = any(p.candidate.origin == "template" for p in picks)
     ai_generated_count = sum(p.candidate.origin == "ai" for p in picks)
     counts, repo = Counter(q.question_type for q in questions), AssessmentRepository(db)
+    question_count = len(questions)
+    duration_min = 20 if question_count < 15 else 45 if question_count <= 30 else 60
     now = repo.server_time()
-    session = repo.create_session(None, learner.account_id, now + timedelta(minutes=30), started_at=now,
+    session = repo.create_session(None, learner.account_id, now + timedelta(minutes=duration_min), started_at=now,
                                  locale=locale, result_release_policy="HUMAN_VERIFIED", start_request_id=request_id)
     session.config_snapshot = {"version": 1, "learner_defined": True, "personalized": True, "assembly_mode": "PRACTICE",
         "assessment_id": None, "title": "Luyện tập tự chọn", "description": "Bài luyện tập theo lựa chọn của bạn.",
-        "duration_min": 30, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],
+        "duration_min": duration_min, "max_questions": len(questions), "target_mcq": counts["mcq"], "target_sql": counts["sql"], "target_essay": counts["essay"],
         "result_release_policy": session.result_release_policy, "selection": selection, "source": payload.source,
         "generation_fallback": fallback, "bank_mixed": bank_mixed, "template_fallback": template_fallback,
         "ai_generated_count": ai_generated_count, "generation_diagnostics": diagnostics,
