@@ -12,6 +12,7 @@ from .config import get_settings
 from .db import get_session_factory
 from .services.ai_stage_service import purge_expired_llm_cache, purge_expired_prompt_content
 from .services.assessment_lifecycle import sweep_expired
+from .services.review_flow import reclaim_and_expire
 from .services.grading_jobs import process_one
 from .services.llm import build_llm_service
 from .services.sandbox_runner import build_sandbox_runner
@@ -28,6 +29,10 @@ def maintenance_tick(*, allow_provider_calls=None):
         purge_expired_prompt_content(db)
         purge_expired_llm_cache(db)
         sweep_expired(db)
+        # Review cases: expired claims return to the queue; old cases expire.
+        # Never approves or rejects on the learner's behalf.
+        reclaim_and_expire(db)
+        db.commit()
         runner = build_sandbox_runner(settings)
         for _ in range(10):
             llm = build_llm_service(settings, db) if include_essay else None

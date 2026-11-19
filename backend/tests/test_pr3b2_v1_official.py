@@ -90,7 +90,9 @@ def test_finalize_creates_v1_official_and_pointer(client, db_session):
     assert body["result_version"] == 1
     assert body["is_current"] is True
     assert body["review_status"] == "OFFICIAL"
-    assert body["can_request_review"] is False
+    # 3B-3: an OFFICIAL v1 inside the 7-day window is immediately eligible.
+    assert body["can_request_review"] is True
+    assert body["review_window_expires_at"] is not None
 
 
 def test_finalize_is_idempotent(client, db_session):

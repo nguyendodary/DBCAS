@@ -58,6 +58,7 @@ from ..schemas import (
     SetPrerequisitesRequest,
     TagSuggestionResult,
     GradeReviewRequest, PublishResultsRequest, CumulativeCompetencyResult,
+    ReviewClaimRequest, ReviewDecisionRequest, ReviewQueueItem, ReviewRequestDetail,
 )
 from ..services import (
     ai_admin_service,
@@ -69,6 +70,7 @@ from ..services import (
     document_generation,
     document_service,
     question_service,
+    review_flow,
 )
 from ..services.llm.service import LLMService
 from ..services.sandbox_runner import SandboxRunner
@@ -111,6 +113,50 @@ def retry_failed_grading(session_id: int, payload: PublishResultsRequest,
                           admin: Account = AdminOnly, db: Session = Depends(get_db)):
     from ..services import grading_review
     return grading_review.retry_failed(db, session_id, payload, admin)
+
+
+@router.get("/review-requests", response_model=list[ReviewQueueItem])
+def review_request_queue(
+    status: Optional[Literal["REQUESTED", "IN_REVIEW", "REGRADED", "REJECTED", "EXPIRED"]] = Query(None),
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    _: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Review queue ordered by request time; filter by workflow status."""
+    return review_flow.list_queue(db, status=status, limit=limit, offset=offset)
+
+
+@router.get("/review-requests/{review_request_id}", response_model=ReviewRequestDetail)
+def review_request_detail(
+    review_request_id: int, _: Account = AdminOnly, db: Session = Depends(get_db)
+):
+    return review_flow.detail(db, review_request_id)
+
+
+@router.post("/review-requests/{review_request_id}/claim", response_model=ReviewRequestDetail)
+def claim_review_request(
+    review_request_id: int,
+    payload: ReviewClaimRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Lease the case to this administrator for 30 minutes (SELECT FOR UPDATE)."""
+    return review_flow.claim(db, review_request_id, payload.expected_revision, admin)
+
+
+@router.post("/review-requests/{review_request_id}/decision", response_model=ReviewRequestDetail)
+def decide_review_request(
+    review_request_id: int,
+    payload: ReviewDecisionRequest,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """REJECT only; APPROVE and v2 regrading are delivered by PR 3B-5."""
+    return review_flow.decide(
+        db, review_request_id, payload.expected_revision,
+        payload.outcome, payload.note, admin,
+    )
 
 
 @router.get("/learners/{account_id}/competency/cumulative", response_model=CumulativeCompetencyResult)

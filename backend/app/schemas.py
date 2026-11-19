@@ -265,6 +265,7 @@ class SessionSummary(BaseModel):
     result_version: Optional[int] = None
     is_current: bool = False
     review_status: Optional[str] = None
+    review_window_expires_at: Optional[datetime] = None
     can_request_review: bool = False
 
 
@@ -1031,6 +1032,7 @@ class SessionStateResult(BaseModel):
     result_version: Optional[int] = None
     is_current: bool = False
     review_status: Optional[str] = None
+    review_window_expires_at: Optional[datetime] = None
     can_request_review: bool = False
 
 
@@ -1182,6 +1184,7 @@ class PaperSubmitResult(BaseModel):
     result_version: Optional[int] = None
     is_current: bool = False
     review_status: Optional[str] = None
+    review_window_expires_at: Optional[datetime] = None
     can_request_review: bool = False
 
 
@@ -1388,3 +1391,55 @@ class DocumentSummary(BaseModel):
 class DocumentDetail(DocumentSummary):
     chunks: list[DocumentChunkResult] = []
     clos: list[DocumentCloResult] = []
+
+# ---------- PR 3B-3: review requests and administrator queue ----------
+
+
+class ReviewRequestCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    reason: str = Field(min_length=10, max_length=2000)
+
+
+class ReviewRequestView(BaseModel):
+    review_request_id: int
+    session_id: int
+    learner_id: int
+    origin: str
+    status: str
+    reason: str
+    base_result_version_id: int
+    requested_at: datetime
+    window_expires_at: Optional[datetime] = None
+    claimed_by: Optional[int] = None
+    claimed_at: Optional[datetime] = None
+    claim_expires_at: Optional[datetime] = None
+    resolved_by: Optional[int] = None
+    resolved_at: Optional[datetime] = None
+    resolution_note: Optional[str] = None
+    regraded_result_version_id: Optional[int] = None
+    revision: int
+
+
+class ReviewQueueItem(ReviewRequestView):
+    learner_name: str
+    learner_email: str
+    session_status: str
+
+
+class ReviewRequestDetail(ReviewQueueItem):
+    base_result_version: Optional[int] = None
+    base_publication: Optional[str] = None
+    published_at: Optional[datetime] = None
+    assessment_title: Optional[str] = None
+
+
+class ReviewClaimRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    expected_revision: int = Field(ge=0)
+
+
+class ReviewDecisionRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    expected_revision: int = Field(ge=0)
+    outcome: Literal["REJECT"]
+    note: str = Field(min_length=10, max_length=2000)
