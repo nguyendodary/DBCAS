@@ -235,6 +235,7 @@ def test_release_repair_busy_database_rolls_back_and_can_be_retried(tmp_path):
                 "025_session_purpose.sql",
                 "026_pr3a_database_foundation.sql",
                 "027_review_flow.sql",
+                "028_review_deviation_confirmation.sql",
             ]
             assert apply_migrations(conn) == []
         finally:
