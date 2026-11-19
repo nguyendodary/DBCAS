@@ -107,6 +107,21 @@ def test_local_provider_evaluation_obeys_the_prompt_schema(provider_server):
     assert result["question_comments"][0]["essay_score_proposal"] is None
 
 
+def test_local_provider_returns_valid_two_ai_reanalysis_with_reviewed_scores(provider_server):
+    from app.services.ai_stage_service import build_server_prompt, validate_stage_output
+
+    prompt, _, _ = build_server_prompt(
+        {"result_version": {"version_no": 2, "total_score": "1.75", "max_score": "3.00"}},
+        "Verify the scoring correction.",
+    )
+    response = post(provider_server, "/v1/chat/completions", {
+        "response_format": {"json_schema": {"name": "two_ai_analysis"}},
+        "messages": [{"role": "user", "content": prompt}],
+    })
+    analysis = validate_stage_output(json.loads(response["choices"][0]["message"]["content"]))
+    assert (analysis["score"], analysis["max_score"], analysis["trend"]) == (1.75, 3.0, None)
+
+
 def test_local_provider_generation_preserves_the_requested_scope(provider_server, sandbox_runner):
     from types import SimpleNamespace
     from uuid import uuid4
