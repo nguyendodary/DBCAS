@@ -4,7 +4,7 @@
     python scripts/introspect_schema.py --load "postgresql://..." --write
     python scripts/introspect_schema.py "postgresql://..."          # print summary
 
-Writes docs/qa/schema-introspection.json (full data dictionary) and
+Writes docs/diagrams/schema-<migration>/schema-introspection.json and
 docs/diagrams/diagram-inventory.json (counts + names used by diagrams:check).
 The target database MUST be disposable; --load applies db/schema.sql first.
 """
@@ -16,7 +16,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "docs" / "diagrams" / "diagram-inventory.json"
-FULL = ROOT / "docs" / "qa" / "schema-introspection.json"
+MIGRATIONS = sorted((ROOT / "db" / "migrations").glob("[0-9][0-9][0-9]_*.sql"))
+SCHEMA_VERSION = MIGRATIONS[-1].name.split("_", 1)[0]
+FULL = ROOT / "docs" / "diagrams" / f"schema-{SCHEMA_VERSION}" / "schema-introspection.json"
 
 TABLES = """
 select c.relname
@@ -125,7 +127,7 @@ def main():
 
     schema_sha = hashlib.sha256((ROOT / "db" / "schema.sql").read_text(encoding="utf-8").encode()).hexdigest()
     migrations = {m.name: hashlib.sha256(m.read_text(encoding="utf-8").encode()).hexdigest()
-                  for m in sorted((ROOT / "db" / "migrations").glob("*.sql"))}
+                  for m in MIGRATIONS}
     full = {
         "source": "PostgreSQL introspection of db/schema.sql",
         "postgres_version": version,
@@ -150,6 +152,7 @@ def main():
           f"{len(fks)} FKs, {len(indexes)} indexes, {len(enums)} enums, "
           f"{len(migrations)} migrations from PostgreSQL {version}")
     if args.write:
+        FULL.parent.mkdir(parents=True, exist_ok=True)
         FULL.write_text(json.dumps(full, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
         INVENTORY.write_text(json.dumps(inventory, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
         print("wrote", FULL.relative_to(ROOT), "and", INVENTORY.relative_to(ROOT))

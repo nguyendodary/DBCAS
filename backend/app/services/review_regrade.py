@@ -22,6 +22,7 @@ from ..models import (
     Attempt,
     QuestionReport,
     ReviewDeviation,
+    ReviewDeviationConfirmation,
     ReviewRequest,
     SessionResultAnalysis,
     SessionResultCriterionScore,
@@ -123,7 +124,8 @@ def _deviation_valid(db, row, reviewed_score):
     if row is None or _dec(row.reviewed_score) != _dec(reviewed_score):
         return False
     if row.confirmation == "SECOND_ADMIN":
-        return row.second_reviewer_id is not None and row.second_reviewer_id != row.first_reviewer_id
+        confirmation = db.get(ReviewDeviationConfirmation, row.deviation_id)
+        return confirmation is not None and confirmation.confirmed_by == row.second_reviewer_id
     if row.confirmation == "SINGLE_ADMIN_LONG_REASON":
         return (len((row.reason or "").strip()) >= LONG_REASON_MIN_CHARS
                 and _other_admins(db, row.first_reviewer_id) == 0)
@@ -270,8 +272,26 @@ def confirm_deviation(db, review_request_id, deviation_id, admin):
     if row.second_reviewer_id != admin.account_id:
         raise AppError(403, "deviation_confirm_forbidden",
                        "Only the nominated second administrator can confirm this deviation")
-    return {"deviation_id": row.deviation_id, "confirmed_by": admin.account_id,
-            "confirmed_at": _server_now(db)}
+    confirmation = db.get(ReviewDeviationConfirmation, row.deviation_id)
+    if confirmation is None:
+        if case.status != "IN_REVIEW":
+            raise AppError(409, "review_not_decidable", "The case must be in review")
+        if case.regraded_result_version_id is not None:
+            publication = db.get(SessionResultPublication, case.regraded_result_version_id)
+            if publication is None or publication.state != "ANALYSIS_FAILED":
+                raise AppError(409, "review_already_regraded", "The V2 result already exists")
+        confirmation = ReviewDeviationConfirmation(
+            deviation_id=row.deviation_id, confirmed_by=admin.account_id,
+        )
+        db.add(confirmation)
+        db.flush()
+    payload = {
+        "deviation_id": row.deviation_id,
+        "confirmed_by": confirmation.confirmed_by,
+        "confirmed_at": confirmation.confirmed_at,
+    }
+    db.commit()
+    return payload
 
 
 def _question_report_view(row):
@@ -544,6 +564,25 @@ def approve(db, review_request_id, payload, admin, llm):
     return detail(db, review_request_id)
 
 
+def _require_retry_confirmations(db, case, version_id):
+    """Require proof for changes in a V2 staged before confirmation was persisted."""
+    pending = db.scalars(select(ReviewDeviation).where(
+        ReviewDeviation.review_request_id == case.review_request_id,
+        ReviewDeviation.confirmation == "SECOND_ADMIN",
+    ))
+    scores = {row.attempt_id: row.score for row in _scores(db, version_id)}
+    criteria = {(row.attempt_id, row.criterion_snapshot_id): row.score
+                for row in _criteria(db, version_id)}
+    for deviation in pending:
+        if deviation.criterion_snapshot_id is None:
+            score = scores.get(deviation.attempt_id)
+        else:
+            score = criteria.get((deviation.attempt_id, deviation.criterion_snapshot_id))
+        if score == deviation.reviewed_score and not _deviation_valid(db, deviation, score):
+            raise AppError(422, "deviation_confirmation_required",
+                           "A confirmed >30% deviation is required to retry this result")
+
+
 def retry_analysis(db, review_request_id, admin, llm):
     case = _lock_case(db, review_request_id)
     if case is None:
@@ -556,6 +595,7 @@ def retry_analysis(db, review_request_id, admin, llm):
     publication = db.get(SessionResultPublication, version.result_version_id)
     if publication is None or publication.state != "ANALYSIS_FAILED":
         raise AppError(409, "analysis_not_failed", "Only a failed analysis can be retried")
+    _require_retry_confirmations(db, case, version.result_version_id)
     publication.state = "APPROVED_PENDING_ANALYSIS"
     db.commit()
     session = db.get(AssessmentSession, case.session_id)

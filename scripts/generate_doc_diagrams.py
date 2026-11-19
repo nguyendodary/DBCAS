@@ -1,29 +1,29 @@
 # -*- coding: utf-8 -*-
-"""Generate the three Word-document diagrams from the real project facts.
+"""Generate the versioned schema diagrams from the real project facts.
 
     python scripts/generate_doc_diagrams.py
 
 Inputs (all generated from the repository, never hand-drawn):
-  docs/qa/schema-introspection.json      real PostgreSQL introspection
+  docs/diagrams/schema-<migration>/schema-introspection.json      real PostgreSQL introspection
   docs/qa/project-facts.json             Compose / OpenAPI / frontend routes
   docs/diagrams/generated/system-context-model.json   nodes/flows with evidence
   docs/diagrams/physical-schema.svg      graphviz rendering of the real schema
 
 Outputs (SVG, later rasterised to high-res PNG by render_svg_png.mjs):
-  docs/diagrams/generated/system-context.svg
-  docs/diagrams/generated/erd.svg
-  docs/diagrams/generated/table-relationships.svg
-  docs/diagrams/generated/manifest.json
+  docs/diagrams/schema-<migration>/system-context.svg
+  docs/diagrams/schema-<migration>/erd.svg
+  docs/diagrams/schema-<migration>/table-relationships.svg
+  docs/diagrams/schema-<migration>/manifest.json
 """
 import html
 import json
-import shutil
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-GEN = ROOT / "docs" / "diagrams" / "generated"
-INTRO = json.load(open(ROOT / "docs/qa/schema-introspection.json", encoding="utf-8"))
-CTX = json.load(open(GEN / "system-context-model.json", encoding="utf-8"))
+from introspect_schema import FULL, ROOT
+
+GEN = FULL.parent
+CONTEXT_MODEL = ROOT / "docs/diagrams/generated/system-context-model.json"
+INTRO = json.load(open(FULL, encoding="utf-8"))
+CTX = json.load(open(CONTEXT_MODEL, encoding="utf-8"))
 FACTS = json.load(open(ROOT / "docs/qa/project-facts.json", encoding="utf-8"))
 
 LEGACY = {"assessment", "assessment_concept", "assessment_question", "assessment_blueprint"}
@@ -363,7 +363,8 @@ def main():
     n_tables, w, h, erd_pages = build_erd()
     trd_pages = build_table_relationships()
     manifest = {
-        "source": "docs/qa/schema-introspection.json + docs/qa/project-facts.json + system-context-model.json",
+        "source": " + ".join(p.relative_to(ROOT).as_posix()
+                             for p in (FULL, ROOT / "docs/qa/project-facts.json", CONTEXT_MODEL)),
         "tables": n_tables,
         "columns": sum(len(t["columns"]) for t in INTRO["tables"]),
         "foreign_keys": len(INTRO["foreign_keys"]),

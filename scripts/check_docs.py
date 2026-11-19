@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Fail-fast consistency gate between the Word-document sources and the repo.
+"""Fail-fast consistency gate between the versioned schema and diagram sources and the repo.
 
     python scripts/check_docs.py
 
 Compares the generated diagram manifest and SVGs against:
-  * docs/qa/schema-introspection.json  (real PostgreSQL introspection)
+  * docs/diagrams/schema-<migration>/schema-introspection.json  (real PostgreSQL introspection)
   * docs/qa/project-facts.json        (Compose / OpenAPI / frontend routes)
   * the actual Compose, OpenAPI, frontend and schema files on disk
   * docs/diagrams/generated/system-context-model.json (nodes/flows + evidence)
@@ -18,8 +18,9 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-GEN = ROOT / "docs" / "diagrams" / "generated"
+from introspect_schema import FULL, MIGRATIONS, ROOT
+
+GEN = FULL.parent
 DIAG = ROOT / "docs" / "diagrams"
 SVG_NS = {"s": "http://www.w3.org/2000/svg"}
 problems = []
@@ -41,19 +42,20 @@ def check(label, condition, detail=""):
 
 
 def main():
-    intro = load(ROOT / "docs/qa/schema-introspection.json")
+    intro = load(FULL)
     facts = load(ROOT / "docs/qa/project-facts.json")
     manifest = load(GEN / "manifest.json")
-    model = load(GEN / "system-context-model.json")
+    model = load(DIAG / "generated" / "system-context-model.json")
     catalog = load(DIAG / "schema-catalog.json")
     fk_ledger = load(DIAG / "physical-schema-relationships.json")
 
     # 1. schema fingerprints: any schema/migration edit breaks the docs.
-    check("schema.sql fingerprint", catalog["schema_sha256"] == digest(ROOT / "db/schema.sql"),
+    check("schema.sql fingerprint", catalog["schema_sha256"] == intro["schema_sha256"] == digest(ROOT / "db/schema.sql"),
           "catalog stale; rerun introspect_schema.py / generate_schema_catalog.py")
-    migs = sorted((ROOT / "db/migrations").glob("*.sql"))
+    migs = MIGRATIONS
     keys = {f"migration_{m.name[:3]}_sha256": digest(m) for m in migs}
-    check("migration fingerprints", all(catalog.get(k) == v for k, v in keys.items()),
+    check("migration fingerprints", all(catalog.get(k) == v for k, v in keys.items())
+          and intro["migrations"] == {m.name: keys[f"migration_{m.name[:3]}_sha256"] for m in migs},
           "a migration changed without regenerating the catalog")
 
     # 2. introspection counts and names vs manifest
@@ -170,7 +172,7 @@ def main():
         for p in problems:
             print("FAIL:", p)
         sys.exit(1)
-    print("PASS: Word-document sources match db/schema.sql, migrations, Compose, OpenAPI and frontend routes")
+    print("PASS: versioned schema and diagram sources match db/schema.sql, migrations, Compose, OpenAPI and frontend routes")
 
 
 if __name__ == "__main__":

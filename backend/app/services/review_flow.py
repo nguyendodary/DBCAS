@@ -285,8 +285,8 @@ def get_review(db, session_id, account):
     session = db.get(AssessmentSession, session_id)
     if session is None:
         raise AppError(404, "session_not_found", "Assessment session not found")
-    is_admin = _is_admin(account)
-    if session.learner_id != account.account_id and not is_admin:
+    is_owner = session.learner_id == account.account_id
+    if not is_owner and not _is_admin(account):
         raise AppError(403, "review_forbidden", "Only the owner or an administrator can read this review")
     row = db.execute(select(ReviewRequest, _publication_state(ReviewRequest)).where(
         ReviewRequest.session_id == session_id
@@ -294,9 +294,9 @@ def get_review(db, session_id, account):
     if row is None:
         raise AppError(404, "review_not_found", "No review request exists for this session")
     case, publication_state = row
-    if is_admin:
-        return ReviewRequestView.model_validate(_view(case))
-    return _user_view(case, publication_state)
+    if is_owner:
+        return _user_view(case, publication_state)
+    return ReviewRequestView.model_validate(_view(case))
 
 
 def list_queue(db, *, status=None, limit=100, offset=0):

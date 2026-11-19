@@ -35,14 +35,14 @@ class Probe:
         self.peak = defaultdict(int)
         self.backpressure = defaultdict(int)
 
-    async def hit(self, client, phase, method, url, **kwargs):
+    async def hit(self, client, phase, method, url, *, expected=200, **kwargs):
         began = time.perf_counter()
         self.active[phase] += 1
         self.peak[phase] = max(self.peak[phase], self.active[phase])
         error = None
         try:
             response = await client.request(method, url, **kwargs)
-            if not 200 <= response.status_code < 300:
+            if response.status_code != expected:
                 error = f"HTTP {response.status_code}"
             return response
         except Exception as exc:
@@ -66,7 +66,7 @@ class Learner:
     async def request(self, phase, method, path, body=None, *, authenticated=True, expected=200):
         token = self.token
         headers = {"Authorization": f"Bearer {token}"} if authenticated else {}
-        response = await self.probe.hit(self.client, phase, method, path, json=body, headers=headers)
+        response = await self.probe.hit(self.client, phase, method, path, expected=expected, json=body, headers=headers)
         if response.status_code == 401 and authenticated:
             async with self.refresh_lock:
                 if self.token == token:
@@ -74,7 +74,7 @@ class Learner:
                     assert refreshed.status_code == 200, "Refresh did not preserve the learner session"
                     self.token = refreshed.json()["access_token"]
                     self.refresh_token = refreshed.json()["refresh_token"]
-            response = await self.probe.hit(self.client, phase, method, path, json=body,
+            response = await self.probe.hit(self.client, phase, method, path, expected=expected, json=body,
                 headers={"Authorization": f"Bearer {self.token}"})
             headers = {"Authorization": f"Bearer {self.token}"}
         for retry in range(3):
@@ -85,7 +85,7 @@ class Learner:
             if retry == 2:
                 break
             await asyncio.sleep(.25 * (retry + 1))
-            response = await self.probe.hit(self.client, phase, method, path, json=body, headers=headers)
+            response = await self.probe.hit(self.client, phase, method, path, expected=expected, json=body, headers=headers)
         assert response.status_code == expected, f"{phase}: HTTP {response.status_code} ({code if response.status_code == 503 else 'unexpected'})"
         return response.json() if response.content else None
 
@@ -197,6 +197,10 @@ async def run(args):
                                     # budget: none may report a completed query or an
                                     # unexpected product error. This proves the retry
                                     # cannot mask a real violation.
+                                    report.setdefault("sql_limit_measurements", {})[phase] = [
+                                        {"success": m["success"], "error_type": m.get("error_type"),
+                                         "execution_time_ms": m.get("execution_time_ms")} for m in measurements
+                                    ]
                                     allowed = TRANSIENT_SANDBOX_ERRORS | {expected_error}
                                     assert all(m["success"] is False and m.get("error_type") in allowed for m in measurements), (
                                         f"{phase} produced a measurement outside the enforced budget")
@@ -252,9 +256,11 @@ async def run(args):
                 return sid
             sessions = await settled(*(finish(learner) for learner in learners))
             for index, learner in enumerate(learners):
-                response = await learner.client.get(f"sessions/{sessions[(index + 1) % len(sessions)]}/evidence",
-                    headers={"Authorization": f"Bearer {learner.token}"})
-                assert response.status_code == 404, "Cross-learner evidence was exposed"
+                other_session = sessions[(index + 1) % len(sessions)]
+                # A long load run can span an access token lifetime. Apply the
+                # same authenticated refresh used by the rest of the scenario.
+                await learner.request("cross_learner_evidence", "GET",
+                                      f"sessions/{other_session}/evidence", expected=404)
             provider_after = (await provider.get("/health")).json()
             report.update(provider_requests=provider_after["calls"] - provider_before["calls"],
                           provider_peak_concurrency=provider_after["peak_active"], exact_count_cases=args.learners,
