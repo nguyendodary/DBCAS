@@ -11,6 +11,7 @@ class LLMError(Exception):
 
     NOT_CONFIGURED = "llm_not_configured"
     AUTH_FAILED = "llm_auth_failed"
+    INSUFFICIENT_CREDITS = "llm_insufficient_credits"
     RATE_LIMITED = "llm_rate_limited"
     PROVIDER_ERROR = "llm_provider_error"
     TIMEOUT = "llm_timeout"

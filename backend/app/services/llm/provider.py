@@ -13,7 +13,7 @@ immediately.
 """
 
 import logging
-from copy import deepcopy
+from copy import copy, deepcopy
 import time
 from dataclasses import dataclass
 from typing import Any, Optional, Protocol
@@ -69,6 +69,14 @@ class StructuredRequest:
     max_tokens: Optional[int] = None
 
 
+@dataclass(frozen=True)
+class OpenRouterOptions:
+    data_collection: str
+    zdr: bool
+    http_referer: str
+    app_title: str
+
+
 class LLMProvider(Protocol):
     """What grading services depend on — swap implementations freely."""
 
@@ -94,6 +102,7 @@ class ChatCompletionsProvider:
         backoff_seconds: float = 0.5,
         transport: Optional[httpx.BaseTransport] = None,
         sleeper=time.sleep,
+        openrouter: Optional[OpenRouterOptions] = None,
     ):
         self._base_url = base_url.rstrip("/")
         self._api_key = api_key
@@ -102,11 +111,13 @@ class ChatCompletionsProvider:
         self._backoff = backoff_seconds
         self._transport = transport
         self._sleep = sleeper
+        self._openrouter = openrouter
 
     def with_budget(self, *, timeout_seconds, max_retries):
-        return ChatCompletionsProvider(self._base_url, self._api_key,
-            timeout_seconds=min(self._timeout, timeout_seconds), max_retries=min(self._max_retries, max_retries),
-            backoff_seconds=self._backoff, transport=self._transport, sleeper=self._sleep)
+        provider = copy(self)
+        provider._timeout = min(self._timeout, timeout_seconds)
+        provider._max_retries = max(0, min(self._max_retries, max_retries))
+        return provider
 
     # ---------- public API ----------
 
@@ -146,12 +157,16 @@ class ChatCompletionsProvider:
         # free model rejects reasoning-disabled requests with HTTP 400, and a
         # protocol retry would silently consume another metered call. Other
         # compatible endpoints must never receive vendor-only parameters.
-        if urlsplit(self._base_url).hostname == "openrouter.ai":
+        if self._openrouter is not None or urlsplit(self._base_url).hostname == "openrouter.ai":
             # A default seed is optional and excludes otherwise compatible
             # endpoints when require_parameters enforces structured output.
             body.pop("seed", None)
             body["reasoning"] = {"effort": "minimal"}
             body["provider"] = {"require_parameters": True}
+        if self._openrouter is not None:
+            body["provider"].update(
+                data_collection=self._openrouter.data_collection, zdr=self._openrouter.zdr,
+            )
 
         response = self._post_with_retries(body)
         return self._extract_content(response)
@@ -168,6 +183,11 @@ class ChatCompletionsProvider:
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
         }
+        if self._openrouter is not None:
+            if self._openrouter.http_referer:
+                headers["HTTP-Referer"] = self._openrouter.http_referer
+            if self._openrouter.app_title:
+                headers["X-Title"] = self._openrouter.app_title
         attempt = 0
         while True:
             attempt += 1
@@ -183,7 +203,7 @@ class ChatCompletionsProvider:
                 raise LLMError(
                     LLMError.TIMEOUT,
                     "The AI grading service timed out",
-                )
+                ) from None
             except httpx.HTTPError:
                 if attempt <= self._max_retries:
                     self._sleep(self._backoff * attempt)
@@ -191,7 +211,7 @@ class ChatCompletionsProvider:
                 raise LLMError(
                     LLMError.UNAVAILABLE,
                     "The AI grading service is unavailable",
-                )
+                ) from None
 
             if resp.status_code < 400:
                 try:
@@ -200,7 +220,7 @@ class ChatCompletionsProvider:
                     raise LLMError(
                         LLMError.INVALID_RESPONSE,
                         "The AI grading service returned an unreadable response",
-                    )
+                    ) from None
                 if not isinstance(payload, dict):
                     raise LLMError(LLMError.INVALID_RESPONSE, "The AI grading service returned a malformed response")
                 # Some compatible gateways report an upstream failure in an
@@ -208,10 +228,14 @@ class ChatCompletionsProvider:
                 if payload.get("error"):
                     error = payload["error"]
                     code = error.get("code") if isinstance(error, dict) else None
+                    if self._openrouter is not None:
+                        self._raise_openrouter_request_error(code)
                     kind = LLMError.RATE_LIMITED if code == 429 else LLMError.PROVIDER_ERROR
                     raise LLMError(kind, "The AI provider did not complete the request")
                 return payload
 
+            if self._openrouter is not None:
+                self._raise_openrouter_request_error(resp.status_code)
             if resp.status_code in (401, 403):
                 raise LLMError(
                     LLMError.AUTH_FAILED,
@@ -234,6 +258,15 @@ class ChatCompletionsProvider:
                 LLMError.PROVIDER_ERROR,
                 f"The AI grading service rejected the request (HTTP {resp.status_code})",
             )
+
+    @staticmethod
+    def _raise_openrouter_request_error(code):
+        if code == 402:
+            raise LLMError(LLMError.INSUFFICIENT_CREDITS, "The AI grading service has insufficient credits")
+        if code == 408:
+            raise LLMError(LLMError.TIMEOUT, "The AI grading service timed out")
+        if code == 401:
+            raise LLMError(LLMError.AUTH_FAILED, "The AI grading service rejected the configured credentials")
 
     @staticmethod
     def _extract_content(payload: dict) -> str:
