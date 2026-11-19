@@ -1,0 +1,37 @@
+name: QA provider OOM repro
+# Focused, on-demand reproduction for the qa-ai OOM. Starts only the provider
+# container and drives the same request shapes the browser QA suite uses.
+on:
+  workflow_dispatch:
+    inputs:
+      mem_limit:
+        description: Memory limit for the provider container
+        required: false
+        default: 128m
+      minutes:
+        description: How long to drive load
+        required: false
+        default: '5'
+permissions:
+  contents: read
+jobs:
+  repro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OOM_REPRO_LIMIT: ${{ inputs.mem_limit }}
+      OOM_REPRO_MINUTES: ${{ inputs.minutes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run provider OOM repro
+        run: node scripts/qa-oom-repro.mjs
+      - name: Upload repro log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-oom-repro
+          path: _review/qa-oom-repro.log
+          if-no-files-found: error

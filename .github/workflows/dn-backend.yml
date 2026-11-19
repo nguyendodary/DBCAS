@@ -147,6 +147,7 @@ jobs:
       - name: Verify every e2e spec is assigned to exactly one shard
         run: bash scripts/e2e-shards.sh check
       - run: node --test scripts/browser_config.test.mjs
+      - run: node --test scripts/provider_control.test.mjs
       - run: npm --prefix frontend run lint
       - run: npm --prefix frontend run format:check
       - run: npm --prefix frontend test -- --maxWorkers=2
@@ -329,6 +330,20 @@ jobs:
         env:
           DBCAS_QA_LOAD: ${{ matrix.qa_load }}
         run: node scripts/browser-qa.mjs 1
+      - name: Upload QA docker events
+        if: always() && matrix.kind == 'qa'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-docker-events-${{ matrix.name }}
+          path: _review/qa-docker-events.log
+          if-no-files-found: warn
+      - name: Upload QA provider memory samples
+        if: always() && matrix.kind == 'qa'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-memory-${{ matrix.name }}
+          path: _review/qa-memory.log
+          if-no-files-found: warn
       - name: Cleanup compose project
         if: always() && (matrix.kind == 'e2e' || matrix.kind == 'smoke' || matrix.kind == 'qa')
         run: docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml -f docker-compose.qa.yml down --volumes --remove-orphans || true
