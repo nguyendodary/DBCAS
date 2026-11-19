@@ -2,6 +2,10 @@ name: QA provider OOM repro
 # Focused, on-demand reproduction for the qa-ai OOM. Starts only the provider
 # container and drives the same request shapes the browser QA suite uses.
 on:
+  push:
+    paths:
+      - '.github/workflows/qa-oom-repro.yml'
+      - 'scripts/qa-oom-repro.mjs'
   workflow_dispatch:
     inputs:
       mem_limit:
