@@ -203,3 +203,16 @@ class GradingDetail(GradingSummary):
     score_edits: list[ScoreEdit]
     manual_review_required: bool
     events: list[ReleaseEvent]
+
+
+class AdminPromptView(BaseModel):
+    """Administrator-only metadata plus the retained prompt text (PR 3B-4)."""
+
+    prompt_record_id: int
+    stage: str
+    prompt_hash: str
+    prompt_text: str | None
+    model_identifier: str | None
+    created_at: datetime
+    expires_at: datetime
+    purged_at: datetime | None = None

@@ -10,6 +10,7 @@ import threading
 
 from .config import get_settings
 from .db import get_session_factory
+from .services.ai_stage_service import purge_expired_llm_cache, purge_expired_prompt_content
 from .services.assessment_lifecycle import sweep_expired
 from .services.grading_jobs import process_one
 from .services.llm import build_llm_service
@@ -22,6 +23,10 @@ def maintenance_tick(*, allow_provider_calls=None):
         allow_provider_calls = settings.auto_grade_essays
     include_essay = bool(allow_provider_calls and settings.llm_api_key and settings.llm_base_url and settings.llm_model)
     with get_session_factory()() as db:
+        # 60-day retention: prompt text and cached responses are purged with
+        # their own audits. No prompt text or key is ever logged here.
+        purge_expired_prompt_content(db)
+        purge_expired_llm_cache(db)
         sweep_expired(db)
         runner = build_sandbox_runner(settings)
         for _ in range(10):

@@ -89,6 +89,7 @@
     "/api/v1/admin/learners",
     "/api/v1/admin/learners/{account_id}/competency/cumulative",
     "/api/v1/admin/learners/{account_id}/sessions",
+    "/api/v1/admin/prompts/{prompt_record_id}",
     "/api/v1/admin/question-candidates",
     "/api/v1/admin/question-candidates/generate",
     "/api/v1/admin/question-candidates/{candidate_id}",
@@ -154,8 +155,8 @@
     "/health",
     "/readiness"
   ],
-  "openapi_path_count": 95,
-  "openapi_operation_count": 106,
+  "openapi_path_count": 96,
+  "openapi_operation_count": 107,
   "frontend_routes": [
     "*",
     "/",
