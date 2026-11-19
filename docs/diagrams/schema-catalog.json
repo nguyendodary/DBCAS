@@ -3892,6 +3892,43 @@
       ]
     },
     {
+      "table": "review_deviation_confirmation",
+      "columns": [
+        {
+          "name": "deviation_id",
+          "type": "bigint",
+          "nullable": false
+        },
+        {
+          "name": "confirmed_by",
+          "type": "integer",
+          "nullable": false
+        },
+        {
+          "name": "confirmed_at",
+          "type": "timestamp with time zone",
+          "nullable": false
+        }
+      ],
+      "constraints": [
+        {
+          "name": "review_deviation_confirmation_confirmed_by_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (confirmed_by) REFERENCES account(account_id)"
+        },
+        {
+          "name": "review_deviation_confirmation_deviation_id_fkey",
+          "type": "f",
+          "definition": "FOREIGN KEY (deviation_id) REFERENCES review_deviation(deviation_id)"
+        },
+        {
+          "name": "review_deviation_confirmation_pkey",
+          "type": "p",
+          "definition": "PRIMARY KEY (deviation_id)"
+        }
+      ]
+    },
+    {
       "table": "review_request",
       "columns": [
         {
@@ -5114,7 +5151,7 @@
       ]
     }
   ],
-  "schema_sha256": "639e78d421dea557f512c32314ccaa7a0ede03e24f16929d0af838fc5bd4e40f",
+  "schema_sha256": "f4ef8c2dd93b030cf04b169233e8b454dec8ea147f00e87a21771f3cf79b0c0a",
   "migration_001_sha256": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
   "migration_002_sha256": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
   "migration_003_sha256": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
@@ -5141,5 +5178,6 @@
   "migration_024_sha256": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
   "migration_025_sha256": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7",
   "migration_026_sha256": "435f44dcfa840bda9124f3af6b54ce6561f375c5b6fd2a6081c2700ecca376dc",
-  "migration_027_sha256": "fb1db8067711afa1598cdd30d391eea7c91bc8bdfceff9c2631f468c5f437da0"
+  "migration_027_sha256": "fb1db8067711afa1598cdd30d391eea7c91bc8bdfceff9c2631f468c5f437da0",
+  "migration_028_sha256": "f59d2c17127d2d84d8000a483e3c99e35ed5e21c70571573a189215f008b8701"
 }

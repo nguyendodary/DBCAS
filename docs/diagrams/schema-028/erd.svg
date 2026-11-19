@@ -1,0 +1,824 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="11986" viewBox="0 0 950 11986" role="img" aria-label="Entity Relationship Diagram — DBCAS (real schema)">
+<title>Entity Relationship Diagram — DBCAS (real schema)</title><desc>67 tables, 561 columns, 122 foreign keys, 159 indexes; legacy tables: assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
+<rect width="950" height="11986" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (real schema)</text>
+<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
+<g id="table_account"><rect x="30" y="92" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#dceaf7"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">account</text>
+<text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer PK NOT NULL</text>
+<text x="38" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">email: character varying(255) NOT NULL</text>
+<text x="38" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">password_hash: character varying(255) NOT NULL</text>
+<text x="38" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">password_set: boolean NOT NULL</text>
+<text x="38" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">password_changed_at: timestamp with time zone NULL</text>
+<text x="38" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">can_manage_roles: boolean NOT NULL</text>
+<text x="38" y="280" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_account_identity"><rect x="490" y="92" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="92" width="430" height="28" fill="#dceaf7"/><text x="498" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">account_identity</text>
+<text x="498" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">identity_id: integer PK NOT NULL</text>
+<text x="498" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="498" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">provider: character varying(20) NOT NULL</text>
+<text x="498" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">provider_user_id: character varying(255) NOT NULL</text>
+<text x="498" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">provider_email: character varying(255) NULL</text>
+<text x="498" y="240" font-family="Consolas,monospace" font-size="15" fill="#26384a">email_verified: boolean NOT NULL</text>
+<text x="498" y="260" font-family="Consolas,monospace" font-size="15" fill="#26384a">linked_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_account_role"><rect x="30" y="326" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="326" width="430" height="28" fill="#dceaf7"/><text x="38" y="345" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">account_role</text>
+<text x="38" y="374" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer PK,FK NOT NULL</text>
+<text x="38" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">role_id: integer PK,FK NOT NULL</text>
+<text x="38" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">assigned_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_account_role_audit"><rect x="490" y="326" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="326" width="430" height="28" fill="#dceaf7"/><text x="498" y="345" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">account_role_audit</text>
+<text x="498" y="374" font-family="Consolas,monospace" font-size="15" fill="#26384a">audit_id: bigint PK NOT NULL</text>
+<text x="498" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">action_type: character varying(40) NOT NULL</text>
+<text x="498" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">actor_account_id: integer FK NULL</text>
+<text x="498" y="434" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_account_id: integer FK NOT NULL</text>
+<text x="498" y="454" font-family="Consolas,monospace" font-size="15" fill="#26384a">previous_role: character varying(50) NULL</text>
+<text x="498" y="474" font-family="Consolas,monospace" font-size="15" fill="#26384a">new_role: character varying(50) NULL</text>
+<text x="498" y="494" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_adaptive_event"><rect x="30" y="540" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="540" width="430" height="28" fill="#dceaf7"/><text x="38" y="559" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">adaptive_event</text>
+<text x="38" y="588" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer PK,FK NOT NULL</text>
+<text x="38" y="608" font-family="Consolas,monospace" font-size="15" fill="#26384a">round_no: smallint PK NOT NULL</text>
+<text x="38" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">event_type: character varying(16) PK NOT NULL</text>
+<text x="38" y="648" font-family="Consolas,monospace" font-size="15" fill="#26384a">payload: jsonb NOT NULL</text>
+<text x="38" y="668" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_ai_prompt_content"><rect x="490" y="540" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="540" width="430" height="28" fill="#dceaf7"/><text x="498" y="559" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">ai_prompt_content</text>
+<text x="498" y="588" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt_record_id: bigint PK,FK NOT NULL</text>
+<text x="498" y="608" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt_text: text NULL</text>
+<text x="498" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">model_identifier: character varying(80) NULL</text>
+</g>
+<g id="table_ai_prompt_record"><rect x="30" y="714" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="714" width="430" height="28" fill="#dceaf7"/><text x="38" y="733" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">ai_prompt_record</text>
+<text x="38" y="762" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt_record_id: bigint PK NOT NULL</text>
+<text x="38" y="782" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="802" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage_run_id: bigint FK NOT NULL</text>
+<text x="38" y="822" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage: character varying(3) NOT NULL</text>
+<text x="38" y="842" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt_hash: character(64) NOT NULL</text>
+<text x="38" y="862" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="882" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="902" font-family="Consolas,monospace" font-size="15" fill="#26384a">purged_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_ai_stage_attempt"><rect x="490" y="714" width="430" height="250" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="714" width="430" height="28" fill="#dceaf7"/><text x="498" y="733" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">ai_stage_attempt</text>
+<text x="498" y="762" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage_attempt_id: bigint PK NOT NULL</text>
+<text x="498" y="782" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="802" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage_run_id: bigint FK NOT NULL</text>
+<text x="498" y="822" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_no: integer NOT NULL</text>
+<text x="498" y="842" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="862" font-family="Consolas,monospace" font-size="15" fill="#26384a">input_hash: character(64) NOT NULL</text>
+<text x="498" y="882" font-family="Consolas,monospace" font-size="15" fill="#26384a">output_hash: character(64) NULL</text>
+<text x="498" y="902" font-family="Consolas,monospace" font-size="15" fill="#26384a">error_code: character varying(80) NULL</text>
+<text x="498" y="922" font-family="Consolas,monospace" font-size="15" fill="#26384a">started_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="942" font-family="Consolas,monospace" font-size="15" fill="#26384a">finished_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_ai_stage_run"><rect x="30" y="988" width="430" height="470" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="988" width="430" height="28" fill="#dceaf7"/><text x="38" y="1007" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">ai_stage_run</text>
+<text x="38" y="1036" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage_run_id: bigint PK NOT NULL</text>
+<text x="38" y="1056" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="1076" font-family="Consolas,monospace" font-size="15" fill="#26384a">scope_key: character varying(40) NOT NULL</text>
+<text x="38" y="1096" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage: character varying(3) NOT NULL</text>
+<text x="38" y="1116" font-family="Consolas,monospace" font-size="15" fill="#26384a">run_mode: character varying(20) NOT NULL</text>
+<text x="38" y="1136" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_version_id: bigint FK NULL</text>
+<text x="38" y="1156" font-family="Consolas,monospace" font-size="15" fill="#26384a">execution_run_no: integer NOT NULL</text>
+<text x="38" y="1176" font-family="Consolas,monospace" font-size="15" fill="#26384a">recovery_of_run_id: bigint FK NULL</text>
+<text x="38" y="1196" font-family="Consolas,monospace" font-size="15" fill="#26384a">recovery_authorized_by: integer FK NULL</text>
+<text x="38" y="1216" font-family="Consolas,monospace" font-size="15" fill="#26384a">recovery_reason: character varying(1000) NULL</text>
+<text x="38" y="1236" font-family="Consolas,monospace" font-size="15" fill="#26384a">predecessor_validation_id: bigint FK NULL</text>
+<text x="38" y="1256" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="1276" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_count: integer NOT NULL</text>
+<text x="38" y="1296" font-family="Consolas,monospace" font-size="15" fill="#26384a">input_hash: character(64) NOT NULL</text>
+<text x="38" y="1316" font-family="Consolas,monospace" font-size="15" fill="#26384a">output_hash: character(64) NULL</text>
+<text x="38" y="1336" font-family="Consolas,monospace" font-size="15" fill="#26384a">last_error_code: character varying(80) NULL</text>
+<text x="38" y="1356" font-family="Consolas,monospace" font-size="15" fill="#26384a">available_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="1376" font-family="Consolas,monospace" font-size="15" fill="#26384a">lease_until: timestamp with time zone NULL</text>
+<text x="38" y="1396" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="1416" font-family="Consolas,monospace" font-size="15" fill="#26384a">started_at: timestamp with time zone NULL</text>
+<text x="38" y="1436" font-family="Consolas,monospace" font-size="15" fill="#26384a">finished_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_ai_stage_validation"><rect x="490" y="988" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="988" width="430" height="28" fill="#dceaf7"/><text x="498" y="1007" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">ai_stage_validation</text>
+<text x="498" y="1036" font-family="Consolas,monospace" font-size="15" fill="#26384a">validation_id: bigint PK NOT NULL</text>
+<text x="498" y="1056" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="1076" font-family="Consolas,monospace" font-size="15" fill="#26384a">stage_run_id: bigint FK NOT NULL</text>
+<text x="498" y="1096" font-family="Consolas,monospace" font-size="15" fill="#26384a">validator_version: character varying(40) NOT NULL</text>
+<text x="498" y="1116" font-family="Consolas,monospace" font-size="15" fill="#26384a">input_hash: character(64) NOT NULL</text>
+<text x="498" y="1136" font-family="Consolas,monospace" font-size="15" fill="#26384a">output_hash: character(64) NOT NULL</text>
+<text x="498" y="1156" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(10) NOT NULL</text>
+<text x="498" y="1176" font-family="Consolas,monospace" font-size="15" fill="#26384a">validated_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_assessment"><rect x="30" y="1482" width="430" height="330" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="1482" width="430" height="28" fill="#f6d99a"/><text x="38" y="1501" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment [legacy/retired]</text>
+<text x="38" y="1530" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer PK NOT NULL</text>
+<text x="38" y="1550" font-family="Consolas,monospace" font-size="15" fill="#26384a">title: character varying(200) NOT NULL</text>
+<text x="38" y="1570" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+<text x="38" y="1590" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_questions: smallint NOT NULL</text>
+<text x="38" y="1610" font-family="Consolas,monospace" font-size="15" fill="#26384a">duration_min: smallint NOT NULL</text>
+<text x="38" y="1630" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_mcq: smallint NOT NULL</text>
+<text x="38" y="1650" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_sql: smallint NOT NULL</text>
+<text x="38" y="1670" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_essay: smallint NOT NULL</text>
+<text x="38" y="1690" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="1710" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_by: integer FK NOT NULL</text>
+<text x="38" y="1730" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="1750" font-family="Consolas,monospace" font-size="15" fill="#26384a">family_id: integer FK NULL</text>
+<text x="38" y="1770" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_no: integer NOT NULL</text>
+<text x="38" y="1790" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_release_policy: character varying(20) NOT NULL</text>
+</g>
+<g id="table_assessment_blueprint"><rect x="490" y="1482" width="430" height="370" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="1482" width="430" height="28" fill="#f6d99a"/><text x="498" y="1501" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_blueprint [legacy/retired]</text>
+<text x="498" y="1530" font-family="Consolas,monospace" font-size="15" fill="#26384a">blueprint_id: integer PK NOT NULL</text>
+<text x="498" y="1550" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer FK NOT NULL</text>
+<text x="498" y="1570" font-family="Consolas,monospace" font-size="15" fill="#26384a">subject_area: character varying(100) NOT NULL</text>
+<text x="498" y="1590" font-family="Consolas,monospace" font-size="15" fill="#26384a">difficulty_band: character varying(10) NOT NULL</text>
+<text x="498" y="1610" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_no: integer NOT NULL</text>
+<text x="498" y="1630" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="1650" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_questions: smallint NOT NULL</text>
+<text x="498" y="1670" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_mcq: smallint NOT NULL</text>
+<text x="498" y="1690" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_sql: smallint NOT NULL</text>
+<text x="498" y="1710" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_essay: smallint NOT NULL</text>
+<text x="498" y="1730" font-family="Consolas,monospace" font-size="15" fill="#26384a">scoring: jsonb NOT NULL</text>
+<text x="498" y="1750" font-family="Consolas,monospace" font-size="15" fill="#26384a">evidence_types: jsonb NOT NULL</text>
+<text x="498" y="1770" font-family="Consolas,monospace" font-size="15" fill="#26384a">approval_basis: text NOT NULL</text>
+<text x="498" y="1790" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_by: integer FK NULL</text>
+<text x="498" y="1810" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="1830" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_assessment_concept"><rect x="30" y="1876" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="1876" width="430" height="28" fill="#f6d99a"/><text x="38" y="1895" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_concept [legacy/retired]</text>
+<text x="38" y="1924" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer PK,FK NOT NULL</text>
+<text x="38" y="1944" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK,FK NOT NULL</text>
+<text x="38" y="1964" font-family="Consolas,monospace" font-size="15" fill="#26384a">min_difficulty: smallint NOT NULL</text>
+<text x="38" y="1984" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_difficulty: smallint NOT NULL</text>
+<text x="38" y="2004" font-family="Consolas,monospace" font-size="15" fill="#26384a">target_pct: numeric NOT NULL</text>
+</g>
+<g id="table_assessment_question"><rect x="490" y="1876" width="430" height="90" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="1876" width="430" height="28" fill="#f6d99a"/><text x="498" y="1895" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_question [legacy/retired]</text>
+<text x="498" y="1924" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer PK,FK NOT NULL</text>
+<text x="498" y="1944" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
+</g>
+<g id="table_assessment_session"><rect x="30" y="2050" width="430" height="490" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="2050" width="430" height="28" fill="#dceaf7"/><text x="38" y="2069" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">assessment_session</text>
+<text x="38" y="2098" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer PK,FK NOT NULL</text>
+<text x="38" y="2118" font-family="Consolas,monospace" font-size="15" fill="#26384a">assessment_id: integer FK NULL</text>
+<text x="38" y="2138" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer FK NOT NULL</text>
+<text x="38" y="2158" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="2178" font-family="Consolas,monospace" font-size="15" fill="#26384a">purpose: character varying(10) NOT NULL</text>
+<text x="38" y="2198" font-family="Consolas,monospace" font-size="15" fill="#26384a">purpose_source: character varying(10) NOT NULL</text>
+<text x="38" y="2218" font-family="Consolas,monospace" font-size="15" fill="#26384a">locale: character varying(16) NOT NULL</text>
+<text x="38" y="2238" font-family="Consolas,monospace" font-size="15" fill="#26384a">started_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="2258" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="2278" font-family="Consolas,monospace" font-size="15" fill="#26384a">submitted_at: timestamp with time zone NULL</text>
+<text x="38" y="2298" font-family="Consolas,monospace" font-size="15" fill="#26384a">config_snapshot: jsonb NULL</text>
+<text x="38" y="2318" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_release_policy: character varying(20) NOT NULL</text>
+<text x="38" y="2338" font-family="Consolas,monospace" font-size="15" fill="#26384a">release_status: character varying(20) NOT NULL</text>
+<text x="38" y="2358" font-family="Consolas,monospace" font-size="15" fill="#26384a">start_request_id: character varying(36) NULL</text>
+<text x="38" y="2378" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_revision: integer NOT NULL</text>
+<text x="38" y="2398" font-family="Consolas,monospace" font-size="15" fill="#26384a">published_at: timestamp with time zone NULL</text>
+<text x="38" y="2418" font-family="Consolas,monospace" font-size="15" fill="#26384a">blueprint_id: integer FK NULL</text>
+<text x="38" y="2438" font-family="Consolas,monospace" font-size="15" fill="#26384a">tab_leave_count: integer NOT NULL</text>
+<text x="38" y="2458" font-family="Consolas,monospace" font-size="15" fill="#26384a">cancelled_at: timestamp with time zone NULL</text>
+<text x="38" y="2478" font-family="Consolas,monospace" font-size="15" fill="#26384a">cancel_reason: character varying(40) NULL</text>
+<text x="38" y="2498" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_policy: character varying(20) NOT NULL</text>
+<text x="38" y="2518" font-family="Consolas,monospace" font-size="15" fill="#26384a">current_result_version_id: bigint FK NULL</text>
+</g>
+<g id="table_attempt"><rect x="490" y="2050" width="430" height="470" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="2050" width="430" height="28" fill="#dceaf7"/><text x="498" y="2069" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">attempt</text>
+<text x="498" y="2098" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer PK NOT NULL</text>
+<text x="498" y="2118" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="2138" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="498" y="2158" font-family="Consolas,monospace" font-size="15" fill="#26384a">seq_no: smallint NOT NULL</text>
+<text x="498" y="2178" font-family="Consolas,monospace" font-size="15" fill="#26384a">selected_option_id: integer FK NULL</text>
+<text x="498" y="2198" font-family="Consolas,monospace" font-size="15" fill="#26384a">sql_answer: text NULL</text>
+<text x="498" y="2218" font-family="Consolas,monospace" font-size="15" fill="#26384a">essay_answer: text NULL</text>
+<text x="498" y="2238" font-family="Consolas,monospace" font-size="15" fill="#26384a">score: numeric NULL</text>
+<text x="498" y="2258" font-family="Consolas,monospace" font-size="15" fill="#26384a">grading_detail: jsonb NULL</text>
+<text x="498" y="2278" font-family="Consolas,monospace" font-size="15" fill="#26384a">served_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="2298" font-family="Consolas,monospace" font-size="15" fill="#26384a">submitted_at: timestamp with time zone NULL</text>
+<text x="498" y="2318" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_flagged: boolean NOT NULL</text>
+<text x="498" y="2338" font-family="Consolas,monospace" font-size="15" fill="#26384a">flag_revision: integer NOT NULL</text>
+<text x="498" y="2358" font-family="Consolas,monospace" font-size="15" fill="#26384a">first_opened_at: timestamp with time zone NULL</text>
+<text x="498" y="2378" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_snapshot: jsonb NULL</text>
+<text x="498" y="2398" font-family="Consolas,monospace" font-size="15" fill="#26384a">draft_answer: jsonb NULL</text>
+<text x="498" y="2418" font-family="Consolas,monospace" font-size="15" fill="#26384a">draft_revision: integer NOT NULL</text>
+<text x="498" y="2438" font-family="Consolas,monospace" font-size="15" fill="#26384a">draft_saved_at: timestamp with time zone NULL</text>
+<text x="498" y="2458" font-family="Consolas,monospace" font-size="15" fill="#26384a">submission_hash: character varying(64) NULL</text>
+<text x="498" y="2478" font-family="Consolas,monospace" font-size="15" fill="#26384a">grading_status: character varying(20) NOT NULL</text>
+<text x="498" y="2498" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_revision: integer NOT NULL</text>
+</g>
+<g id="table_attempt_rubric_criterion"><rect x="30" y="2564" width="430" height="330" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="2564" width="430" height="28" fill="#dceaf7"/><text x="38" y="2583" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">attempt_rubric_criterion</text>
+<text x="38" y="2612" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_snapshot_id: bigint PK NOT NULL</text>
+<text x="38" y="2632" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="2652" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="38" y="2672" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="2692" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubric_profile_id: bigint FK NOT NULL</text>
+<text x="38" y="2712" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_id: bigint FK NOT NULL</text>
+<text x="38" y="2732" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_code: character varying(40) NOT NULL</text>
+<text x="38" y="2752" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_name: character varying(120) NOT NULL</text>
+<text x="38" y="2772" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NOT NULL</text>
+<text x="38" y="2792" font-family="Consolas,monospace" font-size="15" fill="#26384a">scoring_guidance: text NOT NULL</text>
+<text x="38" y="2812" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_points: numeric NOT NULL</text>
+<text x="38" y="2832" font-family="Consolas,monospace" font-size="15" fill="#26384a">sort_order: smallint NOT NULL</text>
+<text x="38" y="2852" font-family="Consolas,monospace" font-size="15" fill="#26384a">profile_snapshot_hash: character(64) NOT NULL</text>
+<text x="38" y="2872" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_hash: character(64) NOT NULL</text>
+</g>
+<g id="table_clo_concept"><rect x="490" y="2564" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="2564" width="430" height="28" fill="#dceaf7"/><text x="498" y="2583" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">clo_concept</text>
+<text x="498" y="2612" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK,FK NOT NULL</text>
+<text x="498" y="2632" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK,FK NOT NULL</text>
+<text x="498" y="2652" font-family="Consolas,monospace" font-size="15" fill="#26384a">mapping_source: character varying(10) NOT NULL</text>
+<text x="498" y="2672" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="2692" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_competency_gap"><rect x="30" y="2918" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="2918" width="430" height="28" fill="#dceaf7"/><text x="38" y="2937" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">competency_gap</text>
+<text x="38" y="2966" font-family="Consolas,monospace" font-size="15" fill="#26384a">gap_id: integer PK NOT NULL</text>
+<text x="38" y="2986" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="3006" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer FK NOT NULL</text>
+<text x="38" y="3026" font-family="Consolas,monospace" font-size="15" fill="#26384a">llm_explanation: text NULL</text>
+<text x="38" y="3046" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="3066" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="3086" font-family="Consolas,monospace" font-size="15" fill="#26384a">explanation_context_hash: character varying(64) NULL</text>
+</g>
+<g id="table_concept"><rect x="490" y="2918" width="430" height="230" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="2918" width="430" height="28" fill="#dceaf7"/><text x="498" y="2937" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">concept</text>
+<text x="498" y="2966" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK NOT NULL</text>
+<text x="498" y="2986" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_code: character varying(30) NOT NULL</text>
+<text x="498" y="3006" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_name: character varying(100) NOT NULL</text>
+<text x="498" y="3026" font-family="Consolas,monospace" font-size="15" fill="#26384a">subject_area: character varying(100) NOT NULL</text>
+<text x="498" y="3046" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+<text x="498" y="3066" font-family="Consolas,monospace" font-size="15" fill="#26384a">difficulty_level: smallint NOT NULL</text>
+<text x="498" y="3086" font-family="Consolas,monospace" font-size="15" fill="#26384a">sql_feature: character varying(30) NULL</text>
+<text x="498" y="3106" font-family="Consolas,monospace" font-size="15" fill="#26384a">keywords: ARRAY NOT NULL</text>
+<text x="498" y="3126" font-family="Consolas,monospace" font-size="15" fill="#26384a">learning_objectives: ARRAY NOT NULL</text>
+</g>
+<g id="table_concept_competency"><rect x="30" y="3172" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="3172" width="430" height="28" fill="#dceaf7"/><text x="38" y="3191" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">concept_competency</text>
+<text x="38" y="3220" font-family="Consolas,monospace" font-size="15" fill="#26384a">competency_id: integer PK NOT NULL</text>
+<text x="38" y="3240" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="3260" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer FK NOT NULL</text>
+<text x="38" y="3280" font-family="Consolas,monospace" font-size="15" fill="#26384a">points_earned: numeric NOT NULL</text>
+<text x="38" y="3300" font-family="Consolas,monospace" font-size="15" fill="#26384a">points_possible: numeric NOT NULL</text>
+<text x="38" y="3320" font-family="Consolas,monospace" font-size="15" fill="#26384a">competency_pct: numeric NOT NULL</text>
+<text x="38" y="3340" font-family="Consolas,monospace" font-size="15" fill="#26384a">below_target: boolean NOT NULL</text>
+<text x="38" y="3360" font-family="Consolas,monospace" font-size="15" fill="#26384a">computed_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_concept_dependency"><rect x="490" y="3172" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="3172" width="430" height="28" fill="#dceaf7"/><text x="498" y="3191" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">concept_dependency</text>
+<text x="498" y="3220" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK,FK NOT NULL</text>
+<text x="498" y="3240" font-family="Consolas,monospace" font-size="15" fill="#26384a">prerequisite_concept_id: integer PK,FK NOT NULL</text>
+<text x="498" y="3260" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_course_document"><rect x="30" y="3406" width="430" height="330" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="3406" width="430" height="28" fill="#dceaf7"/><text x="38" y="3425" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">course_document</text>
+<text x="38" y="3454" font-family="Consolas,monospace" font-size="15" fill="#26384a">document_id: integer PK NOT NULL</text>
+<text x="38" y="3474" font-family="Consolas,monospace" font-size="15" fill="#26384a">title: character varying(300) NOT NULL</text>
+<text x="38" y="3494" font-family="Consolas,monospace" font-size="15" fill="#26384a">source_type: character varying(20) NOT NULL</text>
+<text x="38" y="3514" font-family="Consolas,monospace" font-size="15" fill="#26384a">mime_type: character varying(100) NOT NULL</text>
+<text x="38" y="3534" font-family="Consolas,monospace" font-size="15" fill="#26384a">original_filename: character varying(255) NULL</text>
+<text x="38" y="3554" font-family="Consolas,monospace" font-size="15" fill="#26384a">sha256: character varying(64) NOT NULL</text>
+<text x="38" y="3574" font-family="Consolas,monospace" font-size="15" fill="#26384a">char_count: integer NOT NULL</text>
+<text x="38" y="3594" font-family="Consolas,monospace" font-size="15" fill="#26384a">page_count: integer NULL</text>
+<text x="38" y="3614" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="3634" font-family="Consolas,monospace" font-size="15" fill="#26384a">uploaded_by: integer FK NOT NULL</text>
+<text x="38" y="3654" font-family="Consolas,monospace" font-size="15" fill="#26384a">uploaded_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="3674" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_by: integer FK NULL</text>
+<text x="38" y="3694" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_at: timestamp with time zone NULL</text>
+<text x="38" y="3714" font-family="Consolas,monospace" font-size="15" fill="#26384a">text_policy_version: character varying(20) NOT NULL</text>
+</g>
+<g id="table_course_learning_outcome"><rect x="490" y="3406" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="3406" width="430" height="28" fill="#dceaf7"/><text x="498" y="3425" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">course_learning_outcome</text>
+<text x="498" y="3454" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK NOT NULL</text>
+<text x="498" y="3474" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_code: character varying(20) NOT NULL</text>
+<text x="498" y="3494" font-family="Consolas,monospace" font-size="15" fill="#26384a">title: character varying(200) NOT NULL</text>
+<text x="498" y="3514" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+<text x="498" y="3534" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="3554" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_by: integer FK NOT NULL</text>
+<text x="498" y="3574" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_document_chunk"><rect x="30" y="3760" width="430" height="230" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="3760" width="430" height="28" fill="#dceaf7"/><text x="38" y="3779" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">document_chunk</text>
+<text x="38" y="3808" font-family="Consolas,monospace" font-size="15" fill="#26384a">chunk_id: integer PK NOT NULL</text>
+<text x="38" y="3828" font-family="Consolas,monospace" font-size="15" fill="#26384a">document_id: integer FK NOT NULL</text>
+<text x="38" y="3848" font-family="Consolas,monospace" font-size="15" fill="#26384a">ordinal: integer NOT NULL</text>
+<text x="38" y="3868" font-family="Consolas,monospace" font-size="15" fill="#26384a">page_from: integer NULL</text>
+<text x="38" y="3888" font-family="Consolas,monospace" font-size="15" fill="#26384a">page_to: integer NULL</text>
+<text x="38" y="3908" font-family="Consolas,monospace" font-size="15" fill="#26384a">heading: text NULL</text>
+<text x="38" y="3928" font-family="Consolas,monospace" font-size="15" fill="#26384a">text: text NOT NULL</text>
+<text x="38" y="3948" font-family="Consolas,monospace" font-size="15" fill="#26384a">text_hash: character varying(64) NOT NULL</text>
+<text x="38" y="3968" font-family="Consolas,monospace" font-size="15" fill="#26384a">char_count: integer NOT NULL</text>
+</g>
+<g id="table_document_clo"><rect x="490" y="3760" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="3760" width="430" height="28" fill="#dceaf7"/><text x="498" y="3779" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">document_clo</text>
+<text x="498" y="3808" font-family="Consolas,monospace" font-size="15" fill="#26384a">document_id: integer PK,FK NOT NULL</text>
+<text x="498" y="3828" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK,FK NOT NULL</text>
+<text x="498" y="3848" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="3868" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_by: integer FK NULL</text>
+<text x="498" y="3888" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_evaluation_record"><rect x="30" y="4014" width="430" height="250" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="4014" width="430" height="28" fill="#dceaf7"/><text x="38" y="4033" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">evaluation_record</text>
+<text x="38" y="4062" font-family="Consolas,monospace" font-size="15" fill="#26384a">evaluation_id: integer PK NOT NULL</text>
+<text x="38" y="4082" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer FK NOT NULL</text>
+<text x="38" y="4102" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NULL</text>
+<text x="38" y="4122" font-family="Consolas,monospace" font-size="15" fill="#26384a">scope_key: character varying(80) NOT NULL</text>
+<text x="38" y="4142" font-family="Consolas,monospace" font-size="15" fill="#26384a">input_hash: character varying(64) NOT NULL</text>
+<text x="38" y="4162" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="38" y="4182" font-family="Consolas,monospace" font-size="15" fill="#26384a">payload: jsonb NULL</text>
+<text x="38" y="4202" font-family="Consolas,monospace" font-size="15" fill="#26384a">lease_until: timestamp with time zone NULL</text>
+<text x="38" y="4222" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="4242" font-family="Consolas,monospace" font-size="15" fill="#26384a">available_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_grade_edit_audit"><rect x="490" y="4014" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="4014" width="430" height="28" fill="#dceaf7"/><text x="498" y="4033" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">grade_edit_audit</text>
+<text x="498" y="4062" font-family="Consolas,monospace" font-size="15" fill="#26384a">audit_id: integer PK NOT NULL</text>
+<text x="498" y="4082" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="498" y="4102" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NOT NULL</text>
+<text x="498" y="4122" font-family="Consolas,monospace" font-size="15" fill="#26384a">old_score: numeric NULL</text>
+<text x="498" y="4142" font-family="Consolas,monospace" font-size="15" fill="#26384a">new_score: numeric NOT NULL</text>
+<text x="498" y="4162" font-family="Consolas,monospace" font-size="15" fill="#26384a">reason: character varying(1000) NOT NULL</text>
+<text x="498" y="4182" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_grade_review"><rect x="30" y="4288" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="4288" width="430" height="28" fill="#dceaf7"/><text x="38" y="4307" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">grade_review</text>
+<text x="38" y="4336" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_id: integer PK NOT NULL</text>
+<text x="38" y="4356" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="38" y="4376" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NOT NULL</text>
+<text x="38" y="4396" font-family="Consolas,monospace" font-size="15" fill="#26384a">automated_score: numeric NULL</text>
+<text x="38" y="4416" font-family="Consolas,monospace" font-size="15" fill="#26384a">automated_detail: jsonb NULL</text>
+<text x="38" y="4436" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_score: numeric NOT NULL</text>
+<text x="38" y="4456" font-family="Consolas,monospace" font-size="15" fill="#26384a">comments: text NULL</text>
+<text x="38" y="4476" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewed_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_grading_job"><rect x="490" y="4288" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="4288" width="430" height="28" fill="#dceaf7"/><text x="498" y="4307" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">grading_job</text>
+<text x="498" y="4336" font-family="Consolas,monospace" font-size="15" fill="#26384a">job_id: integer PK NOT NULL</text>
+<text x="498" y="4356" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="498" y="4376" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="4396" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_count: integer NOT NULL</text>
+<text x="498" y="4416" font-family="Consolas,monospace" font-size="15" fill="#26384a">available_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="4436" font-family="Consolas,monospace" font-size="15" fill="#26384a">lease_until: timestamp with time zone NULL</text>
+<text x="498" y="4456" font-family="Consolas,monospace" font-size="15" fill="#26384a">last_error_code: character varying(80) NULL</text>
+<text x="498" y="4476" font-family="Consolas,monospace" font-size="15" fill="#26384a">finished_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_llm_cache"><rect x="30" y="4522" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="4522" width="430" height="28" fill="#dceaf7"/><text x="38" y="4541" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">llm_cache</text>
+<text x="38" y="4570" font-family="Consolas,monospace" font-size="15" fill="#26384a">cache_id: integer PK NOT NULL</text>
+<text x="38" y="4590" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_hash: character varying(64) NOT NULL</text>
+<text x="38" y="4610" font-family="Consolas,monospace" font-size="15" fill="#26384a">task_type: character varying(30) NOT NULL</text>
+<text x="38" y="4630" font-family="Consolas,monospace" font-size="15" fill="#26384a">model: character varying(50) NOT NULL</text>
+<text x="38" y="4650" font-family="Consolas,monospace" font-size="15" fill="#26384a">response: jsonb NOT NULL</text>
+<text x="38" y="4670" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="4690" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_login_throttle"><rect x="490" y="4522" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="4522" width="430" height="28" fill="#dceaf7"/><text x="498" y="4541" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">login_throttle</text>
+<text x="498" y="4570" font-family="Consolas,monospace" font-size="15" fill="#26384a">key_hash: character varying(64) PK NOT NULL</text>
+<text x="498" y="4590" font-family="Consolas,monospace" font-size="15" fill="#26384a">failures: jsonb NOT NULL</text>
+<text x="498" y="4610" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_mcq_option"><rect x="30" y="4736" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="4736" width="430" height="28" fill="#dceaf7"/><text x="38" y="4755" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">mcq_option</text>
+<text x="38" y="4784" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_id: integer PK NOT NULL</text>
+<text x="38" y="4804" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="4824" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_label: character varying(5) NOT NULL</text>
+<text x="38" y="4844" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_text: text NOT NULL</text>
+<text x="38" y="4864" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_correct: boolean NOT NULL</text>
+</g>
+<g id="table_oauth_handoff"><rect x="490" y="4736" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="4736" width="430" height="28" fill="#dceaf7"/><text x="498" y="4755" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">oauth_handoff</text>
+<text x="498" y="4784" font-family="Consolas,monospace" font-size="15" fill="#26384a">jti_hash: character varying(64) PK NOT NULL</text>
+<text x="498" y="4804" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="498" y="4824" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="4844" font-family="Consolas,monospace" font-size="15" fill="#26384a">consumed_at: timestamp with time zone NULL</text>
+<text x="498" y="4864" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_password_reset_audit"><rect x="30" y="4910" width="430" height="130" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="4910" width="430" height="28" fill="#dceaf7"/><text x="38" y="4929" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">password_reset_audit</text>
+<text x="38" y="4958" font-family="Consolas,monospace" font-size="15" fill="#26384a">audit_id: integer PK NOT NULL</text>
+<text x="38" y="4978" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="38" y="4998" font-family="Consolas,monospace" font-size="15" fill="#26384a">event: character varying(20) NOT NULL</text>
+<text x="38" y="5018" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_password_reset_token"><rect x="490" y="4910" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="4910" width="430" height="28" fill="#dceaf7"/><text x="498" y="4929" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">password_reset_token</text>
+<text x="498" y="4958" font-family="Consolas,monospace" font-size="15" fill="#26384a">token_hash: character varying(64) PK NOT NULL</text>
+<text x="498" y="4978" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="498" y="4998" font-family="Consolas,monospace" font-size="15" fill="#26384a">requested_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="5018" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="5038" font-family="Consolas,monospace" font-size="15" fill="#26384a">used_at: timestamp with time zone NULL</text>
+<text x="498" y="5058" font-family="Consolas,monospace" font-size="15" fill="#26384a">revoked_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_prompt_access_audit"><rect x="30" y="5104" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="5104" width="430" height="28" fill="#dceaf7"/><text x="38" y="5123" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">prompt_access_audit</text>
+<text x="38" y="5152" font-family="Consolas,monospace" font-size="15" fill="#26384a">access_id: bigint PK NOT NULL</text>
+<text x="38" y="5172" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt_record_id: bigint FK NOT NULL</text>
+<text x="38" y="5192" font-family="Consolas,monospace" font-size="15" fill="#26384a">actor_id: integer FK NOT NULL</text>
+<text x="38" y="5212" font-family="Consolas,monospace" font-size="15" fill="#26384a">result: character varying(20) NOT NULL</text>
+<text x="38" y="5232" font-family="Consolas,monospace" font-size="15" fill="#26384a">accessed_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="5252" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_id: uuid NULL</text>
+</g>
+<g id="table_question"><rect x="490" y="5104" width="430" height="410" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="5104" width="430" height="28" fill="#dceaf7"/><text x="498" y="5123" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question</text>
+<text x="498" y="5152" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK NOT NULL</text>
+<text x="498" y="5172" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_type: character varying(10) NOT NULL</text>
+<text x="498" y="5192" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt: text NOT NULL</text>
+<text x="498" y="5212" font-family="Consolas,monospace" font-size="15" fill="#26384a">reference_answer: text NULL</text>
+<text x="498" y="5232" font-family="Consolas,monospace" font-size="15" fill="#26384a">difficulty_level: smallint NOT NULL</text>
+<text x="498" y="5252" font-family="Consolas,monospace" font-size="15" fill="#26384a">points: numeric NOT NULL</text>
+<text x="498" y="5272" font-family="Consolas,monospace" font-size="15" fill="#26384a">source: character varying(15) NOT NULL</text>
+<text x="498" y="5292" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="5312" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_by: integer FK NOT NULL</text>
+<text x="498" y="5332" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="5352" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="5372" font-family="Consolas,monospace" font-size="15" fill="#26384a">ai_review: jsonb NULL</text>
+<text x="498" y="5392" font-family="Consolas,monospace" font-size="15" fill="#26384a">family_id: integer FK NULL</text>
+<text x="498" y="5412" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_no: integer NOT NULL</text>
+<text x="498" y="5432" font-family="Consolas,monospace" font-size="15" fill="#26384a">explanation: text NULL</text>
+<text x="498" y="5452" font-family="Consolas,monospace" font-size="15" fill="#26384a">tags: ARRAY NOT NULL</text>
+<text x="498" y="5472" font-family="Consolas,monospace" font-size="15" fill="#26384a">source_refs: jsonb NOT NULL</text>
+<text x="498" y="5492" font-family="Consolas,monospace" font-size="15" fill="#26384a">original_locale: character varying(16) NOT NULL</text>
+</g>
+<g id="table_question_candidate"><rect x="30" y="5538" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="5538" width="430" height="28" fill="#dceaf7"/><text x="38" y="5557" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_candidate</text>
+<text x="38" y="5586" font-family="Consolas,monospace" font-size="15" fill="#26384a">candidate_id: integer PK NOT NULL</text>
+<text x="38" y="5606" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer FK NOT NULL</text>
+<text x="38" y="5626" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_type: character varying(10) NOT NULL</text>
+<text x="38" y="5646" font-family="Consolas,monospace" font-size="15" fill="#26384a">payload: jsonb NOT NULL</text>
+<text x="38" y="5666" font-family="Consolas,monospace" font-size="15" fill="#26384a">validation_status: character varying(20) NOT NULL</text>
+<text x="38" y="5686" font-family="Consolas,monospace" font-size="15" fill="#26384a">validation_detail: jsonb NULL</text>
+<text x="38" y="5706" font-family="Consolas,monospace" font-size="15" fill="#26384a">promoted_question_id: integer FK NULL</text>
+<text x="38" y="5726" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_question_clo"><rect x="490" y="5538" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="5538" width="430" height="28" fill="#dceaf7"/><text x="498" y="5557" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_clo</text>
+<text x="498" y="5586" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
+<text x="498" y="5606" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK,FK NOT NULL</text>
+<text x="498" y="5626" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_primary: boolean NOT NULL</text>
+<text x="498" y="5646" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="5666" font-family="Consolas,monospace" font-size="15" fill="#26384a">tag_source: character varying(10) NOT NULL</text>
+<text x="498" y="5686" font-family="Consolas,monospace" font-size="15" fill="#26384a">confirmed_at: timestamp with time zone NULL</text>
+<text x="498" y="5706" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_question_concept"><rect x="30" y="5772" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="5772" width="430" height="28" fill="#dceaf7"/><text x="38" y="5791" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_concept</text>
+<text x="38" y="5820" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
+<text x="38" y="5840" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer PK,FK NOT NULL</text>
+<text x="38" y="5860" font-family="Consolas,monospace" font-size="15" fill="#26384a">tag_source: character varying(10) NOT NULL</text>
+<text x="38" y="5880" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_required: boolean NOT NULL</text>
+<text x="38" y="5900" font-family="Consolas,monospace" font-size="15" fill="#26384a">confirmed: boolean NOT NULL</text>
+<text x="38" y="5920" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_status: character varying(20) NOT NULL</text>
+</g>
+<g id="table_question_evidence"><rect x="490" y="5772" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="5772" width="430" height="28" fill="#dceaf7"/><text x="498" y="5791" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_evidence</text>
+<text x="498" y="5820" font-family="Consolas,monospace" font-size="15" fill="#26384a">evidence_id: integer PK NOT NULL</text>
+<text x="498" y="5840" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="498" y="5860" font-family="Consolas,monospace" font-size="15" fill="#26384a">chunk_id: integer FK NOT NULL</text>
+<text x="498" y="5880" font-family="Consolas,monospace" font-size="15" fill="#26384a">quote: text NOT NULL</text>
+<text x="498" y="5900" font-family="Consolas,monospace" font-size="15" fill="#26384a">start_offset: integer NULL</text>
+<text x="498" y="5920" font-family="Consolas,monospace" font-size="15" fill="#26384a">end_offset: integer NULL</text>
+<text x="498" y="5940" font-family="Consolas,monospace" font-size="15" fill="#26384a">source_hash: character varying(64) NOT NULL</text>
+<text x="498" y="5960" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_question_report"><rect x="30" y="6006" width="430" height="310" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="6006" width="430" height="28" fill="#dceaf7"/><text x="38" y="6025" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_report</text>
+<text x="38" y="6054" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_report_id: bigint PK NOT NULL</text>
+<text x="38" y="6074" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_request_id: bigint FK NULL</text>
+<text x="38" y="6094" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="6114" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="38" y="6134" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="6154" font-family="Consolas,monospace" font-size="15" fill="#26384a">reported_by: integer FK NOT NULL</text>
+<text x="38" y="6174" font-family="Consolas,monospace" font-size="15" fill="#26384a">category: character varying(20) NOT NULL</text>
+<text x="38" y="6194" font-family="Consolas,monospace" font-size="15" fill="#26384a">details: character varying(2000) NOT NULL</text>
+<text x="38" y="6214" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(10) NOT NULL</text>
+<text x="38" y="6234" font-family="Consolas,monospace" font-size="15" fill="#26384a">resolution_note: character varying(2000) NULL</text>
+<text x="38" y="6254" font-family="Consolas,monospace" font-size="15" fill="#26384a">resolved_by: integer FK NULL</text>
+<text x="38" y="6274" font-family="Consolas,monospace" font-size="15" fill="#26384a">resolved_at: timestamp with time zone NULL</text>
+<text x="38" y="6294" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_question_rubric_criterion"><rect x="490" y="6006" width="430" height="230" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="6006" width="430" height="28" fill="#dceaf7"/><text x="498" y="6025" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_rubric_criterion</text>
+<text x="498" y="6054" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_id: bigint PK NOT NULL</text>
+<text x="498" y="6074" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubric_profile_id: bigint FK NOT NULL</text>
+<text x="498" y="6094" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_code: character varying(40) NOT NULL</text>
+<text x="498" y="6114" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_name: character varying(120) NOT NULL</text>
+<text x="498" y="6134" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NOT NULL</text>
+<text x="498" y="6154" font-family="Consolas,monospace" font-size="15" fill="#26384a">scoring_guidance: text NOT NULL</text>
+<text x="498" y="6174" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_points: numeric NOT NULL</text>
+<text x="498" y="6194" font-family="Consolas,monospace" font-size="15" fill="#26384a">sort_order: smallint NOT NULL</text>
+<text x="498" y="6214" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_hash: character(64) NOT NULL</text>
+</g>
+<g id="table_question_rubric_profile"><rect x="30" y="6340" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="6340" width="430" height="28" fill="#dceaf7"/><text x="38" y="6359" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_rubric_profile</text>
+<text x="38" y="6388" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubric_profile_id: bigint PK NOT NULL</text>
+<text x="38" y="6408" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="6428" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_no: integer NOT NULL</text>
+<text x="38" y="6448" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(10) NOT NULL</text>
+<text x="38" y="6468" font-family="Consolas,monospace" font-size="15" fill="#26384a">profile_hash: character(64) NOT NULL</text>
+<text x="38" y="6488" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_by: integer FK NOT NULL</text>
+<text x="38" y="6508" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="6528" font-family="Consolas,monospace" font-size="15" fill="#26384a">retired_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_question_translation"><rect x="490" y="6340" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="6340" width="430" height="28" fill="#dceaf7"/><text x="498" y="6359" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_translation</text>
+<text x="498" y="6388" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
+<text x="498" y="6408" font-family="Consolas,monospace" font-size="15" fill="#26384a">locale: character varying(16) PK NOT NULL</text>
+<text x="498" y="6428" font-family="Consolas,monospace" font-size="15" fill="#26384a">source_hash: character varying(64) NOT NULL</text>
+<text x="498" y="6448" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt: text NOT NULL</text>
+<text x="498" y="6468" font-family="Consolas,monospace" font-size="15" fill="#26384a">explanation: text NULL</text>
+<text x="498" y="6488" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_texts: jsonb NOT NULL</text>
+<text x="498" y="6508" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubrics: jsonb NOT NULL</text>
+<text x="498" y="6528" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_refresh_session"><rect x="30" y="6574" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="6574" width="430" height="28" fill="#dceaf7"/><text x="38" y="6593" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">refresh_session</text>
+<text x="38" y="6622" font-family="Consolas,monospace" font-size="15" fill="#26384a">token_hash: character varying(64) PK NOT NULL</text>
+<text x="38" y="6642" font-family="Consolas,monospace" font-size="15" fill="#26384a">family_id: character varying(32) NOT NULL</text>
+<text x="38" y="6662" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="38" y="6682" font-family="Consolas,monospace" font-size="15" fill="#26384a">credential_version: bigint NOT NULL</text>
+<text x="38" y="6702" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="6722" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="6742" font-family="Consolas,monospace" font-size="15" fill="#26384a">consumed_at: timestamp with time zone NULL</text>
+<text x="38" y="6762" font-family="Consolas,monospace" font-size="15" fill="#26384a">revoked_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_result_release_event"><rect x="490" y="6574" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="6574" width="430" height="28" fill="#dceaf7"/><text x="498" y="6593" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">result_release_event</text>
+<text x="498" y="6622" font-family="Consolas,monospace" font-size="15" fill="#26384a">event_id: integer PK NOT NULL</text>
+<text x="498" y="6642" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="6662" font-family="Consolas,monospace" font-size="15" fill="#26384a">previous_status: character varying(20) NOT NULL</text>
+<text x="498" y="6682" font-family="Consolas,monospace" font-size="15" fill="#26384a">new_status: character varying(20) NOT NULL</text>
+<text x="498" y="6702" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NULL</text>
+<text x="498" y="6722" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_retention_purge_audit"><rect x="30" y="6808" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="6808" width="430" height="28" fill="#dceaf7"/><text x="38" y="6827" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">retention_purge_audit</text>
+<text x="38" y="6856" font-family="Consolas,monospace" font-size="15" fill="#26384a">purge_audit_id: bigint PK NOT NULL</text>
+<text x="38" y="6876" font-family="Consolas,monospace" font-size="15" fill="#26384a">object_type: character varying(20) NOT NULL</text>
+<text x="38" y="6896" font-family="Consolas,monospace" font-size="15" fill="#26384a">object_id: text NOT NULL</text>
+<text x="38" y="6916" font-family="Consolas,monospace" font-size="15" fill="#26384a">content_hash: character(64) NULL</text>
+<text x="38" y="6936" font-family="Consolas,monospace" font-size="15" fill="#26384a">purged_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="6956" font-family="Consolas,monospace" font-size="15" fill="#26384a">purge_reason: character varying(40) NOT NULL</text>
+<text x="38" y="6976" font-family="Consolas,monospace" font-size="15" fill="#26384a">actor: character varying(80) NOT NULL</text>
+<text x="38" y="6996" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_review_deviation"><rect x="490" y="6808" width="430" height="330" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="6808" width="430" height="28" fill="#dceaf7"/><text x="498" y="6827" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">review_deviation</text>
+<text x="498" y="6856" font-family="Consolas,monospace" font-size="15" fill="#26384a">deviation_id: bigint PK NOT NULL</text>
+<text x="498" y="6876" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_request_id: bigint FK NOT NULL</text>
+<text x="498" y="6896" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="6916" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="498" y="6936" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_snapshot_id: bigint FK NULL</text>
+<text x="498" y="6956" font-family="Consolas,monospace" font-size="15" fill="#26384a">ai_score: numeric NOT NULL</text>
+<text x="498" y="6976" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewed_score: numeric NOT NULL</text>
+<text x="498" y="6996" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_points: numeric NOT NULL</text>
+<text x="498" y="7016" font-family="Consolas,monospace" font-size="15" fill="#26384a">deviation_ratio: numeric NOT NULL</text>
+<text x="498" y="7036" font-family="Consolas,monospace" font-size="15" fill="#26384a">reason: character varying(4000) NOT NULL</text>
+<text x="498" y="7056" font-family="Consolas,monospace" font-size="15" fill="#26384a">first_reviewer_id: integer FK NOT NULL</text>
+<text x="498" y="7076" font-family="Consolas,monospace" font-size="15" fill="#26384a">second_reviewer_id: integer FK NULL</text>
+<text x="498" y="7096" font-family="Consolas,monospace" font-size="15" fill="#26384a">confirmation: character varying(24) NOT NULL</text>
+<text x="498" y="7116" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_review_deviation_confirmation"><rect x="30" y="7162" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="7162" width="430" height="28" fill="#dceaf7"/><text x="38" y="7181" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">review_deviation_confirmation</text>
+<text x="38" y="7210" font-family="Consolas,monospace" font-size="15" fill="#26384a">deviation_id: bigint PK,FK NOT NULL</text>
+<text x="38" y="7230" font-family="Consolas,monospace" font-size="15" fill="#26384a">confirmed_by: integer FK NOT NULL</text>
+<text x="38" y="7250" font-family="Consolas,monospace" font-size="15" fill="#26384a">confirmed_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_review_request"><rect x="490" y="7162" width="430" height="450" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="7162" width="430" height="28" fill="#dceaf7"/><text x="498" y="7181" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">review_request</text>
+<text x="498" y="7210" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_request_id: bigint PK NOT NULL</text>
+<text x="498" y="7230" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="7250" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer FK NOT NULL</text>
+<text x="498" y="7270" font-family="Consolas,monospace" font-size="15" fill="#26384a">requested_by: integer FK NOT NULL</text>
+<text x="498" y="7290" font-family="Consolas,monospace" font-size="15" fill="#26384a">origin: character varying(12) NOT NULL</text>
+<text x="498" y="7310" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_key: uuid NOT NULL</text>
+<text x="498" y="7330" font-family="Consolas,monospace" font-size="15" fill="#26384a">reason: character varying(2000) NOT NULL</text>
+<text x="498" y="7350" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="7370" font-family="Consolas,monospace" font-size="15" fill="#26384a">base_result_version_id: bigint FK NOT NULL</text>
+<text x="498" y="7390" font-family="Consolas,monospace" font-size="15" fill="#26384a">requested_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="7410" font-family="Consolas,monospace" font-size="15" fill="#26384a">window_expires_at: timestamp with time zone NULL</text>
+<text x="498" y="7430" font-family="Consolas,monospace" font-size="15" fill="#26384a">claimed_by: integer FK NULL</text>
+<text x="498" y="7450" font-family="Consolas,monospace" font-size="15" fill="#26384a">claimed_at: timestamp with time zone NULL</text>
+<text x="498" y="7470" font-family="Consolas,monospace" font-size="15" fill="#26384a">claim_expires_at: timestamp with time zone NULL</text>
+<text x="498" y="7490" font-family="Consolas,monospace" font-size="15" fill="#26384a">resolved_by: integer FK NULL</text>
+<text x="498" y="7510" font-family="Consolas,monospace" font-size="15" fill="#26384a">resolved_at: timestamp with time zone NULL</text>
+<text x="498" y="7530" font-family="Consolas,monospace" font-size="15" fill="#26384a">resolution_note: character varying(2000) NULL</text>
+<text x="498" y="7550" font-family="Consolas,monospace" font-size="15" fill="#26384a">regraded_result_version_id: bigint FK NULL</text>
+<text x="498" y="7570" font-family="Consolas,monospace" font-size="15" fill="#26384a">revision: integer NOT NULL</text>
+<text x="498" y="7590" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_role"><rect x="30" y="7636" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="7636" width="430" height="28" fill="#dceaf7"/><text x="38" y="7655" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">role</text>
+<text x="38" y="7684" font-family="Consolas,monospace" font-size="15" fill="#26384a">role_id: integer PK NOT NULL</text>
+<text x="38" y="7704" font-family="Consolas,monospace" font-size="15" fill="#26384a">role_name: character varying(50) NOT NULL</text>
+<text x="38" y="7724" font-family="Consolas,monospace" font-size="15" fill="#26384a">description: text NULL</text>
+</g>
+<g id="table_rubric"><rect x="490" y="7636" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="7636" width="430" height="28" fill="#dceaf7"/><text x="498" y="7655" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">rubric</text>
+<text x="498" y="7684" font-family="Consolas,monospace" font-size="15" fill="#26384a">rubric_id: integer PK NOT NULL</text>
+<text x="498" y="7704" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="498" y="7724" font-family="Consolas,monospace" font-size="15" fill="#26384a">level_name: character varying(30) NOT NULL</text>
+<text x="498" y="7744" font-family="Consolas,monospace" font-size="15" fill="#26384a">min_score: numeric NOT NULL</text>
+<text x="498" y="7764" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_score: numeric NOT NULL</text>
+<text x="498" y="7784" font-family="Consolas,monospace" font-size="15" fill="#26384a">criteria: text NOT NULL</text>
+</g>
+<g id="table_selection_log"><rect x="30" y="7830" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="7830" width="430" height="28" fill="#dceaf7"/><text x="38" y="7849" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">selection_log</text>
+<text x="38" y="7878" font-family="Consolas,monospace" font-size="15" fill="#26384a">log_id: integer PK NOT NULL</text>
+<text x="38" y="7898" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="7918" font-family="Consolas,monospace" font-size="15" fill="#26384a">seq_no: smallint NOT NULL</text>
+<text x="38" y="7938" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="7958" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_fallback: boolean NOT NULL</text>
+<text x="38" y="7978" font-family="Consolas,monospace" font-size="15" fill="#26384a">decision_detail: jsonb NULL</text>
+<text x="38" y="7998" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_session_final_result"><rect x="490" y="7830" width="430" height="330" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="7830" width="430" height="28" fill="#dceaf7"/><text x="498" y="7849" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_final_result</text>
+<text x="498" y="7878" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_id: integer PK NOT NULL</text>
+<text x="498" y="7898" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="7918" font-family="Consolas,monospace" font-size="15" fill="#26384a">reviewer_id: integer FK NULL</text>
+<text x="498" y="7938" font-family="Consolas,monospace" font-size="15" fill="#26384a">source: character varying(20) NOT NULL</text>
+<text x="498" y="7958" font-family="Consolas,monospace" font-size="15" fill="#26384a">evaluation_input_hash: character varying(64) NOT NULL</text>
+<text x="498" y="7978" font-family="Consolas,monospace" font-size="15" fill="#26384a">approval_revision: integer NOT NULL</text>
+<text x="498" y="7998" font-family="Consolas,monospace" font-size="15" fill="#26384a">ai_evaluation: jsonb NOT NULL</text>
+<text x="498" y="8018" font-family="Consolas,monospace" font-size="15" fill="#26384a">final_evaluation: jsonb NOT NULL</text>
+<text x="498" y="8038" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_results: jsonb NOT NULL</text>
+<text x="498" y="8058" font-family="Consolas,monospace" font-size="15" fill="#26384a">scores: jsonb NOT NULL</text>
+<text x="498" y="8078" font-family="Consolas,monospace" font-size="15" fill="#26384a">overall: jsonb NOT NULL</text>
+<text x="498" y="8098" font-family="Consolas,monospace" font-size="15" fill="#26384a">uncovered_concepts: jsonb NOT NULL</text>
+<text x="498" y="8118" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="8138" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_session_question_plan"><rect x="30" y="8184" width="430" height="110" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="8184" width="430" height="28" fill="#dceaf7"/><text x="38" y="8203" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_question_plan</text>
+<text x="38" y="8232" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer PK,FK NOT NULL</text>
+<text x="38" y="8252" font-family="Consolas,monospace" font-size="15" fill="#26384a">seq_no: smallint PK NOT NULL</text>
+<text x="38" y="8272" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+</g>
+<g id="table_session_result_analysis"><rect x="490" y="8184" width="430" height="230" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="8184" width="430" height="28" fill="#dceaf7"/><text x="498" y="8203" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_result_analysis</text>
+<text x="498" y="8232" font-family="Consolas,monospace" font-size="15" fill="#26384a">analysis_id: bigint PK NOT NULL</text>
+<text x="498" y="8252" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="8272" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_version_id: bigint FK NOT NULL</text>
+<text x="498" y="8292" font-family="Consolas,monospace" font-size="15" fill="#26384a">ai1_run_id: bigint FK NOT NULL</text>
+<text x="498" y="8312" font-family="Consolas,monospace" font-size="15" fill="#26384a">ai2_run_id: bigint FK NOT NULL</text>
+<text x="498" y="8332" font-family="Consolas,monospace" font-size="15" fill="#26384a">analysis_schema_version: integer NOT NULL</text>
+<text x="498" y="8352" font-family="Consolas,monospace" font-size="15" fill="#26384a">analysis_hash: character(64) NOT NULL</text>
+<text x="498" y="8372" font-family="Consolas,monospace" font-size="15" fill="#26384a">analysis: jsonb NOT NULL</text>
+<text x="498" y="8392" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_session_result_criterion_score"><rect x="30" y="8438" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="8438" width="430" height="28" fill="#dceaf7"/><text x="38" y="8457" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_result_criterion_score</text>
+<text x="38" y="8486" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_score_id: bigint PK NOT NULL</text>
+<text x="38" y="8506" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="8526" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_version_id: bigint FK NOT NULL</text>
+<text x="38" y="8546" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="38" y="8566" font-family="Consolas,monospace" font-size="15" fill="#26384a">criterion_snapshot_id: bigint FK NOT NULL</text>
+<text x="38" y="8586" font-family="Consolas,monospace" font-size="15" fill="#26384a">score: numeric NOT NULL</text>
+<text x="38" y="8606" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_points: numeric NOT NULL</text>
+<text x="38" y="8626" font-family="Consolas,monospace" font-size="15" fill="#26384a">comment: character varying(2000) NULL</text>
+</g>
+<g id="table_session_result_publication"><rect x="490" y="8438" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="8438" width="430" height="28" fill="#dceaf7"/><text x="498" y="8457" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_result_publication</text>
+<text x="498" y="8486" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_version_id: bigint PK,FK NOT NULL</text>
+<text x="498" y="8506" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="8526" font-family="Consolas,monospace" font-size="15" fill="#26384a">state: character varying(30) NOT NULL</text>
+<text x="498" y="8546" font-family="Consolas,monospace" font-size="15" fill="#26384a">state_revision: integer NOT NULL</text>
+<text x="498" y="8566" font-family="Consolas,monospace" font-size="15" fill="#26384a">published_at: timestamp with time zone NULL</text>
+<text x="498" y="8586" font-family="Consolas,monospace" font-size="15" fill="#26384a">analysis_failed_at: timestamp with time zone NULL</text>
+<text x="498" y="8606" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="8626" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_by: integer FK NULL</text>
+</g>
+<g id="table_session_result_version"><rect x="30" y="8672" width="430" height="330" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="8672" width="430" height="28" fill="#dceaf7"/><text x="38" y="8691" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_result_version</text>
+<text x="38" y="8720" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_version_id: bigint PK NOT NULL</text>
+<text x="38" y="8740" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="8760" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_no: integer NOT NULL</text>
+<text x="38" y="8780" font-family="Consolas,monospace" font-size="15" fill="#26384a">source: character varying(10) NOT NULL</text>
+<text x="38" y="8800" font-family="Consolas,monospace" font-size="15" fill="#26384a">supersedes_version_id: bigint FK NULL</text>
+<text x="38" y="8820" font-family="Consolas,monospace" font-size="15" fill="#26384a">total_score: numeric NOT NULL</text>
+<text x="38" y="8840" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_score: numeric NOT NULL</text>
+<text x="38" y="8860" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_hash: character(64) NOT NULL</text>
+<text x="38" y="8880" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_by: integer FK NULL</text>
+<text x="38" y="8900" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="8920" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_draft_hash: character(64) NULL</text>
+<text x="38" y="8940" font-family="Consolas,monospace" font-size="15" fill="#26384a">approved_review_revision: integer NOT NULL</text>
+<text x="38" y="8960" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="8980" font-family="Consolas,monospace" font-size="15" fill="#26384a">review_request_id: bigint FK NULL</text>
+</g>
+<g id="table_session_result_version_score"><rect x="490" y="8672" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="8672" width="430" height="28" fill="#dceaf7"/><text x="498" y="8691" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_result_version_score</text>
+<text x="498" y="8720" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_score_id: bigint PK NOT NULL</text>
+<text x="498" y="8740" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="8760" font-family="Consolas,monospace" font-size="15" fill="#26384a">result_version_id: bigint FK NOT NULL</text>
+<text x="498" y="8780" font-family="Consolas,monospace" font-size="15" fill="#26384a">attempt_id: integer FK NOT NULL</text>
+<text x="498" y="8800" font-family="Consolas,monospace" font-size="15" fill="#26384a">score: numeric NOT NULL</text>
+<text x="498" y="8820" font-family="Consolas,monospace" font-size="15" fill="#26384a">max_score: numeric NOT NULL</text>
+<text x="498" y="8840" font-family="Consolas,monospace" font-size="15" fill="#26384a">source: character varying(20) NOT NULL</text>
+</g>
+<g id="table_session_start_request"><rect x="30" y="9026" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="9026" width="430" height="28" fill="#dceaf7"/><text x="38" y="9045" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">session_start_request</text>
+<text x="38" y="9074" font-family="Consolas,monospace" font-size="15" fill="#26384a">learner_id: integer PK,FK NOT NULL</text>
+<text x="38" y="9094" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_id: character varying(36) PK NOT NULL</text>
+<text x="38" y="9114" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="38" y="9134" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="9154" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_hash: character(64) NULL</text>
+</g>
+<g id="table_sql_test_dataset"><rect x="490" y="9026" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="9026" width="430" height="28" fill="#dceaf7"/><text x="498" y="9045" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">sql_test_dataset</text>
+<text x="498" y="9074" font-family="Consolas,monospace" font-size="15" fill="#26384a">dataset_id: integer PK NOT NULL</text>
+<text x="498" y="9094" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="498" y="9114" font-family="Consolas,monospace" font-size="15" fill="#26384a">dataset_name: character varying(100) NOT NULL</text>
+<text x="498" y="9134" font-family="Consolas,monospace" font-size="15" fill="#26384a">setup_sql: text NOT NULL</text>
+<text x="498" y="9154" font-family="Consolas,monospace" font-size="15" fill="#26384a">expected_result: jsonb NOT NULL</text>
+<text x="498" y="9174" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_edge_case: boolean NOT NULL</text>
+</g>
+<g id="table_system_setting"><rect x="30" y="9220" width="430" height="130" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="9220" width="430" height="28" fill="#dceaf7"/><text x="38" y="9239" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">system_setting</text>
+<text x="38" y="9268" font-family="Consolas,monospace" font-size="15" fill="#26384a">setting_key: character varying(80) PK NOT NULL</text>
+<text x="38" y="9288" font-family="Consolas,monospace" font-size="15" fill="#26384a">value: jsonb NOT NULL</text>
+<text x="38" y="9308" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_by: integer FK NULL</text>
+<text x="38" y="9328" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_tab_leave_interval"><rect x="490" y="9220" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="9220" width="430" height="28" fill="#dceaf7"/><text x="498" y="9239" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">tab_leave_interval</text>
+<text x="498" y="9268" font-family="Consolas,monospace" font-size="15" fill="#26384a">leave_event_id: uuid PK NOT NULL</text>
+<text x="498" y="9288" font-family="Consolas,monospace" font-size="15" fill="#26384a">session_id: integer FK NOT NULL</text>
+<text x="498" y="9308" font-family="Consolas,monospace" font-size="15" fill="#26384a">left_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="9328" font-family="Consolas,monospace" font-size="15" fill="#26384a">returned_at: timestamp with time zone NULL</text>
+<text x="498" y="9348" font-family="Consolas,monospace" font-size="15" fill="#26384a">return_event_id: uuid NULL</text>
+<text x="498" y="9368" font-family="Consolas,monospace" font-size="15" fill="#26384a">away_seconds: integer NULL</text>
+<text x="498" y="9388" font-family="Consolas,monospace" font-size="15" fill="#26384a">counted: boolean NOT NULL</text>
+</g>
+<g id="table_user_profile"><rect x="30" y="9434" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="9434" width="430" height="28" fill="#dceaf7"/><text x="38" y="9453" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">user_profile</text>
+<text x="38" y="9482" font-family="Consolas,monospace" font-size="15" fill="#26384a">user_id: integer PK NOT NULL</text>
+<text x="38" y="9502" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="38" y="9522" font-family="Consolas,monospace" font-size="15" fill="#26384a">full_name: character varying(100) NOT NULL</text>
+<text x="38" y="9542" font-family="Consolas,monospace" font-size="15" fill="#26384a">student_code: character varying(20) NULL</text>
+<text x="38" y="9562" font-family="Consolas,monospace" font-size="15" fill="#26384a">phone_number: character varying(20) NULL</text>
+<text x="38" y="9582" font-family="Consolas,monospace" font-size="15" fill="#26384a">date_of_birth: date NULL</text>
+</g>
+<g id="fk_account_identity_account_id_fkey"><text x="40" y="9628" font-family="Consolas,monospace" font-size="14" fill="#26384a">account_identity_account_id_fkey: account_identity(account_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_account_role_account_id_fkey"><text x="40" y="9647" font-family="Consolas,monospace" font-size="14" fill="#26384a">account_role_account_id_fkey: account_role(account_id) → account(account_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_account_role_role_id_fkey"><text x="40" y="9666" font-family="Consolas,monospace" font-size="14" fill="#26384a">account_role_role_id_fkey: account_role(role_id) → role(role_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (role_id) REFERENCES role(role_id)</title></g>
+<g id="fk_account_role_audit_actor_account_id_fkey"><text x="40" y="9685" font-family="Consolas,monospace" font-size="14" fill="#26384a">account_role_audit_actor_account_id_fkey: account_role_audit(actor_account_id) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (actor_account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_account_role_audit_target_account_id_fkey"><text x="40" y="9704" font-family="Consolas,monospace" font-size="14" fill="#26384a">account_role_audit_target_account_id_fkey: account_role_audit(target_account_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (target_account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_adaptive_event_session_id_fkey"><text x="40" y="9723" font-family="Consolas,monospace" font-size="14" fill="#26384a">adaptive_event_session_id_fkey: adaptive_event(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_ai_prompt_content_prompt_record_id_fkey"><text x="40" y="9742" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_prompt_content_prompt_record_id_fkey: ai_prompt_content(prompt_record_id) → ai_prompt_record(prompt_record_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (prompt_record_id) REFERENCES ai_prompt_record(prompt_record_id)</title></g>
+<g id="fk_ai_prompt_record_stage_run_id_session_id_fkey"><text x="40" y="9761" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_prompt_record_stage_run_id_session_id_fkey: ai_prompt_record(stage_run_id,session_id) → ai_stage_run(stage_run_id,session_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)</title></g>
+<g id="fk_ai_stage_attempt_stage_run_id_session_id_fkey"><text x="40" y="9780" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_attempt_stage_run_id_session_id_fkey: ai_stage_attempt(stage_run_id,session_id) → ai_stage_run(stage_run_id,session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)</title></g>
+<g id="fk_ai_stage_run_predecessor_fk"><text x="40" y="9799" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_run_predecessor_fk: ai_stage_run(predecessor_validation_id) → ai_stage_validation(validation_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (predecessor_validation_id) REFERENCES ai_stage_validation(validation_id)</title></g>
+<g id="fk_ai_stage_run_recovery_authorized_by_fkey"><text x="40" y="9818" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_run_recovery_authorized_by_fkey: ai_stage_run(recovery_authorized_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (recovery_authorized_by) REFERENCES account(account_id)</title></g>
+<g id="fk_ai_stage_run_recovery_of_run_id_fkey"><text x="40" y="9837" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_run_recovery_of_run_id_fkey: ai_stage_run(recovery_of_run_id) → ai_stage_run(stage_run_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (recovery_of_run_id) REFERENCES ai_stage_run(stage_run_id)</title></g>
+<g id="fk_ai_stage_run_result_version_id_fkey"><text x="40" y="9856" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_run_result_version_id_fkey: ai_stage_run(result_version_id) → session_result_version(result_version_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (result_version_id) REFERENCES session_result_version(result_version_id)</title></g>
+<g id="fk_ai_stage_run_session_id_fkey"><text x="40" y="9875" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_run_session_id_fkey: ai_stage_run(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_ai_stage_validation_stage_run_id_session_id_fkey"><text x="40" y="9894" font-family="Consolas,monospace" font-size="14" fill="#26384a">ai_stage_validation_stage_run_id_session_id_fkey: ai_stage_validation(stage_run_id,session_id) → ai_stage_run(stage_run_id,session_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (stage_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)</title></g>
+<g id="fk_assessment_created_by_fkey"><text x="40" y="9913" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_created_by_fkey: assessment(created_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (created_by) REFERENCES account(account_id)</title></g>
+<g id="fk_assessment_family_id_fkey"><text x="40" y="9932" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_family_id_fkey: assessment(family_id) → assessment(assessment_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (family_id) REFERENCES assessment(assessment_id)</title></g>
+<g id="fk_assessment_blueprint_approved_by_fkey"><text x="40" y="9951" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_blueprint_approved_by_fkey: assessment_blueprint(approved_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (approved_by) REFERENCES account(account_id)</title></g>
+<g id="fk_assessment_blueprint_assessment_id_fkey"><text x="40" y="9970" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_blueprint_assessment_id_fkey: assessment_blueprint(assessment_id) → assessment(assessment_id) [1:0..1] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE</title></g>
+<g id="fk_assessment_concept_assessment_id_fkey"><text x="40" y="9989" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_concept_assessment_id_fkey: assessment_concept(assessment_id) → assessment(assessment_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)</title></g>
+<g id="fk_assessment_concept_concept_id_fkey"><text x="40" y="10008" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_concept_concept_id_fkey: assessment_concept(concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_assessment_question_assessment_id_fkey"><text x="40" y="10027" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_question_assessment_id_fkey: assessment_question(assessment_id) → assessment(assessment_id) [1:0..1] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id) ON DELETE CASCADE</title></g>
+<g id="fk_assessment_question_question_id_fkey"><text x="40" y="10046" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_question_question_id_fkey: assessment_question(question_id) → question(question_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_assessment_session_assessment_id_fkey"><text x="40" y="10065" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_session_assessment_id_fkey: assessment_session(assessment_id) → assessment(assessment_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (assessment_id) REFERENCES assessment(assessment_id)</title></g>
+<g id="fk_assessment_session_blueprint_id_fkey"><text x="40" y="10084" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_session_blueprint_id_fkey: assessment_session(blueprint_id) → assessment_blueprint(blueprint_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (blueprint_id) REFERENCES assessment_blueprint(blueprint_id)</title></g>
+<g id="fk_assessment_session_current_version_fk"><text x="40" y="10103" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_session_current_version_fk: assessment_session(session_id,current_result_version_id) → session_result_version(session_id,result_version_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, current_result_version_id) REFERENCES session_result_version(session_id, result_version_id) DEFERRABLE INITIALLY DEFERRED</title></g>
+<g id="fk_assessment_session_learner_id_fkey"><text x="40" y="10122" font-family="Consolas,monospace" font-size="14" fill="#26384a">assessment_session_learner_id_fkey: assessment_session(learner_id) → account(account_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (learner_id) REFERENCES account(account_id)</title></g>
+<g id="fk_attempt_question_id_fkey"><text x="40" y="10141" font-family="Consolas,monospace" font-size="14" fill="#26384a">attempt_question_id_fkey: attempt(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_attempt_selected_option_id_fkey"><text x="40" y="10160" font-family="Consolas,monospace" font-size="14" fill="#26384a">attempt_selected_option_id_fkey: attempt(selected_option_id) → mcq_option(option_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (selected_option_id) REFERENCES mcq_option(option_id)</title></g>
+<g id="fk_attempt_session_id_fkey"><text x="40" y="10179" font-family="Consolas,monospace" font-size="14" fill="#26384a">attempt_session_id_fkey: attempt(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_attempt_rubric_criterion_criterion_id_fkey"><text x="40" y="10198" font-family="Consolas,monospace" font-size="14" fill="#26384a">attempt_rubric_criterion_criterion_id_fkey: attempt_rubric_criterion(criterion_id) → question_rubric_criterion(criterion_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (criterion_id) REFERENCES question_rubric_criterion(criterion_id)</title></g>
+<g id="fk_attempt_rubric_criterion_question_id_rubric_profile_id_fkey"><text x="40" y="10217" font-family="Consolas,monospace" font-size="14" fill="#26384a">attempt_rubric_criterion_question_id_rubric_profile_id_fkey: attempt_rubric_criterion(question_id,rubric_profile_id) → question_rubric_profile(question_id,rubric_profile_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id, rubric_profile_id) REFERENCES question_rubric_profile(question_id, rubric_profile_id)</title></g>
+<g id="fk_attempt_rubric_criterion_session_id_attempt_id_fkey"><text x="40" y="10236" font-family="Consolas,monospace" font-size="14" fill="#26384a">attempt_rubric_criterion_session_id_attempt_id_fkey: attempt_rubric_criterion(session_id,attempt_id) → attempt(session_id,attempt_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)</title></g>
+<g id="fk_clo_concept_clo_id_fkey"><text x="40" y="10255" font-family="Consolas,monospace" font-size="14" fill="#26384a">clo_concept_clo_id_fkey: clo_concept(clo_id) → course_learning_outcome(clo_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)</title></g>
+<g id="fk_clo_concept_concept_id_fkey"><text x="40" y="10274" font-family="Consolas,monospace" font-size="14" fill="#26384a">clo_concept_concept_id_fkey: clo_concept(concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_competency_gap_concept_id_fkey"><text x="40" y="10293" font-family="Consolas,monospace" font-size="14" fill="#26384a">competency_gap_concept_id_fkey: competency_gap(concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_competency_gap_session_id_fkey"><text x="40" y="10312" font-family="Consolas,monospace" font-size="14" fill="#26384a">competency_gap_session_id_fkey: competency_gap(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_concept_competency_concept_id_fkey"><text x="40" y="10331" font-family="Consolas,monospace" font-size="14" fill="#26384a">concept_competency_concept_id_fkey: concept_competency(concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_concept_competency_session_id_fkey"><text x="40" y="10350" font-family="Consolas,monospace" font-size="14" fill="#26384a">concept_competency_session_id_fkey: concept_competency(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_concept_dependency_concept_id_fkey"><text x="40" y="10369" font-family="Consolas,monospace" font-size="14" fill="#26384a">concept_dependency_concept_id_fkey: concept_dependency(concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_concept_dependency_prerequisite_concept_id_fkey"><text x="40" y="10388" font-family="Consolas,monospace" font-size="14" fill="#26384a">concept_dependency_prerequisite_concept_id_fkey: concept_dependency(prerequisite_concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (prerequisite_concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_course_document_approved_by_fk"><text x="40" y="10407" font-family="Consolas,monospace" font-size="14" fill="#26384a">course_document_approved_by_fk: course_document(approved_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (approved_by) REFERENCES account(account_id)</title></g>
+<g id="fk_course_document_uploaded_by_fk"><text x="40" y="10426" font-family="Consolas,monospace" font-size="14" fill="#26384a">course_document_uploaded_by_fk: course_document(uploaded_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (uploaded_by) REFERENCES account(account_id)</title></g>
+<g id="fk_course_learning_outcome_created_by_fkey"><text x="40" y="10445" font-family="Consolas,monospace" font-size="14" fill="#26384a">course_learning_outcome_created_by_fkey: course_learning_outcome(created_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (created_by) REFERENCES account(account_id)</title></g>
+<g id="fk_document_chunk_document_fk"><text x="40" y="10464" font-family="Consolas,monospace" font-size="14" fill="#26384a">document_chunk_document_fk: document_chunk(document_id) → course_document(document_id) [1:0..1] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE</title></g>
+<g id="fk_document_clo_approved_by_fk"><text x="40" y="10483" font-family="Consolas,monospace" font-size="14" fill="#26384a">document_clo_approved_by_fk: document_clo(approved_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (approved_by) REFERENCES account(account_id)</title></g>
+<g id="fk_document_clo_clo_fk"><text x="40" y="10502" font-family="Consolas,monospace" font-size="14" fill="#26384a">document_clo_clo_fk: document_clo(clo_id) → course_learning_outcome(clo_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)</title></g>
+<g id="fk_document_clo_document_fk"><text x="40" y="10521" font-family="Consolas,monospace" font-size="14" fill="#26384a">document_clo_document_fk: document_clo(document_id) → course_document(document_id) [1:0..1] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (document_id) REFERENCES course_document(document_id) ON DELETE CASCADE</title></g>
+<g id="fk_evaluation_record_learner_id_fkey"><text x="40" y="10540" font-family="Consolas,monospace" font-size="14" fill="#26384a">evaluation_record_learner_id_fkey: evaluation_record(learner_id) → account(account_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (learner_id) REFERENCES account(account_id)</title></g>
+<g id="fk_evaluation_record_session_id_fkey"><text x="40" y="10559" font-family="Consolas,monospace" font-size="14" fill="#26384a">evaluation_record_session_id_fkey: evaluation_record(session_id) → assessment_session(session_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_grade_edit_audit_attempt_id_fkey"><text x="40" y="10578" font-family="Consolas,monospace" font-size="14" fill="#26384a">grade_edit_audit_attempt_id_fkey: grade_edit_audit(attempt_id) → attempt(attempt_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)</title></g>
+<g id="fk_grade_edit_audit_reviewer_id_fkey"><text x="40" y="10597" font-family="Consolas,monospace" font-size="14" fill="#26384a">grade_edit_audit_reviewer_id_fkey: grade_edit_audit(reviewer_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (reviewer_id) REFERENCES account(account_id)</title></g>
+<g id="fk_grade_review_attempt_id_fkey"><text x="40" y="10616" font-family="Consolas,monospace" font-size="14" fill="#26384a">grade_review_attempt_id_fkey: grade_review(attempt_id) → attempt(attempt_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)</title></g>
+<g id="fk_grade_review_reviewer_id_fkey"><text x="40" y="10635" font-family="Consolas,monospace" font-size="14" fill="#26384a">grade_review_reviewer_id_fkey: grade_review(reviewer_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (reviewer_id) REFERENCES account(account_id)</title></g>
+<g id="fk_grading_job_attempt_id_fkey"><text x="40" y="10654" font-family="Consolas,monospace" font-size="14" fill="#26384a">grading_job_attempt_id_fkey: grading_job(attempt_id) → attempt(attempt_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (attempt_id) REFERENCES attempt(attempt_id)</title></g>
+<g id="fk_mcq_option_question_id_fkey"><text x="40" y="10673" font-family="Consolas,monospace" font-size="14" fill="#26384a">mcq_option_question_id_fkey: mcq_option(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_oauth_handoff_account_id_fkey"><text x="40" y="10692" font-family="Consolas,monospace" font-size="14" fill="#26384a">oauth_handoff_account_id_fkey: oauth_handoff(account_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_password_reset_audit_account_id_fkey"><text x="40" y="10711" font-family="Consolas,monospace" font-size="14" fill="#26384a">password_reset_audit_account_id_fkey: password_reset_audit(account_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_password_reset_token_account_id_fkey"><text x="40" y="10730" font-family="Consolas,monospace" font-size="14" fill="#26384a">password_reset_token_account_id_fkey: password_reset_token(account_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id)</title></g>
+<g id="fk_prompt_access_audit_actor_id_fkey"><text x="40" y="10749" font-family="Consolas,monospace" font-size="14" fill="#26384a">prompt_access_audit_actor_id_fkey: prompt_access_audit(actor_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (actor_id) REFERENCES account(account_id)</title></g>
+<g id="fk_prompt_access_audit_prompt_record_id_fkey"><text x="40" y="10768" font-family="Consolas,monospace" font-size="14" fill="#26384a">prompt_access_audit_prompt_record_id_fkey: prompt_access_audit(prompt_record_id) → ai_prompt_record(prompt_record_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (prompt_record_id) REFERENCES ai_prompt_record(prompt_record_id)</title></g>
+<g id="fk_question_created_by_fkey"><text x="40" y="10787" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_created_by_fkey: question(created_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (created_by) REFERENCES account(account_id)</title></g>
+<g id="fk_question_family_id_fkey"><text x="40" y="10806" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_family_id_fkey: question(family_id) → question(question_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (family_id) REFERENCES question(question_id)</title></g>
+<g id="fk_question_candidate_concept_id_fkey"><text x="40" y="10825" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_candidate_concept_id_fkey: question_candidate(concept_id) → concept(concept_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_question_candidate_promoted_question_id_fkey"><text x="40" y="10844" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_candidate_promoted_question_id_fkey: question_candidate(promoted_question_id) → question(question_id) [0..1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (promoted_question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_question_clo_clo_fk"><text x="40" y="10863" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_clo_clo_fk: question_clo(clo_id) → course_learning_outcome(clo_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (clo_id) REFERENCES course_learning_outcome(clo_id)</title></g>
+<g id="fk_question_clo_question_fk"><text x="40" y="10882" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_clo_question_fk: question_clo(question_id) → question(question_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_question_concept_concept_id_fkey"><text x="40" y="10901" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_concept_concept_id_fkey: question_concept(concept_id) → concept(concept_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (concept_id) REFERENCES concept(concept_id)</title></g>
+<g id="fk_question_concept_question_id_fkey"><text x="40" y="10920" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_concept_question_id_fkey: question_concept(question_id) → question(question_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_question_evidence_chunk_fk"><text x="40" y="10939" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_evidence_chunk_fk: question_evidence(chunk_id) → document_chunk(chunk_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (chunk_id) REFERENCES document_chunk(chunk_id)</title></g>
+<g id="fk_question_evidence_question_fk"><text x="40" y="10958" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_evidence_question_fk: question_evidence(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE</title></g>
+<g id="fk_question_report_question_id_fkey"><text x="40" y="10977" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_report_question_id_fkey: question_report(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_question_report_reported_by_fkey"><text x="40" y="10996" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_report_reported_by_fkey: question_report(reported_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (reported_by) REFERENCES account(account_id)</title></g>
+<g id="fk_question_report_resolved_by_fkey"><text x="40" y="11015" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_report_resolved_by_fkey: question_report(resolved_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (resolved_by) REFERENCES account(account_id)</title></g>
+<g id="fk_question_report_review_request_id_fkey"><text x="40" y="11034" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_report_review_request_id_fkey: question_report(review_request_id) → review_request(review_request_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id)</title></g>
+<g id="fk_question_report_session_id_attempt_id_fkey"><text x="40" y="11053" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_report_session_id_attempt_id_fkey: question_report(session_id,attempt_id) → attempt(session_id,attempt_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)</title></g>
+<g id="fk_question_rubric_criterion_rubric_profile_id_fkey"><text x="40" y="11072" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_rubric_criterion_rubric_profile_id_fkey: question_rubric_criterion(rubric_profile_id) → question_rubric_profile(rubric_profile_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (rubric_profile_id) REFERENCES question_rubric_profile(rubric_profile_id)</title></g>
+<g id="fk_question_rubric_profile_created_by_fkey"><text x="40" y="11091" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_rubric_profile_created_by_fkey: question_rubric_profile(created_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (created_by) REFERENCES account(account_id)</title></g>
+<g id="fk_question_rubric_profile_question_id_fkey"><text x="40" y="11110" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_rubric_profile_question_id_fkey: question_rubric_profile(question_id) → question(question_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_question_translation_question_id_fkey"><text x="40" y="11129" font-family="Consolas,monospace" font-size="14" fill="#26384a">question_translation_question_id_fkey: question_translation(question_id) → question(question_id) [1:0..1] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE</title></g>
+<g id="fk_refresh_session_account_id_fkey"><text x="40" y="11148" font-family="Consolas,monospace" font-size="14" fill="#26384a">refresh_session_account_id_fkey: refresh_session(account_id) → account(account_id) [1:0..N] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE</title></g>
+<g id="fk_result_release_event_reviewer_id_fkey"><text x="40" y="11167" font-family="Consolas,monospace" font-size="14" fill="#26384a">result_release_event_reviewer_id_fkey: result_release_event(reviewer_id) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (reviewer_id) REFERENCES account(account_id)</title></g>
+<g id="fk_result_release_event_session_id_fkey"><text x="40" y="11186" font-family="Consolas,monospace" font-size="14" fill="#26384a">result_release_event_session_id_fkey: result_release_event(session_id) → assessment_session(session_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_review_deviation_first_reviewer_id_fkey"><text x="40" y="11205" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_first_reviewer_id_fkey: review_deviation(first_reviewer_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (first_reviewer_id) REFERENCES account(account_id)</title></g>
+<g id="fk_review_deviation_review_request_id_fkey"><text x="40" y="11224" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_review_request_id_fkey: review_deviation(review_request_id) → review_request(review_request_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id)</title></g>
+<g id="fk_review_deviation_second_reviewer_id_fkey"><text x="40" y="11243" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_second_reviewer_id_fkey: review_deviation(second_reviewer_id) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (second_reviewer_id) REFERENCES account(account_id)</title></g>
+<g id="fk_review_deviation_session_id_attempt_id_criterion_snapshot__fkey"><text x="40" y="11262" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_session_id_attempt_id_criterion_snapshot__fkey: review_deviation(session_id,attempt_id,criterion_snapshot_id) → attempt_rubric_criterion(session_id,attempt_id,criterion_snapshot_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, attempt_id, criterion_snapshot_id) REFERENCES attempt_rubric_criterion(session_id, attempt_id, criterion_snapshot_id)</title></g>
+<g id="fk_review_deviation_session_id_attempt_id_fkey"><text x="40" y="11281" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_session_id_attempt_id_fkey: review_deviation(session_id,attempt_id) → attempt(session_id,attempt_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)</title></g>
+<g id="fk_review_deviation_confirmation_confirmed_by_fkey"><text x="40" y="11300" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_confirmation_confirmed_by_fkey: review_deviation_confirmation(confirmed_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (confirmed_by) REFERENCES account(account_id)</title></g>
+<g id="fk_review_deviation_confirmation_deviation_id_fkey"><text x="40" y="11319" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_deviation_confirmation_deviation_id_fkey: review_deviation_confirmation(deviation_id) → review_deviation(deviation_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (deviation_id) REFERENCES review_deviation(deviation_id)</title></g>
+<g id="fk_review_request_claimed_by_fkey"><text x="40" y="11338" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_claimed_by_fkey: review_request(claimed_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (claimed_by) REFERENCES account(account_id)</title></g>
+<g id="fk_review_request_learner_id_fkey"><text x="40" y="11357" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_learner_id_fkey: review_request(learner_id) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (learner_id) REFERENCES account(account_id)</title></g>
+<g id="fk_review_request_requested_by_fkey"><text x="40" y="11376" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_requested_by_fkey: review_request(requested_by) → account(account_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (requested_by) REFERENCES account(account_id)</title></g>
+<g id="fk_review_request_resolved_by_fkey"><text x="40" y="11395" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_resolved_by_fkey: review_request(resolved_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (resolved_by) REFERENCES account(account_id)</title></g>
+<g id="fk_review_request_session_id_base_result_version_id_fkey"><text x="40" y="11414" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_session_id_base_result_version_id_fkey: review_request(session_id,base_result_version_id) → session_result_version(session_id,result_version_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, base_result_version_id) REFERENCES session_result_version(session_id, result_version_id)</title></g>
+<g id="fk_review_request_session_id_fkey"><text x="40" y="11433" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_session_id_fkey: review_request(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_review_request_session_id_regraded_result_version_id_fkey"><text x="40" y="11452" font-family="Consolas,monospace" font-size="14" fill="#26384a">review_request_session_id_regraded_result_version_id_fkey: review_request(session_id,regraded_result_version_id) → session_result_version(session_id,result_version_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, regraded_result_version_id) REFERENCES session_result_version(session_id, result_version_id)</title></g>
+<g id="fk_rubric_question_id_fkey"><text x="40" y="11471" font-family="Consolas,monospace" font-size="14" fill="#26384a">rubric_question_id_fkey: rubric(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_selection_log_question_id_fkey"><text x="40" y="11490" font-family="Consolas,monospace" font-size="14" fill="#26384a">selection_log_question_id_fkey: selection_log(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_selection_log_session_id_fkey"><text x="40" y="11509" font-family="Consolas,monospace" font-size="14" fill="#26384a">selection_log_session_id_fkey: selection_log(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_session_final_result_reviewer_id_fkey"><text x="40" y="11528" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_final_result_reviewer_id_fkey: session_final_result(reviewer_id) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (reviewer_id) REFERENCES account(account_id)</title></g>
+<g id="fk_session_final_result_session_id_fkey"><text x="40" y="11547" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_final_result_session_id_fkey: session_final_result(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_session_question_plan_question_id_fkey"><text x="40" y="11566" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_question_plan_question_id_fkey: session_question_plan(question_id) → question(question_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_session_question_plan_session_id_fkey"><text x="40" y="11585" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_question_plan_session_id_fkey: session_question_plan(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_session_result_analysis_ai1_run_id_session_id_fkey"><text x="40" y="11604" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_analysis_ai1_run_id_session_id_fkey: session_result_analysis(ai1_run_id,session_id) → ai_stage_run(stage_run_id,session_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (ai1_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)</title></g>
+<g id="fk_session_result_analysis_ai2_run_id_session_id_fkey"><text x="40" y="11623" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_analysis_ai2_run_id_session_id_fkey: session_result_analysis(ai2_run_id,session_id) → ai_stage_run(stage_run_id,session_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (ai2_run_id, session_id) REFERENCES ai_stage_run(stage_run_id, session_id)</title></g>
+<g id="fk_session_result_analysis_session_id_result_version_id_fkey"><text x="40" y="11642" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_analysis_session_id_result_version_id_fkey: session_result_analysis(session_id,result_version_id) → session_result_version(session_id,result_version_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)</title></g>
+<g id="fk_session_result_criterion_scor_session_id_attempt_id_criter_fkey"><text x="40" y="11661" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_criterion_scor_session_id_attempt_id_criter_fkey: session_result_criterion_score(session_id,attempt_id,criterion_snapshot_id) → attempt_rubric_criterion(session_id,attempt_id,criterion_snapshot_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, attempt_id, criterion_snapshot_id) REFERENCES attempt_rubric_criterion(session_id, attempt_id, criterion_snapshot_id)</title></g>
+<g id="fk_session_result_criterion_scor_session_id_result_version_id_fkey"><text x="40" y="11680" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_criterion_scor_session_id_result_version_id_fkey: session_result_criterion_score(session_id,result_version_id,attempt_id) → session_result_version_score(session_id,result_version_id,attempt_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, result_version_id, attempt_id) REFERENCES session_result_version_score(session_id, result_version_id, attempt_id)</title></g>
+<g id="fk_session_result_publication_session_id_result_version_id_fkey"><text x="40" y="11699" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_publication_session_id_result_version_id_fkey: session_result_publication(session_id,result_version_id) → session_result_version(session_id,result_version_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)</title></g>
+<g id="fk_session_result_publication_updated_by_fkey"><text x="40" y="11718" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_publication_updated_by_fkey: session_result_publication(updated_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (updated_by) REFERENCES account(account_id)</title></g>
+<g id="fk_session_result_version_approved_by_fkey"><text x="40" y="11737" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_version_approved_by_fkey: session_result_version(approved_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (approved_by) REFERENCES account(account_id)</title></g>
+<g id="fk_session_result_version_review_request_fk"><text x="40" y="11756" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_version_review_request_fk: session_result_version(review_request_id) → review_request(review_request_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id) DEFERRABLE INITIALLY DEFERRED</title></g>
+<g id="fk_session_result_version_session_id_fkey"><text x="40" y="11775" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_version_session_id_fkey: session_result_version(session_id) → assessment_session(session_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id)</title></g>
+<g id="fk_session_result_version_supersedes_version_id_fkey"><text x="40" y="11794" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_version_supersedes_version_id_fkey: session_result_version(supersedes_version_id) → session_result_version(result_version_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (supersedes_version_id) REFERENCES session_result_version(result_version_id)</title></g>
+<g id="fk_session_result_version_score_session_id_attempt_id_fkey"><text x="40" y="11813" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_version_score_session_id_attempt_id_fkey: session_result_version_score(session_id,attempt_id) → attempt(session_id,attempt_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, attempt_id) REFERENCES attempt(session_id, attempt_id)</title></g>
+<g id="fk_session_result_version_score_session_id_result_version_id_fkey"><text x="40" y="11832" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_result_version_score_session_id_result_version_id_fkey: session_result_version_score(session_id,result_version_id) → session_result_version(session_id,result_version_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, result_version_id) REFERENCES session_result_version(session_id, result_version_id)</title></g>
+<g id="fk_session_start_request_session_id_learner_id_fkey"><text x="40" y="11851" font-family="Consolas,monospace" font-size="14" fill="#26384a">session_start_request_session_id_learner_id_fkey: session_start_request(session_id,learner_id) → assessment_session(session_id,learner_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (session_id, learner_id) REFERENCES assessment_session(session_id, learner_id)</title></g>
+<g id="fk_sql_test_dataset_question_id_fkey"><text x="40" y="11870" font-family="Consolas,monospace" font-size="14" fill="#26384a">sql_test_dataset_question_id_fkey: sql_test_dataset(question_id) → question(question_id) [1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (question_id) REFERENCES question(question_id)</title></g>
+<g id="fk_system_setting_updated_by_fkey"><text x="40" y="11889" font-family="Consolas,monospace" font-size="14" fill="#26384a">system_setting_updated_by_fkey: system_setting(updated_by) → account(account_id) [0..1:0..N] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (updated_by) REFERENCES account(account_id)</title></g>
+<g id="fk_tab_leave_interval_session_id_fkey"><text x="40" y="11908" font-family="Consolas,monospace" font-size="14" fill="#26384a">tab_leave_interval_session_id_fkey: tab_leave_interval(session_id) → assessment_session(session_id) [1:0..N] ON DELETE/UPDATE CASCADE/NO ACTION</text><title>FOREIGN KEY (session_id) REFERENCES assessment_session(session_id) ON DELETE CASCADE</title></g>
+<g id="fk_user_profile_account_id_fkey"><text x="40" y="11927" font-family="Consolas,monospace" font-size="14" fill="#26384a">user_profile_account_id_fkey: user_profile(account_id) → account(account_id) [1:0..1] ON DELETE/UPDATE NO ACTION/NO ACTION</text><title>FOREIGN KEY (account_id) REFERENCES account(account_id)</title></g>
+</svg>

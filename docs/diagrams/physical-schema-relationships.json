@@ -1844,5 +1844,35 @@
     "children_per_parent": "0..N",
     "constraint": "session_result_version_review_request_fk",
     "definition": "FOREIGN KEY (review_request_id) REFERENCES review_request(review_request_id) DEFERRABLE INITIALLY DEFERRED"
+  },
+  {
+    "id": "FK121",
+    "source": "review_deviation_confirmation",
+    "columns": [
+      "confirmed_by"
+    ],
+    "destination": "account",
+    "reference_columns": [
+      "account_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..N",
+    "constraint": "review_deviation_confirmation_confirmed_by_fkey",
+    "definition": "FOREIGN KEY (confirmed_by) REFERENCES account(account_id)"
+  },
+  {
+    "id": "FK122",
+    "source": "review_deviation_confirmation",
+    "columns": [
+      "deviation_id"
+    ],
+    "destination": "review_deviation",
+    "reference_columns": [
+      "deviation_id"
+    ],
+    "parent_per_child": "1",
+    "children_per_parent": "0..1",
+    "constraint": "review_deviation_confirmation_deviation_id_fkey",
+    "definition": "FOREIGN KEY (deviation_id) REFERENCES review_deviation(deviation_id)"
   }
 ]

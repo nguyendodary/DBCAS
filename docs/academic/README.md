@@ -1,5 +1,9 @@
 # Academic documents — active version v1.2
 
+The approved v1.2 database dictionary uses the schema through migration 027.
+Deployments that apply migration 028 use the
+[versioned schema and relationship diagrams](../diagrams/schema-028/README.md).
+
 The three official academic deliverables are the **original English v1.1
 documents revised in place** to version 1.2 (08 November 2026). Cover pages,
 headers/footers, heading styles, numbering, fonts, table styles, page layout,

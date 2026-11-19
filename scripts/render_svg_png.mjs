@@ -8,7 +8,10 @@ import { pathToFileURL } from 'node:url'
 import puppeteer from 'puppeteer'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const GEN = path.join(ROOT, 'docs', 'diagrams', 'generated')
+const version = fs.readdirSync(path.join(ROOT, 'db', 'migrations'))
+  .filter((name) => /^\d{3}_.+\.sql$/.test(name))
+  .sort().at(-1).slice(0, 3)
+const GEN = path.join(ROOT, 'docs', 'diagrams', `schema-${version}`)
 
 async function launch() {
   return puppeteer.launch({ headless: true, executablePath: await puppeteer.executablePath(),

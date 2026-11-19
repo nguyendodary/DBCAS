@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="1158" viewBox="0 0 950 1158" role="img" aria-label="Entity Relationship Diagram — DBCAS (6/15)">
+<title>Entity Relationship Diagram — DBCAS (6/15)</title><desc>41 bảng thật, thuộc tính PK/FK/kiểu/null; legacy/retired = assessment, assessment_blueprint, assessment_concept, assessment_question</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#34495e"/></marker><marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa7b4"/></marker></defs>
+<rect width="950" height="1158" fill="#ffffff"/>
+<text x="24" y="34" font-family="Arial" font-size="26" font-weight="bold" fill="#10254f">Entity Relationship Diagram — DBCAS (6/15)</text>
+<text x="30" y="64" font-family="Arial" font-size="13" fill="#5c6c7c">PK = primary key · FK = foreign key · NULL = nullable · legacy/retired tables are shaded amber.</text>
+<g id="table_mcq_option"><rect x="30" y="92" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="92" width="430" height="28" fill="#dceaf7"/><text x="38" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">mcq_option</text>
+<text x="38" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_id: integer PK NOT NULL</text>
+<text x="38" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer FK NOT NULL</text>
+<text x="38" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_label: character varying(5) NOT NULL</text>
+<text x="38" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">option_text: text NOT NULL</text>
+<text x="38" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_correct: boolean NOT NULL</text>
+</g>
+<g id="table_oauth_handoff"><rect x="490" y="92" width="430" height="150" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="92" width="430" height="28" fill="#dceaf7"/><text x="498" y="111" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">oauth_handoff</text>
+<text x="498" y="140" font-family="Consolas,monospace" font-size="15" fill="#26384a">jti_hash: character varying(64) PK NOT NULL</text>
+<text x="498" y="160" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="498" y="180" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="200" font-family="Consolas,monospace" font-size="15" fill="#26384a">consumed_at: timestamp with time zone NULL</text>
+<text x="498" y="220" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_password_reset_audit"><rect x="30" y="266" width="430" height="130" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="266" width="430" height="28" fill="#dceaf7"/><text x="38" y="285" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">password_reset_audit</text>
+<text x="38" y="314" font-family="Consolas,monospace" font-size="15" fill="#26384a">audit_id: integer PK NOT NULL</text>
+<text x="38" y="334" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="38" y="354" font-family="Consolas,monospace" font-size="15" fill="#26384a">event: character varying(20) NOT NULL</text>
+<text x="38" y="374" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_password_reset_token"><rect x="490" y="266" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="266" width="430" height="28" fill="#dceaf7"/><text x="498" y="285" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">password_reset_token</text>
+<text x="498" y="314" font-family="Consolas,monospace" font-size="15" fill="#26384a">token_hash: character varying(64) PK NOT NULL</text>
+<text x="498" y="334" font-family="Consolas,monospace" font-size="15" fill="#26384a">account_id: integer FK NOT NULL</text>
+<text x="498" y="354" font-family="Consolas,monospace" font-size="15" fill="#26384a">requested_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="374" font-family="Consolas,monospace" font-size="15" fill="#26384a">expires_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="394" font-family="Consolas,monospace" font-size="15" fill="#26384a">used_at: timestamp with time zone NULL</text>
+<text x="498" y="414" font-family="Consolas,monospace" font-size="15" fill="#26384a">revoked_at: timestamp with time zone NULL</text>
+</g>
+<g id="table_prompt_access_audit"><rect x="30" y="460" width="430" height="170" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="460" width="430" height="28" fill="#dceaf7"/><text x="38" y="479" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">prompt_access_audit</text>
+<text x="38" y="508" font-family="Consolas,monospace" font-size="15" fill="#26384a">access_id: bigint PK NOT NULL</text>
+<text x="38" y="528" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt_record_id: bigint FK NOT NULL</text>
+<text x="38" y="548" font-family="Consolas,monospace" font-size="15" fill="#26384a">actor_id: integer FK NOT NULL</text>
+<text x="38" y="568" font-family="Consolas,monospace" font-size="15" fill="#26384a">result: character varying(20) NOT NULL</text>
+<text x="38" y="588" font-family="Consolas,monospace" font-size="15" fill="#26384a">accessed_at: timestamp with time zone NOT NULL</text>
+<text x="38" y="608" font-family="Consolas,monospace" font-size="15" fill="#26384a">request_id: uuid NULL</text>
+</g>
+<g id="table_question"><rect x="490" y="460" width="430" height="410" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="460" width="430" height="28" fill="#dceaf7"/><text x="498" y="479" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question</text>
+<text x="498" y="508" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK NOT NULL</text>
+<text x="498" y="528" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_type: character varying(10) NOT NULL</text>
+<text x="498" y="548" font-family="Consolas,monospace" font-size="15" fill="#26384a">prompt: text NOT NULL</text>
+<text x="498" y="568" font-family="Consolas,monospace" font-size="15" fill="#26384a">reference_answer: text NULL</text>
+<text x="498" y="588" font-family="Consolas,monospace" font-size="15" fill="#26384a">difficulty_level: smallint NOT NULL</text>
+<text x="498" y="608" font-family="Consolas,monospace" font-size="15" fill="#26384a">points: numeric NOT NULL</text>
+<text x="498" y="628" font-family="Consolas,monospace" font-size="15" fill="#26384a">source: character varying(15) NOT NULL</text>
+<text x="498" y="648" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="668" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_by: integer FK NOT NULL</text>
+<text x="498" y="688" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="708" font-family="Consolas,monospace" font-size="15" fill="#26384a">updated_at: timestamp with time zone NOT NULL</text>
+<text x="498" y="728" font-family="Consolas,monospace" font-size="15" fill="#26384a">ai_review: jsonb NULL</text>
+<text x="498" y="748" font-family="Consolas,monospace" font-size="15" fill="#26384a">family_id: integer FK NULL</text>
+<text x="498" y="768" font-family="Consolas,monospace" font-size="15" fill="#26384a">version_no: integer NOT NULL</text>
+<text x="498" y="788" font-family="Consolas,monospace" font-size="15" fill="#26384a">explanation: text NULL</text>
+<text x="498" y="808" font-family="Consolas,monospace" font-size="15" fill="#26384a">tags: ARRAY NOT NULL</text>
+<text x="498" y="828" font-family="Consolas,monospace" font-size="15" fill="#26384a">source_refs: jsonb NOT NULL</text>
+<text x="498" y="848" font-family="Consolas,monospace" font-size="15" fill="#26384a">original_locale: character varying(16) NOT NULL</text>
+</g>
+<g id="table_question_candidate"><rect x="30" y="894" width="430" height="210" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="30" y="894" width="430" height="28" fill="#dceaf7"/><text x="38" y="913" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_candidate</text>
+<text x="38" y="942" font-family="Consolas,monospace" font-size="15" fill="#26384a">candidate_id: integer PK NOT NULL</text>
+<text x="38" y="962" font-family="Consolas,monospace" font-size="15" fill="#26384a">concept_id: integer FK NOT NULL</text>
+<text x="38" y="982" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_type: character varying(10) NOT NULL</text>
+<text x="38" y="1002" font-family="Consolas,monospace" font-size="15" fill="#26384a">payload: jsonb NOT NULL</text>
+<text x="38" y="1022" font-family="Consolas,monospace" font-size="15" fill="#26384a">validation_status: character varying(20) NOT NULL</text>
+<text x="38" y="1042" font-family="Consolas,monospace" font-size="15" fill="#26384a">validation_detail: jsonb NULL</text>
+<text x="38" y="1062" font-family="Consolas,monospace" font-size="15" fill="#26384a">promoted_question_id: integer FK NULL</text>
+<text x="38" y="1082" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+<g id="table_question_clo"><rect x="490" y="894" width="430" height="190" fill="#ffffff" stroke="#34495e" stroke-width="1.4"/><rect x="490" y="894" width="430" height="28" fill="#dceaf7"/><text x="498" y="913" font-family="Arial" font-size="14" font-weight="bold" fill="#10254f">question_clo</text>
+<text x="498" y="942" font-family="Consolas,monospace" font-size="15" fill="#26384a">question_id: integer PK,FK NOT NULL</text>
+<text x="498" y="962" font-family="Consolas,monospace" font-size="15" fill="#26384a">clo_id: integer PK,FK NOT NULL</text>
+<text x="498" y="982" font-family="Consolas,monospace" font-size="15" fill="#26384a">is_primary: boolean NOT NULL</text>
+<text x="498" y="1002" font-family="Consolas,monospace" font-size="15" fill="#26384a">status: character varying(20) NOT NULL</text>
+<text x="498" y="1022" font-family="Consolas,monospace" font-size="15" fill="#26384a">tag_source: character varying(10) NOT NULL</text>
+<text x="498" y="1042" font-family="Consolas,monospace" font-size="15" fill="#26384a">confirmed_at: timestamp with time zone NULL</text>
+<text x="498" y="1062" font-family="Consolas,monospace" font-size="15" fill="#26384a">created_at: timestamp with time zone NOT NULL</text>
+</g>
+</svg>
