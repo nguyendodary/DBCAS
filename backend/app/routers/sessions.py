@@ -26,7 +26,7 @@ from ..schemas import (
     PaperDraftResult, PaperDraftSaveRequest, PaperFlagRequest, PaperFlagResult,
     PaperMetadata, PaperQuestionView, PaperSubmitRequest, PaperSubmitResult,
     PaperTabLeaveRequest, PaperTabLeaveState,
-    ReviewRequestCreate, ReviewRequestView,
+    ReviewRequestCreate, ReviewRequestView, UserReviewRequestView,
 )
 from ..services import (
     adaptive_engine,
@@ -68,7 +68,10 @@ def cumulative_competency(learner: Account = LearnerOnly, db: Session = Depends(
     return profile(db, learner.account_id)
 
 
-@router.post("/{session_id}/review-request", response_model=ReviewRequestView)
+@router.post(
+    "/{session_id}/review-request", response_model=UserReviewRequestView,
+    responses={201: {"model": UserReviewRequestView, "description": "Review request created"}},
+)
 def create_review_request(
     session_id: int,
     payload: ReviewRequestCreate,
@@ -90,13 +93,13 @@ def create_review_request(
     return body
 
 
-@router.get("/{session_id}/review-request", response_model=ReviewRequestView)
+@router.get("/{session_id}/review-request", response_model=UserReviewRequestView | ReviewRequestView)
 def get_review_request(
     session_id: int,
     account: Account = CurrentAccount,
     db: Session = Depends(get_db),
 ):
-    """The session owner or an administrator reads its single review case."""
+    """The owner receives the User view. Administrators retain the review case view."""
     from ..services import review_flow
     return review_flow.get_review(db, session_id, account)
 

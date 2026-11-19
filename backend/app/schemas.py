@@ -1420,6 +1420,26 @@ class ReviewRequestView(BaseModel):
     revision: int
 
 
+class UserReviewRequestView(BaseModel):
+    review_request_id: int
+    session_id: int
+    learner_id: int
+    origin: str
+    status: str
+    reason: str
+    base_result_version_id: int
+    requested_at: datetime
+    window_expires_at: Optional[datetime] = None
+    claimed_at: Optional[datetime] = None
+    claim_expires_at: Optional[datetime] = None
+    resolved_at: Optional[datetime] = None
+    regraded_result_version_id: Optional[int] = None
+    revision: int
+    v2_state: Literal["NONE", "ANALYSIS_PENDING", "ANALYSIS_FAILED_V1_KEPT", "OFFICIAL"] = Field(
+        json_schema_extra={"readOnly": True},
+    )
+
+
 class ReviewQueueItem(ReviewRequestView):
     learner_name: str
     learner_email: str

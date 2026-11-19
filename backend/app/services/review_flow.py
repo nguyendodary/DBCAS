@@ -19,6 +19,7 @@ from ..models import (
     SessionResultVersion,
 )
 from ..repositories import AssessmentRepository
+from ..schemas import ReviewRequestView, UserReviewRequestView
 from .result_version import is_ai_official
 
 REVIEW_WINDOW_DAYS = 7
@@ -120,6 +121,21 @@ def _view(case):
     }
 
 
+def _user_view(case, publication_state=None):
+    v2_state = {
+        "APPROVED_PENDING_ANALYSIS": "ANALYSIS_PENDING",
+        "ANALYSIS_FAILED": "ANALYSIS_FAILED_V1_KEPT",
+        "OFFICIAL": "OFFICIAL",
+    }.get(publication_state, "NONE")
+    return UserReviewRequestView.model_validate({**_view(case), "v2_state": v2_state})
+
+
+def _publication_state(case):
+    return select(SessionResultPublication.state).where(
+        SessionResultPublication.result_version_id == case.regraded_result_version_id
+    ).scalar_subquery()
+
+
 def _learner_identity(db, learner_id):
     account = db.get(Account, learner_id)
     if account is None:
@@ -195,14 +211,16 @@ def request_review(db, session_id, learner, request_key: UUID, reason: str):
         raise AppError(404, "session_not_found", "Assessment session not found")
     if session.learner_id != learner.account_id:
         raise AppError(403, "review_forbidden", "Only the session owner can request a review")
-    existing = db.scalar(select(ReviewRequest).where(ReviewRequest.request_key == request_key))
-    if existing is not None:
+    by_key = select(ReviewRequest, _publication_state(ReviewRequest)).where(ReviewRequest.request_key == request_key)
+    existing_row = db.execute(by_key).one_or_none()
+    if existing_row is not None:
+        existing, publication_state = existing_row
         if existing.session_id != session_id or existing.requested_by != learner.account_id:
             raise AppError(
                 409, "idempotency_conflict",
                 "This Idempotency-Key belongs to another review request",
             )
-        return 200, _view(existing)
+        return 200, _user_view(existing, publication_state)
     current = _case_for_session(db, session_id)
     if current is not None:
         raise AppError(
@@ -244,10 +262,11 @@ def request_review(db, session_id, learner, request_key: UUID, reason: str):
         db.flush()
     except IntegrityError:
         db.rollback()
-        replay = db.scalar(select(ReviewRequest).where(ReviewRequest.request_key == request_key))
-        if (replay is not None and replay.session_id == session_id
-                and replay.requested_by == learner.account_id):
-            return 200, _view(replay)
+        replay_row = db.execute(by_key).one_or_none()
+        if replay_row is not None:
+            replay, publication_state = replay_row
+            if replay.session_id == session_id and replay.requested_by == learner.account_id:
+                return 200, _user_view(replay, publication_state)
         raced = _case_for_session(db, session_id)
         if raced is not None:
             raise AppError(
@@ -257,7 +276,7 @@ def request_review(db, session_id, learner, request_key: UUID, reason: str):
             )
         raise AppError(409, "review_conflict", "The review request could not be created")
     db.refresh(case)
-    payload = _view(case)
+    payload = _user_view(case)
     db.commit()
     return 201, payload
 
@@ -266,12 +285,18 @@ def get_review(db, session_id, account):
     session = db.get(AssessmentSession, session_id)
     if session is None:
         raise AppError(404, "session_not_found", "Assessment session not found")
-    if session.learner_id != account.account_id and not _is_admin(account):
+    is_admin = _is_admin(account)
+    if session.learner_id != account.account_id and not is_admin:
         raise AppError(403, "review_forbidden", "Only the owner or an administrator can read this review")
-    case = _case_for_session(db, session_id)
-    if case is None:
+    row = db.execute(select(ReviewRequest, _publication_state(ReviewRequest)).where(
+        ReviewRequest.session_id == session_id
+    )).one_or_none()
+    if row is None:
         raise AppError(404, "review_not_found", "No review request exists for this session")
-    return _view(case)
+    case, publication_state = row
+    if is_admin:
+        return ReviewRequestView.model_validate(_view(case))
+    return _user_view(case, publication_state)
 
 
 def list_queue(db, *, status=None, limit=100, offset=0):
