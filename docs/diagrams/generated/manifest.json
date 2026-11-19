@@ -576,8 +576,8 @@
     "mailpit",
     "qa-ai"
   ],
-  "openapi_path_count": 96,
-  "openapi_operation_count": 107,
+  "openapi_path_count": 101,
+  "openapi_operation_count": 113,
   "openapi_paths": [
     "/api/v1/admin/accounts",
     "/api/v1/admin/accounts/role-audit",
@@ -625,6 +625,10 @@
     "/api/v1/admin/questions/{question_id}/ai-tags",
     "/api/v1/admin/questions/{question_id}/tags/{concept_id}",
     "/api/v1/admin/questions/{question_id}/tags/{concept_id}/confirm",
+    "/api/v1/admin/review-requests",
+    "/api/v1/admin/review-requests/{review_request_id}",
+    "/api/v1/admin/review-requests/{review_request_id}/claim",
+    "/api/v1/admin/review-requests/{review_request_id}/decision",
     "/api/v1/admin/role-management/capability",
     "/api/v1/admin/sessions/{session_id}/competency",
     "/api/v1/admin/system",
@@ -670,6 +674,7 @@
     "/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
     "/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
     "/api/v1/sessions/{session_id}/questions",
+    "/api/v1/sessions/{session_id}/review-request",
     "/api/v1/sessions/{session_id}/serve-next",
     "/api/v1/sessions/{session_id}/sql-run",
     "/api/v1/sessions/{session_id}/submit",
@@ -682,6 +687,7 @@
     "/admin",
     "/admin/accounts",
     "/admin/curriculum",
+    "/admin/documents",
     "/admin/grading",
     "/admin/grading/:reviewSessionId",
     "/admin/learners/:learnerId/competency",
@@ -706,6 +712,7 @@
     "/admin/grading",
     "/admin/accounts",
     "/admin/questions",
+    "/admin/documents",
     "/admin/system"
   ],
   "erd_size": [
