@@ -1480,3 +1480,17 @@ class ReviewDeviation(Base):
     )
     confirmation: Mapped[str] = mapped_column(String(24))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class ReviewDeviationConfirmation(Base):
+    """Append-only confirmation by the nominated second reviewer."""
+
+    __tablename__ = "review_deviation_confirmation"
+
+    deviation_id: Mapped[int] = mapped_column(
+        ForeignKey("review_deviation.deviation_id"), primary_key=True
+    )
+    confirmed_by: Mapped[int] = mapped_column(ForeignKey("account.account_id"))
+    confirmed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )

@@ -93,11 +93,26 @@ def test_accepted_report_creates_official_v2_and_cumulative(client, db_session):
     )
     assert deviation.status_code == 200, deviation.text
     deviation_id = deviation.json()["deviations"][0]["deviation_id"]
+    unconfirmed = client.post(
+        f"{QUEUE}/{case['review_request_id']}/decision",
+        headers=headers(admin, "Administrator"),
+        json={"expected_revision": case["revision"], "outcome": "APPROVE",
+              "note": "Accept the report and correct the question score."},
+    )
+    assert unconfirmed.status_code == 422
+    assert unconfirmed.json()["error"]["code"] == "deviation_confirmation_required"
     confirmed = client.post(
         f"{QUEUE}/{case['review_request_id']}/deviations/{deviation_id}/confirm",
         headers=headers(second, "Administrator"),
     )
     assert confirmed.status_code == 200
+    assert confirmed.json()["confirmed_by"] == second.account_id
+    replay = client.post(
+        f"{QUEUE}/{case['review_request_id']}/deviations/{deviation_id}/confirm",
+        headers=headers(second, "Administrator"),
+    )
+    assert replay.status_code == 200
+    assert replay.json() == confirmed.json()
 
     stub = StubLLM()
     app.dependency_overrides[get_llm_service] = lambda: stub
@@ -232,6 +247,48 @@ def test_analysis_failure_keeps_v1_then_retry_succeeds(client, db_session):
     assert client.get(evaluation_path, headers=learner_headers).json()["result_version"] == 2
     db_session.expire_all()
     assert db_session.get(AssessmentSession, sid).current_result_version_id == v2.result_version_id
+
+
+def test_retry_checks_confirmation_for_v2_staged_before_migration(client, db_session, monkeypatch):
+    from app.services import review_regrade
+
+    learner, sid, admin, case = _setup(client, db_session)
+    second = _make_account(db_session, "migration-second@test.dev", "Administrator")
+    mcq = _attempt(db_session, sid, "mcq")
+    _accept_report(client, db_session, sid, admin, case, mcq)
+    path = f"{QUEUE}/{case['review_request_id']}"
+    admin_headers = headers(admin, "Administrator")
+    deviation = client.post(
+        f"{path}/deviations", headers=admin_headers,
+        json={"attempt_id": mcq.attempt_id, "reviewed_score": "0",
+              "reason": "Accepted wrong-answer report.", "second_reviewer_id": second.account_id},
+    )
+    assert deviation.status_code == 200
+    deviation_id = deviation.json()["deviations"][0]["deviation_id"]
+    with monkeypatch.context() as old_release:
+        # Simulate a v2 staged before the migration, when nomination alone passed.
+        old_release.setattr(review_regrade, "_deviation_valid", lambda *_: True)
+        old_release.setitem(app.dependency_overrides, get_llm_service, lambda: StubLLM(fail=True))
+        failed = client.post(
+            f"{path}/decision", headers=admin_headers,
+            json={"expected_revision": case["revision"], "outcome": "APPROVE",
+                  "note": "Accept a score correction for the reported question."},
+        )
+    assert failed.status_code == 200
+    assert failed.json()["analysis_status"] == "ANALYSIS_FAILED"
+    rejected = client.post(f"{path}/analysis-retry", headers=admin_headers)
+    assert rejected.status_code == 422
+    assert rejected.json()["error"]["code"] == "deviation_confirmation_required"
+
+    confirmed = client.post(f"{path}/deviations/{deviation_id}/confirm",
+                            headers=headers(second, "Administrator"))
+    assert confirmed.status_code == 200
+    monkeypatch.setitem(app.dependency_overrides, get_llm_service, lambda: StubLLM())
+    retried = client.post(f"{path}/analysis-retry", headers=admin_headers)
+    assert retried.status_code == 200
+    assert retried.json()["analysis_status"] == "OFFICIAL"
+    result = client.get(f"/api/v1/evaluations/attempts/{sid}", headers=headers(learner))
+    assert result.json()["result_version"] == 2
 
 
 def test_deviation_confirmation_rules(client, db_session):
