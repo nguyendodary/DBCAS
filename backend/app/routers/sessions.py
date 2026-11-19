@@ -1,9 +1,11 @@
 from typing import Literal
-from fastapi import APIRouter, Depends, Query
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, Header, Query, Response
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..deps import LearnerOnly, get_llm_service, get_sandbox_runner
+from ..deps import CurrentAccount, LearnerOnly, get_llm_service, get_sandbox_runner
 from ..models import Account
 from ..repositories import AssessmentRepository
 from ..schemas import (
@@ -24,6 +26,7 @@ from ..schemas import (
     PaperDraftResult, PaperDraftSaveRequest, PaperFlagRequest, PaperFlagResult,
     PaperMetadata, PaperQuestionView, PaperSubmitRequest, PaperSubmitResult,
     PaperTabLeaveRequest, PaperTabLeaveState,
+    ReviewRequestCreate, ReviewRequestView,
 )
 from ..services import (
     adaptive_engine,
@@ -63,6 +66,39 @@ def learner_ranking(learner: Account = LearnerOnly, db: Session = Depends(get_db
 def cumulative_competency(learner: Account = LearnerOnly, db: Session = Depends(get_db)):
     from ..services.cumulative_competency import profile
     return profile(db, learner.account_id)
+
+
+@router.post("/{session_id}/review-request", response_model=ReviewRequestView)
+def create_review_request(
+    session_id: int,
+    payload: ReviewRequestCreate,
+    response: Response,
+    idempotency_key: UUID = Header(alias="Idempotency-Key"),
+    learner: Account = LearnerOnly,
+    db: Session = Depends(get_db),
+):
+    """Request one review of the official v1 result (7-day server-clock window).
+
+    ``Idempotency-Key`` is the UUID request key: a replay returns 200 with the
+    same case, a new key for an existing case returns 409.
+    """
+    from ..services import review_flow
+    status_code, body = review_flow.request_review(
+        db, session_id, learner, idempotency_key, payload.reason
+    )
+    response.status_code = status_code
+    return body
+
+
+@router.get("/{session_id}/review-request", response_model=ReviewRequestView)
+def get_review_request(
+    session_id: int,
+    account: Account = CurrentAccount,
+    db: Session = Depends(get_db),
+):
+    """The session owner or an administrator reads its single review case."""
+    from ..services import review_flow
+    return review_flow.get_review(db, session_id, account)
 
 
 @router.put("/{session_id}/draft", response_model=DraftResult)

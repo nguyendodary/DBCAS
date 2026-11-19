@@ -282,26 +282,19 @@ def _publish(db, session, result_version_id):
 
 
 def version_meta(db, session):
-    """Response metadata shared by the learner result/state surfaces."""
-    meta = {
-        "result_version": None,
-        "is_current": False,
-        "review_status": ("PENDING" if getattr(session, "review_policy", "LEGACY")
-                          == "AI_OFFICIAL_REVIEW" else "LEGACY"),
-        "can_request_review": False,
-    }
+    """Response metadata shared by the learner result/state surfaces.
+
+    PR 3B-3 adds the learner review window and eligibility while keeping the
+    published-result state readable as before.
+    """
+    from .review_flow import review_meta
+
+    meta = {"result_version": None, "is_current": False}
     if getattr(session, "current_result_version_id", None) is not None:
         version = db.get(SessionResultVersion, session.current_result_version_id)
         if version is not None:
             meta["result_version"] = version.version_no
         meta["is_current"] = True
-        publication = db.scalar(
-            select(SessionResultPublication).where(
-                SessionResultPublication.result_version_id
-                == session.current_result_version_id)
-        )
-        if publication is not None:
-            meta["review_status"] = publication.state
     else:
         version = db.scalar(
             select(SessionResultVersion)
@@ -310,7 +303,7 @@ def version_meta(db, session):
         )
         if version is not None:
             meta["result_version"] = version.version_no
-            meta["review_status"] = "PENDING"
+    meta.update(review_meta(db, session))
     return meta
 
 
