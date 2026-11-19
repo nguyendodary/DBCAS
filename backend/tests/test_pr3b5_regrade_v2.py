@@ -26,7 +26,7 @@ from app.services.ai_stage_service import CONSTRAINT_SECTION, CONTEXT_SECTION, _
 from app.services.evidence_context import question_view
 from test_admin_analytics import _make_account
 from test_pr3b2_v1_official import _finalize_fixed
-from test_pr3b3_review_request import _request
+from test_pr3b3_review_request import REVIEW, _request
 from test_supervisor_requirements import headers
 from test_two_ai_prompts import StubLLM
 
@@ -170,7 +170,20 @@ def test_approve_requires_confirmed_deviation(client, db_session):
 def test_analysis_failure_keeps_v1_then_retry_succeeds(client, db_session):
     learner, sid, admin, case = _setup(client, db_session)
     v1_id = case["base_result_version_id"]
-    app.dependency_overrides[get_llm_service] = lambda: StubLLM(fail=True)
+    learner_headers = headers(learner)
+    review_path = REVIEW.format(sid=sid)
+    evaluation_path = f"/api/v1/evaluations/attempts/{sid}"
+    seen_pending = []
+
+    class FailAfterReadingPending(StubLLM):
+        def generate_structured(self, task_type, messages, **kwargs):
+            if not seen_pending:
+                review = client.get(review_path, headers=learner_headers).json()
+                result = client.get(evaluation_path, headers=learner_headers).json()
+                seen_pending.append((review["v2_state"], result["result_version"], result["is_current"]))
+            return super().generate_structured(task_type, messages, **kwargs)
+
+    app.dependency_overrides[get_llm_service] = lambda: FailAfterReadingPending(fail=True)
     try:
         failed = client.post(
             f"{QUEUE}/{case['review_request_id']}/decision",
@@ -182,6 +195,13 @@ def test_analysis_failure_keeps_v1_then_retry_succeeds(client, db_session):
         app.dependency_overrides.pop(get_llm_service, None)
     assert failed.status_code == 200, failed.text
     assert failed.json()["analysis_status"] == "ANALYSIS_FAILED"
+    assert seen_pending == [("ANALYSIS_PENDING", 1, True)]
+    user_view = client.get(review_path, headers=learner_headers).json()
+    assert user_view["v2_state"] == "ANALYSIS_FAILED_V1_KEPT"
+    assert {"analysis_status", "claimed_by", "resolved_by", "resolution_note"}.isdisjoint(user_view)
+    assert client.get(evaluation_path, headers=learner_headers).json()["result_version"] == 1
+    retry_path = f"{QUEUE}/{case['review_request_id']}/analysis-retry"
+    assert client.post(retry_path, headers=learner_headers).status_code == 403
     db_session.expire_all()
     assert db_session.get(AssessmentSession, sid).current_result_version_id == v1_id
     v2 = db_session.scalar(select(SessionResultVersion).where(
@@ -200,15 +220,16 @@ def test_analysis_failure_keeps_v1_then_retry_succeeds(client, db_session):
 
     app.dependency_overrides[get_llm_service] = lambda: StubLLM()
     try:
-        retried = client.post(
-            f"{QUEUE}/{case['review_request_id']}/analysis-retry",
-            headers=headers(admin, "Administrator"),
-        )
+        retried = client.post(retry_path, headers=headers(admin, "Administrator"))
     finally:
         app.dependency_overrides.pop(get_llm_service, None)
     assert retried.status_code == 200, retried.text
     assert retried.json()["status"] == "REGRADED"
     assert retried.json()["analysis_status"] == "OFFICIAL"
+    user_view = client.get(review_path, headers=learner_headers).json()
+    assert user_view["v2_state"] == "OFFICIAL"
+    assert {"analysis_status", "claimed_by", "resolved_by", "resolution_note"}.isdisjoint(user_view)
+    assert client.get(evaluation_path, headers=learner_headers).json()["result_version"] == 2
     db_session.expire_all()
     assert db_session.get(AssessmentSession, sid).current_result_version_id == v2.result_version_id
 

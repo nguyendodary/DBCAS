@@ -64,17 +64,27 @@ def test_request_once_visibility_idempotency_and_queue(client, db_session):
     case = first.json()
     assert case["status"] == "REQUESTED" and case["origin"] == "LEARNER"
     assert case["window_expires_at"] is not None
+    assert case["v2_state"] == "NONE"
+    private_fields = {"claimed_by", "resolved_by", "resolution_note", "analysis_status"}
+    assert private_fields.isdisjoint(case)
 
     owner = client.get(REVIEW.format(sid=sid), headers=headers(learner))
     assert owner.status_code == 200
     assert owner.json()["review_request_id"] == case["review_request_id"]
+    assert owner.json()["v2_state"] == "NONE"
+    assert private_fields.isdisjoint(owner.json())
     admin_view = client.get(REVIEW.format(sid=sid), headers=headers(admin, "Administrator"))
     assert admin_view.status_code == 200
+    assert {"claimed_by", "resolved_by", "resolution_note"} <= admin_view.json().keys()
+    assert "v2_state" not in admin_view.json()
     assert client.get(REVIEW.format(sid=sid), headers=headers(other)).status_code == 403
+    assert client.get(REVIEW.format(sid=sid + 1000), headers=headers(other)).status_code == 404
 
     replay = _request(client, learner, sid, key=key)
     assert replay.status_code == 200
     assert replay.json()["review_request_id"] == case["review_request_id"]
+    assert replay.json()["v2_state"] == "NONE"
+    assert private_fields.isdisjoint(replay.json())
     duplicate = _request(client, learner, sid)
     assert duplicate.status_code == 409
     assert duplicate.json()["error"]["code"] == "review_exists"
