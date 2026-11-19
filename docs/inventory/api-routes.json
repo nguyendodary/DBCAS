@@ -4,7 +4,7 @@
   "sources": {
     "backend/app/main.py": "5c920a455cc3bdc7965c052554a42f08d60dd8e14927ffa855c06a9d425cdc87",
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "backend/app/routers/admin.py": "e7785c426e659ac869e3a29b5437b166fb56411fa7757990a835970828dbb089",
+    "backend/app/routers/admin.py": "09042fddc73338bf6076f30c16365377283140976af77ef6cb038386b276318c",
     "backend/app/routers/assessments.py": "2efd3daba0ff36977e6066177e42d6494ca287345ddbb483f6da54b92f404941",
     "backend/app/routers/auth.py": "d9a54d4433088689a76d8de8cb9c61e38970fb1cd4460a7e5f0a008bddd320aa",
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
@@ -12,14 +12,14 @@
     "backend/app/routers/practice.py": "f1aa2bda52fbf28129c6d3f7b213ce86036e069a02971d38955dd36767763f6c",
     "backend/app/routers/sessions.py": "53ceccb0de54888306566434aeaf48f295663c4cd8f3d187eca4bfd8862a520c"
   },
-  "count": 113,
+  "count": 118,
   "routes": [
     {
       "method": "GET",
       "path": "/api/v1/admin/accounts",
       "router": "admin.py",
       "handler": "list_accounts",
-      "line": 182,
+      "line": 245,
       "guards": [
         "AdminOnly"
       ],
@@ -30,7 +30,7 @@
       "path": "/api/v1/admin/accounts",
       "router": "admin.py",
       "handler": "provision_account",
-      "line": 172,
+      "line": 235,
       "guards": [
         "RoleManagerOnly"
       ],
@@ -41,7 +41,7 @@
       "path": "/api/v1/admin/accounts/role-audit",
       "router": "admin.py",
       "handler": "role_audit",
-      "line": 207,
+      "line": 270,
       "guards": [
         "RoleManagerOnly"
       ],
@@ -52,7 +52,7 @@
       "path": "/api/v1/admin/accounts/{account_id}",
       "router": "admin.py",
       "handler": "set_account_status",
-      "line": 217,
+      "line": 280,
       "guards": [
         "AdminOnly"
       ],
@@ -74,7 +74,7 @@
       "path": "/api/v1/admin/accounts/{account_id}/role",
       "router": "admin.py",
       "handler": "set_account_role",
-      "line": 197,
+      "line": 260,
       "guards": [
         "RoleManagerOnly"
       ],
@@ -85,7 +85,7 @@
       "path": "/api/v1/admin/analytics/cohort",
       "router": "admin.py",
       "handler": "cohort_overview",
-      "line": 754,
+      "line": 817,
       "guards": [
         "AdminOnly"
       ],
@@ -96,7 +96,7 @@
       "path": "/api/v1/admin/analytics/statistics",
       "router": "admin.py",
       "handler": "administrator_statistics",
-      "line": 744,
+      "line": 807,
       "guards": [
         "AdminOnly"
       ],
@@ -107,7 +107,7 @@
       "path": "/api/v1/admin/clos",
       "router": "admin.py",
       "handler": "list_clos",
-      "line": 286,
+      "line": 349,
       "guards": [
         "AdminOnly"
       ],
@@ -118,7 +118,7 @@
       "path": "/api/v1/admin/clos",
       "router": "admin.py",
       "handler": "create_clo",
-      "line": 294,
+      "line": 357,
       "guards": [
         "AdminOnly"
       ],
@@ -129,7 +129,7 @@
       "path": "/api/v1/admin/clos/{clo_id}",
       "router": "admin.py",
       "handler": "delete_clo",
-      "line": 313,
+      "line": 376,
       "guards": [
         "AdminOnly"
       ],
@@ -140,7 +140,7 @@
       "path": "/api/v1/admin/clos/{clo_id}",
       "router": "admin.py",
       "handler": "update_clo",
-      "line": 303,
+      "line": 366,
       "guards": [
         "AdminOnly"
       ],
@@ -151,7 +151,7 @@
       "path": "/api/v1/admin/clos/{clo_id}/ai-suggest",
       "router": "admin.py",
       "handler": "suggest_clo_concepts",
-      "line": 337,
+      "line": 400,
       "guards": [
         "AdminOnly"
       ],
@@ -162,7 +162,7 @@
       "path": "/api/v1/admin/clos/{clo_id}/concepts",
       "router": "admin.py",
       "handler": "set_clo_concepts",
-      "line": 323,
+      "line": 386,
       "guards": [
         "AdminOnly"
       ],
@@ -173,7 +173,7 @@
       "path": "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}",
       "router": "admin.py",
       "handler": "reject_clo_link",
-      "line": 363,
+      "line": 426,
       "guards": [
         "AdminOnly"
       ],
@@ -184,7 +184,7 @@
       "path": "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}/confirm",
       "router": "admin.py",
       "handler": "confirm_clo_link",
-      "line": 352,
+      "line": 415,
       "guards": [
         "AdminOnly"
       ],
@@ -195,7 +195,7 @@
       "path": "/api/v1/admin/concepts",
       "router": "admin.py",
       "handler": "list_concepts",
-      "line": 249,
+      "line": 312,
       "guards": [
         "AdminOnly"
       ],
@@ -206,7 +206,7 @@
       "path": "/api/v1/admin/concepts",
       "router": "admin.py",
       "handler": "create_concept",
-      "line": 257,
+      "line": 320,
       "guards": [
         "AdminOnly"
       ],
@@ -217,7 +217,7 @@
       "path": "/api/v1/admin/concepts/{concept_id}",
       "router": "admin.py",
       "handler": "delete_concept",
-      "line": 276,
+      "line": 339,
       "guards": [
         "AdminOnly"
       ],
@@ -228,7 +228,7 @@
       "path": "/api/v1/admin/concepts/{concept_id}",
       "router": "admin.py",
       "handler": "update_concept",
-      "line": 266,
+      "line": 329,
       "guards": [
         "AdminOnly"
       ],
@@ -239,7 +239,7 @@
       "path": "/api/v1/admin/concepts/{concept_id}/prerequisites",
       "router": "admin.py",
       "handler": "set_concept_prerequisites",
-      "line": 231,
+      "line": 294,
       "guards": [
         "AdminOnly"
       ],
@@ -250,7 +250,7 @@
       "path": "/api/v1/admin/document-candidates/generate",
       "router": "admin.py",
       "handler": "generate_document_candidates",
-      "line": 696,
+      "line": 759,
       "guards": [
         "AdminOnly"
       ],
@@ -261,7 +261,7 @@
       "path": "/api/v1/admin/documents",
       "router": "admin.py",
       "handler": "list_documents",
-      "line": 635,
+      "line": 698,
       "guards": [
         "AdminOnly"
       ],
@@ -272,7 +272,7 @@
       "path": "/api/v1/admin/documents",
       "router": "admin.py",
       "handler": "upload_document",
-      "line": 624,
+      "line": 687,
       "guards": [
         "AdminOnly"
       ],
@@ -283,7 +283,7 @@
       "path": "/api/v1/admin/documents/{document_id}",
       "router": "admin.py",
       "handler": "get_document",
-      "line": 644,
+      "line": 707,
       "guards": [
         "AdminOnly"
       ],
@@ -294,7 +294,7 @@
       "path": "/api/v1/admin/documents/{document_id}/approve",
       "router": "admin.py",
       "handler": "approve_document",
-      "line": 653,
+      "line": 716,
       "guards": [
         "AdminOnly"
       ],
@@ -305,7 +305,7 @@
       "path": "/api/v1/admin/documents/{document_id}/archive",
       "router": "admin.py",
       "handler": "archive_document",
-      "line": 669,
+      "line": 732,
       "guards": [
         "AdminOnly"
       ],
@@ -316,7 +316,7 @@
       "path": "/api/v1/admin/documents/{document_id}/clos",
       "router": "admin.py",
       "handler": "set_document_clos",
-      "line": 678,
+      "line": 741,
       "guards": [
         "AdminOnly"
       ],
@@ -327,7 +327,7 @@
       "path": "/api/v1/admin/grading-reviews",
       "router": "admin.py",
       "handler": "grading_review_queue",
-      "line": 85,
+      "line": 88,
       "guards": [
         "AdminOnly"
       ],
@@ -338,7 +338,7 @@
       "path": "/api/v1/admin/grading-reviews/{session_id}",
       "router": "admin.py",
       "handler": "grading_review_detail",
-      "line": 92,
+      "line": 95,
       "guards": [
         "AdminOnly"
       ],
@@ -349,7 +349,7 @@
       "path": "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
       "router": "admin.py",
       "handler": "review_submitted_grade",
-      "line": 98,
+      "line": 101,
       "guards": [
         "AdminOnly"
       ],
@@ -360,7 +360,7 @@
       "path": "/api/v1/admin/grading-reviews/{session_id}/publish",
       "router": "admin.py",
       "handler": "publish_verified_results",
-      "line": 105,
+      "line": 108,
       "guards": [
         "AdminOnly"
       ],
@@ -371,7 +371,7 @@
       "path": "/api/v1/admin/grading-reviews/{session_id}/retry",
       "router": "admin.py",
       "handler": "retry_failed_grading",
-      "line": 112,
+      "line": 115,
       "guards": [
         "AdminOnly"
       ],
@@ -393,7 +393,7 @@
       "path": "/api/v1/admin/learners",
       "router": "admin.py",
       "handler": "list_learners",
-      "line": 765,
+      "line": 828,
       "guards": [
         "AdminOnly"
       ],
@@ -404,7 +404,7 @@
       "path": "/api/v1/admin/learners/{account_id}/competency/cumulative",
       "router": "admin.py",
       "handler": "learner_cumulative_competency",
-      "line": 163,
+      "line": 226,
       "guards": [
         "AdminOnly"
       ],
@@ -415,7 +415,7 @@
       "path": "/api/v1/admin/learners/{account_id}/sessions",
       "router": "admin.py",
       "handler": "learner_sessions",
-      "line": 777,
+      "line": 840,
       "guards": [
         "AdminOnly"
       ],
@@ -426,7 +426,7 @@
       "path": "/api/v1/admin/prompts/{prompt_record_id}",
       "router": "admin.py",
       "handler": "read_prompt",
-      "line": 801,
+      "line": 864,
       "guards": [
         "AdminOnly"
       ],
@@ -437,7 +437,7 @@
       "path": "/api/v1/admin/question-candidates",
       "router": "admin.py",
       "handler": "list_question_candidates",
-      "line": 532,
+      "line": 595,
       "guards": [
         "AdminOnly"
       ],
@@ -448,7 +448,7 @@
       "path": "/api/v1/admin/question-candidates/generate",
       "router": "admin.py",
       "handler": "generate_question_candidates",
-      "line": 546,
+      "line": 609,
       "guards": [
         "AdminOnly"
       ],
@@ -459,7 +459,7 @@
       "path": "/api/v1/admin/question-candidates/{candidate_id}",
       "router": "admin.py",
       "handler": "get_question_candidate",
-      "line": 565,
+      "line": 628,
       "guards": [
         "AdminOnly"
       ],
@@ -470,7 +470,7 @@
       "path": "/api/v1/admin/question-candidates/{candidate_id}/approve",
       "router": "admin.py",
       "handler": "approve_question_candidate",
-      "line": 591,
+      "line": 654,
       "guards": [
         "AdminOnly"
       ],
@@ -481,7 +481,7 @@
       "path": "/api/v1/admin/question-candidates/{candidate_id}/reject",
       "router": "admin.py",
       "handler": "reject_question_candidate",
-      "line": 607,
+      "line": 670,
       "guards": [
         "AdminOnly"
       ],
@@ -492,18 +492,29 @@
       "path": "/api/v1/admin/question-candidates/{candidate_id}/validate",
       "router": "admin.py",
       "handler": "revalidate_question_candidate",
-      "line": 577,
+      "line": 640,
       "guards": [
         "AdminOnly"
       ],
       "response_model": "QuestionCandidateDetail"
     },
     {
+      "method": "POST",
+      "path": "/api/v1/admin/question-reports/{question_report_id}/resolve",
+      "router": "admin.py",
+      "handler": "resolve_question_report",
+      "line": 181,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ReviewRequestDetail"
+    },
+    {
       "method": "GET",
       "path": "/api/v1/admin/question-translation/capability",
       "router": "admin.py",
       "handler": "question_translation_capability",
-      "line": 378,
+      "line": 441,
       "guards": [
         "AdminOnly"
       ],
@@ -514,7 +525,7 @@
       "path": "/api/v1/admin/question-translation/draft",
       "router": "admin.py",
       "handler": "prepare_question_translation",
-      "line": 383,
+      "line": 446,
       "guards": [
         "AdminOnly"
       ],
@@ -525,7 +536,7 @@
       "path": "/api/v1/admin/questions",
       "router": "admin.py",
       "handler": "list_questions",
-      "line": 390,
+      "line": 453,
       "guards": [
         "AdminOnly"
       ],
@@ -536,7 +547,7 @@
       "path": "/api/v1/admin/questions",
       "router": "admin.py",
       "handler": "create_question",
-      "line": 419,
+      "line": 482,
       "guards": [
         "AdminOnly"
       ],
@@ -547,7 +558,7 @@
       "path": "/api/v1/admin/questions/{question_id}",
       "router": "admin.py",
       "handler": "delete_question",
-      "line": 462,
+      "line": 525,
       "guards": [
         "AdminOnly"
       ],
@@ -558,7 +569,7 @@
       "path": "/api/v1/admin/questions/{question_id}",
       "router": "admin.py",
       "handler": "get_question",
-      "line": 428,
+      "line": 491,
       "guards": [
         "AdminOnly"
       ],
@@ -569,7 +580,7 @@
       "path": "/api/v1/admin/questions/{question_id}",
       "router": "admin.py",
       "handler": "set_question_status",
-      "line": 449,
+      "line": 512,
       "guards": [
         "AdminOnly"
       ],
@@ -580,7 +591,7 @@
       "path": "/api/v1/admin/questions/{question_id}",
       "router": "admin.py",
       "handler": "replace_question",
-      "line": 437,
+      "line": 500,
       "guards": [
         "AdminOnly"
       ],
@@ -591,7 +602,7 @@
       "path": "/api/v1/admin/questions/{question_id}/ai-review",
       "router": "admin.py",
       "handler": "review_question_suggestion",
-      "line": 523,
+      "line": 586,
       "guards": [
         "AdminOnly"
       ],
@@ -602,7 +613,7 @@
       "path": "/api/v1/admin/questions/{question_id}/ai-tags",
       "router": "admin.py",
       "handler": "suggest_question_tags",
-      "line": 478,
+      "line": 541,
       "guards": [
         "AdminOnly"
       ],
@@ -613,7 +624,7 @@
       "path": "/api/v1/admin/questions/{question_id}/tags/{concept_id}",
       "router": "admin.py",
       "handler": "reject_question_tag",
-      "line": 508,
+      "line": 571,
       "guards": [
         "AdminOnly"
       ],
@@ -624,7 +635,7 @@
       "path": "/api/v1/admin/questions/{question_id}/tags/{concept_id}/confirm",
       "router": "admin.py",
       "handler": "confirm_question_tag",
-      "line": 494,
+      "line": 557,
       "guards": [
         "AdminOnly"
       ],
@@ -635,7 +646,7 @@
       "path": "/api/v1/admin/review-requests",
       "router": "admin.py",
       "handler": "review_request_queue",
-      "line": 119,
+      "line": 122,
       "guards": [
         "AdminOnly"
       ],
@@ -646,7 +657,18 @@
       "path": "/api/v1/admin/review-requests/{review_request_id}",
       "router": "admin.py",
       "handler": "review_request_detail",
-      "line": 131,
+      "line": 134,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ReviewRequestDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/review-requests/{review_request_id}/analysis-retry",
+      "router": "admin.py",
+      "handler": "retry_review_analysis",
+      "line": 215,
       "guards": [
         "AdminOnly"
       ],
@@ -657,7 +679,7 @@
       "path": "/api/v1/admin/review-requests/{review_request_id}/claim",
       "router": "admin.py",
       "handler": "claim_review_request",
-      "line": 138,
+      "line": 141,
       "guards": [
         "AdminOnly"
       ],
@@ -668,7 +690,40 @@
       "path": "/api/v1/admin/review-requests/{review_request_id}/decision",
       "router": "admin.py",
       "handler": "decide_review_request",
-      "line": 149,
+      "line": 152,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ReviewRequestDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/review-requests/{review_request_id}/deviations",
+      "router": "admin.py",
+      "handler": "register_deviation",
+      "line": 192,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ReviewRequestDetail"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/review-requests/{review_request_id}/deviations/{deviation_id}/confirm",
+      "router": "admin.py",
+      "handler": "confirm_deviation",
+      "line": 204,
+      "guards": [
+        "AdminOnly"
+      ],
+      "response_model": "ReviewDeviationConfirmation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/review-requests/{review_request_id}/question-reports",
+      "router": "admin.py",
+      "handler": "add_question_report",
+      "line": 170,
       "guards": [
         "AdminOnly"
       ],
@@ -679,7 +734,7 @@
       "path": "/api/v1/admin/role-management/capability",
       "router": "admin.py",
       "handler": "role_management_capability",
-      "line": 191,
+      "line": 254,
       "guards": [
         "AdminOnly"
       ],
@@ -690,7 +745,7 @@
       "path": "/api/v1/admin/sessions/{session_id}/competency",
       "router": "admin.py",
       "handler": "admin_session_competency",
-      "line": 790,
+      "line": 853,
       "guards": [
         "AdminOnly"
       ],

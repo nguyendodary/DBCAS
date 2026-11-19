@@ -1426,11 +1426,41 @@ class ReviewQueueItem(ReviewRequestView):
     session_status: str
 
 
+class QuestionReportView(BaseModel):
+    question_report_id: int
+    attempt_id: int
+    question_id: int
+    category: str
+    details: str
+    status: str
+    resolution_note: Optional[str] = None
+    resolved_by: Optional[int] = None
+    resolved_at: Optional[datetime] = None
+
+
+class ReviewDeviationView(BaseModel):
+    deviation_id: int
+    attempt_id: int
+    criterion_snapshot_id: Optional[int] = None
+    ai_score: Decimal
+    reviewed_score: Decimal
+    max_points: Decimal
+    deviation_ratio: Decimal
+    reason: str
+    first_reviewer_id: int
+    second_reviewer_id: Optional[int] = None
+    confirmation: str
+    created_at: datetime
+
+
 class ReviewRequestDetail(ReviewQueueItem):
     base_result_version: Optional[int] = None
     base_publication: Optional[str] = None
     published_at: Optional[datetime] = None
     assessment_title: Optional[str] = None
+    analysis_status: Optional[str] = None
+    question_reports: list[QuestionReportView] = []
+    deviations: list[ReviewDeviationView] = []
 
 
 class ReviewClaimRequest(BaseModel):
@@ -1438,8 +1468,45 @@ class ReviewClaimRequest(BaseModel):
     expected_revision: int = Field(ge=0)
 
 
+class ReviewCriterionScore(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    attempt_id: int
+    criterion_snapshot_id: int
+    score: Decimal
+    reason: str = Field(min_length=10, max_length=2000)
+
+
 class ReviewDecisionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     expected_revision: int = Field(ge=0)
-    outcome: Literal["REJECT"]
+    outcome: Literal["REJECT", "APPROVE"]
     note: str = Field(min_length=10, max_length=2000)
+    criterion_scores: list[ReviewCriterionScore] = []
+
+
+class QuestionReportCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    attempt_id: int
+    category: Literal["WRONG_ANSWER", "WRONG_QUESTION", "AMBIGUOUS", "TECHNICAL"]
+    details: str = Field(min_length=10, max_length=2000)
+
+
+class QuestionReportResolve(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    status: Literal["ACCEPTED", "REJECTED"]
+    note: str = Field(min_length=10, max_length=2000)
+
+
+class ReviewDeviationCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    attempt_id: int
+    criterion_snapshot_id: Optional[int] = None
+    reviewed_score: Decimal
+    reason: str = Field(min_length=10, max_length=4000)
+    second_reviewer_id: Optional[int] = None
+
+
+class ReviewDeviationConfirmation(BaseModel):
+    deviation_id: int
+    confirmed_by: int
+    confirmed_at: datetime

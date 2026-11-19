@@ -6169,6 +6169,135 @@
         "title": "QuestionListItem",
         "type": "object"
       },
+      "QuestionReportCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "category": {
+            "enum": [
+              "WRONG_ANSWER",
+              "WRONG_QUESTION",
+              "AMBIGUOUS",
+              "TECHNICAL"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "details": {
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Details",
+            "type": "string"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "category",
+          "details"
+        ],
+        "title": "QuestionReportCreate",
+        "type": "object"
+      },
+      "QuestionReportResolve": {
+        "additionalProperties": false,
+        "properties": {
+          "note": {
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Note",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ACCEPTED",
+              "REJECTED"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "note"
+        ],
+        "title": "QuestionReportResolve",
+        "type": "object"
+      },
+      "QuestionReportView": {
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "details": {
+            "title": "Details",
+            "type": "string"
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "integer"
+          },
+          "question_report_id": {
+            "title": "Question Report Id",
+            "type": "integer"
+          },
+          "resolution_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolution Note"
+          },
+          "resolved_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved At"
+          },
+          "resolved_by": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved By"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question_report_id",
+          "attempt_id",
+          "question_id",
+          "category",
+          "details",
+          "status"
+        ],
+        "title": "QuestionReportView",
+        "type": "object"
+      },
       "QuestionResult": {
         "properties": {
           "attempt_id": {
@@ -6617,9 +6746,56 @@
         "title": "ReviewClaimRequest",
         "type": "object"
       },
+      "ReviewCriterionScore": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "criterion_snapshot_id": {
+            "title": "Criterion Snapshot Id",
+            "type": "integer"
+          },
+          "reason": {
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Score"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "criterion_snapshot_id",
+          "score",
+          "reason"
+        ],
+        "title": "ReviewCriterionScore",
+        "type": "object"
+      },
       "ReviewDecisionRequest": {
         "additionalProperties": false,
         "properties": {
+          "criterion_scores": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ReviewCriterionScore"
+            },
+            "title": "Criterion Scores",
+            "type": "array"
+          },
           "expected_revision": {
             "minimum": 0.0,
             "title": "Expected Revision",
@@ -6632,7 +6808,10 @@
             "type": "string"
           },
           "outcome": {
-            "const": "REJECT",
+            "enum": [
+              "REJECT",
+              "APPROVE"
+            ],
             "title": "Outcome",
             "type": "string"
           }
@@ -6643,6 +6822,171 @@
           "note"
         ],
         "title": "ReviewDecisionRequest",
+        "type": "object"
+      },
+      "ReviewDeviationConfirmation": {
+        "properties": {
+          "confirmed_at": {
+            "format": "date-time",
+            "title": "Confirmed At",
+            "type": "string"
+          },
+          "confirmed_by": {
+            "title": "Confirmed By",
+            "type": "integer"
+          },
+          "deviation_id": {
+            "title": "Deviation Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "deviation_id",
+          "confirmed_by",
+          "confirmed_at"
+        ],
+        "title": "ReviewDeviationConfirmation",
+        "type": "object"
+      },
+      "ReviewDeviationCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "criterion_snapshot_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Criterion Snapshot Id"
+          },
+          "reason": {
+            "maxLength": 4000,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          },
+          "reviewed_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                "type": "string"
+              }
+            ],
+            "title": "Reviewed Score"
+          },
+          "second_reviewer_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Second Reviewer Id"
+          }
+        },
+        "required": [
+          "attempt_id",
+          "reviewed_score",
+          "reason"
+        ],
+        "title": "ReviewDeviationCreate",
+        "type": "object"
+      },
+      "ReviewDeviationView": {
+        "properties": {
+          "ai_score": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Ai Score",
+            "type": "string"
+          },
+          "attempt_id": {
+            "title": "Attempt Id",
+            "type": "integer"
+          },
+          "confirmation": {
+            "title": "Confirmation",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "criterion_snapshot_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Criterion Snapshot Id"
+          },
+          "deviation_id": {
+            "title": "Deviation Id",
+            "type": "integer"
+          },
+          "deviation_ratio": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Deviation Ratio",
+            "type": "string"
+          },
+          "first_reviewer_id": {
+            "title": "First Reviewer Id",
+            "type": "integer"
+          },
+          "max_points": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Max Points",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "reviewed_score": {
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Reviewed Score",
+            "type": "string"
+          },
+          "second_reviewer_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Second Reviewer Id"
+          }
+        },
+        "required": [
+          "deviation_id",
+          "attempt_id",
+          "ai_score",
+          "reviewed_score",
+          "max_points",
+          "deviation_ratio",
+          "reason",
+          "first_reviewer_id",
+          "confirmation",
+          "created_at"
+        ],
+        "title": "ReviewDeviationView",
         "type": "object"
       },
       "ReviewQueueItem": {
@@ -6824,6 +7168,17 @@
       },
       "ReviewRequestDetail": {
         "properties": {
+          "analysis_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis Status"
+          },
           "assessment_title": {
             "anyOf": [
               {
@@ -6896,6 +7251,14 @@
             ],
             "title": "Claimed By"
           },
+          "deviations": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ReviewDeviationView"
+            },
+            "title": "Deviations",
+            "type": "array"
+          },
           "learner_email": {
             "title": "Learner Email",
             "type": "string"
@@ -6923,6 +7286,14 @@
               }
             ],
             "title": "Published At"
+          },
+          "question_reports": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/QuestionReportView"
+            },
+            "title": "Question Reports",
+            "type": "array"
           },
           "reason": {
             "title": "Reason",
@@ -15550,6 +15921,157 @@
         "x-role-manager": false
       }
     },
+    "/api/v1/admin/question-reports/{question_report_id}/resolve": {
+      "post": {
+        "operationId": "resolve_question_report_api_v1_admin_question_reports__question_report_id__resolve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "question_report_id",
+            "required": true,
+            "schema": {
+              "title": "Question Report Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionReportResolve"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewRequestDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Resolve Question Report",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
     "/api/v1/admin/question-translation/capability": {
       "get": {
         "operationId": "question_translation_capability_api_v1_admin_question_translation_capability_get",
@@ -17764,6 +18286,148 @@
         "x-role-manager": false
       }
     },
+    "/api/v1/admin/review-requests/{review_request_id}/analysis-retry": {
+      "post": {
+        "description": "Retry the two-AI rewrite after ANALYSIS_FAILED; V1 stays official meanwhile.",
+        "operationId": "retry_review_analysis_api_v1_admin_review_requests__review_request_id__analysis_retry_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "review_request_id",
+            "required": true,
+            "schema": {
+              "title": "Review Request Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewRequestDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Retry Review Analysis",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
     "/api/v1/admin/review-requests/{review_request_id}/claim": {
       "post": {
         "description": "Lease the case to this administrator for 30 minutes (SELECT FOR UPDATE).",
@@ -17918,7 +18582,7 @@
     },
     "/api/v1/admin/review-requests/{review_request_id}/decision": {
       "post": {
-        "description": "REJECT only; APPROVE and v2 regrading are delivered by PR 3B-5.",
+        "description": "REJECT keeps V1; APPROVE creates V2 then runs the two-AI rewrite.",
         "operationId": "decide_review_request_api_v1_admin_review_requests__review_request_id__decision_post",
         "parameters": [
           {
@@ -18059,6 +18723,460 @@
           }
         ],
         "summary": "Decide Review Request",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/admin/review-requests/{review_request_id}/deviations": {
+      "post": {
+        "description": "Register a >30% change; second admin or the long-reason path is required.",
+        "operationId": "register_deviation_api_v1_admin_review_requests__review_request_id__deviations_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "review_request_id",
+            "required": true,
+            "schema": {
+              "title": "Review Request Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDeviationCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewRequestDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Register Deviation",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/admin/review-requests/{review_request_id}/deviations/{deviation_id}/confirm": {
+      "post": {
+        "operationId": "confirm_deviation_api_v1_admin_review_requests__review_request_id__deviations__deviation_id__confirm_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "review_request_id",
+            "required": true,
+            "schema": {
+              "title": "Review Request Id",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "deviation_id",
+            "required": true,
+            "schema": {
+              "title": "Deviation Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewDeviationConfirmation"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Confirm Deviation",
+        "tags": [
+          "admin"
+        ],
+        "x-required-roles": [
+          "Administrator"
+        ],
+        "x-role-manager": false
+      }
+    },
+    "/api/v1/admin/review-requests/{review_request_id}/question-reports": {
+      "post": {
+        "description": "Machine-graded MCQ/SQL: report a wrong question/answer, never edit its score.",
+        "operationId": "add_question_report_api_v1_admin_review_requests__review_request_id__question_reports_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "review_request_id",
+            "required": true,
+            "schema": {
+              "title": "Review Request Id",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionReportCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewRequestDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Invalid operation"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing, expired or invalid access token"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Insufficient role or ownership"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Resource not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "State conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Request validation failed"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Unexpected failure"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Provider returned an invalid response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Dependency unavailable"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Add Question Report",
         "tags": [
           "admin"
         ],

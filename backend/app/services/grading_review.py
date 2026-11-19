@@ -161,7 +161,14 @@ def detail(db, session_id):
 
 def approve(db, session_id, attempt_id, payload, admin):
     from ..models import GradeReview
+    from .result_version import is_ai_official
     session = _session(db, session_id)
+    if is_ai_official(session):
+        # 3B-5: MCQ/SQL (and any direct attempt score) are never edited here.
+        raise AppError(
+            403, "machine_score_edit_forbidden",
+            "Machine-graded scores are corrected through the review workflow, not direct edits",
+        )
     if session.learner_id == admin.account_id:
         raise AppError(403, "self_review_forbidden", "A grader cannot review their own assessment")
     from .evaluation_service import is_practice
