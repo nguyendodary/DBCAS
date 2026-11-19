@@ -220,6 +220,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
                 '025_session_purpose.sql',
                 '026_pr3a_database_foundation.sql',
                 '027_review_flow.sql',
+                '028_review_deviation_confirmation.sql',
             ]
             expected = [('draft',), ('closed',), ('closed',), ('closed',)]
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
@@ -228,7 +229,7 @@ def test_019_archives_only_published_assessments_and_preserves_legacy_rows(tmp_p
             conn.execute((directory / '019_archive_prebuilt_exams.sql').read_text(), prepare=False)
             assert conn.execute('SELECT status FROM assessment ORDER BY assessment_id').fetchall() == expected
             assert rows() == before
-            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 27
+            assert conn.execute('SELECT count(*) FROM schema_migration').fetchone()[0] == 28
         finally:
             conn.execute('SET search_path TO public')
             conn.execute(f'DROP SCHEMA "{namespace}" CASCADE')
