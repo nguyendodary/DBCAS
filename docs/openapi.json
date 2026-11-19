@@ -9382,6 +9382,131 @@
         "title": "TypedLimits",
         "type": "object"
       },
+      "UserReviewRequestView": {
+        "properties": {
+          "base_result_version_id": {
+            "title": "Base Result Version Id",
+            "type": "integer"
+          },
+          "claim_expires_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Claim Expires At"
+          },
+          "claimed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Claimed At"
+          },
+          "learner_id": {
+            "title": "Learner Id",
+            "type": "integer"
+          },
+          "origin": {
+            "title": "Origin",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "regraded_result_version_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regraded Result Version Id"
+          },
+          "requested_at": {
+            "format": "date-time",
+            "title": "Requested At",
+            "type": "string"
+          },
+          "resolved_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved At"
+          },
+          "review_request_id": {
+            "title": "Review Request Id",
+            "type": "integer"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "integer"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "integer"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "v2_state": {
+            "enum": [
+              "NONE",
+              "ANALYSIS_PENDING",
+              "ANALYSIS_FAILED_V1_KEPT",
+              "OFFICIAL"
+            ],
+            "readOnly": true,
+            "title": "V2 State",
+            "type": "string"
+          },
+          "window_expires_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Expires At"
+          }
+        },
+        "required": [
+          "review_request_id",
+          "session_id",
+          "learner_id",
+          "origin",
+          "status",
+          "reason",
+          "base_result_version_id",
+          "requested_at",
+          "revision",
+          "v2_state"
+        ],
+        "title": "UserReviewRequestView",
+        "type": "object"
+      },
       "ValidationError": {
         "properties": {
           "ctx": {
@@ -25570,7 +25695,7 @@
     },
     "/api/v1/sessions/{session_id}/review-request": {
       "get": {
-        "description": "The session owner or an administrator reads its single review case.",
+        "description": "The owner receives the User view. Administrators retain the review case view.",
         "operationId": "get_review_request_api_v1_sessions__session_id__review_request_get",
         "parameters": [
           {
@@ -25588,7 +25713,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewRequestView"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/UserReviewRequestView"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReviewRequestView"
+                    }
+                  ],
+                  "title": "Response Get Review Request Api V1 Sessions  Session Id  Review Request Get"
                 }
               }
             },
@@ -25746,11 +25879,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewRequestView"
+                  "$ref": "#/components/schemas/UserReviewRequestView"
                 }
               }
             },
             "description": "Successful Response"
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReviewRequestView"
+                }
+              }
+            },
+            "description": "Review request created"
           },
           "400": {
             "content": {
