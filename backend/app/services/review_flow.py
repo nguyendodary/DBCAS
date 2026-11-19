@@ -157,6 +157,30 @@ def detail(db, review_request_id):
         published_at=publication.published_at if publication is not None else None,
         assessment_title=(session.config_snapshot or {}).get("title", "") if session is not None else "",
     )
+    from ..models import QuestionReport, ReviewDeviation
+    from .review_regrade import _deviation_view, _question_report_view
+    item["question_reports"] = [
+        _question_report_view(row) for row in db.scalars(
+            select(QuestionReport)
+            .where(QuestionReport.review_request_id == review_request_id)
+            .order_by(QuestionReport.question_report_id))
+    ]
+    item["deviations"] = [
+        _deviation_view(row) for row in db.scalars(
+            select(ReviewDeviation)
+            .where(ReviewDeviation.review_request_id == review_request_id)
+            .order_by(ReviewDeviation.deviation_id))
+    ]
+    analysis_status = None
+    if case.regraded_result_version_id is not None:
+        regraded_publication = db.scalar(
+            select(SessionResultPublication).where(
+                SessionResultPublication.result_version_id
+                == case.regraded_result_version_id)
+        )
+        analysis_status = (regraded_publication.state
+                           if regraded_publication is not None else None)
+    item["analysis_status"] = analysis_status
     return item
 
 

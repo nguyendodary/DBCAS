@@ -59,6 +59,8 @@ from ..schemas import (
     TagSuggestionResult,
     GradeReviewRequest, PublishResultsRequest, CumulativeCompetencyResult,
     ReviewClaimRequest, ReviewDecisionRequest, ReviewQueueItem, ReviewRequestDetail,
+    QuestionReportCreate, QuestionReportResolve, ReviewDeviationCreate,
+    ReviewDeviationConfirmation,
 )
 from ..services import (
     ai_admin_service,
@@ -71,6 +73,7 @@ from ..services import (
     document_service,
     question_service,
     review_flow,
+    review_regrade,
 )
 from ..services.llm.service import LLMService
 from ..services.sandbox_runner import SandboxRunner
@@ -151,12 +154,72 @@ def decide_review_request(
     payload: ReviewDecisionRequest,
     admin: Account = AdminOnly,
     db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
 ):
-    """REJECT only; APPROVE and v2 regrading are delivered by PR 3B-5."""
+    """REJECT keeps V1; APPROVE creates V2 then runs the two-AI rewrite."""
+    if payload.outcome == "APPROVE":
+        return review_regrade.approve(db, review_request_id, payload, admin, llm)
     return review_flow.decide(
         db, review_request_id, payload.expected_revision,
         payload.outcome, payload.note, admin,
     )
+
+
+@router.post("/review-requests/{review_request_id}/question-reports",
+             response_model=ReviewRequestDetail)
+def add_question_report(
+    review_request_id: int,
+    payload: QuestionReportCreate,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Machine-graded MCQ/SQL: report a wrong question/answer, never edit its score."""
+    return review_regrade.add_question_report(db, review_request_id, payload, admin)
+
+
+@router.post("/question-reports/{question_report_id}/resolve", response_model=ReviewRequestDetail)
+def resolve_question_report(
+    question_report_id: int,
+    payload: QuestionReportResolve,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return review_regrade.resolve_question_report(db, question_report_id, payload, admin)
+
+
+@router.post("/review-requests/{review_request_id}/deviations",
+             response_model=ReviewRequestDetail)
+def register_deviation(
+    review_request_id: int,
+    payload: ReviewDeviationCreate,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    """Register a >30% change; second admin or the long-reason path is required."""
+    return review_regrade.add_deviation(db, review_request_id, payload, admin)
+
+
+@router.post("/review-requests/{review_request_id}/deviations/{deviation_id}/confirm",
+             response_model=ReviewDeviationConfirmation)
+def confirm_deviation(
+    review_request_id: int,
+    deviation_id: int,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+):
+    return review_regrade.confirm_deviation(db, review_request_id, deviation_id, admin)
+
+
+@router.post("/review-requests/{review_request_id}/analysis-retry",
+             response_model=ReviewRequestDetail)
+def retry_review_analysis(
+    review_request_id: int,
+    admin: Account = AdminOnly,
+    db: Session = Depends(get_db),
+    llm: LLMService = Depends(get_llm_service),
+):
+    """Retry the two-AI rewrite after ANALYSIS_FAILED; V1 stays official meanwhile."""
+    return review_regrade.retry_analysis(db, review_request_id, admin, llm)
 
 
 @router.get("/learners/{account_id}/competency/cumulative", response_model=CumulativeCompetencyResult)

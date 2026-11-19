@@ -6,7 +6,9 @@ schema and the constraints. Learner text and administrator reasons are untrusted
 receives in-memory state from the builder — it is given only AI #1's persisted,
 hash-checked, validated prompt, read back from the database.
 
-No result-version or v2 logic lives here; every run uses the ``v1`` scope.
+The default scope is ``v1``. PR 3B-5 instantiates the same service with
+``scope_key='v2:<review_request_id>'`` and ``run_mode='V2_ANALYSIS'`` to rewrite
+the analysis for a regraded result version.
 """
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -170,15 +172,21 @@ class StageResult:
     status: str
     output_hash: Optional[str]
     attempt_count: int
+    output: Optional[dict] = None
 
 
 class AiStageService:
     """Persist and verify both stages using only the 026 tables."""
 
-    def __init__(self, db: Session, *, llm=None, settings=None):
+    def __init__(self, db: Session, *, llm=None, settings=None,
+                 scope_key: str = SCOPE_KEY, run_mode: str = RUN_MODE,
+                 validator_version: str = VALIDATOR_VERSION):
         self.db = db
         self.llm = llm
         self.settings = settings
+        self.scope_key = scope_key
+        self.run_mode = run_mode
+        self.validator_version = validator_version
 
     def _model_identifier(self) -> str:
         model = self.settings.llm_model if self.settings is not None else None
@@ -188,7 +196,7 @@ class AiStageService:
         value = self.db.scalar(
             select(func.coalesce(func.max(AiStageRun.execution_run_no), 0)).where(
                 AiStageRun.session_id == session_id,
-                AiStageRun.scope_key == SCOPE_KEY,
+                AiStageRun.scope_key == self.scope_key,
                 AiStageRun.stage == stage,
             )
         )
@@ -198,19 +206,20 @@ class AiStageService:
         return self.db.scalar(
             select(AiStageRun.stage_run_id).where(
                 AiStageRun.session_id == session_id,
-                AiStageRun.scope_key == SCOPE_KEY,
+                AiStageRun.scope_key == self.scope_key,
                 AiStageRun.stage == stage,
                 AiStageRun.status.in_(ACTIVE_STATUSES),
             ).limit(1)
         ) is not None
 
-    def _insert_run(self, session_id: int, stage: str, input_hash: str, *, predecessor: int | None = None):
+    def _insert_run(self, session_id: int, stage: str, input_hash: str, *,
+                    predecessor: int | None = None, result_version_id: int | None = None):
         return AiStageRun(
             session_id=session_id,
-            scope_key=SCOPE_KEY,
+            scope_key=self.scope_key,
             stage=stage,
-            run_mode=RUN_MODE,
-            result_version_id=None,
+            run_mode=self.run_mode,
+            result_version_id=result_version_id,
             execution_run_no=self._next_run_no(session_id, stage),
             predecessor_validation_id=predecessor,
             status="PENDING",
@@ -229,13 +238,14 @@ class AiStageService:
             input_hash=input_hash,
         )
 
-    def run_ai1(self, *, session_id: int, data: dict, admin_reason: str | None = None) -> StageResult:
+    def run_ai1(self, *, session_id: int, data: dict, admin_reason: str | None = None,
+                result_version_id: int | None = None) -> StageResult:
         """Build, persist and validate AI #1's full prompt (no model call)."""
         if self._has_active_run(session_id, "AI1"):
             raise StageAuditError("duplicate_active_run", "An active AI1 run already exists for this session")
         prompt, prompt_hash, input_hash = build_server_prompt(data, admin_reason)
         now = utcnow()
-        run = self._insert_run(session_id, "AI1", input_hash)
+        run = self._insert_run(session_id, "AI1", input_hash, result_version_id=result_version_id)
         run.status = "PROCESSING"
         run.lease_until = now + timedelta(seconds=DEFAULT_LEASE_SECONDS)
         run.started_at = now
@@ -265,7 +275,7 @@ class AiStageService:
         validation = AiStageValidation(
             session_id=session_id,
             stage_run_id=run.stage_run_id,
-            validator_version=VALIDATOR_VERSION,
+            validator_version=self.validator_version,
             input_hash=input_hash,
             output_hash=prompt_hash,
             status="VALID",
@@ -282,7 +292,8 @@ class AiStageService:
         self.db.commit()
         return StageResult(run.stage_run_id, record.prompt_record_id, run.status, prompt_hash, 1)
 
-    def run_ai2(self, *, session_id: int, predecessor_validation_id: int) -> StageResult:
+    def run_ai2(self, *, session_id: int, predecessor_validation_id: int,
+                result_version_id: int | None = None) -> StageResult:
         """Evaluate using ONLY AI #1's persisted, hash-validated prompt."""
         validation = self.db.get(AiStageValidation, predecessor_validation_id)
         if validation is None or validation.status != "VALID":
@@ -290,7 +301,7 @@ class AiStageService:
         predecessor = self.db.get(AiStageRun, validation.stage_run_id)
         if (predecessor is None or predecessor.stage != "AI1"
                 or predecessor.session_id != session_id
-                or predecessor.scope_key != SCOPE_KEY
+                or predecessor.scope_key != self.scope_key
                 or predecessor.status != "COMPLETED"
                 or predecessor.input_hash != validation.input_hash
                 or predecessor.output_hash != validation.output_hash):
@@ -317,7 +328,9 @@ class AiStageService:
         if self.llm is None or (hasattr(self.llm, "is_configured") and not self.llm.is_configured()):
             raise StageAuditError("llm_not_configured", "The evaluator provider is not configured")
 
-        run = self._insert_run(session_id, "AI2", record.prompt_hash, predecessor=predecessor_validation_id)
+        run = self._insert_run(session_id, "AI2", record.prompt_hash,
+                               predecessor=predecessor_validation_id,
+                               result_version_id=result_version_id)
         self.db.add(run)
         self.db.commit()
         messages = [self._user_message(content.prompt_text)]
@@ -339,7 +352,7 @@ class AiStageService:
                     json_schema=schema,
                     validator=validate_stage_output,
                     max_tokens=2000,
-                    context_version=VALIDATOR_VERSION,
+                    context_version=self.validator_version,
                     sanitize_messages=False,
                 )
                 output_hash = digest(output)
@@ -365,7 +378,7 @@ class AiStageService:
             second = AiStageValidation(
                 session_id=session_id,
                 stage_run_id=run.stage_run_id,
-                validator_version=VALIDATOR_VERSION,
+                validator_version=self.validator_version,
                 input_hash=record.prompt_hash,
                 output_hash=output_hash,
                 status="VALID",
@@ -377,7 +390,8 @@ class AiStageService:
             run.lease_until = None
             self.db.commit()
             LOG.info("ai_stage stage=AI2 status=COMPLETED hash=%s output=%s", record.prompt_hash, output_hash)
-            return StageResult(run.stage_run_id, None, run.status, output_hash, attempt_no)
+            return StageResult(run.stage_run_id, None, run.status, output_hash,
+                               attempt_no, output=output)
         raise StageAuditError("evaluation_failed", "AI2 exhausted its attempts")
 
     @staticmethod
