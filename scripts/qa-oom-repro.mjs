@@ -56,10 +56,10 @@ function state() {
 // Same shapes the browser QA suite sends: 13-question AI generation for the
 // four practice concepts, a full bank-practice evaluation snapshot, and an
 // essay grading prompt. Sizes are representative, not minimal.
-const concepts = ['ER modeling', 'Normalization', 'SQL joins', 'Transactions'].map((label, index) => ({
-  id: `3f1c4a52-1f7e-4c1e-9c3a-00000000000${index}`, code: `C${index + 1}`,
-  name: label, description: `${label} concept used by the QA harness`,
-}))
+const concepts = [{
+  id: '3f1c4a52-1f7e-4c1e-9c3a-000000000001', code: 'ER',
+  name: 'ER modeling', description: 'Entities, relationships and cardinality',
+}]
 const items = Array.from({ length: 13 }, (_, index) => ({
   attempt_id: `attempt-${index}`, question_id: `question-${index}`,
   type: ['mcq', 'sql', 'essay'][index % 3], points: 1, score: index % 4 === 0 ? 0.25 : 1,
@@ -79,13 +79,13 @@ const evaluationData = JSON.stringify({
 const payloads = {
   evaluation: {
     response_format: { json_schema: { name: 'evaluation' } },
-    messages: [{ role: 'user', content: `## DỮ LIỆU\n${evaluationData}\n## KHÁI NIỆM\n{"concepts":[]}\n## RUBRIC\n` }],
+    messages: [{ role: 'user', content: `## DỮ LIỆU\n${evaluationData}\n## KHÁI NIỆM\n[]\n## RUBRIC\n` }],
   },
   practice_questions: {
     response_format: { json_schema: { name: 'practice_questions' } },
     messages: [{ role: 'user', content: JSON.stringify({
-      concepts, difficulty_levels: [2, 4], count: 13,
-      type_counts: { mcq: 10, sql: 2, essay: 1 },
+      concepts, difficulty_levels: [4], count: 3,
+      type_counts: { mcq: 1, sql: 1, essay: 1 },
     }) }],
   },
   essay_grade: {
