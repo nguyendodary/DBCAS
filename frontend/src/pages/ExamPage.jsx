@@ -212,67 +212,80 @@ function ExamWorkspace({ sessionId }) {
 
   async function browseQuestion(seq) {
     const sequence = ++browseSequence.current
+
+    // Nếu đang xem lại một câu, bấm ô của câu đang làm để quay lại.
     if (q?.seq_no === seq) {
       setReviewSeq(null)
       return
     }
+
+    // Lưu đáp án đang nhập trước khi chuyển sang câu khác.
     try {
       await flushDraft()
     } catch {
-      /* keep the editable answer visible until its draft is safe */
       return
     }
+
     if (sequence !== browseSequence.current) return
 
-    if (isPracticeSession) {
-      const previouslyServed = servedQuestions.find((item) => item.seq_no === seq)
-      if (previouslyServed?.submitted_at) {
-        setReviewSeq(seq)
-        return
-      }
-      try {
-        const { data: question } = await api.post(
-          `/sessions/${sessionId}/questions/${seq}/serve`,
-          null,
-          { params: { display_locale: locale } },
-        )
-        if (question.submitted_at) {
-          await loadQuestionList(locale)
-          if (sequence === browseSequence.current) setReviewSeq(seq)
-          return
-        }
-        if (sequence !== browseSequence.current) return
-        setError(null)
-        setFeedback(null)
-        setRunResult(null)
-        setReviewSeq(null)
-        setState((current) => ({
-          ...current,
-          current_question: { ...question, _displayLocale: locale },
-        }))
-        loadQuestionList(locale).catch(() => {})
-        api
-          .get(`/sessions/${sessionId}`, { params: { display_locale: locale } })
-          .then(({ data }) => {
-            if (sequence === browseSequence.current)
-              acceptState({
-                ...data,
-                current_question: { ...question, _displayLocale: locale },
-              })
-          })
-          .catch((error) => {
-            if (sequence === browseSequence.current)
-              setError(apiMessage(error, message('exam.loadError')))
-          })
-      } catch (error) {
-        if (sequence === browseSequence.current)
-          setError(apiMessage(error, message('exam.loadError')))
-      }
+    const selected = servedQuestions.find((item) => item.seq_no === seq)
+
+    // Câu đã nộp thì mở để xem lại.
+    if (selected?.submitted_at) {
+      setReviewSeq(seq)
       return
     }
-    if (sequence === browseSequence.current) setReviewSeq(seq)
-  }
 
+    if (selected && !isPracticeSession) {
+      setReviewSeq(seq)
+      return
+    }
+
+    // Câu chưa nộp thì mở để làm, kể cả khi bấm từ 01 sang 03.
+    const params = { display_locale: locale }
+
+    try {
+      const { data: question } = await api.post(
+        `/sessions/${sessionId}/questions/${seq}/serve`,
+        null,
+        { params },
+      )
+
+      if (sequence !== browseSequence.current) return
+
+      if (question.submitted_at) {
+        await loadQuestionList(locale)
+        if (sequence === browseSequence.current) setReviewSeq(seq)
+        return
+      }
+
+      const currentQuestion = { ...question, _displayLocale: locale }
+
+      setError(null)
+      setFeedback(null)
+      setRunResult(null)
+      setReviewSeq(null)
+      setState((current) => ({
+        ...current,
+        current_question: currentQuestion,
+      }))
+
+      loadQuestionList(locale).catch(() => {})
+
+      const { data: session } = await api.get(`/sessions/${sessionId}`, { params })
+
+      if (sequence === browseSequence.current) {
+        acceptState({
+          ...session,
+          current_question: currentQuestion,
+        })
+      }
+    } catch (error) {
+      if (sequence === browseSequence.current) {
+        setError(apiMessage(error, message('exam.loadError')))
+      }
+    }
+  }
   // Display only reviewed content captured when this question was served.
   // Do not reset the answer draft, clock, session locale or grading evidence.
   useEffect(() => {
@@ -555,9 +568,7 @@ function ExamWorkspace({ sessionId }) {
                     <button
                       type="button"
                       className={`question-cell w-full${isAnswered ? ' answered' : ''}${isActive ? ' active' : ''}`}
-                      disabled={
-                        (!isPracticeSession && i >= state.served_count) || submitting || finishing
-                      }
+                      disabled={submitting || finishing}
                       onClick={() => browseQuestion(i + 1)}
                       aria-label={t('exam.navigateQuestion', { number: i + 1 })}
                       aria-current={isActive ? 'step' : undefined}
