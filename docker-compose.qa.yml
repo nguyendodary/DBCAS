@@ -10,9 +10,10 @@ services:
     # Sampled curves (qa-memory artifact) are step-like, not linear: ~18MiB at
     # start, ~59MiB after the first evaluation import, then ~119-134MiB RSS
     # after the practice-service import, flat for the rest of the suite.
-    # Measured cgroup peak with headroom is 141.4MiB; 288m is ~2.04x that peak.
+    # Measured cgroup peak is 144.1MiB; 2x = 288.2MiB, rounded up to 320m so
+    # the verification bound (peak < 50% of limit = 160MiB) has margin.
     # The limit stays in place and there is no restart policy.
-    mem_limit: 288m
+    mem_limit: 320m
     healthcheck:
       test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health',timeout=2)"]
       interval: 2s
