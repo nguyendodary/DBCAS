@@ -292,6 +292,12 @@ class AiStageService:
         self.db.commit()
         return StageResult(run.stage_run_id, record.prompt_record_id, run.status, prompt_hash, 1)
 
+    def _require_active_v2_run(self, run, *expected_statuses):
+        if self.run_mode == "V2_ANALYSIS":
+            self.db.refresh(run, with_for_update=True)
+            if run.status not in expected_statuses:
+                raise StageAuditError("analysis_interrupted", "This V2 analysis was interrupted")
+
     def run_ai2(self, *, session_id: int, predecessor_validation_id: int,
                 result_version_id: int | None = None) -> StageResult:
         """Evaluate using ONLY AI #1's persisted, hash-validated prompt."""
@@ -336,6 +342,7 @@ class AiStageService:
         messages = [self._user_message(content.prompt_text)]
         schema = {"name": "two_ai_analysis", "strict": True, "schema": StageOutput.model_json_schema()}
         for attempt_no in range(1, MAX_ATTEMPTS + 1):
+            self._require_active_v2_run(run, "PENDING", "RETRY_WAIT")
             now = utcnow()
             run.status = "PROCESSING"
             run.lease_until = now + timedelta(seconds=DEFAULT_LEASE_SECONDS)
@@ -357,6 +364,7 @@ class AiStageService:
                 )
                 output_hash = digest(output)
             except Exception as exc:
+                self._require_active_v2_run(run, "PROCESSING")
                 code = getattr(exc, "code", None) or getattr(exc, "reason_code", None) or type(exc).__name__
                 attempt.status = "FAILED"
                 attempt.error_code = str(code)[:80]
@@ -372,6 +380,7 @@ class AiStageService:
                 self.db.commit()
                 LOG.info("ai_stage stage=AI2 status=FAILED hash=%s reason=%s", record.prompt_hash, code)
                 raise StageAuditError("evaluation_failed", "AI2 output failed validation after 3 attempts")
+            self._require_active_v2_run(run, "PROCESSING")
             attempt.status = "SUCCEEDED"
             attempt.output_hash = output_hash
             attempt.finished_at = utcnow()

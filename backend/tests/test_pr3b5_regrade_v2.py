@@ -1,8 +1,10 @@
 """PR 3B-5: question reports, deviations, V2 regrade and two-AI analysis."""
+from datetime import timedelta
 from decimal import Decimal
 
 import pytest
 from sqlalchemy import select, text, update
+from sqlalchemy.orm import Session
 
 from app.deps import get_llm_service
 from app.main import app
@@ -10,6 +12,7 @@ from app.models import (
     Account,
     AiPromptContent,
     AiPromptRecord,
+    AiStageAttempt,
     AiStageRun,
     AssessmentSession,
     Attempt,
@@ -22,6 +25,8 @@ from app.models import (
     SessionResultVersion,
     SessionResultVersionScore,
 )
+from app.schemas import ReviewDecisionRequest
+from app.services import review_flow, review_regrade
 from app.services.ai_stage_service import CONSTRAINT_SECTION, CONTEXT_SECTION, _sections
 from app.services.evidence_context import question_view
 from test_admin_analytics import _make_account
@@ -76,6 +81,87 @@ def _accept_report(client, db_session, sid, admin, case, attempt):
 def _cumulative_earned(client, learner):
     body = client.get(CUMULATIVE, headers=headers(learner)).json()
     return sum(Decimal(str(item["points_earned"])) for item in body["concepts"])
+
+
+@pytest.mark.parametrize("already_reclaimed", [False, True])
+def test_abandoned_v2_returns_to_the_queue_and_retries_without_replacing_v1(client, db_session, already_reclaimed):
+    learner, sid, admin, case = _setup(client, db_session)
+    case_id = case["review_request_id"]
+    deadline = db_session.get(ReviewRequest, case_id).claim_expires_at
+    decision = ReviewDecisionRequest(
+        expected_revision=case["revision"], outcome="APPROVE", note="Review the synthetic result.",
+    )
+
+    class WorkerStopped(BaseException):
+        pass
+
+    class InterruptedLLM(StubLLM):
+        def generate_structured(self, *args, **kwargs):
+            raise WorkerStopped()
+
+    with pytest.raises(WorkerStopped):
+        review_regrade.approve(db_session, case_id, decision, admin, InterruptedLLM())
+    db_session.rollback()
+    stored = db_session.get(ReviewRequest, case_id)
+    v2_id = stored.regraded_result_version_id
+    assert db_session.get(SessionResultPublication, v2_id).state == "APPROVED_PENDING_ANALYSIS"
+    assert db_session.get(AssessmentSession, sid).current_result_version_id == case["base_result_version_id"]
+    review_flow.reclaim_and_expire(db_session, now=deadline - timedelta(seconds=1))
+    assert db_session.get(SessionResultPublication, v2_id).state == "APPROVED_PENDING_ANALYSIS"
+
+    if already_reclaimed:
+        # The old maintenance tick could clear the claim while leaving V2 pending.
+        stored.status = "REQUESTED"
+        stored.claimed_by = stored.claimed_at = stored.claim_expires_at = None
+        db_session.commit()
+    review_flow.reclaim_and_expire(db_session, now=deadline + timedelta(seconds=1))
+    db_session.commit()
+    db_session.expire_all()
+    assert db_session.get(SessionResultPublication, v2_id).state == "ANALYSIS_FAILED"
+    assert db_session.get(AssessmentSession, sid).current_result_version_id == case["base_result_version_id"]
+    assert client.get(REVIEW.format(sid=sid), headers=headers(learner)).json()["v2_state"] == "ANALYSIS_FAILED_V1_KEPT"
+    stored = db_session.get(ReviewRequest, case_id)
+    claimed = client.post(f"{QUEUE}/{case_id}/claim", headers=headers(admin, "Administrator"),
+                          json={"expected_revision": stored.revision})
+    assert claimed.status_code == 200, claimed.text
+    assert review_regrade.retry_analysis(db_session, case_id, admin, StubLLM())["analysis_status"] == "OFFICIAL"
+    assert db_session.get(AssessmentSession, sid).current_result_version_id == v2_id
+    assert [run.status for run in db_session.scalars(
+        select(AiStageRun).where(AiStageRun.result_version_id == v2_id, AiStageRun.stage == "AI2")
+        .order_by(AiStageRun.execution_run_no)
+    )] == ["FAILED", "COMPLETED"]
+    interrupted_attempt = db_session.scalar(
+        select(AiStageAttempt).join(AiStageRun, AiStageRun.stage_run_id == AiStageAttempt.stage_run_id)
+        .where(AiStageRun.result_version_id == v2_id, AiStageRun.stage == "AI2", AiStageRun.execution_run_no == 1)
+    )
+    assert interrupted_attempt.status == "FAILED"
+    assert interrupted_attempt.error_code == "analysis_interrupted"
+
+
+def test_late_provider_result_cannot_mutate_reclaimed_analysis(client, db_session):
+    _, sid, admin, case = _setup(client, db_session)
+    case_id = case["review_request_id"]
+    deadline = db_session.get(ReviewRequest, case_id).claim_expires_at
+    decision = ReviewDecisionRequest(
+        expected_revision=case["revision"], outcome="APPROVE", note="Review the synthetic result.",
+    )
+
+    class LateLLM(StubLLM):
+        def generate_structured(self, *args, **kwargs):
+            with Session(bind=db_session.get_bind()) as worker:
+                review_flow.reclaim_and_expire(worker, now=deadline + timedelta(seconds=1))
+                worker.commit()
+            return super().generate_structured(*args, **kwargs)
+
+    assert review_regrade.approve(db_session, case_id, decision, admin, LateLLM())["analysis_status"] == "ANALYSIS_FAILED"
+    db_session.expire_all()
+    assert db_session.get(AssessmentSession, sid).current_result_version_id == case["base_result_version_id"]
+    v2_id = db_session.get(ReviewRequest, case_id).regraded_result_version_id
+    assert db_session.scalar(
+        select(SessionResultAnalysis).where(SessionResultAnalysis.result_version_id == v2_id)
+    ) is None
+    run = db_session.scalar(select(AiStageRun).where(AiStageRun.result_version_id == v2_id, AiStageRun.stage == "AI2"))
+    assert (run.status, run.last_error_code) == ("FAILED", "analysis_interrupted")
 
 
 def test_accepted_report_creates_official_v2_and_cumulative(client, db_session):

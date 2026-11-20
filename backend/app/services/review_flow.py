@@ -7,12 +7,14 @@ regrading (and the APPROVE branch) belongs to PR 3B-5.
 from datetime import timedelta
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import and_, or_, select, update
 from sqlalchemy.exc import IntegrityError
 
 from ..errors import AppError
 from ..models import (
     Account,
+    AiStageAttempt,
+    AiStageRun,
     AssessmentSession,
     ReviewRequest,
     SessionResultPublication,
@@ -20,6 +22,7 @@ from ..models import (
 )
 from ..repositories import AssessmentRepository
 from ..schemas import ReviewRequestView, UserReviewRequestView
+from .ai_stage_service import ACTIVE_STATUSES
 from .result_version import is_ai_official
 
 REVIEW_WINDOW_DAYS = 7
@@ -391,22 +394,48 @@ def decide(db, review_request_id, expected_revision, outcome, note, admin):
     return payload
 
 
+def _recover_interrupted_analysis(db, case, now):
+    if case.regraded_result_version_id is None:
+        return
+    publication = db.get(SessionResultPublication, case.regraded_result_version_id, populate_existing=True)
+    if publication is None or publication.state != "APPROVED_PENDING_ANALYSIS":
+        return
+    run_ids = list(db.scalars(
+        update(AiStageRun)
+        .where(AiStageRun.result_version_id == publication.result_version_id,
+               AiStageRun.run_mode == "V2_ANALYSIS", AiStageRun.status.in_(ACTIVE_STATUSES))
+        .values(status="FAILED", last_error_code="analysis_interrupted", finished_at=now, lease_until=None)
+        .returning(AiStageRun.stage_run_id)
+    ))
+    if run_ids:
+        db.execute(
+            update(AiStageAttempt)
+            .where(AiStageAttempt.stage_run_id.in_(run_ids), AiStageAttempt.status == "STARTED")
+            .values(status="FAILED", error_code="analysis_interrupted", finished_at=now)
+        )
+    publication.state = "ANALYSIS_FAILED"
+
+
 def reclaim_and_expire(db, now=None):
     """Maintenance tick: expired leases return to REQUESTED; old cases expire.
 
-    Never approves or rejects a case on the learner's behalf.
+    Interrupted analysis becomes retryable without changing the official result.
     """
     now = now or _server_now(db)
     reclaimed = 0
+    expired_claim = and_(ReviewRequest.status == "IN_REVIEW", ReviewRequest.claim_expires_at <= now)
+    # A previous worker version may have already reclaimed an interrupted case.
+    abandoned = and_(ReviewRequest.status.in_(("REQUESTED", "EXPIRED")),
+                     _publication_state(ReviewRequest) == "APPROVED_PENDING_ANALYSIS")
     for case in db.scalars(
         select(ReviewRequest)
-        .where(
-            ReviewRequest.status == "IN_REVIEW",
-            ReviewRequest.claim_expires_at <= now,
-        )
+        .where(or_(expired_claim, abandoned))
         .with_for_update(skip_locked=True)
         .execution_options(populate_existing=True)
     ):
+        _recover_interrupted_analysis(db, case, now)
+        if case.status != "IN_REVIEW":
+            continue
         case.status = "REQUESTED"
         case.claimed_by = None
         case.claimed_at = None
