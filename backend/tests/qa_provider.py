@@ -68,7 +68,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.path != "/v1/chat/completions":
                 return self.respond(404, {"error": "not_found"})
             schema_name = body.get("response_format", {}).get("json_schema", {}).get("name")
-            if schema_name not in {"evaluation", "practice_questions", "essay_grade"}:
+            if schema_name not in {"evaluation", "practice_questions", "essay_grade", "two_ai_analysis"}:
                 return self.respond(503, {"error": "task_not_simulated"})
             prompt = next(m["content"] for m in body["messages"] if m["role"] == "user")
             with LOCK:
@@ -81,6 +81,20 @@ class Handler(BaseHTTPRequestHandler):
             time.sleep(delay)
             if failure:
                 return self.respond(503, {"error": "simulated_provider_outage"})
+            if schema_name == "two_ai_analysis":
+                data = json.loads(prompt.split("## DỮ LIỆU\n", 1)[1].split("## SCHEMA JSON\n", 1)[0])
+                version = data["result_version"]
+                payload = {
+                    "summary": "Phân tích tổng hợp điểm đã được rà soát.",
+                    "strengths": ["Kết quả có điểm theo từng câu."],
+                    "weaknesses": ["Cần đối chiếu các câu bị mất điểm."],
+                    "suggestions": ["Đọc lại phần giải thích cho từng câu."],
+                    "learning_path": ["Luyện tập thêm các chủ đề đã làm bài."],
+                    "score": float(version["total_score"]),
+                    "max_score": float(version["max_score"]),
+                    "trend": None,
+                }
+                return self.respond(200, {"choices": [{"message": {"content": json.dumps(payload, ensure_ascii=False)}, "finish_reason": "stop"}]})
             if schema_name == "evaluation":
                 from app.services.evaluation_pipeline import rule_evaluation
                 data = json.loads(prompt.split("## DỮ LIỆU\n", 1)[1].split("## KHÁI NIỆM\n", 1)[0])

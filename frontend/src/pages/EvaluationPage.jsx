@@ -1,15 +1,27 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost } from '../components/ui'
 import { ActionSpinner, ErrorState } from '../components/States'
 import { EvaluationCharts } from '../components/EvaluationCharts'
 import AdaptiveResult from '../components/AdaptiveResult'
+import ReviewRequestCard from '../components/ReviewRequestCard'
 import { isAdaptiveResult } from '../assessmentStyle'
 import { t, useLocale } from '../i18n'
 
 const MAX_POLL_DURATION_MS = 5 * 60 * 1000
 export const MAX_WEAK_PRACTICE_CONCEPTS = 5
+
+function isOfficialResult(data) {
+  return (
+    data?.status === 'ready' &&
+    data.is_current === true &&
+    data.final === true &&
+    data.source === 'ai' &&
+    data.result_version > 0 &&
+    Boolean(data.score)
+  )
+}
 
 function validateView(data) {
   if (
@@ -24,7 +36,9 @@ function validateView(data) {
       'awaiting_approval',
       'cancelled',
     ].includes(data.status) ||
-    (['provisional', 'ready'].includes(data.status) && !data.result?.evaluation)
+    (['provisional', 'ready'].includes(data.status) &&
+      !data.result?.evaluation &&
+      !isOfficialResult(data))
   )
     throw new Error('Invalid evaluation response')
   return data
@@ -266,6 +280,16 @@ export default function EvaluationPage({ overall = false }) {
   const [reload, setReload] = useState(0)
   const sequence = useRef(0)
   const path = overall ? '/evaluations/overall' : `/evaluations/attempts/${sessionId}`
+  const refreshOfficialResult = useCallback(
+    async (signal) => {
+      const { data: result } = await api.get(path, { signal })
+      if (signal.aborted) return
+      if (!isOfficialResult(result) || result.result_version < 2)
+        throw new Error('Official V2 unavailable')
+      setData(result)
+    },
+    [path],
+  )
   useEffect(() => {
     const run = ++sequence.current
     const started = Date.now()
@@ -461,6 +485,20 @@ export default function EvaluationPage({ overall = false }) {
       ) : (
         <EvaluationContent data={data} overall={overall} />
       )}
+      {!overall &&
+        String(sessionResult?.session_id) === sessionId &&
+        sessionResult.runner_mode === 'fixed' &&
+        sessionResult.purpose === 'TEST' &&
+        sessionResult.review_status &&
+        sessionResult.review_status !== 'LEGACY' &&
+        isOfficialResult(data) && (
+          <ReviewRequestCard
+            key={sessionId}
+            session={sessionResult}
+            resultVersion={data.result_version}
+            onOfficial={refreshOfficialResult}
+          />
+        )}
     </div>
   )
 }

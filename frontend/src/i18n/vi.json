@@ -1,4 +1,21 @@
 {
+  "reviewRequest": {
+    "request": "Yêu cầu quản trị viên xem xét",
+    "reason": "Lý do yêu cầu xem xét (10–2.000 ký tự)",
+    "deadline": "Gửi yêu cầu xem xét trước {{date}}.",
+    "pending": "Đang chờ xem xét",
+    "inReview": "Đang xem xét",
+    "rejected": "Đã từ chối",
+    "expired": "Đã hết hạn",
+    "v1Official": "V1 chính thức",
+    "v2Official": "V2 chính thức",
+    "analysisPending": "Đang chờ phân tích V2.",
+    "analysisFailed": "Giữ kết quả V1. Quản trị viên sẽ thử lại.",
+    "checkStatus": "Kiểm tra trạng thái xem xét",
+    "closed": "Đã hết thời hạn yêu cầu xem xét.",
+    "forbidden": "Bạn không có quyền truy cập yêu cầu xem xét này.",
+    "unavailable": "Không thể truy cập yêu cầu xem xét này."
+  },
   "local": {
     "mailbox": "Mở hộp thư demo trên máy này",
     "autoMcq": "Trắc nghiệm đã chấm tự động (xem khi cần)",
