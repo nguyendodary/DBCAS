@@ -28,6 +28,7 @@ from psycopg import sql as pgsql
 
 from ..config import Settings
 from .sql_validator import validate_learner_sql
+from .sql_classifier import classify_script, validate_read_only_script
 from .dataset_setup import validated_setup_statements
 
 logger = logging.getLogger(__name__)
@@ -60,6 +61,13 @@ class SandboxResult:
     execution_time_ms: int = 0
     error_type: Optional[str] = None
     error_message: Optional[str] = None
+    # Additive fields for multi-statement runs; defaults keep legacy callers.
+    mode: str = "read_only"
+    statements: list[dict] = field(default_factory=list)
+    error_statement_index: Optional[int] = None
+    error_line: Optional[int] = None
+    error_column: Optional[int] = None
+    rolled_back: bool = True
 
 
 def _jsonable(value: Any) -> Any:
@@ -81,12 +89,21 @@ def _classify_error(exc: psycopg.Error, timeout_ms: int) -> tuple[str, str]:
 
     if sqlstate == "57014":  # query_canceled — statement_timeout is the source
         return "timeout", f"Query exceeded the {timeout_ms / 1000:g}-second statement timeout"
+    if sqlstate == "55P03":  # lock_not_available
+        return "lock_timeout", "The statement could not acquire a lock in time"
+    if sqlstate == "53200":  # out_of_memory
+        return "out_of_memory", "The statement exceeded the sandbox memory limit"
+    if sqlstate == "53100":  # disk_full
+        return "disk_full", "The sandbox ran out of temporary storage"
+    if sqlstate == "54000":  # program_limit_exceeded
+        return "program_limit", "The statement exceeded a PostgreSQL limit"
     if sqlstate == "25006":  # read_only_sql_transaction
         return "prohibited_statement", "Only read-only SELECT queries are allowed"
     if sqlstate in {"42601", "42602", "42622"}:
         return "syntax_error", primary
     if sqlstate == "42501":
         return "permission_denied", primary
+
     if sqlstate.startswith("42"):  # undefined table/column/function etc.
         return "schema_error", primary
     if sqlstate.startswith("23"):  # integrity violations (defensive: writes are blocked)
@@ -119,6 +136,12 @@ class SandboxRunner:
         self._max_cell_bytes = settings.sandbox_max_cell_bytes
         self._max_setup_bytes = settings.sandbox_max_setup_bytes
         self._connect_timeout = settings.sandbox_connect_timeout_seconds
+        # Multi-statement script budgets (used only behind the opt-in flag).
+        self._multi_enabled = settings.sandbox_multi_statement
+        self._max_statements = settings.sandbox_max_statements
+        self._max_script_ms = settings.sandbox_max_script_ms
+        self._max_rows_script = settings.sandbox_max_rows_per_script
+        self._max_bytes_script = settings.sandbox_max_result_bytes_per_script
 
     def _connect(self, url, **options):
         """One transient reconnect before any SQL, within the same budget.
@@ -267,6 +290,188 @@ class SandboxRunner:
                 execution_time_ms=elapsed_ms,
                 error_type=error_type,
                 error_message=message,
+            )
+        finally:
+            try:
+                conn.execute("ROLLBACK")
+            except Exception:
+                pass
+            conn.close()
+
+    # ---------- multi-statement read-only scripts (opt-in) ----------
+
+    def _read_bounded(self, conn, canonical: str, timeout_ms: int, started: float,
+                      row_budget: int, byte_budget: int):
+        """Stream one read-only statement through named cursors with caps.
+
+        Returns ``(columns, column_types, rows, error_type, error_message)``.
+        The SQL-level size guards keep a single oversized cell from ever being
+        transferred to the API process.
+        """
+        with conn.cursor(name="shape_" + uuid.uuid4().hex[:12]) as shape:
+            shape.execute(canonical)
+            descriptions = list(shape.description or [])
+        columns = [d.name for d in descriptions]
+        if len(columns) > 128:
+            return [], [], [], "result_too_large", "Result exceeds the 128-column limit"
+        column_types = [
+            "number" if d.type_code in {20, 21, 23, 700, 701, 1700}
+            else "boolean" if d.type_code == 16 else "text"
+            for d in descriptions
+        ]
+        names = [f"c{i}" for i in range(len(columns))]
+        size_terms = [f"COALESCE(octet_length(_r.{n}::text),0)" for n in names]
+        size = " + ".join(size_terms) or "0"
+        overflow = " OR ".join(f"{t} > {self._max_cell_bytes}" for t in size_terms) or "false"
+        overflow = f"({overflow}) OR ({size}) > {min(self._max_result_bytes, byte_budget)}"
+        projection = ", ".join(
+            f"CASE WHEN {overflow} THEN NULL ELSE _r.{n} END" for n in names
+        )
+        output = f"{projection}, " if projection else ""
+        alias = f"_r({','.join(names)})" if names else "_r"
+        limit = min(self._max_rows, row_budget) + 1
+        bounded = (
+            f"SELECT {output}({overflow}) AS _oversized "
+            f"FROM ({canonical}) AS {alias} LIMIT {limit}"
+        )
+        rows: list[list] = []
+        used_bytes = len(json.dumps(columns).encode())
+        with conn.cursor(name="bounded_" + uuid.uuid4().hex[:12]) as cur:
+            cur.execute(bounded)
+            while (row := cur.fetchone()) is not None:
+                if time.perf_counter() - started > timeout_ms / 1000:
+                    return columns, column_types, rows, "timeout", "Query exceeded the execution time limit"
+                if row[-1]:
+                    return (columns, column_types, rows, "result_too_large",
+                            "Result exceeds the cell or serialized-byte limit")
+                values = [_jsonable(v) for v in row[:-1]]
+                used_bytes += len(json.dumps(values, ensure_ascii=False, default=str).encode()) + 1
+                if len(rows) >= min(self._max_rows, row_budget) or used_bytes > byte_budget:
+                    return (columns, column_types, rows, "result_too_large",
+                            "Result exceeds the row or serialized-byte limit")
+                rows.append(values)
+        return columns, column_types, rows, None, None
+
+    def execute_script(self, sql_text: str, *, schema: Optional[str] = None) -> SandboxResult:
+        """Execute a validated multi-statement *read-only* script.
+
+        One READ ONLY transaction, one statement at a time, always rolled back.
+        Per-statement results and the failing statement index are reported; the
+        top-level rows mirror the last row-returning statement so existing
+        clients keep working. No new privileges or connections are introduced.
+        """
+        sql_text = (sql_text or "").strip()
+        if not sql_text:
+            return SandboxResult(success=False, error_type="empty_query", error_message="Query is empty")
+        if len(sql_text.encode("utf-8")) > self._max_sql_bytes:
+            return SandboxResult(
+                success=False, error_type="query_too_large",
+                error_message=f"Query exceeds the {self._max_sql_bytes}-byte limit",
+            )
+        issue = validate_read_only_script(
+            sql_text,
+            allowed_schemas=frozenset({schema}) if schema else frozenset(),
+            max_statements=self._max_statements,
+        )
+        if issue:
+            error_type, message, index = issue
+            return SandboxResult(
+                success=False, error_type=error_type, error_message=message,
+                error_statement_index=index,
+            )
+
+        try:
+            conn = self._connect(self._learner_url, autocommit=True)
+        except (psycopg.OperationalError, OSError) as exc:
+            logger.warning("sandbox connect failed: %s", type(exc).__name__)
+            return SandboxResult(success=False, error_type="sandbox_unavailable",
+                                 error_message="The SQL sandbox is unavailable")
+
+        script_started = time.perf_counter()
+        statements: list[dict] = []
+        rows_used = 0
+        bytes_used = 0
+        try:
+            conn.execute("SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY")
+            conn.execute(f"SET statement_timeout = {self._timeout_ms}")
+            conn.execute(f"SET idle_in_transaction_session_timeout = {self._timeout_ms * 4}")
+            if schema:
+                conn.execute(pgsql.SQL("SET search_path TO {}").format(pgsql.Identifier(schema)))
+            conn.execute("BEGIN")
+
+            classification = classify_script(sql_text, max_statements=self._max_statements)
+            if not classification.ok:
+                return SandboxResult(
+                    success=False, error_type=classification.error_type,
+                    error_message=classification.error_message,
+                )
+
+            for stmt in classification.statements:
+                elapsed_ms = (time.perf_counter() - script_started) * 1000
+                if elapsed_ms > self._max_script_ms:
+                    return SandboxResult(
+                        success=False, error_type="timeout",
+                        error_message="Script exceeded the execution time limit",
+                        statements=statements, error_statement_index=stmt.index,
+                        execution_time_ms=int(elapsed_ms),
+                    )
+                remaining = max(1, int(self._max_script_ms - elapsed_ms))
+                timeout_ms = min(self._timeout_ms, remaining)
+                conn.execute(f"SET LOCAL statement_timeout = {timeout_ms}")
+                stmt_started = time.perf_counter()
+                canonical = stmt.sql.rstrip().rstrip(";")
+                try:
+                    columns, column_types, rows, err_type, err_msg = self._read_bounded(
+                        conn, canonical, timeout_ms, script_started,
+                        max(0, self._max_rows_script - rows_used),
+                        max(0, self._max_bytes_script - bytes_used),
+                    )
+                except psycopg.Error as exc:
+                    err_type, err_msg = _classify_error(exc, timeout_ms)
+                    columns, column_types, rows = [], [], []
+                stmt_ms = int((time.perf_counter() - stmt_started) * 1000)
+                entry = {
+                    "index": stmt.index,
+                    "kind": stmt.kind,
+                    "command": "SELECT" if columns else "",
+                    "row_count": len(rows),
+                    "columns": columns,
+                    "column_types": column_types,
+                    "rows": rows,
+                    "execution_time_ms": stmt_ms,
+                }
+                if err_type:
+                    entry.update(error_type=err_type, error_message=err_msg)
+                    statements.append(entry)
+                    return SandboxResult(
+                        success=False, error_type=err_type, error_message=err_msg,
+                        statements=statements, error_statement_index=stmt.index,
+                        execution_time_ms=int((time.perf_counter() - script_started) * 1000),
+                    )
+                statements.append(entry)
+                rows_used += len(rows)
+                bytes_used += len(json.dumps(rows, ensure_ascii=False, default=str).encode())
+
+            elapsed_ms = int((time.perf_counter() - script_started) * 1000)
+            conn.execute("ROLLBACK")
+            last = next((s for s in reversed(statements) if s["columns"]), None)
+            return SandboxResult(
+                success=True,
+                columns=last["columns"] if last else [],
+                column_types=last["column_types"] if last else [],
+                rows=last["rows"] if last else [],
+                row_count=last["row_count"] if last else 0,
+                execution_time_ms=elapsed_ms,
+                statements=statements,
+                mode="read_only",
+                rolled_back=True,
+            )
+        except psycopg.Error as exc:
+            error_type, message = _classify_error(exc, self._timeout_ms)
+            return SandboxResult(
+                success=False, error_type=error_type, error_message=message,
+                statements=statements,
+                execution_time_ms=int((time.perf_counter() - script_started) * 1000),
             )
         finally:
             try:

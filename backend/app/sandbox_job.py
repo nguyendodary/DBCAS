@@ -24,6 +24,8 @@ def main():
             result = runner.provision_dataset(payload["sql"])
         elif operation == "execute":
             result = asdict(runner.execute(payload["sql"], schema=payload.get("schema")))
+        elif operation == "execute_script":
+            result = asdict(runner.execute_script(payload["sql"], schema=payload.get("schema")))
         elif operation == "validate":
             result = runner.validate_environment()
         else:

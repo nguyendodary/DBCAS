@@ -11,7 +11,8 @@ from sqlalchemy.orm import Session
 from ..errors import AppError
 from ..models import Account
 from ..repositories import AssessmentRepository
-from ..schemas import RunSqlRequest, SqlRunResult
+from ..config import get_settings
+from ..schemas import RunSqlRequest, SqlRunResult, StatementResult
 from .sandbox_runner import SandboxError, SandboxRunner
 from .evidence_context import question_view
 from .session_guard import load_owned_active_session, load_served_attempt
@@ -48,8 +49,13 @@ def run_learner_sql(
         schema = runner.provision_dataset(primary.setup_sql)
     except SandboxError as exc:
         raise AppError(503, exc.code, exc.message)
+    # The flag is derived from server configuration, never from the request.
+    multi_enabled = get_settings().sandbox_multi_statement
     try:
-        result = runner.execute(payload.sql, schema=schema)
+        if multi_enabled:
+            result = runner.execute_script(payload.sql, schema=schema)
+        else:
+            result = runner.execute(payload.sql, schema=schema)
     except SandboxError as exc:
         raise AppError(503, exc.code, exc.message) from None
     finally:
@@ -64,4 +70,9 @@ def run_learner_sql(
         execution_time_ms=result.execution_time_ms,
         error_type=result.error_type,
         error_message=result.error_message,
+        mode=result.mode,
+        statements=[StatementResult(**item) for item in result.statements],
+        error_statement_index=result.error_statement_index,
+        error_line=result.error_line,
+        error_column=result.error_column,
     )

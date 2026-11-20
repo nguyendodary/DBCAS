@@ -57,6 +57,19 @@ class Settings(BaseSettings):
     sandbox_container_image: str = Field(default="dbcas-sql-ephemeral:local", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9._/:@-]+$")
     sandbox_container_lifetime_seconds: int = Field(default=45, ge=10, le=90)
 
+    # Multi-statement SQL sandbox capability flags. All DEFAULT OFF so an
+    # unchanged deployment keeps the exact legacy single-SELECT behavior.
+    # Environment names match the field names uppercased:
+    #   SANDBOX_MULTI_STATEMENT, SANDBOX_WRITABLE, GRADING_STATE_MODE.
+    sandbox_multi_statement: bool = False
+    sandbox_writable: bool = False
+    grading_state_mode: bool = False
+    # Script-level budgets (used only when SANDBOX_MULTI_STATEMENT is on).
+    sandbox_max_statements: int = Field(default=32, ge=1, le=128)
+    sandbox_max_script_ms: int = Field(default=5000, ge=1, le=30000)
+    sandbox_max_rows_per_script: int = Field(default=2000, ge=1)
+    sandbox_max_result_bytes_per_script: int = Field(default=524288, ge=1024, le=2097152)
+
     # Social sign-in (OAuth 2.0 authorization-code flow, backend-managed).
     # Empty client id = provider disabled; /auth/oauth/{provider}/start then
     # answers 503 oauth_not_configured; the SPA retains a safe email notice.
@@ -225,6 +238,14 @@ class Settings(BaseSettings):
             raise ValueError("Staging/production requires HTTPS FRONTEND_URL and explicit HTTPS CORS_ORIGINS")
         if not 1 <= self.sandbox_statement_timeout_ms <= 3000:
             raise ValueError("SANDBOX_STATEMENT_TIMEOUT_MS must be at most 3000")
+        # Writable learner SQL is a per-execution container boundary outside
+        # development. Fail closed at startup — never silently fall back to
+        # the shared sandbox or grant the API new Docker privileges.
+        if (self.sandbox_writable and self.deployment_mode != "development"
+                and self.sandbox_mode != "ephemeral"):
+            raise ValueError(
+                "SANDBOX_WRITABLE outside development requires SANDBOX_MODE=ephemeral"
+            )
         if self.smtp_host.strip().lower() == "mailpit":
             raise ValueError("SMTP_HOST must not be the development Mailpit service outside development")
         return self
