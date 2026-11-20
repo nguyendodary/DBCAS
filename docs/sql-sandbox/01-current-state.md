@@ -228,10 +228,12 @@ Compose facts:
 
 `.github/workflows/dn-backend.yml:15-46` sets `docs_only=true` when every
 changed file is under `docs/*` or `standards/*`, **except** `docs/qa/*`.
-Jobs gate on `needs.changes.outputs.docs_only != 'true'`
-(`:56`, `:168`, etc.). Therefore this PR's backend/frontend test jobs will be
-skipped by design; `frontend-local` is the fan-in aggregator and passes with a
-docs-only message. The exact run is reported on the PR, not assumed here.
+The `secrets` and `backend` jobs still start, but their test steps are gated
+on `docs_only != 'true'` (`:56-59`, `:79-118`) and are replaced with a
+"docs-only PR" echo (`:60-61`, `:119-120`). `frontend-static` and
+`frontend-shard` are skipped at the job level (`:124`, `:168`). `frontend-local`
+is the fan-in aggregator and passes with a docs-only message. The exact run is
+reported on the PR, not assumed here.
 
 ## 10. Gaps summary
 
