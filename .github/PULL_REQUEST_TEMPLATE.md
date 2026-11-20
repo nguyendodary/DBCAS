@@ -7,6 +7,7 @@ Describe the change and why it is needed.
 - [ ] Automated tests relevant to the change pass
 - [ ] Lint/format checks pass
 - [ ] Manual verification documented below
+- [ ] STATUS.md and BACKLOG.md updated if state changed
 
 Verification notes:
 
