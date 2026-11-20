@@ -73,4 +73,6 @@ def run_learner_sql(
         mode=result.mode,
         statements=[StatementResult(**item) for item in result.statements],
         error_statement_index=result.error_statement_index,
+        error_line=result.error_line,
+        error_column=result.error_column,
     )

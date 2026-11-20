@@ -65,6 +65,8 @@ class SandboxResult:
     mode: str = "read_only"
     statements: list[dict] = field(default_factory=list)
     error_statement_index: Optional[int] = None
+    error_line: Optional[int] = None
+    error_column: Optional[int] = None
     rolled_back: bool = True
 
 
