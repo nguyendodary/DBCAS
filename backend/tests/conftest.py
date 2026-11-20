@@ -27,12 +27,35 @@ TEST_RUN_ID = os.environ.setdefault("DBCAS_TEST_RUN_ID", uuid.uuid4().hex)
 def _docker_ok() -> bool:
     if not shutil.which("docker"):
         return False
-    try:
-        docker_command("info", timeout=15)
-        return True
-    except Exception as exc:
-        print(f"Docker readiness failed: {exc}", file=sys.stderr)
-        return False
+    started = time.monotonic()
+    deadline = started + 60
+    delay = 1
+    attempt = 0
+    while (remaining := deadline - time.monotonic()) > 0:
+        attempt += 1
+        attempt_started = time.monotonic()
+        try:
+            docker_command("info", timeout=min(15, remaining))
+        except Exception as exc:
+            now = time.monotonic()
+            print(
+                f"Docker readiness attempt {attempt} failed after {now - attempt_started:.1f}s "
+                f"(elapsed {now - started:.1f}s): {exc}",
+                file=sys.stderr,
+            )
+            remaining = deadline - now
+            if remaining > 0:
+                time.sleep(min(delay, remaining))
+                delay = min(delay * 2, 8)
+        else:
+            now = time.monotonic()
+            print(
+                f"Docker readiness attempt {attempt} succeeded after {now - attempt_started:.1f}s "
+                f"(elapsed {now - started:.1f}s)",
+                file=sys.stderr,
+            )
+            return True
+    return False
 
 
 def _run_postgres_container(
