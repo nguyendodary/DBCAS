@@ -1,3 +1,4 @@
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal, Optional
@@ -8,6 +9,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from .credential_policy import is_demo_credential
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
+OPENROUTER_API_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_RELEASE_ENDPOINTS = ("deepinfra/turbo",)
+OPENROUTER_ENDPOINT_SLUG = re.compile(r"[a-z0-9][a-z0-9_-]*(?:/[a-z0-9][a-z0-9_-]*){0,3}")
 
 
 class Settings(BaseSettings):
@@ -102,12 +106,13 @@ class Settings(BaseSettings):
     llm_base_url: str = ""
     llm_model: str = ""
     openrouter_api_key: str = Field(default="", repr=False)
-    openrouter_base_url: str = "https://openrouter.ai/api/v1"
+    openrouter_base_url: str = OPENROUTER_API_URL
     openrouter_model: str = ""
     openrouter_http_referer: str = ""
     openrouter_app_title: str = ""
     openrouter_data_collection: Literal["deny", "allow"] = "deny"
     openrouter_zdr: bool = True
+    openrouter_provider_endpoint: str = ""
     llm_temperature: float = 0.1
     llm_seed: Optional[int] = 42
     llm_timeout_seconds: float = Field(default=90.0, ge=1, le=120, allow_inf_nan=False)
@@ -142,6 +147,10 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _configure_openrouter(self):
         if self.llm_provider != "openrouter":
+            if self.deployment_mode != "development":
+                host = (urlsplit(self.llm_base_url).hostname or "").rstrip(".")
+                if host == "openrouter.ai" or host.endswith(".openrouter.ai"):
+                    raise ValueError("OpenRouter in staging/production requires LLM_PROVIDER=openrouter")
             return self
         if not self.openrouter_api_key.strip():
             raise ValueError("OPENROUTER_API_KEY is required when LLM_PROVIDER=openrouter")
@@ -157,6 +166,22 @@ class Settings(BaseSettings):
             valid_url = False
         if not valid_url:
             raise ValueError("OPENROUTER_BASE_URL must be an HTTPS URL without credentials, query or fragment")
+        route = self.openrouter_provider_endpoint.strip()
+        if route and not OPENROUTER_ENDPOINT_SLUG.fullmatch(route):
+            raise ValueError("OPENROUTER_PROVIDER_ENDPOINT must be one OpenRouter endpoint slug")
+        if self.deployment_mode != "development":
+            if base_url.rstrip("/") != OPENROUTER_API_URL:
+                raise ValueError("Staging/production requires the official OPENROUTER_BASE_URL")
+            if "/" not in model or model.lower().startswith("openrouter/"):
+                raise ValueError("Staging/production requires a concrete OPENROUTER_MODEL")
+            if self.openrouter_data_collection != "deny" or not self.openrouter_zdr:
+                raise ValueError("Staging/production requires OPENROUTER_DATA_COLLECTION=deny and OPENROUTER_ZDR=true")
+            if route not in OPENROUTER_RELEASE_ENDPOINTS:
+                approved = ", ".join(OPENROUTER_RELEASE_ENDPOINTS)
+                raise ValueError(
+                    "Staging/production requires OPENROUTER_PROVIDER_ENDPOINT to be an approved "
+                    f"provider/variant identifier ({approved})"
+                )
         for name in ("openrouter_http_referer", "openrouter_app_title"):
             value = getattr(self, name)
             if any(not 32 <= ord(char) <= 126 for char in value):
@@ -165,6 +190,7 @@ class Settings(BaseSettings):
         self.llm_api_key = self.openrouter_api_key.strip()
         self.llm_base_url = base_url
         self.llm_model = model
+        self.openrouter_provider_endpoint = route
         return self
 
     @model_validator(mode="after")
