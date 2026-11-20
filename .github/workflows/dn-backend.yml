@@ -154,7 +154,7 @@ jobs:
       - run: npm --prefix frontend run build
       - name: Frontend security audit regression tests
         run: node --test scripts/frontend_security_audit.test.mjs
-      - name: Frontend security audit (GHSA-fc5q-39xc-vjpf exception until 2026-12-18)
+      - name: Frontend security audit (high severity threshold)
         run: node scripts/frontend_security_audit.mjs
       - run: npm audit --audit-level=high
       - run: npm run test:local
@@ -343,6 +343,18 @@ jobs:
         with:
           name: qa-memory-${{ matrix.name }}
           path: _review/qa-memory.log
+          if-no-files-found: warn
+      - name: Collect demo seed diagnostics
+        if: always() && matrix.kind == 'smoke'
+        run: |
+          bash scripts/collect_seed_diagnostics.sh "_review/seed-init-${{ matrix.name }}" \
+            --project-name "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml
+      - name: Upload demo seed diagnostics
+        if: always() && matrix.kind == 'smoke'
+        uses: actions/upload-artifact@v4
+        with:
+          name: seed-init-${{ matrix.name }}
+          path: _review/seed-init-${{ matrix.name }}
           if-no-files-found: warn
       - name: Cleanup compose project
         if: always() && (matrix.kind == 'e2e' || matrix.kind == 'smoke' || matrix.kind == 'qa')

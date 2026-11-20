@@ -92,6 +92,7 @@ class LLMService:
                 zdr=self._settings.openrouter_zdr,
                 http_referer=self._settings.openrouter_http_referer.strip(),
                 app_title=self._settings.openrouter_app_title.strip(),
+                provider_endpoint=self._settings.openrouter_provider_endpoint,
             )
         self._provider = ChatCompletionsProvider(
             self._settings.llm_base_url,
@@ -140,6 +141,8 @@ class LLMService:
                 "openrouter", provider_identity, self._settings.openrouter_data_collection,
                 self._settings.openrouter_zdr,
             )
+            if self._settings.openrouter_provider_endpoint:
+                provider_identity += (self._settings.openrouter_provider_endpoint,)
         request_hash = _request_hash(request, provider=provider_identity,
                                      prompt_version=self._settings.llm_prompt_version,
                                      context_version=context_version)
