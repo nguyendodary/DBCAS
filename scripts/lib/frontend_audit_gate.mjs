@@ -3,10 +3,6 @@
 // This module deliberately has no environment or process side effects so the
 // fail-closed rules can be exercised with fixtures in regression tests.
 
-export const ALLOWED_ADVISORY = 'GHSA-FC5Q-39XC-VJPF';
-export const ALLOWED_ADVISORY_DISPLAY = 'GHSA-fc5q-39xc-vjpf';
-export const EXPIRY_DATE = '2026-12-18';
-
 const SEVERITIES = ['info', 'low', 'moderate', 'high', 'critical'];
 const SEVERITY_SET = new Set(SEVERITIES);
 const GHSA_ID = '[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}';
@@ -37,33 +33,6 @@ function hasOwn(object, key) {
 
 function isPlainObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
-
-export function utcDateString(now = new Date()) {
-  if (!(now instanceof Date) || Number.isNaN(now.getTime())) {
-    throw new Error('invalid current date');
-  }
-  return now.toISOString().slice(0, 10);
-}
-
-export function isExpired(now = new Date(), expiry = EXPIRY_DATE) {
-  if (typeof expiry !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(expiry)) {
-    throw new Error('invalid expiry date');
-  }
-  return utcDateString(now) > expiry;
-}
-
-export function getAuditPlan(now = new Date()) {
-  if (isExpired(now)) {
-    return {
-      mode: 'full',
-      args: ['--prefix', 'frontend', 'audit', '--audit-level=high'],
-    };
-  }
-  return {
-    mode: 'scoped',
-    args: ['--prefix', 'frontend', 'audit', '--json', '--audit-level=high'],
-  };
 }
 
 export function assertNoLegacyOverrides(env = process.env) {
@@ -101,18 +70,12 @@ function readAdvisory(via, packageName, index) {
   if (!match) {
     fail(`via[${index}] for "${packageName}" has a non-GHSA advisory URL`);
   }
-  const advisory = match[1].toUpperCase();
-  if (advisory !== ALLOWED_ADVISORY) {
-    fail(
-      `via[${index}] for "${packageName}" references disallowed advisory ${advisory}`
-    );
-  }
   if (hasOwn(via, 'severity') && !SEVERITY_SET.has(via.severity)) {
     fail(
       `via[${index}] for "${packageName}" has unknown severity ${JSON.stringify(via.severity)}`
     );
   }
-  return advisory;
+  return match[1].toUpperCase();
 }
 
 function validateReport(report, npmExitStatus) {
@@ -249,37 +212,18 @@ function validateReport(report, npmExitStatus) {
     visit(packageName);
   }
 
-  const attributable = new Map();
-  function proveAttribution(packageName) {
-    if (attributable.has(packageName)) return true;
-    const entry = entries.get(packageName);
-    let proved = entry.advisories.length > 0;
-    for (const reference of entry.references) {
-      if (!proveAttribution(reference)) {
-        fail(
-          `"${packageName}" references "${reference}" which is not attributable to ${ALLOWED_ADVISORY_DISPLAY}`
-        );
-      }
-      proved = true;
-    }
-    if (!proved) {
-      fail(`"${packageName}" has no advisory attribution`);
-    }
-    attributable.set(packageName, true);
-    return true;
-  }
-  for (const entry of entries.values()) {
-    if (entry.severity === 'high' || entry.severity === 'critical') {
-      proveAttribution(entry.name);
-    }
-  }
-
   const highCritical = counts.high + counts.critical;
   if (npmExitStatus === 0 && highCritical > 0) {
     fail('npm audit exited 0 but reported high or critical vulnerabilities');
   }
   if (npmExitStatus === 1 && highCritical === 0) {
     fail('npm audit exited 1 but reported no high or critical vulnerabilities');
+  }
+
+  if (highCritical > 0) {
+    fail(
+      `npm audit reported high or critical vulnerabilities (high=${counts.high} critical=${counts.critical})`
+    );
   }
 
   return {
@@ -309,7 +253,7 @@ export function validateAuditReport(report, { npmExitStatus } = {}) {
 
 // npm stderr is audit-channel telemetry, not decoration: a registry or network
 // failure can be reported there while stdout still contains a usable-looking
-// JSON report and npm exits 1 for the exception advisory. Accept only stderr
+// JSON report. Accept only stderr
 // we can prove is benign (empty or npm WARN lines) and block everything else.
 const BENIGN_STDERR_LINE = /^npm WARN\b/;
 const STDERR_ERROR_SIGNATURES = [

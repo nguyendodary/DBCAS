@@ -7,21 +7,17 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
-  ALLOWED_ADVISORY,
-  ALLOWED_ADVISORY_DISPLAY,
   assertNoLegacyOverrides,
-  getAuditPlan,
-  isExpired,
   parseAuditJson,
   validateAuditReport,
 } from './lib/frontend_audit_gate.mjs';
 
-const ALLOWED_URL = `https://github.com/advisories/${ALLOWED_ADVISORY_DISPLAY}`;
+const FORMER_EXCEPTION_URL = 'https://github.com/advisories/GHSA-fc5q-39xc-vjpf';
 const DIFFERENT_GHSA_URL =
   'https://github.com/advisories/GHSA-aaaa-bbbb-cccc';
 const NON_GHSA_URL = 'https://example.invalid/CVE-2026-99999';
 
-function advisory(url = ALLOWED_URL, severity = 'high') {
+function advisory(url = FORMER_EXCEPTION_URL, severity = 'high') {
   return {
     source: 1,
     name: 'picomatch',
@@ -85,6 +81,7 @@ function singleReport({ severity = 'high', via = [advisory()] } = {}) {
     },
     metadata: {
       vulnerabilities: counts({
+        moderate: severity === 'moderate' ? 1 : 0,
         high: severity === 'high' ? 1 : 0,
         critical: severity === 'critical' ? 1 : 0,
         total: 1,
@@ -101,14 +98,10 @@ function noVulnerabilityReport() {
   };
 }
 
-test('allowed advisory only -> PASS before expiry', () => {
+test('formerly excepted picomatch advisory -> FAIL', () => {
   const result = validateAuditReport(baselineReport(), { npmExitStatus: 1 });
-  assert.equal(result.ok, true);
-  assert.equal(result.summary.high, 6);
-  assert.equal(result.summary.critical, 0);
-  assert.equal(result.summary.total, 6);
-  assert.deepEqual(result.summary.advisories, [ALLOWED_ADVISORY]);
-  assert.equal(isExpired(new Date('2026-12-18T23:59:59Z')), false);
+  assert.equal(result.ok, false);
+  assert.match(result.reason, /high or critical vulnerabilities/);
 });
 
 test('different GHSA high -> FAIL', () => {
@@ -117,7 +110,7 @@ test('different GHSA high -> FAIL', () => {
     { npmExitStatus: 1 }
   );
   assert.equal(result.ok, false);
-  assert.match(result.reason, /disallowed advisory GHSA-AAAA-BBBB-CCCC/);
+  assert.match(result.reason, /high or critical vulnerabilities/);
 });
 
 test('different GHSA critical -> FAIL', () => {
@@ -129,7 +122,7 @@ test('different GHSA critical -> FAIL', () => {
     { npmExitStatus: 1 }
   );
   assert.equal(result.ok, false);
-  assert.match(result.reason, /disallowed advisory GHSA-AAAA-BBBB-CCCC/);
+  assert.match(result.reason, /high or critical vulnerabilities/);
 });
 
 test('non-GHSA high -> FAIL', () => {
@@ -153,7 +146,7 @@ test('non-GHSA critical -> FAIL', () => {
   assert.match(result.reason, /non-GHSA advisory URL/);
 });
 
-test('allowed + disallowed advisory -> FAIL', () => {
+test('mixed GHSA findings -> FAIL', () => {
   const report = baselineReport();
   report.vulnerabilities.otherpkg = entry(
     'high',
@@ -163,7 +156,7 @@ test('allowed + disallowed advisory -> FAIL', () => {
   report.metadata.vulnerabilities = counts({ high: 7, total: 7 });
   const result = validateAuditReport(report, { npmExitStatus: 1 });
   assert.equal(result.ok, false);
-  assert.match(result.reason, /disallowed advisory GHSA-AAAA-BBBB-CCCC/);
+  assert.match(result.reason, /high or critical vulnerabilities/);
 });
 
 test('empty JSON -> FAIL', () => {
@@ -236,29 +229,6 @@ test('unresolvable package reference -> FAIL', () => {
   );
 });
 
-test('exactly at expiry boundary -> active', () => {
-  assert.equal(isExpired(new Date('2026-12-18T00:00:00Z')), false);
-  assert.equal(isExpired(new Date('2026-12-18T23:59:59Z')), false);
-  assert.deepEqual(getAuditPlan(new Date('2026-12-18T23:59:59Z')), {
-    mode: 'scoped',
-    args: [
-      '--prefix',
-      'frontend',
-      'audit',
-      '--json',
-      '--audit-level=high',
-    ],
-  });
-});
-
-test('after expiry -> full audit enforced', () => {
-  assert.equal(isExpired(new Date('2026-12-19T00:00:00Z')), true);
-  assert.deepEqual(getAuditPlan(new Date('2026-12-19T00:00:00Z')), {
-    mode: 'full',
-    args: ['--prefix', 'frontend', 'audit', '--audit-level=high'],
-  });
-});
-
 test('test-mode bypass attempt in GitHub Actions -> FAIL', () => {
   for (const name of [
     'DBCAS_AUDIT_EXCEPTION_EXPIRY',
@@ -287,6 +257,15 @@ test('npm exit 1 with no high or critical findings -> FAIL', () => {
   });
   assert.equal(result.ok, false);
   assert.match(result.reason, /exited 1 but reported no high or critical/);
+});
+
+test('moderate finding stays below the high threshold', () => {
+  const result = validateAuditReport(
+    singleReport({ severity: 'moderate', via: [advisory(DIFFERENT_GHSA_URL, 'moderate')] }),
+    { npmExitStatus: 0 }
+  );
+  assert.equal(result.ok, true);
+  assert.equal(result.summary.total, 1);
 });
 
 test('clean report with npm exit 0 -> PASS', () => {
@@ -342,12 +321,12 @@ test('non-object vulnerabilities or metadata counts -> FAIL', () => {
   );
 });
 
-test('non-GitHub URL carrying the allowed GHSA id -> FAIL', () => {
+test('non-GitHub URL carrying the former exception id -> FAIL', () => {
   const result = validateAuditReport(
     singleReport({
       via: [
         advisory(
-          `https://example.invalid/advisories/${ALLOWED_ADVISORY_DISPLAY}`
+          'https://example.invalid/advisories/GHSA-fc5q-39xc-vjpf'
         ),
       ],
     }),
@@ -358,8 +337,8 @@ test('non-GitHub URL carrying the allowed GHSA id -> FAIL', () => {
 });
 
 test('valid JSON with UTF-8 BOM -> PASS', () => {
-  const parsed = parseAuditJson(`\uFEFF${JSON.stringify(baselineReport())}`);
-  const result = validateAuditReport(parsed, { npmExitStatus: 1 });
+  const parsed = parseAuditJson(`\uFEFF${JSON.stringify(noVulnerabilityReport())}`);
+  const result = validateAuditReport(parsed, { npmExitStatus: 0 });
   assert.equal(result.ok, true);
 });
 
@@ -368,7 +347,7 @@ test('valid JSON with UTF-8 BOM -> PASS', () => {
 //
 // evaluateNpmAuditResult is the pure decision function the wrapper delegates
 // to. Testing it here covers the exact combination reported by the mock:
-// allowed-only audit JSON + npm exit 1 + registry error on stderr.
+// clean audit JSON + npm exit 0 + registry error on stderr.
 // ---------------------------------------------------------------------------
 
 async function loadEvaluateNpmAuditResult() {
@@ -381,24 +360,18 @@ async function loadEvaluateNpmAuditResult() {
   return gate.evaluateNpmAuditResult;
 }
 
-test('mock: allowed-only JSON + exit 1 + registry error on stderr -> BLOCKED', async () => {
+test('mock: clean JSON + exit 0 + registry error on stderr -> BLOCKED', async () => {
   const evaluate = await loadEvaluateNpmAuditResult();
-  const stdout = JSON.stringify(baselineReport());
+  const stdout = JSON.stringify(noVulnerabilityReport());
 
-  // Control: the exact same JSON and exit status are accepted without stderr.
-  const control = evaluate({ stdout, stderr: '', status: 1 });
-  assert.equal(
-    control.ok,
-    true,
-    'control: allowed-only JSON with exit 1 must pass without stderr'
-  );
+  assert.equal(evaluate({ stdout, stderr: '', status: 0 }).ok, true);
 
   const outcome = evaluate({
     stdout,
     stderr:
       'npm error code ECONNREFUSED\n' +
       'npm error request to https://registry.npmjs.org/-/npm/v1/security/advisories/bulk failed\n',
-    status: 1,
+    status: 0,
   });
   assert.equal(outcome.ok, false, 'registry error on stderr must fail closed');
   assert.match(outcome.reason, /BLOCKED:/);
@@ -457,7 +430,7 @@ test('stderr failure overrides valid JSON and any exit code', async () => {
 
 test('benign stderr (empty or npm WARN lines) -> PASS', async () => {
   const evaluate = await loadEvaluateNpmAuditResult();
-  const stdout = JSON.stringify(baselineReport());
+  const stdout = JSON.stringify(noVulnerabilityReport());
   const benign = [
     '',
     '   \n',
@@ -467,7 +440,7 @@ test('benign stderr (empty or npm WARN lines) -> PASS', async () => {
     '  npm WARN old lockfile\n',
   ];
   for (const stderr of benign) {
-    const outcome = evaluate({ stdout, stderr, status: 1 });
+    const outcome = evaluate({ stdout, stderr, status: 0 });
     assert.equal(
       outcome.ok,
       true,
