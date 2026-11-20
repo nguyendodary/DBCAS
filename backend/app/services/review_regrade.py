@@ -376,13 +376,31 @@ def _analysis_data(db, case, version, session):
     }
 
 
-def _run_analysis(db, case, version, session, admin, llm):
+def _pending_analysis(db, case_id, version_id, revision):
+    case = _lock_case(db, case_id)
+    publication = db.get(SessionResultPublication, version_id, populate_existing=True)
+    if (case is None or case.regraded_result_version_id != version_id or publication is None
+            or publication.state != "APPROVED_PENDING_ANALYSIS" or publication.state_revision != revision):
+        return None
+    return publication
+
+
+def _require_pending_analysis(db, case, version, revision, admin):
+    publication = _pending_analysis(db, case.review_request_id, version.result_version_id, revision)
+    if publication is None:
+        raise AppError(409, "analysis_interrupted", "The current analysis was interrupted")
+    _require_active(db, case, admin)
+    return publication
+
+
+def _run_analysis(db, case, version, session, admin, llm, revision):
     from ..config import get_settings
     service = AiStageService(
         db, llm=llm, settings=get_settings(),
         scope_key=f"v2:{case.review_request_id}", run_mode="V2_ANALYSIS",
         validator_version="pr3b5-regrade-v2",
     )
+    _require_pending_analysis(db, case, version, revision, admin)
     data = _analysis_data(db, case, version, session)
     ai1 = service.run_ai1(session_id=session.session_id, data=data,
                           admin_reason=case.resolution_note,
@@ -392,10 +410,11 @@ def _run_analysis(db, case, version, session, admin, llm):
         AiStageValidation.status == "VALID"))
     if validation is None:
         raise AppError(409, "analysis_predecessor_missing", "AI1 validation is missing")
+    _require_pending_analysis(db, case, version, revision, admin)
     ai2 = service.run_ai2(session_id=session.session_id,
                           predecessor_validation_id=validation.validation_id,
                           result_version_id=version.result_version_id)
-    publication = db.get(SessionResultPublication, version.result_version_id)
+    publication = _require_pending_analysis(db, case, version, revision, admin)
     analysis = SessionResultAnalysis(
         session_id=session.session_id,
         result_version_id=version.result_version_id,
@@ -415,19 +434,22 @@ def _run_analysis(db, case, version, session, admin, llm):
     return "OFFICIAL"
 
 
-def _finish_analysis(db, case, version, session, admin, llm):
+def _finish_analysis(db, case, version, session, admin, llm, revision):
+    case_id, version_id = case.review_request_id, version.result_version_id
     try:
-        return _run_analysis(db, case, version, session, admin, llm)
+        return _run_analysis(db, case, version, session, admin, llm, revision)
     except Exception as exc:
         # Stable, secret-free category only; never log prompt or answer text.
         LOG.warning("v2 analysis failed request=%s code=%s",
-                    case.review_request_id,
+                    case_id,
                     getattr(exc, "code", None) or type(exc).__name__)
         db.rollback()
-        publication = db.get(SessionResultPublication, version.result_version_id)
+        publication = _pending_analysis(db, case_id, version_id, revision)
         if publication is not None:
             publication.state = "ANALYSIS_FAILED"
             db.commit()
+        else:
+            db.rollback()
         return "ANALYSIS_FAILED"
 
 
@@ -552,15 +574,18 @@ def approve(db, review_request_id, payload, admin, llm):
                 comment=comment,
             ))
         db.flush()
-    db.add(SessionResultPublication(
+    publication = SessionResultPublication(
         result_version_id=v2.result_version_id,
         session_id=case.session_id,
         state="APPROVED_PENDING_ANALYSIS",
-    ))
+    )
+    db.add(publication)
     case.regraded_result_version_id = v2.result_version_id
     case.resolution_note = note
+    db.flush()
+    revision = publication.state_revision
     db.commit()
-    _finish_analysis(db, case, v2, session, admin, llm)
+    _finish_analysis(db, case, v2, session, admin, llm, revision)
     return detail(db, review_request_id)
 
 
@@ -597,7 +622,10 @@ def retry_analysis(db, review_request_id, admin, llm):
         raise AppError(409, "analysis_not_failed", "Only a failed analysis can be retried")
     _require_retry_confirmations(db, case, version.result_version_id)
     publication.state = "APPROVED_PENDING_ANALYSIS"
+    db.flush()
+    db.refresh(publication)
+    revision = publication.state_revision
     db.commit()
     session = db.get(AssessmentSession, case.session_id)
-    _finish_analysis(db, case, version, session, admin, llm)
+    _finish_analysis(db, case, version, session, admin, llm, revision)
     return detail(db, review_request_id)
