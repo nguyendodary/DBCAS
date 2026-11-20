@@ -1,6 +1,6 @@
 # DBCAS architecture diagrams
 
-Current companions dated 23 October 2026, re-verified against `db/schema.sql` and the application code on 27 October 2026 (see the [documentation/codebase alignment audit](../documentation-alignment-20261027.md)). Start with the [semantic comparison and Matrix B](semantic-review.md), then the [complete workspace inventory](inventory.md). Original raster figures are retained in `originals/`; the root university DOCX/PDF files remain unchanged.
+The October 2026 audit covers the companions dated 23 October 2026, re-verified against `db/schema.sql` and the application code on 27 October 2026 (see the [documentation/codebase alignment audit](../documentation-alignment-20261027.md)). Start with the [semantic comparison and Matrix B](semantic-review.md), then the [complete workspace inventory](inventory.md). Original raster figures are retained in `originals/`; the root university DOCX/PDF files remain unchanged.
 
 The [acceptance review](acceptance-review-20261023.md) rechecks all 51 context
 flows and all ten rendered figures, records the C43 profile/email clarification,
@@ -17,7 +17,7 @@ and identifies the detailed figures that require zoom. No flow is removed.
 | Module | Architecture §5; functional modules and shared dependencies | REQUIRED | [SVG](modules.svg), `modules.dot/json`; preserve every original module chain |
 | Allocation / deployment | Architecture §6; supported host/service topology | REQUIRED | [SVG](deployment.svg), `deployment.dot/json`; correct networks, HTTP/TLS boundary and optional worker/migration job |
 | Conceptual ER | Architecture §7 and Database Design conceptual figure; core domain relationships | REQUIRED | [SVG](conceptual-core.svg), `conceptual-core.dot/json`; preserve all entities/keys, correct candidate seeding and optionality |
-| Physical schema | Architecture/database table-relationship figures; real columns, constraints and FKs | REQUIRED | [SVG](physical-schema.svg), `physical-schema.dot` (generated), [catalog](schema-catalog.json), [FK ledger](physical-schema-relationships.json); 36 application tables, 51 FKs; migrations through 015 |
+| Physical schema | Architecture/database table-relationship figures; real columns, constraints and FKs | REQUIRED | [SVG](physical-schema.svg), `physical-schema.dot` (generated), [catalog](schema-catalog.json), [FK ledger](physical-schema-relationships.json); 66 application tables, 558 columns, 120 FKs, 158 indexes and 27 migrations |
 | Logical architecture | Proposal logical system architecture figure; responsibility tiers | REQUIRED | [SVG](logical-architecture.svg), `logical-architecture.dot/json`; correct persistence and service-call origins |
 | Assessment pipeline | Proposal evidence-based adaptive assessment figure; selection, grading and release | REQUIRED | [SVG](assessment-lifecycle.svg), `assessment-lifecycle.dot/json`; preserve legacy loop and add actual personalized / asynchronous / human-release branches |
 | Sprint roadmap | Proposal planning schedule | OPTIONAL historical | Original retained unchanged; not rewritten as a current delivery claim |
@@ -42,7 +42,7 @@ The conceptual diagram is a domain subset with keys; the physical diagram and ca
 
 `scripts/validate_diagrams.py` proves the authored ledgers still match their rendered SVGs,
 that the 21 original context flows are unremoved, and that the committed physical ERD is byte-for-byte
-the current rendering of the generated catalog. The catalog was re-extracted on 28 October 2026 from a
+the current rendering of the generated catalog. The historical migration 015 catalog was extracted on 28 October 2026 from a
 disposable PostgreSQL **17.11** container - the release target major version - after `db/schema.sql`
 gained migration 015 (the 27 October refresh covered migrations 013 and 014). The earlier PostgreSQL 18 extraction additionally listed named
 `NOT NULL` pseudo-constraints (`contype = 'n'`), which PostgreSQL 17 does not record in `pg_constraint`;

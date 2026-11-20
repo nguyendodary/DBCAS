@@ -13,6 +13,7 @@ Checks, from the actual .docx packages:
   - all three documents state the current table count and mandatory review;
   - the four legacy tables are explicitly marked in Architecture/Database.
 """
+import argparse
 import json
 import re
 import sys
@@ -28,10 +29,10 @@ SCHEMA = json.load(open(ROOT / "docs/qa/schema-introspection.json", encoding="ut
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 q = lambda t: f"{{{W}}}{t}"
 
-FILES = [
-    ACA / "C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
-    ACA / "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
-    ACA / "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+FILENAMES = [
+    "C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+    "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+    "C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
 ]
 EXPECTED_MEDIA = {
     "ProposalDocument": 5,
@@ -98,9 +99,10 @@ def doc_sections(docx):
     return sections
 
 
-def main():
+def main(directory=ACA):
+    files = [directory / name for name in FILENAMES]
     texts = {}
-    for f in FILES:
+    for f in files:
         require(f"{f.name} exists", f.exists())
         d = extract(f)
         t = "\n".join(p["text"] for p in d["paragraphs"])
@@ -160,7 +162,7 @@ def main():
     require("English only", not hits, "".join(hits))
 
     # Data dictionary exactness.
-    db = FILES[2]
+    db = files[2]
     sections = doc_sections(db)
     real = {t["table"]: t for t in SCHEMA["tables"]}
     key = lambda s: s.lower().replace("_", "").replace(" ", "")
@@ -218,7 +220,7 @@ def main():
                 and "historical" in texts[name].lower())
 
     print(f"verify_docx: {checks} assertions, {len(problems)} failures")
-    print(f"  files: {[f.name for f in FILES]}")
+    print(f"  files: {[f.name for f in files]}")
     print(f"  database sections: {len(sections)}; columns: {sum(len(r) - 1 for r in sections.values())}")
     if problems:
         for p in problems:
@@ -228,4 +230,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--directory", type=Path, default=ACA)
+    main(parser.parse_args().directory)

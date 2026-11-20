@@ -50,7 +50,24 @@ What the v1.2 documents state (all verifiable in the repository):
   hidden: `assessment`, `assessment_concept`, `assessment_question`,
   `assessment_blueprint`.
 - 6 Compose services (7 with QA-only `qa-ai`; the opt-in real-QA run reuses
-  `app`), 106 OpenAPI paths / 118 operations, 23 frontend routes.
+  `app`), 106 OpenAPI paths / 118 operations, 24 frontend routes.
+
+The five-page QA TRD rebuild preview depicts the earlier
+41-table schema with 293 columns, 59 foreign keys and 19 migrations. Use the
+[current table relationship diagrams](../diagrams/generated/table-relationships.svg)
+and [physical schema catalog](../diagrams/schema-catalog.json) to look up the
+current relationships. The Database Design data dictionary lists the current
+66 tables and 558 columns. The statements above describe the v1.2 document
+revision. The current application publishes official v1 results for eligible
+FIXED TEST sessions and supports a seven-day administrative review window.
+V2 becomes official after successful reanalysis. The current admin navigation
+also includes Documents.
+
+Prepare Word review copies with `python scripts/build_word_documents.py <new-output-directory>`.
+An optional `--edits <file.json>` maps each approved filename to a list of
+[`docx_inplace.py` paragraph edits](../../scripts/docx_inplace.py). This workflow
+keeps embedded media and the existing dictionary tables. Verify the output
+with `python scripts/verify_docx.py --directory <new-output-directory>`.
 
 OAuth text reconciliation (20261112 request, performed 2026-11-11): 31 minimal
 English replacements across the three v1.2 files, including the read-only
