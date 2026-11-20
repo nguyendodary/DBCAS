@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import api, { apiMessage } from '../../api'
 import { t, useLocale, number, dateTime } from '../../i18n'
 import { Card, Badge, TypeBadge, btnPrimary, btnGhost, inputCls } from '../../components/ui'
 import { Loading, EmptyState, ErrorState } from '../../components/States'
 import { AdminPageHeader } from '../../components/admin'
+import AdminReviewQueue from './AdminReviewQueue'
 
 export default function AdminGradingPage() {
   useLocale()
+  const [search] = useSearchParams()
+  return search.get('queue') === 'review-requests' ? <AdminReviewQueue /> : <GradingQueue />
+}
+
+function GradingQueue() {
   const { reviewSessionId } = useParams()
   const [queue, setQueue] = useState(null)
   const [detail, setDetail] = useState(null)
@@ -110,6 +116,9 @@ export default function AdminGradingPage() {
   return (
     <div className="space-y-5">
       <AdminPageHeader title={t('supervisor.reviewTitle')} subtitle={t('supervisor.reviewHelp')}>
+        <Link className={btnGhost} to="/admin/grading?queue=review-requests">
+          {t('adminReview.title')}
+        </Link>
         <button type="button" className={btnGhost} disabled={busy || opening} onClick={refresh}>
           {t('dashboard.refresh')}
         </button>
