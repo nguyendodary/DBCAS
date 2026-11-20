@@ -154,7 +154,7 @@ jobs:
       - run: npm --prefix frontend run build
       - name: Frontend security audit regression tests
         run: node --test scripts/frontend_security_audit.test.mjs
-      - name: Frontend security audit (GHSA-fc5q-39xc-vjpf exception until 2026-12-18)
+      - name: Frontend security audit (high severity threshold)
         run: node scripts/frontend_security_audit.mjs
       - run: npm audit --audit-level=high
       - run: npm run test:local
