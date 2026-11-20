@@ -1,8 +1,8 @@
 # Ordered backlog
 
-Status and owners change here; keep the snapshot in [STATUS](STATUS.md) current in the same PR.
+Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
-1. **Needs owner — [#66](https://github.com/nguyendodary/DBCAS/issues/66):** review broker PR-A design; then PR-B writable ephemeral execution, warm pool, state grading and frontend. Substrate and security approval are prerequisites ([#65](https://github.com/nguyendodary/DBCAS/pull/65)).
+1. **Needs owner — [#66](https://github.com/nguyendodary/DBCAS/issues/66):** broker [PR-A in review](https://github.com/nguyendodary/DBCAS/pull/69); then PR-B writable ephemeral execution, warm pool, state grading and frontend. Substrate and security approval are prerequisites ([#65](https://github.com/nguyendodary/DBCAS/pull/65)).
 2. **Needs owner — [#67](https://github.com/nguyendodary/DBCAS/issues/67):** address Docker readiness timeout.
 3. **Needs owner — [#55](https://github.com/nguyendodary/DBCAS/issues/55):** investigate Docker container-create timeouts.
 4. **Needs owner:** resolve open [SQL sandbox UNKNOWNs](../sql-sandbox/07-unknowns.md).

@@ -2,7 +2,7 @@
 
 Commands are from the repository root unless noted. They are documented by the linked
 repository files; a documented command is not evidence that it passed on your commit.
-Use synthetic data only and preserve a log tied to the tested commit.
+Use synthetic data only.
 
 ## Build, test, E2E and demo seed
 
@@ -56,7 +56,6 @@ gh run view <run-id> --log-failed
 Choose the actual smoke shard number. Preserve the run ID, head SHA, artifact and
 failed log; inspect init exit/state and timestamps alongside database health and log.
 Do not infer a root cause from duration alone. Review diagnostics before sharing.
-The prior failure's cause is **UNKNOWN — owner must confirm** ([#67](https://github.com/nguyendodary/DBCAS/issues/67)).
 
 ## Docker readiness and flaky signals
 
@@ -64,8 +63,8 @@ For the 15-second `docker info` failure, preserve the exact-head job log and cla
 the failure using [#67](https://github.com/nguyendodary/DBCAS/issues/67); the probe is in
 [conftest.py](../../backend/tests/conftest.py). For container-create timeouts see
 [#55](https://github.com/nguyendodary/DBCAS/issues/55). Do not assume they share a cause.
-If demo-seed or readiness fails again, save diagnostics and stop. After evidence is saved,
-only one deliberate rerun is allowed for a proven pure infrastructure timeout.
+If demo-seed or readiness fails again, save diagnostics and stop. Follow the rerun
+restriction in [AGENTS.md](../../AGENTS.md).
 
 On Windows, verify the exact bytes, line endings and syntax of generated scripts before
 executing them; a newline-in-script incident was reported but its log is

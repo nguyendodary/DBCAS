@@ -17,8 +17,8 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## In progress and next
 
-- Agent knowledge base: branch `docs/agent-knowledge-base` (this PR).
-- Broker PR-A: branch `docs/broker-design`; CI readiness: branch `fix/ci-docker-readiness-backoff` for [#67](https://github.com/nguyendodary/DBCAS/issues/67).
+- Agent knowledge base [#68](https://github.com/nguyendodary/DBCAS/pull/68) (this PR).
+- Broker PR-A [#69](https://github.com/nguyendodary/DBCAS/pull/69); readiness fix [#70](https://github.com/nguyendodary/DBCAS/pull/70).
 - Next: [broker and readiness queue](BACKLOG.md); resolve [owner decisions](BACKLOG.md).
 
 ## Blockers and risks
