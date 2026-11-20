@@ -8773,6 +8773,125 @@
             "title": "Columns",
             "type": "array"
           },
+          "error_column": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Column"
+          },
+          "error_line": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Line"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "error_statement_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Statement Index"
+          },
+          "error_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Type"
+          },
+          "execution_time_ms": {
+            "default": 0,
+            "title": "Execution Time Ms",
+            "type": "integer"
+          },
+          "mode": {
+            "default": "read_only",
+            "title": "Mode",
+            "type": "string"
+          },
+          "row_count": {
+            "default": 0,
+            "title": "Row Count",
+            "type": "integer"
+          },
+          "rows": {
+            "default": [],
+            "items": {
+              "items": {},
+              "type": "array"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "statements": {
+            "items": {
+              "$ref": "#/components/schemas/StatementResult"
+            },
+            "title": "Statements",
+            "type": "array"
+          },
+          "success": {
+            "title": "Success",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "success"
+        ],
+        "title": "SqlRunResult",
+        "type": "object"
+      },
+      "StatementResult": {
+        "description": "One statement's outcome in a multi-statement run (additive contract).",
+        "properties": {
+          "column_types": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Column Types",
+            "type": "array"
+          },
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "command": {
+            "default": "",
+            "title": "Command",
+            "type": "string"
+          },
           "error_message": {
             "anyOf": [
               {
@@ -8800,29 +8919,33 @@
             "title": "Execution Time Ms",
             "type": "integer"
           },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "kind": {
+            "default": "read_only",
+            "title": "Kind",
+            "type": "string"
+          },
           "row_count": {
             "default": 0,
             "title": "Row Count",
             "type": "integer"
           },
           "rows": {
-            "default": [],
             "items": {
               "items": {},
               "type": "array"
             },
             "title": "Rows",
             "type": "array"
-          },
-          "success": {
-            "title": "Success",
-            "type": "boolean"
           }
         },
         "required": [
-          "success"
+          "index"
         ],
-        "title": "SqlRunResult",
+        "title": "StatementResult",
         "type": "object"
       },
       "StatisticsDashboard": {
