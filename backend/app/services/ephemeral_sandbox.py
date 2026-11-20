@@ -13,6 +13,7 @@ from contextlib import contextmanager
 from .dataset_setup import validated_setup_statements
 from .sandbox_runner import SandboxError, SandboxResult
 from .sql_validator import validate_learner_sql
+from .sql_classifier import validate_read_only_script
 
 logger = logging.getLogger(__name__)
 _SLOTS = threading.BoundedSemaphore(2)
@@ -158,6 +159,28 @@ class EphemeralSandboxRunner:
             raise SandboxError("sandbox_unavailable", "SQL dataset lease is no longer available")
         try:
             return SandboxResult(**self._call(name, "execute", sql_text, schema))
+        finally:
+            if schema is None:
+                self._cleanup(name)
+
+    def execute_script(self, sql_text, *, schema=None):
+        """Opt-in multi-statement read-only execution on the existing executor."""
+        sql_text = (sql_text or "").strip()
+        if len(sql_text.encode()) > self.settings.sandbox_max_sql_bytes:
+            return SandboxResult(False, error_type="query_too_large", error_message="SQL exceeds the input limit")
+        error = validate_read_only_script(
+            sql_text,
+            allowed_schemas=frozenset({schema}) if schema else frozenset(),
+            max_statements=self.settings.sandbox_max_statements,
+        )
+        if error:
+            return SandboxResult(False, error_type=error[0], error_message=error[1],
+                                 error_statement_index=error[2])
+        name = self.leases.get(schema) if schema else self._create()
+        if not name:
+            raise SandboxError("sandbox_unavailable", "SQL dataset lease is no longer available")
+        try:
+            return SandboxResult(**self._call(name, "execute_script", sql_text, schema))
         finally:
             if schema is None:
                 self._cleanup(name)

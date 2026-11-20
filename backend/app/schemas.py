@@ -507,6 +507,21 @@ class RunSqlRequest(BaseModel):
     sql: str = Field(min_length=1, max_length=SQL_ANSWER_MAX_LEN)
 
 
+class StatementResult(BaseModel):
+    """One statement's outcome in a multi-statement run (additive contract)."""
+
+    index: int
+    kind: str = "read_only"
+    command: str = ""
+    row_count: int = 0
+    columns: list[str] = Field(default_factory=list)
+    column_types: list[str] = Field(default_factory=list)
+    rows: list[list] = Field(default_factory=list)
+    execution_time_ms: int = 0
+    error_type: Optional[str] = None
+    error_message: Optional[str] = None
+
+
 class SqlRunResult(BaseModel):
     column_types: list[str] = Field(default_factory=list)
     """Sanitized sandbox execution result — no container or server details."""
@@ -518,6 +533,12 @@ class SqlRunResult(BaseModel):
     execution_time_ms: int = 0
     error_type: Optional[str] = None
     error_message: Optional[str] = None
+    # Additive fields — old clients ignore them and keep working unchanged.
+    mode: str = "read_only"
+    statements: list[StatementResult] = Field(default_factory=list)
+    error_statement_index: Optional[int] = None
+    error_line: Optional[int] = None
+    error_column: Optional[int] = None
 
 
 # ---------- admin cohort analytics (UC11 / Admin story 9) ----------
