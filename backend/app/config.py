@@ -10,6 +10,7 @@ from .credential_policy import is_demo_credential
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_RELEASE_ENDPOINTS = ("deepinfra/turbo",)
 OPENROUTER_ENDPOINT_SLUG = re.compile(r"[a-z0-9][a-z0-9_-]*(?:/[a-z0-9][a-z0-9_-]*){0,3}")
 
 
@@ -175,8 +176,12 @@ class Settings(BaseSettings):
                 raise ValueError("Staging/production requires a concrete OPENROUTER_MODEL")
             if self.openrouter_data_collection != "deny" or not self.openrouter_zdr:
                 raise ValueError("Staging/production requires OPENROUTER_DATA_COLLECTION=deny and OPENROUTER_ZDR=true")
-            if not route:
-                raise ValueError("Staging/production requires an approved OPENROUTER_PROVIDER_ENDPOINT")
+            if route not in OPENROUTER_RELEASE_ENDPOINTS:
+                approved = ", ".join(OPENROUTER_RELEASE_ENDPOINTS)
+                raise ValueError(
+                    "Staging/production requires OPENROUTER_PROVIDER_ENDPOINT to be an approved "
+                    f"provider/variant identifier ({approved})"
+                )
         for name in ("openrouter_http_referer", "openrouter_app_title"):
             value = getattr(self, name)
             if any(not 32 <= ord(char) <= 126 for char in value):

@@ -94,10 +94,12 @@ validation before entering the versioned cache. User profile identifiers
 are redacted with boundaries; AI cannot change deterministic competency math.
 
 For OpenRouter on staging or production, set `LLM_PROVIDER=openrouter`, an
-explicit `OPENROUTER_MODEL`, `OPENROUTER_API_KEY`, and the approved
-`OPENROUTER_PROVIDER_ENDPOINT` slug from the model's endpoint metadata. Use the
-official `https://openrouter.ai/api/v1` base URL, `OPENROUTER_DATA_COLLECTION=deny`
-and `OPENROUTER_ZDR=true`. The adapter pins that endpoint and disables fallback.
+explicit `OPENROUTER_MODEL`, `OPENROUTER_API_KEY`, and
+`OPENROUTER_PROVIDER_ENDPOINT=deepinfra/turbo`. This is the only endpoint in
+the release allow-list. Startup rejects bare provider slugs and unapproved
+variants. Use the official `https://openrouter.ai/api/v1` base URL,
+`OPENROUTER_DATA_COLLECTION=deny`, and `OPENROUTER_ZDR=true`. The adapter pins
+that endpoint and disables fallback.
 Before enabling real learner traffic, verify the exact model and endpoint are
 listed with `safety_retention=false` and support structured outputs. Set the
 account or key guardrail to **ZDR only**, disable input/output logging for the
