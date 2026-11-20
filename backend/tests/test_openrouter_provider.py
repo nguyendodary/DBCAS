@@ -7,11 +7,80 @@ from pydantic import ValidationError
 
 from app.config import Settings
 from app.services.llm import ChatMessage, LLMError, LLMService
+from test_deployment_safety import deployment_settings
 
 
 KEY = "fixture-router-credential"
 MODEL = "fixture/model-v1"
 PROMPT = "fixture student answer"
+
+
+def release_settings(mode="production", **overrides):
+    return deployment_settings(mode, **{
+        "llm_provider": "openrouter", "openrouter_api_key": KEY,
+        "openrouter_model": MODEL, "openrouter_provider_endpoint": "fixture/fp8",
+        "llm_max_retries": 0, **overrides,
+    })
+
+
+@pytest.mark.parametrize("mode", ["staging", "production"])
+@pytest.mark.parametrize(("overrides", "expected"), [
+    ({"openrouter_data_collection": "allow"}, "OPENROUTER_DATA_COLLECTION"),
+    ({"openrouter_zdr": False}, "OPENROUTER_ZDR"),
+    ({"openrouter_provider_endpoint": ""}, "OPENROUTER_PROVIDER_ENDPOINT"),
+    ({"openrouter_provider_endpoint": "fixture/*"}, "OPENROUTER_PROVIDER_ENDPOINT"),
+    ({"openrouter_base_url": "https://router.example.test/api/v1"}, "OPENROUTER_BASE_URL"),
+    ({"openrouter_model": "openrouter/auto"}, "OPENROUTER_MODEL"),
+])
+def test_release_rejects_unpinned_or_relaxed_openrouter(mode, overrides, expected):
+    with pytest.raises(ValidationError, match=expected) as error:
+        release_settings(mode, **overrides)
+    assert KEY not in str(error.value)
+
+
+def test_release_requires_explicit_openrouter_adapter():
+    with pytest.raises(ValidationError, match="LLM_PROVIDER=openrouter"):
+        deployment_settings(llm_base_url="https://openrouter.ai./api/v1", llm_api_key=KEY, llm_model=MODEL)
+
+
+def test_release_pins_route_and_never_retries_with_relaxed_privacy():
+    calls = []
+
+    def no_private_route(request):
+        calls.append(json.loads(request.content))
+        return httpx.Response(404, json={"error": {"message": "No matching private route"}})
+
+    config = release_settings(llm_max_retries=2)
+    with pytest.raises(LLMError, match="HTTP 404"):
+        mocked_service(config, no_private_route).generate_structured("test", [ChatMessage("user", PROMPT)])
+    body, = calls
+    assert body["provider"] == {
+        "require_parameters": True, "data_collection": "deny", "zdr": True,
+        "only": ["fixture/fp8"], "order": ["fixture/fp8"], "allow_fallbacks": False,
+    }
+
+
+def test_cache_isolated_by_openrouter_endpoint():
+    class Cache:
+        def __init__(self):
+            self.entries = {}
+
+        def find(self, key):
+            return self.entries.get(key)
+
+        def store(self, key, _task, _model, result):
+            self.entries[key] = result
+
+    shared_cache = Cache()
+    results = []
+    for route, score in (("fixture/fp8", 1), ("another/bf16", 2)):
+        def respond(_request, score=score):
+            return httpx.Response(200, json={"choices": [{"message": {"content": json.dumps({"score": score})}}]})
+
+        service = mocked_service(release_settings(openrouter_provider_endpoint=route), respond)
+        service._cache = shared_cache
+        results.append(service.generate_structured("test", [ChatMessage("user", PROMPT)]))
+    assert results == [{"score": 1}, {"score": 2}]
 
 
 def settings(**overrides):

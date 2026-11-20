@@ -75,6 +75,7 @@ class OpenRouterOptions:
     zdr: bool
     http_referer: str
     app_title: str
+    provider_endpoint: str = ""
 
 
 class LLMProvider(Protocol):
@@ -167,6 +168,9 @@ class ChatCompletionsProvider:
             body["provider"].update(
                 data_collection=self._openrouter.data_collection, zdr=self._openrouter.zdr,
             )
+            if self._openrouter.provider_endpoint:
+                route = [self._openrouter.provider_endpoint]
+                body["provider"].update(only=route, order=route, allow_fallbacks=False)
 
         response = self._post_with_retries(body)
         return self._extract_content(response)
