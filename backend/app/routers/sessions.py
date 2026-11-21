@@ -308,4 +308,6 @@ def run_sql(
 ):
     """UC13 — run the learner's query in the sandbox on the question's
     primary test dataset. Not graded; submission goes through /answers."""
-    return sql_service.run_learner_sql(db, session_id, learner, payload, runner)
+    from ..services.sandbox_diagnostics import operation
+    with operation(runner, "user_sql_run"):
+        return sql_service.run_learner_sql(db, session_id, learner, payload, runner)

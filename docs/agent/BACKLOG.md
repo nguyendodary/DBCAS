@@ -4,7 +4,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
 ## Waiting for owner
 
-1. **(a) Broker UNKNOWNs:** answer the open questions in the [broker design](../sql-sandbox/broker/README.md) and [SQL sandbox UNKNOWNs](../sql-sandbox/07-unknowns.md) before PR-B writable execution. [#66](https://github.com/nguyendodary/DBCAS/issues/66) tracks the decision; [#69](https://github.com/nguyendodary/DBCAS/pull/69) is merged documentation only, **not owner-approved**.
+1. **(a) Broker UNKNOWNs:** answer the remaining open questions in the [broker design](../sql-sandbox/broker/README.md) and [SQL sandbox UNKNOWNs](../sql-sandbox/07-unknowns.md) before PR-B writable execution. [#66](https://github.com/nguyendodary/DBCAS/issues/66) tracks the decision; [#69](https://github.com/nguyendodary/DBCAS/pull/69) is merged documentation only. The five B1 defaults are **approved by owner** ([owner decisions](../analysis/owner-decisions.md#owner-decisions--approved-2026-11-21-verbatim)); everything else stays **UNKNOWN — owner must confirm**.
 2. **(b) Readiness edits:** decide on the local branch `docs/pending-readiness-edits` (head `8bc95fb7ab423cba8583f092d64362cd6001838c`); integrate selectively, do not merge as-is (stale baseline `37a384a`).
 3. **(c) Local Docker inventory:** identify the local `dbcas-*` containers and volumes before any local Docker test; never delete or prune them blindly. Local inventory logs: `_review/merge-20261121/docker-containers-before.log` and `_review/merge-20261121/docker-volumes-before.log`.
 4. **(d) Production gates (unchanged):** account-level OpenRouter ZDR and logging settings ([deployment guide](../deployment-and-readiness.md)); Vietnamese rubric quality evaluation ([activation readiness](../activation-readiness-20261025.md)); gateway, rollback and monitoring rehearsal ([deployment guide](../deployment-and-readiness.md)). Phase 6 planning documents are not done. **UNKNOWN — owner must confirm**.
@@ -16,3 +16,6 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 7. [#55](https://github.com/nguyendodary/DBCAS/issues/55): Docker container-create timeouts.
 8. Prioritize [bloat follow-ups](../sql-sandbox/05-bloat-candidates.md).
 9. Inventory and approve cleanup of stale local images ([bloat candidates](../sql-sandbox/05-bloat-candidates.md)); do not prune blindly.
+10. [#75](https://github.com/nguyendodary/DBCAS/pull/75): diagnostics-only PR is green after regenerating the route inventory. Collect the `sandbox_busy rejection` fields on the next #71 occurrence; see [STATUS](STATUS.md). May merge after owner review.
+11. [#76](https://github.com/nguyendodary/DBCAS/pull/76): default-off broker skeleton is green; its five defaults are approved by owner. Keep the flag OFF by default and production **HOLD**; real execution stays in B2.
+12. Owner actions still pending: identify local `dbcas-*` containers and volumes before any local Docker test; decide on local branch `docs/pending-readiness-edits` (do not merge as-is). Remaining [owner decisions](../analysis/owner-decisions.md) items are **UNKNOWN — owner must confirm**.

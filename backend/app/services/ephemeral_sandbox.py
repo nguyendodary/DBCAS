@@ -11,12 +11,14 @@ import uuid
 from contextlib import contextmanager
 
 from .dataset_setup import validated_setup_statements
+from .sandbox_diagnostics import SlotDiagnostics, log_rejection
 from .sandbox_runner import SandboxError, SandboxResult
 from .sql_validator import validate_learner_sql
 from .sql_classifier import validate_read_only_script
 
 logger = logging.getLogger(__name__)
-_SLOTS = threading.BoundedSemaphore(2)
+_SLOT_COUNT = 2
+_SLOTS = threading.BoundedSemaphore(_SLOT_COUNT)
 _LABEL = "com.dbcas.ephemeral"
 
 
@@ -33,6 +35,7 @@ class EphemeralSandboxRunner:
         self.leases = {}
         self.deadlines = {}
         self._capacity = threading.local()
+        self.diagnostics = SlotDiagnostics(_SLOT_COUNT)
 
     @contextmanager
     def grading_capacity(self):
@@ -46,7 +49,12 @@ class EphemeralSandboxRunner:
             return
         self._capacity.reserved = True
         try:
-            yield True
+            with self.diagnostics.operation_context("grading_maintenance"):
+                self.diagnostics.acquired()
+                try:
+                    yield True
+                finally:
+                    self.diagnostics.released()
         finally:
             self._capacity.reserved = False
             _SLOTS.release()
@@ -79,12 +87,17 @@ class EphemeralSandboxRunner:
         finally:
             self.deadlines.pop(name, None)
             if not getattr(self._capacity, "reserved", False):
+                self.diagnostics.released()
                 _SLOTS.release()
 
     def _create(self):
         wall = self.settings.sandbox_container_lifetime_seconds
-        if not getattr(self._capacity, "reserved", False) and not _SLOTS.acquire(timeout=5):
-            raise SandboxError("sandbox_busy", "SQL executor capacity is temporarily full")
+        if not getattr(self._capacity, "reserved", False):
+            waited_from = time.monotonic()
+            if not _SLOTS.acquire(timeout=5):
+                log_rejection(logger, self.diagnostics.rejection(time.monotonic() - waited_from))
+                raise SandboxError("sandbox_busy", "SQL executor capacity is temporarily full")
+            self.diagnostics.acquired()
         name = "dbcas-sql-" + uuid.uuid4().hex
         self.deadlines[name] = time.monotonic() + wall
         try:
