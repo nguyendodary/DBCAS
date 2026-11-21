@@ -2,7 +2,7 @@
 
 Date: 2026-11-21. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [10c29586b569d5fd8068cc477aef682dca113be9](https://github.com/nguyendodary/DBCAS/commit/10c29586b569d5fd8068cc477aef682dca113be9); `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Last verified: `develop2` [a343ab086a536aebe78e256af118c2a2e1975230](https://github.com/nguyendodary/DBCAS/commit/a343ab086a536aebe78e256af118c2a2e1975230) as of 2026-11-21; update after the next merge. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -17,12 +17,15 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - [#68](https://github.com/nguyendodary/DBCAS/pull/68): agent knowledge base — merge `a42513509c52dd8818d191bb85688a97892c306b`.
 - [#69](https://github.com/nguyendodary/DBCAS/pull/69): SQL sandbox executor broker design, merged as documentation only and **not owner-approved** — merge `10c29586b569d5fd8068cc477aef682dca113be9`.
 - [#70](https://github.com/nguyendodary/DBCAS/pull/70): retry the Docker readiness probe — merge `06ac8a254265a9f539697d887d7fc58cca59dcc3`.
+- [#72](https://github.com/nguyendodary/DBCAS/pull/72): refreshed STATUS and BACKLOG — merge `a343ab086a536aebe78e256af118c2a2e1975230`.
 
 CI on `10c29586`: [run 44792968574 attempt 1](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/1) was red (qa-1 `sandbox_busy`, [#71](https://github.com/nguyendodary/DBCAS/issues/71)); the single authorized [attempt 2](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/2) was green (14/14).
+CI on `a343ab0`: [run 44857868535](https://github.com/nguyendodary/DBCAS/actions/runs/44857868535) passed all jobs, including qa-1, qa-2 and qa-3.
 
 ## In progress and next
 
-- This STATUS/BACKLOG update PR only.
+- This STATUS/BACKLOG refresh PR only.
+- Phase B: qa-1 `sandbox_busy` analysis (`docs/analysis/qa1-sandbox-busy.md`) and owner decision sheet (`docs/analysis/owner-decisions.md`) in their docs-only PR.
 - Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks
