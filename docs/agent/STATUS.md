@@ -30,7 +30,7 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 - This STATUS/BACKLOG refresh PR only.
 - [#75](https://github.com/nguyendodary/DBCAS/pull/75): qa-1 `sandbox_busy` diagnostics (head `bc496e5`) — OPEN; its [CI run 44866992823](https://github.com/nguyendodary/DBCAS/actions/runs/44866992823) was red at `npm run inventory:check` (generated `docs/inventory/api-routes.json` drift from the router edit); phase stopped, evidence in `_review/merge-20261121/pr75-frontend-static-failed.log`. Backend 1874 passed and qa-1 load was clean in that run.
-- [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `03e58f1`) — OPEN, not owner-approved; its [CI run 44869020870](https://github.com/nguyendodary/DBCAS/actions/runs/44869020870) was red at `npm run inventory:check` (generated `docs/inventory/api-routes.json` drift from the `backend/app/main.py` edit); phase stopped, evidence in `_review/merge-20261121/pr76-frontend-static-failed.log`.
+- [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `03e58f1`) — OPEN, not owner-approved; its [CI run 44869020870](https://github.com/nguyendodary/DBCAS/actions/runs/44869020870) was red at `npm run inventory:check` (generated `docs/inventory/api-routes.json` drift from the `backend/app/main.py` edit); phase stopped, evidence in `_review/merge-20261121/pr76-frontend-static-failed.log`; the backend job also failed `test_every_public_configuration_name_is_documented` because the new `SANDBOX_BROKER*` names are absent from `.env.example` (1 failed, 1882 passed; `_review/merge-20261121/pr76-backend-failed.log`).
 - Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks
