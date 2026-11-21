@@ -12,7 +12,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 ## Needs owner
 
 5. [#67](https://github.com/nguyendodary/DBCAS/issues/67): Docker readiness timeout — fix merged in [#70](https://github.com/nguyendodary/DBCAS/pull/70); issue open for the owner to close after observing CI.
-6. [#71](https://github.com/nguyendodary/DBCAS/issues/71): qa-1 `sandbox_busy` 503 on concurrent SQL load — flaky under load, cause **UNKNOWN — owner must confirm**; CI was red on attempt 1 and green on attempt 2 of [run 44792968574](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574).
+6. [#71](https://github.com/nguyendodary/DBCAS/issues/71): qa-1 `sandbox_busy` 503 on concurrent SQL load — flaky under load, cause **UNKNOWN — owner must confirm**; CI was red on attempt 1 and green on attempt 2 of [run 44792968574](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574). Phase B analysis: `docs/analysis/qa1-sandbox-busy.md`.
 7. [#55](https://github.com/nguyendodary/DBCAS/issues/55): Docker container-create timeouts.
 8. Prioritize [bloat follow-ups](../sql-sandbox/05-bloat-candidates.md).
 9. Inventory and approve cleanup of stale local images ([bloat candidates](../sql-sandbox/05-bloat-candidates.md)); do not prune blindly.
