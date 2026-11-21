@@ -49,6 +49,15 @@ def test_snapshot_attempt_reads_do_not_reload_mutable_question_payloads(db_sessi
     assert len(seen) == 1
 
 
+def test_question_bank_list_skips_dataset_payloads(db_session):
+    _, _, _, question, _, _, _ = _fixture(db_session, "sql")
+    db_session.expire_all()
+    with statements(db_session) as seen:
+        items = QuestionRepository(db_session).search()
+        assert any(item.question_id == question.question_id for item in items)
+    assert not any("sql_test_dataset" in statement.lower() for statement in seen)
+
+
 def test_eager_sql_bank_validation_does_not_issue_per_question_queries(db_session):
     _, _, _, question, _, _, _ = _fixture(db_session, "sql")
     qid = question.question_id
