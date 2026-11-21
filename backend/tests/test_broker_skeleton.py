@@ -7,7 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
-from app.config import get_settings
+from app.config import Settings, get_settings
 from app.services.broker.client import build_broker_client, create_app
 from app.services.broker.schemas import BrokerRequest
 from app.services.broker.service import BrokerError, BrokerService, issue_capability
@@ -165,6 +165,31 @@ def test_audit_log_has_no_sensitive_data(caplog):
         "requester", "policy_version", "result_class", "duration_ms",
         "retention_days",
     }
+
+
+def test_audit_rejection_never_echoes_sql_text(caplog):
+    settings = complete_settings()
+    service = BrokerService(settings)
+    body = body_for(settings)
+    sql = "SELECT secret_column FROM private_table WHERE token='learner-42'"
+    body["sql"] = sql  # unknown field: schema must reject it
+    caplog.clear()
+    with caplog.at_level(logging.INFO, logger="dbcas.broker.audit"):
+        with pytest.raises(BrokerError):
+            service.handle(body, PEER)
+    text = "\n".join(record.getMessage() for record in caplog.records)
+    assert sql not in text
+    assert "secret_column" not in text
+    assert "learner-42" not in text
+
+
+def test_flag_name_and_ttl_owner_decisions():
+    fields = Settings.model_fields
+    assert "sandbox_broker" in fields and "broker_enabled" not in fields
+    assert fields["sandbox_broker"].default is False
+    assert fields["sandbox_broker_capability_ttl_seconds"].default == 300
+    assert fields["sandbox_broker_audit_retention_days"].default == 30
+    assert "sandbox_broker_audit_include_sql_text" not in fields
 
 
 def test_health_endpoint_and_flag_off_client():

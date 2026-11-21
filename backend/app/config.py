@@ -70,16 +70,17 @@ class Settings(BaseSettings):
     sandbox_max_rows_per_script: int = Field(default=2000, ge=1)
     sandbox_max_result_bytes_per_script: int = Field(default=524288, ge=1024, le=2097152)
 
-    # PR-B1 broker skeleton. Every value below is a configuration value; the
-    # flag is OFF by default and no existing runtime path changes when off.
-    # The owner sheet proposed BROKER_ENABLED=false; the task-required flag
-    # name SANDBOX_BROKER carries the same default and meaning.
+    # PR-B1 broker skeleton. The five defaults below are approved by the owner
+    # (2026-11-21, docs/analysis/owner-decisions.md). Flag SANDBOX_BROKER is
+    # OFF by default (the sheet's BROKER_ENABLED is superseded); with it OFF no
+    # existing runtime path changes. Real execution is B2, not B1.
     sandbox_broker: bool = False
     sandbox_broker_channel: Literal["unix", "mtls"] = "unix"
     sandbox_broker_socket_path: str = "/run/dbcas/broker.sock"
     sandbox_broker_peer_identity: str = "dbcas-api"
     sandbox_broker_issuer_id: str = "dbcas-broker-local"
     sandbox_broker_issuer_key: str = ""
+    # Owner-approved TTL: 300 s.
     sandbox_broker_capability_ttl_seconds: int = Field(default=300, ge=30, le=900)
     sandbox_broker_schema_version: int = 1
     sandbox_broker_dataset_digests: dict[str, str] = Field(default_factory=dict)
@@ -89,7 +90,7 @@ class Settings(BaseSettings):
         "cap_drop": ["ALL"], "no_new_privileges": True, "pids_limit": 128,
         "memory_mb": 256, "cpus": 1,
     })
-    sandbox_broker_audit_include_sql_text: bool = False
+    # Owner-approved audit: SQL text is never stored; retention is 30 days.
     sandbox_broker_audit_retention_days: int = Field(default=30, ge=1, le=365)
     sandbox_broker_client_cert_path: str = ""
     sandbox_broker_client_key_path: str = ""
