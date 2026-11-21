@@ -2,7 +2,7 @@
   "generated_by": "scripts/generate_route_inventory.py",
   "note": "Static AST of backend/app/main.py and backend/app/routers/*.py. Authoritative for method and path only; roles, status codes and domain rules remain in docs/api-conventions.md.",
   "sources": {
-    "backend/app/main.py": "5c920a455cc3bdc7965c052554a42f08d60dd8e14927ffa855c06a9d425cdc87",
+    "backend/app/main.py": "fb40fe992d17433dea12e9517d64a05f635c675688788fdc269ecb9a55a14058",
     "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "backend/app/routers/admin.py": "09042fddc73338bf6076f30c16365377283140976af77ef6cb038386b276318c",
     "backend/app/routers/assessments.py": "2efd3daba0ff36977e6066177e42d6494ca287345ddbb483f6da54b92f404941",
@@ -956,7 +956,7 @@
       "path": "/api/v1/ping",
       "router": "main.py",
       "handler": "ping",
-      "line": 81,
+      "line": 84,
       "guards": [],
       "response_model": "PingResult"
     },
@@ -1273,7 +1273,7 @@
       "path": "/health",
       "router": "main.py",
       "handler": "health",
-      "line": 76,
+      "line": 79,
       "guards": [],
       "response_model": "StatusResult"
     },
@@ -1282,7 +1282,7 @@
       "path": "/readiness",
       "router": "main.py",
       "handler": "readiness",
-      "line": 86,
+      "line": 89,
       "guards": [],
       "response_model": "ReadinessResult"
     }
