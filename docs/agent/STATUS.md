@@ -29,8 +29,8 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 ## In progress and next
 
-- This STATUS/BACKLOG refresh PR only.
-- [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `9486c6e`) — OPEN, not merged, not owner-approved. `.env.example` now documents all `SANDBOX_BROKER*` keys and the route inventory is regenerated; [CI run 44883772415](https://github.com/nguyendodary/DBCAS/actions/runs/44883772415) is green, 14/14 jobs, backend 1883 passed.
+- B2 design PR (this PR): [PR-B2 design](../analysis/pr-b2-design.md) — docs only, design only, not owner-approved; do not merge as implementation.
+- [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `9486c6e`) — OPEN, not merged, not owner-approved; **do not merge until the owner approves or amends the assumed defaults** in [owner decisions](../analysis/owner-decisions.md). `.env.example` documents all `SANDBOX_BROKER*` keys and the route inventory is regenerated; [CI run 44883772415](https://github.com/nguyendodary/DBCAS/actions/runs/44883772415) is green, 14/14 jobs, backend 1883 passed.
 - Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks
