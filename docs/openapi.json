@@ -26136,7 +26136,7 @@
     },
     "/api/v1/sessions/{session_id}/serve-next": {
       "post": {
-        "description": "UC12/FR-15 — return the pending question or adaptively serve the\nnext one; every new serve is audited in selection_log.",
+        "description": "UC12/FR-15 — return the pending question or adaptively serve the\nnext one; every new serve is audited in selection_log.\n\n``seq_no`` opens one frozen plan slot in a learner-defined practice\nwithout changing the other questions or the grading rules.",
         "operationId": "serve_next_question_api_v1_sessions__session_id__serve_next_post",
         "parameters": [
           {
@@ -26146,6 +26146,43 @@
             "schema": {
               "title": "Session Id",
               "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "seq_no",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Seq No"
+            }
+          },
+          {
+            "in": "query",
+            "name": "display_locale",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "en",
+                    "vi"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Display Locale"
             }
           }
         ],

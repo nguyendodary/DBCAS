@@ -100,6 +100,47 @@ it('revisits a saved answer without losing the current SQL draft or resetting th
   expect(api.post).not.toHaveBeenCalled()
   await act(() => setLocale('en'))
 })
+
+it('opens the selected practice question even if state and list refreshes fail', async () => {
+  const firstQuestion = { ...current, seq_no: 1, prompt: 'First practice question' }
+  const nextQuestion = {
+    ...current,
+    seq_no: 2,
+    question_id: 3,
+    prompt: 'Second practice question',
+  }
+  let questionListCalls = 0
+  let sessionStateCalls = 0
+  api.get.mockImplementation((url) => {
+    if (url.endsWith('/questions')) {
+      questionListCalls += 1
+      return questionListCalls === 1
+        ? Promise.resolve({ data: [firstQuestion] })
+        : Promise.reject(new Error('Question list refresh failed'))
+    }
+    sessionStateCalls += 1
+    if (sessionStateCalls > 1) return Promise.reject(new Error('Session refresh failed'))
+    return Promise.resolve({
+      data: {
+        ...state,
+        assessment_id: null,
+        assembly_mode: 'PRACTICE',
+        served_count: 1,
+        current_question: firstQuestion,
+      },
+    })
+  })
+  api.post.mockResolvedValue({ data: { done: false, question: nextQuestion } })
+  await mount()
+  await waitFor(() => expect(questionListCalls).toBe(1))
+  await userEvent.click(screen.getByRole('button', { name: 'Go to question 2' }))
+  expect(await screen.findByText('Second practice question')).toBeVisible()
+  expect(api.post).toHaveBeenCalledWith('/sessions/42/serve-next', null, {
+    params: { display_locale: 'en', seq_no: 2 },
+  })
+  expect(api.post).not.toHaveBeenCalledWith('/sessions/42/submit', expect.anything())
+})
+
 it('keeps the saved current draft on a history-load failure and supports a retry', async () => {
   await mount()
   api.get.mockRejectedValueOnce(new Error('Connection interrupted'))
@@ -113,6 +154,9 @@ it('keeps the saved current draft on a history-load failure and supports a retry
 })
 it('stays with the current answer when its draft cannot be saved before navigation', async () => {
   await mount()
+  const questionListRequests = api.get.mock.calls.filter(
+    ([url]) => url === '/sessions/42/questions',
+  ).length
   api.put.mockRejectedValue(new Error('Draft save interrupted'))
   fireEvent.change(screen.getByRole('textbox'), { target: { value: 'SELECT 1;' } })
   await userEvent.click(screen.getByRole('button', { name: 'Go to question 1' }))
@@ -120,11 +164,16 @@ it('stays with the current answer when its draft cannot be saved before navigati
     'The draft could not be saved. Retry before leaving this page.',
   )
   expect(screen.getByRole('textbox')).toHaveValue('SELECT 1;')
-  expect(api.get).not.toHaveBeenCalledWith('/sessions/42/questions', expect.anything())
+  expect(api.get.mock.calls.filter(([url]) => url === '/sessions/42/questions')).toHaveLength(
+    questionListRequests,
+  )
 })
 
 it('keeps the latest navigation choice when a slower draft save completes afterward', async () => {
   await mount()
+  const questionListRequests = api.get.mock.calls.filter(
+    ([url]) => url === '/sessions/42/questions',
+  ).length
   let completeSave
   api.put.mockImplementation(
     () =>
@@ -143,5 +192,7 @@ it('keeps the latest navigation choice when a slower draft save completes afterw
   })
   expect(screen.getByRole('textbox')).toHaveValue('SELECT employee_id FROM employee;')
   expect(screen.queryByText('Saved SQL question')).not.toBeInTheDocument()
-  expect(api.get).not.toHaveBeenCalledWith('/sessions/42/questions', expect.anything())
+  expect(api.get.mock.calls.filter(([url]) => url === '/sessions/42/questions')).toHaveLength(
+    questionListRequests,
+  )
 })

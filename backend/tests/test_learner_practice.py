@@ -103,6 +103,78 @@ def complete(client, db, learner, state):
     return response.json()
 
 
+def _answer_for(db, session_id, seq_no):
+    attempt = db.query(Attempt).filter_by(session_id=session_id, seq_no=seq_no).one()
+    snapshot = attempt.question_snapshot
+    payload = {"question_id": attempt.question_id}
+    if attempt.question_snapshot["question_type"] == "mcq":
+        payload["selected_option_id"] = next(
+            option["option_id"] for option in snapshot["options"] if option["is_correct"]
+        )
+    elif attempt.question_snapshot["question_type"] == "sql":
+        payload["sql_answer"] = snapshot["reference_answer"]
+    else:
+        payload["essay_answer"] = snapshot["reference_answer"]
+    return payload
+
+
+def test_practice_can_open_any_planned_question_without_duplicate_attempts(client, db_session):
+    """Grid navigation serves a frozen plan slot once, in any order."""
+    _, learner, concepts = fixture(db_session)
+    state = client.post(
+        "/api/v1/practice/start", headers=headers(learner), json=selection(concepts)
+    ).json()
+    session_id = state["session_id"]
+    assert state["assessment_id"] is None and state["assembly_mode"] == "PRACTICE"
+
+    first = client.post(
+        f"/api/v1/sessions/{session_id}/serve-next?seq_no=1", headers=headers(learner)
+    )
+    assert first.status_code == 200, first.text
+    third = client.post(
+        f"/api/v1/sessions/{session_id}/serve-next?seq_no=3", headers=headers(learner)
+    )
+    assert third.status_code == 200, third.text
+    assert third.json()["question"]["seq_no"] == 3
+    assert third.json()["question"]["score"] is None
+
+    again = client.post(
+        f"/api/v1/sessions/{session_id}/serve-next?seq_no=3", headers=headers(learner)
+    )
+    assert again.json()["question"]["attempt_id"] == third.json()["question"]["attempt_id"]
+    attempts = db_session.query(Attempt).filter_by(session_id=session_id).all()
+    assert sorted(attempt.seq_no for attempt in attempts) == [1, 3]
+
+    for seq_no in (1, 3):
+        submitted = client.post(
+            f"/api/v1/sessions/{session_id}/submit",
+            headers=headers(learner),
+            json=_answer_for(db_session, session_id, seq_no),
+        )
+        assert submitted.status_code == 200, submitted.text
+    nxt = client.post(
+        f"/api/v1/sessions/{session_id}/serve-next", headers=headers(learner)
+    )
+    assert nxt.status_code == 200, nxt.text
+    assert nxt.json()["question"]["seq_no"] == 2
+    assert sorted(
+        attempt.seq_no
+        for attempt in db_session.query(Attempt).filter_by(session_id=session_id).all()
+    ) == [1, 2, 3]
+
+
+def test_practice_navigation_rejects_missing_planned_questions(client, db_session):
+    _, learner, concepts = fixture(db_session)
+    state = client.post(
+        "/api/v1/practice/start", headers=headers(learner), json=selection(concepts)
+    ).json()
+    session_id = state["session_id"]
+    missing = client.post(
+        f"/api/v1/sessions/{session_id}/serve-next?seq_no=99", headers=headers(learner)
+    )
+    assert missing.status_code == 404 and missing.json()["error"]["code"] == "question_not_found"
+
+
 @pytest.mark.parametrize("source", ["bank", "ai"])
 def test_no_exam_and_frozen_scope_idempotent(client, db_session, source):
     _, learner, concepts = fixture(db_session)

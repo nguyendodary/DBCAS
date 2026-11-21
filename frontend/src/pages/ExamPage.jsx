@@ -132,6 +132,7 @@ function ExamWorkspace({ sessionId, initialState }) {
   const { locale } = useLocale()
   const navigate = useNavigate()
   const [state, setState] = useState(null)
+  const [servedQuestions, setServedQuestions] = useState([])
   const [error, setError] = useState(null)
   const [secondsLeft, setSecondsLeft] = useState(null)
   const [submitting, setSubmitting] = useState(false)
@@ -152,7 +153,9 @@ function ExamWorkspace({ sessionId, initialState }) {
   const [reviewError, setReviewError] = useState(null)
   const [reviewRetry, setReviewRetry] = useState(0)
   const browseSequence = useRef(0)
+  const questionListRequest = useRef(0)
   const q = state?.current_question
+  const isPracticeSession = state?.assembly_mode === 'PRACTICE' || state?.assessment_id === null
   const { draft, setDraft, flushDraft, saveStatus, saveError, saveConflict, reloadSavedDraft } =
     useAnswerDraft(sessionId, q)
   const sqlParagraphs = useMemo(
@@ -169,6 +172,19 @@ function ExamWorkspace({ sessionId, initialState }) {
     setState(next)
     setSecondsLeft(Math.max(0, Math.ceil(remainingMs / 1000)))
   }, [])
+
+  const loadQuestionList = useCallback(
+    async (displayLocale) => {
+      const request = ++questionListRequest.current
+      const { data } = await api.get(`/sessions/${sessionId}/questions`, {
+        params: displayLocale ? { display_locale: displayLocale } : {},
+      })
+      if (request === questionListRequest.current)
+        setServedQuestions(Array.isArray(data) ? data : [])
+      return data
+    },
+    [sessionId],
+  )
 
   const finish = useCallback(async () => {
     if (finishedRef.current) return
@@ -227,6 +243,13 @@ function ExamWorkspace({ sessionId, initialState }) {
     else load()
   }, [initialState, acceptState, load])
 
+  // The answered/current markers follow served attempts, not a count, so a
+  // fixed practice can show questions opened out of order correctly.
+  useEffect(() => {
+    if (state?.status !== 'in_progress' || !isPracticeSession) return
+    loadQuestionList(locale).catch(() => {})
+  }, [state?.status, isPracticeSession, locale, loadQuestionList])
+
   useEffect(() => {
     if (reviewSeq === null) return
     let active = true
@@ -257,9 +280,49 @@ function ExamWorkspace({ sessionId, initialState }) {
     }
     try {
       await flushDraft()
-      if (sequence === browseSequence.current) setReviewSeq(seq)
     } catch {
       /* keep the editable answer visible until its draft is safe */
+      return
+    }
+    if (sequence !== browseSequence.current) return
+
+    const selected = servedQuestions.find((item) => item.seq_no === seq)
+    if (selected?.submitted_at) {
+      setReviewSeq(seq)
+      return
+    }
+    if (!isPracticeSession) {
+      setReviewSeq(seq)
+      return
+    }
+
+    // Fixed practice freezes the plan, so any unsubmitted slot can be opened
+    // without changing the question order or the grading rules.
+    const params = { display_locale: locale }
+    try {
+      const { data } = await api.post(`/sessions/${sessionId}/serve-next`, null, {
+        params: { ...params, seq_no: seq },
+      })
+      const question = data.question
+      if (sequence !== browseSequence.current) return
+      if (question.submitted_at) {
+        await loadQuestionList(locale)
+        if (sequence === browseSequence.current) setReviewSeq(seq)
+        return
+      }
+      const currentQuestion = { ...question, _displayLocale: locale }
+      setError(null)
+      setFeedback(null)
+      setRunResult(null)
+      setReviewSeq(null)
+      setState((current) => ({ ...current, current_question: currentQuestion }))
+      loadQuestionList(locale).catch(() => {})
+      const { data: session } = await api.get(`/sessions/${sessionId}`, { params })
+      if (sequence === browseSequence.current)
+        acceptState({ ...session, current_question: currentQuestion })
+    } catch (error) {
+      if (sequence === browseSequence.current)
+        setError(apiMessage(error, message('exam.loadError')))
     }
   }
 
@@ -337,6 +400,21 @@ function ExamWorkspace({ sessionId, initialState }) {
       const result = await api.post(`/sessions/${sessionId}/submit`, payload)
       setFeedback(result.data.answer)
       acceptState(result.data.state)
+      if (isPracticeSession) {
+        setServedQuestions((items) => {
+          const submitted = {
+            ...q,
+            submitted_at: result.data.answer.submitted_at,
+            selected_option_id: payload.selected_option_id ?? null,
+            sql_answer: payload.sql_answer ?? null,
+            essay_answer: payload.essay_answer ?? null,
+          }
+          return [...items.filter((item) => item.seq_no !== q.seq_no), submitted].sort(
+            (a, b) => a.seq_no - b.seq_no,
+          )
+        })
+        loadQuestionList().catch(() => {})
+      }
       if (result.data.state.status !== 'in_progress')
         navigate(
           `${result.data.state.assessment_id === null ? '/evaluations' : '/history'}/${sessionId}`,
@@ -348,6 +426,7 @@ function ExamWorkspace({ sessionId, initialState }) {
       try {
         const recovered = await api.get(`/sessions/${sessionId}`)
         acceptState(recovered.data)
+        if (isPracticeSession) loadQuestionList().catch(() => {})
         if (recovered.data.answered_count > state.answered_count) {
           setError(null)
           setFeedback({ grading_status: 'recovered' })
@@ -522,15 +601,19 @@ function ExamWorkspace({ sessionId, initialState }) {
             </div>
             <div className="ex-question-grid" role="list" aria-label={t('exam.questionList')}>
               {cells.map((i) => {
-                const isActive =
-                  reviewSeq !== null ? i === reviewSeq - 1 : q && i === state.served_count - 1
-                const isAnswered = i < state.answered_count
+                const servedQuestion = servedQuestions.find((item) => item.seq_no === i + 1)
+                const isActive = reviewSeq !== null ? i === reviewSeq - 1 : q?.seq_no === i + 1
+                const isAnswered = isPracticeSession
+                  ? Boolean(servedQuestion?.submitted_at)
+                  : i < state.answered_count
                 return (
                   <div key={i} role="listitem">
                     <button
                       type="button"
                       className={`question-cell w-full${isAnswered ? ' answered' : ''}${isActive ? ' active' : ''}`}
-                      disabled={i >= state.served_count || submitting || finishing}
+                      disabled={
+                        (!isPracticeSession && i >= state.served_count) || submitting || finishing
+                      }
                       onClick={() => browseQuestion(i + 1)}
                       aria-label={t('exam.navigateQuestion', { number: i + 1 })}
                       aria-current={isActive ? 'step' : undefined}
