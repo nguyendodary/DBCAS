@@ -8,7 +8,22 @@ access. Only items that block PR-B1 are in the first table. Everything else is
 grouped under "Later". The QA-1 analysis is in
 [qa1-sandbox-busy.md](qa1-sandbox-busy.md).
 
+## Owner decisions — APPROVED 2026-11-21 (verbatim)
+
+Status: **approved by owner** (owner message dated 2026-11-21). These five decisions
+supersede the proposed defaults in the table below. Everything else stays an
+**UNKNOWN — owner must confirm**; no further decision is inferred.
+
+1. Channel/identity: Unix socket + checked peer credentials for local/CI; mTLS with short-lived service certificates when deployed; issuer = broker deployment key; manual rotation per release.
+2. Schema: versioned JSON v1, UUID request IDs, SHA-256 dataset digest from a broker-owned allow-list, reject unknown fields/modes/duplicate IDs with different payloads.
+3. B1 runtime: separate broker process/container with no Docker socket; fake runtime for B1 tests; real execution is B2.
+4. Flag: keep the name SANDBOX_BROKER (default OFF; the sheet's BROKER_ENABLED is superseded). Capability TTL 300 s accepted. Peer identity dbcas-api accepted. ON without complete config = fail closed.
+5. Audit: no SQL text (script hash + metadata + result class), 30-day retention.
+
 ## Blocking PR-B1
+
+All five blocking defaults below are now **approved by owner** as recorded verbatim
+above; the later groups and every other item remain **UNKNOWN — owner must confirm**.
 
 | Question | Why it blocks PR-B1 | Proposed default | Consequence if unanswered | Needs owner |
 | --- | --- | --- | --- | --- |
