@@ -2,7 +2,7 @@
 
 Date: 2026-11-21. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [117a89afe76daa49d5ddee51599682e08ab1cd5d](https://github.com/nguyendodary/DBCAS/commit/117a89afe76daa49d5ddee51599682e08ab1cd5d) as of 2026-11-21; update after the next merge. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Last verified: `develop2` [9a882b10e42cd5ff8d141a21c80234a096eb44c7](https://github.com/nguyendodary/DBCAS/commit/9a882b10e42cd5ff8d141a21c80234a096eb44c7) as of 2026-11-21; update after the next merge. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -20,6 +20,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - [#72](https://github.com/nguyendodary/DBCAS/pull/72): refreshed STATUS and BACKLOG — merge `a343ab086a536aebe78e256af118c2a2e1975230`.
 - [#73](https://github.com/nguyendodary/DBCAS/pull/73): refreshed STATUS and BACKLOG after #72 — merge `5ac5f7e89731a74957d895a2a1bd0f7645f97edc`.
 - [#74](https://github.com/nguyendodary/DBCAS/pull/74): qa-1 `sandbox_busy` analysis and owner decision sheet — merge `117a89afe76daa49d5ddee51599682e08ab1cd5d`.
+- [#75](https://github.com/nguyendodary/DBCAS/pull/75): qa-1 `sandbox_busy` rejection diagnostics — merge `9a882b10e42cd5ff8d141a21c80234a096eb44c7`.
 
 CI on `10c29586`: [run 44792968574 attempt 1](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/1) was red (qa-1 `sandbox_busy`, [#71](https://github.com/nguyendodary/DBCAS/issues/71)); the single authorized [attempt 2](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/2) was green (14/14).
 CI on `a343ab0`: [run 44857868535](https://github.com/nguyendodary/DBCAS/actions/runs/44857868535) passed all jobs, including qa-1, qa-2 and qa-3.
@@ -29,7 +30,6 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 ## In progress and next
 
 - This STATUS/BACKLOG refresh PR only.
-- [#75](https://github.com/nguyendodary/DBCAS/pull/75): qa-1 `sandbox_busy` diagnostics (head `e2d708f`) — OPEN, not merged. Generated route inventory regenerated with the repo generator; [CI run 44883469636](https://github.com/nguyendodary/DBCAS/actions/runs/44883469636) is green, 14/14 jobs, backend 1874 passed. May merge after owner review.
 - [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `9486c6e`) — OPEN, not merged, not owner-approved. `.env.example` now documents all `SANDBOX_BROKER*` keys and the route inventory is regenerated; [CI run 44883772415](https://github.com/nguyendodary/DBCAS/actions/runs/44883772415) is green, 14/14 jobs, backend 1883 passed.
 - Next: [BACKLOG](BACKLOG.md).
 

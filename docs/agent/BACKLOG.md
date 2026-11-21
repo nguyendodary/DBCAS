@@ -4,6 +4,8 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
 ## Waiting for owner
 
+**PR #76 (broker skeleton, flag OFF) must NOT be merged until the owner approves or amends the assumed defaults in `docs/analysis/owner-decisions.md` (channel, TTL 300 s, peer dbcas-api, 30-day audit retention, flag name SANDBOX_BROKER vs BROKER_ENABLED)**
+
 1. **(a) Broker UNKNOWNs:** answer the open questions in the [broker design](../sql-sandbox/broker/README.md) and [SQL sandbox UNKNOWNs](../sql-sandbox/07-unknowns.md) before PR-B writable execution. [#66](https://github.com/nguyendodary/DBCAS/issues/66) tracks the decision; [#69](https://github.com/nguyendodary/DBCAS/pull/69) is merged documentation only, **not owner-approved**. Review [owner decisions](../analysis/owner-decisions.md) and approve or amend the five assumed defaults before [#76](https://github.com/nguyendodary/DBCAS/pull/76) is merged.
 2. **(b) Readiness edits:** decide on the local branch `docs/pending-readiness-edits` (head `8bc95fb7ab423cba8583f092d64362cd6001838c`); integrate selectively, do not merge as-is (stale baseline `37a384a`).
 3. **(c) Local Docker inventory:** identify the local `dbcas-*` containers and volumes before any local Docker test; never delete or prune them blindly. Local inventory logs: `_review/merge-20261121/docker-containers-before.log` and `_review/merge-20261121/docker-volumes-before.log`.
