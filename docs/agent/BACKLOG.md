@@ -17,5 +17,5 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 8. Prioritize [bloat follow-ups](../sql-sandbox/05-bloat-candidates.md).
 9. Inventory and approve cleanup of stale local images ([bloat candidates](../sql-sandbox/05-bloat-candidates.md)); do not prune blindly.
 10. [#75](https://github.com/nguyendodary/DBCAS/pull/75): diagnostics-only PR is red on `npm run inventory:check` (generated inventory drift). Fix the generated file, then collect the `sandbox_busy rejection` fields on the next #71 occurrence; see [STATUS](STATUS.md). Do not treat the failed run as a CI retry.
-11. [#76](https://github.com/nguyendodary/DBCAS/pull/76): default-off broker skeleton; keep the flag OFF and production **HOLD** until the owner approves the assumptions in [owner decisions](../analysis/owner-decisions.md).
+11. [#76](https://github.com/nguyendodary/DBCAS/pull/76): default-off broker skeleton; CI is red on `npm run inventory:check` (generated inventory drift from `backend/app/main.py`). Keep the flag OFF and production **HOLD** until the drift is fixed and the owner approves the assumptions in [owner decisions](../analysis/owner-decisions.md).
 12. Owner actions still pending: identify local `dbcas-*` containers and volumes before any local Docker test; decide on local branch `docs/pending-readiness-edits` (do not merge as-is).
