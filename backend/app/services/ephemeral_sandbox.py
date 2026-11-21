@@ -178,7 +178,10 @@ class EphemeralSandboxRunner:
         if error:
             return SandboxResult(False, error_type=error[0], error_message=error[1])
         if self._broker is not None:
-            setup_sql = self._broker_datasets.pop(schema, "") if schema else ""
+            # A provisioned schema is reusable until drop_dataset(): validators
+            # execute the same reference SQL twice (question_validator.py:206-208)
+            # and the legacy lease path kept the dataset alive between calls.
+            setup_sql = self._broker_datasets.get(schema, "") if schema else ""
             try:
                 response = self._broker.execute_sql(
                     setup_sql, sql_text,

@@ -126,6 +126,34 @@ def test_hash_mismatch_rejected_before_runtime(runtime):
     assert exc.value.code == "broker_script_hash_mismatch"
 
 
+def test_pids_limit_refuses_excess_processes(runtime):
+    """Real-Docker proof that the allow-listed pids limit actually rejects forks.
+
+    The allow-listed template uses 128 pids, so spawning 200 short-lived sleeps
+    inside the container must hit the cgroup pids limit. This uses the real,
+    unmodified ``_create_args`` flags; the limit is only made reachable quickly
+    rather than by stressing the host for minutes.
+    """
+    name = "dbcas-broker-probe-" + os.urandom(4).hex()
+    limit = runtime.settings.sandbox_broker_template["pids_limit"]
+    try:
+        runtime._docker(runtime._create_args(name))
+        exceeded = subprocess.run(
+            ["docker", "exec", name, "/bin/sh", "-c",
+             "for i in $(seq 1 200); do sleep 30 & done; printf 'spawned\\n'"],
+            cwd=ROOT, capture_output=True, text=True, timeout=25,
+        )
+        assert ("Resource temporarily unavailable" in exceeded.stderr
+                or exceeded.returncode != 0), exceeded.stderr[-500:]
+        alive = runtime._docker([
+            "docker", "exec", name, "/bin/sh", "-c",
+            "n=0; for p in /proc/[0-9]*; do n=$((n+1)); done; printf '%s\\n' \"$n\"",
+        ])
+        assert int(alive) <= limit
+    finally:
+        runtime._docker(["docker", "rm", "-f", name])
+
+
 def test_no_leaked_containers(runtime):
     leftovers = _cli(["docker", "ps", "-aq", "--filter", "name=dbcas-broker-"])
     assert leftovers == ""
