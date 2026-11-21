@@ -162,20 +162,22 @@ def submit(db, session_id, learner, payload, runner=None, llm=None, *, idempoten
     if question.question_type != "mcq" and not (next(iter(answer.values())) or "").strip():
         raise AppError(422, "empty_answer", "An answer is required for this question")
     submitted_at = repo.server_time()
-    try:
-        result = grade_attempt(repo, attempt, learner, answer, runner, llm)
-    except (LLMError, SandboxError) as exc:
-        if isinstance(exc, LLMError) and exc.code == LLMError.INVALID_RESPONSE and session.result_release_policy != "HUMAN_VERIFIED":
-            # Invalid scoring must not fabricate evidence or enter the cache.
-            raise exc.to_app_error()
-        _persist_answer(attempt, answer, submitted_at)
-        attempt.grading_detail = {"grader": "pending", "question_type": question.question_type, "status": "pending", "error_code": exc.code, "points_possible": str(question.points)}
-        if question.question_type == "essay" and exc.code == LLMError.NOT_CONFIGURED:
-            attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
-        repo.enqueue_grading(attempt)
-    else:
-        _persist_answer(attempt, answer, submitted_at)
-        persist_grade(attempt, result)
+    from .sandbox_diagnostics import operation
+    with operation(runner, "grading_submit"):
+        try:
+            result = grade_attempt(repo, attempt, learner, answer, runner, llm)
+        except (LLMError, SandboxError) as exc:
+            if isinstance(exc, LLMError) and exc.code == LLMError.INVALID_RESPONSE and session.result_release_policy != "HUMAN_VERIFIED":
+                # Invalid scoring must not fabricate evidence or enter the cache.
+                raise exc.to_app_error()
+            _persist_answer(attempt, answer, submitted_at)
+            attempt.grading_detail = {"grader": "pending", "question_type": question.question_type, "status": "pending", "error_code": exc.code, "points_possible": str(question.points)}
+            if question.question_type == "essay" and exc.code == LLMError.NOT_CONFIGURED:
+                attempt.grading_detail = {**attempt.grading_detail, "awaiting_instructor": True}
+            repo.enqueue_grading(attempt)
+        else:
+            _persist_answer(attempt, answer, submitted_at)
+            persist_grade(attempt, result)
     db.flush()
     return result_for(attempt)  # caller commits answer + next state together
 

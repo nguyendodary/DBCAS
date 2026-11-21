@@ -10,7 +10,7 @@
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "bfae5a90f5e5fbffcebf9b53dc707e80117dee692131bc43d13703042aeb60fd",
     "backend/app/routers/practice.py": "f1aa2bda52fbf28129c6d3f7b213ce86036e069a02971d38955dd36767763f6c",
-    "backend/app/routers/sessions.py": "e6648d5d4a4ba815bae240e8030cab68051f1ebe6c85803532d8ef55dfbf5341"
+    "backend/app/routers/sessions.py": "d3b16e57cd8f307c35d8b6ba3393b107e8b8281490b98918ed6f3bad25a48ef3"
   },
   "count": 118,
   "routes": [
