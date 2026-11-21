@@ -11,7 +11,9 @@ import logging
 import re
 import time
 
-from .schemas import BrokerAuditRecord, BrokerRequest, BrokerResponse
+from .admission import BrokerAdmission
+from .errors import BrokerError
+from .schemas import BrokerAuditRecord, BrokerExecutionRequest, BrokerRequest, BrokerResponse
 
 logger = logging.getLogger("dbcas.broker")
 audit_logger = logging.getLogger("dbcas.broker.audit")
@@ -22,13 +24,6 @@ _REQUIRED_TEMPLATE = {
     "cap_drop": ["ALL"], "no_new_privileges": True, "pids_limit": 128,
     "memory_mb": 256, "cpus": 1,
 }
-
-
-class BrokerError(Exception):
-    def __init__(self, code, message):
-        super().__init__(message)
-        self.code = code
-        self.message = message
 
 
 def validate_broker_config(settings):
@@ -63,8 +58,9 @@ def validate_broker_config(settings):
 
 def _canonical(request):
     """Canonical request body used for capability binding and replay checks."""
-    body = request.model_dump(exclude={"capability"}) if isinstance(request, BrokerRequest) else dict(request)
+    body = request.model_dump() if hasattr(request, "model_dump") else dict(request)
     body.pop("capability", None)
+    body.pop("script", None)  # SQL text is never bound into a capability or audit record
     return json.dumps(body, sort_keys=True, separators=(",", ":"), default=str)
 
 
@@ -117,6 +113,19 @@ class BrokerService:
         validate_broker_config(settings)
         self.settings = settings
         self._seen = {}
+        self._max_seen = 1000  # bounded replay ledger
+        self.admission = BrokerAdmission(
+            settings.sandbox_broker_queue_size,
+            max(1, settings.sandbox_broker_queue_size // 4),
+            settings.sandbox_broker_admission_timeout_ms / 1000,
+        )
+        from .runtime import build_runtime
+        self.runtime = build_runtime(settings)
+
+    def _remember(self, key, value):
+        if len(self._seen) >= self._max_seen:
+            self._seen.pop(next(iter(self._seen)))
+        self._seen[key] = value
 
     def health(self):
         return {
@@ -124,8 +133,56 @@ class BrokerService:
             "schema_version": self.settings.sandbox_broker_schema_version,
             "channel": self.settings.sandbox_broker_channel,
             "runtime": self.settings.sandbox_broker_runtime,
-            "execution": "stub",
+            "execution": "stub" if self.settings.sandbox_broker_runtime == "stub" else "constrained",
         }
+
+    def execute(self, body, setup_sql, sql, *, grading=False):
+        """B2 execution path: capability-checked, admitted, constrained, audited."""
+        started = time.monotonic()
+        request = None
+        previous = None
+        try:
+            request = BrokerExecutionRequest.model_validate(body)
+            verify_capability(request, self.settings, self.settings.sandbox_broker_peer_identity)
+            if hashlib.sha256(sql.encode("utf-8")).hexdigest() != request.script_hash:
+                raise BrokerError("broker_script_hash_mismatch", "SQL does not match the approved hash")
+            if hashlib.sha256((setup_sql or "").encode("utf-8")).hexdigest() != request.setup_hash:
+                raise BrokerError("broker_script_hash_mismatch", "Dataset setup does not match the approved hash")
+            if self.settings.sandbox_broker_dataset_digests.get(request.dataset_id) != request.dataset_digest:
+                raise BrokerError("broker_dataset_not_allowed", "Dataset digest is not allow-listed")
+            canonical = _canonical(request)
+            seen = self._seen.get(str(request.request_id))
+            if seen and seen[0] == canonical and "result" in seen[1]:
+                return seen[1]
+            if seen and seen[0] != canonical:
+                raise BrokerError("broker_replay_conflict", "Request id reused with a different payload")
+            previous = self.admission.acquire(grading=grading)
+            result = self.runtime.execute(setup_sql or "", sql)
+            response = {
+                "request_id": str(request.request_id),
+                "operation": request.operation,
+                "status": "executed",
+                "executed": True,
+                "result_class": "executed",
+                "duration_ms": int((time.monotonic() - started) * 1000),
+                "result": result,
+            }
+            self._remember(str(request.request_id), (canonical, response))
+            self._audit(request, "accepted", type("Audit", (), {
+                "result_class": response["result_class"],
+                "duration_ms": response["duration_ms"],
+            })())
+            return response
+        except BrokerError as exc:
+            if request is not None:
+                self._audit_failure(body, exc.code)
+            raise
+        finally:
+            if previous is not None:
+                self.admission.release(previous, grading=grading)
+
+    def reap(self):
+        return self.runtime.reap()
 
     def handle(self, body, peer_identity):
         started = time.monotonic()
@@ -148,7 +205,7 @@ class BrokerService:
                 operation=request.operation,
                 duration_ms=int((time.monotonic() - started) * 1000),
             )
-            self._seen[str(request.request_id)] = (canonical, response)
+            self._remember(str(request.request_id), (canonical, response))
             self._audit(request, "accepted", response)
             return response
         except BrokerError as exc:
