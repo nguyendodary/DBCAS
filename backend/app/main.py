@@ -26,6 +26,9 @@ if settings.jwt_secret == "change_me_jwt_secret":
 async def lifespan(application):
     from .db import get_session_factory
     from .services.deployment_safety import validate_deployment_accounts
+    if settings.sandbox_broker:
+        from .services.broker.service import validate_broker_config
+        validate_broker_config(settings)
     with get_session_factory()() as db:
         validate_deployment_accounts(db, settings)
     from .worker import maintenance_loop
