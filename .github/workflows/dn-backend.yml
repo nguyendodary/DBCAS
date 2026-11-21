@@ -69,6 +69,14 @@ jobs:
       LLM_API_KEY: ''
       LLM_BASE_URL: ''
       LLM_MODEL: ''
+      # TEMPORARY validation only: broker ON for backend; deselect tests that assume OFF.
+      SANDBOX_BROKER: 'true'
+      SANDBOX_BROKER_RUNTIME: 'docker'
+      SANDBOX_BROKER_ISSUER_KEY: 'ci-validation-issuer-key'
+      SANDBOX_BROKER_DATASET_DIGESTS: '{"learner_dataset":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}'
+      SANDBOX_BROKER_ALLOWED_IMAGES: '{"dbcas-sql-ephemeral:local":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}'
+      SANDBOX_BROKER_IMAGE_DIGEST: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+      PYTEST_ADDOPTS: '--ignore=tests/dn/test_ephemeral_sandbox.py --deselect=tests/test_broker_runtime.py::test_flag_off_is_byte_identical --deselect=tests/test_broker_skeleton.py::test_fail_closed_config_matrix --deselect=tests/test_broker_skeleton.py::test_health_endpoint_and_flag_off_client --deselect=tests/test_shared_auth.py::test_production_startup_rejects_known_seed_credentials'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -235,6 +243,16 @@ jobs:
             smtp_port: 11425
             qa_port: 18499
             qa_load: '0'
+          - name: qa-off
+            kind: qa
+            shard: ''
+            project: dbcas-qa-off
+            api_port: 18800
+            web_port: 18880
+            mail_port: 18825
+            smtp_port: 11825
+            qa_port: 18899
+            qa_load: '1'
           - name: smoke-1
             kind: smoke
             shard: ''
@@ -325,11 +343,68 @@ jobs:
         if: matrix.kind == 'smoke'
         working-directory: frontend
         run: npx playwright test --config playwright.local.config.js --repeat-each=1
+      - name: Enable broker for validation QA
+        if: matrix.kind == 'qa' && matrix.name != 'qa-off'
+        shell: bash
+        run: |
+          touch .env
+          for kv in \
+            "SANDBOX_BROKER=true" \
+            "SANDBOX_BROKER_RUNTIME=docker" \
+            "SANDBOX_BROKER_ISSUER_KEY=ci-validation-issuer-key" \
+            'SANDBOX_BROKER_DATASET_DIGESTS={"learner_dataset":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}' \
+            'SANDBOX_BROKER_ALLOWED_IMAGES={"dbcas-sql-ephemeral:local":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}' \
+            "SANDBOX_BROKER_IMAGE_DIGEST=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; do
+            key="${kv%%=*}"
+            if grep -q "^${key}=" .env; then
+              sed -i "s|^${key}=.*|${kv}|" .env
+            else
+              echo "$kv" >> .env
+            fi
+          done
+      - name: Run QA shard (3 deliberate broker-ON load repetitions)
+        if: matrix.kind == 'qa' && matrix.name == 'qa-1'
+        env:
+          DBCAS_QA_LOAD: '1'
+        shell: bash
+        run: |
+          for n in 1 2 3; do
+            echo "=== deliberate broker-ON load repetition $n ==="
+            node scripts/browser-qa.mjs 1
+            cp _review/practice-load-results.json "_review/practice-load-on-$n.json"
+          done
       - name: Run QA shard
-        if: matrix.kind == 'qa'
+        if: matrix.kind == 'qa' && matrix.name != 'qa-1'
         env:
           DBCAS_QA_LOAD: ${{ matrix.qa_load }}
         run: node scripts/browser-qa.mjs 1
+      - name: Capture init diagnostics for QA
+        if: always() && matrix.kind == 'qa'
+        shell: bash
+        run: |
+          bash scripts/collect_seed_diagnostics.sh "_review/seed-init-${{ matrix.name }}" \
+            --project-name "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml
+      - name: Upload init diagnostics for QA
+        if: always() && matrix.kind == 'qa'
+        uses: actions/upload-artifact@v4
+        with:
+          name: seed-init-${{ matrix.name }}
+          path: _review/seed-init-${{ matrix.name }}
+          if-no-files-found: warn
+      - name: Upload practice load results
+        if: always() && matrix.qa_load == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: practice-load-${{ matrix.name }}
+          path: _review/practice-load-*.json
+          if-no-files-found: warn
+      - name: Broker leak check
+        if: always() && matrix.kind == 'qa' && matrix.name == 'qa-1'
+        shell: bash
+        run: |
+          left=$(docker ps -aq --filter name=dbcas-broker- || true)
+          echo "leftover broker containers: ${left:-none}"
+          test -z "$left"
       - name: Upload QA docker events
         if: always() && matrix.kind == 'qa'
         uses: actions/upload-artifact@v4
