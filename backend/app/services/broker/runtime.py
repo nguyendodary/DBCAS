@@ -5,6 +5,7 @@ socket/CLI mounts until the later cutover PR; this module does not add any new
 socket or image to the API or to student-SQL containers.
 """
 import json
+import secrets
 import subprocess
 import threading
 import time
@@ -39,19 +40,26 @@ class ConstrainedRuntime:
         if template != _REQUIRED_TEMPLATE:
             raise BrokerError("broker_template_not_allowed", "Executor template is not allow-listed")
         wall = self.settings.sandbox_container_lifetime_seconds
-        command = f"(sleep {wall}; kill -TERM 1) & exec docker-entrypoint.sh postgres"
+        command = (f"(sleep {wall}; kill -TERM 1) & exec docker-entrypoint.sh postgres "
+                   "-c shared_buffers=16MB -c max_connections=10 -c max_wal_size=64MB "
+                   "-c min_wal_size=32MB -c listen_addresses=127.0.0.1")
         return [
             "docker", "create", "--rm", "--name", name,
             "--label", "com.dbcas.broker=1",
             "--network", template["network"], "--read-only",
             "--user", f"{template['uid']}:{template['gid']}",
             "--cap-drop", "ALL", "--security-opt", "no-new-privileges:true",
+            "--stop-timeout", "3",
             "--pids-limit", str(template["pids_limit"]),
             "--memory", f"{template['memory_mb']}m",
+            "--memory-swap", f"{template['memory_mb']}m",
             "--cpus", str(template["cpus"]),
             "--tmpfs", "/var/lib/postgresql/data:rw,uid=10001,gid=10001,mode=0700,size=192m",
             "--tmpfs", "/var/run/postgresql:rw,uid=10001,gid=10001,mode=0700,size=4m",
             "--tmpfs", "/tmp:rw,noexec,nosuid,size=8m",
+            "-e", "POSTGRES_PASSWORD=" + secrets.token_urlsafe(32),
+            "-e", "SANDBOX_LEARNER_PASSWORD=" + secrets.token_urlsafe(32),
+            "-e", "SANDBOX_STATEMENT_TIMEOUT_MS=" + str(self.settings.sandbox_statement_timeout_ms),
             "--entrypoint", "/bin/sh", self._allowed_image(), "-c", command,
         ]
 
@@ -80,6 +88,16 @@ class ConstrainedRuntime:
             with self._lock:
                 self._leases[name] = deadline
             self._docker(["docker", "start", name])
+            ready_until = time.monotonic() + min(self.settings.sandbox_connect_timeout_seconds,
+                                                  max(1, self.settings.sandbox_container_lifetime_seconds - 5))
+            while time.monotonic() < ready_until:
+                try:
+                    self._docker(["docker", "exec", name, "pg_isready", "-h", "127.0.0.1", "-U", "postgres"])
+                    break
+                except subprocess.SubprocessError:
+                    time.sleep(0.2)
+            else:
+                raise BrokerError("broker_runtime_startup_timeout", "Executor readiness deadline exceeded")
             schema = self._call(name, "provision", setup_sql, None)
             result = self._call(name, "execute", sql, schema)
             return result
