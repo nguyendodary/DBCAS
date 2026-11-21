@@ -69,6 +69,14 @@ jobs:
       LLM_API_KEY: ''
       LLM_BASE_URL: ''
       LLM_MODEL: ''
+      # TEMPORARY validation only: broker ON for backend; deselect tests that assume OFF.
+      SANDBOX_BROKER: 'true'
+      SANDBOX_BROKER_RUNTIME: 'docker'
+      SANDBOX_BROKER_ISSUER_KEY: 'ci-validation-issuer-key'
+      SANDBOX_BROKER_DATASET_DIGESTS: '{"learner_dataset":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}'
+      SANDBOX_BROKER_ALLOWED_IMAGES: '{"dbcas-sql-ephemeral:local":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}'
+      SANDBOX_BROKER_IMAGE_DIGEST: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+      PYTEST_ADDOPTS: '--ignore=tests/dn/test_ephemeral_sandbox.py --deselect=tests/test_broker_runtime.py::test_flag_off_is_byte_identical --deselect=tests/test_broker_skeleton.py::test_fail_closed_config_matrix --deselect=tests/test_broker_skeleton.py::test_health_endpoint_and_flag_off_client --deselect=tests/test_shared_auth.py::test_production_startup_rejects_known_seed_credentials'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -325,11 +333,37 @@ jobs:
         if: matrix.kind == 'smoke'
         working-directory: frontend
         run: npx playwright test --config playwright.local.config.js --repeat-each=1
+      - name: Enable broker for validation QA
+        if: matrix.kind == 'qa' && (matrix.name == 'qa-1' || matrix.name == 'qa-2')
+        shell: bash
+        run: |
+          touch .env
+          for kv in \
+            "SANDBOX_BROKER=true" \
+            "SANDBOX_BROKER_RUNTIME=docker" \
+            "SANDBOX_BROKER_ISSUER_KEY=ci-validation-issuer-key" \
+            'SANDBOX_BROKER_DATASET_DIGESTS={"learner_dataset":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}' \
+            'SANDBOX_BROKER_ALLOWED_IMAGES={"dbcas-sql-ephemeral:local":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}' \
+            "SANDBOX_BROKER_IMAGE_DIGEST=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"; do
+            key="${kv%%=*}"
+            if grep -q "^${key}=" .env; then
+              sed -i "s|^${key}=.*|${kv}|" .env
+            else
+              echo "$kv" >> .env
+            fi
+          done
       - name: Run QA shard
         if: matrix.kind == 'qa'
         env:
           DBCAS_QA_LOAD: ${{ matrix.qa_load }}
         run: node scripts/browser-qa.mjs 1
+      - name: Broker leak check
+        if: always() && matrix.kind == 'qa' && matrix.name == 'qa-1'
+        shell: bash
+        run: |
+          left=$(docker ps -aq --filter name=dbcas-broker- || true)
+          echo "leftover broker containers: ${left:-none}"
+          test -z "$left"
       - name: Upload QA docker events
         if: always() && matrix.kind == 'qa'
         uses: actions/upload-artifact@v4

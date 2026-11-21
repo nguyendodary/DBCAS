@@ -32,8 +32,8 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 ## In progress and next
 
-- This docs PR: [broker validation record](../analysis/broker-validation.md) — docs only; do not merge implementation PRs from it.
-- [#80](https://github.com/nguyendodary/DBCAS/pull/80): broker runtime behind default-OFF `SANDBOX_BROKER` (head `2bd0417`) — **OPEN, NOT MERGED**; exact-head [run 44903786066](https://github.com/nguyendodary/DBCAS/actions/runs/44903786066) green 14/14. Broker-ON draft validation [#81](https://github.com/nguyendodary/DBCAS/pull/81) was red ([run 44907556308](https://github.com/nguyendodary/DBCAS/actions/runs/44907556308)) and is closed; see [validation record](../analysis/broker-validation.md).
+- B2 implementation PR (this PR): route ephemeral execution through the broker behind default-OFF `SANDBOX_BROKER`; docs-only design is [PR-B2 design](../analysis/pr-b2-design.md). Do not merge until criteria in [broker validation](../analysis/broker-validation.md) pass; API keeps Docker CLI/socket until a later cutover PR.
+- [#80](https://github.com/nguyendodary/DBCAS/pull/80): **OPEN, NOT MERGED**; new exact head `8f07042` after runtime/probe fixes; previous exact-head [run 44903786066](https://github.com/nguyendodary/DBCAS/actions/runs/44903786066) green 14/14. Broker-ON draft validation [#81](https://github.com/nguyendodary/DBCAS/pull/81) was red ([run 44907556308](https://github.com/nguyendodary/DBCAS/actions/runs/44907556308)) and closed; see [validation record](../analysis/broker-validation.md).
 - Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks

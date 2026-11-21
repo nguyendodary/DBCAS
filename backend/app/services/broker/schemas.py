@@ -33,6 +33,26 @@ class BrokerRequest(StrictModel):
     capability: str = Field(min_length=16, max_length=4096)
 
 
+class BrokerExecutionRequest(StrictModel):
+    """B2 execution request; raw SQL text is never logged or bound into a capability.
+
+    The hashes of both SQL strings are bound into the capability and rechecked
+    against the executed strings by the broker before any container starts.
+    """
+
+    version: int = Field(default=1, ge=1, le=1)
+    operation: str = Field(pattern="^run_sql$")
+    request_id: UUID
+    dataset_id: str = Field(pattern="^[A-Za-z0-9_-]{1,64}$")
+    dataset_digest: str = Field(pattern=_SHA256)
+    script_hash: str = Field(pattern=_SHA256)
+    setup_hash: str = Field(pattern=_SHA256)
+    script: str = Field(min_length=1, max_length=16000)
+    limits: BrokerLimits
+    requester: str = Field(pattern=_OPAQUE)
+    capability: str = Field(min_length=16, max_length=4096)
+
+
 class BrokerResponse(StrictModel):
     request_id: UUID
     operation: str
