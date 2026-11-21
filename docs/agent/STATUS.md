@@ -1,8 +1,8 @@
 # Status snapshot
 
-Date: 2026-11-20. Overwrite this snapshot when state changes; do not treat it as CI evidence.
+Date: 2026-11-21. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [ab5d9629ff5f2bed0325e72867b238343880f630](https://github.com/nguyendodary/DBCAS/commit/ab5d9629ff5f2bed0325e72867b238343880f630); `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858). These SHAs are **as of the base of this PR; update after merge**.
+Last verified: `develop2` [10c29586b569d5fd8068cc477aef682dca113be9](https://github.com/nguyendodary/DBCAS/commit/10c29586b569d5fd8068cc477aef682dca113be9); `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -14,15 +14,22 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - [#63](https://github.com/nguyendodary/DBCAS/pull/63): collect demo-seed diagnostics — merge `5919ce2be21f130d2ccd6d989b4703411826817b`.
 - [#64](https://github.com/nguyendodary/DBCAS/pull/64): SQL sandbox audit and design — merge `a43ff087087df3fe184970e20a211e8e9754b49c`.
 - [#65](https://github.com/nguyendodary/DBCAS/pull/65): AST classification and opt-in read-only scripts — merge `ab5d9629ff5f2bed0325e72867b238343880f630`.
+- [#68](https://github.com/nguyendodary/DBCAS/pull/68): agent knowledge base — merge `a42513509c52dd8818d191bb85688a97892c306b`.
+- [#69](https://github.com/nguyendodary/DBCAS/pull/69): SQL sandbox executor broker design, merged as documentation only and **not owner-approved** — merge `10c29586b569d5fd8068cc477aef682dca113be9`.
+- [#70](https://github.com/nguyendodary/DBCAS/pull/70): retry the Docker readiness probe — merge `06ac8a254265a9f539697d887d7fc58cca59dcc3`.
+
+CI on `10c29586`: [run 44792968574 attempt 1](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/1) was red (qa-1 `sandbox_busy`, [#71](https://github.com/nguyendodary/DBCAS/issues/71)); the single authorized [attempt 2](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/2) was green (14/14).
 
 ## In progress and next
 
-- Agent knowledge base [#68](https://github.com/nguyendodary/DBCAS/pull/68) (this PR).
-- Broker PR-A [#69](https://github.com/nguyendodary/DBCAS/pull/69); readiness fix [#70](https://github.com/nguyendodary/DBCAS/pull/70).
-- Next: [broker and readiness queue](BACKLOG.md); resolve [owner decisions](BACKLOG.md).
+- This STATUS/BACKLOG update PR only.
+- Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks
 
-- Demo-seed CI failure cause is undetermined; use [RUNBOOK](RUNBOOK.md) and [#63](https://github.com/nguyendodary/DBCAS/pull/63).
-- API Docker socket access: [#66](https://github.com/nguyendodary/DBCAS/issues/66); Docker readiness timeout: [#67](https://github.com/nguyendodary/DBCAS/issues/67).
+- [#66](https://github.com/nguyendodary/DBCAS/issues/66): API mounts `docker.sock`; the broker design in [#69](https://github.com/nguyendodary/DBCAS/pull/69) is documentation only and not owner-approved, so writable execution remains blocked.
+- [#67](https://github.com/nguyendodary/DBCAS/issues/67): Docker readiness timeout; fix merged in [#70](https://github.com/nguyendodary/DBCAS/pull/70), issue open for the owner to close after observing CI.
+- [#71](https://github.com/nguyendodary/DBCAS/issues/71): qa-1 `sandbox_busy` under load — flaky, cause **UNKNOWN — owner must confirm**.
+- [#55](https://github.com/nguyendodary/DBCAS/issues/55): Docker container-create timeouts; open.
+- Local Docker/WSL verification was skipped by owner decision; local `dbcas-*` containers/volumes are unidentified and must not be touched.
 - Production substrate, release gates and owners: **UNKNOWN — owner must confirm**; see [BACKLOG](BACKLOG.md).
