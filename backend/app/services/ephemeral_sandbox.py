@@ -10,6 +10,8 @@ import time
 import uuid
 from contextlib import contextmanager
 
+from .broker.client import build_broker_client
+from .broker.service import BrokerError
 from .dataset_setup import validated_setup_statements
 from .sandbox_diagnostics import SlotDiagnostics, log_rejection
 from .sandbox_runner import SandboxError, SandboxResult
@@ -36,6 +38,10 @@ class EphemeralSandboxRunner:
         self.deadlines = {}
         self._capacity = threading.local()
         self.diagnostics = SlotDiagnostics(_SLOT_COUNT)
+        self._broker_datasets = {}
+        self._broker = (build_broker_client(settings)
+                        if settings.sandbox_broker and settings.sandbox_broker_runtime != "stub"
+                        else None)
 
     @contextmanager
     def grading_capacity(self):
@@ -151,6 +157,10 @@ class EphemeralSandboxRunner:
             validated_setup_statements(setup_sql, self.settings.sandbox_max_setup_bytes)
         except ValueError as exc:
             raise SandboxError("dataset_setup_failed", str(exc)) from None
+        if self._broker is not None:
+            token = "ds_broker_" + uuid.uuid4().hex
+            self._broker_datasets[token] = setup_sql
+            return token
         name = self._create()
         try:
             schema = self._call(name, "provision", setup_sql)
@@ -167,6 +177,16 @@ class EphemeralSandboxRunner:
         error = validate_learner_sql(sql_text, allowed_schemas=frozenset({schema}) if schema else frozenset())
         if error:
             return SandboxResult(False, error_type=error[0], error_message=error[1])
+        if self._broker is not None:
+            setup_sql = self._broker_datasets.pop(schema, "") if schema else ""
+            try:
+                response = self._broker.execute_sql(
+                    setup_sql, sql_text,
+                    grading=self.diagnostics.purpose.startswith("grading"),
+                )
+            except BrokerError as exc:
+                raise SandboxError(exc.code, exc.message) from None
+            return SandboxResult(**response["result"])
         name = self.leases.get(schema) if schema else self._create()
         if not name:
             raise SandboxError("sandbox_unavailable", "SQL dataset lease is no longer available")
@@ -199,6 +219,9 @@ class EphemeralSandboxRunner:
                 self._cleanup(name)
 
     def drop_dataset(self, schema):
+        if self._broker is not None:
+            self._broker_datasets.pop(schema, None)
+            return
         name = self.leases.pop(schema, None)
         if name:
             self._cleanup(name)

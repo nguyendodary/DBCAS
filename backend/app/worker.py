@@ -33,6 +33,12 @@ def maintenance_tick(*, allow_provider_calls=None):
         # Never approves or rejects on the learner's behalf.
         reclaim_and_expire(db)
         db.commit()
+        if settings.sandbox_broker:
+            # B2 reaper: only the broker owns and removes its own executors.
+            from .services.broker.client import get_broker_service
+            service = get_broker_service(settings)
+            if service is not None:
+                service.reap()
         runner = build_sandbox_runner(settings)
         for _ in range(10):
             llm = build_llm_service(settings, db) if include_essay else None
