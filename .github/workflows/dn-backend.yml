@@ -8,6 +8,15 @@ on:
     branches: [develop2, main]
 permissions:
   contents: read
+# TEMPORARY CI VALIDATION ONLY: enable the broker in every job of this draft PR.
+# Never merge this workflow change.
+env:
+  SANDBOX_BROKER: "true"
+  SANDBOX_BROKER_RUNTIME: "docker"
+  SANDBOX_BROKER_ISSUER_KEY: "ci-validation-issuer-key"
+  SANDBOX_BROKER_DATASET_DIGESTS: '{"learner_dataset":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}'
+  SANDBOX_BROKER_ALLOWED_IMAGES: '{"dbcas-sql-ephemeral:local":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}'
+  SANDBOX_BROKER_IMAGE_DIGEST: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
