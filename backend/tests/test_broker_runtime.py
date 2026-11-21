@@ -88,7 +88,8 @@ def test_execution_rejects_bad_capability():
     body = {
         "version": 1, "operation": "run_sql", "request_id": response["request_id"],
         "dataset_id": "learner_dataset", "dataset_digest": DATA_DIGEST,
-        "script_hash": hashlib.sha256(b"SELECT 1").hexdigest(), "script": "SELECT 1",
+        "script_hash": hashlib.sha256(b"SELECT 1").hexdigest(),
+        "setup_hash": hashlib.sha256(b"").hexdigest(), "script": "SELECT 1",
         "limits": {"wall_ms": 3000}, "requester": "opaque-learner",
         "capability": "invalid-capability-value",
     }
@@ -96,6 +97,26 @@ def test_execution_rejects_bad_capability():
     with pytest.raises(BrokerError) as exc:
         service.execute(body, "", "SELECT 1")
     assert exc.value.code == "broker_capability_invalid"
+
+
+def test_execution_rejects_sql_hash_mismatch():
+    settings = settings_for()
+    service = get_broker_service(settings)
+    service.runtime = FakeRuntime(settings)
+    client = BrokerClient(settings)
+    body = {
+        "version": 1, "operation": "run_sql", "request_id": __import__("uuid").uuid4(),
+        "dataset_id": "learner_dataset", "dataset_digest": DATA_DIGEST,
+        "script_hash": hashlib.sha256(b"SELECT 1").hexdigest(),
+        "setup_hash": hashlib.sha256(b"").hexdigest(),
+        "script": "SELECT 2", "limits": {"wall_ms": 3000},
+        "requester": "opaque-learner", "capability": "",
+    }
+    from app.services.broker.service import issue_capability
+    body["capability"] = issue_capability({k: v for k, v in body.items() if k != "script"}, settings)
+    with pytest.raises(BrokerError) as exc:
+        service.execute(body, "", "SELECT 2")
+    assert exc.value.code == "broker_script_hash_mismatch"
 
 
 def test_constrained_runtime_arguments_and_reaper():
@@ -121,6 +142,7 @@ def test_constrained_runtime_arguments_and_reaper():
     assert "--security-opt" in create
     assert create[create.index("--security-opt") + 1] == "no-new-privileges:true"
     assert "--pids-limit" in create and "--memory" in create and "--cpus" in create
+    assert create.count("--tmpfs") == 3  # writable runtime dirs, no host mounts
     assert IMAGE in create
     runtime._leases["container-1"] = 0
     runtime.reap()

@@ -52,15 +52,16 @@ class BrokerClient:
                     requester="opaque-learner", grading=False):
         """B2: run one learner statement through the constrained broker runtime."""
         digests = self.settings.sandbox_broker_dataset_digests
-        if not digests:
-            raise BrokerError("broker_dataset_not_allowed", "Dataset digest is not allow-listed")
+        if dataset_id not in digests:
+            raise BrokerError("broker_dataset_not_allowed", "Dataset id is not allow-listed")
         body = {
             "version": 1,
             "operation": "run_sql",
             "request_id": uuid.uuid4(),
             "dataset_id": dataset_id,
-            "dataset_digest": next(iter(digests.values())),
+            "dataset_digest": digests[dataset_id],
             "script_hash": hashlib.sha256(sql.encode("utf-8")).hexdigest(),
+            "setup_hash": hashlib.sha256((setup_sql or "").encode("utf-8")).hexdigest(),
             "script": sql,
             "limits": {"wall_ms": self.settings.sandbox_statement_timeout_ms},
             "requester": requester,

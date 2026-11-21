@@ -49,6 +49,9 @@ class ConstrainedRuntime:
             "--pids-limit", str(template["pids_limit"]),
             "--memory", f"{template['memory_mb']}m",
             "--cpus", str(template["cpus"]),
+            "--tmpfs", "/var/lib/postgresql/data:rw,uid=10001,gid=10001,mode=0700,size=192m",
+            "--tmpfs", "/var/run/postgresql:rw,uid=10001,gid=10001,mode=0700,size=4m",
+            "--tmpfs", "/tmp:rw,noexec,nosuid,size=8m",
             "--entrypoint", "/bin/sh", self._allowed_image(), "-c", command,
         ]
 
@@ -89,7 +92,8 @@ class ConstrainedRuntime:
         now = time.monotonic()
         with self._lock:
             expired = [name for name, deadline in self._leases.items() if deadline <= now]
-            self._leases.clear()
+            for name in expired:
+                self._leases.pop(name, None)
         for name in expired:
             try:
                 self._docker(["docker", "rm", "-f", name])

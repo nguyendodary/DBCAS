@@ -113,6 +113,7 @@ class BrokerService:
         validate_broker_config(settings)
         self.settings = settings
         self._seen = {}
+        self._max_seen = 1000  # bounded replay ledger
         self.admission = BrokerAdmission(
             settings.sandbox_broker_queue_size,
             max(1, settings.sandbox_broker_queue_size // 4),
@@ -120,6 +121,11 @@ class BrokerService:
         )
         from .runtime import build_runtime
         self.runtime = build_runtime(settings)
+
+    def _remember(self, key, value):
+        if len(self._seen) >= self._max_seen:
+            self._seen.pop(next(iter(self._seen)))
+        self._seen[key] = value
 
     def health(self):
         return {
@@ -138,6 +144,10 @@ class BrokerService:
         try:
             request = BrokerExecutionRequest.model_validate(body)
             verify_capability(request, self.settings, self.settings.sandbox_broker_peer_identity)
+            if hashlib.sha256(sql.encode("utf-8")).hexdigest() != request.script_hash:
+                raise BrokerError("broker_script_hash_mismatch", "SQL does not match the approved hash")
+            if hashlib.sha256((setup_sql or "").encode("utf-8")).hexdigest() != request.setup_hash:
+                raise BrokerError("broker_script_hash_mismatch", "Dataset setup does not match the approved hash")
             if self.settings.sandbox_broker_dataset_digests.get(request.dataset_id) != request.dataset_digest:
                 raise BrokerError("broker_dataset_not_allowed", "Dataset digest is not allow-listed")
             canonical = _canonical(request)
@@ -157,7 +167,7 @@ class BrokerService:
                 "duration_ms": int((time.monotonic() - started) * 1000),
                 "result": result,
             }
-            self._seen[str(request.request_id)] = (canonical, response)
+            self._remember(str(request.request_id), (canonical, response))
             self._audit(request, "accepted", type("Audit", (), {
                 "result_class": response["result_class"],
                 "duration_ms": response["duration_ms"],
@@ -195,7 +205,7 @@ class BrokerService:
                 operation=request.operation,
                 duration_ms=int((time.monotonic() - started) * 1000),
             )
-            self._seen[str(request.request_id)] = (canonical, response)
+            self._remember(str(request.request_id), (canonical, response))
             self._audit(request, "accepted", response)
             return response
         except BrokerError as exc:
