@@ -29,8 +29,8 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 ## In progress and next
 
 - This STATUS/BACKLOG refresh PR only.
-- [#75](https://github.com/nguyendodary/DBCAS/pull/75): qa-1 `sandbox_busy` diagnostics (head `bc496e5`) — OPEN; its [CI run 44866992823](https://github.com/nguyendodary/DBCAS/actions/runs/44866992823) was red at `npm run inventory:check` (generated `docs/inventory/api-routes.json` drift from the router edit); phase stopped, evidence in `_review/merge-20261121/pr75-frontend-static-failed.log`. Backend 1874 passed and qa-1 load was clean in that run.
-- [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `03e58f1`) — OPEN, not owner-approved; its [CI run 44869020870](https://github.com/nguyendodary/DBCAS/actions/runs/44869020870) was red at `npm run inventory:check` (generated `docs/inventory/api-routes.json` drift from the `backend/app/main.py` edit); phase stopped, evidence in `_review/merge-20261121/pr76-frontend-static-failed.log`; the backend job also failed `test_every_public_configuration_name_is_documented` because the new `SANDBOX_BROKER*` names are absent from `.env.example` (1 failed, 1882 passed; `_review/merge-20261121/pr76-backend-failed.log`).
+- [#75](https://github.com/nguyendodary/DBCAS/pull/75): qa-1 `sandbox_busy` diagnostics (head `e2d708f`) — OPEN, not merged. Generated route inventory regenerated with the repo generator; [CI run 44883469636](https://github.com/nguyendodary/DBCAS/actions/runs/44883469636) is green, 14/14 jobs, backend 1874 passed. May merge after owner review.
+- [#76](https://github.com/nguyendodary/DBCAS/pull/76): broker skeleton behind default-OFF `SANDBOX_BROKER` (head `9486c6e`) — OPEN, not merged, not owner-approved. `.env.example` now documents all `SANDBOX_BROKER*` keys and the route inventory is regenerated; [CI run 44883772415](https://github.com/nguyendodary/DBCAS/actions/runs/44883772415) is green, 14/14 jobs, backend 1883 passed.
 - Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks
@@ -38,7 +38,7 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 - [#66](https://github.com/nguyendodary/DBCAS/issues/66): API mounts `docker.sock`; the broker design in [#69](https://github.com/nguyendodary/DBCAS/pull/69) is documentation only and not owner-approved, so writable execution remains blocked.
 - [#67](https://github.com/nguyendodary/DBCAS/issues/67): Docker readiness timeout; fix merged in [#70](https://github.com/nguyendodary/DBCAS/pull/70), issue open for the owner to close after observing CI.
 - [#71](https://github.com/nguyendodary/DBCAS/issues/71): qa-1 `sandbox_busy` under load — flaky, cause **UNKNOWN — owner must confirm**. Diagnostics collection plan: fix the #75 inventory drift, merge diagnostics, then read the `sandbox_busy rejection` fields described in [the analysis](../analysis/qa1-sandbox-busy.md) from the next failed qa-1 log.
-- Owner actions pending: review [owner decisions](../analysis/owner-decisions.md) and approve or amend the assumed defaults before #76 is merged; identify local `dbcas-*` containers and volumes; decide on local branch `docs/pending-readiness-edits`.
+- Owner actions pending: review [owner decisions](../analysis/owner-decisions.md) and approve or amend the assumed defaults (channel, TTL 300 s, 30-day audit retention and the `SANDBOX_BROKER`/`BROKER_ENABLED` naming decision) **before #76 is merged**; #75 may merge after owner review. Identify local `dbcas-*` containers and volumes; decide on local branch `docs/pending-readiness-edits`.
 - [#55](https://github.com/nguyendodary/DBCAS/issues/55): Docker container-create timeouts; open.
 - Local Docker/WSL verification was skipped by owner decision; local `dbcas-*` containers/volumes are unidentified and must not be touched.
 - Production substrate, release gates and owners: **UNKNOWN — owner must confirm**; see [BACKLOG](BACKLOG.md).
