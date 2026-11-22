@@ -50,9 +50,13 @@ Accounts (local demo only): `admin@dbcas.local` / `Demo12345!`,
   `SANDBOX_MODE=ephemeral`. No new `docker.sock` mount is added; the existing
   ephemeral container uses `--network none`, read-only rootfs, dropped caps,
   a TTL and rollback-only transactions.
-- Free/Pro flags (`FREE_PRO_ENABLED`, `PRO_DEMO_CHECKOUT_ENABLED`,
-  `COST_REPORTING_ENABLED`) remain OFF; the design is in
-  [free-pro-design](../analysis/free-pro-design.md).
+- `DBCAS_DEMO_PROFILE=free-pro` adds `docker-compose.demo-free-pro.yml` and
+  builds the frontend with `VITE_DEMO_FREE_PRO=true`. This is a **UI-only
+  simulation**: static sample costs, an in-browser plan badge and a fake
+  upgrade button; no backend route, migration, API call, payment or stored
+  data. Default is OFF. Combine profiles as `writable,free-pro` if needed.
+- Backend Free/Pro design flags (`FREE_PRO_ENABLED`, etc.) are not used; the
+  design is in [free-pro-design](../analysis/free-pro-design.md).
 
 ## Offline AI fallback (deterministic QA provider)
 

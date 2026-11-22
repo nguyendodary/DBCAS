@@ -5,6 +5,8 @@ RUN npm ci
 COPY frontend/ ./
 ARG VITE_LOCAL_MAILBOX_URL=""
 ENV VITE_LOCAL_MAILBOX_URL=$VITE_LOCAL_MAILBOX_URL
+ARG VITE_DEMO_FREE_PRO="false"
+ENV VITE_DEMO_FREE_PRO=$VITE_DEMO_FREE_PRO
 RUN npm run build
 FROM nginx:1.29-alpine
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf

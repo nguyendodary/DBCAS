@@ -1,0 +1,6 @@
+# Demo-only UI simulation. No backend route, migration or payment.
+services:
+  frontend:
+    build:
+      args:
+        VITE_DEMO_FREE_PRO: 'true'

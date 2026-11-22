@@ -2,7 +2,7 @@
 
 Date: 2026-11-22. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [21270b60cee7c9374e409b97c61b6495f48f4c5a](https://github.com/nguyendodary/DBCAS/commit/21270b60cee7c9374e409b97c61b6495f48f4c5a) as of 2026-11-22; do not chase later SHAs. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Last verified: `develop2` [986f992d771c6cceecac5b9fe00fc2c969dc1745](https://github.com/nguyendodary/DBCAS/commit/986f992d771c6cceecac5b9fe00fc2c969dc1745) as of 2026-11-22; do not chase later SHAs. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -27,6 +27,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - [#82](https://github.com/nguyendodary/DBCAS/pull/82): broker CI validation record — merge `ccf992430b74ac1b1596e0bdee3fb217280d147c`.
 - [#86](https://github.com/nguyendodary/DBCAS/pull/86): practice grid navigation, bank-list payload trimming and E2E — merge `7fa2aa88e79e0a04ac07947f37ef380c7c98b5cf`.
 - [#87](https://github.com/nguyendodary/DBCAS/pull/87): Free/Pro and cost reporting design — merge `21270b60cee7c9374e409b97c61b6495f48f4c5a`.
+- [#91](https://github.com/nguyendodary/DBCAS/pull/91): synthetic demo runbook and demo review state — merge `b54e0b67b8777a26ced1e58cf3566c5d20d98deb`.
 
 CI on `10c29586`: [run 44792968574 attempt 1](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/1) was red (qa-1 `sandbox_busy`, [#71](https://github.com/nguyendodary/DBCAS/issues/71)); the single authorized [attempt 2](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/2) was green (14/14).
 CI on `a343ab0`: [run 44857868535](https://github.com/nguyendodary/DBCAS/actions/runs/44857868535) passed all jobs, including qa-1, qa-2 and qa-3.
@@ -35,11 +36,11 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 ## In progress and next
 
-- Demo build: [#89](https://github.com/nguyendodary/DBCAS/pull/89) seed snapshot and [#90](https://github.com/nguyendodary/DBCAS/pull/90) opt-in writable SQL are **awaiting owner review**; both flags remain OFF by default.
-- [#91](https://github.com/nguyendodary/DBCAS/pull/91): [demo runbook](../demo/README.md) — docs-only, awaiting owner review.
+- [#90](https://github.com/nguyendodary/DBCAS/pull/90): opt-in writable SQL — **merged as `986f992`**; flags remain OFF by default.
+- [#93](https://github.com/nguyendodary/DBCAS/pull/93): Free/Pro **UI-only** simulation (`VITE_DEMO_FREE_PRO`, default OFF) — awaiting owner review; no route/migration/API.
+- [#89](https://github.com/nguyendodary/DBCAS/pull/89): **skipped** by owner decision; do not merge. **#92** rehearsal closed.
 - [#80](https://github.com/nguyendodary/DBCAS/pull/80): **closed for the demo scope**, not merged; branch/worktree kept. Broker stays OFF.
-- Free/Pro and cost reporting: [design](../analysis/free-pro-design.md) merged; implementation is blocked until the owner approves generated `docs/qa/**` changes. OTP vs reset-link ([#25](https://github.com/nguyendodary/DBCAS/pull/25)) and `docs/pending-readiness-edits` remain owner items.
-- Next: [BACKLOG](BACKLOG.md).
+- Next: [BACKLOG](BACKLOG.md); owner applies `demo-v1` after the selected demo PRs merge.
 
 ## Blockers and risks
 

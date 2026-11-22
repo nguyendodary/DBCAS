@@ -101,7 +101,12 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     throw new Error('Docker chưa sẵn sàng. Mở Docker Desktop (Linux containers) rồi chạy lại npm start.')
   }
   const compose = ['compose', '--project-name', project, '-f', 'docker-compose.local.yml']
-  if ((env.DBCAS_DEMO_PROFILE || '').trim() === 'writable') {
+  const profiles = (env.DBCAS_DEMO_PROFILE || '').split(',').map((value) => value.trim())
+  if (profiles.includes('free-pro')) {
+    compose.push('-f', 'docker-compose.demo-free-pro.yml')
+    console.log('Demo Free/Pro UI simulation enabled (static data only).')
+  }
+  if (profiles.includes('writable')) {
     compose.push('-f', 'docker-compose.demo-writable.yml')
     console.log('Demo writable SQL profile enabled (development only).')
   }
