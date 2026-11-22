@@ -272,10 +272,9 @@ class Settings(BaseSettings):
         # Writable learner SQL is a per-execution container boundary outside
         # development. Fail closed at startup — never silently fall back to
         # the shared sandbox or grant the API new Docker privileges.
-        if (self.sandbox_writable and self.deployment_mode != "development"
-                and self.sandbox_mode != "ephemeral"):
+        if self.sandbox_writable and self.sandbox_mode != "ephemeral":
             raise ValueError(
-                "SANDBOX_WRITABLE outside development requires SANDBOX_MODE=ephemeral"
+                "SANDBOX_WRITABLE requires SANDBOX_MODE=ephemeral in every deployment mode"
             )
         if self.smtp_host.strip().lower() == "mailpit":
             raise ValueError("SMTP_HOST must not be the development Mailpit service outside development")

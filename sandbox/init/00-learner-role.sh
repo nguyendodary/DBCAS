@@ -7,14 +7,14 @@
 set -e
 
 LEARNER_PASSWORD="${SANDBOX_LEARNER_PASSWORD:-learner_ro_dev}"
-WRITABLE_PASSWORD="${SANDBOX_WRITABLE_PASSWORD:-learner_rw_dev}"
+WRITABLE_PASSWORD="${SANDBOX_WRITABLE_PASSWORD:-}"
 STMT_TIMEOUT="${SANDBOX_STATEMENT_TIMEOUT_MS:-3000}"
 if ! [[ "$STMT_TIMEOUT" =~ ^[0-9]+$ ]] || (( STMT_TIMEOUT < 1 || STMT_TIMEOUT > 3000 )); then
     echo 'SANDBOX_STATEMENT_TIMEOUT_MS must be an integer from 1 to 3000' >&2
     exit 1
 fi
 
-psql -v ON_ERROR_STOP=1 -v learner_password="$LEARNER_PASSWORD" -v writable_password="$WRITABLE_PASSWORD" -v statement_timeout="$STMT_TIMEOUT" -v database_name="$POSTGRES_DB" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+psql -v ON_ERROR_STOP=1 -v learner_password="$LEARNER_PASSWORD" -v statement_timeout="$STMT_TIMEOUT" -v database_name="$POSTGRES_DB" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     -- Unprivileged executor role: SELECT only, no CREATE, no TEMP objects,
     -- read-only by default even outside an explicit transaction.
     CREATE ROLE learner_ro LOGIN PASSWORD :'learner_password';
@@ -27,7 +27,10 @@ psql -v ON_ERROR_STOP=1 -v learner_password="$LEARNER_PASSWORD" -v writable_pass
     GRANT USAGE ON SCHEMA public TO learner_ro;
     GRANT SELECT ON ALL TABLES IN SCHEMA public TO learner_ro;
     ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO learner_ro;
+EOSQL
 
+if [ -n "$WRITABLE_PASSWORD" ]; then
+psql -v ON_ERROR_STOP=1 -v writable_password="$WRITABLE_PASSWORD" -v statement_timeout="$STMT_TIMEOUT" -v database_name="$POSTGRES_DB" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     -- Demo-only writable role. It has no database/schema creation rights; the
     -- per-execution provisioner grants access only to the disposable dataset
     -- schema. Every transaction is rolled back and the container is discarded.
@@ -38,3 +41,4 @@ psql -v ON_ERROR_STOP=1 -v learner_password="$LEARNER_PASSWORD" -v writable_pass
     ALTER ROLE learner_rw SET idle_in_transaction_session_timeout = '15s';
     GRANT CONNECT ON DATABASE :"database_name" TO learner_rw;
 EOSQL
+fi

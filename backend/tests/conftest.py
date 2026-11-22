@@ -141,7 +141,9 @@ def _start_test_sandbox() -> str:
     docker_command("build", "-q", "-t", "dbcas-sandbox-test", str(ROOT / "sandbox"), timeout=180)
     name = f"dbcas-sandbox-{uuid.uuid4().hex[:8]}"
     admin_dsn = _run_postgres_container(
-        name, "dbcas-sandbox-test", {"SANDBOX_LEARNER_PASSWORD": "test"}, "postgres"
+        name, "dbcas-sandbox-test",
+        {"SANDBOX_LEARNER_PASSWORD": "test", "SANDBOX_WRITABLE_PASSWORD": "learner_rw_dev"},
+        "postgres",
     )
     # The init script creates learner_ro after the server accepts TCP — wait
     # for the role to actually authenticate before tests use it.

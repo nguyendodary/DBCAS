@@ -20,7 +20,6 @@ setup data never reach the learner.
 import logging
 from decimal import Decimal, ROUND_HALF_UP
 
-from ..config import get_settings
 from ..errors import AppError
 from ..models import Question, SqlTestDataset
 from . import sql_features, sql_result
@@ -48,11 +47,9 @@ def _evaluate_dataset(
     except SandboxError:
         raise
     try:
-        settings = get_settings()
-        if settings.sandbox_writable and settings.sandbox_multi_statement:
-            result = runner.execute_writable_script(sql_text, schema=schema)
-        else:
-            result = runner.execute(sql_text, schema=schema)
+        # Grading stays read-only: writable DML/DDL is a demo editor feature,
+        # never a way to earn a result-based SQL score.
+        result = runner.execute(sql_text, schema=schema)
     finally:
         runner.drop_dataset(schema)
 

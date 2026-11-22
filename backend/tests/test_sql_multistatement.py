@@ -82,6 +82,37 @@ def test_script_row_cap(sandbox_runner, dataset):
     assert result.error_type == "result_too_large"
 
 
+def test_writable_grading_stays_read_only(monkeypatch):
+    """A DML RETURNING answer must not be graded through the writable executor."""
+    from decimal import Decimal
+    from types import SimpleNamespace
+    from app.config import get_settings
+    from app.services.sandbox_runner import SandboxResult
+    from app.services.sql_grading import grade_sql
+
+    monkeypatch.setenv("SANDBOX_WRITABLE", "true")
+    monkeypatch.setenv("SANDBOX_MULTI_STATEMENT", "true")
+    monkeypatch.setenv("SANDBOX_MODE", "ephemeral")
+    get_settings.cache_clear()
+
+    class ReadOnlyRunner:
+        def provision_dataset(self, _setup): return "ds_test"
+        def drop_dataset(self, _schema): return None
+        def execute(self, _sql, schema=None):
+            return SandboxResult(success=True, columns=["id"], column_types=["number"],
+                                 rows=[[1]], row_count=1)
+        def execute_writable_script(self, *_args, **_kwargs):
+            raise AssertionError("grading must never use the writable executor")
+
+    question = SimpleNamespace(points=Decimal("1"))
+    dataset = SimpleNamespace(dataset_name="base", is_edge_case=False,
+                              expected_result={"columns": ["id"], "rows": [[1]]})
+    result = grade_sql(question, [dataset], [], "UPDATE demo_t SET id=1 RETURNING id",
+                       ReadOnlyRunner())
+    assert result["score"] == Decimal("1")
+    get_settings.cache_clear()
+
+
 def test_writable_ddl_dml_select_and_cleanup(sandbox_runner):
     settings = get_settings().model_copy(update={"sandbox_writable": True})
     writable = SandboxRunner(settings)
@@ -142,11 +173,44 @@ def test_writable_policy_allows_ddl_dml_and_select():
     "CREATE ROLE attacker",
     "CREATE EXTENSION dblink",
     "VACUUM demo_t",
+    "UPDATE demo_t SET note='x' RETURNING id",
+    "DELETE FROM demo_t RETURNING *",
+    "DROP TABLE demo_t",
+    "ALTER TABLE demo_t ADD COLUMN extra INT",
+    "COMMENT ON TABLE demo_t IS 'x'",
+    "CREATE TEMP TABLE evil(id INT)",
 ])
 def test_writable_policy_rejects_privilege_and_admin_statements(sql):
     issue = validate_writable_script(sql)
     assert issue is not None
     assert issue[0] == "prohibited_statement"
+
+
+@pytest.mark.parametrize("sql", [
+    "CREATE TABLE public.evil(id INT)",
+    "SELECT * FROM pg_catalog.pg_tables",
+])
+def test_writable_policy_rejects_out_of_schema_objects(sql):
+    issue = validate_writable_script(sql)
+    assert issue is not None
+    assert issue[0] == "forbidden_schema"
+
+
+@pytest.mark.parametrize("mode", ["development", "staging"])
+def test_writable_requires_ephemeral_in_every_mode(mode):
+    with pytest.raises(ValueError, match="SANDBOX_MODE=ephemeral"):
+        Settings(
+            _env_file=None,
+            deployment_mode=mode,
+            jwt_secret="A" * 40,
+            database_url="postgresql://u:longpassword123456@db-host:5432/dbcas",
+            sandbox_url="postgresql://learner_ro:longpassword123456@sandbox-host:5432/postgres",
+            sandbox_admin_url="postgresql://postgres:longpassword123456@sandbox-host:5432/postgres",
+            frontend_url="https://example.edu",
+            cors_origins=["https://example.edu"],
+            sandbox_writable=True,
+            sandbox_mode="shared",
+        )
 
 
 def test_writable_outside_development_requires_ephemeral():

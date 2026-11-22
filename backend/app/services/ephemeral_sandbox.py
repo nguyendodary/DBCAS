@@ -113,7 +113,8 @@ class EphemeralSandboxRunner:
                          "--tmpfs", "/tmp:rw,noexec,nosuid,size=8m",
                          "-e", "POSTGRES_PASSWORD=" + secrets.token_urlsafe(32),
                          "-e", "SANDBOX_LEARNER_PASSWORD=" + secrets.token_urlsafe(32),
-                         "-e", "SANDBOX_WRITABLE_PASSWORD=" + secrets.token_urlsafe(32),
+                         "-e", "SANDBOX_WRITABLE_PASSWORD=" + (
+                             secrets.token_urlsafe(32) if self.settings.sandbox_writable else ""),
                          "-e", "SANDBOX_STATEMENT_TIMEOUT_MS=" + str(self.settings.sandbox_statement_timeout_ms),
                          "--entrypoint", "/bin/sh", self.settings.sandbox_container_image, "-c", command)
             self._docker("start", name)

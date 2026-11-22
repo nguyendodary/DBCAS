@@ -4,5 +4,6 @@
 services:
   app:
     environment:
+      SANDBOX_MODE: ephemeral
       SANDBOX_WRITABLE: 'true'
       SANDBOX_MULTI_STATEMENT: 'true'
