@@ -149,10 +149,12 @@ def build_inventory(db, concept, start_band):
     db.execute(select(Question.question_id).where(Question.question_id.in_(ids))
                .order_by(Question.question_id).with_for_update(read=True)).all()
     bank = QuestionRepository(db)
+    loaded = {question.question_id: question for question in db.scalars(
+        select(Question).where(Question.question_id.in_(ids)).options(*bank._detail_loads())
+        .execution_options(populate_existing=True))}
     inventory, families = [], set()
     for question_id in ids:
-        question = db.scalar(select(Question).where(Question.question_id == question_id)
-                             .options(*bank._detail_loads()).execution_options(populate_existing=True))
+        question = loaded.get(question_id)
         if (question is None or question.status != "validated" or question.source != "bank"
                 or question.question_type != "mcq" or _validation_missing(bank, question)
                 or not any(tag.confirmed and tag.concept_id == concept.concept_id for tag in question.concept_tags)):
