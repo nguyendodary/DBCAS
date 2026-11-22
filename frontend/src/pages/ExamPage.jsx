@@ -788,7 +788,7 @@ function ExamWorkspace({ sessionId, initialState }) {
                 <div className="question-top">
                   <h2 id="question-number">
                     {t('exam.questionOf', {
-                      number: number(state.served_count),
+                      number: number(q?.seq_no ?? state.served_count),
                       max: number(state.max_questions),
                     })}
                   </h2>

@@ -105,9 +105,9 @@ it('opens the selected practice question even if state and list refreshes fail',
   const firstQuestion = { ...current, seq_no: 1, prompt: 'First practice question' }
   const nextQuestion = {
     ...current,
-    seq_no: 2,
-    question_id: 3,
-    prompt: 'Second practice question',
+    seq_no: 3,
+    question_id: 4,
+    prompt: 'Third practice question',
   }
   let questionListCalls = 0
   let sessionStateCalls = 0
@@ -133,10 +133,11 @@ it('opens the selected practice question even if state and list refreshes fail',
   api.post.mockResolvedValue({ data: { done: false, question: nextQuestion } })
   await mount()
   await waitFor(() => expect(questionListCalls).toBe(1))
-  await userEvent.click(screen.getByRole('button', { name: 'Go to question 2' }))
-  expect(await screen.findByText('Second practice question')).toBeVisible()
+  await userEvent.click(screen.getByRole('button', { name: 'Go to question 3' }))
+  expect(await screen.findByText('Third practice question')).toBeVisible()
+  expect(screen.getByRole('heading', { name: 'QUESTION 3 / 3' })).toBeVisible()
   expect(api.post).toHaveBeenCalledWith('/sessions/42/serve-next', null, {
-    params: { display_locale: 'en', seq_no: 2 },
+    params: { display_locale: 'en', seq_no: 3 },
   })
   expect(api.post).not.toHaveBeenCalledWith('/sessions/42/submit', expect.anything())
 })
