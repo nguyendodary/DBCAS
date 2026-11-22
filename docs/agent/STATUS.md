@@ -35,9 +35,10 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 ## In progress and next
 
-- Free/Pro and cost reporting: [design](../analysis/free-pro-design.md) merged; **awaiting owner answers** on plan names, price/free quota, demo vs real payment, report audience and retention.
-- [#80](https://github.com/nguyendodary/DBCAS/pull/80): must be updated from `develop2` and re-validated before any merge — broker-ON probes, qa-1 503 handling decision and p50 gate. Head `5807094`; **OPEN, NOT MERGED**. See [validation record](../analysis/broker-validation.md).
-- Other owner items pending: OTP vs reset-link ([#25](https://github.com/nguyendodary/DBCAS/pull/25)) and `docs/pending-readiness-edits`.
+- Demo build: [#89](https://github.com/nguyendodary/DBCAS/pull/89) seed snapshot and [#90](https://github.com/nguyendodary/DBCAS/pull/90) opt-in writable SQL are **awaiting owner review**; both flags remain OFF by default.
+- [#91](https://github.com/nguyendodary/DBCAS/pull/91): [demo runbook](../demo/README.md) — docs-only, awaiting owner review.
+- [#80](https://github.com/nguyendodary/DBCAS/pull/80): **closed for the demo scope**, not merged; branch/worktree kept. Broker stays OFF.
+- Free/Pro and cost reporting: [design](../analysis/free-pro-design.md) merged; implementation is blocked until the owner approves generated `docs/qa/**` changes. OTP vs reset-link ([#25](https://github.com/nguyendodary/DBCAS/pull/25)) and `docs/pending-readiness-edits` remain owner items.
 - Next: [BACKLOG](BACKLOG.md).
 
 ## Blockers and risks
