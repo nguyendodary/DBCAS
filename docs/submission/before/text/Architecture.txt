@@ -1,0 +1,769 @@
+[P001] [Normal] International School
+[P002] [Normal] Capstone Project 1
+[P003] [Normal] CMU-SE 450_C1SE.70
+[P004] [Normal] Architecture Design Document
+[P005] [Normal] Version 1.2
+[P006] [Normal] Date: November 8th, 2026
+[P007] [Normal] DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+[P008] [Normal] Submitted by C1SE.70
+[P009] [Normal] Thu, Nguyen Ngoc Anh - 29209245799
+[P010] [Normal] Nguyen, Nguyen Nhat - 26211227029
+[P011] [Normal] Truong, Nguyen Quang - 29212730635
+[P012] [Normal] Do, Nguyen Quoc - 29211156881
+[P013] [Normal] Han, Nguyen Ngoc - 29204423268
+[P015] [Normal] Review Panel Representative:
+[P017] [Normal] Name	Signature	Date
+[P018] [Normal] Capstone Project 1 - Mentor:
+[P020] [Normal] Name MSc Viet, Huynh Duc	Signature	Date
+[P022] [Normal] PROJECT INFORMATION
+[P025] [Normal] DOCUMENT APPROVALS
+[P026] [Normal] The following signatures are required for approval of this document.
+[P027] [Normal] REVISION HISTORY
+[P029] [Normal] Table of Contents
+[P030] [toc 1] 1. Actor, Use Case and UC Diagram	1
+[P031] [toc 2] 1.1. Actors	1
+[P032] [toc 2] 1.2. Use Cases	2
+[P033] [toc 2] 1.3. Use Case Diagram	5
+[P034] [toc 1] 2. System Context Diagram	6
+[P035] [toc 1] 3. Architectural Drivers	7
+[P036] [toc 2] 3.1. Use Case Entities	7
+[P037] [toc 2] 3.2. Operational Use Cases	10
+[P038] [toc 2] 3.3. Quality Attribute Scenarios	26
+[P039] [toc 2] 3.4. Technical Constraints	34
+[P040] [toc 2] 3.5. Business Constraints	35
+[P041] [toc 1] 4. C4 Model	37
+[P042] [toc 2] 4.1. Container Diagram	37
+[P043] [toc 2] 4.2. Component Diagram	40
+[P044] [toc 1] 5. Module View	45
+[P045] [toc 1] 6. Allocation View	48
+[P046] [toc 1] 7. Entity Relationship Diagram	51
+[P049] [Normal] List of Tables
+[P050] [table of figures] Table 1. Actors of the DBCAS system	1
+[P051] [table of figures] Table 2. Use cases of Learner before sign-in	2
+[P052] [table of figures] Table 3. Use cases of Administrator	2
+[P053] [table of figures] Table 4. Use cases of Learner	3
+[P054] [table of figures] Table 5. Elements of the System Context Diagram	6
+[P055] [table of figures] Table 6. Use Case Entities: Administrator	7
+[P056] [table of figures] Table 7. Use Case Entities: Learner	8
+[P057] [table of figures] Table 8. Use Case Entities: Learner before sign-in	8
+[P058] [table of figures] Table 9. Use Case Entities: LLM Provider (external system)	9
+[P059] [table of figures] Table 10. Use Case Entities: OAuth Identity Provider (external system)	9
+[P060] [table of figures] Table 11. Operational Use Cases: Register Learner Account	10
+[P061] [table of figures] Table 12. Operational Use Cases: Login	11
+[P062] [table of figures] Table 13. Operational Use Cases: Logout	12
+[P063] [table of figures] Table 14. Operational Use Cases: Provision Administrator Accounts and Manage Roles	13
+[P064] [table of figures] Table 15. Operational Use Cases: Define CLOs and Concept Model	14
+[P065] [table of figures] Table 16. Operational Use Cases: Review AI-Suggested CLO-to-Concept Mappings	14
+[P066] [table of figures] Table 17. Operational Use Cases: Curate Validated Question Bank	15
+[P067] [table of figures] Table 18. Operational Use Cases: Review AI-Recommended Question Tags	16
+[P068] [table of figures] Table 19. Operational Use Cases: System Settings and AI Status	17
+[P069] [table of figures] Table 20. Operational Use Cases: Oversee AI-Generated Question Candidates	17
+[P070] [table of figures] Table 21. Operational Use Cases: View Learner Competency Profiles and Cohort Analytics	18
+[P071] [table of figures] Table 22. Operational Use Cases: Take a Personalized Practice Session	19
+[P072] [table of figures] Table 23. Operational Use Cases: Write and Run SQL in the Embedded Editor	20
+[P073] [table of figures] Table 24. Operational Use Cases: Answer Multiple-Choice and Essay Questions	21
+[P074] [table of figures] Table 25. Operational Use Cases: Receive Grading Results and Feedback	22
+[P075] [table of figures] Table 26. Operational Use Cases: View Visual Competency Profile	23
+[P076] [table of figures] Table 27. Operational Use Cases: View Competency Gap Explanations	23
+[P077] [table of figures] Table 28. Operational Use Cases: Review Assessment History and Evidence Records	24
+[P078] [table of figures] Table 29. Operational Use Cases: Manage Interface Preferences	25
+[P079] [table of figures] Table 30. Operational Use Cases: Review and Approve Results	25
+[P080] [table of figures] Table 31. Quality Attribute Scenarios: Page and API Response Time	26
+[P081] [table of figures] Table 32. Quality Attribute Scenarios: SQL Sandbox Execution Time	27
+[P082] [table of figures] Table 33. Quality Attribute Scenarios: Sandbox Isolation	28
+[P083] [table of figures] Table 34. Quality Attribute Scenarios: Unauthorized Access Attempt	28
+[P084] [table of figures] Table 35. Quality Attribute Scenarios: Learner Data Privacy	29
+[P085] [table of figures] Table 36. Quality Attribute Scenarios: Scoring Consistency	30
+[P086] [table of figures] Table 37. Quality Attribute Scenarios: Question Generation Never Blocks a Session	30
+[P087] [table of figures] Table 38. Quality Attribute Scenarios: Concurrent Learners	31
+[P088] [table of figures] Table 39. Quality Attribute Scenarios: Replacing the LLM Provider	32
+[P089] [table of figures] Table 40. Quality Attribute Scenarios: Code Quality and Bug Fixing	33
+[P090] [table of figures] Table 41. Quality Attribute Scenarios: Practice Interface Usability	33
+[P091] [table of figures] Table 42. Technical Constraints: Technology Stack Limitation	34
+[P092] [table of figures] Table 43. Technical Constraints: SQL Sandbox Resource Limits	34
+[P093] [table of figures] Table 44. Technical Constraints: External LLM Provider Limits and Latency	35
+[P094] [table of figures] Table 45. Technical Constraints: Modern Web Browser Compatibility	35
+[P095] [table of figures] Table 46. Business Constraints: Timeline and Deliverables	35
+[P096] [table of figures] Table 47. Business Constraints: Independent Benchmark Data	35
+[P097] [table of figures] Table 48. Business Constraints: Human-Governed AI Evaluation	36
+[P098] [table of figures] Table 49. Business Constraints: Learner Data Privacy	36
+[P099] [table of figures] Table 50. Responsibilities of Container Diagram	38
+[P100] [table of figures] Table 51. Responsibilities of Component Diagram	43
+[P101] [table of figures] Table 52. Responsibilities of Module View	46
+[P102] [table of figures] Table 53. Responsibilities of Allocation View	49
+[P103] [table of figures] Table 54. Details about ERD tables	58
+[P106] [Normal] List of Figures
+[P107] [table of figures] Figure 1. Use Case Diagram	5
+[P108] [table of figures] Figure 2. System Context Diagram	6
+[P109] [table of figures] Figure 3. Container Diagram	37
+[P110] [table of figures] Figure 4 (1/2). Component Diagram — controllers, services and repositories: Auth, Practice, Curriculum and Question Bank.	40
+[P111] [table of figures] Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cylinder is repeated for connector context; it is identical to Figure 4 (1/2).	41
+[P112] [table of figures] Figure 5. Module View	45
+[P113] [table of figures] Figure 6. Allocation View	48
+[P114] [table of figures] Figure 7. Entity Relationship Diagram	51
+[P115] [table of figures] Figure 8. Table Relationship Diagram (1/5)	52
+[P116] [table of figures] Figure 8. Table Relationship Diagram (2/5)	53
+[P117] [table of figures] Figure 8. Table Relationship Diagram (3/5)	54
+[P118] [table of figures] Figure 8. Table Relationship Diagram (4/5)	55
+[P119] [table of figures] Figure 8. Table Relationship Diagram (5/5)	56
+[P122] [Heading 1] 1. Actor, Use Case and UC Diagram
+[P123] [Heading 2] 1.1. Actors
+[P124] [Normal] Table . Actors of the DBCAS system
+[P125] [Heading 2] 1.2. Use Cases
+[P126] [Normal] Learner before sign-in:
+[P127] [Normal] Table . Use cases of Learner before sign-in
+[P128] [Normal] Administrator:
+[P129] [Normal] Table . Use cases of Administrator
+[P130] [Normal] Learner:
+[P131] [Normal] Table . Use cases of Learner
+[P132] [Heading 2] 1.3. Use Case Diagram
+[P134] [Normal] Figure . Use Case Diagram
+[P135] [Normal] Figure 1 shows the baseline use-case view. The administrator's review-and-approve capability is UC09 in this compact view; system settings are read-only. The personalized assessment extension is specified in Section 3.2.
+[P136] [Heading 1] 2. System Context Diagram
+[P138] [Normal] Figure . System Context Diagram
+[P139] [Normal] The System Context Diagram defines the operational boundary of DBCAS and its interactions with two human actors and three external software systems: the LLM Provider, the OAuth identity providers and the email delivery service (Table 5).
+[P140] [Normal] Table . Elements of the System Context Diagram
+[P141] [Heading 1] 3. Architectural Drivers
+[P142] [Heading 2] 3.1. Use Case Entities
+[P143] [Normal] Table . Use Case Entities: Administrator
+[P144] [Normal] Table . Use Case Entities: Learner
+[P145] [Normal] Table . Use Case Entities: Learner before sign-in
+[P146] [Normal] Table . Use Case Entities: LLM Provider (external system)
+[P147] [Normal] Table . Use Case Entities: OAuth Identity Provider (external system)
+[P148] [Heading 2] 3.2. Operational Use Cases
+[P149] [Normal] Table . Operational Use Cases: Register Learner Account
+[P150] [Normal] Table . Operational Use Cases: Login
+[P151] [Normal] Table . Operational Use Cases: Logout
+[P152] [Normal] Table . Operational Use Cases: Provision Administrator Accounts and Manage Roles
+[P153] [Normal] Table . Operational Use Cases: Define CLOs and Concept Model
+[P154] [Normal] Table . Operational Use Cases: Review AI-Suggested CLO-to-Concept Mappings
+[P155] [Normal] Table . Operational Use Cases: Curate Validated Question Bank
+[P156] [Normal] Table . Operational Use Cases: Review AI-Recommended Question Tags
+[P157] [Normal] Table 19. Operational Use Cases: System Settings and AI Status
+[P158] [Normal] Table . Operational Use Cases: Oversee AI-Generated Question Candidates
+[P159] [Normal] Table . Operational Use Cases: View Learner Competency Profiles and Cohort Analytics
+[P160] [Normal] Table . Operational Use Cases: Take a Personalized Practice Session
+[P161] [Normal] Table . Operational Use Cases: Write and Run SQL in the Embedded Editor
+[P162] [Normal] Table . Operational Use Cases: Answer Multiple-Choice and Essay Questions
+[P163] [Normal] Table . Operational Use Cases: Receive Grading Results and Feedback
+[P164] [Normal] Table . Operational Use Cases: View Visual Competency Profile
+[P165] [Normal] Table . Operational Use Cases: View Competency Gap Explanations
+[P166] [Normal] Table . Operational Use Cases: Review Assessment History and Evidence Records
+[P167] [Normal] Table . Operational Use Cases: Manage Interface Preferences
+[P168] [Normal] Table 30. Operational Use Cases: Review and Approve Results
+[P169] [Heading 2] 3.3. Quality Attribute Scenarios
+[P170] [Normal] Table . Quality Attribute Scenarios: Page and API Response Time
+[P171] [Normal] Table . Quality Attribute Scenarios: SQL Sandbox Execution Time
+[P172] [Normal] Table . Quality Attribute Scenarios: Sandbox Isolation
+[P173] [Normal] Table . Quality Attribute Scenarios: Unauthorized Access Attempt
+[P174] [Normal] Table . Quality Attribute Scenarios: Learner Data Privacy
+[P175] [Normal] Table . Quality Attribute Scenarios: Scoring Consistency
+[P176] [Normal] Table . Quality Attribute Scenarios: Question Generation Never Blocks a Session
+[P177] [Normal] Table . Quality Attribute Scenarios: Concurrent Learners
+[P178] [Normal] Table . Quality Attribute Scenarios: Replacing the LLM Provider
+[P179] [Normal] Table . Quality Attribute Scenarios: Code Quality and Bug Fixing
+[P180] [Normal] Table . Quality Attribute Scenarios: Practice Interface Usability
+[P181] [Heading 2] 3.4. Technical Constraints
+[P182] [Normal] Table . Technical Constraints: Technology Stack Limitation
+[P183] [Normal] Table . Technical Constraints: SQL Sandbox Resource Limits
+[P184] [Normal] Table . Technical Constraints: External LLM Provider Limits and Latency
+[P185] [Normal] Table . Technical Constraints: Modern Web Browser Compatibility
+[P186] [Heading 2] 3.5. Business Constraints
+[P187] [Normal] Table . Business Constraints: Timeline and Deliverables
+[P188] [Normal] Table . Business Constraints: Independent Benchmark Data
+[P189] [Normal] Table . Business Constraints: Human-Governed AI Evaluation
+[P190] [Normal] Table . Business Constraints: Learner Data Privacy
+[P191] [Heading 1] 4. C4 Model
+[P192] [Heading 2] 4.1. Container Diagram
+[P194] [Normal] Figure . Container Diagram
+[P195] [Normal] Prose:
+[P196] [Normal] The container diagram above illustrates the high-level architecture of the DBCAS system, designed to give learners and administrators a concept-level view of database competency. The system has two human roles: the Learner, who selects concepts, bands, count and source, takes learner-defined practice sessions and reads published competency results, and the Administrator, who curates course outcomes, questions, translations and rubrics, manages accounts and roles, and reviews and approves every result. Administrator-only accounts cannot take practice sessions. Both interact with the platform through a Single Page Application (SPA) built with React and Vite, delivered by the Web Application container, while core functionality is handled by the API Application built with FastAPI (Python 3.13) and reached through JSON/HTTPS APIs. The API also integrates Google and GitHub OAuth providers, sends password-reset mail through the external SMTP service (Mailpit in development), and runs an in-process background maintenance worker for session expiry and durable grading jobs; Table 50 lists these containers alongside the baseline diagram.
+[P197] [Normal] All persistent data is stored in a PostgreSQL 17 database (41 tables) that the API accesses via SQL, including immutable session and question snapshots, legacy assessment records, password-reset tokens and audit, result-release audit and cached LLM responses. Learner SQL is never run against this database: it is executed in a separate, isolated SQL Execution Sandbox (a Docker container running PostgreSQL 17) under a read-only role, SELECT-only validation, a 3-second statement timeout, and a 256 MB memory limit. The API Application also calls an external LLM Provider API for assistive tasks such as essay scoring against rubrics, mapping and tag suggestions, and gap explanations; final competency scores are always computed deterministically by DBCAS. OAuth sign-in is brokered through Google or GitHub; provider access tokens are never stored.
+[P198] [Normal] Responsibilities:
+[P199] [Normal] Table . Responsibilities of Container Diagram
+[P201] [Heading 2] 4.2. Component Diagram
+[P203] [Normal] Figure  (1/2). Component Diagram — controllers, services and repositories: Auth, Practice, Curriculum and Question Bank.
+[P205] [Normal] Figure  (2/2). Component Diagram — Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cylinder is repeated for connector context; it is identical to Figure 4 (1/2).
+[P207] [Normal] Prose:
+[P208] [Normal] The Component Diagram of the DBCAS system illustrates the structure of the backend implemented with FastAPI in Python. It follows a three-layer architecture of Controller, Service, and Repository layers, giving a clean separation of concerns and easier maintenance. The Controller layer receives requests from the web interface and validates them with Pydantic schemas, covering authentication and OAuth, role management, curriculum (CLOs, concepts and prerequisites), the question bank and translations, personalized assessment starts, answer attempts, grading review and analytics. Each controller delegates to a dedicated Service that encapsulates the business rules.
+[P209] [Normal] The Service layer is the core of the system logic: it includes the Identity & Access Service (password and OAuth sign-in, self-service password recovery, login throttling, role management), the Practice Service (session scope, complete plan freeze and idempotent starts), the Question Serving component (planned question delivery and selection logging), the Grading Service (MCQ by answer key, SQL by sandbox execution, essays by rubric), the Assessment Lifecycle & Release Service (grading jobs, human review and publication), and the Competency & Guidance Service (deterministic per-session and cumulative competency, gaps and study ranking). Two infrastructure components support these services: the LLM Gateway, which removes personal details, builds versioned prompts, enforces a strict JSON schema, and caches responses, and the Sandbox Runner, which executes learner SELECT queries in the isolated Docker sandbox. A background maintenance worker sweeps expired sessions and processes queued grading jobs with database leases. The Repository layer abstracts PostgreSQL 17 access through SQLAlchemy and performs all CRUD operations for the 41 tables. This modular design lets the team replace the LLM provider or add new question types without changing the scoring rules.
+[P210] [Normal] Responsibilities:
+[P211] [Normal] Table . Responsibilities of Component Diagram
+[P213] [Heading 1] 5. Module View
+[P215] [Normal] Figure . Module View
+[P217] [Normal] Prose:
+[P218] [Normal] The module view of DBCAS is organized into functional modules that collaborate to deliver the assessment workflow. The Web UI Module provides the Learner and Administrator portals as a single-page application, and the API Gateway Module routes and secures every request. The Identity & Access Module handles registration, email/password and OAuth login, self-service password recovery, login throttling, role-based access control, and audited role management. The Curriculum Module manages CLOs, concepts, prerequisites and confirmed mappings, while the Question Bank Module manages validated questions, provenance, translations, version families, tags, and AI question candidates awaiting administrator approval. The Practice Module lets learners choose concepts, bands, count and source, assembles and freezes the complete question plan, runs the 30-minute session and serves the planned questions; the Grading Module scores MCQ, SQL, and essay answers, stores standardized evidence and retries failed jobs; the Result Release & Human Review Module withholds unpublished scores and provisional profiles from learners, enforces mandatory administrator review before publication and records immutable audit events; and the Competency Module computes per-session and cumulative published-evidence competency, detects gaps, ranks below-benchmark concepts for study guidance, and serves learner and cohort analytics. The AI Integration Module (LLM Gateway) and the Sandbox Module (Sandbox Runner and isolated PostgreSQL) encapsulate the two external execution paths. The Localization & Preferences Module provides English/Vietnamese content, translations, theme settings and the frozen session locale. Controllers route requests to services; repositories persist application records in PostgreSQL. Services call the LLM Gateway and SQL Sandbox only for workflows that require them.
+[P219] [Normal] Responsibilities
+[P220] [Normal] Table . Responsibilities of Module View
+[P221] [Heading 1] 6. Allocation View
+[P223] [Normal] Figure . Allocation View
+[P224] [Normal] Prose:
+[P225] [Normal] The Allocation View for DBCAS shows how the software components are mapped onto the deployment environment. The architecture follows a multi-tier, containerized deployment pattern. The Learner or Administrator uses a laptop or desktop browser, and all traffic flows through the Internet over HTTPS to the Web Server, which serves static content and the React + Vite single-page application. Dynamic requests, such as API calls, are forwarded as JSON/HTTPS to the Application Server (FastAPI, Python 3.13), which holds the core business logic: JWT and OAuth authentication, role checks, practice session coordination, grading, personalized plan assembly, release review, and competency calculation. The same Application Server runs a background maintenance worker that expires sessions and processes durable grading jobs.
+[P226] [Normal] For persistence, the Application Server sends DB requests to the Database (PostgreSQL 17), which stores users, roles and audit records, the question bank, translations, sessions, attempts, immutable snapshots, evidence, release events and cached LLM responses. Learner SQL is sent to a separate SQL Sandbox container (PostgreSQL 17) that runs with a read-only role, SELECT-only validation, no network access, a 256 MB memory limit, and a 3-second statement timeout, so it can never reach application data. Finally, the Application Server calls the external LLM Provider API with sanitized, structured requests for essay scoring, mapping, tagging, and gap explanations, redirects browsers to Google or GitHub for OAuth sign-in, and sends password-reset mail through the external SMTP service (Mailpit in development; a real SMTP relay in release). Separating the sandbox and the AI service from the main application logic protects the system, keeps scoring deterministic, and improves scalability and maintainability.
+[P227] [Normal] Responsibilities:
+[P228] [Normal] Table . Responsibilities of Allocation View
+[P230] [Heading 1] 7. Entity Relationship Diagram
+[P232] [Normal] Figure . Entity Relationship Diagram
+[P234] [Normal] Figure . Table Relationship Diagram (1/5)
+[P236] [Normal] Figure . Table Relationship Diagram (2/5)
+[P238] [Normal] Figure . Table Relationship Diagram (3/5)
+[P240] [Normal] Figure . Table Relationship Diagram (4/5)
+[P242] [Normal] Figure . Table Relationship Diagram (5/5)
+[P244] [Normal] Prose:
+[P245] [Normal] The Entity Relationship Diagram (ERD) illustrates the structure of the DBCAS PostgreSQL 17 database (41 tables) and the relationships among its entities. Account is the access point for authentication, linked one-to-one to UserProfile, optionally to AccountIdentity for OAuth, and through the AccountRole junction to Role; role changes are recorded in AccountRoleAudit and grade edits in GradeEditAudit. Administrators define CourseLearningOutcome and Concept records (with prerequisites in ConceptDependency), map them through CLOConcept, and curate the Question bank together with QuestionConcept, MCQOption, QuestionTranslation, SQLTestDataset, and Rubric. QuestionCandidate holds AI-generated drafts outside the bank until an administrator approves them. A learner-defined AssessmentSession stores its frozen plan in SessionQuestionPlan with start-request bindings, records one Attempt per served question, one SelectionLog entry per served question (is_fallback marks substitutions), and EvaluationRecord evidence for each answer; results flow through GradingJob, GradeReview and ResultReleaseEvent, and competency through ConceptCompetency and CompetencyGap. SystemSetting stores historical/operational platform values; result release is no longer selectable. The legacy Assessment, AssessmentConcept, AssessmentQuestion and AssessmentBlueprint tables are retained only for historical rows; AssessmentSession.assessment_id is nullable since migration 018. PasswordResetToken and PasswordResetAudit support single-use password recovery, RefreshSession stores hashed refresh tokens, and LLMCache, OAuthHandoff and LoginThrottle are stand-alone technical tables.
+[P246] [Normal] The conceptual model in Figure 7 is implemented physically by the core tables shown in Figure 8. The many-to-many relationships (assigned, maps to, tagged with, targets) are realized by the junction tables AccountRole, CLOConcept, QuestionConcept and the legacy AssessmentConcept; all 41 tables are described in Table 54.
+[P247] [Normal] Details about ERD:
+[P248] [Normal] Table . Details about ERD tables
+[TABLE 00] style=Normal Table rows=14 cols=4
+  [R00] Project acronym | DBCAS | DBCAS | DBCAS
+  [R01] Project Title | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+  [R02] Start Date | 14/09/2026 | End Date | 26/12/2026
+  [R03] Lead Institution | International School, Duy Tan University | International School, Duy Tan University | International School, Duy Tan University
+  [R04] Project Mentor | MSc Viet, Huynh Duc | MSc Viet, Huynh Duc | MSc Viet, Huynh Duc
+  [R05] Scrum master / Project Leader & contact details | Thu, Nguyen Ngoc Anh / Email: 01258319907anhthu@gmail.com / Tel: 0919334040 | Thu, Nguyen Ngoc Anh / Email: 01258319907anhthu@gmail.com / Tel: 0919334040 | Thu, Nguyen Ngoc Anh / Email: 01258319907anhthu@gmail.com / Tel: 0919334040
+  [R06] Partner Organization | Duy Tan University | Duy Tan University | Duy Tan University
+  [R07] Project Web URL |  |  |
+  [R08] Team members | Name | Email | Tel
+  [R09]  | Thu, Nguyen Ngoc Anh | 01258319907anhthu@gmail.com | 0919334040
+  [R10]  | Nguyen, Nguyen Nhat | nhnguyen240602@gmail.com | 0355772330
+  [R11]  | Truong, Nguyen Quang | quangtruongtt8@gmail.com | 0349039023
+  [R12]  | Do, Nguyen Quoc | nguyenquocdodary@gmail.com | 0388496885
+  [R13]  | Han, Nguyen Ngoc | Hannguyenngoc0506@gmail.com | 0899455605
+[TABLE 01] style=Normal Table rows=7 cols=4
+  [R00] DOCUMENT INFORMATION | DOCUMENT INFORMATION | DOCUMENT INFORMATION | DOCUMENT INFORMATION
+  [R01] Document Title | Architecture Design Document | Architecture Design Document | Architecture Design Document
+  [R02] Author(s) | C1SE.70 Team | C1SE.70 Team | C1SE.70 Team
+  [R03] Role | Team Members | Team Members | Team Members
+  [R04] Date | 08/11/2026 | File name | DBCAS-System-Architecture-v1.2.docx
+  [R05] URL |  |  |
+  [R06] Access | Project and CMU Program | Project and CMU Program | Project and CMU Program
+[TABLE 02] style=Normal Table rows=5 cols=3
+  [R00] Thu, Nguyen Ngoc Anh / Student ID: 29209245799 / Project Manager / Scrum Master / Frontend Developer | Signature | Date
+  [R01] Nguyen, Nguyen Nhat / Student ID: 26211227029 / Backend Developer / QA Tester | Signature | Date
+  [R02] Truong, Nguyen Quang / Student ID: 29212730635 / Database Developer | Signature | Date
+  [R03] Do, Nguyen Quoc / Student ID: 29211156881 / Backend Developer | Signature | Date
+  [R04] Han, Nguyen Ngoc / Student ID: 29204423268 / Frontend Developer / QA Tester | Signature | Date
+[TABLE 03] style=Normal Table rows=4 cols=4
+  [R00] Version | Date | Comments | Author
+  [R01] 1.0 | 18/09/2026 | Initial release | C1SE.70 Team
+  [R02] 1.1 | 30/10/2026 | Update | C1SE.70 Team
+  [R03] 1.2 | 08/11/2026 | Correct project facts and diagrams | C1SE.70 Team
+[TABLE 04] style=Normal Table rows=5 cols=2
+  [R00] Actor | Description
+  [R01] Learner | The User role, implemented as Learner: an undergraduate student who takes learner-defined practice sessions and reviews published competency results. A Learner may request promotion to Administrator; an authorized role manager reviews the request through UC04, and promotion never happens automatically.
+  [R02] Administrator | The Admin role, implemented as Administrator: an authorized DBCAS administrator who manages course outcomes, the question bank, accounts and system settings. Administrator-only accounts cannot take practice sessions, and an Administrator cannot review or publish a result for a session they own.
+  [R03] LLM Provider (external system) | A provider-agnostic external REST service used only for assistive AI tasks; it never determines the final competency score.
+  [R04] OAuth Identity Provider (external system) | Google and GitHub OAuth 2.0 authorization servers. DBCAS redirects the browser with a signed state cookie and PKCE where supported, exchanges the authorization code server-side, and receives only a verified profile (provider user id, email, verification flag). Provider access tokens are never stored or exposed to the browser.
+[TABLE 05] style=Normal Table rows=4 cols=3
+  [R00] No. | Use case | Description
+  [R01] 1 | Register Learner Account | A learner creates a Learner account with email/password or verified-email Google/GitHub OAuth; self-registration cannot create an Administrator.
+  [R02] 2 | Access Login Page | Unauthenticated visitors are directed to the login page; assessment content and personal data are not accessible without logging in (handled within UC02 Login).
+  [R03] 3 | Sign in with Google or GitHub | A visitor signs in or signs up through Google/GitHub OAuth (UC02); a new verified identity becomes a Learner, while linked account roles are preserved.
+[TABLE 06] style=Normal Table rows=12 cols=3
+  [R00] No. | Use case | Description
+  [R01] 1 | Login / Logout | Authenticate with email and password to receive a secure JWT and access administrative functions; log out to end the session.
+  [R02] 2 | Provision Accounts and Manage Roles | An existing administrator creates new administrator accounts, which stay disabled until manually verified and activated.
+  [R03] 3 | Define CLOs and Concept Model | Create and maintain course learning outcomes, the Core PostgreSQL concept model, and difficulty levels; the platform applies its 70% passing target.
+  [R04] 4 | Review AI-Suggested CLO-to-Concept Mappings | Accept, edit, or reject the connections proposed by the assistive AI; nothing is applied without confirmation.
+  [R05] 5 | Curate Validated Question Bank | Manage the approved pool of multiple-choice, SQL, and short essay items with answer keys, test datasets, and rubrics.
+  [R06] 6 | Review AI-Recommended Question Tags | Confirm or edit the concept tags and evaluation criteria suggested for each question.
+  [R07] 7 | System Settings and AI Status | Read the runtime AI/evaluator status and platform settings. Result release is not selectable: every session requires administrator review and approval. Administrators do not create exams or prebuilt assessments.
+  [R08] 8 | Oversee AI-Generated Question Candidates | Review candidates that passed automated checks and approve them into the validated bank or reject them.
+  [R09] 9 | View Learner Competency Profiles and Cohort Analytics | See per-learner radar and bar charts, cohort-wide gap analytics, and individual assessment history.
+  [R10] 10 | Manage Interface Preferences | Switch the interface language (English / Vietnamese) and light or dark theme; preferences persist in the browser and never change an in-progress session's frozen locale.
+  [R11] 11 | Review and Approve Results | Review every submitted session's SQL and essay evidence, adjust scores with comments, and approve the result so it becomes official.
+[TABLE 07] style=Normal Table rows=10 cols=3
+  [R00] No. | Use case | Description
+  [R01] 1 | Login / Logout | Authenticate to access the assessment platform; log out to securely end the session.
+  [R02] 2 | Take a Personalized Practice Session | Complete a learner-defined practice session after choosing concepts, difficulty bands (EASY 1–2, MEDIUM 3, HARD 4–5), an exact question count from 1 to 20 (default 5) and a source; the complete plan is frozen before question one and the session expires after 30 minutes.
+  [R03] 3 | Write and Run SQL in the Embedded Editor | Solve SQL tasks in an editor with syntax highlighting and a schema viewer; queries execute in the isolated PostgreSQL 17 Docker sandbox.
+  [R04] 4 | Answer Multiple-Choice and Essay Questions | Select one MCQ option or write a short conceptual essay; answers are saved before submission or when the timer expires.
+  [R05] 5 | Receive Grading Results and Feedback | Every answer is scored on submission: MCQ by answer key, SQL semantically in the sandbox, essay by rubric with LLM assistance.
+  [R06] 6 | View Visual Competency Profile | See radar and bar charts of PostgreSQL mastery, followed by a ranked list of below-benchmark topics to study.
+  [R07] 7 | View Competency Gap Explanations | See below-benchmark concepts, evidence-linked explanations, and a “What to study next” list ordered by shortfall from target.
+  [R08] 8 | Review Assessment History and Evidence Records | List completed sessions and open the evidence record of every answer.
+  [R09] 9 | Manage Interface Preferences | Switch the interface language (English / Vietnamese) and light or dark theme; preferences persist in the browser and never change an in-progress session's frozen locale.
+[TABLE 08] style=Normal Table rows=7 cols=2
+  [R00] Element | Interactions with DBCAS
+  [R01] Learner | Selects concepts, difficulty bands, question count and source; submits registration and login requests (including Google/GitHub), MCQ responses, read-only SELECT queries and written answers; receives published per-session and cumulative competency profiles, diagnostic gap reports and ranked study topics.
+  [R02] Administrator | Defines CLOs, concepts and prerequisites, difficulty levels, the validated question bank, translations and rubrics; manages accounts and roles, approves AI-generated question candidates, and reviews and approves every submitted result; receives cohort analytics and learner performance records.
+  [R03] LLM Provider (external system) | A provider-agnostic REST service that receives sanitized prompts and candidate requests and returns suggestions and essay feedback. Used strictly for assistive analysis; it never determines the final competency score.
+  [R04] DBCAS (system under study) | Coordinates learner-defined practice sessions, freezes the selection and complete question plan before serving, runs read-only SELECT queries in a sandbox, stores standardized evidence, applies the mandatory review workflow, computes per-session and cumulative competency deterministically, visualizes profiles, and ranks below-benchmark concepts as study topics.
+  [R05] Email Delivery Service (external system) | SMTP delivery for single-use password-reset links; when SMTP is not configured the reset endpoint fails closed with password_reset_unavailable.
+  [R06] OAuth Identity Provider (external system) | Google and GitHub authorization servers authenticate the user and return a provider identity. DBCAS verifies state and PKCE, resolves or creates a Learner account from a verified email, and never imports role grants from the provider.
+[TABLE 09] style=Normal Table rows=6 cols=2
+  [R00] ID | E01
+  [R01] Title | Administrator
+  [R02] Description | An authorized DBCAS Administrator responsible for academic content and system configuration.
+  [R03] Provides Assumptions | Has elevated privileges to manage course learning outcomes, the concept model and prerequisites, the validated Question Bank, translations, system settings; can provision accounts and, when granted can_manage_roles, grant or revoke roles; can review and approve results.
+  [R04] Requires Assumptions | Authenticated with the Administrator role (JWT) and Account.status = active. The platform must provide administrator portals and management tools.
+  [R05] Identified Use Cases | UC02, UC03, UC04, UC05, UC06, UC07, UC08, UC09, UC10, UC11, UC19, UC20
+[TABLE 10] style=Normal Table rows=6 cols=2
+  [R00] ID | E02
+  [R01] Title | Learner
+  [R02] Description | An undergraduate Computer Science or Software Engineering student taking Database Systems coursework who wants a concept-level picture of database competency.
+  [R03] Provides Assumptions | Has a personal Learner account and uses the platform to select concepts, difficulty bands, count and source, take learner-defined practice sessions, and review published per-session and cumulative competency profiles and gap explanations.
+  [R04] Requires Assumptions | Must be registered and logged in to use assessment functions. A modern web browser and an internet connection are required.
+  [R05] Identified Use Cases | UC02, UC03, UC12, UC13, UC14, UC15, UC16, UC17, UC18, UC19
+[TABLE 11] style=Normal Table rows=6 cols=2
+  [R00] ID | E03
+  [R01] Title | Learner before sign-in
+  [R02] Description | An unauthenticated visitor who has not yet logged in to DBCAS.
+  [R03] Provides Assumptions | Can view only the login page and the learner registration form; no assessment content or personal data is accessible.
+  [R04] Requires Assumptions | Must provide a valid email address that has not been registered before to create a Learner account, or sign in with a provider-verified Google/GitHub identity.
+  [R05] Identified Use Cases | UC01, UC02
+[TABLE 12] style=Normal Table rows=6 cols=2
+  [R00] ID | E04
+  [R01] Title | LLM Provider (external system)
+  [R02] Description | A provider-agnostic external REST service (any compliant LLM vendor) used strictly for assistive AI analysis.
+  [R03] Provides Assumptions | Suggests CLO-to-concept mappings and question tags, drafts question candidates, scores essays against administrator rubrics, and writes plain-language gap explanations.
+  [R04] Requires Assumptions | Receives only sanitized requests (learner names and identifying numbers removed). Its output is supplementary evidence under administrator oversight and never alters the deterministic competency score.
+  [R05] Identified Use Cases | UC06, UC08, UC10, UC15, UC17
+[TABLE 13] style=Normal Table rows=6 cols=2
+  [R00] ID | E05
+  [R01] Title | OAuth Identity Provider (external system)
+  [R02] Description | Google and GitHub OAuth 2.0 authorization servers used for sign-in and learner sign-up.
+  [R03] Provides Assumptions | Authenticates the user and returns a provider user id, email, and email_verified flag.
+  [R04] Requires Assumptions | Receives an authorization request with state and PKCE where supported; redirect URIs are registered. DBCAS never stores provider access tokens.
+  [R05] Identified Use Cases | UC02
+[TABLE 14] style=Normal Table rows=8 cols=2
+  [R00] ID | UC01
+  [R01] Title | Register Learner Account
+  [R02] Description | Enables a learner before sign-in to create a Learner account with email/password or Google/GitHub OAuth through UC02.
+  [R03] Entities Involved | E03: Learner before sign-in
+  [R04] Preconditions | The learner must have a valid email address that has not been registered before.
+  [R05] Primary Flow | 1. Learner opens the registration form from the login page. / 2. Learner enters name, email, password, and password confirmation. / 3. System validates the inputs and password rules and checks that the email is unique. / 4. System creates the Account and UserProfile and assigns the Learner role through AccountRole.
+  [R06] Postconditions | A Learner account is created and ready for login; the new account always has the Learner role.
+  [R07] Alternate Flows | A1: Email already registered -- Notify the learner to log in instead. / A2: Password fails validation or confirmation does not match -- Display a validation error. / A3: Learner chooses Google/GitHub -- Use UC02; verified-email sign-up creates a Learner or links an existing account.
+[TABLE 15] style=Normal Table rows=8 cols=2
+  [R00] ID | UC02
+  [R01] Title | Login
+  [R02] Description | Allows learners and administrators to authenticate securely with email/password or Google/GitHub, recover a forgotten password by email, and access role-specific functionality.
+  [R03] Entities Involved | E01: Administrator, E02: Learner, E03: Learner before sign-in, E05: OAuth Identity Provider
+  [R04] Preconditions | The user has an active account or a provider-verified email for account linking or Learner sign-up. Email/password login is subject to throttling.
+  [R05] Primary Flow | 1. Login and Register show Google/GitHub choices; an unconfigured provider offers email sign-in. / 2. For email/password, the system verifies the credentials and active status; repeated failures are throttled server-side. If the password is forgotten, the login page offers a recovery flow: the API returns the same acknowledgement for every address, emails a single-use 15-minute token only for an active account when mail delivery is configured, and stores only its SHA-256 digest. The reset form applies the same password policy and invalidates earlier login sessions. / 3. For Google/GitHub, the backend redirects with a signed state cookie (and PKCE for Google), validates the state-bound callback and configured redirect URI, and exchanges the code server-side. / 4. The account is resolved by an existing identity link, then a verified email, otherwise a new active Learner is created; verified-email linking preserves existing roles. / 5. The SPA consumes the handoff once for rotating access/refresh tokens, as with email sign-in; provider tokens are never stored or exposed in URLs. / 6. System loads current database roles and redirects to the learner or administrator dashboard.
+  [R06] Postconditions | The user reaches the dashboard for their role. New OAuth accounts start as Learners; existing roles are preserved and disabled accounts are refused.
+  [R07] Alternate Flows | A1: Invalid credentials -- Display an error message and apply throttling. / A2: Account disabled (for example, a newly provisioned administrator not yet activated) -- Login is refused. / A3: OAuth state or PKCE mismatch, expired handoff, or unverified provider email -- The flow is rejected and no account is linked. / A4: Unauthenticated visit to a protected page -- Redirect to the login page. / A5: Password-reset token is expired, used, revoked or unknown -- The reset is refused with a generic invalid-link message. / A6: Reset mail delivery is not configured -- The request fails closed with password_reset_unavailable while the response still does not reveal whether the address exists.
+[TABLE 16] style=Normal Table rows=8 cols=2
+  [R00] ID | UC03
+  [R01] Title | Logout
+  [R02] Description | Allows users to securely end their session.
+  [R03] Entities Involved | E01: Administrator, E02: Learner
+  [R04] Preconditions | The user must be logged in.
+  [R05] Primary Flow | 1. User clicks "Logout". / 2. The web application calls the logout endpoint, which revokes the refresh-token family and its access tokens, then removes the JWT and the client-side authenticated state. / 3. User is redirected to the login page.
+  [R06] Postconditions | The refresh-token family and its access tokens are revoked server-side, and the browser no longer sends the JWT.
+  [R07] Alternate Flows | A1: Logout is idempotent; a missing or already-revoked refresh token still clears the client state.
+[TABLE 17] style=Normal Table rows=8 cols=2
+  [R00] ID | UC04
+  [R01] Title | Provision Accounts and Manage Roles
+  [R02] Description | Allows authorized role managers to provision accounts and grant or revoke Learner/Administrator roles under controlled activation and immutable audit. A Learner may request promotion to Administrator; an authorized role manager handles the request through this use case, and DBCAS exposes no self-service promotion endpoint.
+  [R03] Entities Involved | E01: Administrator
+  [R04] Preconditions | Signed in as an Administrator with Account.status = active and can_manage_roles = true.
+  [R05] Primary Flow | 1. Role manager opens the Accounts page. / 2. Role manager creates an account with an initial role; new Administrator accounts start disabled. / 3. An existing administrator verifies the intended person and activates the account. / 4. Grant or revoke role submits the expected current role; the server serializes the change and re-checks the capability. / 5. Every change is written to AccountRoleAudit; the one-time role-manager bootstrap is recorded separately.
+  [R06] Postconditions | Role changes take effect immediately, are auditable and immutable; the last active Administrator and the last role manager cannot be removed.
+  [R07] Alternate Flows | A1: Caller lacks can_manage_roles -- Access denied. / A2: Expected role is stale -- The change is rejected with a conflict. / A3: Change would remove the last administrator or role manager -- Rejected. / A4: Self-registration can never grant the Administrator role. / A5: Learner requests promotion -- An authorized role manager verifies that the account is active, grants the Administrator role through this audited flow, and role-management capability is not granted automatically.
+[TABLE 18] style=Normal Table rows=8 cols=2
+  [R00] ID | UC05
+  [R01] Title | Define CLOs and Concept Model
+  [R02] Description | Allows administrators to define course learning outcomes and the Core PostgreSQL concept model with SQL technique metadata, keywords, objectives, prerequisites and difficulty levels; the platform applies its 70% passing target.
+  [R03] Entities Involved | E01: Administrator
+  [R04] Preconditions | Must be logged in as an Administrator.
+  [R05] Primary Flow | 1. Administrator opens the Course Outcomes & Concepts page. / 2. Administrator creates, edits, or deletes course learning outcomes (CLOs). / 3. Administrator defines and maintains concepts by subject area with a difficulty level (1–5), optional sql_feature, keywords and learning objectives. / 4. Administrator links concepts through acyclic prerequisite edges. / 5. The platform applies a 70% passing target per concept to flag competency gaps; no per-concept benchmark is configured in this release. / 6. System validates and persists the changes before assessments use them.
+  [R06] Postconditions | CLOs, concepts, metadata and prerequisites are stored and available for mappings and assessments.
+  [R07] Alternate Flows | A1: Validation error or prerequisite cycle -- Display the error and keep the previous values. / A2: Persistence failure -- The change is not saved and the administrator is notified.
+[TABLE 19] style=Normal Table rows=8 cols=2
+  [R00] ID | UC06
+  [R01] Title | Review AI-Suggested CLO-to-Concept Mappings
+  [R02] Description | Allows administrators to confirm mappings proposed by the assistive AI before they are used.
+  [R03] Entities Involved | E01: Administrator, E04: LLM Provider
+  [R04] Preconditions | CLOs and concepts must already be defined.
+  [R05] Primary Flow | 1. Administrator requests mapping suggestions. / 2. System sends a sanitized request to the LLM Provider (reusing cached responses when available). / 3. System stores each suggestion as a CLOConcept row with mapping_source = ai and status = pending. / 4. Administrator accepts, edits, or rejects each suggestion. / 5. Accepted mappings are stored with status = confirmed.
+  [R06] Postconditions | Only administrator-confirmed mappings are applied.
+  [R07] Alternate Flows | A1: LLM Provider unavailable -- The administrator maps CLOs to concepts manually.
+[TABLE 20] style=Normal Table rows=8 cols=2
+  [R00] ID | UC07
+  [R01] Title | Curate Validated Question Bank
+  [R02] Description | Allows administrators to manage the approved pool of assessment items with provenance, translations and version lineage.
+  [R03] Entities Involved | E01: Administrator
+  [R04] Preconditions | Must be logged in as an Administrator.
+  [R05] Primary Flow | 1. Administrator opens the Question Bank. / 2. Administrator creates or edits multiple-choice, SQL, and short essay items with prompt, reference answer, explanation, tags, official source references, difficulty level, and points. / 3. Administrator attaches MCQ options with the verified answer key, SQL test datasets (setup SQL, expected results, edge cases), and essay rubrics. / 4. Administrator provides Vietnamese translations of the prompt, explanation, options and rubric criteria when needed; English remains canonical. / 5. Administrator tags each item with PostgreSQL concepts and searches or filters by concept, format, and difficulty. / 6. Administrators edit a new version in the question family instead of rewriting evidence already served; the administrator sets the item status to validated so it can be served in live sessions.
+  [R06] Postconditions | Validated, translated and versioned items are available to the practice plan assembly and selection logic.
+  [R07] Alternate Flows | A1: Incomplete item (missing answer key, test dataset, or rubric) -- It cannot be validated. / A2: Translation fails validation or targets English -- It is rejected; English remains canonical. / A3: Version conflict in the same family -- The edit is rejected and the current version is kept.
+[TABLE 21] style=Normal Table rows=8 cols=2
+  [R00] ID | UC08
+  [R01] Title | Review AI-Recommended Question Tags
+  [R02] Description | Allows administrators to keep concept tagging consistent and accurate.
+  [R03] Entities Involved | E01: Administrator, E04: LLM Provider
+  [R04] Preconditions | A question exists in the Question Bank.
+  [R05] Primary Flow | 1. Administrator opens a question for tagging. / 2. System analyzes the prompt with the LLM Provider and suggests PostgreSQL concept tags and evaluation criteria. / 3. Suggested tags are stored with tag_source = ai, review_status = pending, and confirmed = false. / 4. Administrator confirms, edits, or rejects each suggestion before it is saved.
+  [R06] Postconditions | Confirmed tags are attached to the question (review_status = confirmed and confirmed = true); rejected tags remain unconfirmed.
+  [R07] Alternate Flows | A1: LLM Provider unavailable -- The administrator tags the question manually.
+[TABLE 22] style=Normal Table rows=8 cols=2
+  [R00] ID | UC09
+  [R01] Title | System Settings and AI Status
+  [R02] Description | Allows administrators to read the runtime AI/evaluator status and platform settings; it does not create exams, assessments or question sets.
+  [R03] Entities Involved | E01: Administrator
+  [R04] Preconditions | Signed in as an Administrator with an active account.
+  [R05] Primary Flow | 1. Administrator opens the System settings page. / 2. Administrator reads the mandatory workflow: AI grades and evaluates first; an administrator reviews every submission and approves the official result. / 3. Administrator reads the exposed status (evaluator and prompt-builder configuration, fallback availability, database and pipeline); all values are read-only. / 4. This screen is read-only; every result publication requires administrator approval. / 5. Existing sessions keep their current state and are unaffected by later changes. / 6. Missing AI configuration is reported together with fallback availability.
+  [R06] Postconditions | Every new session uses the mandatory AI-then-administrator review workflow; historical sessions keep the release policy snapshotted at their start.
+  [R07] Alternate Flows | A1: The status request fails -- Show a localized error and allow retry.A2: AI is not configured -- Report fallback availability; practice remains usable.
+[TABLE 23] style=Normal Table rows=8 cols=2
+  [R00] ID | UC10
+  [R01] Title | Oversee AI-Generated Question Candidates
+  [R02] Description | Allows administrators to approve or reject AI-drafted candidates so that only approved candidates enter the validated bank; AI-source items are separately auto-validated at session start.
+  [R03] Entities Involved | E01: Administrator, E04: LLM Provider
+  [R04] Preconditions | Candidates have been drafted ahead of time and stored outside the Question Bank.
+  [R05] Primary Flow | 1. System drafts question candidates with the LLM Provider ahead of live sessions and stores them as QuestionCandidate rows. / 2. System runs automated checks: answer completeness, duplicate detection, and, for SQL items, executing the task and reference answer on test datasets. / 3. Administrator reviews the question, answer, concept tags, difficulty, and validation results. / 4. Administrator approves the candidate (promoted to a validated Question with source = ai_generated) or rejects it.
+  [R06] Postconditions | Only approved candidates enter the validated Question Bank.
+  [R07] Alternate Flows | A1: Candidate fails automated checks -- It is not eligible for approval. / A2: Generation unavailable -- Previously validated items are served as fallback, so no session is blocked.
+[TABLE 24] style=Normal Table rows=8 cols=2
+  [R00] ID | UC11
+  [R01] Title | View Learner Competency Profiles and Cohort Analytics
+  [R02] Description | Allows administrators to see strengths and weaknesses of each learner and of the whole class, including cumulative published evidence.
+  [R03] Entities Involved | E01: Administrator
+  [R04] Preconditions | Must be logged in as an Administrator; at least one completed session exists.
+  [R05] Primary Flow | 1. Administrator opens the analytics dashboard. / 2. Administrator selects a learner or a cohort and a published assessment. / 3. System aggregates cohort trends, per-session ConceptCompetency records, and the learner's cumulative profile from published sessions only. / 4. System displays radar and bar charts, cohort-wide gap analytics, and individual assessment history.
+  [R06] Postconditions | The administrator reviews learner performance and concepts where many learners fall below the platform's 70% passing target.
+  [R07] Alternate Flows | A1: No completed sessions -- Display an empty state.
+[TABLE 25] style=Normal Table rows=8 cols=2
+  [R00] ID | UC12
+  [R01] Title | Take a Personalized Practice Session
+  [R02] Description | Allows learners to choose concepts, difficulty bands, an exact question count and a source, then complete a practice session whose complete plan is frozen before question one.
+  [R03] Entities Involved | E02: Learner
+  [R04] Preconditions | The learner is logged in and validated questions exist for the selected concepts and bands.
+  [R05] Primary Flow | 1. Learner selects one or more concepts and one or more difficulty bands: EASY 1–2, MEDIUM 3, or HARD 4–5. / 2. Learner chooses an exact question count from 1 to 20 (default 5) and a source: the validated bank or AI. / 3. Learner starts the session; the server verifies the requested count against the approved bank, assembles the complete ordered plan, freezes it and creates the session with expires_at = started_at + 30 minutes. / 4. In AI mode the planner requests MCQ and essay items from the model, always takes SQL items from the validated bank, and validates every generated item before it enters the plan; if AI cannot fill the plan, a single bank_mixed notice explains the substitution. / 5. The interface shows a persistent countdown with warnings at 10 and 5 minutes and a progress indicator; navigation is forward-only. / 6. The session ends after the planned questions or at 00:00; answers enter the grading and release pipeline.
+  [R06] Postconditions | The session, its frozen plan and standardized evidence are stored; the result appears only after administrator review and approval.
+  [R07] Alternate Flows | A1: Duplicate start request -- The existing session is returned. / A2: The approved bank cannot supply the requested count for the selected concepts and bands -- The start is rejected with a clear insufficient-pool error. / A3: Timer reaches 00:00 -- Answers are submitted automatically and the session status becomes timed_out. / A4: Grading fails -- The attempt enters the durable retry queue and the session reports grading_failed until resolved. / A5: AI mode cannot fill the plan -- The plan is completed with validated bank items and a single bank_mixed notice is shown. / A6: A generated question fails validation -- It is discarded before the plan is frozen; an invalid plan is never served.
+[TABLE 26] style=Normal Table rows=8 cols=2
+  [R00] ID | UC13
+  [R01] Title | Write and Run SQL in the Embedded Editor
+  [R02] Description | Allows learners to solve SELECT query tasks in a safe environment.
+  [R03] Entities Involved | E02: Learner
+  [R04] Preconditions | A session is in progress and the current question is a SQL task.
+  [R05] Primary Flow | 1. Learner views the schema viewer for the test tables. / 2. Learner writes a query in the editor with syntax highlighting and runs or submits it. / 3. The API validates that the statement is a single SELECT; DML/DDL and other statements are rejected before execution. / 4. The query runs in the isolated PostgreSQL 17 Docker sandbox under a read-only role, a 3-second statement timeout, and a 256 MB memory limit, inside a read-only transaction that is rolled back. / 5. The result or a clear error message is shown to the learner.
+  [R06] Postconditions | The query result is recorded as the learner's SQL answer for grading.
+  [R07] Alternate Flows | A1: DML/DDL or a non-SELECT statement -- Rejected with a message that these topics are assessed only through MCQ/essay. / A2: Statement timeout -- Display a clear timeout message. / A3: SQL error -- Display the error and a helpful hint.
+[TABLE 27] style=Normal Table rows=8 cols=2
+  [R00] ID | UC14
+  [R01] Title | Answer Multiple-Choice and Essay Questions
+  [R02] Description | Allows learners to demonstrate conceptual knowledge of database design.
+  [R03] Entities Involved | E02: Learner
+  [R04] Preconditions | A session is in progress.
+  [R05] Primary Flow | 1. For an MCQ, the learner selects one option and submits. / 2. For an essay, the learner writes a conceptual or design explanation in the text area. / 3. Drafts are autosaved with a revision number and restored after a reload. / 4. Each submitted answer is final; the learner cannot navigate backward to change it. / 5. On timeout, the saved answer is submitted automatically.
+  [R06] Postconditions | The answer is stored in Attempt and sent to grading.
+  [R07] Alternate Flows | A1: Timer expires -- The saved draft is submitted automatically. / A2: Draft revision conflict -- The latest saved revision wins and the learner is prompted to review it.
+[TABLE 28] style=Normal Table rows=8 cols=2
+  [R00] ID | UC15
+  [R01] Title | Receive Grading Results and Feedback
+  [R02] Description | Scores every answer on submission and queues every submitted session for administrator review and approval.
+  [R03] Entities Involved | E02: Learner, E04: LLM Provider
+  [R04] Preconditions | The learner has submitted an answer.
+  [R05] Primary Flow | 1. MCQ answers are compared instantly with the verified answer key. / 2. SQL answers are executed in the sandbox against multiple test datasets, including edge cases, and graded by semantic and result correctness (and required-concept usage when a technique is mandated), never by exact string matching. / 3. For essays, the system removes learner names and identifying numbers, then calls the LLM Provider with the four-level rubric, a low temperature, and a strict JSON schema. / 4. System stores the score and standardized grading evidence; failed grading jobs are retried with durable leases. / 5. AI grading and evaluation finish first; the result remains provisional and hidden from the learner. / 6. The session waits in pending_review; an administrator reviews every SQL/essay score, adjusts it if needed, and publishes. Feedback is shown only after approval.
+  [R06] Postconditions | Each answer has a score and an evidence record used for competency calculation; official results are visible only after release.
+  [R07] Alternate Flows | A1: Identical request already cached -- The cached LLM response is reused. / A2: LLM Provider unavailable -- The job is retried; no score is fabricated and the session reports auto_grading or grading_failed. / A3: Reviewer corrects an automated score -- The approved score and comments are stored immutably in GradeReview.
+[TABLE 29] style=Normal Table rows=8 cols=2
+  [R00] ID | UC16
+  [R01] Title | View Visual Competency Profile
+  [R02] Description | Allows learners to understand strengths and weaknesses per session and across all published evidence.
+  [R03] Entities Involved | E02: Learner
+  [R04] Preconditions | The learner has at least one completed assessment.
+  [R05] Primary Flow | 1. Learner opens the competency profile page. / 2. Learner selects a published session or the cumulative view. / 3. System computes competency = points earned / points possible × 100 for each concept; the cumulative view pools points across published sessions only. / 4. System renders interactive radar and bar charts aggregated into competency categories. / 5. After the charts, system displays a “What to study next” list of below-benchmark concepts ordered by shortfall, with the concept name and description when available.
+  [R06] Postconditions | The learner views the updated per-session and cumulative competency profile and a ranked list of below-benchmark topics.
+  [R07] Alternate Flows | A1: No published assessment -- Display an empty chart and a clear explanation.
+[TABLE 30] style=Normal Table rows=8 cols=2
+  [R00] ID | UC17
+  [R01] Title | View Competency Gap Explanations
+  [R02] Description | Shows below-benchmark concepts with evidence-linked explanations and a ranked “What to study next” list based on published evidence.
+  [R03] Entities Involved | E02: Learner, E04: LLM Provider
+  [R04] Preconditions | The learner has at least one completed assessment.
+  [R05] Primary Flow | 1. Learner opens the competency gap report. / 2. System flags concepts whose competency is below the platform's 70% passing target, weighted by the amount of benchmarked evidence in cumulative view. / 3. For each gap, the LLM Provider generates a plain-language diagnostic explanation linked to the related evidence (cached when possible). / 4. System displays the explanations and a “What to study next” list ordered by each concept's shortfall from target, showing each concept name and description when available.
+  [R06] Postconditions | The learner knows which topics to study first and why; AI explanations do not alter the deterministic score or topic order.
+  [R07] Alternate Flows | A1: LLM Provider unavailable -- The flagged concepts and ranked study list remain visible; explanations appear when the provider is available.
+[TABLE 31] style=Normal Table rows=8 cols=2
+  [R00] ID | UC18
+  [R01] Title | Review Assessment History and Evidence Records
+  [R02] Description | Allows learners to track their progress over time.
+  [R03] Entities Involved | E02: Learner
+  [R04] Preconditions | The learner is logged in.
+  [R05] Primary Flow | 1. Learner opens the assessment history page. / 2. System lists all sessions with dates, release status, and per-concept results for published sessions. / 3. Learner can resume an in-progress session. / 4. Learner opens a published session to see the evidence record of each answer: question, question type, PostgreSQL concept, difficulty, submitted answer, grading result, and timestamp.
+  [R06] Postconditions | The learner reviews past sessions and evidence; pending results show their release status instead of an early score.
+  [R07] Alternate Flows | A1: No sessions -- Display an empty list. / A2: Results are still grading or awaiting review -- Show the status and hide scores.
+[TABLE 32] style=Normal Table rows=8 cols=2
+  [R00] ID | UC19
+  [R01] Title | Manage Interface Preferences
+  [R02] Description | Allows learners and administrators to switch interface language and theme; preferences persist locally in the browser.
+  [R03] Entities Involved | E01: Administrator, E02: Learner
+  [R04] Preconditions | The user is signed in and opens the Settings page.
+  [R05] Primary Flow | 1. User opens Settings. / 2. User selects English or Vietnamese and a light or dark theme. / 3. The SPA applies the choice immediately and stores it in the browser. / 4. A new assessment session records the chosen question locale; an in-progress session keeps its frozen locale.
+  [R06] Postconditions | Preferences persist across visits on the same browser; session evidence is not altered by later preference changes.
+  [R07] Alternate Flows | A1: No stored preference -- English and the default theme are used. / A2: Language changed during a session -- The interface updates but the session's frozen question locale does not.
+[TABLE 33] style=Normal Table rows=8 cols=2
+  [R00] ID | UC20
+  [R01] Title | Review and Approve Results
+  [R02] Description | Allows an administrator to review automated grades for every submitted SQL and essay answer, adjust scores if needed, and approve the session. Unpublished scores, provisional profiles and gap results stay hidden from the learner until approval and publication.
+  [R03] Entities Involved | E01: Administrator
+  [R04] Preconditions | The session is submitted (completed or timed_out); automatic grading has finished or failed; the reviewing administrator is not the session owner. Every session follows this path.
+  [R05] Primary Flow | 1. Administrator opens the grading review queue. / 2. System lists sessions that are pending review, reviewed, or grading_failed. / 3. Administrator reviews automated evidence for every submitted SQL and essay attempt; MCQ review is optional. / 4. Administrator approves a score with comments; a GradeReview record is written. / 5. When all required attempts are reviewed, the administrator publishes the session; the status moves from reviewed to published and an immutable ResultReleaseEvent is recorded. / 6. Official scores and feedback become visible to the learner.
+  [R06] Postconditions | The session is published with every required review recorded; audit records cannot be modified or deleted.
+  [R07] Alternate Flows | A1: Grading failed -- The administrator retries the grading job; no score is fabricated. / A2: Another reviewer changed the session -- The stale publish attempt is rejected by the revision check. / A3: Reviewer owns the session -- Review and publication are refused with self_review_forbidden. / A4: Required reviews are incomplete -- Publication is refused with review_incomplete. / A5: Another reviewer changed the session -- The stale publish attempt is rejected by the revision check.
+[TABLE 34] style=Normal Table rows=11 cols=2
+  [R00] ID | QA01
+  [R01] Title | Page and API Response Time
+  [R02] Quality Attribute | Performance
+  [R03] Stakeholder Role | Learner, Administrator, Developer
+  [R04] Source(s) of Stimulus | Learner or administrator interacts with a page or feature
+  [R05] Stimulus | User opens a page or triggers a standard API request
+  [R06] Relevant Environment Conditions | Normal load during a learning or assessment session
+  [R07] Architectural Elements | Single Page Application, API Application (FastAPI async routes), Database
+  [R08] System Response | System loads the requested data and updates the interface without noticeable delay
+  [R09] Response Measure(s) | Web pages load within 1.5 seconds; standard API endpoints respond within 500 milliseconds
+  [R10] Associated Risks | Unindexed queries or unoptimized frontend bundles may degrade the experience
+[TABLE 35] style=Normal Table rows=11 cols=2
+  [R00] ID | QA02
+  [R01] Title | SQL Sandbox Execution Time
+  [R02] Quality Attribute | Performance
+  [R03] Stakeholder Role | Learner
+  [R04] Source(s) of Stimulus | Learner runs or submits a SQL query
+  [R05] Stimulus | Query is sent to the SQL sandbox for execution
+  [R06] Relevant Environment Conditions | Docker sandbox container running with its configured limits
+  [R07] Architectural Elements | API Application, Sandbox Runner, SQL Sandbox (PostgreSQL 17)
+  [R08] System Response | Query runs in the sandbox and the result or error is returned to the editor
+  [R09] Response Measure(s) | Query execution completes under 2 seconds, with a strict 3-second statement timeout
+  [R10] Associated Risks | Slow or runaway queries can delay feedback and hold sandbox resources
+[TABLE 36] style=Normal Table rows=11 cols=2
+  [R00] ID | QA03
+  [R01] Title | Sandbox Isolation
+  [R02] Quality Attribute | Security
+  [R03] Stakeholder Role | Administrator, Developer
+  [R04] Source(s) of Stimulus | Learner submits harmful SQL or an infinite loop
+  [R05] Stimulus | Learner submits harmful SQL, a DML/DDL statement, or an infinite loop
+  [R06] Relevant Environment Conditions | Live assessment session with many learners
+  [R07] Architectural Elements | Sandbox Runner, SQL Sandbox container
+  [R08] System Response | The statement is rejected or stopped and rolled back; production data remains unreachable
+  [R09] Response Measure(s) | Learner execution accepts SELECT only; read-only role, read-only transaction rolled back after evaluation, 3-second statement timeout, 256 MB memory limit, network access disabled, no access to production data
+  [R10] Associated Risks | A misconfigured sandbox could expose the server or the application database
+[TABLE 37] style=Normal Table rows=11 cols=2
+  [R00] ID | QA04
+  [R01] Title | Unauthorized Access Attempt
+  [R02] Quality Attribute | Security
+  [R03] Stakeholder Role | Administrator, Developer
+  [R04] Source(s) of Stimulus | Unauthenticated user or a learner attempts a restricted operation
+  [R05] Stimulus | Request without a valid JWT, with the wrong role, from a disabled account, or an OAuth callback with a mismatched state/PKCE value
+  [R06] Relevant Environment Conditions | System exposed to internet traffic
+  [R07] Architectural Elements | API Application (JWT and role-based access control), Database
+  [R08] System Response | System rejects the request and grants no access to administrator functions or other users' data
+  [R09] Response Measure(s) | Every protected request verifies the JWT and current database roles; OAuth requires signed state and PKCE where supported; only can_manage_roles accounts change roles; role changes are audited; Administrator accounts are provisioned and start disabled
+  [R10] Associated Risks | Weak role checks could expose administrative features or learner data
+[TABLE 38] style=Normal Table rows=11 cols=2
+  [R00] ID | QA05
+  [R01] Title | Learner Data Privacy
+  [R02] Quality Attribute | Security
+  [R03] Stakeholder Role | Learner, Administrator
+  [R04] Source(s) of Stimulus | System prepares an essay or prompt for the external LLM Provider
+  [R05] Stimulus | Request is about to leave the system boundary
+  [R06] Relevant Environment Conditions | External LLM Provider API used for assistive tasks
+  [R07] Architectural Elements | LLM Gateway (sanitization), API Application, LLM Provider
+  [R08] System Response | Personal details are stripped before any external call
+  [R09] Response Measure(s) | Learner names and identifying numbers are removed from all text sent to the LLM Provider (NFR-07); OAuth provider access tokens are never persisted or exposed to the browser
+  [R10] Associated Risks | Leaking identifying data to an external provider would breach learner privacy
+[TABLE 39] style=Normal Table rows=11 cols=2
+  [R00] ID | QA06
+  [R01] Title | Scoring Consistency
+  [R02] Quality Attribute | Reliability
+  [R03] Stakeholder Role | Learner, Administrator
+  [R04] Source(s) of Stimulus | Identical answers are graded more than once
+  [R05] Stimulus | Essay answer is evaluated by the LLM Provider
+  [R06] Relevant Environment Conditions | Rubric-guided essay grading with versioned prompts and rubrics
+  [R07] Architectural Elements | Grading Service, LLM Gateway, LLMCache, Rubric
+  [R08] System Response | The same answer receives the same rubric result; final competency is computed deterministically by DBCAS
+  [R09] Response Measure(s) | Low temperature (0.1) with fixed seeds, strict JSON output schema, four-level rubric, cached responses for identical requests, immutable question/session snapshots, and explicit administrator review and approval
+  [R10] Associated Risks | Unstable LLM output could make scores inconsistent across repeated runs
+[TABLE 40] style=Normal Table rows=11 cols=2
+  [R00] ID | QA07
+  [R01] Title | Question Generation Never Blocks a Session
+  [R02] Quality Attribute | Availability
+  [R03] Stakeholder Role | Learner, Administrator
+  [R04] Source(s) of Stimulus | AI question generation is unavailable or still in progress
+  [R05] Stimulus | A session starts while no new AI-generated candidate is available
+  [R06] Relevant Environment Conditions | Practice start using learner-selected concepts, bands, count and source
+  [R07] Architectural Elements | Practice Service, Question Repository, QuestionCandidate, SelectionLog
+  [R08] System Response | The plan is assembled only from validated bank items, so the session starts and proceeds normally; AI candidates enter the bank only after automated checks and administrator approval
+  [R09] Response Measure(s) | No bank-source practice session fails or waits because of AI generation (NFR-09); the complete plan is frozen at start, the exact count is met, and any widening to related concepts or bands or any substitution is disclosed and logged. In AI mode, a failed generation is completed with validated bank items and one bank_mixed notice rather than serving unvalidated content.
+  [R10] Associated Risks | A small validated bank could reduce concept coverage and selection quality
+[TABLE 41] style=Normal Table rows=11 cols=2
+  [R00] ID | QA08
+  [R01] Title | Concurrent Learners
+  [R02] Quality Attribute | Scalability
+  [R03] Stakeholder Role | Learner, Developer
+  [R04] Source(s) of Stimulus | A full class section starts an assessment together
+  [R05] Stimulus | Many learners submit answers at the same time
+  [R06] Relevant Environment Conditions | Peak load during a scheduled assessment
+  [R07] Architectural Elements | API Application (stateless), Database (connection pooling), SQL Sandbox
+  [R08] System Response | The system serves all learners without failure
+  [R09] Response Measure(s) | Supports 100 learners taking an assessment simultaneously; idempotent start-request bindings return the same session for duplicate submissions
+  [R10] Associated Risks | Database connection exhaustion or sandbox saturation under peak load
+[TABLE 42] style=Normal Table rows=11 cols=2
+  [R00] ID | QA09
+  [R01] Title | Replacing the LLM Provider
+  [R02] Quality Attribute | Modifiability
+  [R03] Stakeholder Role | Developer
+  [R04] Source(s) of Stimulus | Team decides to change the LLM vendor or model
+  [R05] Stimulus | Request to integrate a different provider
+  [R06] Relevant Environment Conditions | Provider-agnostic REST integration behind the LLM Gateway
+  [R07] Architectural Elements | LLM Gateway, API Application, LLMCache
+  [R08] System Response | New provider is configured without changing scoring rules, controllers, or the database schema
+  [R09] Response Measure(s) | Change is limited to the LLM Gateway client configuration; final competency logic remains unchanged
+  [R10] Associated Risks | Provider-specific output formats could break JSON parsing
+[TABLE 43] style=Normal Table rows=11 cols=2
+  [R00] ID | QA10
+  [R01] Title | Code Quality and Bug Fixing
+  [R02] Quality Attribute | Maintainability
+  [R03] Stakeholder Role | Developer, QA Tester
+  [R04] Source(s) of Stimulus | Tester or developer finds a defect
+  [R05] Stimulus | Bug is reported and a fix is prepared
+  [R06] Relevant Environment Conditions | Controller-Service-Repository layering with documented code
+  [R07] Architectural Elements | API Application, Database, automated test suite
+  [R08] System Response | Developer isolates the fault in one layer, fixes it, and verifies it before merging
+  [R09] Response Measure(s) | Automated pytest unit tests for core backend services run before every merge (NFR-08)
+  [R10] Associated Risks | Tight coupling between layers could spread a defect to other modules
+[TABLE 44] style=Normal Table rows=11 cols=2
+  [R00] ID | QA11
+  [R01] Title | Practice Interface Usability
+  [R02] Quality Attribute | Usability
+  [R03] Stakeholder Role | Learner
+  [R04] Source(s) of Stimulus | Learner opens the practice dashboard on a standard laptop or desktop
+  [R05] Stimulus | Learner starts and answers questions
+  [R06] Relevant Environment Conditions | Modern browser (Chrome, Edge, Firefox, Safari)
+  [R07] Architectural Elements | Single Page Application (Tailwind CSS layouts), API Application
+  [R08] System Response | Interface is clear, with a persistent countdown, warnings at 10 and 5 minutes, progress indicator, draft autosave, forward-only navigation, an embedded SQL editor, and English/Vietnamese plus theme preferences
+  [R09] Response Measure(s) | The timer and progress indicator are always visible; 10- and 5-minute warnings appear at those thresholds; drafts survive reloads; auto-submit occurs at 00:00
+  [R10] Associated Risks | A cluttered practice interface could distract learners and hide time warnings
+[TABLE 45] style=Normal Table rows=3 cols=2
+  [R00] ID | TC01
+  [R01] Title | Technology Stack Limitation
+  [R02] Description | The system must be built with the selected stack: React 19.3 with Vite 8.3.5 (JavaScript / JSX), Tailwind CSS 4.3, and Chart.js 4.5.1 for the frontend; FastAPI 0.141.1 on Python 3.13 for the backend; PostgreSQL 17 for the database; and Docker Engine CE 29 for the execution sandbox.
+[TABLE 46] style=Normal Table rows=3 cols=2
+  [R00] ID | TC02
+  [R01] Title | SQL Sandbox Resource Limits
+  [R02] Description | Learner SQL queries must run in a dedicated Docker sandbox container with memory capped at 256 MB and execution capped at 3 seconds via statement_timeout, under a read-only role, with network access disabled. Learner execution accepts SELECT only; DML and DDL are assessed only through MCQ and essay content.
+[TABLE 47] style=Normal Table rows=3 cols=2
+  [R00] ID | TC03
+  [R01] Title | External LLM Provider Limits and Latency
+  [R02] Description | External LLM API calls must be provider-agnostic REST calls, managed with PostgreSQL-backed response caching, asynchronous essay grading, and PostgreSQL-backed durable grading jobs with leases and bounded retries to avoid delays.
+[TABLE 48] style=Normal Table rows=3 cols=2
+  [R00] ID | TC04
+  [R01] Title | Modern Web Browser Compatibility
+  [R02] Description | The web interface must run on standard modern browsers (Chrome, Edge, Firefox, Safari) using standard HTML5/CSS without custom browser plugins.
+[TABLE 49] style=Normal Table rows=3 cols=2
+  [R00] ID | BC01
+  [R01] Title | Timeline and Deliverables
+  [R02] Description | All design, implementation, testing, and documentation must finish within the 15-week Capstone 1 schedule (14 September 2026 -- 26 December 2026), ending with the capstone defense. Written reports are delivered in both PDF and Word (.docx) formats.
+[TABLE 50] style=Normal Table rows=3 cols=2
+  [R00] ID | BC02
+  [R01] Title | Independent Benchmark Data
+  [R02] Description | Real university learner records are not available, so the team uses a self-contained benchmark dataset of sample questions, schemas, and answers.
+[TABLE 51] style=Normal Table rows=3 cols=2
+  [R00] ID | BC03
+  [R01] Title | Human-Governed AI Evaluation
+  [R02] Description | The external LLM Provider is assistive only. Final competency scores are computed deterministically by DBCAS from predefined scoring rules, isolated SQL test suites, and evidence logs, under administrator oversight. Every result requires administrator review and approval: an administrator reviews every SQL and essay score before publication.
+[TABLE 52] style=Normal Table rows=3 cols=2
+  [R00] ID | BC04
+  [R01] Title | Learner Data Privacy
+  [R02] Description | Learner names and identifying numbers must be removed before any text is sent to an external LLM Provider, OAuth provider access tokens are never stored, and the platform operates as a standalone setup with learner data anonymization.
+[TABLE 53] style=Normal Table rows=11 cols=2
+  [R00] Role | Responsibilities
+  [R01] Learner | Selects concepts, difficulty bands, question count and source; takes practice sessions. / Views published per-session and cumulative competency profiles and gap explanations.
+  [R02] Administrator | Manages CLOs, concepts, prerequisites, the validated Question Bank, translations and rubrics. / Manages accounts and roles, reviews every submission, and approves official results, and reviews cohort analytics.
+  [R03] Web Application | Delivers static content and the Single Page Application bundle to the user's web browser.
+  [R04] Single Page Application (SPA) | Provides the Learner Practice Portal and the Administrator Management Portal. / Includes the SQL editor, Chart.js radar and bar charts, draft autosave, grading review queue, and English/Vietnamese plus theme preferences.
+  [R05] API Application | Handles core business logic: password and OAuth authentication, self-service password recovery, role management, practice session coordination, grading jobs, release review, personalized plan assembly and frozen plan delivery, and competency calculation. / Communicates with the SPA via JSON/HTTPS APIs. / Reads from and writes to the database, runs SELECT queries in the sandbox, and calls the LLM Provider.
+  [R06] Database (PostgreSQL 17) | Stores users, roles and audit records, CLOs and concepts, the question bank and translations, sessions with immutable snapshots, attempts, evidence, grading jobs, password-reset tokens and audit, release events, competency results, and cached LLM responses (41 tables).
+  [R07] SQL Execution Sandbox | Executes learner SELECT queries in an isolated PostgreSQL 17 Docker container with a read-only role, 3-second timeout, and 256 MB memory limit.
+  [R08] LLM Provider API | Provides assistive AI: mapping and tag suggestions, question candidate drafts, rubric-guided essay scoring, and gap explanations.
+  [R09] Background Worker | In-process maintenance thread that expires timed-out sessions and processes bounded SQL/essay grading jobs with database leases and retries.
+  [R10] OAuth Identity Providers (external) | Google and GitHub OAuth 2.0 servers used for social sign-in; DBCAS stores only the provider user id, email and verification flag.
+[TABLE 54] style=Normal Table rows=15 cols=2
+  [R00] Role | Responsibilities
+  [R01] Controller | FastAPI routers that receive client requests and validate them with Pydantic schemas. / Delegate processing to the corresponding Service.
+  [R02] Service | Contain business logic: authentication and OAuth, role management, curriculum rules, question bank curation, personalized session control, grading, release review, personalized plan assembly, competency calculation, gap detection, and study-topic ranking. / Call Repository components for data access.
+  [R03] Repository | Interact with PostgreSQL through SQLAlchemy and perform CRUD operations for the 41 tables.
+  [R04] Practice Service | Validates learner-selected concepts, bands, count and source; assembles, validates and freezes the complete practice plan; serves planned questions and logs shortage notices. / Generates and validates AI MCQ/essay items at session start; SQL items always come from the validated bank.
+  [R05] Grading Service | Grades MCQ by answer key, SQL semantically in the sandbox, and essays by rubric with LLM assistance. / Enqueues bounded retries and exposes automated evidence for human review.
+  [R06] LLM Gateway | Removes personal details, builds versioned prompts, enforces the strict JSON schema, calls the provider, and caches responses in LLMCache.
+  [R07] Sandbox Runner | Runs learner SELECT queries inside the Docker sandbox in a read-only transaction with a timeout and rolls back after evaluation.
+  [R08] Application Database (PostgreSQL 17) | Stores all system data.
+  [R09] Identity & Access Service | Registers and authenticates accounts, completes Google/GitHub OAuth with state and PKCE, applies login throttling, issues and redeems single-use password-reset tokens, and records reset audit events, and enforces capability-gated, audited role changes.
+  [R10] Question Serving | Serves planned questions in order, saves drafts, and writes one SelectionLog audit row per served item.
+  [R11] Release & Review Service | Owns the release lifecycle (auto_grading, pending_review, reviewed, published, grading_failed), records GradeReview decisions, publishes results and writes immutable release events.
+  [R12] Competency & Guidance Service | Computes deterministic per-session and cumulative published-evidence competency, detects gaps and ranks study topics.
+  [R13] Maintenance Worker | Sweeps session expiry and claims, leases and retries grading jobs; runs in the API process without an external queue.
+  [R14] SQL Sandbox Database (PostgreSQL 17) | Runs learner SELECT queries in isolation; never stores application data.
+[TABLE 55] style=Normal Table rows=14 cols=2
+  [R00] Role | Responsibilities
+  [R01] Web UI Module | Provides the Learner and Administrator portals (SPA). / Accessed via the Web Application.
+  [R02] API Gateway Module | Acts as the gateway between the Web UI and backend modules. / Routes requests, validates input, and secures API access with JWT and role checks.
+  [R03] Identity & Access Module | Handles registration, email/password and OAuth login, password recovery, throttling, logout, role-based access, and audited role management (FR-01, FR-16). / Provisions accounts and administrator roles.
+  [R04] Curriculum Module | Manages CLOs, the concept model, and confirmed CLO-to-concept mappings (FR-02, FR-03).
+  [R05] Question Bank Module | Manages the validated Question Bank, provenance, translations, version families, concept tags, and AI question candidates (FR-04, FR-05).
+  [R06] Practice Module | Lets learners choose concepts, bands, count and source; freezes the complete plan and idempotent start; runs the 30-minute session (FR-07), serves each planned question (FR-15) and logs shortage notices.
+  [R07] Grading Module | Grades MCQ, SQL, and essay answers, stores standardized evidence, and retries failed jobs (FR-08, FR-09, FR-10, FR-11).
+  [R08] Competency Module | Calculates per-session and cumulative published-evidence competency, detects gaps, ranks below-benchmark concepts, and provides learner and cohort analytics (FR-12, FR-13, FR-14).
+  [R09] AI Integration Module | LLM Gateway that sanitizes requests, calls the provider, and caches results.
+  [R10] Sandbox Module | Sandbox Runner and the isolated Docker PostgreSQL instance for learner SQL.
+  [R11] Database Module (PostgreSQL 17) | Stores all application data (41 tables).
+  [R12] Result Release & Human Review Module | Enforces mandatory review and approval, manages the review queue and retries, publishes results, and records immutable grade/release audit events (FR-06, FR-10, FR-11).
+  [R13] Localization & Preferences Module | Provides English/Vietnamese UI and question translations, theme preferences, and the frozen session locale.
+[TABLE 56] style=Normal Table rows=10 cols=2
+  [R00] Role | Responsibilities
+  [R01] Learner / Administrator | Uses the system through a web browser over HTTPS. / Learners take practice sessions and view results; administrators manage content and review analytics.
+  [R02] User's Device | Laptop or desktop with a modern web browser (Chrome, Edge, Firefox, Safari).
+  [R03] Web Server | Receives HTTPS requests from users. / Serves static content and the React + Vite single-page application.
+  [R04] Application Server | Runs the FastAPI backend (Python 3.13): business logic, password/OAuth authentication and password recovery, RBAC and role audit, practice sessions, grading, release review, and competency calculation. / Sends DB requests to PostgreSQL, SELECT queries to the SQL Sandbox, and sanitized prompts to the LLM Provider; runs the background maintenance worker.
+  [R05] Database (PostgreSQL 17) | Stores user and role audit data, question bank and translations, sessions and snapshots, attempts, evidence, grading jobs, password-reset tokens and audit, release events, competency results, and cached LLM responses (41 tables). / Provides data to the Application Server upon request.
+  [R06] SQL Sandbox | Isolated PostgreSQL 17 Docker container for learner SELECT queries: read-only role, no network, 256 MB memory, 3-second statement timeout.
+  [R07] LLM Provider API | External assistive AI service (provider-agnostic REST) used for essay scoring, mapping, tagging, and explanations.
+  [R08] Background Worker | Runs inside the Application Server: expires timed-out sessions and processes leased grading jobs with bounded retries.
+  [R09] OAuth Identity Providers | External Google and GitHub servers support sign-in and learner sign-up; no provider tokens are stored.
+[TABLE 57] style=Normal Table rows=42 cols=2
+  [R00] Table | Description
+  [R01] Account | Stores login credentials and account status, password-set/change timestamps, and the can_manage_roles capability flag.
+  [R02] Role | Defines the two roles used for role-based access control: Learner and Administrator.
+  [R03] AccountRole | Junction table resolving the many-to-many relationship between Account and Role, recording role assignment timestamps.
+  [R04] UserProfile | Holds personal details linked one-to-one to an Account (full name, student code, phone, date of birth); identifying fields are stripped before any external LLM call.
+  [R05] CourseLearningOutcome | Course learning outcomes (CLOs) defined by administrators and aligned to the database course curriculum.
+  [R06] Concept | The Core PostgreSQL concept model, organized by subject area with a base difficulty level (1–5), sql_feature, keywords and learning objectives; prerequisites live in ConceptDependency.
+  [R07] CLOConcept | Junction table mapping CLOs to concepts; records whether the mapping was set by an administrator or suggested by AI, and its confirmation status.
+  [R08] Question | The validated question bank: MCQ, SQL, and essay items with provenance, explanation, tags, original locale, source references, lifecycle status, and family/version lineage.
+  [R09] QuestionConcept | Junction table tagging questions with concepts, including whether a technique is mandatory; AI-recommended tags remain unconfirmed until reviewed.
+  [R10] MCQOption | Answer options for multiple-choice questions, including the verified correct-answer flag used for instant grading.
+  [R11] SQLTestDataset | Test datasets for SQL questions: setup SQL executed in the sandbox and expected result sets, including edge cases.
+  [R12] Rubric | Grading rubric levels (Complete, Mostly Complete, Partial, Incomplete) with score ranges and criteria for essay evaluation.
+  [R13] Assessment | Legacy prebuilt exam definition retained for historical rows: question cap, type mix, duration, historical release policy and family/version lineage. Migration 019 closes published definitions; no current API creates one.
+  [R14] AssessmentBlueprint | Legacy, versioned evidence mix of a retired formal definition: subject area, band, question counts, scoring weights, evidence types and approval basis. Kept for historical sessions only.
+  [R15] AssessmentConcept | Legacy junction table holding the target concepts of a retired assessment, their allowed difficulty range, and the passing benchmark.
+  [R16] AssessmentSession | One learner's practice run: status, frozen configuration snapshot, optional legacy assessment id (nullable since migration 018), locale, expiry, submission, start-request id, and review/release status.
+  [R17] AdaptiveEvent | Historical audit of adaptive batch or decision events, including mid-session shortage notices; retained for sessions created before learner-defined practice.
+  [R18] Attempt | One row per served question: the answer, immutable question snapshot, draft state, grading status, score, and standardized evidence.
+  [R19] SelectionLog | Audit log of every question-plan selection decision (chosen concept, difficulty, question type, and whether a fallback item was used), used to monitor selection quality (FR-15, RSK-06).
+  [R20] ConceptCompetency | Per-concept competency result of a session: points earned vs. points possible, the computed percentage, and the below-target flag.
+  [R21] CompetencyGap | Concepts flagged as gaps with the LLM explanation and a sanitized-input context hash reused for caching.
+  [R22] LLMCache | Cached external LLM responses keyed by a hash of the sanitized request, used to reduce API cost and latency.
+  [R23] QuestionCandidate | AI-generated drafts held outside the Question bank; automated checks run first, then an administrator approves the candidate before it becomes a validated Question.
+  [R24] AccountIdentity | Linked OAuth 2.0 identity (Google / GitHub) with provider user id, email and verification flag.
+  [R25] AccountRoleAudit | Immutable audit of role grants, revocations and the role-manager bootstrap.
+  [R26] PasswordResetToken | Single-use, short-lived password-reset tokens stored only as SHA-256 digests, with expiry, use and revocation timestamps.
+  [R27] PasswordResetAudit | Immutable audit trail of password-reset requests and completions.
+  [R28] OAuthHandoff | Hashed, short-lived handoffs consumed once to issue rotating DBCAS sessions after verified-email OAuth sign-in or sign-up.
+  [R29] LoginThrottle | Hashed login keys with recent failures and an expiry window for brute-force protection.
+  [R30] ConceptDependency | Directed prerequisite edges between concepts; cycles are checked by the service layer.
+  [R31] QuestionTranslation | Locale-specific prompt, explanation, option texts and rubric criteria; English remains canonical.
+  [R32] SessionQuestionPlan | Frozen ordered questions reserved for a practice session, including items not yet served; legacy formal sessions recorded each served decision in selection_log.
+  [R33] SessionStartRequest | Idempotency ledger binding a learner's start/resume request id to a session.
+  [R34] GradingJob | Durable grading queue with leases, retry counters and failure codes.
+  [R35] GradeReview | Human review decision with automated evidence, approved score and comments.
+  [R36] ResultReleaseEvent | Immutable history of every release-status transition.
+  [R37] AssessmentQuestion | Legacy junction table listing the curated exam question pool of a retired assessment (migration 017); unused by learner-defined practice.
+  [R38] EvaluationRecord | Standardized evidence for one graded answer: question snapshot, rubric level, points, evaluator source and validation flags.
+  [R39] GradeEditAudit | Immutable audit of every manual change to a grade, with before/after points, actor and reason.
+  [R40] RefreshSession | Hashed refresh-token families for email and OAuth sessions, with rotation and logout/replay revocation; raw bearer tokens are not stored.
+  [R41] SystemSetting | Runtime settings row retained for historical/operational values; result release is no longer selectable.

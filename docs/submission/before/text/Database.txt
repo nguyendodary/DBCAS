@@ -1,0 +1,658 @@
+[P002] [Normal] PROJECT INFORMATION
+[P005] [Normal] REVISION HISTORY
+[P007] [Normal] TABLE OF CONTENTS
+[P009] [Normal] LIST OF FIGURES
+[P011] [table of figures] Figure 1: Entity Relationship Diagram	5
+[P012] [table of figures] Figure 2: Table Relationship Diagram (1/5)	7
+[P013] [table of figures] Figure 2: Table Relationship Diagram (2/5)	8
+[P014] [table of figures] Figure 2: Table Relationship Diagram (3/5)	9
+[P015] [table of figures] Figure 2: Table Relationship Diagram (4/5)	10
+[P016] [table of figures] Figure 2: Table Relationship Diagram (5/5)	11
+[P019] [Normal] 	LIST OF TABLES
+[P020] [table of figures] Table 1: Table Overview	2
+[P021] [table of figures] Table 2: Database Design (Account)	12
+[P022] [table of figures] Table 3: Database Design (Role)	12
+[P023] [table of figures] Table 4: Database Design (AccountRole)	13
+[P024] [table of figures] Table 5: Database Design (UserProfile)	13
+[P025] [table of figures] Table 6: Database Design (CourseLearningOutcome)	13
+[P026] [table of figures] Table 7: Database Design (Concept)	14
+[P027] [table of figures] Table 8: Database Design (CLOConcept)	14
+[P028] [table of figures] Table 9: Database Design (Question)	15
+[P029] [table of figures] Table 10: Database Design (QuestionConcept)	16
+[P030] [table of figures] Table 11: Database Design (MCQOption)	16
+[P031] [table of figures] Table 12: Database Design (SQLTestDataset)	17
+[P032] [table of figures] Table 13: Database Design (Rubric)	17
+[P033] [table of figures] Table 14: Database Design (Assessment)	18
+[P034] [table of figures] Table 15: Database Design (AssessmentConcept)	18
+[P035] [table of figures] Table 16: Database Design (AssessmentSession)	19
+[P036] [table of figures] Table 17: Database Design (Attempt)	20
+[P037] [table of figures] Table 18: Database Design (SelectionLog)	21
+[P038] [table of figures] Table 19: Database Design (ConceptCompetency)	21
+[P039] [table of figures] Table 20: Database Design (CompetencyGap)	22
+[P040] [table of figures] Table 21: Database Design (LLMCache)	22
+[P041] [table of figures] Table 22: Database Design (QuestionCandidate)	23
+[P042] [table of figures] Table 23: Database Design (AccountIdentity)	24
+[P043] [table of figures] Table 24: Database Design (AccountRoleAudit)	24
+[P044] [table of figures] Table 25: Database Design (OAuthHandoff)	24
+[P045] [table of figures] Table 26: Database Design (LoginThrottle)	25
+[P046] [table of figures] Table 27: Database Design (ConceptDependency)	25
+[P047] [table of figures] Table 28: Database Design (QuestionTranslation)	25
+[P048] [table of figures] Table 29: Database Design (SessionQuestionPlan)	27
+[P049] [table of figures] Table 30: Database Design (SessionStartRequest)	27
+[P050] [table of figures] Table 31: Database Design (GradingJob)	27
+[P051] [table of figures] Table 32: Database Design (GradeReview)	28
+[P052] [table of figures] Table 33: Database Design (ResultReleaseEvent)	28
+[P053] [table of figures] Table 34: Database Design (AssessmentBlueprint)	29
+[P054] [table of figures] Table 35: Database Design (AdaptiveEvent)	30
+[P055] [table of figures] Table 36: Database Design (PasswordResetToken)	30
+[P056] [table of figures] Table 37: Database Design (PasswordResetAudit)	31
+[P057] [table of figures] Table 38: Database Design (AssessmentQuestion)	31
+[P058] [table of figures] Table 39: Database Design (EvaluationRecord)	31
+[P059] [table of figures] Table 40: Database Design (GradeEditAudit)	32
+[P060] [table of figures] Table 41: Database Design (RefreshSession)	32
+[P061] [table of figures] Table 42: Database Design (SystemSetting)	32
+[P062] [table of figures] Table 43: Hardware and Software Requirements	33
+[P064] [Heading 1] Introduction
+[P065] [Normal] The Database Design maps the logical data model to the target database management system, considering the system’s performance requirements. It converts logical or conceptual data constructs to physical data constructs (e.g., tables, etc.) of the target Database Management System.
+[P066] [Heading 2] Purpose
+[P067] [Normal] The Database Design aims to ensure that every database transaction of the DBCAS platform — learner accounts, account recovery, the concept taxonomy, the question bank, learner-defined practice sessions, attempts, and competency results — is processed and stored reliably. It describes the PostgreSQL 17 schema that persists all application data for the AI-assisted database competency assessment and skill gap analysis system.
+[P068] [Heading 2] Scope
+[P069] [Normal] The Database Design Document has the following objectives:
+[P070] [List Paragraph] To describe the design of a database, that is, a collection of related data stored in the PostgreSQL DBMS, which supports the DBCAS practice workflow (CLO mapping, question banking, SQL sandbox evaluation, rubric grading, and competency gap reporting).
+[P071] [List Paragraph] To serve as a basis for implementing the database and related software, including the FastAPI backend, the Docker-isolated PostgreSQL sandbox, and the LLM-assisted grading pipeline.
+[P072] [Heading 2] Introduction about PostgreSQL
+[P073] [Normal] PostgreSQL is a powerful open-source relational database management system (RDBMS) known for standards compliance, reliability, and extensibility. It supports advanced data types such as JSONB, full ACID transactions, and rich indexing, which makes it well suited as the system of record for DBCAS.
+[P074] [Normal] PostgreSQL provides high performance and scalability through features such as MVCC, cost-based query optimization, and parallel query execution. For DBCAS, it stores the concept taxonomy, the question bank, practice session state, attempts, and per-concept competency results.
+[P075] [Normal] In PostgreSQL, data is organized into tables with well-defined schemas. Constraints such as primary keys, foreign keys, unique constraints, and default values enforce data integrity across the 41 tables of the DBCAS schema, while JSONB columns keep flexible evidence payloads — grading detail, selection decisions, immutable snapshots, and cached LLM responses — queryable.
+[P076] [Heading 1] Database Diagram
+[P077] [Heading 2] Table Overview
+[P078] [Caption] Table 1: Table Overview
+[P080] [Heading 2] Entity Relationship Diagram
+[P082] [Caption] Figure 1: Entity Relationship Diagram
+[P083] [Normal] Figure 1 is the conceptual model: the many-to-many relationships (assigned, maps to, tagged with, targets) are implemented by the junction tables AccountRole, CLOConcept, QuestionConcept and the legacy AssessmentConcept shown in Figure 2. SystemSetting stores historical/operational platform values; result release is no longer selectable. The four legacy tables (Assessment, AssessmentConcept, AssessmentQuestion and AssessmentBlueprint) are marked as historical rows only. Tables added by later migrations (account identity, role audit, OAuth handoff, login throttling, concept prerequisites, question translations, the frozen session question plan, session start-request bindings, evaluation records, grading jobs, grade reviews, grade-edit audit, result-release events, refresh sessions, system settings, password-reset tokens and password-reset audit) are documented in the sections below, and all 41 tables appear in Figure 2.
+[P085] [Caption] Figure 2: Table Relationship Diagram (1/5)
+[P087] [Caption] Figure 2: Table Relationship Diagram (2/5)
+[P089] [Caption] Figure 2: Table Relationship Diagram (3/5)
+[P091] [Caption] Figure 2: Table Relationship Diagram (4/5)
+[P093] [Caption] Figure 2: Table Relationship Diagram (5/5)
+[P095] [Heading 1] Database Design for Sprint
+[P096] [Heading 2]   Account
+[P097] [Normal] This includes the attribute:
+[P098] [Caption] Table 2: Database Design (Account)
+[P099] [Heading 2]   Role
+[P100] [Normal] This includes the attribute:
+[P101] [Caption] Table 3: Database Design (Role)
+[P102] [Heading 2]   AccountRole
+[P103] [Normal] This includes the attribute:
+[P104] [Caption] Table 4: Database Design (AccountRole)
+[P105] [Heading 2]   UserProfile
+[P106] [Normal] This includes the attribute:
+[P107] [Caption] Table 5: Database Design (UserProfile)
+[P108] [Heading 2]   CourseLearningOutcome
+[P109] [Normal] This includes the attribute:
+[P110] [Caption] Table 6: Database Design (CourseLearningOutcome)
+[P111] [Heading 2]   Concept
+[P112] [Normal] This includes the attribute:
+[P113] [Caption] Table 7: Database Design (Concept)
+[P114] [Heading 2]   CLOConcept
+[P115] [Normal] This includes the attribute:
+[P116] [Caption] Table 8: Database Design (CLOConcept)
+[P117] [Heading 2]   Question
+[P118] [Normal] This includes the attribute:
+[P119] [Caption] Table 9: Database Design (Question)
+[P120] [Normal] The shipped schema allows Question.source values 'bank' and 'ai_generated' and Question.status values 'draft', 'validated' and 'retired'. Learner-defined practice supports both sources: AI generates MCQ and essay items, SQL items always come from the validated bank, and every generated item is validated before it enters the frozen plan; if AI cannot fill the plan, validated bank items complete it with a single bank_mixed notice.
+[P121] [Heading 2]   QuestionConcept
+[P122] [Normal] This includes the attribute:
+[P123] [Caption] Table 10: Database Design (QuestionConcept)
+[P124] [Heading 2]   MCQOption
+[P125] [Normal] This includes the attribute:
+[P126] [Caption] Table 11: Database Design (MCQOption)
+[P127] [Heading 2]   SQLTestDataset
+[P128] [Normal] This includes the attribute:
+[P129] [Caption] Table 12: Database Design (SQLTestDataset)
+[P130] [Heading 2]   Rubric
+[P131] [Normal] This includes the attribute:
+[P132] [Caption] Table 13: Database Design (Rubric)
+[P133] [Heading 2]   Assessment
+[P134] [Normal] This includes the attribute:
+[P135] [Caption] Table 14: Database Design (Assessment)
+[P136] [Heading 2]   AssessmentConcept
+[P137] [Normal] This includes the attribute:
+[P138] [Caption] Table 15: Database Design (AssessmentConcept)
+[P139] [Heading 2]   AssessmentSession
+[P140] [Normal] This includes the attribute:
+[P141] [Caption] Table 16: Database Design (AssessmentSession)
+[P142] [Heading 2]   Attempt
+[P143] [Normal] This includes the attribute:
+[P144] [Caption] Table 17: Database Design (Attempt)
+[P145] [Heading 2]   SelectionLog
+[P146] [Normal] This includes the attribute:
+[P147] [Caption] Table 18: Database Design (SelectionLog)
+[P148] [Heading 2]   ConceptCompetency
+[P149] [Normal] This includes the attribute:
+[P150] [Caption] Table 19: Database Design (ConceptCompetency)
+[P151] [Heading 2]   CompetencyGap
+[P152] [Normal] This includes the attribute:
+[P153] [Caption] Table 20: Database Design (CompetencyGap)
+[P154] [Heading 2]   LLMCache
+[P155] [Normal] This includes the attribute:
+[P156] [Caption] Table 21: Database Design (LLMCache)
+[P157] [Heading 2]   QuestionCandidate
+[P158] [Normal] This includes the attribute:
+[P159] [Caption] Table 22: Database Design (QuestionCandidate)
+[P160] [Heading 2] AccountIdentity
+[P161] [Normal] This includes the attribute:
+[P162] [Caption] Table 23: Database Design (AccountIdentity)
+[P163] [Heading 2] AccountRoleAudit
+[P164] [Normal] This includes the attribute:
+[P165] [Caption] Table 24: Database Design (AccountRoleAudit)
+[P166] [Heading 2] OAuthHandoff
+[P167] [Normal] This includes the attribute:
+[P168] [Caption] Table 25: Database Design (OAuthHandoff)
+[P169] [Heading 2] LoginThrottle
+[P170] [Normal] This includes the attribute:
+[P171] [Caption] Table 26: Database Design (LoginThrottle)
+[P172] [Heading 2] ConceptDependency
+[P173] [Normal] This includes the attribute:
+[P174] [Caption] Table 27: Database Design (ConceptDependency)
+[P175] [Heading 2] QuestionTranslation
+[P176] [Normal] This includes the attribute:
+[P177] [Caption] Table 28: Database Design (QuestionTranslation)
+[P178] [Heading 2] SessionQuestionPlan
+[P179] [Normal] This includes the attribute:
+[P180] [Caption] Table 29: Database Design (SessionQuestionPlan)
+[P181] [Heading 2] SessionStartRequest
+[P182] [Normal] This includes the attribute:
+[P183] [Caption] Table 30: Database Design (SessionStartRequest)
+[P184] [Heading 2] GradingJob
+[P185] [Normal] This includes the attribute:
+[P186] [Caption] Table 31: Database Design (GradingJob)
+[P187] [Heading 2] GradeReview
+[P188] [Normal] This includes the attribute:
+[P189] [Caption] Table 32: Database Design (GradeReview)
+[P190] [Heading 2] ResultReleaseEvent
+[P191] [Normal] This includes the attribute:
+[P192] [Caption] Table 33: Database Design (ResultReleaseEvent)
+[P193] [Heading 2] AssessmentBlueprint
+[P194] [Normal] This includes the attribute:
+[P195] [Caption] Table : Database Design (AssessmentBlueprint)
+[P197] [Heading 2] AdaptiveEvent
+[P198] [Normal] This includes the attribute:
+[P199] [Caption] Table : Database Design (AdaptiveEvent)
+[P201] [Heading 2] PasswordResetToken
+[P202] [Normal] This includes the attribute:
+[P203] [Caption] Table : Database Design (PasswordResetToken)
+[P205] [Heading 2] PasswordResetAudit
+[P206] [Normal] This includes the attribute:
+[P207] [Caption] Table : Database Design (PasswordResetAudit)
+[P208] [Heading 2] AssessmentQuestion
+[P209] [Normal] This includes the attribute:
+[P210] [Caption] Table : Database Design (AssessmentQuestion)
+[P211] [Heading 2] EvaluationRecord
+[P212] [Normal] This includes the attribute:
+[P213] [Caption] Table : Database Design (EvaluationRecord)
+[P214] [Heading 2] GradeEditAudit
+[P215] [Normal] This includes the attribute:
+[P216] [Caption] Table : Database Design (GradeEditAudit)
+[P217] [Heading 2] RefreshSession
+[P218] [Normal] This includes the attribute:
+[P219] [Caption] Table : Database Design (RefreshSession)
+[P220] [Heading 2] SystemSetting
+[P221] [Normal] This includes the attribute:
+[P222] [Caption] Table : Database Design (SystemSetting)
+[P224] [Heading 1] Hardware and Software Requirements
+[P225] [Normal] This section provides an overview of hardware and software requirements. Below are descriptions of the technological components of the DBCAS.
+[P226] [Caption] Table : Hardware and Software Requirements
+[TABLE 00] style=Normal Table rows=14 cols=4
+  [R00] Project acronym | DBCAS | DBCAS | DBCAS
+  [R01] Project Title | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+  [R02] Start Date | 14/09/2026 | End Date | 26/12/2026
+  [R03] Lead Institution | International School, Duy Tan University | International School, Duy Tan University | International School, Duy Tan University
+  [R04] Project Mentor | MSc Viet, Huynh Duc | MSc Viet, Huynh Duc | MSc Viet, Huynh Duc
+  [R05] Scrum master / Project Leader & contact details | Thu, Nguyen Ngoc Anh / Email: 01258319907anhthu@gmail.com / Tel: 0919334040 | Thu, Nguyen Ngoc Anh / Email: 01258319907anhthu@gmail.com / Tel: 0919334040 | Thu, Nguyen Ngoc Anh / Email: 01258319907anhthu@gmail.com / Tel: 0919334040
+  [R06] Partner Organization | Duy Tan University | Duy Tan University | Duy Tan University
+  [R07] Project Web URL |  |  |
+  [R08] Team members | Name | Email | Tel
+  [R09]  | Thu, Nguyen Ngoc Anh | 01258319907anhthu@gmail.com | 0919334040
+  [R10]  | Nguyen, Nguyen Nhat | nhnguyen240602@gmail.com | 0355772330
+  [R11]  | Truong, Nguyen Quang | quangtruongtt8@gmail.com | 0349039023
+  [R12]  | Do, Nguyen Quoc | nguyenquocdodary@gmail.com | 0388496885
+  [R13]  | Han, Nguyen Ngoc | Hannguyenngoc0506@gmail.com | 0899455605
+[TABLE 01] style=Normal Table rows=7 cols=4
+  [R00] DOCUMENT INFORMATION | DOCUMENT INFORMATION | DOCUMENT INFORMATION | DOCUMENT INFORMATION
+  [R01] Document Title | Database Design Document | Database Design Document | Database Design Document
+  [R02] Author(s) | Truong, Nguyen Quang & C1SE.70 Team | Truong, Nguyen Quang & C1SE.70 Team | Truong, Nguyen Quang & C1SE.70 Team
+  [R03] Role | Database Developer | Database Developer | Database Developer
+  [R04] Date | 08/11/2026 | File name | DBCAS-Database-Design-v1.2.docx
+  [R05] URL |  |  |
+  [R06] Access | Project and CMU Program | Project and CMU Program | Project and CMU Program
+[TABLE 02] style=TableGrid rows=4 cols=4
+  [R00] Version | Person(s) | Date | Description
+  [R01] 1.0 | C1SE.70 Team | 18/09/2026 | Initial release
+  [R02] 1.1 | C1SE.70 Team | 30/10/2026 | Update
+  [R03] 1.2 | 08/11/2026 | Correct project facts and diagrams | C1SE.70 Team
+[TABLE 03] style=Table Grid rows=42 cols=2
+  [R00] Table Name | Short Description
+  [R01] Account | Stores login credentials for learners and administrators, including email, password hash, account status, password-set/change flags, the role-management capability flag, and creation date.
+  [R02] Role | Defines the two system roles used for role-based access control: Learner and Administrator. The User role is implemented as Learner and the Admin role as Administrator.
+  [R03] AccountRole | Junction table resolving the many-to-many relationship between Account and Role, recording role assignment timestamps.
+  [R04] UserProfile | Holds personal details of users linked one-to-one to their Account (full name, student code, phone, date of birth); identifying fields are stripped before any external LLM call (NFR-07).
+  [R05] CourseLearningOutcome | Course learning outcomes (CLOs) defined by administrators and aligned to the university database course curriculum (FR-02).
+  [R06] Concept | The Core PostgreSQL concept model, organized by subject area with a base difficulty level and sql_feature, keywords and learning objectives used for practice selection and recommendations (FR-02, FR-14).
+  [R07] CLOConcept | Junction table mapping course learning outcomes to PostgreSQL concepts; records whether each mapping was set by an administrator or suggested by assistive AI, and its confirmation status (FR-03).
+  [R08] Question | The Administrator-approved, validated question bank: multiple-choice, SQL, and short essay items with prompt, reference answer, explanation, difficulty, points, provenance tags and source references, source (bank or AI-generated), lifecycle status, and family/version lineage (FR-04).
+  [R09] QuestionConcept | Junction table tagging questions with PostgreSQL concepts, including whether a technique is mandatory and the review status of AI-recommended tags, which remain unconfirmed until reviewed by an administrator (FR-05, FR-09).
+  [R10] MCQOption | Answer options for multiple-choice questions, including the verified correct-answer flag used for instant grading (FR-08).
+  [R11] SQLTestDataset | Test datasets for practical SQL questions: setup SQL executed inside the Docker sandbox and expected result sets, including edge cases (FR-09).
+  [R12] Rubric | Grading rubric levels (Complete, Mostly Complete, Partial, Incomplete) with score ranges and criteria for rubric-guided essay evaluation (FR-10).
+  [R13] Assessment | Legacy prebuilt assessment definition retained for historical rows only: question count and duration, target type mix, historical release policy and family/version lineage. Migration 019 closes published definitions; no current API creates one.
+  [R14] AssessmentConcept | Legacy junction table holding the target concepts of a retired assessment, their allowed difficulty range, and its passing benchmark; current learner-defined practice snapshots a 70% target in the session configuration.
+  [R15] AssessmentSession | One learner's practice run: status, frozen configuration snapshot (including bank/AI source), optional legacy assessment id (nullable since migration 018), question locale, start and expiry times, submission time, start-request id, and review/release status, including automatic submission when the timer reaches 00:00 (FR-07).
+  [R16] Attempt | One row per served question: the learner's answer (selected option, SQL text, or essay text), an immutable question snapshot, draft state, grading status, the graded score, and standardized grading evidence (FR-11).
+  [R17] SelectionLog | Audit log of every question-selection decision (chosen concept, difficulty, question type and whether a fallback item was used), used to monitor selection quality (FR-15, RSK-06).
+  [R18] ConceptCompetency | Per-concept competency result of a session: points earned vs. points possible on a widened two-decimal scale, the computed percentage, and the below-target flag (FR-12, FR-13).
+  [R19] CompetencyGap | Concepts flagged as gaps and their LLM-generated explanations, with a context hash so identical sanitized explanations are reused. The ranked study list is derived from ConceptCompetency and the session's frozen concept targets (70% for learner-defined practice), ordered by target_pct minus competency_pct; it is not stored separately (FR-14).
+  [R20] LLMCache | Cached external LLM responses keyed by a hash of the sanitized request, used to reduce API cost and latency (RSK-03).
+  [R21] QuestionCandidate | AI-generated drafts held outside the Question bank; automated checks cover answer completeness, duplicates, and SQL task/reference-answer execution on test datasets. An Administrator then approves the candidate before it is stored as a validated Question and becomes servable (FR-15, NFR-09).
+  [R22] AccountIdentity | Google/GitHub identity for sign-in and sign-up, with provider user id and verified-email flag. Matching verified emails link one account; new accounts receive Learner.
+  [R23] AccountRoleAudit | Immutable audit trail of role grants, revocations and the one-time role-manager bootstrap, including actor, target, and previous/new role.
+  [R24] OAuthHandoff | Single-use, short-lived hashed handoffs exchange a verified Google/GitHub identity for rotating access/refresh sessions without tokens in URLs.
+  [R25] LoginThrottle | Server-side brute-force protection: hashed login keys with recent failure timestamps and an expiry window.
+  [R26] ConceptDependency | Directed prerequisite edges between concepts (prerequisite to dependent concept); duplicate edges are blocked by the primary key and cycles are checked by the service layer.
+  [R27] QuestionTranslation | Locale-specific (for example Vietnamese) prompt, explanation, option texts and rubric criteria for a question; English remains canonical on Question, MCQOption and Rubric.
+  [R28] SessionQuestionPlan | Frozen ordered list of questions reserved for a practice session, including items not yet served, so later bank edits cannot alter an in-progress session; the complete plan is stored before question one (FR-15).
+  [R29] SessionStartRequest | Idempotency ledger binding each learner's start or resume request id to a session, replayable after the session has completed.
+  [R30] GradingJob | Durable work queue and lease for SQL and essay grading, with retry counters, availability time and failure classification.
+  [R31] GradeReview | Human review decision for the mandatory administrator approval: automated evidence, reviewer, approved score and comments.
+  [R32] ResultReleaseEvent | Immutable history of every session release-status transition (auto grading, pending review, reviewed, published, grading failed).
+  [R33] AssessmentBlueprint | Legacy, versioned evidence mix of a retired formal definition: subject area, band, question counts, scoring weights, evidence types and approval basis. Kept for historical sessions only.
+  [R34] AdaptiveEvent | Historical audit of adaptive batch or decision events, including mid-session shortage notices; retained for sessions created before learner-defined practice.
+  [R35] PasswordResetToken | Single-use, short-lived password-reset tokens stored only as SHA-256 digests, with expiry, use and revocation timestamps.
+  [R36] PasswordResetAudit | Immutable audit trail of password-reset requests and completions.
+  [R37] AssessmentQuestion | Legacy junction table listing the curated exam question pool of a retired assessment (migration 017); unused by learner-defined practice.
+  [R38] EvaluationRecord | Standardized grading evidence for one answer or scope: question snapshot, rubric result, points, evaluator source, hashes and validation flags.
+  [R39] GradeEditAudit | Immutable audit of every manual grade change: attempt, reviewer, old and new score, reason and timestamp.
+  [R40] RefreshSession | Hashed refresh-token families for email and OAuth sign-in, with credential version, expiry, use and revocation timestamps.
+  [R41] SystemSetting | Runtime settings row retained for historical/operational values; result release is no longer selectable.
+[TABLE 04] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] account_id | INT | Not | PK |  | IDENTITY
+  [R02] email | VARCHAR(255) | Not |  |  | Unique
+  [R03] password_hash | VARCHAR(255) | Not |  |  |
+  [R04] status | VARCHAR(20) | Not |  | 'active' | active / disabled
+  [R05] can_manage_roles | BOOLEAN | Not |  | FALSE | capability to provision accounts and manage roles
+  [R06] created_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R07] password_set | BOOLEAN | Not |  | TRUE | FALSE for OAuth-only accounts without a local password
+  [R08] password_changed_at | TIMESTAMPTZ | Yes |  |  | set on reset; invalidates older sessions through the pwd_at claim
+[TABLE 05] style=Normal Table rows=4 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] role_id | INT | Not | PK |  | IDENTITY
+  [R02] role_name | VARCHAR(50) | Not |  |  | Unique (Learner / Administrator)
+  [R03] description | TEXT | Yes |  |  |
+[TABLE 06] style=Normal Table rows=4 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] account_id | INT | Not | PK,FK |  | FK → Account
+  [R02] role_id | INT | Not | PK,FK |  | FK → Role
+  [R03] assigned_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 07] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] user_id | INT | Not | PK |  | IDENTITY
+  [R02] account_id | INT | Not | FK |  | FK → Account, Unique (1-1)
+  [R03] full_name | VARCHAR(100) | Not |  |  | PII — stripped before LLM calls
+  [R04] student_code | VARCHAR(20) | Yes |  |  |
+  [R05] phone_number | VARCHAR(20) | Yes |  |  |
+  [R06] date_of_birth | DATE | Yes |  |  |
+[TABLE 08] style=Normal Table rows=8 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] clo_id | INT | Not | PK |  | IDENTITY
+  [R02] clo_code | VARCHAR(20) | Not |  |  | Unique (e.g. CLO-01)
+  [R03] title | VARCHAR(200) | Not |  |  |
+  [R04] description | TEXT | Yes |  |  |
+  [R05] status | VARCHAR(20) | Not |  | 'active' |
+  [R06] created_by | INT | Not | FK |  | FK → Account (administrator)
+  [R07] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 09] style=Normal Table rows=10 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] concept_id | INT | Not | PK |  | IDENTITY
+  [R02] concept_code | VARCHAR(30) | Not |  |  | Unique (e.g. SQL-JOIN)
+  [R03] concept_name | VARCHAR(100) | Not |  |  |
+  [R04] subject_area | VARCHAR(100) | Not |  |  | SQL Querying / Data Manipulation & Definition / Constraints & Design Fundamentals
+  [R05] description | TEXT | Yes |  |  |
+  [R06] difficulty_level | SMALLINT | Not |  | 1 | 1–5 scale
+  [R07] sql_feature | VARCHAR(30) | Yes |  |  | select / where / join / group_by / having / subquery / null_handling
+  [R08] keywords | TEXT[] | Not |  | '{}' | free-text matching keywords
+  [R09] learning_objectives | TEXT[] | Not |  | '{}' | learner-facing objectives
+[TABLE 10] style=Normal Table rows=6 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] clo_id | INT | Not | PK,FK |  | FK → CourseLearningOutcome
+  [R02] concept_id | INT | Not | PK,FK |  | FK → Concept
+  [R03] mapping_source | VARCHAR(10) | Not |  | 'admin' | admin / ai
+  [R04] status | VARCHAR(20) | Not |  | 'pending' | pending / confirmed / rejected
+  [R05] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 11] style=Normal Table rows=19 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] question_id | INT | Not | PK |  | IDENTITY
+  [R02] question_type | VARCHAR(10) | Not |  |  | mcq / sql / essay
+  [R03] prompt | TEXT | Not |  |  |
+  [R04] original_locale | VARCHAR(16) | Not |  | 'en' | canonical locale of the prompt (en / vi)
+  [R05] reference_answer | TEXT | Yes |  |  | reference SQL / model answer
+  [R06] explanation | TEXT | Yes |  |  | official explanation shown after release
+  [R07] difficulty_level | SMALLINT | Not |  | 1 | 1–5 scale
+  [R08] points | NUMERIC(5,2) | Not |  | 1.0 |
+  [R09] source | VARCHAR(15) | Not |  | 'bank' | bank / ai_generated
+  [R10] status | VARCHAR(20) | Not |  | 'draft' | draft / validated / retired
+  [R11] tags | TEXT[] | Not |  | '{}' | searchable topic tags
+  [R12] source_refs | JSONB | Not |  | '[]' | official source citations
+  [R13] family_id | INT | Yes | FK |  | FK → Question (version family root)
+  [R14] version_no | INT | Not |  | 1 | unique per family; lineage version
+  [R15] ai_review | JSONB | Yes |  |  | assistive AI review evidence
+  [R16] created_by | INT | Not | FK |  | FK → Account (administrator)
+  [R17] created_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R18] updated_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 12] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] question_id | INT | Not | PK,FK |  | FK → Question
+  [R02] concept_id | INT | Not | PK,FK |  | FK → Concept
+  [R03] tag_source | VARCHAR(10) | Not |  | 'admin' | admin / ai
+  [R04] is_required | BOOLEAN | Not |  | FALSE | technique must be used (FR-09)
+  [R05] confirmed | BOOLEAN | Not |  | FALSE | equals review_status = 'confirmed'
+  [R06] review_status | VARCHAR(20) | Not |  | 'pending' | pending / confirmed / rejected
+[TABLE 13] style=Normal Table rows=6 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] option_id | INT | Not | PK |  | IDENTITY
+  [R02] question_id | INT | Not | FK |  | FK → Question
+  [R03] option_label | VARCHAR(5) | Not |  |  | A / B / C / D
+  [R04] option_text | TEXT | Not |  |  |
+  [R05] is_correct | BOOLEAN | Not |  | FALSE | verified answer key
+[TABLE 14] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] dataset_id | INT | Not | PK |  | IDENTITY
+  [R02] question_id | INT | Not | FK |  | FK → Question (sql type)
+  [R03] dataset_name | VARCHAR(100) | Not |  |  |
+  [R04] setup_sql | TEXT | Not |  |  | DDL + seed data for sandbox
+  [R05] expected_result | JSONB | Not |  |  | expected columns & rows
+  [R06] is_edge_case | BOOLEAN | Not |  | FALSE |
+[TABLE 15] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] rubric_id | INT | Not | PK |  | IDENTITY
+  [R02] question_id | INT | Not | FK |  | FK → Question (essay type)
+  [R03] level_name | VARCHAR(30) | Not |  |  | Complete / Mostly Complete / Partial / Incomplete
+  [R04] min_score | NUMERIC(5,2) | Not |  |  |
+  [R05] max_score | NUMERIC(5,2) | Not |  |  |
+  [R06] criteria | TEXT | Not |  |  |
+[TABLE 16] style=Normal Table rows=15 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] assessment_id | INT | Not | PK |  | IDENTITY
+  [R02] title | VARCHAR(200) | Not |  |  |
+  [R03] description | TEXT | Yes |  |  |
+  [R04] max_questions | SMALLINT | Not |  | 13 | legacy cap (≤ 13)
+  [R05] duration_min | SMALLINT | Not |  | 60 | countdown length
+  [R06] target_mcq | SMALLINT | Not |  | 10 | target MCQ items
+  [R07] target_sql | SMALLINT | Not |  | 2 | target SQL items
+  [R08] target_essay | SMALLINT | Not |  | 1 | target essay items
+  [R09] status | VARCHAR(20) | Not |  | 'draft' | draft / published / closed
+  [R10] result_release_policy | VARCHAR(20) | Not |  | 'HUMAN_VERIFIED' | HUMAN_VERIFIED (IMMEDIATE only historical)
+  [R11] family_id | INT | Yes | FK |  | FK → Assessment (version family root)
+  [R12] version_no | INT | Not |  | 1 | unique per family; lineage version
+  [R13] created_by | INT | Not | FK |  | FK → Account (administrator)
+  [R14] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 17] style=Normal Table rows=6 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] assessment_id | INT | Not | PK,FK |  | FK → Assessment
+  [R02] concept_id | INT | Not | PK,FK |  | FK → Concept
+  [R03] min_difficulty | SMALLINT | Not |  | 1 | 1–5 scale
+  [R04] max_difficulty | SMALLINT | Not |  | 5 | 1–5 scale
+  [R05] target_pct | NUMERIC(5,2) | Not |  |  | legacy passing benchmark (%)
+[TABLE 18] style=Normal Table rows=16 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] session_id | INT | Not | PK |  | IDENTITY
+  [R02] assessment_id | INT | Yes | FK |  | FK → Assessment (nullable legacy link)
+  [R03] blueprint_id | INT | Yes | FK |  | FK → AssessmentBlueprint (version bound at start; NULL for legacy sessions)
+  [R04] learner_id | INT | Not | FK |  | FK → Account (learner)
+  [R05] status | VARCHAR(20) | Not |  | 'in_progress' | in_progress / completed / timed_out
+  [R06] locale | VARCHAR(16) | Not |  | 'en' | question locale (immutable)
+  [R07] started_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R08] expires_at | TIMESTAMPTZ | Not |  |  | started_at + duration_min
+  [R09] submitted_at | TIMESTAMPTZ | Yes |  |  | auto-submit at 00:00
+  [R10] config_snapshot | JSONB | Yes |  |  | frozen practice configuration and concept targets
+  [R11] result_release_policy | VARCHAR(20) | Not |  | 'HUMAN_VERIFIED' | HUMAN_VERIFIED (IMMEDIATE only historical; immutable)
+  [R12] release_status | VARCHAR(20) | Not |  | 'unsubmitted' | unsubmitted / auto_grading / pending_review / reviewed / published / grading_failed
+  [R13] start_request_id | VARCHAR(36) | Yes |  |  | idempotency key of the accepted start request
+  [R14] review_revision | INT | Not |  | 0 | monotonic review counter
+  [R15] published_at | TIMESTAMPTZ | Yes |  |  | result publication timestamp
+[TABLE 19] style=Normal Table rows=19 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] attempt_id | INT | Not | PK |  | IDENTITY
+  [R02] session_id | INT | Not | FK |  | FK → AssessmentSession
+  [R03] question_id | INT | Not | FK |  | FK → Question
+  [R04] seq_no | SMALLINT | Not |  |  | serve order; unique per session
+  [R05] selected_option_id | INT | Yes | FK |  | FK → MCQOption (mcq)
+  [R06] sql_answer | TEXT | Yes |  |  | learner SQL (sql)
+  [R07] essay_answer | TEXT | Yes |  |  | learner essay (essay)
+  [R08] draft_answer | JSONB | Yes |  |  | autosaved in-progress answer
+  [R09] draft_revision | INT | Not |  | 0 | optimistic concurrency for autosave
+  [R10] draft_saved_at | TIMESTAMPTZ | Yes |  |  |
+  [R11] submission_hash | VARCHAR(64) | Yes |  |  | idempotency hash of the submitted answer
+  [R12] grading_status | VARCHAR(20) | Not |  | 'unsubmitted' | unsubmitted / pending / graded / failed
+  [R13] score | NUMERIC(5,2) | Yes |  |  | graded result (essay LLM-assisted)
+  [R14] grading_detail | JSONB | Yes |  |  | standardized evidence (FR-11)
+  [R15] review_revision | INT | Not |  | 0 | review counter inherited from the session
+  [R16] question_snapshot | JSONB | Yes |  |  | immutable served-question content
+  [R17] served_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R18] submitted_at | TIMESTAMPTZ | Yes |  |  |
+[TABLE 20] style=Normal Table rows=8 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] log_id | INT | Not | PK |  | IDENTITY
+  [R02] session_id | INT | Not | FK |  | FK → AssessmentSession
+  [R03] seq_no | SMALLINT | Not |  |  |
+  [R04] question_id | INT | Not | FK |  | FK → Question (validated item served)
+  [R05] is_fallback | BOOLEAN | Not |  | FALSE | validated-item fallback (NFR-09)
+  [R06] decision_detail | JSONB | Yes |  |  | concept / difficulty / type decision
+  [R07] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 21] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] competency_id | INT | Not | PK |  | IDENTITY
+  [R02] session_id | INT | Not | FK |  | FK → AssessmentSession
+  [R03] concept_id | INT | Not | FK |  | FK → Concept; unique per session
+  [R04] points_earned | NUMERIC(10,2) | Not |  | 0 |
+  [R05] points_possible | NUMERIC(10,2) | Not |  | 0 |
+  [R06] competency_pct | NUMERIC(5,2) | Not |  | 0 | earned / possible × 100
+  [R07] below_target | BOOLEAN | Not |  | FALSE | competency_pct < target_pct
+  [R08] computed_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 22] style=Normal Table rows=8 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] gap_id | INT | Not | PK |  | IDENTITY
+  [R02] session_id | INT | Not | FK |  | FK → AssessmentSession
+  [R03] concept_id | INT | Not | FK |  | FK → Concept
+  [R04] llm_explanation | TEXT | Yes |  |  | assistive AI explanation (FR-14)
+  [R05] explanation_context_hash | VARCHAR(64) | Yes |  |  | cache key for the sanitized explanation input
+  [R06] status | VARCHAR(20) | Not |  | 'open' | open / reviewed
+  [R07] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 23] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] cache_id | INT | Not | PK |  | IDENTITY
+  [R02] request_hash | VARCHAR(64) | Not |  |  | Unique (SHA-256 of sanitized prompt)
+  [R03] task_type | VARCHAR(30) | Not |  |  | essay_score / clo_map / tag / gap_explain
+  [R04] model | VARCHAR(50) | Not |  |  | configured provider model name
+  [R05] response | JSONB | Not |  |  | cached structured JSON output
+  [R06] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 24] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] candidate_id | INT | Not | PK |  | IDENTITY
+  [R02] concept_id | INT | Not | FK |  | FK → Concept
+  [R03] question_type | VARCHAR(10) | Not |  |  | mcq / sql / essay
+  [R04] payload | JSONB | Not |  |  | AI-generated question content
+  [R05] validation_status | VARCHAR(20) | Not |  | 'pending' | pending / validated / rejected
+  [R06] validation_detail | JSONB | Yes |  |  | automated validation results
+  [R07] promoted_question_id | INT | Yes | FK |  | FK → Question, Unique (1-1)
+  [R08] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 25] style=Normal Table rows=8 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] identity_id | INT | Not | PK |  | IDENTITY
+  [R02] account_id | INT | Not | FK |  | FK → Account
+  [R03] provider | VARCHAR(20) | Not |  |  | google / github
+  [R04] provider_user_id | VARCHAR(255) | Not |  |  | unique together with provider
+  [R05] provider_email | VARCHAR(255) | Yes |  |  | verified provider email
+  [R06] email_verified | BOOLEAN | Not |  | FALSE | provider verification flag
+  [R07] linked_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 26] style=Normal Table rows=8 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] audit_id | BIGINT | Not | PK |  | IDENTITY
+  [R02] action_type | VARCHAR(40) | Not |  |  | ROLE_GRANTED / ROLE_REVOKED / ROLE_MANAGER_BOOTSTRAPPED
+  [R03] actor_account_id | INT | Yes | FK |  | FK → Account (NULL only for bootstrap)
+  [R04] target_account_id | INT | Not | FK |  | FK → Account
+  [R05] previous_role | VARCHAR(50) | Yes |  |  | Learner / Administrator
+  [R06] new_role | VARCHAR(50) | Yes |  |  | Learner / Administrator
+  [R07] created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+[TABLE 27] style=Normal Table rows=6 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] jti_hash | VARCHAR(64) | Not | PK |  | SHA-256 of the one-time handoff token
+  [R02] account_id | INT | Not | FK |  | FK → Account
+  [R03] expires_at | TIMESTAMPTZ | Not |  |  | short-lived
+  [R04] consumed_at | TIMESTAMPTZ | Yes |  |  | set once on exchange
+  [R05] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 28] style=Normal Table rows=4 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] key_hash | VARCHAR(64) | Not | PK |  | SHA-256 of the normalized login key
+  [R02] failures | JSONB | Not |  | '[]' | recent failure timestamps
+  [R03] expires_at | TIMESTAMPTZ | Not |  |  | throttle window end
+[TABLE 29] style=Normal Table rows=4 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] concept_id | INT | Not | PK,FK |  | FK → Concept (dependent concept)
+  [R02] prerequisite_concept_id | INT | Not | PK,FK |  | FK → Concept (prerequisite)
+  [R03] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 30] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] question_id | INT | Not | PK,FK |  | FK → Question; ON DELETE CASCADE
+  [R02] locale | VARCHAR(16) | Not | PK |  | e.g. vi; English remains canonical on Question
+  [R03] source_hash | VARCHAR(64) | Not |  |  | hash of the English source version
+  [R04] prompt | TEXT | Not |  |  | translated prompt
+  [R05] explanation | TEXT | Yes |  |  | translated explanation
+  [R06] option_texts | JSONB | Not |  | '{}' | option_id → translated option text
+  [R07] rubrics | JSONB | Not |  | '{}' | rubric level → translated criteria
+  [R08] updated_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 31] style=Normal Table rows=4 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] session_id | INT | Not | PK,FK |  | FK → AssessmentSession
+  [R02] seq_no | SMALLINT | Not | PK |  | reserved order 1..N
+  [R03] question_id | INT | Not | FK |  | FK → Question; unique per session
+[TABLE 32] style=Normal Table rows=5 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] learner_id | INT | Not | PK,FK |  | composite FK → AssessmentSession
+  [R02] request_id | VARCHAR(36) | Not | PK |  | client idempotency key
+  [R03] session_id | INT | Not | FK |  | FK → AssessmentSession
+  [R04] created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+[TABLE 33] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] job_id | INT | Not | PK |  | IDENTITY
+  [R02] attempt_id | INT | Not | FK |  | FK → Attempt, Unique (one job per attempt)
+  [R03] status | VARCHAR(20) | Not |  | 'pending' | pending / processing / completed / failed
+  [R04] attempt_count | INT | Not |  | 0 | retry counter
+  [R05] available_at | TIMESTAMPTZ | Not |  | NOW() | next eligible attempt
+  [R06] lease_until | TIMESTAMPTZ | Yes |  |  | worker lease deadline
+  [R07] last_error_code | VARCHAR(80) | Yes |  |  | failure classification
+  [R08] finished_at | TIMESTAMPTZ | Yes |  |  | terminal timestamp
+[TABLE 34] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] review_id | INT | Not | PK |  | IDENTITY
+  [R02] attempt_id | INT | Not | FK |  | FK → Attempt, Unique
+  [R03] reviewer_id | INT | Not | FK |  | FK → Account (administrator)
+  [R04] automated_score | NUMERIC(5,2) | Yes |  |  | score before human review
+  [R05] automated_detail | JSONB | Yes |  |  | grading evidence snapshot
+  [R06] approved_score | NUMERIC(5,2) | Not |  |  | human-approved score ≥ 0
+  [R07] comments | TEXT | Yes |  |  | reviewer notes
+  [R08] reviewed_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+[TABLE 35] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] event_id | INT | Not | PK |  | IDENTITY
+  [R02] session_id | INT | Not | FK |  | FK → AssessmentSession
+  [R03] previous_status | VARCHAR(20) | Not |  |  | release status before the change
+  [R04] new_status | VARCHAR(20) | Not |  |  | release status after the change
+  [R05] reviewer_id | INT | Yes | FK |  | FK → Account (NULL for system events)
+  [R06] created_at | TIMESTAMPTZ | Not |  | NOW() | immutable audit (trigger)
+[TABLE 36] style=Normal Table rows=17 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] blueprint_id | INT | Not | PK |  | IDENTITY
+  [R02] assessment_id | INT | Not | FK |  | FK → Assessment; ON DELETE CASCADE
+  [R03] subject_area | VARCHAR(100) | Not |  |  |
+  [R04] difficulty_band | VARCHAR(10) | Not |  |  | EASY / MEDIUM / HARD
+  [R05] version_no | INT | Not |  | 1 | unique per assessment, subject area and band
+  [R06] status | VARCHAR(20) | Not |  | 'approved' | approved / retired
+  [R07] max_questions | SMALLINT | Not |  |  |
+  [R08] target_mcq | SMALLINT | Not |  | 0 |
+  [R09] target_sql | SMALLINT | Not |  | 0 |
+  [R10] target_essay | SMALLINT | Not |  | 0 |
+  [R11] scoring | JSONB | Not |  | '{}' | per-type scoring weights
+  [R12] evidence_types | JSONB | Not |  | '[]' | ordered evidence mix
+  [R13] approval_basis | TEXT | Not |  |  | nonblank approval rationale
+  [R14] approved_by | INT | Yes | FK |  | FK → Account (administrator)
+  [R15] approved_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R16] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 37] style=Normal Table rows=6 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] session_id | INT | Not | PK,FK |  | FK → AssessmentSession
+  [R02] round_no | SMALLINT | Not | PK |  | 1–13
+  [R03] event_type | VARCHAR(16) | Not | PK |  | batch / decision
+  [R04] payload | JSONB | Not |  |  | decision or shortage notice
+  [R05] created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+[TABLE 38] style=Normal Table rows=7 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] token_hash | VARCHAR(64) | Not | PK |  | SHA-256 of the emailed token
+  [R02] account_id | INT | Not | FK |  | FK → Account
+  [R03] requested_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R04] expires_at | TIMESTAMPTZ | Not |  |  | requested_at + TTL (15 minutes by default)
+  [R05] used_at | TIMESTAMPTZ | Yes |  |  | set once on redemption
+  [R06] revoked_at | TIMESTAMPTZ | Yes |  |  | set when superseded or after use
+[TABLE 39] style=Normal Table rows=5 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] audit_id | INT | Not | PK |  | IDENTITY
+  [R02] account_id | INT | Not | FK |  | FK → Account
+  [R03] event | VARCHAR(20) | Not |  |  | requested / completed
+  [R04] created_at | TIMESTAMPTZ | Not |  | NOW() | immutable (trigger)
+[TABLE 40] style=Normal Table rows=3 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] assessment_id | INT | Not | PK, FK |  | FK → Assessment
+  [R02] question_id | INT | Not | PK, FK |  | FK → Question
+[TABLE 41] style=Normal Table rows=10 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] evaluation_id | INT | Not | PK | IDENTITY |
+  [R02] learner_id | INT | Not | FK |  | FK → Account
+  [R03] session_id | INT | Yes | FK |  | FK → AssessmentSession
+  [R04] scope_key | VARCHAR(80) | Not |  |  |
+  [R05] input_hash | VARCHAR(64) | Not |  |  |
+  [R06] status | VARCHAR(20) | Not |  | 'pending' |
+  [R07] payload | JSONB | Yes |  |  |
+  [R08] lease_until | TIMESTAMPTZ | Yes |  |  |
+  [R09] updated_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 42] style=Normal Table rows=8 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] audit_id | INT | Not | PK | IDENTITY |
+  [R02] attempt_id | INT | Not | FK |  | FK → Attempt
+  [R03] reviewer_id | INT | Not | FK |  | FK → Account
+  [R04] old_score | NUMERIC(5,2) | Yes |  |  |
+  [R05] new_score | NUMERIC(5,2) | Not |  |  |
+  [R06] reason | VARCHAR(1000) | Not |  |  |
+  [R07] created_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 43] style=Normal Table rows=9 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] token_hash | VARCHAR(64) | Not | PK |  |
+  [R02] family_id | VARCHAR(32) | Not |  |  |
+  [R03] account_id | INT | Not | FK |  | FK → Account
+  [R04] credential_version | BIGINT | Not |  | 0 |
+  [R05] created_at | TIMESTAMPTZ | Not |  | NOW() |
+  [R06] expires_at | TIMESTAMPTZ | Not |  |  |
+  [R07] consumed_at | TIMESTAMPTZ | Yes |  |  |
+  [R08] revoked_at | TIMESTAMPTZ | Yes |  |  |
+[TABLE 44] style=Normal Table rows=5 cols=6
+  [R00] Attributes | Datatype | Null | Key | Default | Extra
+  [R01] setting_key | VARCHAR(80) | Not | PK |  |
+  [R02] value | JSONB | Not |  |  |
+  [R03] updated_by | INT | Yes | FK |  | FK → Account
+  [R04] updated_at | TIMESTAMPTZ | Not |  | NOW() |
+[TABLE 45] style=TableGrid rows=6 cols=2
+  [R00]  | Attributes of DBCAS
+  [R01] Attributes | Descriptions
+  [R02] Database | PostgreSQL 17: application database, plus an isolated PostgreSQL 17 instance in the Docker SQL sandbox.
+  [R03] Software | React 19.3 + Vite 8.3.5, Tailwind CSS 4.3, FastAPI 0.141.1 (Python 3.13), Docker Engine CE 29, external LLM provider API, Git 2.54+ & GitHub.
+  [R04] Hardware | Development workstations; a Docker-capable host running the application database and the sandbox container (256 MB memory limit, 3-second statement timeout).
+  [R05] Library | Chart.js 4.5.1, LLM provider API client, Pytest.
