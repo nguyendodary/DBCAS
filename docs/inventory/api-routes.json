@@ -10,7 +10,7 @@
     "backend/app/routers/concepts.py": "fa8bb144987a8a68316aaff4957a55928fb9f80f3102ec3dbe54679da77fad6f",
     "backend/app/routers/oauth.py": "bfae5a90f5e5fbffcebf9b53dc707e80117dee692131bc43d13703042aeb60fd",
     "backend/app/routers/practice.py": "f1aa2bda52fbf28129c6d3f7b213ce86036e069a02971d38955dd36767763f6c",
-    "backend/app/routers/sessions.py": "d3b16e57cd8f307c35d8b6ba3393b107e8b8281490b98918ed6f3bad25a48ef3"
+    "backend/app/routers/sessions.py": "dd047d83589dd7c9bb55a98ec654252fc7817cad5cdb137d810698bdbf12e52c"
   },
   "count": 118,
   "routes": [
@@ -1053,7 +1053,7 @@
       "path": "/api/v1/sessions/{session_id}/answers",
       "router": "sessions.py",
       "handler": "submit_answer",
-      "line": 247,
+      "line": 258,
       "guards": [
         "LearnerOnly"
       ],
@@ -1064,7 +1064,7 @@
       "path": "/api/v1/sessions/{session_id}/competency",
       "router": "sessions.py",
       "handler": "get_competency_profile",
-      "line": 262,
+      "line": 273,
       "guards": [
         "LearnerOnly"
       ],
@@ -1097,7 +1097,7 @@
       "path": "/api/v1/sessions/{session_id}/evidence",
       "router": "sessions.py",
       "handler": "get_session_evidence",
-      "line": 234,
+      "line": 245,
       "guards": [
         "LearnerOnly"
       ],
@@ -1108,7 +1108,7 @@
       "path": "/api/v1/sessions/{session_id}/finish",
       "router": "sessions.py",
       "handler": "finish_session",
-      "line": 221,
+      "line": 232,
       "guards": [
         "LearnerOnly"
       ],
@@ -1119,7 +1119,7 @@
       "path": "/api/v1/sessions/{session_id}/gaps",
       "router": "sessions.py",
       "handler": "get_gap_report",
-      "line": 273,
+      "line": 284,
       "guards": [
         "LearnerOnly"
       ],
@@ -1130,7 +1130,7 @@
       "path": "/api/v1/sessions/{session_id}/guidance",
       "router": "sessions.py",
       "handler": "get_study_guidance",
-      "line": 286,
+      "line": 297,
       "guards": [
         "LearnerOnly"
       ],
@@ -1251,7 +1251,7 @@
       "path": "/api/v1/sessions/{session_id}/sql-run",
       "router": "sessions.py",
       "handler": "run_sql",
-      "line": 302,
+      "line": 313,
       "guards": [
         "LearnerOnly"
       ],
