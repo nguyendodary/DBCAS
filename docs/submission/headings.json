@@ -1,0 +1,578 @@
+{
+  "Proposal": [
+    {
+      "level": 1,
+      "text": "1. Project title"
+    },
+    {
+      "level": 1,
+      "text": "2. Team members"
+    },
+    {
+      "level": 1,
+      "text": "3. Supervisor"
+    },
+    {
+      "level": 1,
+      "text": "4. Problem statement"
+    },
+    {
+      "level": 2,
+      "text": "4.1 One grade hides strengths and gaps"
+    },
+    {
+      "level": 2,
+      "text": "4.2 Feedback is slow and coarse"
+    },
+    {
+      "level": 2,
+      "text": "4.3 Grading workload and trust"
+    },
+    {
+      "level": 2,
+      "text": "4.4 Scope of the evidence"
+    },
+    {
+      "level": 1,
+      "text": "5. Survey and existing solutions"
+    },
+    {
+      "level": 1,
+      "text": "6. Objectives and scope"
+    },
+    {
+      "level": 2,
+      "text": "6.1 Objectives"
+    },
+    {
+      "level": 2,
+      "text": "6.2 In scope"
+    },
+    {
+      "level": 2,
+      "text": "6.3 Out of scope"
+    },
+    {
+      "level": 1,
+      "text": "7. Key features"
+    },
+    {
+      "level": 1,
+      "text": "8. Stakeholders"
+    },
+    {
+      "level": 1,
+      "text": "9. Technology stack"
+    },
+    {
+      "level": 1,
+      "text": "10. Architecture overview"
+    },
+    {
+      "level": 1,
+      "text": "11. Data model at a glance"
+    },
+    {
+      "level": 2,
+      "text": "11.1 Result release in one page"
+    },
+    {
+      "level": 1,
+      "text": "12. Methodology and plan"
+    },
+    {
+      "level": 1,
+      "text": "13. Risks and mitigations"
+    },
+    {
+      "level": 1,
+      "text": "14. Known limitations and future work"
+    },
+    {
+      "level": 1,
+      "text": "15. Expected outcomes and deliverables"
+    },
+    {
+      "level": 1,
+      "text": "16. References"
+    }
+  ],
+  "Architecture": [
+    {
+      "level": 1,
+      "text": "1. Introduction and architectural drivers"
+    },
+    {
+      "level": 1,
+      "text": "2. Actors and use cases"
+    },
+    {
+      "level": 1,
+      "text": "3. System context"
+    },
+    {
+      "level": 1,
+      "text": "4. Containers and components"
+    },
+    {
+      "level": 2,
+      "text": "4.1 Browser route inventory"
+    },
+    {
+      "level": 1,
+      "text": "5. Module and layer view"
+    },
+    {
+      "level": 1,
+      "text": "6. Data architecture"
+    },
+    {
+      "level": 1,
+      "text": "6.1 Data model at a glance"
+    },
+    {
+      "level": 1,
+      "text": "7. Runtime flows"
+    },
+    {
+      "level": 1,
+      "text": "8. Security and privacy"
+    },
+    {
+      "level": 1,
+      "text": "9. SQL sandbox execution model"
+    },
+    {
+      "level": 1,
+      "text": "10. Deployment and demo profiles"
+    },
+    {
+      "level": 1,
+      "text": "11. Flags and defaults"
+    },
+    {
+      "level": 1,
+      "text": "12. CI pipeline"
+    },
+    {
+      "level": 1,
+      "text": "13. Quality attributes"
+    },
+    {
+      "level": 1,
+      "text": "14. Architecture decisions"
+    },
+    {
+      "level": 1,
+      "text": "15. Known limitations and future work"
+    }
+  ],
+  "Database": [
+    {
+      "level": 1,
+      "text": "1. Introduction"
+    },
+    {
+      "level": 1,
+      "text": "2. DBMS, source of truth and conventions"
+    },
+    {
+      "level": 1,
+      "text": "3. Module map and ERDs"
+    },
+    {
+      "level": 1,
+      "text": "4. Table overview"
+    },
+    {
+      "level": 1,
+      "text": "5. Data dictionary"
+    },
+    {
+      "level": 2,
+      "text": "5.1 account"
+    },
+    {
+      "level": 2,
+      "text": "5.2 account_identity"
+    },
+    {
+      "level": 2,
+      "text": "5.3 account_role"
+    },
+    {
+      "level": 2,
+      "text": "5.4 account_role_audit"
+    },
+    {
+      "level": 2,
+      "text": "5.5 login_throttle"
+    },
+    {
+      "level": 2,
+      "text": "5.6 oauth_handoff"
+    },
+    {
+      "level": 2,
+      "text": "5.7 password_reset_audit"
+    },
+    {
+      "level": 2,
+      "text": "5.8 password_reset_token"
+    },
+    {
+      "level": 2,
+      "text": "5.9 refresh_session"
+    },
+    {
+      "level": 2,
+      "text": "5.10 role"
+    },
+    {
+      "level": 2,
+      "text": "5.11 user_profile"
+    },
+    {
+      "level": 2,
+      "text": "5.12 concept"
+    },
+    {
+      "level": 2,
+      "text": "5.13 concept_dependency"
+    },
+    {
+      "level": 2,
+      "text": "5.14 course_learning_outcome"
+    },
+    {
+      "level": 2,
+      "text": "5.15 clo_concept"
+    },
+    {
+      "level": 2,
+      "text": "5.16 course_document"
+    },
+    {
+      "level": 2,
+      "text": "5.17 document_chunk"
+    },
+    {
+      "level": 2,
+      "text": "5.18 document_clo"
+    },
+    {
+      "level": 2,
+      "text": "5.19 question_evidence"
+    },
+    {
+      "level": 2,
+      "text": "5.20 question"
+    },
+    {
+      "level": 2,
+      "text": "5.21 question_candidate"
+    },
+    {
+      "level": 2,
+      "text": "5.22 question_clo"
+    },
+    {
+      "level": 2,
+      "text": "5.23 question_concept"
+    },
+    {
+      "level": 2,
+      "text": "5.24 question_report"
+    },
+    {
+      "level": 2,
+      "text": "5.25 question_translation"
+    },
+    {
+      "level": 2,
+      "text": "5.26 mcq_option"
+    },
+    {
+      "level": 2,
+      "text": "5.27 rubric"
+    },
+    {
+      "level": 2,
+      "text": "5.28 sql_test_dataset"
+    },
+    {
+      "level": 2,
+      "text": "5.29 assessment"
+    },
+    {
+      "level": 2,
+      "text": "5.30 assessment_blueprint"
+    },
+    {
+      "level": 2,
+      "text": "5.31 assessment_concept"
+    },
+    {
+      "level": 2,
+      "text": "5.32 assessment_question"
+    },
+    {
+      "level": 2,
+      "text": "5.33 adaptive_event"
+    },
+    {
+      "level": 2,
+      "text": "5.34 assessment_session"
+    },
+    {
+      "level": 2,
+      "text": "5.35 attempt"
+    },
+    {
+      "level": 2,
+      "text": "5.36 evaluation_record"
+    },
+    {
+      "level": 2,
+      "text": "5.37 selection_log"
+    },
+    {
+      "level": 2,
+      "text": "5.38 session_final_result"
+    },
+    {
+      "level": 2,
+      "text": "5.39 session_question_plan"
+    },
+    {
+      "level": 2,
+      "text": "5.40 session_start_request"
+    },
+    {
+      "level": 2,
+      "text": "5.41 tab_leave_interval"
+    },
+    {
+      "level": 2,
+      "text": "5.42 competency_gap"
+    },
+    {
+      "level": 2,
+      "text": "5.43 concept_competency"
+    },
+    {
+      "level": 2,
+      "text": "5.44 grade_edit_audit"
+    },
+    {
+      "level": 2,
+      "text": "5.45 grade_review"
+    },
+    {
+      "level": 2,
+      "text": "5.46 result_release_event"
+    },
+    {
+      "level": 2,
+      "text": "5.47 session_result_analysis"
+    },
+    {
+      "level": 2,
+      "text": "5.48 session_result_criterion_score"
+    },
+    {
+      "level": 2,
+      "text": "5.49 session_result_publication"
+    },
+    {
+      "level": 2,
+      "text": "5.50 session_result_version"
+    },
+    {
+      "level": 2,
+      "text": "5.51 session_result_version_score"
+    },
+    {
+      "level": 2,
+      "text": "5.52 review_deviation"
+    },
+    {
+      "level": 2,
+      "text": "5.53 review_deviation_confirmation"
+    },
+    {
+      "level": 2,
+      "text": "5.54 review_request"
+    },
+    {
+      "level": 2,
+      "text": "5.55 grading_job"
+    },
+    {
+      "level": 2,
+      "text": "5.56 ai_prompt_content"
+    },
+    {
+      "level": 2,
+      "text": "5.57 ai_prompt_record"
+    },
+    {
+      "level": 2,
+      "text": "5.58 ai_stage_attempt"
+    },
+    {
+      "level": 2,
+      "text": "5.59 ai_stage_run"
+    },
+    {
+      "level": 2,
+      "text": "5.60 ai_stage_validation"
+    },
+    {
+      "level": 2,
+      "text": "5.61 llm_cache"
+    },
+    {
+      "level": 2,
+      "text": "5.62 prompt_access_audit"
+    },
+    {
+      "level": 2,
+      "text": "5.63 retention_purge_audit"
+    },
+    {
+      "level": 2,
+      "text": "5.64 attempt_rubric_criterion"
+    },
+    {
+      "level": 2,
+      "text": "5.65 question_rubric_criterion"
+    },
+    {
+      "level": 2,
+      "text": "5.66 question_rubric_profile"
+    },
+    {
+      "level": 2,
+      "text": "5.67 system_setting"
+    },
+    {
+      "level": 1,
+      "text": "6. Relationships and integrity"
+    },
+    {
+      "level": 1,
+      "text": "7. Indexes"
+    },
+    {
+      "level": 1,
+      "text": "8. Migration history"
+    },
+    {
+      "level": 1,
+      "text": "9. Result versioning, publication and regrade"
+    },
+    {
+      "level": 1,
+      "text": "10. Synthetic seed data"
+    },
+    {
+      "level": 1,
+      "text": "11. Operations and limits"
+    },
+    {
+      "level": 1,
+      "text": "12. Known schema limitations"
+    }
+  ],
+  "SRS": [
+    {
+      "level": 1,
+      "text": "1. Introduction"
+    },
+    {
+      "level": 2,
+      "text": "1.1 Purpose"
+    },
+    {
+      "level": 2,
+      "text": "1.2 Intended audience"
+    },
+    {
+      "level": 2,
+      "text": "1.3 References"
+    },
+    {
+      "level": 1,
+      "text": "2. Project overview"
+    },
+    {
+      "level": 1,
+      "text": "3. Actors and roles"
+    },
+    {
+      "level": 1,
+      "text": "4. Functional requirements"
+    },
+    {
+      "level": 1,
+      "text": "5. Use cases"
+    },
+    {
+      "level": 2,
+      "text": "UC01 Login"
+    },
+    {
+      "level": 2,
+      "text": "UC02 Practice start"
+    },
+    {
+      "level": 2,
+      "text": "UC03 FIXED paper"
+    },
+    {
+      "level": 2,
+      "text": "UC04 SQL run"
+    },
+    {
+      "level": 2,
+      "text": "UC05 AI grading"
+    },
+    {
+      "level": 2,
+      "text": "UC06 Review and V2"
+    },
+    {
+      "level": 2,
+      "text": "UC07 Free/Pro demo"
+    },
+    {
+      "level": 1,
+      "text": "6. Non-functional requirements"
+    },
+    {
+      "level": 1,
+      "text": "7. Data requirements"
+    },
+    {
+      "level": 1,
+      "text": "8. Constraints and out of scope"
+    },
+    {
+      "level": 1,
+      "text": "9. Traceability summary"
+    },
+    {
+      "level": 1,
+      "text": "10. Verification and acceptance"
+    },
+    {
+      "level": 1,
+      "text": "Appendix A. API route inventory"
+    },
+    {
+      "level": 1,
+      "text": "11. Future work"
+    }
+  ]
+}

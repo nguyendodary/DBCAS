@@ -1,0 +1,28 @@
+sequenceDiagram
+autonumber
+actor L as Learner
+participant B as Browser SPA
+participant A as FastAPI /practice
+participant D as PostgreSQL
+participant S as SQL executor
+L->>B: concepts, difficulty, count, source
+B->>A: POST /practice/preview
+A->>D: bank coverage
+A-->>B: can_start + exact counts
+B->>A: POST /practice/start (request_id)
+A->>D: freeze plan + session + attempts
+A-->>B: state + first question
+loop each question
+  B->>A: PUT /draft (revision)
+  B->>A: POST /answers or /submit
+  opt SQL question
+    A->>S: provision dataset
+    A->>S: validate + execute SELECT
+    S-->>A: typed result
+    A->>S: drop dataset
+  end
+  A->>D: score + evidence
+end
+B->>A: POST /finish
+A->>D: competency + gaps + release_status
+A-->>B: session state

@@ -1,0 +1,19 @@
+digraph "ci_pipeline" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  changes [label="changes\ndocs-only classifier", fillcolor="#A5A5A5"];
+  secrets [label="secrets\nscan", fillcolor="#4472C4", fontcolor="white"];
+  backend [label="backend\nlint Â· build Â· audit\n118 routes Â· 1911 tests", fillcolor="#4472C4", fontcolor="white"];
+  static [label="frontend-static\nlint Â· 459 unit tests\nbuild Â· docs:check", fillcolor="#5B9BD5"];
+  subgraph cluster_shards { label="9 browser shards"; color="#ED7D31";
+    e2e [label="e2e-1/2/3\n83 passed + 2 skipped", fillcolor="#ED7D31"];
+    qa [label="qa-1/2/3\n54 passed", fillcolor="#ED7D31"];
+    smoke [label="smoke-1/2/3\n3 passed", fillcolor="#ED7D31"];
+  }
+  fan [label="frontend-local\nfan-in: exactly 9 shards", fillcolor="#70AD47"];
+  changes -> secrets; changes -> backend; changes -> static; changes -> e2e; changes -> qa; changes -> smoke;
+  secrets -> fan; backend -> fan; static -> fan; e2e -> fan; qa -> fan; smoke -> fan;
+
+}

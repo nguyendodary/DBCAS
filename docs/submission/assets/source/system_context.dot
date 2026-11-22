@@ -1,0 +1,29 @@
+digraph "system_context" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  learner [label="Learner\n(UI: User)", fillcolor="#5B9BD5", color="#4472C4"];
+  admin [label="Administrator", fillcolor="#4472C4", fontcolor="white"];
+  subgraph cluster_system {
+    label="DBCAS local demo boundary"; fontsize=12; color="#4472C4"; style="rounded,dashed";
+    web [label="React SPA\nVite build :18080", fillcolor="#5B9BD5"];
+    api [label="FastAPI API\n:18000 /api/v1", fillcolor="#4472C4", fontcolor="white"];
+    worker [label="Maintenance worker\n(grading + expiry)", fillcolor="#A5A5A5"];
+    db [label="PostgreSQL 17\napplication DB", fillcolor="#70AD47"];
+    executor [label="Disposable PostgreSQL\nSQL executor (no network)", fillcolor="#ED7D31"];
+  }
+  llm [label="OpenAI-compatible /\nOpenRouter provider", shape=box, style="rounded,dashed", fillcolor="#FFF2CC"];
+  oauth [label="Google / GitHub\nOAuth 2.0", shape=box, style="rounded,dashed", fillcolor="#FFF2CC"];
+  smtp [label="SMTP / Mailpit\npassword reset", shape=box, style="rounded,dashed", fillcolor="#FFF2CC"];
+  learner -> web [label="HTTPS"];
+  admin -> web [label="HTTPS"];
+  web -> api [label="JSON /api/v1"];
+  api -> db [label="SQLAlchemy / psycopg"];
+  worker -> db [label="durable jobs"];
+  api -> executor [label="provision + execute"];
+  api -> llm [label="sanitized prompt"];
+  api -> oauth [label="authorization code"];
+  api -> smtp [label="reset link"];
+
+}

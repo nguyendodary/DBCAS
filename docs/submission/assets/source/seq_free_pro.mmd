@@ -1,0 +1,16 @@
+sequenceDiagram
+autonumber
+actor L as Learner
+actor A as Administrator
+participant B as Browser bundle
+participant N as No backend
+L->>B: open dashboard
+B->>B: demoFreeProEnabled() reads VITE_DEMO_FREE_PRO
+alt flag true
+  B-->>L: DEMO badge, Free plan, fake Upgrade
+  L->>B: Upgrade to Pro (Demo)
+  B-->>L: local useState = Pro, 99,000 VND / 30 days
+end
+A->>B: open /admin
+B-->>A: static DemoCostsPanel (3 rows)
+Note over B,N: no API call, no payment, no stored data, no backend route

@@ -1,0 +1,21 @@
+digraph "deployment" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  subgraph cluster_docker { label="Docker Compose project dbcas-local"; color="#4472C4"; style="rounded";
+    fe [label="frontend\n:18080 -> 8080", fillcolor="#5B9BD5"];
+    app [label="app\n:18000 -> 8000\n2 uvicorn workers", fillcolor="#4472C4", fontcolor="white"];
+    init [label="init\nseed_demo (one shot)", fillcolor="#A5A5A5"];
+    db [label="db\nPostgreSQL 17\nlocal-data volume", fillcolor="#70AD47"];
+    mail [label="mailpit\n:18025 UI / :11025 SMTP", fillcolor="#FFF2CC"];
+    ex [label="executor-image\ndbcas-sql-ephemeral:local", fillcolor="#ED7D31"];
+  }
+  fe -> app [label="proxy /api"];
+  app -> db [label="database network"];
+  init -> db;
+  app -> mail [label="SMTP"];
+  app -> ex [label="docker exec\nvia docker.sock"];
+  note [shape=note, label="networks: database (internal), web\nvolumes: local-data\nDocker socket mounted into init and app\nknown limitation #66", fillcolor="#FFF2CC"];
+
+}

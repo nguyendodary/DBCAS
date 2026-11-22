@@ -1,0 +1,8 @@
+digraph "erd_operations" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"system_setting" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#A5A5A5"><font color="white" point-size="10"><b>system_setting</b> <font point-size="8">(4 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;setting_key</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;updated_by -&gt; account</font></td></tr></table>>];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "system_setting" -> "account" [style=dashed, color="#A5A5A5", label="updated_by"];
+}

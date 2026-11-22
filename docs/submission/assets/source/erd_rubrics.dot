@@ -1,0 +1,17 @@
+digraph "erd_rubrics" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"attempt_rubric_criterion" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#A5A5A5"><font color="white" point-size="10"><b>attempt_rubric_criterion</b> <font point-size="8">(14 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;criterion_snapshot_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; attempt</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question_rubric_profile</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;criterion_id -&gt; question_rubric_criterion</font></td></tr></table>>];
+  "question_rubric_criterion" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#A5A5A5"><font color="white" point-size="10"><b>question_rubric_criterion</b> <font point-size="8">(9 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;criterion_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;rubric_profile_id -&gt; question_rubric_profile</font></td></tr></table>>];
+  "question_rubric_profile" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#A5A5A5"><font color="white" point-size="10"><b>question_rubric_profile</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;rubric_profile_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;created_by -&gt; account</font></td></tr></table>>];
+  "attempt_rubric_criterion" -> "question_rubric_criterion" [label="criterion_id", color="#7F7F7F"];
+  "attempt_rubric_criterion" -> "question_rubric_profile" [label="question_id,rubric_profile_id", color="#7F7F7F"];
+  "question_rubric_criterion" -> "question_rubric_profile" [label="rubric_profile_id", color="#7F7F7F"];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "question_rubric_profile" -> "account" [style=dashed, color="#A5A5A5", label="created_by"];
+  "attempt" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="attempt\n(sessions)"];
+  "attempt_rubric_criterion" -> "attempt" [style=dashed, color="#A5A5A5", label="session_id,attempt_id"];
+  "question" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="question\n(questions)"];
+  "question_rubric_profile" -> "question" [style=dashed, color="#A5A5A5", label="question_id"];
+}

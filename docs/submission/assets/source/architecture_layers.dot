@@ -1,0 +1,23 @@
+digraph "architecture_layers" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  subgraph cluster_p { label="Presentation"; color="#5B9BD5";
+    p1 [label="React pages / components\n24 browser routes", fillcolor="#5B9BD5"];
+  }
+  subgraph cluster_a { label="HTTP API"; color="#4472C4";
+    a1 [label="7 routers\n106 paths / 118 operations", fillcolor="#4472C4", fontcolor="white"];
+  }
+  subgraph cluster_s { label="Domain services"; color="#4472C4";
+    s1 [label="auth / practice / sessions", fillcolor="#4472C4", fontcolor="white"];
+    s2 [label="grading / review / results", fillcolor="#4472C4", fontcolor="white"];
+    s3 [label="AI / sandbox / analytics", fillcolor="#4472C4", fontcolor="white"];
+  }
+  subgraph cluster_r { label="Persistence"; color="#70AD47";
+    r1 [label="repositories + SQLAlchemy models", fillcolor="#A5A5A5"];
+    r2 [label="PostgreSQL 17\n67 tables", fillcolor="#70AD47"];
+  }
+  p1 -> a1 -> s1; a1 -> s2; a1 -> s3; s1 -> r1; s2 -> r1; s3 -> r1; r1 -> r2;
+
+}

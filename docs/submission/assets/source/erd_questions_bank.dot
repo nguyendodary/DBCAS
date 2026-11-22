@@ -1,0 +1,25 @@
+digraph "erd_questions_bank" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"mcq_option" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>mcq_option</b> <font point-size="8">(5 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;option_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question</font></td></tr></table>>];
+  "question" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>question</b> <font point-size="8">(18 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;question_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;created_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;family_id -&gt; question</font></td></tr></table>>];
+  "question_clo" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>question_clo</b> <font point-size="8">(7 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;question_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;clo_id</font></td></tr></table>>];
+  "question_concept" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>question_concept</b> <font point-size="8">(6 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;question_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;concept_id</font></td></tr></table>>];
+  "question_translation" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>question_translation</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;question_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;locale</font></td></tr></table>>];
+  "rubric" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>rubric</b> <font point-size="8">(6 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;rubric_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question</font></td></tr></table>>];
+  "sql_test_dataset" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>sql_test_dataset</b> <font point-size="8">(6 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;dataset_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question</font></td></tr></table>>];
+  "mcq_option" -> "question" [label="question_id", color="#7F7F7F"];
+  "question" -> "question" [label="family_id", color="#7F7F7F"];
+  "question_clo" -> "question" [label="question_id", color="#7F7F7F"];
+  "question_concept" -> "question" [label="question_id", color="#7F7F7F"];
+  "question_translation" -> "question" [label="question_id", color="#7F7F7F"];
+  "rubric" -> "question" [label="question_id", color="#7F7F7F"];
+  "sql_test_dataset" -> "question" [label="question_id", color="#7F7F7F"];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "question" -> "account" [style=dashed, color="#A5A5A5", label="created_by"];
+  "concept" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="concept\n(curriculum)"];
+  "question_concept" -> "concept" [style=dashed, color="#A5A5A5", label="concept_id"];
+  "course_learning_outcome" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="course_learning_outcome\n(curriculum)"];
+  "question_clo" -> "course_learning_outcome" [style=dashed, color="#A5A5A5", label="clo_id"];
+}

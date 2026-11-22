@@ -1,0 +1,3114 @@
+{
+  "generated_at": "2026-11-22T16:04:55.762453+00:00",
+  "baseline": {
+    "root": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS",
+    "commit": "6421b5ad44a0eaaeb9be8d26068c8ca434ae5bb7",
+    "branch": "docs/submission-final",
+    "origin_develop2": "6421b5ad44a0eaaeb9be8d26068c8ca434ae5bb7",
+    "origin_main": "e7e432cefc2e21706ddfec96cfb8fa8b3b32b858",
+    "schema_sha256": "f4ef8c2dd93b030cf04b169233e8b454dec8ea147f00e87a21771f3cf79b0c0a"
+  },
+  "documents": {
+    "Proposal": {
+      "file": "docs\\submission\\Proposal.docx",
+      "paragraphs": 154,
+      "tables": 11,
+      "images": 5,
+      "chars": 14354
+    },
+    "Architecture": {
+      "file": "docs\\submission\\Architecture.docx",
+      "paragraphs": 159,
+      "tables": 15,
+      "images": 19,
+      "chars": 18714
+    },
+    "Database": {
+      "file": "docs\\submission\\Database.docx",
+      "paragraphs": 636,
+      "tables": 77,
+      "images": 14,
+      "chars": 150368
+    },
+    "SRS": {
+      "file": "docs\\submission\\SRS.docx",
+      "paragraphs": 135,
+      "tables": 17,
+      "images": 2,
+      "chars": 28669
+    }
+  },
+  "diagram_inventory": [
+    {
+      "name": "architecture_layers.png",
+      "width": 1638,
+      "height": 494,
+      "status": "PASS"
+    },
+    {
+      "name": "ci_pipeline.png",
+      "width": 856,
+      "height": 844,
+      "status": "PASS"
+    },
+    {
+      "name": "components.png",
+      "width": 1466,
+      "height": 900,
+      "status": "PASS"
+    },
+    {
+      "name": "containers.png",
+      "width": 1612,
+      "height": 676,
+      "status": "PASS"
+    },
+    {
+      "name": "deployment.png",
+      "width": 1284,
+      "height": 624,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_ai.png",
+      "width": 2046,
+      "height": 806,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_assessment.png",
+      "width": 1036,
+      "height": 692,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_curriculum.png",
+      "width": 1646,
+      "height": 864,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_identity_account.png",
+      "width": 704,
+      "height": 684,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_identity_tokens.png",
+      "width": 622,
+      "height": 784,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_operations.png",
+      "width": 566,
+      "height": 180,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_questions_bank.png",
+      "width": 1016,
+      "height": 970,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_questions_review.png",
+      "width": 790,
+      "height": 676,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_results_competency.png",
+      "width": 718,
+      "height": 942,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_results_versions.png",
+      "width": 2242,
+      "height": 836,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_review.png",
+      "width": 2196,
+      "height": 1142,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_rubrics.png",
+      "width": 1774,
+      "height": 424,
+      "status": "PASS"
+    },
+    {
+      "name": "erd_sessions.png",
+      "width": 1476,
+      "height": 1500,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_ai_grading.png",
+      "width": 1568,
+      "height": 920,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_fixed_exam.png",
+      "width": 1568,
+      "height": 968,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_free_pro.png",
+      "width": 1568,
+      "height": 1064,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_login.png",
+      "width": 1568,
+      "height": 986,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_practice.png",
+      "width": 1568,
+      "height": 1280,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_regrade.png",
+      "width": 1568,
+      "height": 994,
+      "status": "PASS"
+    },
+    {
+      "name": "seq_sql_run.png",
+      "width": 1568,
+      "height": 670,
+      "status": "PASS"
+    },
+    {
+      "name": "state_review.png",
+      "width": 1512,
+      "height": 712,
+      "status": "PASS"
+    },
+    {
+      "name": "state_session.png",
+      "width": 1786,
+      "height": 584,
+      "status": "PASS"
+    },
+    {
+      "name": "system_context.png",
+      "width": 1406,
+      "height": 732,
+      "status": "PASS"
+    },
+    {
+      "name": "use_cases.png",
+      "width": 732,
+      "height": 1592,
+      "status": "PASS"
+    }
+  ],
+  "page_counts": [
+    {
+      "document": "Proposal",
+      "pages": 8,
+      "words": 1862,
+      "pdf": "rendered/Proposal.pdf"
+    },
+    {
+      "document": "Architecture",
+      "pages": 17,
+      "words": 2349,
+      "pdf": "rendered/Architecture.pdf"
+    },
+    {
+      "document": "Database",
+      "pages": 51,
+      "words": 16055,
+      "pdf": "rendered/Database.pdf"
+    },
+    {
+      "document": "SRS",
+      "pages": 10,
+      "words": 3002,
+      "pdf": "rendered/SRS.pdf"
+    }
+  ],
+  "assertions": [
+    {
+      "id": "docx-Proposal",
+      "document": "Proposal",
+      "expect": "14354 chars",
+      "source": "docs\\submission\\Proposal.docx",
+      "kind": "opens",
+      "status": "PASS"
+    },
+    {
+      "id": "docx-Architecture",
+      "document": "Architecture",
+      "expect": "18714 chars",
+      "source": "docs\\submission\\Architecture.docx",
+      "kind": "opens",
+      "status": "PASS"
+    },
+    {
+      "id": "docx-Database",
+      "document": "Database",
+      "expect": "150368 chars",
+      "source": "docs\\submission\\Database.docx",
+      "kind": "opens",
+      "status": "PASS"
+    },
+    {
+      "id": "docx-SRS",
+      "document": "SRS",
+      "expect": "28669 chars",
+      "source": "docs\\submission\\SRS.docx",
+      "kind": "opens",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-title",
+      "document": "Proposal",
+      "expect": "DBCAS",
+      "source": "Documents/Final/C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-version",
+      "document": "Proposal",
+      "expect": "1.2",
+      "source": "owner choice",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-baseline",
+      "document": "Proposal",
+      "expect": "6421b5a",
+      "source": "git rev-parse",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-no-fitai",
+      "document": "Proposal",
+      "expect": "FitAI",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-no-shfa",
+      "document": "Proposal",
+      "expect": "SHFA",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-no-c1se56",
+      "document": "Proposal",
+      "expect": "C1SE.56",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Proposal-no-todo",
+      "document": "Proposal",
+      "expect": "TODO",
+      "source": "no placeholder",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-title",
+      "document": "Architecture",
+      "expect": "DBCAS",
+      "source": "Documents/Final/C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-version",
+      "document": "Architecture",
+      "expect": "1.2",
+      "source": "owner choice",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-baseline",
+      "document": "Architecture",
+      "expect": "6421b5a",
+      "source": "git rev-parse",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-no-fitai",
+      "document": "Architecture",
+      "expect": "FitAI",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-no-shfa",
+      "document": "Architecture",
+      "expect": "SHFA",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-no-c1se56",
+      "document": "Architecture",
+      "expect": "C1SE.56",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Architecture-no-todo",
+      "document": "Architecture",
+      "expect": "TODO",
+      "source": "no placeholder",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-title",
+      "document": "Database",
+      "expect": "DBCAS",
+      "source": "Documents/Final/C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-version",
+      "document": "Database",
+      "expect": "1.2",
+      "source": "owner choice",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-baseline",
+      "document": "Database",
+      "expect": "6421b5a",
+      "source": "git rev-parse",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-no-fitai",
+      "document": "Database",
+      "expect": "FitAI",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-no-shfa",
+      "document": "Database",
+      "expect": "SHFA",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-no-c1se56",
+      "document": "Database",
+      "expect": "C1SE.56",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "Database-no-todo",
+      "document": "Database",
+      "expect": "TODO",
+      "source": "no placeholder",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-title",
+      "document": "SRS",
+      "expect": "DBCAS",
+      "source": "Documents/Final/C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-version",
+      "document": "SRS",
+      "expect": "1.2",
+      "source": "owner choice",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-baseline",
+      "document": "SRS",
+      "expect": "6421b5a",
+      "source": "git rev-parse",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-no-fitai",
+      "document": "SRS",
+      "expect": "FitAI",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-no-shfa",
+      "document": "SRS",
+      "expect": "SHFA",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-no-c1se56",
+      "document": "SRS",
+      "expect": "C1SE.56",
+      "source": "template must not leak",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "SRS-no-todo",
+      "document": "SRS",
+      "expect": "TODO",
+      "source": "no placeholder",
+      "kind": "absent",
+      "status": "PASS"
+    },
+    {
+      "id": "team-name-29209245799",
+      "document": "Proposal",
+      "expect": "Thu, Nguyen Ngoc Anh",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-email-29209245799",
+      "document": "Proposal",
+      "expect": "01258319907anhthu@gmail.com",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-name-26211227029",
+      "document": "Proposal",
+      "expect": "Nguyen, Nguyen Nhat",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-email-26211227029",
+      "document": "Proposal",
+      "expect": "nhnguyen240602@gmail.com",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-name-29212730635",
+      "document": "Proposal",
+      "expect": "Truong, Nguyen Quang",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-email-29212730635",
+      "document": "Proposal",
+      "expect": "quangtruongtt8@gmail.com",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-name-29211156881",
+      "document": "Proposal",
+      "expect": "Do, Nguyen Quoc",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-email-29211156881",
+      "document": "Proposal",
+      "expect": "nguyenquocdodary@gmail.com",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-name-29204423268",
+      "document": "Proposal",
+      "expect": "Han, Nguyen Ngoc",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "team-email-29204423268",
+      "document": "Proposal",
+      "expect": "Hannguyenngoc0506@gmail.com",
+      "source": "C1SE.70 team roster",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "mentor",
+      "document": "Proposal",
+      "expect": "MSc Viet, Huynh Duc",
+      "source": "C1SE.70 proposal cover",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "date",
+      "document": "Proposal",
+      "expect": "November 8th, 2026",
+      "source": "owner choice",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "tables-Proposal",
+      "document": "Proposal",
+      "expect": "67",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "columns-Proposal",
+      "document": "Proposal",
+      "expect": "561",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migrations-Proposal",
+      "document": "Proposal",
+      "expect": "28",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "tables-Architecture",
+      "document": "Architecture",
+      "expect": "67",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "columns-Architecture",
+      "document": "Architecture",
+      "expect": "561",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migrations-Architecture",
+      "document": "Architecture",
+      "expect": "28",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "tables-Database",
+      "document": "Database",
+      "expect": "67",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "columns-Database",
+      "document": "Database",
+      "expect": "561",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migrations-Database",
+      "document": "Database",
+      "expect": "28",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "tables-SRS",
+      "document": "SRS",
+      "expect": "67",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "columns-SRS",
+      "document": "SRS",
+      "expect": "561",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migrations-SRS",
+      "document": "SRS",
+      "expect": "28",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "paths-Proposal",
+      "document": "Proposal",
+      "expect": "106",
+      "source": "docs/openapi.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "operations-Proposal",
+      "document": "Proposal",
+      "expect": "118",
+      "source": "docs/openapi.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "paths-Architecture",
+      "document": "Architecture",
+      "expect": "106",
+      "source": "docs/openapi.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "operations-Architecture",
+      "document": "Architecture",
+      "expect": "118",
+      "source": "docs/openapi.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "paths-SRS",
+      "document": "SRS",
+      "expect": "106",
+      "source": "docs/openapi.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "operations-SRS",
+      "document": "SRS",
+      "expect": "118",
+      "source": "docs/openapi.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "frontend-routes-arch",
+      "document": "Architecture",
+      "expect": "24",
+      "source": "frontend/src/App.jsx",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "frontend-routes-proposal",
+      "document": "Proposal",
+      "expect": "24",
+      "source": "frontend/src/App.jsx",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "backend-tests",
+      "document": "Architecture",
+      "expect": "1911",
+      "source": "test-evidence.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "frontend-tests",
+      "document": "Architecture",
+      "expect": "459",
+      "source": "test-evidence.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-tests",
+      "document": "Architecture",
+      "expect": "140",
+      "source": "test-evidence.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-skipped",
+      "document": "Architecture",
+      "expect": "2",
+      "source": "test-evidence.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "seed-attempts",
+      "document": "Database",
+      "expect": "52",
+      "source": "backend/app/seed_demo.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "seed-questions",
+      "document": "Database",
+      "expect": "24",
+      "source": "db/benchmark_pack.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-fastapi",
+      "document": "Proposal",
+      "expect": "0.141.1",
+      "source": "backend/requirements.txt",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-sqlalchemy",
+      "document": "Proposal",
+      "expect": "2.0.54",
+      "source": "backend/requirements.txt",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-psycopg",
+      "document": "Proposal",
+      "expect": "3.3.6",
+      "source": "backend/requirements.txt",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-pydantic",
+      "document": "Proposal",
+      "expect": "2.13.5",
+      "source": "backend/requirements.txt",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-react",
+      "document": "Proposal",
+      "expect": "19.3.0",
+      "source": "frontend/package.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-vite",
+      "document": "Proposal",
+      "expect": "8.3.1",
+      "source": "frontend/package.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-postgres",
+      "document": "Proposal",
+      "expect": "PostgreSQL 17",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-python",
+      "document": "Proposal",
+      "expect": "Python 3.13",
+      "source": "backend/Dockerfile",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "version-node",
+      "document": "Proposal",
+      "expect": "Node.js 24",
+      "source": ".github/workflows/dn-backend.yml",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-account",
+      "document": "Database",
+      "expect": "account",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-account_identity",
+      "document": "Database",
+      "expect": "account_identity",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-account_role",
+      "document": "Database",
+      "expect": "account_role",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-account_role_audit",
+      "document": "Database",
+      "expect": "account_role_audit",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-adaptive_event",
+      "document": "Database",
+      "expect": "adaptive_event",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-ai_prompt_content",
+      "document": "Database",
+      "expect": "ai_prompt_content",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-ai_prompt_record",
+      "document": "Database",
+      "expect": "ai_prompt_record",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-ai_stage_attempt",
+      "document": "Database",
+      "expect": "ai_stage_attempt",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-ai_stage_run",
+      "document": "Database",
+      "expect": "ai_stage_run",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-ai_stage_validation",
+      "document": "Database",
+      "expect": "ai_stage_validation",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-assessment",
+      "document": "Database",
+      "expect": "assessment",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-assessment_blueprint",
+      "document": "Database",
+      "expect": "assessment_blueprint",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-assessment_concept",
+      "document": "Database",
+      "expect": "assessment_concept",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-assessment_question",
+      "document": "Database",
+      "expect": "assessment_question",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-assessment_session",
+      "document": "Database",
+      "expect": "assessment_session",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-attempt",
+      "document": "Database",
+      "expect": "attempt",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-attempt_rubric_criterion",
+      "document": "Database",
+      "expect": "attempt_rubric_criterion",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-clo_concept",
+      "document": "Database",
+      "expect": "clo_concept",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-competency_gap",
+      "document": "Database",
+      "expect": "competency_gap",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-concept",
+      "document": "Database",
+      "expect": "concept",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-concept_competency",
+      "document": "Database",
+      "expect": "concept_competency",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-concept_dependency",
+      "document": "Database",
+      "expect": "concept_dependency",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-course_document",
+      "document": "Database",
+      "expect": "course_document",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-course_learning_outcome",
+      "document": "Database",
+      "expect": "course_learning_outcome",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-document_chunk",
+      "document": "Database",
+      "expect": "document_chunk",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-document_clo",
+      "document": "Database",
+      "expect": "document_clo",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-evaluation_record",
+      "document": "Database",
+      "expect": "evaluation_record",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-grade_edit_audit",
+      "document": "Database",
+      "expect": "grade_edit_audit",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-grade_review",
+      "document": "Database",
+      "expect": "grade_review",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-grading_job",
+      "document": "Database",
+      "expect": "grading_job",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-llm_cache",
+      "document": "Database",
+      "expect": "llm_cache",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-login_throttle",
+      "document": "Database",
+      "expect": "login_throttle",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-mcq_option",
+      "document": "Database",
+      "expect": "mcq_option",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-oauth_handoff",
+      "document": "Database",
+      "expect": "oauth_handoff",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-password_reset_audit",
+      "document": "Database",
+      "expect": "password_reset_audit",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-password_reset_token",
+      "document": "Database",
+      "expect": "password_reset_token",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-prompt_access_audit",
+      "document": "Database",
+      "expect": "prompt_access_audit",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question",
+      "document": "Database",
+      "expect": "question",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_candidate",
+      "document": "Database",
+      "expect": "question_candidate",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_clo",
+      "document": "Database",
+      "expect": "question_clo",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_concept",
+      "document": "Database",
+      "expect": "question_concept",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_evidence",
+      "document": "Database",
+      "expect": "question_evidence",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_report",
+      "document": "Database",
+      "expect": "question_report",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_rubric_criterion",
+      "document": "Database",
+      "expect": "question_rubric_criterion",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_rubric_profile",
+      "document": "Database",
+      "expect": "question_rubric_profile",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-question_translation",
+      "document": "Database",
+      "expect": "question_translation",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-refresh_session",
+      "document": "Database",
+      "expect": "refresh_session",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-result_release_event",
+      "document": "Database",
+      "expect": "result_release_event",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-retention_purge_audit",
+      "document": "Database",
+      "expect": "retention_purge_audit",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-review_deviation",
+      "document": "Database",
+      "expect": "review_deviation",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-review_deviation_confirmation",
+      "document": "Database",
+      "expect": "review_deviation_confirmation",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-review_request",
+      "document": "Database",
+      "expect": "review_request",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-role",
+      "document": "Database",
+      "expect": "role",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-rubric",
+      "document": "Database",
+      "expect": "rubric",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-selection_log",
+      "document": "Database",
+      "expect": "selection_log",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_final_result",
+      "document": "Database",
+      "expect": "session_final_result",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_question_plan",
+      "document": "Database",
+      "expect": "session_question_plan",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_result_analysis",
+      "document": "Database",
+      "expect": "session_result_analysis",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_result_criterion_score",
+      "document": "Database",
+      "expect": "session_result_criterion_score",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_result_publication",
+      "document": "Database",
+      "expect": "session_result_publication",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_result_version",
+      "document": "Database",
+      "expect": "session_result_version",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_result_version_score",
+      "document": "Database",
+      "expect": "session_result_version_score",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-session_start_request",
+      "document": "Database",
+      "expect": "session_start_request",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-sql_test_dataset",
+      "document": "Database",
+      "expect": "sql_test_dataset",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-system_setting",
+      "document": "Database",
+      "expect": "system_setting",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-tab_leave_interval",
+      "document": "Database",
+      "expect": "tab_leave_interval",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "table-user_profile",
+      "document": "Database",
+      "expect": "user_profile",
+      "source": "db/schema.sql",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-001_account_identity.sql",
+      "document": "Database",
+      "expect": "001_account_identity.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-002_concept_dependency.sql",
+      "document": "Database",
+      "expect": "002_concept_dependency.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-003_drafts_evidence_and_security.sql",
+      "document": "Database",
+      "expect": "003_drafts_evidence_and_security.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-004_bank_versions.sql",
+      "document": "Database",
+      "expect": "004_bank_versions.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-005_release_roles.sql",
+      "document": "Database",
+      "expect": "005_release_roles.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-006_question_provenance.sql",
+      "document": "Database",
+      "expect": "006_question_provenance.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-007_question_localization.sql",
+      "document": "Database",
+      "expect": "007_question_localization.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-008_personalization_and_verified_results.sql",
+      "document": "Database",
+      "expect": "008_personalization_and_verified_results.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-009_incomplete_grade_release_repair.sql",
+      "document": "Database",
+      "expect": "009_incomplete_grade_release_repair.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-010_session_start_request_bindings.sql",
+      "document": "Database",
+      "expect": "010_session_start_request_bindings.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-011_secure_role_management.sql",
+      "document": "Database",
+      "expect": "011_secure_role_management.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-012_question_original_locale.sql",
+      "document": "Database",
+      "expect": "012_question_original_locale.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-013_assessment_blueprints.sql",
+      "document": "Database",
+      "expect": "013_assessment_blueprints.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-014_adaptive_events.sql",
+      "document": "Database",
+      "expect": "014_adaptive_events.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-015_password_recovery.sql",
+      "document": "Database",
+      "expect": "015_password_recovery.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-016_refresh_sessions.sql",
+      "document": "Database",
+      "expect": "016_refresh_sessions.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-017_assessment_question_pool.sql",
+      "document": "Database",
+      "expect": "017_assessment_question_pool.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-018_learner_practice_evaluations.sql",
+      "document": "Database",
+      "expect": "018_learner_practice_evaluations.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-019_archive_prebuilt_exams.sql",
+      "document": "Database",
+      "expect": "019_archive_prebuilt_exams.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-020_provisional_ai_final_results.sql",
+      "document": "Database",
+      "expect": "020_provisional_ai_final_results.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-021_fixed_paper_attempt_state.sql",
+      "document": "Database",
+      "expect": "021_fixed_paper_attempt_state.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-022_question_clo_tagging.sql",
+      "document": "Database",
+      "expect": "022_question_clo_tagging.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-023_document_grounding.sql",
+      "document": "Database",
+      "expect": "023_document_grounding.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-024_tab_leave_guard.sql",
+      "document": "Database",
+      "expect": "024_tab_leave_guard.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-025_session_purpose.sql",
+      "document": "Database",
+      "expect": "025_session_purpose.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-026_pr3a_database_foundation.sql",
+      "document": "Database",
+      "expect": "026_pr3a_database_foundation.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-027_review_flow.sql",
+      "document": "Database",
+      "expect": "027_review_flow.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "migration-028_review_deviation_confirmation.sql",
+      "document": "Database",
+      "expect": "028_review_deviation_confirmation.sql",
+      "source": "db/migrations",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-identity",
+      "document": "Database",
+      "expect": "Identity, access and roles",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-curriculum",
+      "document": "Database",
+      "expect": "Curriculum, CLOs and grounded documents",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-questions",
+      "document": "Database",
+      "expect": "Question bank, tags and translations",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-assessment",
+      "document": "Database",
+      "expect": "Assessments and blueprints",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-sessions",
+      "document": "Database",
+      "expect": "Sessions, attempts and adaptive evidence",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-results",
+      "document": "Database",
+      "expect": "Competency, results and publication",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-review",
+      "document": "Database",
+      "expect": "Grading jobs and human review",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-ai",
+      "document": "Database",
+      "expect": "AI staging, prompts and cache",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-rubrics",
+      "document": "Database",
+      "expect": "Rubric snapshots",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "module-operations",
+      "document": "Database",
+      "expect": "Operations",
+      "source": "descriptions.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/accounts",
+      "document": "SRS",
+      "expect": "/api/v1/admin/accounts",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/accounts",
+      "document": "SRS",
+      "expect": "/api/v1/admin/accounts",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/accounts/role-audit",
+      "document": "SRS",
+      "expect": "/api/v1/admin/accounts/role-audit",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PATCH-/api/v1/admin/accounts/{account_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/accounts/{account_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/accounts/{account_id}/reset-password",
+      "document": "SRS",
+      "expect": "/api/v1/admin/accounts/{account_id}/reset-password",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PATCH-/api/v1/admin/accounts/{account_id}/role",
+      "document": "SRS",
+      "expect": "/api/v1/admin/accounts/{account_id}/role",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/analytics/cohort",
+      "document": "SRS",
+      "expect": "/api/v1/admin/analytics/cohort",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/analytics/statistics",
+      "document": "SRS",
+      "expect": "/api/v1/admin/analytics/statistics",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/clos",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/clos",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-DELETE-/api/v1/admin/clos/{clo_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos/{clo_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PATCH-/api/v1/admin/clos/{clo_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos/{clo_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/clos/{clo_id}/ai-suggest",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos/{clo_id}/ai-suggest",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/admin/clos/{clo_id}/concepts",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos/{clo_id}/concepts",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-DELETE-/api/v1/admin/clos/{clo_id}/concepts/{concept_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/clos/{clo_id}/concepts/{concept_id}/confirm",
+      "document": "SRS",
+      "expect": "/api/v1/admin/clos/{clo_id}/concepts/{concept_id}/confirm",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/concepts",
+      "document": "SRS",
+      "expect": "/api/v1/admin/concepts",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/concepts",
+      "document": "SRS",
+      "expect": "/api/v1/admin/concepts",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-DELETE-/api/v1/admin/concepts/{concept_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/concepts/{concept_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PATCH-/api/v1/admin/concepts/{concept_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/concepts/{concept_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/admin/concepts/{concept_id}/prerequisites",
+      "document": "SRS",
+      "expect": "/api/v1/admin/concepts/{concept_id}/prerequisites",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/document-candidates/generate",
+      "document": "SRS",
+      "expect": "/api/v1/admin/document-candidates/generate",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/documents",
+      "document": "SRS",
+      "expect": "/api/v1/admin/documents",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/documents",
+      "document": "SRS",
+      "expect": "/api/v1/admin/documents",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/documents/{document_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/documents/{document_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/documents/{document_id}/approve",
+      "document": "SRS",
+      "expect": "/api/v1/admin/documents/{document_id}/approve",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/documents/{document_id}/archive",
+      "document": "SRS",
+      "expect": "/api/v1/admin/documents/{document_id}/archive",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/admin/documents/{document_id}/clos",
+      "document": "SRS",
+      "expect": "/api/v1/admin/documents/{document_id}/clos",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/grading-reviews",
+      "document": "SRS",
+      "expect": "/api/v1/admin/grading-reviews",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/grading-reviews/{session_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/grading-reviews/{session_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/grading-reviews/{session_id}/attempts/{attempt_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/grading-reviews/{session_id}/publish",
+      "document": "SRS",
+      "expect": "/api/v1/admin/grading-reviews/{session_id}/publish",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/grading-reviews/{session_id}/retry",
+      "document": "SRS",
+      "expect": "/api/v1/admin/grading-reviews/{session_id}/retry",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/grading-reviews/{session_id}/run-sql",
+      "document": "SRS",
+      "expect": "/api/v1/admin/grading-reviews/{session_id}/run-sql",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/learners",
+      "document": "SRS",
+      "expect": "/api/v1/admin/learners",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/learners/{account_id}/competency/cumulative",
+      "document": "SRS",
+      "expect": "/api/v1/admin/learners/{account_id}/competency/cumulative",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/learners/{account_id}/sessions",
+      "document": "SRS",
+      "expect": "/api/v1/admin/learners/{account_id}/sessions",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/prompts/{prompt_record_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/prompts/{prompt_record_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/question-candidates",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-candidates",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/question-candidates/generate",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-candidates/generate",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/question-candidates/{candidate_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-candidates/{candidate_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/question-candidates/{candidate_id}/approve",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-candidates/{candidate_id}/approve",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/question-candidates/{candidate_id}/reject",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-candidates/{candidate_id}/reject",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/question-candidates/{candidate_id}/validate",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-candidates/{candidate_id}/validate",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/question-reports/{question_report_id}/resolve",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-reports/{question_report_id}/resolve",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/question-translation/capability",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-translation/capability",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/question-translation/draft",
+      "document": "SRS",
+      "expect": "/api/v1/admin/question-translation/draft",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/questions",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/questions",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-DELETE-/api/v1/admin/questions/{question_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/questions/{question_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PATCH-/api/v1/admin/questions/{question_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/admin/questions/{question_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/questions/{question_id}/ai-review",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}/ai-review",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/questions/{question_id}/ai-tags",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}/ai-tags",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-DELETE-/api/v1/admin/questions/{question_id}/tags/{concept_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}/tags/{concept_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/questions/{question_id}/tags/{concept_id}/confirm",
+      "document": "SRS",
+      "expect": "/api/v1/admin/questions/{question_id}/tags/{concept_id}/confirm",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/review-requests",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/review-requests/{review_request_id}",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/review-requests/{review_request_id}/analysis-retry",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}/analysis-retry",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/review-requests/{review_request_id}/claim",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}/claim",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/review-requests/{review_request_id}/decision",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}/decision",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/review-requests/{review_request_id}/deviations",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}/deviations",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/review-requests/{review_request_id}/deviations/{deviation_id}/confirm",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}/deviations/{deviation_id}/confirm",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/admin/review-requests/{review_request_id}/question-reports",
+      "document": "SRS",
+      "expect": "/api/v1/admin/review-requests/{review_request_id}/question-reports",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/role-management/capability",
+      "document": "SRS",
+      "expect": "/api/v1/admin/role-management/capability",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/sessions/{session_id}/competency",
+      "document": "SRS",
+      "expect": "/api/v1/admin/sessions/{session_id}/competency",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/admin/system",
+      "document": "SRS",
+      "expect": "/api/v1/admin/system",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/assessments",
+      "document": "SRS",
+      "expect": "/api/v1/assessments",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/assessments/{assessment_id}/sessions",
+      "document": "SRS",
+      "expect": "/api/v1/assessments/{assessment_id}/sessions",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/login",
+      "document": "SRS",
+      "expect": "/api/v1/auth/login",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/logout",
+      "document": "SRS",
+      "expect": "/api/v1/auth/logout",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/auth/me",
+      "document": "SRS",
+      "expect": "/api/v1/auth/me",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/oauth/complete",
+      "document": "SRS",
+      "expect": "/api/v1/auth/oauth/complete",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/auth/oauth/providers",
+      "document": "SRS",
+      "expect": "/api/v1/auth/oauth/providers",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/auth/oauth/{provider}/callback",
+      "document": "SRS",
+      "expect": "/api/v1/auth/oauth/{provider}/callback",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/auth/oauth/{provider}/start",
+      "document": "SRS",
+      "expect": "/api/v1/auth/oauth/{provider}/start",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/password-reset/confirm",
+      "document": "SRS",
+      "expect": "/api/v1/auth/password-reset/confirm",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/password-reset/request",
+      "document": "SRS",
+      "expect": "/api/v1/auth/password-reset/request",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/refresh",
+      "document": "SRS",
+      "expect": "/api/v1/auth/refresh",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/register",
+      "document": "SRS",
+      "expect": "/api/v1/auth/register",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/auth/renew",
+      "document": "SRS",
+      "expect": "/api/v1/auth/renew",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/concepts/graph",
+      "document": "SRS",
+      "expect": "/api/v1/concepts/graph",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/evaluations/attempts/{session_id}",
+      "document": "SRS",
+      "expect": "/api/v1/evaluations/attempts/{session_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/evaluations/attempts/{session_id}/retry",
+      "document": "SRS",
+      "expect": "/api/v1/evaluations/attempts/{session_id}/retry",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/evaluations/overall",
+      "document": "SRS",
+      "expect": "/api/v1/evaluations/overall",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/evaluations/overall/retry",
+      "document": "SRS",
+      "expect": "/api/v1/evaluations/overall/retry",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/ping",
+      "document": "SRS",
+      "expect": "/api/v1/ping",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/practice/options",
+      "document": "SRS",
+      "expect": "/api/v1/practice/options",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/practice/preview",
+      "document": "SRS",
+      "expect": "/api/v1/practice/preview",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/practice/start",
+      "document": "SRS",
+      "expect": "/api/v1/practice/start",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions",
+      "document": "SRS",
+      "expect": "/api/v1/sessions",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/competency/cumulative",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/competency/cumulative",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/ranking",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/ranking",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/statistics",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/statistics",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/answers",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/answers",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/competency",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/competency",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/draft",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/draft",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/sessions/{session_id}/draft",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/draft",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/evidence",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/evidence",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/finish",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/finish",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/gaps",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/gaps",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/guidance",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/guidance",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/paper",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/paper",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/paper/submit",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/paper/submit",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/paper/tab-leave",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/paper/tab-leave",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/paper/{seq_no}",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/paper/{seq_no}",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/paper/{seq_no}/draft",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-PUT-/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/paper/{seq_no}/flag",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/questions",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/questions",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/api/v1/sessions/{session_id}/review-request",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/review-request",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/review-request",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/review-request",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/serve-next",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/serve-next",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/sql-run",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/sql-run",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-POST-/api/v1/sessions/{session_id}/submit",
+      "document": "SRS",
+      "expect": "/api/v1/sessions/{session_id}/submit",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/health",
+      "document": "SRS",
+      "expect": "/health",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "route-GET-/readiness",
+      "document": "SRS",
+      "expect": "/readiness",
+      "source": "docs/inventory/api-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/login",
+      "document": "Architecture",
+      "expect": "/login",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/register",
+      "document": "Architecture",
+      "expect": "/register",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/forgot-password",
+      "document": "Architecture",
+      "expect": "/forgot-password",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/reset-password",
+      "document": "Architecture",
+      "expect": "/reset-password",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/auth/callback",
+      "document": "Architecture",
+      "expect": "/auth/callback",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/",
+      "document": "Architecture",
+      "expect": "/",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/dashboard",
+      "document": "Architecture",
+      "expect": "/dashboard",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/competency",
+      "document": "Architecture",
+      "expect": "/competency",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/evaluations/:sessionId",
+      "document": "Architecture",
+      "expect": "/evaluations/:sessionId",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/assessments",
+      "document": "Architecture",
+      "expect": "/assessments",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/exam/:sessionId",
+      "document": "Architecture",
+      "expect": "/exam/:sessionId",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/history",
+      "document": "Architecture",
+      "expect": "/history",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/history/:sessionId",
+      "document": "Architecture",
+      "expect": "/history/:sessionId",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/settings",
+      "document": "Architecture",
+      "expect": "/settings",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin",
+      "document": "Architecture",
+      "expect": "/admin",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/curriculum",
+      "document": "Architecture",
+      "expect": "/admin/curriculum",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/questions",
+      "document": "Architecture",
+      "expect": "/admin/questions",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/system",
+      "document": "Architecture",
+      "expect": "/admin/system",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/accounts",
+      "document": "Architecture",
+      "expect": "/admin/accounts",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/grading",
+      "document": "Architecture",
+      "expect": "/admin/grading",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/grading/:reviewSessionId",
+      "document": "Architecture",
+      "expect": "/admin/grading/:reviewSessionId",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/documents",
+      "document": "Architecture",
+      "expect": "/admin/documents",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-/admin/learners/:learnerId/competency",
+      "document": "Architecture",
+      "expect": "/admin/learners/:learnerId/competency",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-*",
+      "document": "Architecture",
+      "expect": "*",
+      "source": "docs/inventory/frontend-routes.json",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-DEPLOYMENT_MODE",
+      "document": "Architecture",
+      "expect": "DEPLOYMENT_MODE",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-DEPLOYMENT_MODE",
+      "document": "Architecture",
+      "expect": "development",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-SANDBOX_MODE",
+      "document": "Architecture",
+      "expect": "SANDBOX_MODE",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-SANDBOX_MODE",
+      "document": "Architecture",
+      "expect": "shared",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-SANDBOX_MULTI_STATEMENT",
+      "document": "Architecture",
+      "expect": "SANDBOX_MULTI_STATEMENT",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-SANDBOX_MULTI_STATEMENT",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-SANDBOX_WRITABLE",
+      "document": "Architecture",
+      "expect": "SANDBOX_WRITABLE",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-SANDBOX_WRITABLE",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-GRADING_STATE_MODE",
+      "document": "Architecture",
+      "expect": "GRADING_STATE_MODE",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-GRADING_STATE_MODE",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-SANDBOX_BROKER",
+      "document": "Architecture",
+      "expect": "SANDBOX_BROKER",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-SANDBOX_BROKER",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-LLM_PROVIDER",
+      "document": "Architecture",
+      "expect": "LLM_PROVIDER",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-LLM_PROVIDER",
+      "document": "Architecture",
+      "expect": "compatible",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-QUESTION_TRANSLATION_ENABLED",
+      "document": "Architecture",
+      "expect": "QUESTION_TRANSLATION_ENABLED",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-QUESTION_TRANSLATION_ENABLED",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-AUTO_GRADE_ESSAYS",
+      "document": "Architecture",
+      "expect": "AUTO_GRADE_ESSAYS",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-AUTO_GRADE_ESSAYS",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-VITE_DEMO_FREE_PRO",
+      "document": "Architecture",
+      "expect": "VITE_DEMO_FREE_PRO",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-VITE_DEMO_FREE_PRO",
+      "document": "Architecture",
+      "expect": "false",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-OPENROUTER_DATA_COLLECTION",
+      "document": "Architecture",
+      "expect": "OPENROUTER_DATA_COLLECTION",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-OPENROUTER_DATA_COLLECTION",
+      "document": "Architecture",
+      "expect": "deny",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-OPENROUTER_ZDR",
+      "document": "Architecture",
+      "expect": "OPENROUTER_ZDR",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "flag-default-OPENROUTER_ZDR",
+      "document": "Architecture",
+      "expect": "true",
+      "source": "backend/app/config.py",
+      "kind": "contains",
+      "status": "PASS"
+    },
+    {
+      "id": "images-Proposal",
+      "document": "Proposal",
+      "expect": ">=4 images",
+      "source": "assets/diagrams",
+      "kind": "images",
+      "status": "PASS"
+    },
+    {
+      "id": "images-Architecture",
+      "document": "Architecture",
+      "expect": ">=15 images",
+      "source": "assets/diagrams",
+      "kind": "images",
+      "status": "PASS"
+    },
+    {
+      "id": "images-Database",
+      "document": "Database",
+      "expect": ">=13 images",
+      "source": "assets/diagrams",
+      "kind": "images",
+      "status": "PASS"
+    },
+    {
+      "id": "images-SRS",
+      "document": "SRS",
+      "expect": ">=1 images",
+      "source": "assets/diagrams",
+      "kind": "images",
+      "status": "PASS"
+    },
+    {
+      "id": "pages-Proposal",
+      "document": "Proposal",
+      "expect": "pages=8 words=1862",
+      "source": "render_word.ps1 (Word ComputeStatistics)",
+      "kind": "pages",
+      "status": "PASS"
+    },
+    {
+      "id": "pages-Architecture",
+      "document": "Architecture",
+      "expect": "pages=17 words=2349",
+      "source": "render_word.ps1 (Word ComputeStatistics)",
+      "kind": "pages",
+      "status": "PASS"
+    },
+    {
+      "id": "pages-Database",
+      "document": "Database",
+      "expect": "pages=51 words=16055",
+      "source": "render_word.ps1 (Word ComputeStatistics)",
+      "kind": "pages",
+      "status": "PASS"
+    },
+    {
+      "id": "pages-SRS",
+      "document": "SRS",
+      "expect": "pages=10 words=3002",
+      "source": "render_word.ps1 (Word ComputeStatistics)",
+      "kind": "pages",
+      "status": "PASS"
+    }
+  ],
+  "summary": {
+    "total": 358,
+    "passed": 358,
+    "failed": 0
+  }
+}

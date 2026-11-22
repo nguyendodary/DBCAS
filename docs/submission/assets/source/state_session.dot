@@ -1,0 +1,30 @@
+digraph "state_session" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  start [shape=circle, label="", width=0.2];
+  inp [label="in_progress", fillcolor="#5B9BD5"];
+  comp [label="completed", fillcolor="#70AD47"];
+  tout [label="timed_out", fillcolor="#ED7D31"];
+  canc [label="cancelled", fillcolor="#A5A5A5"];
+  auto [label="auto_grading", fillcolor="#A5A5A5"];
+  prov [label="provisional_ai", fillcolor="#5B9BD5"];
+  pend [label="pending_review", fillcolor="#ED7D31"];
+  rev [label="reviewed", fillcolor="#5B9BD5"];
+  pub [label="published", fillcolor="#70AD47"];
+  fail [label="grading_failed", fillcolor="#F4B183"];
+  start -> inp;
+  inp -> comp [label="finish"];
+  inp -> tout [label="deadline"];
+  inp -> canc [label="cancel"];
+  comp -> auto [label="attempts pending"];
+  comp -> prov [label="practice AI ready"];
+  comp -> pend [label="human review"];
+  auto -> prov; auto -> pend; auto -> fail;
+  pend -> rev [label="SQL/essay reviewed"];
+  rev -> pub [label="publish"];
+  prov -> pub [label="admin publish (legacy)"];
+  comp -> pub [label="FIXED V1 official"];
+
+}

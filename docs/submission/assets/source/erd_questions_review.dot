@@ -1,0 +1,19 @@
+digraph "erd_questions_review" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"question_candidate" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>question_candidate</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;candidate_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;concept_id -&gt; concept</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;promoted_question_id -&gt; question</font></td></tr></table>>];
+  "question_report" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>question_report</b> <font point-size="8">(13 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;question_report_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;review_request_id -&gt; review_request</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; attempt</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;reported_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;resolved_by -&gt; account</font></td></tr></table>>];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "question_report" -> "account" [style=dashed, color="#A5A5A5", label="reported_by"];
+  "question_report" -> "account" [style=dashed, color="#A5A5A5", label="resolved_by"];
+  "attempt" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="attempt\n(sessions)"];
+  "question_report" -> "attempt" [style=dashed, color="#A5A5A5", label="session_id,attempt_id"];
+  "concept" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="concept\n(curriculum)"];
+  "question_candidate" -> "concept" [style=dashed, color="#A5A5A5", label="concept_id"];
+  "question" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="question\n(questions)"];
+  "question_candidate" -> "question" [style=dashed, color="#A5A5A5", label="promoted_question_id"];
+  "question_report" -> "question" [style=dashed, color="#A5A5A5", label="question_id"];
+  "review_request" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="review_request\n(review)"];
+  "question_report" -> "review_request" [style=dashed, color="#A5A5A5", label="review_request_id"];
+}

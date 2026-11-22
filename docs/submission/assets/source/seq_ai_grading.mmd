@@ -1,0 +1,21 @@
+sequenceDiagram
+autonumber
+participant W as Worker / API
+participant P as AI #1 prompt builder
+participant D as PostgreSQL
+participant L as AI #2 provider
+participant V as Validator
+W->>P: sanitized attempt + rubric + schema
+P->>P: deterministic template + hash
+P->>D: ai_prompt_record + content
+W->>L: POST /chat/completions (AI2)
+L-->>W: JSON (score, criteria, evidence)
+W->>V: schema + score band + evidence check
+alt valid
+  V-->>W: accepted
+  W->>D: evaluation_record / result evidence
+else invalid or provider error
+  V-->>W: rejected
+  W->>D: fallback rule result / failed job
+end
+Note over P,L: OPENROUTER_DATA_COLLECTION=deny, OPENROUTER_ZDR=true in release

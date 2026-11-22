@@ -1,0 +1,17 @@
+digraph "erd_identity_account" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"account" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#4472C4"><font color="white" point-size="10"><b>account</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;account_id</font></td></tr></table>>];
+  "account_identity" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#4472C4"><font color="white" point-size="10"><b>account_identity</b> <font point-size="8">(7 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;identity_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;account_id -&gt; account</font></td></tr></table>>];
+  "account_role" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#4472C4"><font color="white" point-size="10"><b>account_role</b> <font point-size="8">(3 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;account_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;role_id</font></td></tr></table>>];
+  "account_role_audit" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#4472C4"><font color="white" point-size="10"><b>account_role_audit</b> <font point-size="8">(7 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;audit_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;actor_account_id -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;target_account_id -&gt; account</font></td></tr></table>>];
+  "role" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#4472C4"><font color="white" point-size="10"><b>role</b> <font point-size="8">(3 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;role_id</font></td></tr></table>>];
+  "user_profile" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#4472C4"><font color="white" point-size="10"><b>user_profile</b> <font point-size="8">(6 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;user_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;account_id -&gt; account</font></td></tr></table>>];
+  "account_identity" -> "account" [label="account_id", color="#7F7F7F"];
+  "account_role" -> "account" [label="account_id", color="#7F7F7F"];
+  "account_role" -> "role" [label="role_id", color="#7F7F7F"];
+  "account_role_audit" -> "account" [label="actor_account_id", color="#7F7F7F"];
+  "account_role_audit" -> "account" [label="target_account_id", color="#7F7F7F"];
+  "user_profile" -> "account" [label="account_id", color="#7F7F7F"];
+}

@@ -1,0 +1,15 @@
+sequenceDiagram
+autonumber
+actor U as User
+participant B as Browser SPA
+participant A as FastAPI /auth
+participant D as PostgreSQL
+U->>B: email + password
+B->>A: POST /api/v1/auth/login
+A->>D: load account + roles
+A->>A: bcrypt verify + status + throttle
+A->>D: insert refresh_session (hash)
+A-->>B: access JWT + rotating refresh JWT
+B->>A: GET /auth/me (Bearer)
+A-->>B: account summary + roles
+Note over A,D: Optional OAuth: /auth/oauth/{provider}/start -> callback -> /complete

@@ -1,0 +1,31 @@
+digraph "containers" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  subgraph cluster_browser { label="Browser"; color="#A5A5A5";
+    spa [label="React 19 SPA\nVite 8 Â· 24 routes", fillcolor="#5B9BD5"];
+  }
+  subgraph cluster_api { label="Backend container (API)"; color="#4472C4";
+    router [label="7 routers\n118 operations", fillcolor="#4472C4", fontcolor="white"];
+    services [label="Service layer\n82 modules", fillcolor="#4472C4", fontcolor="white"];
+    repo [label="Repositories + ORM\nSQLAlchemy 2.0", fillcolor="#A5A5A5"];
+  }
+  subgraph cluster_data { label="Data"; color="#70AD47";
+    pg [label="PostgreSQL 17\n67 tables", fillcolor="#70AD47"];
+    ex [label="dbcas-sql-ephemeral:local\n2 concurrent slots", fillcolor="#ED7D31"];
+  }
+  worker [label="Maintenance worker\ngrading_job Â· expiry Â· retention", fillcolor="#A5A5A5"];
+  mail [label="Mailpit / SMTP", fillcolor="#FFF2CC"];
+  llm [label="LLM provider", fillcolor="#FFF2CC"];
+  spa -> router [label="HTTPS /api/v1"];
+  router -> services;
+  services -> repo;
+  repo -> pg;
+  services -> ex [label="SQL only"];
+  worker -> pg;
+  worker -> ex;
+  services -> llm [label="AI #2"];
+  services -> mail;
+
+}

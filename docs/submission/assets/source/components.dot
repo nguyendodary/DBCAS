@@ -1,0 +1,30 @@
+digraph "components" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  subgraph cluster_http { label="HTTP"; color="#4472C4";
+    r1 [label="auth / oauth", fillcolor="#5B9BD5"];
+    r2 [label="practice / sessions", fillcolor="#5B9BD5"];
+    r3 [label="admin", fillcolor="#5B9BD5"];
+    r4 [label="assessments / concepts", fillcolor="#5B9BD5"];
+  }
+  subgraph cluster_services { label="Services"; color="#4472C4";
+    s1 [label="adaptive_engine\ncontinuous_adaptive", fillcolor="#4472C4", fontcolor="white"];
+    s2 [label="grading_service\nsql_grading / essay_grading", fillcolor="#4472C4", fontcolor="white"];
+    s3 [label="review_flow\nreview_regrade / result_version", fillcolor="#4472C4", fontcolor="white"];
+    s4 [label="ai_stage_service\nprompt_builder / llm", fillcolor="#4472C4", fontcolor="white"];
+    s5 [label="competency_service\ncumulative_competency", fillcolor="#4472C4", fontcolor="white"];
+    s6 [label="sandbox_runner\nephemeral_sandbox", fillcolor="#ED7D31"];
+  }
+  subgraph cluster_data { label="Persistence"; color="#70AD47";
+    repo [label="13 repositories", fillcolor="#A5A5A5"];
+    models [label="67 ORM models", fillcolor="#A5A5A5"];
+    pg [label="PostgreSQL 17", fillcolor="#70AD47"];
+  }
+  r1 -> s1 [style=invis];
+  r1 -> s4; r2 -> s1; r2 -> s2; r2 -> s6; r3 -> s3; r3 -> s4; r4 -> s1;
+  s1 -> repo; s2 -> repo; s3 -> repo; s4 -> repo; s5 -> repo; s2 -> s6;
+  repo -> models -> pg;
+
+}

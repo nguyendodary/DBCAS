@@ -1,0 +1,30 @@
+digraph "state_review" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  subgraph cluster_case { label="review_request"; color="#ED7D31";
+    req [label="REQUESTED", fillcolor="#5B9BD5"];
+    inr [label="IN_REVIEW", fillcolor="#ED7D31"];
+    reg [label="REGRADED", fillcolor="#70AD47"];
+    rej [label="REJECTED", fillcolor="#A5A5A5"];
+    exp [label="EXPIRED", fillcolor="#A5A5A5"];
+  }
+  subgraph cluster_pub { label="publication"; color="#70AD47";
+    v1 [label="V1 OFFICIAL", fillcolor="#70AD47"];
+    v2p [label="V2 APPROVED_PENDING_ANALYSIS", fillcolor="#5B9BD5"];
+    v2o [label="V2 OFFICIAL", fillcolor="#70AD47"];
+    v2f [label="V2 ANALYSIS_FAILED", fillcolor="#ED7D31"];
+  }
+  req -> inr [label="admin claim"];
+  inr -> reg [label="APPROVE"];
+  inr -> rej [label="REJECT"];
+  req -> exp [label="30 days"];
+  v1 -> v2p [label="accepted report / deviation"];
+  v2p -> v2o [label="AI1 + AI2 valid"];
+  v2p -> v2f [label="AI failure"];
+  v2f -> v2p [label="retry"];
+  v2f -> v1 [label="V1 remains official", style=dashed];
+  v2o -> reg;
+
+}

@@ -1,0 +1,20 @@
+digraph "erd_assessment" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"assessment" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#5B9BD5"><font color="white" point-size="10"><b>assessment</b> <font point-size="8">(14 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;assessment_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;created_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;family_id -&gt; assessment</font></td></tr></table>>];
+  "assessment_blueprint" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#5B9BD5"><font color="white" point-size="10"><b>assessment_blueprint</b> <font point-size="8">(16 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;blueprint_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;assessment_id -&gt; assessment</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;approved_by -&gt; account</font></td></tr></table>>];
+  "assessment_concept" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#5B9BD5"><font color="white" point-size="10"><b>assessment_concept</b> <font point-size="8">(5 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;assessment_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;concept_id</font></td></tr></table>>];
+  "assessment_question" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#5B9BD5"><font color="white" point-size="10"><b>assessment_question</b> <font point-size="8">(2 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;assessment_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;question_id</font></td></tr></table>>];
+  "assessment" -> "assessment" [label="family_id", color="#7F7F7F"];
+  "assessment_blueprint" -> "assessment" [label="assessment_id", color="#7F7F7F"];
+  "assessment_concept" -> "assessment" [label="assessment_id", color="#7F7F7F"];
+  "assessment_question" -> "assessment" [label="assessment_id", color="#7F7F7F"];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "assessment" -> "account" [style=dashed, color="#A5A5A5", label="created_by"];
+  "assessment_blueprint" -> "account" [style=dashed, color="#A5A5A5", label="approved_by"];
+  "concept" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="concept\n(curriculum)"];
+  "assessment_concept" -> "concept" [style=dashed, color="#A5A5A5", label="concept_id"];
+  "question" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="question\n(questions)"];
+  "assessment_question" -> "question" [style=dashed, color="#A5A5A5", label="question_id"];
+}

@@ -1,0 +1,29 @@
+digraph "erd_results_versions" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"session_result_analysis" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>session_result_analysis</b> <font point-size="8">(9 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;analysis_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; session_result_version</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;ai1_run_id -&gt; ai_stage_run</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;ai2_run_id -&gt; ai_stage_run</font></td></tr></table>>];
+  "session_result_criterion_score" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>session_result_criterion_score</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;criterion_score_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; session_result_version_score</font></td></tr></table>>];
+  "session_result_publication" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>session_result_publication</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;result_version_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; session_result_version</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;updated_by -&gt; account</font></td></tr></table>>];
+  "session_result_version" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>session_result_version</b> <font point-size="8">(14 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;result_version_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; assessment_session</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;supersedes_version_id -&gt; session_result_version</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;approved_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;review_request_id -&gt; review_request</font></td></tr></table>>];
+  "session_result_version_score" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>session_result_version_score</b> <font point-size="8">(7 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;version_score_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; session_result_version</font></td></tr></table>>];
+  "session_result_analysis" -> "session_result_version" [label="session_id,result_version_id", color="#7F7F7F"];
+  "session_result_criterion_score" -> "session_result_version_score" [label="session_id,result_version_id,attempt_id", color="#7F7F7F"];
+  "session_result_publication" -> "session_result_version" [label="session_id,result_version_id", color="#7F7F7F"];
+  "session_result_version" -> "session_result_version" [label="supersedes_version_id", color="#7F7F7F"];
+  "session_result_version_score" -> "session_result_version" [label="session_id,result_version_id", color="#7F7F7F"];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "session_result_publication" -> "account" [style=dashed, color="#A5A5A5", label="updated_by"];
+  "session_result_version" -> "account" [style=dashed, color="#A5A5A5", label="approved_by"];
+  "ai_stage_run" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="ai_stage_run\n(ai)"];
+  "session_result_analysis" -> "ai_stage_run" [style=dashed, color="#A5A5A5", label="ai1_run_id,session_id"];
+  "session_result_analysis" -> "ai_stage_run" [style=dashed, color="#A5A5A5", label="ai2_run_id,session_id"];
+  "assessment_session" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="assessment_session\n(sessions)"];
+  "session_result_version" -> "assessment_session" [style=dashed, color="#A5A5A5", label="session_id"];
+  "attempt" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="attempt\n(sessions)"];
+  "session_result_version_score" -> "attempt" [style=dashed, color="#A5A5A5", label="session_id,attempt_id"];
+  "attempt_rubric_criterion" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="attempt_rubric_criterion\n(rubrics)"];
+  "session_result_criterion_score" -> "attempt_rubric_criterion" [style=dashed, color="#A5A5A5", label="session_id,attempt_id,criterion_snapshot_id"];
+  "review_request" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="review_request\n(review)"];
+  "session_result_version" -> "review_request" [style=dashed, color="#A5A5A5", label="review_request_id"];
+}

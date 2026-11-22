@@ -1,0 +1,26 @@
+{
+  "Proposal": {
+    "pages": 8,
+    "body_start": 2,
+    "headings": 24,
+    "missing": []
+  },
+  "Architecture": {
+    "pages": 17,
+    "body_start": 2,
+    "headings": 17,
+    "missing": []
+  },
+  "Database": {
+    "pages": 51,
+    "body_start": 2,
+    "headings": 79,
+    "missing": []
+  },
+  "SRS": {
+    "pages": 10,
+    "body_start": 2,
+    "headings": 22,
+    "missing": []
+  }
+}

@@ -1,0 +1,29 @@
+digraph "erd_review" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"grading_job" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>grading_job</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;job_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;attempt_id -&gt; attempt</font></td></tr></table>>];
+  "review_deviation" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>review_deviation</b> <font point-size="8">(14 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;deviation_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;review_request_id -&gt; review_request</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; attempt</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;first_reviewer_id -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;second_reviewer_id -&gt; account</font></td></tr></table>>];
+  "review_deviation_confirmation" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>review_deviation_confirmation</b> <font point-size="8">(3 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;deviation_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;confirmed_by -&gt; account</font></td></tr></table>>];
+  "review_request" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#ED7D31"><font color="white" point-size="10"><b>review_request</b> <font point-size="8">(20 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;review_request_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;session_id -&gt; session_result_version</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;learner_id -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;requested_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;claimed_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;resolved_by -&gt; account</font></td></tr></table>>];
+  "review_deviation" -> "review_request" [label="review_request_id", color="#7F7F7F"];
+  "review_deviation_confirmation" -> "review_deviation" [label="deviation_id", color="#7F7F7F"];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "review_deviation" -> "account" [style=dashed, color="#A5A5A5", label="first_reviewer_id"];
+  "review_deviation" -> "account" [style=dashed, color="#A5A5A5", label="second_reviewer_id"];
+  "review_deviation_confirmation" -> "account" [style=dashed, color="#A5A5A5", label="confirmed_by"];
+  "review_request" -> "account" [style=dashed, color="#A5A5A5", label="claimed_by"];
+  "review_request" -> "account" [style=dashed, color="#A5A5A5", label="learner_id"];
+  "review_request" -> "account" [style=dashed, color="#A5A5A5", label="requested_by"];
+  "review_request" -> "account" [style=dashed, color="#A5A5A5", label="resolved_by"];
+  "assessment_session" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="assessment_session\n(sessions)"];
+  "review_request" -> "assessment_session" [style=dashed, color="#A5A5A5", label="session_id"];
+  "attempt" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="attempt\n(sessions)"];
+  "grading_job" -> "attempt" [style=dashed, color="#A5A5A5", label="attempt_id"];
+  "review_deviation" -> "attempt" [style=dashed, color="#A5A5A5", label="session_id,attempt_id"];
+  "attempt_rubric_criterion" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="attempt_rubric_criterion\n(rubrics)"];
+  "review_deviation" -> "attempt_rubric_criterion" [style=dashed, color="#A5A5A5", label="session_id,attempt_id,criterion_snapshot_id"];
+  "session_result_version" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="session_result_version\n(results)"];
+  "review_request" -> "session_result_version" [style=dashed, color="#A5A5A5", label="session_id,base_result_version_id"];
+  "review_request" -> "session_result_version" [style=dashed, color="#A5A5A5", label="session_id,regraded_result_version_id"];
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "document": "Proposal",
+    "pages": 8,
+    "words": 1862,
+    "pdf": "rendered/Proposal.pdf"
+  },
+  {
+    "document": "Architecture",
+    "pages": 17,
+    "words": 2349,
+    "pdf": "rendered/Architecture.pdf"
+  },
+  {
+    "document": "Database",
+    "pages": 51,
+    "words": 16055,
+    "pdf": "rendered/Database.pdf"
+  },
+  {
+    "document": "SRS",
+    "pages": 10,
+    "words": 3002,
+    "pdf": "rendered/SRS.pdf"
+  }
+]

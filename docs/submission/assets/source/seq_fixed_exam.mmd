@@ -1,0 +1,20 @@
+sequenceDiagram
+autonumber
+actor L as Learner
+participant B as Browser SPA
+participant A as FastAPI /sessions
+participant D as PostgreSQL
+L->>B: choose FIXED (Test) style + mix
+B->>A: POST /practice/start
+A->>D: session purpose=TEST, review_policy=AI_OFFICIAL_REVIEW
+B->>A: GET /sessions/{id}/paper
+B->>A: GET /paper/{seq_no}
+B->>A: PUT /paper/{seq_no}/draft
+B->>A: PUT /paper/{seq_no}/flag
+B->>A: POST /paper/tab-leave (server counter)
+B->>A: POST /paper/submit
+A->>D: finalize + V1 result_version
+A->>D: publication OFFICIAL, release_status=published
+A-->>B: next = /evaluations/{id}
+B->>A: GET /evaluations/attempts/{id}
+A-->>B: official V1 score + evidence

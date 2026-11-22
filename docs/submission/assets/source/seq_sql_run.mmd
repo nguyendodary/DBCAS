@@ -1,0 +1,20 @@
+sequenceDiagram
+autonumber
+actor L as Learner
+participant B as Browser SPA
+participant A as FastAPI /sessions
+participant C as SQL classifier
+participant E as SQL executor
+participant D as Dataset schema
+L->>B: SQL in editor
+B->>A: POST /sessions/{id}/sql-run
+A->>C: AST allowlist (pglast/sqlglot)
+C-->>A: allowed or rejected
+A->>E: create disposable container
+A->>D: provision ds_* schema
+A->>E: execute as learner_ro (read-only)
+E-->>A: bounded typed rows
+A->>D: drop schema
+A->>E: remove container / lease
+A-->>B: columns, types, rows, limits
+Note over A,E: writable demo: BEGIN -> DDL/DML -> ROLLBACK -> drop container. Grading always uses the read-only path.

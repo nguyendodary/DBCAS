@@ -1,0 +1,28 @@
+digraph "erd_curriculum" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+"clo_concept" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>clo_concept</b> <font point-size="8">(5 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;clo_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;concept_id</font></td></tr></table>>];
+  "concept" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>concept</b> <font point-size="8">(9 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;concept_id</font></td></tr></table>>];
+  "concept_dependency" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>concept_dependency</b> <font point-size="8">(3 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;concept_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;prerequisite_concept_id</font></td></tr></table>>];
+  "course_document" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>course_document</b> <font point-size="8">(14 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;document_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;uploaded_by -&gt; account</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;approved_by -&gt; account</font></td></tr></table>>];
+  "course_learning_outcome" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>course_learning_outcome</b> <font point-size="8">(7 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;clo_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;created_by -&gt; account</font></td></tr></table>>];
+  "document_chunk" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>document_chunk</b> <font point-size="8">(9 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;chunk_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;document_id -&gt; course_document</font></td></tr></table>>];
+  "document_clo" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>document_clo</b> <font point-size="8">(5 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;document_id</font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;clo_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;approved_by -&gt; account</font></td></tr></table>>];
+  "question_evidence" [shape=plaintext, label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="2"><tr><td bgcolor="#70AD47"><font color="white" point-size="10"><b>question_evidence</b> <font point-size="8">(8 cols)</font></font></td></tr><tr><td align="left"><font point-size="8"><b>PK:</b>&#160;evidence_id</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;question_id -&gt; question</font></td></tr><tr><td align="left"><font point-size="8"><b>FK:</b>&#160;chunk_id -&gt; document_chunk</font></td></tr></table>>];
+  "clo_concept" -> "course_learning_outcome" [label="clo_id", color="#7F7F7F"];
+  "clo_concept" -> "concept" [label="concept_id", color="#7F7F7F"];
+  "concept_dependency" -> "concept" [label="concept_id", color="#7F7F7F"];
+  "concept_dependency" -> "concept" [label="prerequisite_concept_id", color="#7F7F7F"];
+  "document_chunk" -> "course_document" [label="document_id", color="#7F7F7F"];
+  "document_clo" -> "course_learning_outcome" [label="clo_id", color="#7F7F7F"];
+  "document_clo" -> "course_document" [label="document_id", color="#7F7F7F"];
+  "question_evidence" -> "document_chunk" [label="chunk_id", color="#7F7F7F"];
+  "account" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="account\n(identity)"];
+  "course_document" -> "account" [style=dashed, color="#A5A5A5", label="approved_by"];
+  "course_document" -> "account" [style=dashed, color="#A5A5A5", label="uploaded_by"];
+  "course_learning_outcome" -> "account" [style=dashed, color="#A5A5A5", label="created_by"];
+  "document_clo" -> "account" [style=dashed, color="#A5A5A5", label="approved_by"];
+  "question" [shape=box, style="dashed", fillcolor="#F2F2F2", fontcolor="#555555", label="question\n(questions)"];
+  "question_evidence" -> "question" [style=dashed, color="#A5A5A5", label="question_id"];
+}

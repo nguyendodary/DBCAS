@@ -1,0 +1,28 @@
+digraph "use_cases" {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=0.55, pad=0.25, bgcolor="white", fontname="Calibri", fontsize=11];
+  node [shape=box, style="rounded,filled", fontname="Calibri", fontsize=10, color="#A5A5A5", fillcolor="white", penwidth=1.1, margin="0.10,0.06"];
+  edge [fontname="Calibri", fontsize=9, color="#7F7F7F", arrowsize=0.7];
+
+  learner [label="Learner\n(UI: User)", shape=box, style="rounded,filled", fillcolor="#5B9BD5"];
+  admin [label="Administrator", shape=box, style="rounded,filled", fillcolor="#4472C4", fontcolor="white"];
+  worker [label="Maintenance worker", shape=box, style="rounded,filled", fillcolor="#A5A5A5"];
+  llm [label="LLM provider", shape=box, style="rounded,filled", fillcolor="#FFF2CC"];
+  subgraph cluster_uc { label="DBCAS use cases"; color="#4472C4"; style="rounded";
+    u1 [label="Register / login / recover", shape=ellipse];
+    u2 [label="Practice options + preview", shape=ellipse];
+    u3 [label="Start FIXED or ADAPTIVE", shape=ellipse];
+    u4 [label="Answer, draft, SQL run", shape=ellipse];
+    u5 [label="Finish + view evaluation", shape=ellipse];
+    u6 [label="Review official result", shape=ellipse];
+    u7 [label="Manage CLOs / concepts / bank", shape=ellipse];
+    u8 [label="Generate + approve questions", shape=ellipse];
+    u9 [label="Review + publish grades", shape=ellipse];
+    u10 [label="Regrade V2 / analysis", shape=ellipse];
+    u11 [label="Cohort analytics", shape=ellipse];
+    u12 [label="Password reset link", shape=ellipse];
+  }
+  learner -> u1; learner -> u2; learner -> u3; learner -> u4; learner -> u5; learner -> u6; learner -> u12;
+  admin -> u7; admin -> u8; admin -> u9; admin -> u10; admin -> u11;
+  worker -> u9 [style=dashed]; llm -> u8 [style=dashed]; llm -> u10 [style=dashed];
+
+}

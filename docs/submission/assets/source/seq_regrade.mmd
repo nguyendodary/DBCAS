@@ -1,0 +1,26 @@
+sequenceDiagram
+autonumber
+actor L as Learner
+actor A1 as Admin reviewer
+actor A2 as Second admin
+participant API as FastAPI /admin
+participant DB as PostgreSQL
+participant AI as AI1 + AI2
+L->>API: POST /sessions/{id}/review-request (7-day window)
+API->>DB: review_request REQUESTED (base=V1)
+A1->>API: POST /review-requests/{id}/claim
+API->>DB: IN_REVIEW + 30-min lease
+A1->>API: POST /deviations (reason, score)
+alt change > 30% of max
+  API->>A2: confirmation request
+  A2->>API: POST /deviations/{id}/confirm
+end
+A1->>API: POST /review-requests/{id}/decision APPROVE
+API->>DB: V2 APPROVED_PENDING_ANALYSIS
+API->>AI: run AI1 -> AI2 for v2 scope
+alt analysis valid
+  AI-->>API: validated analysis
+  API->>DB: V2 OFFICIAL, current_result_version_id=V2
+else analysis failed
+  API->>DB: ANALYSIS_FAILED, V1 remains official
+end
