@@ -28,6 +28,7 @@ fixed in Phase B; the rest are reported to the owner.
 | K5 | `SystemSetting` model and `system_setting` table look unused | `backend/app/models.py:879` (retained import); read by `backend/app/services/corpus_seed.py:109,199`; `GET /admin/system` uses `system_settings.status`. | It is still a registry/settings source; not dead. |
 | K6 | Large tracked frontend media (≈15.2 MB) | `docs/sql-sandbox/05-bloat-candidates.md:48-81`; assets under `frontend/src/assets`. | Real bloat, but changing media affects the approved UI and is a design choice. Owner decision, not a freeze fix. |
 | K7 | Nine full-stack CI shards | `.github/workflows/dn-backend.yml:166-267`; measured 76.3 machine-minutes in `docs/sql-sandbox/05-bloat-candidates.md:83-96`. | Deliberate reliability coverage; changing it alters the required signal. Owner decision. |
+| K8 | `GET /admin/questions?status=rejected` looks impossible | `backend/app/routers/admin.py:457` accepts it; `backend/app/services/question_service.py:253` maps it to `retired`, the stored value (`db/schema.sql:644`). | It is a working legacy alias, not a defect. Keep for client compatibility. |
 
 ## OWNER-DECISION
 
@@ -35,18 +36,17 @@ fixed in Phase B; the rest are reported to the owner.
 | --- | --- | --- | --- |
 | O1 | Duplicate `concept_dependency` DDL in `db/schema.sql` | `db/schema.sql:83-89,411-412,440-446`. | Whether to consolidate the base DDL in a future migration; do not edit migrations for the freeze. |
 | O2 | DB release-policy default is `IMMEDIATE`, API default is `HUMAN_VERIFIED` | `db/schema.sql:676-680` vs `backend/app/schemas.py:240`, `backend/app/repositories.py:490-503`. | Repository-created rows always pass a value; raw inserts differ. Changing the DB default is a migration. Document the difference. |
-| O3 | Docs say all results are human-approved; FIXED TEST is AI-official | `README.md:84-88` and `docs/grading-and-sandbox.md:93-97` vs `assessment_lifecycle.py:233-238` and `result_version.py:180-278`. | Public behaviour/copy. The frozen documents will describe both paths; decide later whether the README copy should change. |
-| O4 | `GET /admin/questions?status=rejected` cannot match | `backend/app/routers/admin.py:457` accepts `rejected`; DB check allows `draft|validated|retired` (`db/schema.sql:644`); schemas map `rejected`→`retired` (`backend/app/schemas.py:784-790`). | UX/API cleanup; not needed for the demo. Document as a known filter limitation. |
-| O5 | Admin routes split across `admin.py` and `practice.py` | `/admin/system`, `/admin/accounts/{id}/reset-password`, `/admin/grading-reviews/{id}/run-sql` are in `backend/app/routers/practice.py:126-184`. | Organisational refactor; no behaviour change, but touching routes risks OpenAPI/inventory drift. Defer. |
-| O6 | `docs/qa/**` generated facts and fixtures | `docs/qa/project-facts.json`, `docs/qa/**` are protected by AGENTS.md and read by `scripts/check_docs.py:7-10`. | Never edit. Any disagreement is reported, not fixed. |
-| O7 | Old sample documents (outside the repo) | `Documents/Final/*.docx` cover 42 tables/routes from v1.2; current schema has 67 tables, 106 paths/118 operations. | Superseded by `docs/submission/*.docx`; keep the old files as history. |
-| O8 | `pytest` image bloat in the executor and API | `docs/sql-sandbox/05-bloat-candidates.md:6-46`; `sandbox/Dockerfile.ephemeral:1-13`. | S3 is the minimal safe part; further image splitting needs an owner/ops change. |
+| O3 | Docs say all results are human-approved; FIXED TEST is AI-official | `README.md:84-88` and `docs/grading-and-sandbox.md:93-97` vs `assessment_lifecycle.py:233-238` and `result_version.py:180-278`. | Public behaviour/copy. The freeze PR corrects the documentation only; no code path changes. |
+| O4 | Admin routes split across `admin.py` and `practice.py` | `/admin/system`, `/admin/accounts/{id}/reset-password`, `/admin/grading-reviews/{id}/run-sql` are in `backend/app/routers/practice.py:126-184`. | Organisational refactor; no behaviour change, but touching routes risks OpenAPI/inventory drift. Defer. |
+| O5 | `docs/qa/**` generated facts and fixtures | `docs/qa/project-facts.json`, `docs/qa/**` are protected by AGENTS.md and read by `scripts/check_docs.py:7-10`. | Never edit. Any disagreement is reported, not fixed. |
+| O6 | Old sample documents (outside the repo) | `Documents/Final/*.docx` cover 42 tables/routes from v1.2; current schema has 67 tables, 106 paths/118 operations. | Superseded by `docs/submission/*.docx`; keep the old files as history. |
+| O7 | `pytest` image bloat in the executor and API | `docs/sql-sandbox/05-bloat-candidates.md:6-46`; `sandbox/Dockerfile.ephemeral:1-13`. | S3 is the minimal safe part; further image splitting needs an owner/ops change. |
 
 ## Totals
 
 - SAFE-REMOVE: **4** (S1-S4).
-- KEEP: **7** (K1-K7).
-- OWNER-DECISION: **8** (O1-O8).
+- KEEP: **8** (K1-K8).
+- OWNER-DECISION: **7** (O1-O7).
 - No item proposes deleting a table, column, migration, v1/v2 result row, route,
   or any file under `docs/qa/**`.
 
