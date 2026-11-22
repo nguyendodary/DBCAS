@@ -12,6 +12,7 @@ import { EmptyState, ErrorState, Loading } from '../components/States'
 import { Badge, Card, CardTitle, StatTile, btnPrimary } from '../components/ui'
 import { AdminPageHeader } from '../components/admin'
 import StatisticsPanel from '../components/StatisticsPanel'
+import { DemoCostsPanel } from '../demo/freePro'
 
 // UC11 / Admin story 9 — cohort-wide gap analytics plus a per-learner
 // drill-down that reuses the same deterministic competency profile the
@@ -98,6 +99,7 @@ export default function AdminPage() {
           Duyệt bài
         </Link>
       </AdminPageHeader>
+      <DemoCostsPanel isAdmin />
       <p className="text-xs text-mute">{t('admin.analytics.scope')}</p>
 
       <section aria-label={t('admin.analytics.summary')} className="grid gap-4 sm:grid-cols-3">

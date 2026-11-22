@@ -14,6 +14,7 @@ import { Badge, Card, CardTitle, Icon, ScoreBar, btnPrimary } from '../component
 import heroBg from '../assets/brand/nen1.jpg'
 import heroVideo from '../assets/brand/video1.mp4'
 import BackgroundVideo from '../components/BackgroundVideo'
+import { DemoPlanPanel } from '../demo/freePro'
 
 const FINAL_STATES = new Set(['completed', 'timed_out'])
 
@@ -363,6 +364,8 @@ export default function DashboardPage() {
         profileState={profileState}
         onRefresh={() => setRetry((r) => r + 1)}
       />
+
+      <DemoPlanPanel />
 
       <div className="content-wrap flex flex-col gap-7 py-8">
         {selectedSession?.pending_grading_count > 0 && (

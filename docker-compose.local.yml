@@ -102,6 +102,7 @@ services:
       dockerfile: frontend/Dockerfile
       args:
         VITE_LOCAL_MAILBOX_URL: http://localhost:${LOCAL_MAIL_PORT:-18025}
+        VITE_DEMO_FREE_PRO: ${VITE_DEMO_FREE_PRO:-false}
     ports: ['127.0.0.1:${LOCAL_WEB_PORT:-18080}:8080']
     networks: [web]
     depends_on:
