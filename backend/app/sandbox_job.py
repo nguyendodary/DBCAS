@@ -1,6 +1,7 @@
 """Trusted stdin/stdout bridge executed inside an offline ephemeral container."""
 from dataclasses import asdict
 import json
+import os
 import sys
 
 from .config import Settings
@@ -14,9 +15,13 @@ def main():
     if len(raw) >= 100_000:
         raise ValueError("Sandbox request exceeds the protocol limit")
     payload = json.loads(raw)
+    writable = bool(payload.get("writable"))
+    writable_password = os.environ.get("SANDBOX_WRITABLE_PASSWORD", "learner_rw_dev")
     settings = Settings(_env_file=None, deployment_mode="development",
                         sandbox_url="postgresql://learner_ro@/postgres",
-                        sandbox_admin_url="postgresql://postgres@/postgres", **payload["limits"])
+                        sandbox_writable_url="postgresql://learner_rw:" + writable_password + "@/postgres",
+                        sandbox_admin_url="postgresql://postgres@/postgres",
+                        sandbox_writable=writable, **payload["limits"])
     runner = SandboxRunner(settings)
     try:
         operation = payload["operation"]
@@ -26,6 +31,8 @@ def main():
             result = asdict(runner.execute(payload["sql"], schema=payload.get("schema")))
         elif operation == "execute_script":
             result = asdict(runner.execute_script(payload["sql"], schema=payload.get("schema")))
+        elif operation == "execute_writable":
+            result = asdict(runner.execute_writable_script(payload["sql"], schema=payload.get("schema")))
         elif operation == "validate":
             result = runner.validate_environment()
         else:

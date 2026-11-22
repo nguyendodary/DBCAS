@@ -1,0 +1,8 @@
+# Demo-only SQL profile. Never enabled by default; the API still starts in
+# development and the startup guard refuses writable mode outside
+# development/demo without SANDBOX_MODE=ephemeral.
+services:
+  app:
+    environment:
+      SANDBOX_WRITABLE: 'true'
+      SANDBOX_MULTI_STATEMENT: 'true'

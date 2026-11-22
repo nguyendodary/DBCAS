@@ -8,6 +8,7 @@ import pytest
 
 from app.config import Settings, get_settings
 from app.services.sandbox_runner import SandboxRunner
+from app.services.sql_classifier import validate_writable_script
 
 SETUP_SQL = """
 CREATE TABLE t (id INT PRIMARY KEY, name TEXT);
@@ -81,6 +82,28 @@ def test_script_row_cap(sandbox_runner, dataset):
     assert result.error_type == "result_too_large"
 
 
+def test_writable_ddl_dml_select_and_cleanup(sandbox_runner):
+    settings = get_settings().model_copy(update={"sandbox_writable": True})
+    writable = SandboxRunner(settings)
+    schema = writable.provision_dataset(SETUP_SQL)
+    try:
+        result = writable.execute_writable_script(
+            "CREATE TABLE demo_item(id INT PRIMARY KEY, name TEXT); "
+            "INSERT INTO demo_item VALUES (1, 'alpha'), (2, 'beta'); "
+            "SELECT id, name FROM demo_item ORDER BY id",
+            schema=schema,
+        )
+        assert result.success is True, result.error_message
+        assert result.mode == "writable" and result.rolled_back is True
+        assert result.rows == [[1, "alpha"], [2, "beta"]]
+        # The script transaction rolled back, so the table is gone.
+        after = writable.execute("SELECT * FROM demo_item", schema=schema)
+        assert after.success is False
+        assert after.error_type in {"schema_error", "prohibited_statement"}
+    finally:
+        writable.drop_dataset(schema)
+
+
 def test_legacy_single_statement_unchanged(sandbox_runner, dataset):
     legacy = sandbox_runner.execute("SELECT id FROM t ORDER BY id", schema=dataset)
     assert legacy.success is True
@@ -101,6 +124,29 @@ def test_flags_default_off():
     assert settings.sandbox_multi_statement is False
     assert settings.sandbox_writable is False
     assert settings.grading_state_mode is False
+
+
+def test_writable_policy_allows_ddl_dml_and_select():
+    assert validate_writable_script(
+        "CREATE TABLE demo_t(id INT PRIMARY KEY, note TEXT); "
+        "INSERT INTO demo_t VALUES (1, 'a'), (2, 'b'); "
+        "UPDATE demo_t SET note='c' WHERE id=2; "
+        "SELECT id, note FROM demo_t ORDER BY id"
+    ) is None
+
+
+@pytest.mark.parametrize("sql", [
+    "GRANT SELECT ON demo_t TO learner_ro",
+    "COPY demo_t FROM '/etc/passwd'",
+    "DO $$ BEGIN PERFORM 1; END $$",
+    "CREATE ROLE attacker",
+    "CREATE EXTENSION dblink",
+    "VACUUM demo_t",
+])
+def test_writable_policy_rejects_privilege_and_admin_statements(sql):
+    issue = validate_writable_script(sql)
+    assert issue is not None
+    assert issue[0] == "prohibited_statement"
 
 
 def test_writable_outside_development_requires_ephemeral():

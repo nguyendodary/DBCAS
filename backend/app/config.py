@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     sandbox_url: str = (
         "postgresql://learner_ro:learner_ro_dev@localhost:5433/postgres"
     )
+    # Demo-only writable role; used only when SANDBOX_WRITABLE is on.
+    sandbox_writable_url: str = (
+        "postgresql://learner_rw:learner_rw_dev@localhost:5433/postgres"
+    )
     sandbox_admin_url: str = (
         "postgresql://postgres:change_me_sandbox@localhost:5433/postgres"
     )

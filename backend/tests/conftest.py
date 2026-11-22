@@ -165,6 +165,10 @@ if _docker_ok():
     os.environ["SANDBOX_URL"] = _sandbox_admin_dsn.replace(
         "postgres:test@", "learner_ro:test@"
     )
+    # Demo writable role uses its documented default password in the test image.
+    os.environ["SANDBOX_WRITABLE_URL"] = _sandbox_admin_dsn.replace(
+        "postgres:test@", "learner_rw:learner_rw_dev@"
+    )
     os.environ["JWT_SECRET"] = "test-secret-not-for-production-123456"
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"
     # Local credentials never enter the automated application's configuration.
