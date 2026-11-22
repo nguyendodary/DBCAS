@@ -1,8 +1,8 @@
 # Status snapshot
 
-Date: 2026-11-21. Overwrite this snapshot when state changes; do not treat it as CI evidence.
+Date: 2026-11-22. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [ea9a29b1c0d22f10a55688ea1c0ffc1007071ec3](https://github.com/nguyendodary/DBCAS/commit/ea9a29b1c0d22f10a55688ea1c0ffc1007071ec3) as of 2026-11-21; update after the next merge. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Last verified: `develop2` [ccf992430b74ac1b1596e0bdee3fb217280d147c](https://github.com/nguyendodary/DBCAS/commit/ccf992430b74ac1b1596e0bdee3fb217280d147c) as of 2026-11-22; update after the next merge. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -24,6 +24,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - [#79](https://github.com/nguyendodary/DBCAS/pull/79): owner-approved defaults recorded — merge `9d3b1326384541fe9089d724f3ec49e8480ae89d`.
 - [#76](https://github.com/nguyendodary/DBCAS/pull/76): default-off broker skeleton — merge `50f5724c2f01fa18131e0ec58bf68982c290f059`.
 - [#78](https://github.com/nguyendodary/DBCAS/pull/78): PR-B2 design documentation — merge `ea9a29b1c0d22f10a55688ea1c0ffc1007071ec3`.
+- [#82](https://github.com/nguyendodary/DBCAS/pull/82): broker CI validation record — merge `ccf992430b74ac1b1596e0bdee3fb217280d147c`.
 
 CI on `10c29586`: [run 44792968574 attempt 1](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/1) was red (qa-1 `sandbox_busy`, [#71](https://github.com/nguyendodary/DBCAS/issues/71)); the single authorized [attempt 2](https://github.com/nguyendodary/DBCAS/actions/runs/44792968574/attempts/2) was green (14/14).
 CI on `a343ab0`: [run 44857868535](https://github.com/nguyendodary/DBCAS/actions/runs/44857868535) passed all jobs, including qa-1, qa-2 and qa-3.
@@ -32,7 +33,8 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 ## In progress and next
 
-- This docs PR: [broker validation record](../analysis/broker-validation.md) — docs only; do not merge implementation PRs from it.
+- [#86](https://github.com/nguyendodary/DBCAS/pull/86): feature-level branch integration review — ports practice grid navigation and question-bank list payload trimming; the decision table is in the PR description. **OPEN, NOT MERGED**; no migrations or `docs/qa/**` changes.
+- Deferred to owner from [#86](https://github.com/nguyendodary/DBCAS/pull/86): Free/Pro + costs (PR [#10](https://github.com/nguyendodary/DBCAS/pull/10)), OTP password reset (PR [#25](https://github.com/nguyendodary/DBCAS/pull/25)), and the stale `docs/pending-readiness-edits` branch.
 - [#80](https://github.com/nguyendodary/DBCAS/pull/80): broker runtime behind default-OFF `SANDBOX_BROKER` (head `2bd0417`) — **OPEN, NOT MERGED**; exact-head [run 44903786066](https://github.com/nguyendodary/DBCAS/actions/runs/44903786066) green 14/14. Broker-ON draft validation [#81](https://github.com/nguyendodary/DBCAS/pull/81) was red ([run 44907556308](https://github.com/nguyendodary/DBCAS/actions/runs/44907556308)) and is closed; see [validation record](../analysis/broker-validation.md).
 - Next: [BACKLOG](BACKLOG.md).
 

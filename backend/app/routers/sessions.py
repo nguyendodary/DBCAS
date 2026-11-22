@@ -209,11 +209,22 @@ def get_served_questions(
 @router.post("/{session_id}/serve-next", response_model=ServeResult)
 def serve_next_question(
     session_id: int,
+    seq_no: int | None = Query(None, ge=1),
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    display_locale: Literal["en", "vi"] | None = None,
 ):
     """UC12/FR-15 — return the pending question or adaptively serve the
-    next one; every new serve is audited in selection_log."""
+    next one; every new serve is audited in selection_log.
+
+    ``seq_no`` opens one frozen plan slot in a learner-defined practice
+    without changing the other questions or the grading rules.
+    """
+    if seq_no is not None:
+        question = adaptive_engine.serve_planned_question(
+            db, session_id, seq_no, learner, display_locale
+        )
+        return ServeResult(done=False, question=question)
     return adaptive_engine.serve_next(db, session_id, learner)
 
 

@@ -503,7 +503,18 @@ def serve_next(
 
     if (session.config_snapshot or {}).get("personalized"):
         from .personalized_assessment import serve_planned
-        attempt = serve_planned(repo, session, len(attempts) + 1)
+        if snapshot.get("learner_defined") and snapshot.get("assembly_mode") == "PRACTICE":
+            served_sequences = {item.seq_no for item in attempts}
+            next_sequence = next(
+                (seq for seq in range(1, assessment.max_questions + 1)
+                 if seq not in served_sequences),
+                None,
+            )
+            if next_sequence is None:
+                return ServeResult(done=True, question=None)
+        else:
+            next_sequence = len(attempts) + 1
+        attempt = serve_planned(repo, session, next_sequence)
         if commit:
             db.commit()
         return ServeResult(done=False, question=_served_question(repo, attempt, session.locale or "en"))
@@ -518,6 +529,43 @@ def serve_next(
     if commit:
         db.commit()
     return ServeResult(done=False, question=_served_question(repo, attempt, session.locale or "en"))
+
+
+def serve_planned_question(
+    db: Session, session_id: int, seq_no: int, learner: Account, display_locale=None
+) -> ServedQuestion:
+    """Serve or resume any planned question in a learner-defined practice.
+
+    The frozen practice plan already fixes the question at ``seq_no``; opening
+    it never changes the other questions, the timer or the grading rules.
+    Re-opening an existing sequence returns the same attempt, so navigation
+    cannot create duplicate attempts for one plan slot.
+    """
+    repo = AssessmentRepository(db)
+    session = load_owned_active_session(repo, session_id, learner)
+    snapshot = session.config_snapshot or {}
+    if not snapshot.get("learner_defined") or snapshot.get("assembly_mode") != "PRACTICE":
+        raise AppError(
+            409,
+            "question_navigation_unavailable",
+            "Questions can only be selected directly in a fixed practice session",
+        )
+    plan = snapshot.get("question_plan") or []
+    if seq_no < 1 or seq_no > len(plan):
+        raise AppError(
+            404, "question_not_found", "Question not found in this practice session"
+        )
+
+    attempts = repo.session_attempts(session_id)
+    attempt = next((item for item in attempts if item.seq_no == seq_no), None)
+    if attempt is None:
+        from .personalized_assessment import serve_planned
+
+        attempt = serve_planned(repo, session, seq_no)
+        db.commit()
+    question = _served_question(repo, attempt, display_locale or session.locale or "en")
+    question.score = None
+    return question
 
 
 def _serve(

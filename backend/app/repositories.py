@@ -524,9 +524,11 @@ class AssessmentRepository:
         return attempts
 
     def pending_attempt(self, session_id: int) -> Optional[Attempt]:
-        """The served-but-unanswered question, if one exists. The engine
-        serves the next question only after the pending one is graded, so
-        there is at most one."""
+        """The most recently served unanswered question, if one exists.
+
+        Fixed practice sessions may have several pending questions when the
+        learner opens them out of order, so callers must not assume there is
+        at most one."""
         return self.db.scalar(
             select(Attempt)
             .options(
@@ -1093,8 +1095,19 @@ class QuestionRepository:
 
     def _detail_loads(self):
         return (
-            selectinload(Question.options),
             selectinload(Question.datasets),
+            *self._list_loads(),
+        )
+
+    def _list_loads(self):
+        """Child collections used by the list serializer.
+
+        Options stay because the translation fingerprint hashes the canonical
+        option labels; datasets are detail-only and can carry large SQL
+        fixtures, so the list must not eager-load them.
+        """
+        return (
+            selectinload(Question.options),
             selectinload(Question.rubrics),
             selectinload(Question.translations),
             selectinload(Question.concept_tags).selectinload(
@@ -1114,7 +1127,7 @@ class QuestionRepository:
         clo_id: Optional[int] = None,
         topic: Optional[str] = None,
     ) -> list[Question]:
-        stmt = select(Question).options(*self._detail_loads())
+        stmt = select(Question).options(*self._list_loads())
         stmt = stmt.where(func.coalesce(Question.ai_review["purpose"].astext, "") != "learner_practice")
         if clo_id is not None:
             linked = select(CloConcept.concept_id).where(CloConcept.clo_id == clo_id, CloConcept.status == "confirmed")
