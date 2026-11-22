@@ -1,0 +1,8 @@
+# Demo-only override: restore a synthetic seed snapshot when present.
+# scripts/local.mjs adds this file automatically only when .demo-seed.sql exists.
+services:
+  init:
+    environment:
+      DBCAS_DEMO_SNAPSHOT: /seed/demo-seed.sql
+    volumes:
+      - ./.demo-seed.sql:/seed/demo-seed.sql:ro

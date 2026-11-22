@@ -30,6 +30,22 @@ DBCAS targets Python 3.13, Node 24, PostgreSQL 17 and Docker Compose. Use a
 virtual environment. The release backend image pins the documented Python
 minor version; a different host interpreter must be reported in verification.
 
+## Demo seed snapshot (synthetic data only)
+
+The full demo seed takes about 120–170 s because it grades synthetic SQL in the
+sandbox. After a successful `npm start` with the demo data present, build a
+data-only snapshot once:
+
+```bash
+npm run demo:snapshot          # writes .demo-seed.sql (gitignored)
+```
+
+`npm start` automatically uses the snapshot when `.demo-seed.sql` exists; any
+restore error rolls back and falls back to the full seed, so an outdated or
+corrupt snapshot cannot block startup. Regenerate the snapshot whenever
+`app/seed_demo.py`, the demo bank, or the migration chain changes. The file is
+synthetic demo data only and must never contain student data.
+
 ## Windows development setup
 
 Run from the repository root. Create `.env` from `.env.example` only if it

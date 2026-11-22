@@ -1,0 +1,68 @@
+name: Demo seed benchmark
+# Manual, non-gating measurement for the synthetic demo seed snapshot.
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/demo-seed-snapshot]
+permissions:
+  contents: read
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      DBCAS_LOCAL_PROJECT: dbcas-demo-bench
+      LOCAL_API_PORT: '18900'
+      LOCAL_WEB_PORT: '18980'
+      LOCAL_MAIL_PORT: '18925'
+      LOCAL_SMTP_PORT: '11925'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Prepare environment and images
+        run: |
+          cp .env.example .env
+          password=$(python3 -c 'import secrets; print(secrets.token_hex(24))')
+          jwt=$(python3 -c 'import secrets; print(secrets.token_hex(48))')
+          sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$password|" .env
+          sed -i "s|^JWT_SECRET=.*|JWT_SECRET=$jwt|" .env
+          docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml build
+          docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml down -v
+      - name: Measure full seed and snapshot restore (N=5)
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_once() {
+            local label="$1" start end
+            docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml down -v >/dev/null 2>&1 || true
+            start=$(date +%s)
+            if ! npm start >/tmp/start-$label.log 2>&1; then
+              cat /tmp/start-$label.log
+              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml logs init app || true
+              return 1
+            fi
+            end=$(date +%s)
+            npm run stop >/dev/null 2>&1 || true
+            echo "$((end-start))"
+          }
+          full=()
+          for i in 1 2 3 4 5; do full+=("$(run_once full-$i)"); done
+          # The fifth full run left a seeded database; snapshot it now.
+          docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml up -d --wait --wait-timeout 600
+          npm run demo:snapshot
+          cached=()
+          for i in 1 2 3 4 5; do cached+=("$(run_once snapshot-$i)"); done
+          python3 - "$(IFS=,; echo "${full[*]}")" "$(IFS=,; echo "${cached[*]}")" <<'PY'
+          import json, statistics, sys
+          full = [int(x) for x in sys.argv[1].split(',')]
+          cached = [int(x) for x in sys.argv[2].split(',')]
+          print(json.dumps({
+              "n": 5,
+              "full_seconds": full,
+              "snapshot_seconds": cached,
+              "full_median": statistics.median(full),
+              "snapshot_median": statistics.median(cached),
+          }, indent=2))
+          PY
