@@ -46,6 +46,16 @@ def test_demo_seed_creates_real_published_evidence_and_preserves_edits(db_sessio
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 4
 
 
+def test_demo_snapshot_missing_or_invalid_falls_back(tmp_path, db_session):
+    from app.config import get_settings
+    from app.seed_demo import _restore_snapshot
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://", 1)
+    assert _restore_snapshot(url, str(tmp_path / "missing.sql")) is False
+    broken = tmp_path / "broken.sql"
+    broken.write_text("THIS IS NOT SQL;\n", encoding="utf-8")
+    assert _restore_snapshot(url, str(broken)) is False
+
+
 @pytest.mark.parametrize("mode", ["production", "staging"])
 def test_demo_seed_refuses_nonlocal_modes_before_writing(db_session, sandbox_runner, mode):
     with pytest.raises(ValueError, match="forbidden"):

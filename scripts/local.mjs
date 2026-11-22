@@ -101,6 +101,10 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     throw new Error('Docker chưa sẵn sàng. Mở Docker Desktop (Linux containers) rồi chạy lại npm start.')
   }
   const compose = ['compose', '--project-name', project, '-f', 'docker-compose.local.yml']
+  if (existsSync(path.join(root, '.demo-seed.sql'))) {
+    compose.push('-f', 'docker-compose.demo-snapshot.yml')
+    console.log('Demo seed snapshot found; restoring it with full-seed fallback.')
+  }
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {
     docker([...compose, 'stop'])

@@ -1,6 +1,9 @@
 """Create local demo data atomically, once; never reset an existing installation."""
 import json
+import logging
+import os
 from decimal import Decimal
+from pathlib import Path
 from uuid import uuid4
 
 import psycopg
@@ -24,6 +27,7 @@ DEMO_PASSWORD = "Demo12345!"
 DEMO_ADMIN = "admin@dbcas.local"
 DEMO_LEARNER = "learner@dbcas.local"
 DEMO_TITLE = "Đánh giá năng lực PostgreSQL"
+logger = logging.getLogger("dbcas.seed_demo")
 
 
 def _history(db, concept_ids, learner, admin, runner, *, success_every):
@@ -102,17 +106,43 @@ def seed_demo(db, runner, *, deployment_mode):
     return {"created": True, "history_count": 4, "exam_count": 0, "bank": bank}
 
 
+def _restore_snapshot(url: str, path: str) -> bool:
+    """Restore a data-only demo dump into a freshly initialized database.
+
+    The snapshot contains synthetic demo rows only. Any failure rolls back the
+    whole restore and lets the caller fall back to the deterministic seed.
+    """
+    snapshot = Path(path)
+    if not snapshot.is_file():
+        return False
+    try:
+        sql = snapshot.read_text(encoding="utf-8")
+        with psycopg.connect(url) as conn:
+            with conn.transaction():
+                # psycopg's simple protocol accepts the plain pg_dump script.
+                conn.execute(sql, prepare=False)
+        return True
+    except Exception as exc:  # noqa: BLE001 - fallback must stay available
+        logger.warning("Demo seed snapshot restore failed (%s); using full seed", type(exc).__name__)
+        return False
+
+
 def initialize_demo(settings, runner):
     if settings.deployment_mode != "development":
         raise ValueError("Local demo seed is forbidden outside development")
     url = settings.database_url.replace("postgresql+psycopg://", "postgresql://", 1)
     with psycopg.connect(url) as conn:
         initialize(conn, deployment_mode=settings.deployment_mode)
+        empty = conn.execute("SELECT NOT EXISTS (SELECT 1 FROM account)").fetchone()[0]
+    snapshot_path = os.environ.get("DBCAS_DEMO_SNAPSHOT", "").strip()
+    restored = bool(empty and snapshot_path and _restore_snapshot(url, snapshot_path))
     # Services commit their own work. Savepoints keep all demo creation inside
     # one outer transaction, so a failed seed can safely be retried from scratch.
     with get_engine().begin() as connection:
         with Session(bind=connection, join_transaction_mode="create_savepoint", expire_on_commit=False) as db:
             result = seed_demo(db, runner, deployment_mode=settings.deployment_mode)
+    if restored:
+        result = {**result, "snapshot_restored": True}
     return result
 
 

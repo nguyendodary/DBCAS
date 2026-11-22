@@ -19,6 +19,7 @@ tools/
 # Env / secrets
 .env
 .env.*
+.demo-seed.sql
 !.env.example
 *.pem
 *.key
