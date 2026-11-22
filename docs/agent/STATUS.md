@@ -2,7 +2,7 @@
 
 Date: 2026-11-22. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [b54e0b67b8777a26ced1e58cf3566c5d20d98deb](https://github.com/nguyendodary/DBCAS/commit/b54e0b67b8777a26ced1e58cf3566c5d20d98deb) as of 2026-11-22; do not chase later SHAs. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Last verified: `develop2` [986f992d771c6cceecac5b9fe00fc2c969dc1745](https://github.com/nguyendodary/DBCAS/commit/986f992d771c6cceecac5b9fe00fc2c969dc1745) as of 2026-11-22; do not chase later SHAs. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -36,7 +36,7 @@ CI on `117a89a`: [run 44864055440](https://github.com/nguyendodary/DBCAS/actions
 
 ## In progress and next
 
-- [#90](https://github.com/nguyendodary/DBCAS/pull/90): opt-in writable SQL — **waiting for the owner phrase “OK merge #90”**; flags remain OFF by default.
+- [#90](https://github.com/nguyendodary/DBCAS/pull/90): opt-in writable SQL — **merged as `986f992`**; flags remain OFF by default.
 - [#93](https://github.com/nguyendodary/DBCAS/pull/93): Free/Pro **UI-only** simulation (`VITE_DEMO_FREE_PRO`, default OFF) — awaiting owner review; no route/migration/API.
 - [#89](https://github.com/nguyendodary/DBCAS/pull/89): **skipped** by owner decision; do not merge. **#92** rehearsal closed.
 - [#80](https://github.com/nguyendodary/DBCAS/pull/80): **closed for the demo scope**, not merged; branch/worktree kept. Broker stays OFF.
