@@ -2,6 +2,8 @@ name: Demo seed benchmark
 # Manual, non-gating measurement for the synthetic demo seed snapshot.
 on:
   workflow_dispatch:
+  push:
+    branches: [feat/demo-seed-snapshot]
 permissions:
   contents: read
 jobs:
