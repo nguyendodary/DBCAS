@@ -105,7 +105,7 @@ def test_writable_grading_stays_read_only(monkeypatch):
             raise AssertionError("grading must never use the writable executor")
 
     question = SimpleNamespace(points=Decimal("1"))
-    dataset = SimpleNamespace(dataset_name="base", is_edge_case=False,
+    dataset = SimpleNamespace(dataset_name="base", is_edge_case=False, setup_sql="CREATE TABLE demo_t(id INT)",
                               expected_result={"columns": ["id"], "rows": [[1]]})
     result = grade_sql(question, [dataset], [], "UPDATE demo_t SET id=1 RETURNING id",
                        ReadOnlyRunner())
