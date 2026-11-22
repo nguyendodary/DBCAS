@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     sandbox_url: str = (
         "postgresql://learner_ro:learner_ro_dev@localhost:5433/postgres"
     )
+    # Demo-only writable role; used only when SANDBOX_WRITABLE is on.
+    sandbox_writable_url: str = (
+        "postgresql://learner_rw:learner_rw_dev@localhost:5433/postgres"
+    )
     sandbox_admin_url: str = (
         "postgresql://postgres:change_me_sandbox@localhost:5433/postgres"
     )
@@ -236,6 +240,10 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _deployment_safety(self):
         # Report key names only: configuration errors must never disclose values.
+        if self.sandbox_writable and self.sandbox_mode != "ephemeral":
+            raise ValueError(
+                "SANDBOX_WRITABLE requires SANDBOX_MODE=ephemeral in every deployment mode"
+            )
         if self.deployment_mode == "development":
             return self
         for key in ('jwt_secret', 'smtp_password', 'google_client_secret', 'github_client_secret', 'llm_api_key'):
@@ -268,11 +276,6 @@ class Settings(BaseSettings):
         # Writable learner SQL is a per-execution container boundary outside
         # development. Fail closed at startup — never silently fall back to
         # the shared sandbox or grant the API new Docker privileges.
-        if (self.sandbox_writable and self.deployment_mode != "development"
-                and self.sandbox_mode != "ephemeral"):
-            raise ValueError(
-                "SANDBOX_WRITABLE outside development requires SANDBOX_MODE=ephemeral"
-            )
         if self.smtp_host.strip().lower() == "mailpit":
             raise ValueError("SMTP_HOST must not be the development Mailpit service outside development")
         return self

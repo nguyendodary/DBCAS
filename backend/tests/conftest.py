@@ -141,7 +141,9 @@ def _start_test_sandbox() -> str:
     docker_command("build", "-q", "-t", "dbcas-sandbox-test", str(ROOT / "sandbox"), timeout=180)
     name = f"dbcas-sandbox-{uuid.uuid4().hex[:8]}"
     admin_dsn = _run_postgres_container(
-        name, "dbcas-sandbox-test", {"SANDBOX_LEARNER_PASSWORD": "test"}, "postgres"
+        name, "dbcas-sandbox-test",
+        {"SANDBOX_LEARNER_PASSWORD": "test", "SANDBOX_WRITABLE_PASSWORD": "learner_rw_dev"},
+        "postgres",
     )
     # The init script creates learner_ro after the server accepts TCP — wait
     # for the role to actually authenticate before tests use it.
@@ -164,6 +166,10 @@ if _docker_ok():
     # The sandbox init script creates learner_ro with SANDBOX_LEARNER_PASSWORD.
     os.environ["SANDBOX_URL"] = _sandbox_admin_dsn.replace(
         "postgres:test@", "learner_ro:test@"
+    )
+    # Demo writable role uses its documented default password in the test image.
+    os.environ["SANDBOX_WRITABLE_URL"] = _sandbox_admin_dsn.replace(
+        "postgres:test@", "learner_rw:learner_rw_dev@"
     )
     os.environ["JWT_SECRET"] = "test-secret-not-for-production-123456"
     os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"] = "60"

@@ -50,9 +50,12 @@ def run_learner_sql(
     except SandboxError as exc:
         raise AppError(503, exc.code, exc.message)
     # The flag is derived from server configuration, never from the request.
-    multi_enabled = get_settings().sandbox_multi_statement
+    settings = get_settings()
+    multi_enabled = settings.sandbox_multi_statement
     try:
-        if multi_enabled:
+        if settings.sandbox_writable and multi_enabled:
+            result = runner.execute_writable_script(payload.sql, schema=schema)
+        elif multi_enabled:
             result = runner.execute_script(payload.sql, schema=schema)
         else:
             result = runner.execute(payload.sql, schema=schema)

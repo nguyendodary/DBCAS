@@ -106,6 +106,10 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     compose.push('-f', 'docker-compose.demo-free-pro.yml')
     console.log('Demo Free/Pro UI simulation enabled (static data only).')
   }
+  if (profiles.includes('writable')) {
+    compose.push('-f', 'docker-compose.demo-writable.yml')
+    console.log('Demo writable SQL profile enabled (development only).')
+  }
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {
     docker([...compose, 'stop'])
