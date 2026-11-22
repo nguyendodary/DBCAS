@@ -105,6 +105,10 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     compose.push('-f', 'docker-compose.demo-snapshot.yml')
     console.log('Demo seed snapshot found; restoring it with full-seed fallback.')
   }
+  if ((env.DBCAS_DEMO_PROFILE || '').trim() === 'writable') {
+    compose.push('-f', 'docker-compose.demo-writable.yml')
+    console.log('Demo writable SQL profile enabled (development only).')
+  }
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {
     docker([...compose, 'stop'])

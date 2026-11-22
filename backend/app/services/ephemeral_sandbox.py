@@ -113,6 +113,8 @@ class EphemeralSandboxRunner:
                          "--tmpfs", "/tmp:rw,noexec,nosuid,size=8m",
                          "-e", "POSTGRES_PASSWORD=" + secrets.token_urlsafe(32),
                          "-e", "SANDBOX_LEARNER_PASSWORD=" + secrets.token_urlsafe(32),
+                         "-e", "SANDBOX_WRITABLE_PASSWORD=" + (
+                             secrets.token_urlsafe(32) if self.settings.sandbox_writable else ""),
                          "-e", "SANDBOX_STATEMENT_TIMEOUT_MS=" + str(self.settings.sandbox_statement_timeout_ms),
                          "--entrypoint", "/bin/sh", self.settings.sandbox_container_image, "-c", command)
             self._docker("start", name)
@@ -135,6 +137,7 @@ class EphemeralSandboxRunner:
                 "sandbox_max_result_bytes", "sandbox_max_cell_bytes", "sandbox_max_setup_bytes",
                 "sandbox_connect_timeout_seconds")
         payload = {"operation": operation, "sql": sql, "schema": schema,
+                   "writable": self.settings.sandbox_writable,
                    "limits": {key: getattr(self.settings, key) for key in keys}}
         output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
                               input=json.dumps(payload, ensure_ascii=False) + "\n", timeout=min(remaining, 15))
@@ -194,6 +197,17 @@ class EphemeralSandboxRunner:
             raise SandboxError("sandbox_unavailable", "SQL dataset lease is no longer available")
         try:
             return SandboxResult(**self._call(name, "execute_script", sql_text, schema))
+        finally:
+            if schema is None:
+                self._cleanup(name)
+
+    def execute_writable_script(self, sql_text, *, schema=None):
+        """Demo-only DDL/DML/SELECT on the disposable executor."""
+        name = self.leases.get(schema) if schema else self._create()
+        if not name:
+            raise SandboxError("sandbox_unavailable", "SQL dataset lease is no longer available")
+        try:
+            return SandboxResult(**self._call(name, "execute_writable", sql_text, schema))
         finally:
             if schema is None:
                 self._cleanup(name)
