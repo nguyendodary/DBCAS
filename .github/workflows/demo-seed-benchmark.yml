@@ -24,14 +24,10 @@ jobs:
       - name: Prepare environment and images
         run: |
           cp .env.example .env
-          python3 - <<'PY'
-          import secrets
-          from pathlib import Path
-          p = Path('.env')
-          text = p.read_text()
-          text += f"\nPOSTGRES_PASSWORD={secrets.token_hex(24)}\nJWT_SECRET={secrets.token_hex(48)}\n"
-          p.write_text(text)
-          PY
+          password=$(python3 -c 'import secrets; print(secrets.token_hex(24))')
+          jwt=$(python3 -c 'import secrets; print(secrets.token_hex(48))')
+          sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$password|" .env
+          sed -i "s|^JWT_SECRET=.*|JWT_SECRET=$jwt|" .env
           docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml build
           docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml down -v
       - name: Measure full seed and snapshot restore (N=5)
@@ -42,7 +38,11 @@ jobs:
             local label="$1" start end
             docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml down -v >/dev/null 2>&1 || true
             start=$(date +%s)
-            npm start >/tmp/start-$label.log 2>&1
+            if ! npm start >/tmp/start-$label.log 2>&1; then
+              cat /tmp/start-$label.log
+              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml logs init app || true
+              return 1
+            fi
             end=$(date +%s)
             npm run stop >/dev/null 2>&1 || true
             echo "$((end-start))"
