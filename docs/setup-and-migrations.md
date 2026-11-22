@@ -30,6 +30,23 @@ DBCAS targets Python 3.13, Node 24, PostgreSQL 17 and Docker Compose. Use a
 virtual environment. The release backend image pins the documented Python
 minor version; a different host interpreter must be reported in verification.
 
+## Demo-only writable SQL profile
+
+The default stack keeps `SANDBOX_WRITABLE=false` and
+`SANDBOX_MULTI_STATEMENT=false`. For a synthetic demo that needs
+`CREATE`/`INSERT`/`SELECT` in one run:
+
+```bash
+DBCAS_DEMO_PROFILE=writable npm start
+```
+
+This adds `docker-compose.demo-writable.yml` only when explicitly requested.
+It enables the disposable ephemeral executor; the startup guard still refuses
+writable SQL outside development/demo without `SANDBOX_MODE=ephemeral`. Every
+script runs in one transaction that is always rolled back, in a container with
+`--network none`, read-only rootfs, dropped capabilities and a bounded TTL.
+Grading remains result-based; no new `docker.sock` mount is added.
+
 ## Windows development setup
 
 Run from the repository root. Create `.env` from `.env.example` only if it

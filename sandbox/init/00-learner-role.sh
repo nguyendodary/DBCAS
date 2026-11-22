@@ -7,6 +7,7 @@
 set -e
 
 LEARNER_PASSWORD="${SANDBOX_LEARNER_PASSWORD:-learner_ro_dev}"
+WRITABLE_PASSWORD="${SANDBOX_WRITABLE_PASSWORD:-}"
 STMT_TIMEOUT="${SANDBOX_STATEMENT_TIMEOUT_MS:-3000}"
 if ! [[ "$STMT_TIMEOUT" =~ ^[0-9]+$ ]] || (( STMT_TIMEOUT < 1 || STMT_TIMEOUT > 3000 )); then
     echo 'SANDBOX_STATEMENT_TIMEOUT_MS must be an integer from 1 to 3000' >&2
@@ -27,3 +28,17 @@ psql -v ON_ERROR_STOP=1 -v learner_password="$LEARNER_PASSWORD" -v statement_tim
     GRANT SELECT ON ALL TABLES IN SCHEMA public TO learner_ro;
     ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO learner_ro;
 EOSQL
+
+if [ -n "$WRITABLE_PASSWORD" ]; then
+psql -v ON_ERROR_STOP=1 -v writable_password="$WRITABLE_PASSWORD" -v statement_timeout="$STMT_TIMEOUT" -v database_name="$POSTGRES_DB" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    -- Demo-only writable role. It has no database/schema creation rights; the
+    -- per-execution provisioner grants access only to the disposable dataset
+    -- schema. Every transaction is rolled back and the container is discarded.
+    CREATE ROLE learner_rw LOGIN PASSWORD :'writable_password';
+    ALTER ROLE learner_rw NOSUPERUSER NOCREATEDB NOCREATEROLE;
+    ALTER ROLE learner_rw SET statement_timeout = :'statement_timeout';
+    ALTER ROLE learner_rw SET default_transaction_read_only = off;
+    ALTER ROLE learner_rw SET idle_in_transaction_session_timeout = '15s';
+    GRANT CONNECT ON DATABASE :"database_name" TO learner_rw;
+EOSQL
+fi

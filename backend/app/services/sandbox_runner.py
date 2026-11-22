@@ -28,7 +28,7 @@ from psycopg import sql as pgsql
 
 from ..config import Settings
 from .sql_validator import validate_learner_sql
-from .sql_classifier import classify_script, validate_read_only_script
+from .sql_classifier import classify_script, validate_read_only_script, validate_writable_script
 from .dataset_setup import validated_setup_statements
 
 logger = logging.getLogger(__name__)
@@ -127,8 +127,10 @@ class SandboxRunner:
 
     def __init__(self, settings: Settings):
         self._learner_url = settings.sandbox_url
+        self._writable_url = settings.sandbox_writable_url
         self._admin_url = settings.sandbox_admin_url
         self._learner_role = settings.sandbox_learner_role
+        self._writable = settings.sandbox_writable
         self._timeout_ms = settings.sandbox_statement_timeout_ms
         self._max_rows = settings.sandbox_max_rows
         self._max_sql_bytes = settings.sandbox_max_sql_bytes
@@ -480,6 +482,125 @@ class SandboxRunner:
                 pass
             conn.close()
 
+    def _execute_write_bounded(self, conn, canonical: str, row_budget: int):
+        """Execute one DDL/DML statement, optionally bounding RETURNING rows."""
+        with conn.cursor() as cur:
+            cur.execute(canonical)
+            if cur.description is None:
+                return [], [], [], max(0, cur.rowcount)
+            columns = [d.name for d in cur.description]
+            rows = cur.fetchmany(max(1, row_budget + 1))
+            if len(rows) > row_budget:
+                return None
+            return (columns,
+                    ["number" if d.type_code in {20, 21, 23, 700, 701, 1700}
+                     else "boolean" if d.type_code == 16 else "text" for d in cur.description],
+                    [[_jsonable(value) for value in row] for row in rows],
+                    len(rows))
+
+    def execute_writable_script(self, sql_text: str, *, schema: Optional[str] = None) -> SandboxResult:
+        """Demo-only DDL/DML/SELECT script in a disposable, rolled-back transaction."""
+        sql_text = (sql_text or "").strip()
+        if len(sql_text.encode()) > self._max_sql_bytes:
+            return SandboxResult(False, error_type="query_too_large",
+                                 error_message="SQL exceeds the input limit")
+        issue = validate_writable_script(
+            sql_text,
+            allowed_schemas=frozenset({schema}) if schema else frozenset(),
+            max_statements=self._max_statements,
+        )
+        if issue:
+            return SandboxResult(False, error_type=issue[0], error_message=issue[1],
+                                 error_statement_index=issue[2])
+        try:
+            conn = self._connect(self._writable_url, autocommit=True)
+        except (psycopg.OperationalError, OSError):
+            return SandboxResult(False, error_type="sandbox_unavailable",
+                                 error_message="The SQL sandbox is unavailable")
+        statements: list[dict] = []
+        rows_used = bytes_used = 0
+        started = time.perf_counter()
+        try:
+            conn.execute(f"SET statement_timeout = {self._timeout_ms}")
+            conn.execute(f"SET idle_in_transaction_session_timeout = {self._timeout_ms * 4}")
+            if schema:
+                conn.execute(pgsql.SQL("SET search_path TO {}").format(pgsql.Identifier(schema)))
+            conn.execute("BEGIN")
+            classification = classify_script(sql_text, max_statements=self._max_statements)
+            if not classification.ok:
+                return SandboxResult(False, error_type=classification.error_type,
+                                     error_message=classification.error_message)
+            for stmt in classification.statements:
+                elapsed = (time.perf_counter() - started) * 1000
+                if elapsed > self._max_script_ms:
+                    return SandboxResult(False, error_type="timeout",
+                                         error_message="Script exceeded the execution time limit",
+                                         statements=statements, error_statement_index=stmt.index,
+                                         execution_time_ms=int(elapsed))
+                timeout_ms = min(self._timeout_ms, max(1, int(self._max_script_ms - elapsed)))
+                conn.execute(f"SET LOCAL statement_timeout = {timeout_ms}")
+                canonical = stmt.sql.rstrip().rstrip(";")
+                stmt_started = time.perf_counter()
+                columns, column_types, rows, row_count = [], [], [], 0
+                err_type = err_msg = None
+                try:
+                    if stmt.kind == "read_only":
+                        columns, column_types, rows, err_type, err_msg = self._read_bounded(
+                            conn, canonical, timeout_ms, started,
+                            max(0, self._max_rows_script - rows_used),
+                            max(0, self._max_bytes_script - bytes_used),
+                        )
+                        row_count = len(rows)
+                    else:
+                        bounded = self._execute_write_bounded(
+                            conn, canonical, max(0, self._max_rows_script - rows_used))
+                        if bounded is None:
+                            return SandboxResult(False, error_type="result_too_large",
+                                                 error_message="Result exceeds the row limit",
+                                                 statements=statements, error_statement_index=stmt.index)
+                        columns, column_types, rows, row_count = bounded
+                except psycopg.Error as exc:
+                    err_type, err_msg = _classify_error(exc, timeout_ms)
+                entry = {
+                    "index": stmt.index, "kind": stmt.kind,
+                    "command": canonical.split(None, 1)[0].upper() if canonical else "",
+                    "row_count": row_count, "columns": columns,
+                    "column_types": column_types, "rows": rows,
+                    "execution_time_ms": int((time.perf_counter() - stmt_started) * 1000),
+                }
+                if err_type:
+                    entry.update(error_type=err_type, error_message=err_msg)
+                    statements.append(entry)
+                    return SandboxResult(False, error_type=err_type, error_message=err_msg,
+                                         statements=statements, error_statement_index=stmt.index,
+                                         execution_time_ms=int((time.perf_counter() - started) * 1000))
+                statements.append(entry)
+                rows_used += len(rows)
+                bytes_used += len(json.dumps(rows, ensure_ascii=False, default=str).encode())
+            elapsed_ms = int((time.perf_counter() - started) * 1000)
+            conn.execute("ROLLBACK")
+            last = next((s for s in reversed(statements) if s["columns"]), None)
+            return SandboxResult(
+                success=True,
+                columns=last["columns"] if last else [],
+                column_types=last["column_types"] if last else [],
+                rows=last["rows"] if last else [],
+                row_count=last["row_count"] if last else 0,
+                execution_time_ms=elapsed_ms, statements=statements,
+                mode="writable", rolled_back=True,
+            )
+        except psycopg.Error as exc:
+            error_type, message = _classify_error(exc, self._timeout_ms)
+            return SandboxResult(False, error_type=error_type, error_message=message,
+                                 statements=statements,
+                                 execution_time_ms=int((time.perf_counter() - started) * 1000))
+        finally:
+            try:
+                conn.execute("ROLLBACK")
+            except Exception:
+                pass
+            conn.close()
+
     # ---------- dataset provisioning ----------
 
     def provision_dataset(self, setup_sql: str) -> str:
@@ -513,8 +634,17 @@ class SandboxRunner:
                     conn.execute(pgsql.SQL("SET LOCAL search_path TO {}").format(pgsql.Identifier(schema)))
                     conn.execute(pgsql.SQL("ALTER DEFAULT PRIVILEGES IN SCHEMA {} GRANT SELECT ON TABLES TO {}").format(pgsql.Identifier(schema),pgsql.Identifier(self._learner_role)))
                     conn.execute(pgsql.SQL("GRANT USAGE ON SCHEMA {} TO {}").format(pgsql.Identifier(schema),pgsql.Identifier(self._learner_role)))
+                    if self._writable:
+                        conn.execute(pgsql.SQL("GRANT USAGE, CREATE ON SCHEMA {} TO learner_rw").format(pgsql.Identifier(schema)))
+                        conn.execute(pgsql.SQL("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA {} TO learner_rw").format(pgsql.Identifier(schema)))
+                        conn.execute(pgsql.SQL("GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA {} TO learner_rw").format(pgsql.Identifier(schema)))
+                        conn.execute(pgsql.SQL("ALTER DEFAULT PRIVILEGES IN SCHEMA {} GRANT ALL ON TABLES TO learner_rw").format(pgsql.Identifier(schema)))
+                        conn.execute(pgsql.SQL("ALTER DEFAULT PRIVILEGES IN SCHEMA {} GRANT ALL ON SEQUENCES TO learner_rw").format(pgsql.Identifier(schema)))
                     for statement in statements:
                         conn.execute(statement)
+                    if self._writable:
+                        conn.execute(pgsql.SQL("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA {} TO learner_rw").format(pgsql.Identifier(schema)))
+                        conn.execute(pgsql.SQL("GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA {} TO learner_rw").format(pgsql.Identifier(schema)))
         except (psycopg.OperationalError, OSError) as exc:
             logger.warning("sandbox admin connect failed: %s", type(exc).__name__)
             raise SandboxError("sandbox_unavailable", "The SQL sandbox is unavailable")

@@ -47,6 +47,8 @@ def _evaluate_dataset(
     except SandboxError:
         raise
     try:
+        # Grading stays read-only: writable DML/DDL is a demo editor feature,
+        # never a way to earn a result-based SQL score.
         result = runner.execute(sql_text, schema=schema)
     finally:
         runner.drop_dataset(schema)

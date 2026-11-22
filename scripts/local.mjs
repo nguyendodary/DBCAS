@@ -101,6 +101,10 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     throw new Error('Docker chưa sẵn sàng. Mở Docker Desktop (Linux containers) rồi chạy lại npm start.')
   }
   const compose = ['compose', '--project-name', project, '-f', 'docker-compose.local.yml']
+  if ((env.DBCAS_DEMO_PROFILE || '').trim() === 'writable') {
+    compose.push('-f', 'docker-compose.demo-writable.yml')
+    console.log('Demo writable SQL profile enabled (development only).')
+  }
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {
     docker([...compose, 'stop'])

@@ -290,8 +290,88 @@ def validate_read_only_script(
     return None
 
 
+_WRITABLE_DDL_ROOTS = frozenset({
+    "CreateStmt", "IndexStmt", "ViewStmt", "CreateTableAsStmt",
+})
+
+
+def validate_writable_script(
+    sql_text: str,
+    *,
+    allowed_schemas: frozenset[str] = frozenset(),
+    max_statements: int = 32,
+) -> Optional[tuple[str, str, Optional[int]]]:
+    """Validate a demo-only writable script (DDL/DML/SELECT).
+
+    The same fail-closed parser and identifier policy apply. Privilege,
+    transaction, cursor, COPY, DO, role, extension and function statements stay
+    prohibited; effects are rolled back by the disposable executor.
+    """
+    classification = classify_script(sql_text, max_statements=max_statements)
+    if not classification.ok:
+        return (classification.error_type, classification.error_message, classification.error_index)
+
+    allowed = frozenset(allowed_schemas)
+    forbidden_types = (
+        _FORBIDDEN_NODES
+        | {"ReturningClause", "TransactionStmt", "VariableSetStmt", "VariableShowStmt",
+           "VariableResetStmt", "GrantStmt", "RevokeStmt", "LockStmt",
+           "ExplainStmt", "CallStmt", "CreateFunctionStmt", "AlterSystemStmt",
+           "CreateExtensionStmt", "CreateRoleStmt", "PrepareStmt",
+           "ExecuteStmt", "DeclareStmt", "DeclareCursorStmt", "FetchStmt",
+           "ListenStmt", "NotifyStmt", "DiscardStmt", "VacuumStmt",
+           "CheckPointStmt", "CreateSchemaStmt", "AlterObjectSchemaStmt",
+           "CreateSeqStmt", "AlterSeqStmt", "CreatePolicyStmt",
+           "CreatePublicationStmt", "CreateSubscriptionStmt"}
+    )
+    for statement in classification.statements:
+        if statement.kind == FORBIDDEN:
+            return ("prohibited_statement",
+                    "This statement is not allowed in the sandbox", statement.index)
+        if statement.kind == DDL and statement.node_type not in _WRITABLE_DDL_ROOTS:
+            return ("prohibited_statement",
+                    "This schema-changing statement is not allowed in demo mode",
+                    statement.index)
+        try:
+            expr = parse_sql(statement.sql)[0].stmt
+        except Exception:  # noqa: BLE001 - already parsed once; fail closed
+            return ("syntax_error", "Could not parse the SQL statement", statement.index)
+        if statement.node_type in {"CreateStmt", "CreateTableAsStmt"}:
+            relation = getattr(expr, "relation", None)
+            if getattr(relation, "relpersistence", "") == "t":
+                return ("prohibited_statement",
+                        "Temporary tables are not allowed in demo mode", statement.index)
+        scanner = _scan(expr)
+        for node_type in scanner.node_types:
+            if node_type in forbidden_types:
+                return ("prohibited_statement",
+                        f"{node_type} constructs are not allowed in learner queries",
+                        statement.index)
+        for var in scanner.range_vars:
+            issue = _qualifier_issue(var.schemaname or "", var.catalogname or "", allowed)
+            if issue:
+                return ("forbidden_schema", issue, statement.index)
+            name = (_name_of(var.relname) if var.relname else "").lower()
+            if name.startswith(_FORBIDDEN_NAME_PREFIXES) and not var.schemaname:
+                return ("forbidden_schema",
+                        "system catalogs are not accessible in the sandbox", statement.index)
+        for call in scanner.func_calls:
+            parts = [_name_of(part).lower() for part in (call.funcname or ())]
+            if not parts:
+                continue
+            fname = parts[-1]
+            if any(part in _FORBIDDEN_SCHEMAS or part.startswith(_FORBIDDEN_NAME_PREFIXES)
+                   for part in parts[:-1]):
+                return ("unsafe_function",
+                        f"function {fname}() is not allowed in learner queries", statement.index)
+            if fname in _UNSAFE_FUNCTIONS or fname.startswith(_UNSAFE_FUNCTION_PREFIXES):
+                return ("unsafe_function",
+                        f"function {fname}() is not allowed in learner queries", statement.index)
+    return None
+
+
 __all__ = [
     "READ_ONLY", "WRITE_DML", "DDL", "FORBIDDEN", "NONDETERMINISTIC_FUNCTIONS",
     "StatementClass", "ScriptClassification", "classify_script",
-    "validate_read_only_script",
+    "validate_read_only_script", "validate_writable_script",
 ]
