@@ -3,6 +3,13 @@ name: Demo seed benchmark
 # Manual, non-gating measurement for the synthetic demo seed snapshot.
 on:
   workflow_dispatch:
+  push:
+    branches: [develop2]
+    paths:
+      - 'backend/app/seed_demo.py'
+      - 'scripts/demo-seed-snapshot.mjs'
+      - 'docker-compose.demo-snapshot.yml'
+      - '.github/workflows/demo-seed-benchmark.yml'
 
 permissions:
   contents: read
