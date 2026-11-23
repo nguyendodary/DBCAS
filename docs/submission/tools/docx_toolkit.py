@@ -15,7 +15,6 @@ import argparse
 import copy
 import hashlib
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -25,7 +24,6 @@ import zipfile
 from pathlib import Path
 
 from docx import Document
-from docx.oxml.ns import qn
 from docx.table import Table
 from docx.text.paragraph import Paragraph
 from lxml import etree
@@ -117,7 +115,6 @@ def replace_image(src, dst, media_name: str, new_image, *, width_emu=None):
         media_name = media_name[5:]
     new_bytes = Path(new_image).read_bytes()
     with zipfile.ZipFile(src) as zin:
-        names = set(zin.namelist())
         document = etree.fromstring(zin.read("word/document.xml"))
         relationships = etree.fromstring(zin.read("word/_rels/document.xml.rels"))
         target = "media/" + Path(media_name).name
@@ -193,7 +190,7 @@ def validate_docx(path):
             for required in ("word/document.xml", "word/_rels/document.xml.rels"):
                 if required not in names:
                     problems.append(f"missing {required}")
-            document = etree.fromstring(z.read("word/document.xml"))
+            etree.fromstring(z.read("word/document.xml"))
             relationships = etree.fromstring(z.read("word/_rels/document.xml.rels"))
             ids = [rel.get("Id") for rel in relationships]
             if len(ids) != len(set(ids)):
@@ -330,18 +327,25 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="command", required=True)
     p = sub.add_parser("replace")
-    p.add_argument("src"); p.add_argument("dst"); p.add_argument("edits")
+    p.add_argument("src")
+    p.add_argument("dst")
+    p.add_argument("edits")
     p = sub.add_parser("audit")
-    p.add_argument("before"); p.add_argument("after")
+    p.add_argument("before")
+    p.add_argument("after")
     p = sub.add_parser("validate")
     p.add_argument("docx")
     p = sub.add_parser("refresh")
-    p.add_argument("docx"); p.add_argument("--out")
+    p.add_argument("docx")
+    p.add_argument("--out")
     p = sub.add_parser("render")
-    p.add_argument("docx"); p.add_argument("--pdf")
+    p.add_argument("docx")
+    p.add_argument("--pdf")
     p.add_argument("--pages-dir")
     p = sub.add_parser("pair")
-    p.add_argument("before"); p.add_argument("after"); p.add_argument("out")
+    p.add_argument("before")
+    p.add_argument("after")
+    p.add_argument("out")
     p = sub.add_parser("facts")
     p.add_argument("--out")
     args = ap.parse_args(argv)
