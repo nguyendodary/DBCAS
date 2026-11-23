@@ -134,7 +134,11 @@ def _restore_snapshot(url: str, path: str, schema_version: str) -> bool:
                 conn.execute(sql, prepare=False)
         return True
     except Exception as exc:  # noqa: BLE001 - fallback must stay available
-        logger.warning("Demo seed snapshot restore failed (%s); using full seed", type(exc).__name__)
+        detail = type(exc).__name__
+        primary = getattr(getattr(exc, "diag", None), "message_primary", "")
+        if primary:
+            detail = f"{detail}: {primary}"
+        logger.warning("Demo seed snapshot restore failed (%s); using full seed", detail)
         return False
 
 
