@@ -257,12 +257,14 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
     db.execute(select(Question.question_id).where(Question.question_id.in_(ids))
                .order_by(Question.question_id).with_for_update(read=True)).all()
     bank = QuestionRepository(db)
+    loaded = {question.question_id: question for question in db.scalars(
+        select(Question).where(Question.question_id.in_(ids)).options(*bank._detail_loads())
+        .execution_options(populate_existing=True))}
     plan = {}
     locked_types, locked_skills, locked_families = Counter(), set(), set()
     for question_id in ids:
-        q = db.scalar(select(Question).where(Question.question_id == question_id)
-                      .options(*bank._detail_loads()).execution_options(populate_existing=True))
-        if q.status != "validated" or _validation_missing(bank, q):
+        q = loaded.get(question_id)
+        if q is None or q.status != "validated" or _validation_missing(bank, q):
             raise AppError(409, "question_bank_changed", "The question bank changed. Retry assessment creation.")
         fits = [t for t in q.concept_tags if t.confirmed and t.concept_id in requested_ids
                 and any(c["concept_id"] == t.concept_id and c["min_difficulty"] <= q.difficulty_level <= c["max_difficulty"] for c in snapshot["concepts"])]
