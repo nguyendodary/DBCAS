@@ -38,28 +38,47 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          export LOCAL_DOCKER_GID="$(stat -c '%g' /var/run/docker.sock)"
+          base=(docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml)
+          snapshot=("${base[@]}" -f docker-compose.demo-snapshot.yml)
+
+          dump_failure() {
+            "${base[@]}" ps || true
+            curl -sS -i "http://127.0.0.1:${LOCAL_API_PORT}/readiness" || true
+            "${base[@]}" exec -T app id || true
+            "${base[@]}" exec -T app docker image inspect dbcas-sql-ephemeral:local --format '{{json .Config.Labels}}' || true
+            "${base[@]}" logs --no-color --tail=300 db init app frontend || true
+          }
+
+          wait_ready() {
+            node scripts/readiness.mjs "http://127.0.0.1:${LOCAL_WEB_PORT}/readiness"
+          }
+
           run_once() {
-            local label="$1" start end
-            docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml down -v --remove-orphans >/dev/null 2>&1 || true
+            local label="$1" mode="$2" start end
+            local -a cmd=("${base[@]}")
+            if [ "$mode" = snapshot ]; then cmd=("${snapshot[@]}"); fi
+            "${cmd[@]}" down -v --remove-orphans >/dev/null 2>&1 || true
             start=$(date +%s)
-            if ! npm start >"/tmp/start-$label.log" 2>&1; then
-              echo "npm start failed for $label"
-              cat "/tmp/start-$label.log"
-              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml ps || true
-              curl -sS -i "http://127.0.0.1:${LOCAL_API_PORT}/readiness" || true
-              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml exec -T app id || true
-              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml exec -T app docker image inspect dbcas-sql-ephemeral:local --format '{{json .Config.Labels}}' || true
-              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml logs --no-color --tail=300 db init app || true
+            if ! "${cmd[@]}" up --build --detach --wait --wait-timeout 600; then
+              echo "compose up failed for $label"
+              dump_failure
+              return 1
+            fi
+            if ! wait_ready; then
+              echo "readiness failed for $label"
+              dump_failure
               return 1
             fi
             end=$(date +%s)
-            npm run stop >/dev/null 2>&1 || true
+            "${cmd[@]}" stop >/dev/null 2>&1 || true
             echo "$((end-start))"
           }
+
           full=()
           for i in 1 2 3 4 5; do
             set +e
-            run_once full-$i >"/tmp/measure-full-$i.log" 2>&1
+            run_once full-$i full >"/tmp/measure-full-$i.log" 2>&1
             status=$?
             set -e
             if [ "$status" -ne 0 ]; then
@@ -68,13 +87,15 @@ jobs:
             fi
             full+=("$(tail -n1 "/tmp/measure-full-$i.log")")
           done
+
           # The fifth full run left a seeded database; snapshot it now.
-          docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml up -d --wait --wait-timeout 600
+          "${base[@]}" up -d --wait --wait-timeout 600
           npm run demo:snapshot
+
           cached=()
           for i in 1 2 3 4 5; do
             set +e
-            run_once snapshot-$i >"/tmp/measure-snapshot-$i.log" 2>&1
+            run_once snapshot-$i snapshot >"/tmp/measure-snapshot-$i.log" 2>&1
             status=$?
             set -e
             if [ "$status" -ne 0 ]; then
@@ -83,6 +104,7 @@ jobs:
             fi
             cached+=("$(tail -n1 "/tmp/measure-snapshot-$i.log")")
           done
+
           python3 - "$(IFS=,; echo "${full[*]}")" "$(IFS=,; echo "${cached[*]}")" <<'PY'
           import json, statistics, sys
           full = [int(x) for x in sys.argv[1].split(',')]
