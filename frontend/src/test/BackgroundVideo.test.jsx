@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 import BackgroundVideo from '../components/BackgroundVideo'
 import { HeroBand } from '../components/ui'
@@ -25,7 +25,7 @@ afterEach(() => {
 // hero bands). These tests pin the mount contract so the video cannot regress
 // to a static frame again: correct element, source, poster and loop flags.
 describe('BackgroundVideo', () => {
-  it('renders a looping muted inline video with poster for normal motion', () => {
+  it('defers the media source until after load, then attaches the mp4', async () => {
     mockReducedMotion(false)
     const { container } = render(
       <BackgroundVideo className="hero-video" src="/media/hero.mp4" poster="/media/poster.jpg" />,
@@ -36,13 +36,17 @@ describe('BackgroundVideo', () => {
     expect(video.muted).toBe(true)
     expect(video.loop).toBe(true)
     expect(video.playsInline).toBe(true)
+    expect(video).toHaveAttribute('preload', 'none')
     expect(video).toHaveAttribute('poster', '/media/poster.jpg')
     expect(video).toHaveAttribute('aria-hidden', 'true')
-    expect(video.querySelector('source')).toHaveAttribute('src', '/media/hero.mp4')
+    expect(video.querySelector('source')).not.toBeInTheDocument()
+    await waitFor(() =>
+      expect(video.querySelector('source')).toHaveAttribute('src', '/media/hero.mp4'),
+    )
     expect(video.querySelector('source')).toHaveAttribute('type', 'video/mp4')
   })
 
-  it('keeps the poster frame without autoplay when reduced motion is set', () => {
+  it('keeps the poster frame without autoplay or a media request when reduced motion is set', () => {
     mockReducedMotion(true)
     const { container } = render(
       <BackgroundVideo src="/media/hero.mp4" poster="/media/poster.jpg" />,
@@ -53,6 +57,7 @@ describe('BackgroundVideo', () => {
     expect(video).toHaveAttribute('poster', '/media/poster.jpg')
     expect(video.muted).toBe(true)
     expect(video.loop).toBe(true)
+    expect(video.querySelector('source')).not.toBeInTheDocument()
   })
 
   it('resumes autoplay when the motion preference returns to normal', () => {
