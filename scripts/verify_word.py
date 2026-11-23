@@ -16,8 +16,8 @@ Checks
   6. Data: exact data dictionary, Table Overview, schema/FK/Compose/OpenAPI
      names and numeric claims.
 
-Outputs docs/qa/word-verification/summary.md and <document>/report.md plus
-diagram PNGs. Exit code 1 if any measured check fails; unavailable local-only
+Outputs _review/word-verification/summary.md and <document>/report.md plus
+diagram PNGs (override with --output; docs/qa is refused). Exit code 1 if any measured check fails; unavailable local-only
 tools are reported as SKIP. No .docx is modified (hashes are verified).
 """
 import argparse
@@ -36,9 +36,11 @@ import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from docs_qa_guard import ensure_safe_output
+
 ROOT = Path(__file__).resolve().parents[1]
 ACA = ROOT / "docs/academic"
-OUT = ROOT / "docs" / "qa" / "word-verification"
+OUT = ROOT / "_review" / "word-verification"
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 WP = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
@@ -704,11 +706,14 @@ def word_open_checks(docs, log):
 
 
 def main():
+    global OUT
     ap = argparse.ArgumentParser()
     ap.add_argument("--ci", action="store_true", help="skip Word COM and PDF page evidence")
     ap.add_argument("--no-pdf", action="store_true", help="skip LibreOffice PDF evidence")
     ap.add_argument("--only", default="", help="comma list: proposal,architecture,database")
+    ap.add_argument("--output", default=str(OUT), help="report directory; docs/qa is refused")
     args = ap.parse_args()
+    OUT = ensure_safe_output(args.output, label="Word verification reports")
     only = {x.strip() for x in args.only.split(",") if x.strip()}
     docs = [d for d in DOCS if not only or d[0] in only]
     OUT.mkdir(parents=True, exist_ok=True)

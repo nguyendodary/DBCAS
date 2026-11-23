@@ -26,6 +26,7 @@ Referenced by `package.json`, CI, application code, or another active script:
 - [crop_w2b.py](./crop_w2b.py)
 - [diagrams.mjs](./diagrams.mjs)
 - [doc_facts.py](./doc_facts.py)
+- [docs_qa_guard.py](./docs_qa_guard.py)
 - [env-check.mjs](./env-check.mjs)
 - [export_openapi.py](./export_openapi.py)
 - [generate_doc_diagrams.py](./generate_doc_diagrams.py)
