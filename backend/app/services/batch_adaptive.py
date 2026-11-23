@@ -75,11 +75,13 @@ def start(db, repo, assessment, learner, payload, snapshot, *, locale):
     ids = sorted(q.question_id for q, _ in pool)
     db.execute(select(Question.question_id).where(Question.question_id.in_(ids))
                .order_by(Question.question_id).with_for_update(read=True)).all()
+    loaded = {question.question_id: question for question in db.scalars(
+        select(Question).where(Question.question_id.in_(ids)).options(*bank._detail_loads())
+        .execution_options(populate_existing=True))}
     inventory, families = [], set()
     for qid in ids:
-        q = db.scalar(select(Question).where(Question.question_id == qid)
-                      .options(*bank._detail_loads()).execution_options(populate_existing=True))
-        if (q.status != "validated" or q.question_type != "mcq" or _validation_missing(bank, q)
+        q = loaded.get(qid)
+        if (q is None or q.status != "validated" or q.question_type != "mcq" or _validation_missing(bank, q)
                 or not target["min_difficulty"] <= q.difficulty_level <= target["max_difficulty"]
                 or not any(t.confirmed and t.concept_id == target["concept_id"] for t in q.concept_tags)):
             raise AppError(409, "question_bank_changed", "The question bank changed. Retry assessment creation.")

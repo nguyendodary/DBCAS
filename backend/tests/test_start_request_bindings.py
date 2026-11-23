@@ -4,7 +4,7 @@ from datetime import timedelta
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import func, select
+from sqlalchemy import func, inspect, select
 from sqlalchemy.exc import IntegrityError, ProgrammingError
 
 from app.db import get_session_factory
@@ -89,6 +89,14 @@ def test_binding_database_rejects_cross_owner_and_reassignment(client, db_sessio
         with pytest.raises(ProgrammingError, match="immutable"):
             with db_session.begin_nested():
                 db_session.execute(text(statement))
+
+
+def test_orm_maps_every_session_start_request_column(db_session):
+    database_columns = {
+        column["name"] for column in inspect(db_session.get_bind()).get_columns("session_start_request")
+    }
+    orm_columns = set(SessionStartRequest.__table__.columns.keys())
+    assert database_columns == orm_columns
 
 
 def test_migration_backfills_only_known_requests_without_changing_sessions():
