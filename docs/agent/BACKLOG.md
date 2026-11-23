@@ -4,7 +4,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
 ## Code freeze (2026-11-23)
 
-`develop2` `69e1e2f1273dc1870df71ad4f17936dfacdf5953` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; Phase C documents remain in [#100](https://github.com/nguyendodary/DBCAS/pull/100), pending the owner's `OK merge #100`. Production remains **HOLD**.
+`develop2` `aac18c915f50489b8512da8a24b2cf8488e64850` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; [#107](https://github.com/nguyendodary/DBCAS/pull/107) tooling and [#100](https://github.com/nguyendodary/DBCAS/pull/100) submission documents are merged, and this docs-only STATUS/BACKLOG snapshot is the last change. Production remains **HOLD**.
 
 ## Waiting for owner
 
@@ -28,3 +28,4 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 15. **Demo flake/tag:** [#94](https://github.com/nguyendodary/DBCAS/issues/94) `practice-flows` heading timeout — **UNKNOWN — owner must confirm**. Rehearsal: 3 full CI runs green on `78c340b` (PR #92 closed). Owner steps: enable `DBCAS_DEMO_PROFILE=writable,free-pro`, rehearse once, offline QA AI fallback, then `demo-v1` ([runbook](../demo/README.md)).
 16. Remaining work in order: **B3** split the broker into its own service and remove the Docker CLI/socket from the API image/Compose (this is what closes [#66](https://github.com/nguyendodary/DBCAS/issues/66), which stays **open**), then warm pool, state grading, frontend.
 17. Owner actions still pending: U6/U7/U8/U10 substrate, issuer/rotation, image digest, limits, U18 required checks, local `dbcas-*` inventory, `docs/pending-readiness-edits` (do not merge as-is), OTP vs reset-link ([#25](https://github.com/nguyendodary/DBCAS/pull/25)). Remaining [owner decisions](../analysis/owner-decisions.md) items are **UNKNOWN — owner must confirm**.
+18. **Final release (owner-gated):** the annotated `v1.0-final` tag and the `develop2 -> main` PR are prepared but not created; after owner approval, create the tag, open the PR, update the Word TOC fields in the four `.docx` files, and rehearse the demo once with `DBCAS_DEMO_PROFILE=writable,free-pro`. Production stays **HOLD**.
