@@ -93,7 +93,11 @@ def main():
                      indent=2))
     if args.write:
         OUT.write_text(json.dumps(facts, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
-        print("wrote", OUT.relative_to(ROOT))
+        try:
+            shown = OUT.relative_to(ROOT)
+        except ValueError:
+            shown = OUT
+        print("wrote", shown)
 
 
 if __name__ == "__main__":
