@@ -2,6 +2,10 @@
 
 Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
+## Code freeze (2026-11-23)
+
+`develop2` `69e1e2f1273dc1870df71ad4f17936dfacdf5953` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; Phase C documents remain in [#100](https://github.com/nguyendodary/DBCAS/pull/100), pending the owner's `OK merge #100`. Production remains **HOLD**.
+
 ## Waiting for owner
 
 1. **(a) Broker UNKNOWNs:** answer the remaining open questions in the [broker design](../sql-sandbox/broker/README.md) and [SQL sandbox UNKNOWNs](../sql-sandbox/07-unknowns.md) before PR-B writable execution. [#66](https://github.com/nguyendodary/DBCAS/issues/66) tracks the decision; [#69](https://github.com/nguyendodary/DBCAS/pull/69) is merged documentation only. The five B1 defaults are **approved by owner** ([owner decisions](../analysis/owner-decisions.md#owner-decisions--approved-2026-11-21-verbatim)); everything else stays **UNKNOWN — owner must confirm**.
