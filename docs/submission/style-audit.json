@@ -39,7 +39,7 @@
     "cover_tables_equal": true,
     "paragraphs": {
       "before": 250,
-      "after": 250
+      "after": 271
     },
     "tables": {
       "before": 58,
@@ -47,12 +47,21 @@
     },
     "images": {
       "before": 14,
-      "after": 14,
+      "after": 21,
       "changed_indices": [
         1,
+        2,
         3,
         4,
-        5
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
       ],
       "display_sizes_equal": true
     }
@@ -68,27 +77,51 @@
     "cover_text_equal": true,
     "cover_tables_equal": true,
     "paragraphs": {
-      "before": 228,
-      "after": 306
+      "before": 306,
+      "after": 327
     },
     "tables": {
-      "before": 46,
+      "before": 72,
       "after": 72
     },
     "images": {
-      "before": 6,
-      "after": 6,
-      "changed_indices": [],
+      "before": 8,
+      "after": 15,
+      "changed_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
       "display_sizes_equal": true
     }
   },
   "SRS": {
-    "cover_source": "C:\\Users\\kudot\\Downloads\\proposal test\\FITAI - Documents\\1. Proposal Document\\C1SE.56_ProposalDocument_SHFA_ver1.2.docx",
-    "parts_c14n_equal_to_cover_source": {
+    "parts_c14n_equal": {
       "word/styles.xml": true,
       "word/theme/theme1.xml": true,
       "word/settings.xml": true,
       "word/numbering.xml": true
+    },
+    "sections_equal": true,
+    "cover_text_equal": true,
+    "cover_tables_equal": true,
+    "paragraphs": {
+      "before": 59,
+      "after": 69
+    },
+    "tables": {
+      "before": 6,
+      "after": 11
+    },
+    "images": {
+      "before": 4,
+      "after": 4,
+      "changed_indices": [],
+      "display_sizes_equal": true
     }
   }
 }

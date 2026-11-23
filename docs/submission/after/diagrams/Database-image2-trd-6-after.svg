@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3440" height="2080" viewBox="0 0 3440 2080">
+<rect width="3440" height="2080" fill="#FFFFFF"/>
+<rect x="43" y="45" width="795" height="1730" fill="#B8B8B8"/>
+<rect x="893" y="45" width="795" height="1602" fill="#B8B8B8"/>
+<rect x="1743" y="45" width="795" height="1096" fill="#B8B8B8"/>
+<rect x="2593" y="45" width="795" height="1096" fill="#B8B8B8"/>
+<rect x="40" y="42" width="795" height="1730" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="116" x2="835" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="262" x2="834" y2="262" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="348" x2="834" y2="348" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="420" x2="834" y2="420" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="492" x2="834" y2="492" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="564" x2="834" y2="564" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="650" x2="834" y2="650" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="722" x2="834" y2="722" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="808" x2="834" y2="808" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="894" x2="834" y2="894" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="966" x2="834" y2="966" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1052" x2="834" y2="1052" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1124" x2="834" y2="1124" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1196" x2="834" y2="1196" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1268" x2="834" y2="1268" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1340" x2="834" y2="1340" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1412" x2="834" y2="1412" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1484" x2="834" y2="1484" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1556" x2="834" y2="1556" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1628" x2="834" y2="1628" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="1700" x2="834" y2="1700" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="42" width="795" height="1602" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="116" x2="1685" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="232" x2="1684" y2="232" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="348" x2="1684" y2="348" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="420" x2="1684" y2="420" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="492" x2="1684" y2="492" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="564" x2="1684" y2="564" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="636" x2="1684" y2="636" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="708" x2="1684" y2="708" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="780" x2="1684" y2="780" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="852" x2="1684" y2="852" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="924" x2="1684" y2="924" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="996" x2="1684" y2="996" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1068" x2="1684" y2="1068" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1140" x2="1684" y2="1140" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1212" x2="1684" y2="1212" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1284" x2="1684" y2="1284" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1356" x2="1684" y2="1356" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1428" x2="1684" y2="1428" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1500" x2="1684" y2="1500" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="1572" x2="1684" y2="1572" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="42" width="795" height="1096" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="116" x2="2535" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="202" x2="2534" y2="202" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="274" x2="2534" y2="274" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="346" x2="2534" y2="346" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="418" x2="2534" y2="418" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="490" x2="2534" y2="490" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="562" x2="2534" y2="562" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="634" x2="2534" y2="634" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="706" x2="2534" y2="706" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="778" x2="2534" y2="778" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="850" x2="2534" y2="850" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="922" x2="2534" y2="922" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="994" x2="2534" y2="994" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="1066" x2="2534" y2="1066" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2590" y="42" width="795" height="1096" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2591.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="2590" y1="116" x2="3385" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2591" y1="188" x2="3384" y2="188" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="274" x2="3384" y2="274" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="346" x2="3384" y2="346" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="418" x2="3384" y2="418" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="490" x2="3384" y2="490" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="562" x2="3384" y2="562" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="634" x2="3384" y2="634" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="706" x2="3384" y2="706" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="778" x2="3384" y2="778" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="850" x2="3384" y2="850" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="922" x2="3384" y2="922" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="994" x2="3384" y2="994" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="1066" x2="3384" y2="1066" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="61" y1="146.5" x2="260" y2="146.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="912" y1="146.5" x2="1190" y2="146.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1761" y1="146.5" x2="1960" y2="146.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2612" y1="169.5" x2="2743" y2="169.5" stroke="#1A1A1A" stroke-width="2"/>
+<g fill="none" stroke="#1A1A1A" stroke-width="2.5">
+</g>
+<g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
+<text x="437.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">ai_stage_run</text>
+<text x="60" y="140" font-size="32" font-weight="bold" fill="#1A1A1A">stage_run_id</text>
+<text x="535" y="140" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="815" y="140" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="60" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from ai_prompt_record (p8)</text>
+<text x="60" y="196" font-size="24" font-weight="regular" fill="#0B6B3A">from ai_stage_attempt (p7)</text>
+<text x="60" y="226" font-size="24" font-weight="regular" fill="#0B6B3A">from ai_stage_run (p6)</text>
+<text x="367" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from ai_stage_validation (p9)</text>
+<text x="367" y="196" font-size="24" font-weight="regular" fill="#0B6B3A">from session_result_analysis (p9)</text>
+<text x="367" y="226" font-size="24" font-weight="regular" fill="#0B6B3A">from session_result_analysis (p9)</text>
+<text x="60" y="286" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="535" y="286" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="286" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="312" font-size="24" font-weight="regular" fill="#1F3A93">to assessment_session (p4)</text>
+<text x="60" y="395" font-size="32" font-weight="regular" fill="#1A1A1A">scope_key</text>
+<text x="815" y="395" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(40) NOT NULL</text>
+<text x="60" y="467" font-size="32" font-weight="regular" fill="#1A1A1A">stage</text>
+<text x="815" y="467" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(3) NOT NULL</text>
+<text x="60" y="539" font-size="32" font-weight="regular" fill="#1A1A1A">run_mode</text>
+<text x="815" y="539" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="60" y="588" font-size="32" font-weight="bold" fill="#1A1A1A">result_version_id</text>
+<text x="535" y="588" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="588" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NULL</text>
+<text x="60" y="614" font-size="24" font-weight="regular" fill="#1F3A93">to session_result_version (p8)</text>
+<text x="60" y="697" font-size="32" font-weight="regular" fill="#1A1A1A">execution_run_no</text>
+<text x="815" y="697" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="746" font-size="32" font-weight="bold" fill="#1A1A1A">recovery_of_run_id</text>
+<text x="535" y="746" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="746" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NULL</text>
+<text x="60" y="772" font-size="24" font-weight="regular" fill="#1F3A93">to ai_stage_run (p6)</text>
+<text x="60" y="832" font-size="32" font-weight="bold" fill="#1A1A1A">recovery_authorized_by</text>
+<text x="535" y="832" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="832" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="60" y="858" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="60" y="941" font-size="32" font-weight="regular" fill="#1A1A1A">recovery_reason</text>
+<text x="815" y="941" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(1000) NULL</text>
+<text x="60" y="990" font-size="32" font-weight="bold" fill="#1A1A1A">predecessor_validation_id</text>
+<text x="535" y="990" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="990" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NULL</text>
+<text x="60" y="1016" font-size="24" font-weight="regular" fill="#1F3A93">to ai_stage_validation (p9)</text>
+<text x="60" y="1099" font-size="32" font-weight="regular" fill="#1A1A1A">status</text>
+<text x="815" y="1099" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="60" y="1171" font-size="32" font-weight="regular" fill="#1A1A1A">attempt_count</text>
+<text x="815" y="1171" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="1243" font-size="32" font-weight="regular" fill="#1A1A1A">input_hash</text>
+<text x="815" y="1243" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">character NOT NULL</text>
+<text x="60" y="1315" font-size="32" font-weight="regular" fill="#1A1A1A">output_hash</text>
+<text x="815" y="1315" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">character NULL</text>
+<text x="60" y="1387" font-size="32" font-weight="regular" fill="#1A1A1A">last_error_code</text>
+<text x="815" y="1387" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(80) NULL</text>
+<text x="60" y="1459" font-size="32" font-weight="regular" fill="#1A1A1A">available_at</text>
+<text x="815" y="1459" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="60" y="1531" font-size="32" font-weight="regular" fill="#1A1A1A">lease_until</text>
+<text x="815" y="1531" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="60" y="1603" font-size="32" font-weight="regular" fill="#1A1A1A">created_at</text>
+<text x="815" y="1603" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="60" y="1675" font-size="32" font-weight="regular" fill="#1A1A1A">started_at</text>
+<text x="815" y="1675" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="60" y="1747" font-size="32" font-weight="regular" fill="#1A1A1A">finished_at</text>
+<text x="815" y="1747" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="1287.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">review_request</text>
+<text x="910" y="140" font-size="32" font-weight="bold" fill="#1A1A1A">review_request_id</text>
+<text x="1385" y="140" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="1665" y="140" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="910" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from question_report (p7)</text>
+<text x="910" y="196" font-size="24" font-weight="regular" fill="#0B6B3A">from review_deviation (p7)</text>
+<text x="1207" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from session_result_version (p8)</text>
+<text x="910" y="256" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="1385" y="256" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="256" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="910" y="282" font-size="24" font-weight="regular" fill="#1F3A93">to session_result_version (p8)</text>
+<text x="910" y="312" font-size="24" font-weight="regular" fill="#1F3A93">to assessment_session (p4)</text>
+<text x="1244" y="282" font-size="24" font-weight="regular" fill="#1F3A93">to session_result_version (p8)</text>
+<text x="910" y="395" font-size="32" font-weight="bold" fill="#1A1A1A">learner_id</text>
+<text x="1385" y="395" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="395" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1084" y="395" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="910" y="467" font-size="32" font-weight="bold" fill="#1A1A1A">requested_by</text>
+<text x="1385" y="467" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="467" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1141" y="467" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="910" y="539" font-size="32" font-weight="regular" fill="#1A1A1A">origin</text>
+<text x="1665" y="539" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(12) NOT NULL</text>
+<text x="910" y="611" font-size="32" font-weight="regular" fill="#1A1A1A">request_key</text>
+<text x="1665" y="611" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">uuid NOT NULL</text>
+<text x="910" y="683" font-size="32" font-weight="regular" fill="#1A1A1A">reason</text>
+<text x="1665" y="683" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(2000) NOT NULL</text>
+<text x="910" y="755" font-size="32" font-weight="regular" fill="#1A1A1A">status</text>
+<text x="1665" y="755" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="910" y="827" font-size="32" font-weight="bold" fill="#1A1A1A">base_result_version_id</text>
+<text x="1385" y="827" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="827" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="910" y="899" font-size="32" font-weight="regular" fill="#1A1A1A">requested_at</text>
+<text x="1665" y="899" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="910" y="971" font-size="32" font-weight="regular" fill="#1A1A1A">window_expires_at</text>
+<text x="1665" y="971" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="910" y="1043" font-size="32" font-weight="bold" fill="#1A1A1A">claimed_by</text>
+<text x="1385" y="1043" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="1043" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="1106" y="1043" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="910" y="1115" font-size="32" font-weight="regular" fill="#1A1A1A">claimed_at</text>
+<text x="1665" y="1115" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="910" y="1187" font-size="32" font-weight="regular" fill="#1A1A1A">claim_expires_at</text>
+<text x="1665" y="1187" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="910" y="1259" font-size="32" font-weight="bold" fill="#1A1A1A">resolved_by</text>
+<text x="1385" y="1259" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="1259" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="1119" y="1259" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="910" y="1331" font-size="32" font-weight="regular" fill="#1A1A1A">resolved_at</text>
+<text x="1665" y="1331" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="910" y="1403" font-size="32" font-weight="regular" fill="#1A1A1A">resolution_note</text>
+<text x="1665" y="1403" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(2000) NULL</text>
+<text x="910" y="1475" font-size="32" font-weight="bold" fill="#1A1A1A">regraded_result_version_id</text>
+<text x="1385" y="1475" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="1475" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NULL</text>
+<text x="910" y="1547" font-size="32" font-weight="regular" fill="#1A1A1A">revision</text>
+<text x="1665" y="1547" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="910" y="1619" font-size="32" font-weight="regular" fill="#1A1A1A">created_at</text>
+<text x="1665" y="1619" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="2137.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">course_document</text>
+<text x="1760" y="140" font-size="32" font-weight="bold" fill="#1A1A1A">document_id</text>
+<text x="2235" y="140" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="2515" y="140" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1760" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from document_chunk (p8)</text>
+<text x="2062" y="166" font-size="24" font-weight="regular" fill="#0B6B3A">from document_clo (p11)</text>
+<text x="1760" y="249" font-size="32" font-weight="regular" fill="#1A1A1A">title</text>
+<text x="2515" y="249" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(300) NOT NULL</text>
+<text x="1760" y="321" font-size="32" font-weight="regular" fill="#1A1A1A">source_type</text>
+<text x="2515" y="321" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="1760" y="393" font-size="32" font-weight="regular" fill="#1A1A1A">mime_type</text>
+<text x="2515" y="393" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(100) NOT NULL</text>
+<text x="1760" y="465" font-size="32" font-weight="regular" fill="#1A1A1A">original_filename</text>
+<text x="2515" y="465" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(255) NULL</text>
+<text x="1760" y="537" font-size="32" font-weight="regular" fill="#1A1A1A">sha256</text>
+<text x="2515" y="537" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(64) NOT NULL</text>
+<text x="1760" y="609" font-size="32" font-weight="regular" fill="#1A1A1A">char_count</text>
+<text x="2515" y="609" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1760" y="681" font-size="32" font-weight="regular" fill="#1A1A1A">page_count</text>
+<text x="2515" y="681" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="1760" y="753" font-size="32" font-weight="regular" fill="#1A1A1A">status</text>
+<text x="2515" y="753" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="1760" y="825" font-size="32" font-weight="bold" fill="#1A1A1A">uploaded_by</text>
+<text x="2235" y="825" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="825" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1981" y="825" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="1760" y="897" font-size="32" font-weight="regular" fill="#1A1A1A">uploaded_at</text>
+<text x="2515" y="897" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="1760" y="969" font-size="32" font-weight="bold" fill="#1A1A1A">approved_by</text>
+<text x="2235" y="969" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="969" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="1982" y="969" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="1760" y="1041" font-size="32" font-weight="regular" fill="#1A1A1A">approved_at</text>
+<text x="2515" y="1041" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="1760" y="1113" font-size="32" font-weight="regular" fill="#1A1A1A">text_policy_version</text>
+<text x="2515" y="1113" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="2987.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">session_final_result</text>
+<text x="2610" y="163" font-size="32" font-weight="bold" fill="#1A1A1A">result_id</text>
+<text x="3085" y="163" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="3365" y="163" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="212" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="3085" y="212" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="3365" y="212" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="238" font-size="24" font-weight="regular" fill="#1F3A93">to assessment_session (p4)</text>
+<text x="2610" y="321" font-size="32" font-weight="bold" fill="#1A1A1A">reviewer_id</text>
+<text x="3085" y="321" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="3365" y="321" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="2807" y="321" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="2610" y="393" font-size="32" font-weight="regular" fill="#1A1A1A">source</text>
+<text x="3365" y="393" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="2610" y="465" font-size="32" font-weight="regular" fill="#1A1A1A">evaluation_input_hash</text>
+<text x="3365" y="465" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(64) NOT NULL</text>
+<text x="2610" y="537" font-size="32" font-weight="regular" fill="#1A1A1A">approval_revision</text>
+<text x="3365" y="537" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="609" font-size="32" font-weight="regular" fill="#1A1A1A">ai_evaluation</text>
+<text x="3365" y="609" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="2610" y="681" font-size="32" font-weight="regular" fill="#1A1A1A">final_evaluation</text>
+<text x="3365" y="681" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="2610" y="753" font-size="32" font-weight="regular" fill="#1A1A1A">concept_results</text>
+<text x="3365" y="753" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="2610" y="825" font-size="32" font-weight="regular" fill="#1A1A1A">scores</text>
+<text x="3365" y="825" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="2610" y="897" font-size="32" font-weight="regular" fill="#1A1A1A">overall</text>
+<text x="3365" y="897" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="2610" y="969" font-size="32" font-weight="regular" fill="#1A1A1A">uncovered_concepts</text>
+<text x="3365" y="969" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">jsonb NOT NULL</text>
+<text x="2610" y="1041" font-size="32" font-weight="regular" fill="#1A1A1A">approved_at</text>
+<text x="3365" y="1041" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="2610" y="1113" font-size="32" font-weight="regular" fill="#1A1A1A">created_at</text>
+<text x="3365" y="1113" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+</g>
+<text x="40" y="2040" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#1A1A1A">Page 6 of 11 &#183; 67 tables &#183; 561 columns &#183; 122 FKs &#183; 28 migrations</text>
+</svg>

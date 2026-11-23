@@ -75,7 +75,7 @@ Appendix A tables: `ai_prompt_content`, `ai_prompt_record`, `ai_stage_attempt`, 
 
 Pixels and display size preserved. Before/after images: `before-after/diagrams/`.
 
-**Not changed (OWNER-DECISION):** Architecture Fig 7/8 and Database Fig 1/2 still show the 41-card core and legend `41/293/59/19`. Adding 26 cards needs new layout/pages; the owner prohibited diagram rebuilds without approval.
+**Extended in Phase C:** Architecture Fig 7/8 and Database Fig 1/2 now include all 67 tables. The ERD gains a second page with the 26 migration-020-028 entities; the TRD gains six continuation pages with the same card grammar. Legends are `67/561/122/28`.
 
 ## 5. SRS
 
@@ -83,12 +83,20 @@ New `SRS.docx` from:
 - FITAI cover page copied as-is; only title/project/team/mentor text changed in existing runs.
 - Root SRS section structure: Introduction, Project overview, Functional requirements, Use cases, NFRs, Data/release, Constraints, Traceability.
 - Facts from schema/routes/tests; no diagrams added (the root SRS diagrams were Student Management, not DBCAS).
-- 4 pages.
+- 7 pages after the Phase C expansion (4 pages for the original DBCAS SRS plus role/module, verification, limitations, traceability and document-control sections).
 
 ## 6. Verification
 
-- Fact audit: **76 assertions, 76 passed, 0 failed** (`fact-audit.json`/`.md`).
+- Fact audit: **94 assertions, 94 passed, 0 failed** (`fact-audit.json`/`.md`).
 - Style audit: C14N styles/theme/settings/numbering all **equal**; page setup/header/footer equal; cover paragraphs/tables equal for Proposal/Architecture/Database (`style-audit.json`/`.md`).
-- Visual pairs: `before-after/pages/` (16 pairs) and `before-after/diagrams/` (6 pairs); no overflow/overlap found in edited text/table/diagram pages.
-- Page counts (Word): Proposal 59→60 (+1), Architecture 70→70 (0), Database 40→63 (+23 due 26 appendix tables and full column lists); SRS 4 (new). LibreOffice preview: 62/70/79/4.
-- All four `.docx` open with python-docx and convert with LibreOffice headless; PDFs in `after/`.
+- Visual pairs: `before-after/pages/` (16 original pairs plus Phase C continuation pages) and `before-after/diagrams/` (6 original pairs plus ERD/TRD continuation pairs); no overflow/overlap found.
+- Page counts (Word): Proposal 59→60 (+1), Architecture 70→77 (+7 for ERD 2/2 and six TRD pages), Database 40→70 (+30 for appendix tables, expanded columns, ERD 2/2 and six TRD pages), SRS 4→7. LibreOffice was not re-run locally in the final environment; the last #100 LibreOffice preview was 62/70/79/4 plus the added pages.
+- All four `.docx` open with python-docx and Word; PDFs in `after/`.
+
+## 7. Phase C continuation (frozen code)
+
+- Architecture Fig 7 / Database Fig 1: added a second ERD page with the 26 tables introduced by migrations 020-028. The page uses the same entity rectangles, key ovals, 4-column grid and black/white palette; the legend is now 67 tables / 561 columns / 122 FKs / 28 migrations.
+- Architecture Fig 8 / Database Fig 2: extended from 5 to 11 pages. Pages 1-5 retain the original 41 cards; pages 6-11 add the 26 continuation cards in the same card grammar. Captions are (1/11) through (11/11); each continuation page carries a compact count footer.
+- SRS: expanded from 4 to 7 pages with module/role coverage, verification evidence, limitations/owner decisions, traceability matrix and document control. The FITAI cover, styles, page setup, headers/footers and TOC structure are unchanged.
+- Drift fixed: SRS backend count is the final CI count; fact audit regenerated against the frozen SHA; CHANGELOG assertion count aligned with `fact-audit.json`.
+- Before/after images for the ERD continuation and the six new TRD pages are in `before-after/diagrams/`; page-level pairs are in `before-after/pages/`.

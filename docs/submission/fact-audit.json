@@ -1,6 +1,6 @@
 {
-  "total": 78,
-  "passed": 78,
+  "total": 94,
+  "passed": 94,
   "failed": 0,
   "assertions": [
     {
@@ -210,7 +210,7 @@
     {
       "id": "proposal-no-1-20",
       "status": "PASS",
-      "detail": "1\u201320 absent",
+      "detail": "1–20 absent",
       "source": "practice_config.py"
     },
     {
@@ -436,21 +436,21 @@
       "source": "schema introspection"
     },
     {
-      "id": "srs-backend-1911",
+      "id": "srs-backend-final",
       "status": "PASS",
-      "detail": "1911",
+      "detail": "1913",
       "source": "test-evidence.json"
     },
     {
-      "id": "srs-frontend-459",
+      "id": "srs-frontend-final",
       "status": "PASS",
       "detail": "459",
       "source": "test-evidence.json"
     },
     {
-      "id": "srs-browser-140",
+      "id": "srs-browser-final",
       "status": "PASS",
-      "detail": "140",
+      "detail": "140 + 2 skipped",
       "source": "test-evidence.json"
     },
     {
@@ -470,13 +470,109 @@
       "status": "PASS",
       "detail": "writable",
       "source": "config.py"
+    },
+    {
+      "id": "final-sha",
+      "status": "PASS",
+      "detail": "69e1e2f1273dc1870df71ad4f17936dfacdf5953",
+      "source": "git rev-parse develop2"
+    },
+    {
+      "id": "Architecture-erd-pages",
+      "status": "PASS",
+      "detail": "2",
+      "source": "Figure 7 (1/2, 2/2)"
+    },
+    {
+      "id": "Database-erd-pages",
+      "status": "PASS",
+      "detail": "2",
+      "source": "Figure 1 (1/2, 2/2)"
+    },
+    {
+      "id": "Architecture-trd-pages",
+      "status": "PASS",
+      "detail": "11",
+      "source": "Figure 8 (1/11-11/11)"
+    },
+    {
+      "id": "Database-trd-pages",
+      "status": "PASS",
+      "detail": "11",
+      "source": "Figure 2 (1/11-11/11)"
+    },
+    {
+      "id": "Architecture-trd-cards",
+      "status": "PASS",
+      "detail": "67",
+      "source": "41 original + 26 continuation cards"
+    },
+    {
+      "id": "Database-trd-cards",
+      "status": "PASS",
+      "detail": "67",
+      "source": "41 original + 26 continuation cards"
+    },
+    {
+      "id": "Architecture-trd-legend",
+      "status": "PASS",
+      "detail": "67 tables / 561 columns / 122 FKs / 28 migrations",
+      "source": "TRD legend"
+    },
+    {
+      "id": "Database-trd-legend",
+      "status": "PASS",
+      "detail": "67 tables / 561 columns / 122 FKs / 28 migrations",
+      "source": "TRD legend"
+    },
+    {
+      "id": "SRS-pages",
+      "status": "PASS",
+      "detail": "7",
+      "source": "Word page count"
+    },
+    {
+      "id": "SRS-tables",
+      "status": "PASS",
+      "detail": "11",
+      "source": "6 original + 5 added"
+    },
+    {
+      "id": "SRS-sections",
+      "status": "PASS",
+      "detail": "13",
+      "source": "Heading 1 sections"
+    },
+    {
+      "id": "Architecture-pages",
+      "status": "PASS",
+      "detail": "77",
+      "source": "Word page count"
+    },
+    {
+      "id": "Database-pages",
+      "status": "PASS",
+      "detail": "70",
+      "source": "Word page count"
+    },
+    {
+      "id": "docs-check",
+      "status": "PASS",
+      "detail": "PASS",
+      "source": "npm run docs:check"
+    },
+    {
+      "id": "final-backend-run",
+      "status": "PASS",
+      "detail": "45124260745",
+      "source": "exact-head CI"
     }
   ],
   "baseline": {
     "root": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS",
-    "commit": "6421b5ad44a0eaaeb9be8d26068c8ca434ae5bb7",
+    "commit": "69e1e2f1273dc1870df71ad4f17936dfacdf5953",
     "branch": "docs/revise-existing-in-place",
-    "origin_develop2": "6421b5ad44a0eaaeb9be8d26068c8ca434ae5bb7",
+    "origin_develop2": "69e1e2f1273dc1870df71ad4f17936dfacdf5953",
     "origin_main": "e7e432cefc2e21706ddfec96cfb8fa8b3b32b858",
     "schema_sha256": "f4ef8c2dd93b030cf04b169233e8b454dec8ea147f00e87a21771f3cf79b0c0a"
   }

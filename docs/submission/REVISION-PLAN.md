@@ -49,7 +49,7 @@ Không rebuild cover/layout/diagrams. Production: **HOLD**.
 | A5 | Fig 1 tr.14 | UC12 `1–20`; UC09 reviews every submitted session | Actual limits; conditional release | FACT-ERROR |
 | A6 | Fig 3 tr.45 | `(41 tables)`; `[read-only transaction]` | 67 tables; default read-only | FACT-ERROR |
 | A7 | Fig 4a/4b tr.49-50 | `(41 tables)` | 67 tables | FACT-ERROR |
-| A8 | Fig 7 tr.59; Fig 8 tr.60-64 | ERD/TRD 41 cards, legend 41/293/59/19 | 67-table schema; 26 tables missing from cards | **OWNER-DECISION** (layout/new pages) |
+| A8 | Fig 7 tr.59; Fig 8 tr.60-64 | ERD/TRD 41 cards, legend 41/293/59/19 | 67-table schema; 26 tables added | **RESOLVED Phase C** (ERD 2/2, TRD 11 pages) |
 
 ### Database
 
@@ -60,7 +60,7 @@ Không rebuild cover/layout/diagrams. Production: **HOLD**.
 | D3 | Sections 3.x tr.9-41 | 41 table sections | 67 table sections; 26 missing | FACT-ERROR |
 | D4 | P083 tr.13 | "all 41 tables appear in Figure 2" | Figure is 41-card core; full dictionary 67 | STALE |
 | D5 | GradeReview description tr.31 | "mandatory administrator approval" | Legacy/practice only; FIXED V1 AI-official | FACT-ERROR |
-| D6 | Fig 1 tr.12; Fig 2 tr.14-18 | 41-card core ERD/TRD; legend 41/293/59/19 | 67 tables | **OWNER-DECISION** (no layout rewrite) |
+| D6 | Fig 1 tr.12; Fig 2 tr.14-18 | 41-card core ERD/TRD; legend 41/293/59/19 | 67 tables | **RESOLVED Phase C** (ERD 2/2, TRD 11 pages) |
 
 ### SRS
 
@@ -73,7 +73,7 @@ Không có bản DBCAS trước đó. Owner đã chọn **root SRS structure + F
 - Architecture Fig 1: `UC12: 1–20`; `UC09 Review and approve results` implies every result.
 - Architecture Fig 3: `(41 tables)`; `[read-only transaction]`.
 - Architecture Fig 4a/4b: `(41 tables)`.
-- Architecture Fig 7/8, Database Fig 1/2: 26 tables absent and legend `41/293/59/19`; **OWNER-DECISION** because faithful expansion needs new cards/pages, which the owner prohibited without approval.
+- Architecture Fig 7/8, Database Fig 1/2: 26 tables were absent. Phase C adds an ERD continuation page and six TRD continuation pages in the same card style/palette; legends are `67/561/122/28`.
 - Các diagram còn lại không có thành phần sai đủ để sửa.
 
 ## 3. Edits to apply
@@ -83,13 +83,14 @@ Không có bản DBCAS trước đó. Owner đã chọn **root SRS structure + F
 - Architecture: 41→67 tables; release wording; default read-only/writable; table cells; use-case/container/component diagram text.
 - Database: 41→67; 26 missing table sections (Appendix A), 26 overview rows; all 67 column lists refreshed to 561 columns; counts, Figure 2 note, GradeReview wording.
 - SRS: new document from FITAI cover + root SRS sections; facts from code.
+- Phase C: ERD 2/2 continuation page with 26 entities; TRD pages 6-11 with 26 continuation cards; SRS expanded to 7 pages with role/module coverage, verification evidence, limitations, traceability and document control.
 
-**Không sửa:** cover, fonts/sizes/colors, page setup, headers/footers, styles, TOC structure, 41-card ERD/TRD layout (OWNER-DECISION).
+**Không sửa:** cover, fonts/sizes/colors, page setup, headers/footers, styles, TOC structure. The original 41 TRD cards keep their layout; new cards use continuation pages.
 
 ## 4. Counts
 
 - FACT-ERROR: **14**
 - STALE: **6**
-- OWNER-DECISION: **3**
+- OWNER-DECISION: **0 for the documents** (remaining items are code/schema owners)
 - STYLE-ONLY: **0**
-- Diagram edits: **6** (Proposal 2, Architecture 4); unchanged diagrams: 7; OWNER-DECISION diagrams: 6 (ERD/TRD sets).
+- Diagram edits: **6** original (Proposal 2, Architecture 4) plus Phase C ERD/TRD continuation pages (Architecture Fig 7/8, Database Fig 1/2); unchanged diagrams: 7; OWNER-DECISION diagrams: 0.

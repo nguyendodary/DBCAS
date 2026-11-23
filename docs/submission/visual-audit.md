@@ -7,9 +7,9 @@ LibreOffice headless was used to render BEFORE and AFTER PDFs; Word was used to 
 | Document | BEFORE | AFTER | Change |
 |---|---:|---:|---|
 | Proposal | 59 | 60 | +1 (added writable/grounding/release text; Word counts) |
-| Architecture | 70 | 70 | 0 (added counts/writable/release text; Word counts) |
-| Database | 40 | 63 | +23 (26 appendix tables + expanded columns; Word counts) |
-| SRS | 20 (Student Management base) | 4 (new DBCAS SRS) | new document; FITAI cover + root SRS structure |
+| Architecture | 70 | 77 | +7 (ERD 2/2 and six TRD continuation pages; Word counts) |
+| Database | 40 | 70 | +30 (26 appendix tables, expanded columns, ERD 2/2 and six TRD pages; Word counts) |
+| SRS | 20 (Student Management base) | 7 (new DBCAS SRS) | new document; FITAI cover + root SRS structure + Phase C sections |
 
 ## BEFORE/AFTER pairs
 
@@ -24,6 +24,7 @@ Diagram pairs are in `before-after/diagrams/`:
 
 - Proposal image 3 (logical), image 4 (pipeline).
 - Architecture image 1 (use case), image 3 (container), image 4 (component 4a), image 5 (component 4b).
+- Architecture Fig 7 ERD additional page (2/2) and Fig 8 TRD pages 6/11-11/11; Database Fig 1 ERD 2/2 and Fig 2 TRD pages 6/11-11/11.
 
 ## Layout checks
 
@@ -31,11 +32,12 @@ Diagram pairs are in `before-after/diagrams/`:
 - Architecture: edited paragraphs/table cells reflow; no overlap. Use-case/container/component figures keep their original position/size; text labels fit.
 - Database: A.1–A.26 use the cloned 6-column grammar, dark header, same widths; no cell overflow except `UNIQUE` wrapping in the Key column of A.26, which is legible. Hardware section follows A.26.
 - SRS: cover fits inside its border in Word; body tables fit; no overlap.
+- Phase C continuation figures: the 26-card ERD page and six TRD continuation pages keep the same card grammar and fit their page boxes without overlap; the legends/footers show 67/561/122/28.
 
 ## Not changed
 
 - Covers of the three existing docs: byte-level text/run/table equality verified by `style-audit.json`.
 - Styles, fonts, sizes, colors, page setup and headers/footers: C14N equality verified.
-- Architecture Fig 7/8 and Database Fig 1/2 (41-card core/legend) remain unchanged as **OWNER-DECISION**; expanding them to 67 cards requires new layout/pages.
+- Architecture Fig 7 (2/2), Fig 8 (6/11-11/11), Database Fig 1 (2/2), Fig 2 (6/11-11/11): new continuation pages use the same card grammar, grid and palette; legends are `67/561/122/28`.
 
 Evidence: `style-audit.json/.md`, `fact-audit.json/.md`, `before/` and `after/` PDFs/pages.
