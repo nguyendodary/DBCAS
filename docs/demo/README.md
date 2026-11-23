@@ -57,26 +57,25 @@ Accounts (local demo only): `admin@dbcas.local` / `Demo12345!`,
 
 If OpenRouter is unavailable, use the repository’s fake provider instead of a
 real key. It is `backend/tests/qa_provider.py`, selected through the QA Compose
-override:
+override. Start the normal stack first so `.env` and the `dbcas-local` project
+exist and the seed has completed, then recreate the app with the override:
 
 ```bash
-docker compose -p dbcas-demo -f docker-compose.local.yml -f docker-compose.qa.yml \
-  up -d --build --wait qa-ai app frontend
+npm start
+docker compose -p dbcas-local -f docker-compose.local.yml -f docker-compose.qa.yml \
+  up -d --build --wait --wait-timeout 600 qa-ai app
 ```
 
 The app gets `LLM_PROVIDER=compatible`, `LLM_BASE_URL=http://qa-ai:8080/v1` and
 `LLM_MODEL=deterministic-local-qa` from that override. The provider makes no
 outbound calls and stores no prompts.
 
-Start the normal stack first so `.env` and the `dbcas-local` project exist, then
-recreate the app with the QA override:
-
-```bash
-npm start
-docker compose -p dbcas-local -f docker-compose.local.yml -f docker-compose.qa.yml up -d --build --wait qa-ai app
-```
-
 `npm run test:qa` automates the same fake-provider path for the practice suite.
+It refuses to run while `.env` contains a real `LLM_API_KEY`; clear that key
+first. Stop the extra provider with
+`docker compose -p dbcas-local -f docker-compose.local.yml -f docker-compose.qa.yml rm -s -f qa-ai`,
+or stop the whole stack with `npm run stop`.
+
 The runbook's demo E2E specs also need their host flags when run directly:
 `DBCAS_DEMO_WRITABLE=1` and `DBCAS_DEMO_FREE_PRO=1`; the Compose profile itself
 does not set them.
