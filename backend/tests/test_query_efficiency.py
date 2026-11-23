@@ -67,7 +67,8 @@ def test_adaptive_inventory_bulk_loads_locked_questions(db_session):
     with statements(db_session) as seen:
         inventory = build_inventory(db_session, concept, "MEDIUM")
     assert inventory
-    assert sum("FROM question " in statement for statement in seen) <= 2
+    # Eligible pool, the FOR UPDATE lock probe and one bulk detail load.
+    assert sum("FROM question " in statement for statement in seen) <= 3
 
 
 def test_eager_sql_bank_validation_does_not_issue_per_question_queries(db_session):
