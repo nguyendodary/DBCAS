@@ -40,7 +40,9 @@ describe('BackgroundVideo', () => {
     expect(video).toHaveAttribute('poster', '/media/poster.jpg')
     expect(video).toHaveAttribute('aria-hidden', 'true')
     expect(video.querySelector('source')).not.toBeInTheDocument()
-    await waitFor(() => expect(video.querySelector('source')).toHaveAttribute('src', '/media/hero.mp4'))
+    await waitFor(() =>
+      expect(video.querySelector('source')).toHaveAttribute('src', '/media/hero.mp4'),
+    )
     expect(video.querySelector('source')).toHaveAttribute('type', 'video/mp4')
   })
 
