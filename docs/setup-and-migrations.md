@@ -47,6 +47,22 @@ script runs in one transaction that is always rolled back, in a container with
 `--network none`, read-only rootfs, dropped capabilities and a bounded TTL.
 Grading remains result-based; no new `docker.sock` mount is added.
 
+## Demo seed snapshot (synthetic data only)
+
+The full demo seed takes about 120–170 s because it grades synthetic SQL in the
+sandbox. After a successful `npm start` with the demo data present, build a
+versioned data-only snapshot once:
+
+```bash
+npm run demo:snapshot          # writes .demo-seed.sql (gitignored)
+```
+
+`npm start` automatically uses the snapshot when `.demo-seed.sql` exists. The
+snapshot carries the applied migration version; a missing, corrupt or stale
+snapshot is rejected and the full seed runs instead. Regenerate it whenever
+`app/seed_demo.py`, the demo bank, or the migration chain changes. The file is
+synthetic demo data only and must never contain student data.
+
 ## Windows development setup
 
 Run from the repository root. Create `.env` from `.env.example` only if it
