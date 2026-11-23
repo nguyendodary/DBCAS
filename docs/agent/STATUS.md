@@ -20,7 +20,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## In progress and next
 
-- Documents: Phase C in-place revision on `docs/revise-existing-in-place`; [#100](https://github.com/nguyendodary/DBCAS/pull/100) is open and **not merged** pending the owner's `OK merge #100`.
+- Documents: Phase C in-place revision on `docs/revise-existing-in-place` head `d913b4dacdf6dfbcecf1b499c073a473b44124ce`; [#100](https://github.com/nguyendodary/DBCAS/pull/100) is open, CI-green, and **not merged** pending the owner's `OK merge #100`. Fact audit 94/94; `npm run docs:check` passes.
 - Proposed annotated tag `v1.0-final` on the final freeze record (not created).
 - Proposed `develop2 -> main` PR after Phase C (not created). `main` stays unchanged.
 
