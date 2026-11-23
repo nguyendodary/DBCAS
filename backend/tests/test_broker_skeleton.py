@@ -1,4 +1,5 @@
 """PR-B1 broker skeleton contract tests; no Docker or database is used."""
+import base64
 import json
 import logging
 from uuid import uuid4
@@ -46,6 +47,29 @@ def body_for(settings, **updates):
     return body
 
 
+def _decode_signature(signature):
+    return base64.urlsafe_b64decode(signature + "=" * (-len(signature) % 4))
+
+
+def _encode_signature(signature):
+    return base64.urlsafe_b64encode(signature).decode("ascii").rstrip("=")
+
+
+def _tamper_signature(capability):
+    payload, signature = capability.split(".", 1)
+    raw = bytearray(_decode_signature(signature))
+    raw[0] ^= 0x01
+    return f"{payload}.{_encode_signature(bytes(raw))}"
+
+
+def _capability_with_signature_suffix(settings, suffix, limit=100000):
+    for _ in range(limit):
+        body = body_for(settings)
+        if body["capability"].endswith(suffix):
+            return body
+    raise AssertionError(f"no capability ended with {suffix!r} in {limit} attempts")
+
+
 def test_schema_rejects_unknown_fields_and_unapproved_values():
     for bad in (
         {"image": "evil:latest"},
@@ -66,7 +90,8 @@ def test_capability_peer_identity_and_replay():
     # Exact retransmission is idempotent.
     assert service.handle(body, PEER) == service.handle(body, PEER)
 
-    forged = dict(body, capability=body["capability"][:-2] + "xy")
+    forged = dict(body, capability=_tamper_signature(body["capability"]))
+    assert forged["capability"] != body["capability"]
     with pytest.raises(BrokerError) as exc:
         service.handle(forged, PEER)
     assert exc.value.code == "broker_capability_invalid"
@@ -80,6 +105,29 @@ def test_capability_peer_identity_and_replay():
     with pytest.raises(BrokerError) as exc:
         service.handle(changed, PEER)
     assert exc.value.code == "broker_replay_conflict"
+
+
+def test_signature_forgery_is_not_a_padding_only_change():
+    settings = complete_settings()
+    body = _capability_with_signature_suffix(settings, "xw")
+    assert body["capability"].endswith("xw")
+
+    # The previous test replaced the last two base64url characters with "xy".
+    # For a signature ending in "xw", that only changes padding bits and decodes
+    # to the same bytes, so the service accepts it.
+    legacy_forgery = dict(body, capability=body["capability"][:-2] + "xy")
+    _, legacy_signature = legacy_forgery["capability"].split(".", 1)
+    _, original_signature = body["capability"].split(".", 1)
+    assert _decode_signature(legacy_signature) == _decode_signature(original_signature)
+    assert BrokerService(settings).handle(legacy_forgery, PEER).executed is False
+
+    # Flipping a signature byte always changes the decoded signature.
+    deterministic_forgery = dict(body, capability=_tamper_signature(body["capability"]))
+    _, tampered_signature = deterministic_forgery["capability"].split(".", 1)
+    assert _decode_signature(tampered_signature) != _decode_signature(original_signature)
+    with pytest.raises(BrokerError) as exc:
+        BrokerService(settings).handle(deterministic_forgery, PEER)
+    assert exc.value.code == "broker_capability_invalid"
 
 
 def test_expired_capability_is_rejected(monkeypatch):
