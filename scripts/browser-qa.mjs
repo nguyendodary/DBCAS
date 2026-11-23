@@ -2,7 +2,7 @@ import { spawn, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { main, ensureEnvironment, databaseUrl } from './local.mjs'
+import { main, ensureEnvironment, databaseUrl, demoProfileFiles } from './local.mjs'
 import { waitForFrontend, waitForProvider, postWithRetry } from './readiness.mjs'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
@@ -29,6 +29,7 @@ if (!/^\d+$/.test(gid)) throw new Error('Cannot identify Docker socket group')
 env.LOCAL_DOCKER_GID = gid
 env.WSLENV = [...new Set([...(env.WSLENV || '').split(':').filter(Boolean), ...Object.keys(env).filter(key => /^(LOCAL_|POSTGRES_|LLM_|JWT_SECRET$)/.test(key))])].join(':')
 const compose = ['compose', '-p', env.DBCAS_LOCAL_PROJECT || 'dbcas-local', '-f', 'docker-compose.local.yml']
+for (const file of demoProfileFiles(env.DBCAS_DEMO_PROFILE)) compose.push('-f', file)
 function dc(args, fake = false) { return run(executable, [...prefix, ...compose, ...(fake ? ['-f', 'docker-compose.qa.yml'] : []), ...args]) }
 main('start', root)
 let memorySampler = null

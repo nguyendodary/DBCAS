@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { databaseUrl, ensureEnvironment, maskSecret, readEnvironment } from './local.mjs'
+import { databaseUrl, demoProfileFiles, ensureEnvironment, maskSecret, readEnvironment } from './local.mjs'
 import { createServer } from 'node:http'
 import { waitForFrontend } from './readiness.mjs'
 
@@ -50,6 +50,17 @@ test('masks a secret without exposing its middle', () => {
   assert.equal(maskSecret('sk-or-v1-1234567890abcd'), 'sk-...abcd')
   assert.equal(maskSecret(''), 'not set')
   assert.equal(maskSecret('short'), 'set')
+})
+
+test('selects demo Compose overlays deterministically and rejects unknown profiles', () => {
+  assert.deepEqual(demoProfileFiles(''), [])
+  assert.deepEqual(demoProfileFiles('writable'), ['docker-compose.demo-writable.yml'])
+  assert.deepEqual(demoProfileFiles('free-pro'), ['docker-compose.demo-free-pro.yml'])
+  assert.deepEqual(demoProfileFiles(' free-pro, writable,free-pro '), [
+    'docker-compose.demo-free-pro.yml',
+    'docker-compose.demo-writable.yml',
+  ])
+  assert.throws(() => demoProfileFiles('writable,typo'), /DBCAS_DEMO_PROFILE không hợp lệ: typo/)
 })
 
 test('encodes credentials and parses quoted dotenv values without shell evaluation', () => {
