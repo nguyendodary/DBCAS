@@ -6,8 +6,9 @@ import { readEnvironment } from './local.mjs'
 
 // Build a synthetic-only data snapshot from the already-seeded demo database.
 // The snapshot intentionally excludes schema_migration (owned by the migration
-// ledger) and role (recreated by initialize_db), so it can be restored into a
-// fresh schema without changing seed semantics or applied migrations.
+// ledger), role and system_setting (recreated by initialize_db), so it can be
+// restored into a fresh schema without changing seed semantics or applied
+// migrations.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const env = { ...readEnvironment(readFileSync(path.join(root, '.env'), 'utf8')), ...process.env }
 const project = env.DBCAS_LOCAL_PROJECT || 'dbcas-local'
@@ -50,6 +51,7 @@ const dump = spawnSync(
     '--no-privileges',
     '--exclude-table=role',
     '--exclude-table=schema_migration',
+    '--exclude-table=system_setting',
   ],
   { cwd: root, env, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 },
 )

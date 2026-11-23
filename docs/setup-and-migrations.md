@@ -59,7 +59,9 @@ npm run demo:snapshot          # writes .demo-seed.sql (gitignored)
 
 `npm start` automatically uses the snapshot when `.demo-seed.sql` exists. The
 snapshot carries the applied migration version; a missing, corrupt or stale
-snapshot is rejected and the full seed runs instead. Regenerate it whenever
+snapshot is rejected and the full seed runs instead. Rows recreated by schema
+initialization (`role`, `system_setting`, `schema_migration`) are excluded.
+Regenerate it whenever
 `app/seed_demo.py`, the demo bank, or the migration chain changes. The file is
 synthetic demo data only and must never contain student data.
 
