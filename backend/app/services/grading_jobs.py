@@ -1,4 +1,6 @@
 """Bounded, database-leased grading retry jobs; no external queue required."""
+import logging
+import time
 from datetime import datetime, timedelta, timezone
 from contextlib import nullcontext
 
@@ -9,6 +11,8 @@ from .assessment_lifecycle import grade_attempt, persist_grade
 from .llm import LLMError
 from .sandbox_runner import SandboxError
 from ..errors import AppError
+
+logger = logging.getLogger("dbcas.grading.jobs")
 
 
 def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
@@ -28,6 +32,7 @@ def process_one(db, runner, llm=None, *, include_essay=False, settings=None):
 
 
 def _process_claimed(db, repo, job, runner, llm, settings):
+    started = time.monotonic()
     job_id = job.job_id
     attempt_id = job.attempt_id
     claim_count = job.attempt_count
@@ -78,4 +83,9 @@ def _process_claimed(db, repo, job, runner, llm, settings):
             from .grading_review import reconcile
             reconcile(db, session)
         db.commit()  # completed jobs persist even when no confirmed tags exist
+    logger.info(
+        "grading_job job=%s attempt=%s duration_ms=%d status=%s attempt_status=%s error=%s",
+        job_id, attempt_id, int((time.monotonic() - started) * 1000), job.status,
+        attempt.grading_status, error.code if error else "-",
+    )
     return True
