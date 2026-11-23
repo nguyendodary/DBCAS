@@ -169,7 +169,8 @@ def compact_type(col):
 
 
 def load_schema():
-    d = json.load(open(INTRO, encoding="utf-8"))
+    with open(INTRO, encoding="utf-8") as handle:
+        d = json.load(handle)
     tables = []
     for t in d["tables"]:
         name = t["table"]

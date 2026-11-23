@@ -5,7 +5,7 @@ Inputs:
   docs/qa/rebuild-preview/system-context/clone.png      (Stage A clone)
   docs/diagrams/rebuild/system-context/system-context.png (Stage B render)
 
-Outputs (docs/qa/rebuild-preview/system-context/):
+Outputs (_review/rebuild-preview/system-context/; docs/qa is refused):
   stage-b.png             Stage B render copy (same canvas/origin)
   side-by-side-stage-b.png  Stage A clone | Stage B at 1:1
   overlay-stage-b.png     overlay of Stage B onto Stage A showing ONLY the
@@ -23,7 +23,9 @@ import subprocess
 from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PREV = os.path.join(ROOT, "docs", "qa", "rebuild-preview", "system-context")
+from docs_qa_guard import ensure_safe_output
+PREV = ensure_safe_output(os.path.join(ROOT, "_review", "rebuild-preview", "system-context"), label="stage-b preview")
+SRC_PREV = os.path.join(ROOT, "docs", "qa", "rebuild-preview", "system-context")
 REBUILD = os.path.join(ROOT, "docs", "diagrams", "rebuild", "system-context")
 SVG = os.path.join(REBUILD, "system-context.svg")
 NEW_PNG = os.path.join(REBUILD, "system-context.png")
@@ -63,7 +65,7 @@ def render_png():
 
 def main():
     render_png()
-    a = Image.open(os.path.join(PREV, "clone.png")).convert("RGB")
+    a = Image.open(os.path.join(SRC_PREV, "clone.png")).convert("RGB")
     b = Image.open(NEW_PNG).convert("RGB")
     assert a.size == b.size == (1431, 1061), (a.size, b.size)
 
