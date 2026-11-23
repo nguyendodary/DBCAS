@@ -3,7 +3,7 @@
 overlay + region tiles for the rule-1 "view every region" pass.
 
 Inputs:  <figure_dir>/<name>.svg, <original.png> argument
-Outputs (docs/qa/rebuild-preview/<name>/):
+Outputs (_review/rebuild-preview/<name>/; docs/qa is refused):
   clone.png, side-by-side.png (original | clone), overlay.png
   (black = ink in both, red = original only, blue = clone only),
   regions/<tile>.png tiles of the clone.
@@ -43,7 +43,8 @@ def main():
     if a.size != b.size:
         raise SystemExit("size mismatch original %s vs clone %s"
                          % (a.size, b.size))
-    prev = os.path.join(ROOT, "docs", "qa", "rebuild-preview", name)
+    from docs_qa_guard import ensure_safe_output
+    prev = ensure_safe_output(os.path.join(ROOT, "_review", "rebuild-preview", name), label="figure preview")
     os.makedirs(prev, exist_ok=True)
     b.save(os.path.join(prev, "clone.png"))
     gap = 24

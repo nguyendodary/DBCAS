@@ -3,7 +3,8 @@
 
     python scripts/doc_facts.py --write
 
-Writes docs/qa/project-facts.json. Everything is read from the repository:
+Writes _review/project-facts.json by default (use --output; docs/qa is refused).
+Everything is read from the repository:
 Compose files, OpenAPI generated from the real FastAPI app, frontend routes,
 admin/learner navigation, Prompt Builder / Evaluator config and sandbox helper.
 """
@@ -14,7 +15,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "docs" / "qa" / "project-facts.json"
+OUT = ROOT / "_review" / "project-facts.json"
+from docs_qa_guard import ensure_safe_output
 
 
 def yaml_services(text):
@@ -23,9 +25,12 @@ def yaml_services(text):
 
 
 def main():
+    global OUT
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--output", default=str(OUT), help="JSON output; docs/qa is refused")
     args = ap.parse_args()
+    OUT = ensure_safe_output(args.output, label="project facts")
     local = (ROOT / "docker-compose.local.yml").read_text(encoding="utf-8")
     qa = (ROOT / "docker-compose.qa.yml").read_text(encoding="utf-8")
     real = (ROOT / "docker-compose.real-qa.yml").read_text(encoding="utf-8")

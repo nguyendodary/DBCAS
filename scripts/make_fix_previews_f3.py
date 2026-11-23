@@ -2,7 +2,7 @@
 """F3 owner fix round previews for Module + Logical.
 
 Renders the fixed SVG at the exact original canvas with headless Chrome and
-writes, under docs/qa/rebuild-preview/<figure>/:
+writes, under _review/rebuild-preview/<figure>/ (docs/qa is refused):
   final.png            fixed render (same canvas/origin as original.png)
   side-by-side.png     original | fixed, 24 px divider
   overlay.png          black = ink in both, red = original only,
@@ -44,13 +44,15 @@ def render(svg, png, w, h):
 def main():
     for name, w, h in FIGS:
         d = os.path.join(ROOT, "docs", "diagrams", "rebuild", name)
-        prev = os.path.join(ROOT, "docs", "qa", "rebuild-preview", name)
+        from docs_qa_guard import ensure_safe_output
+        prev = ensure_safe_output(os.path.join(ROOT, "_review", "rebuild-preview", name), label="figure preview")
+        src_prev = os.path.join(ROOT, "docs", "qa", "rebuild-preview", name)
         svg = os.path.join(d, name + ".svg")
         png = os.path.join(d, name + ".png")
         render(svg, png, w, h)
         b = Image.open(png).convert("RGB")
         b.save(os.path.join(prev, "final.png"))
-        a = Image.open(os.path.join(prev, "original.png")).convert("RGB")
+        a = Image.open(os.path.join(src_prev, "original.png")).convert("RGB")
         if a.size != b.size:
             raise SystemExit("%s original %s != final %s"
                              % (name, a.size, b.size))
