@@ -31,6 +31,7 @@ jobs:
           jwt=$(python3 -c 'import secrets; print(secrets.token_hex(48))')
           sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$password|" .env
           sed -i "s|^JWT_SECRET=.*|JWT_SECRET=$jwt|" .env
+          docker pull postgres:17
           docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml build
           docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml down -v --remove-orphans
       - name: Measure full seed and snapshot restore (N=5)
@@ -45,6 +46,9 @@ jobs:
               echo "npm start failed for $label"
               cat "/tmp/start-$label.log"
               docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml ps || true
+              curl -sS -i "http://127.0.0.1:${LOCAL_API_PORT}/readiness" || true
+              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml exec -T app id || true
+              docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml exec -T app docker image inspect dbcas-sql-ephemeral:local --format '{{json .Config.Labels}}' || true
               docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml logs --no-color --tail=300 db init app || true
               return 1
             fi
@@ -54,22 +58,30 @@ jobs:
           }
           full=()
           for i in 1 2 3 4 5; do
-            if ! result=$(run_once full-$i); then
-              printf '%s\n' "$result"
+            set +e
+            run_once full-$i >"/tmp/measure-full-$i.log" 2>&1
+            status=$?
+            set -e
+            if [ "$status" -ne 0 ]; then
+              cat "/tmp/measure-full-$i.log"
               exit 1
             fi
-            full+=("$result")
+            full+=("$(tail -n1 "/tmp/measure-full-$i.log")")
           done
           # The fifth full run left a seeded database; snapshot it now.
           docker compose -p "$DBCAS_LOCAL_PROJECT" -f docker-compose.local.yml up -d --wait --wait-timeout 600
           npm run demo:snapshot
           cached=()
           for i in 1 2 3 4 5; do
-            if ! result=$(run_once snapshot-$i); then
-              printf '%s\n' "$result"
+            set +e
+            run_once snapshot-$i >"/tmp/measure-snapshot-$i.log" 2>&1
+            status=$?
+            set -e
+            if [ "$status" -ne 0 ]; then
+              cat "/tmp/measure-snapshot-$i.log"
               exit 1
             fi
-            cached+=("$result")
+            cached+=("$(tail -n1 "/tmp/measure-snapshot-$i.log")")
           done
           python3 - "$(IFS=,; echo "${full[*]}")" "$(IFS=,; echo "${cached[*]}")" <<'PY'
           import json, statistics, sys
