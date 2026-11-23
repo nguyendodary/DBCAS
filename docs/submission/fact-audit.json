@@ -474,7 +474,7 @@
     {
       "id": "final-sha",
       "status": "PASS",
-      "detail": "69e1e2f1273dc1870df71ad4f17936dfacdf5953",
+      "detail": "3bccbd6ac027fe26d9c05de1424c847766792d0c",
       "source": "git rev-parse develop2"
     },
     {
@@ -570,9 +570,9 @@
   ],
   "baseline": {
     "root": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS",
-    "commit": "69e1e2f1273dc1870df71ad4f17936dfacdf5953",
+    "commit": "3bccbd6ac027fe26d9c05de1424c847766792d0c",
     "branch": "docs/revise-existing-in-place",
-    "origin_develop2": "69e1e2f1273dc1870df71ad4f17936dfacdf5953",
+    "origin_develop2": "3bccbd6ac027fe26d9c05de1424c847766792d0c",
     "origin_main": "e7e432cefc2e21706ddfec96cfb8fa8b3b32b858",
     "schema_sha256": "f4ef8c2dd93b030cf04b169233e8b454dec8ea147f00e87a21771f3cf79b0c0a"
   }

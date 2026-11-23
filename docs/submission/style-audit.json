@@ -25,7 +25,8 @@
         4
       ],
       "display_sizes_equal": true
-    }
+    },
+    "headers_footers_equal": true
   },
   "Architecture": {
     "parts_c14n_equal": {
@@ -64,7 +65,8 @@
         13
       ],
       "display_sizes_equal": true
-    }
+    },
+    "headers_footers_equal": true
   },
   "Database": {
     "parts_c14n_equal": {
@@ -97,7 +99,8 @@
         7
       ],
       "display_sizes_equal": true
-    }
+    },
+    "headers_footers_equal": true
   },
   "SRS": {
     "parts_c14n_equal": {
@@ -122,6 +125,7 @@
       "after": 4,
       "changed_indices": [],
       "display_sizes_equal": true
-    }
+    },
+    "headers_footers_equal": true
   }
 }
