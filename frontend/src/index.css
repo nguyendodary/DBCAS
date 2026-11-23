@@ -3232,7 +3232,7 @@
   inset: 0;
   z-index: 0;
   background-image:
-    linear-gradient(var(--media-veil), var(--media-veil)), url('./assets/brand/hinhnen.png');
+    linear-gradient(var(--media-veil), var(--media-veil)), url('./assets/brand/hinhnen.jpg');
   background-size: cover;
   background-position: center;
   pointer-events: none;

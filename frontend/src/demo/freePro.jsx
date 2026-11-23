@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useLocale } from '../i18n'
 import { Badge, Card, CardTitle, btnPrimary } from '../components/ui'
 
-export const DEMO_FREE_PRO_FLAG = 'VITE_DEMO_FREE_PRO'
 export const DEMO_FREE_SESSIONS = 3
 export const DEMO_PRO_PRICE_VND = 99000
 export const DEMO_PRO_DAYS = 30

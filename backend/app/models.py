@@ -649,6 +649,7 @@ class SessionStartRequest(Base):
     learner_id: Mapped[int] = mapped_column(primary_key=True)
     request_id: Mapped[str] = mapped_column(String(36), primary_key=True)
     session_id: Mapped[int]
+    request_hash: Mapped[Optional[str]] = mapped_column(String(64))
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
