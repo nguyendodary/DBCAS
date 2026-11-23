@@ -4,7 +4,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
 ## Code freeze (2026-11-23)
 
-`develop2` `aac18c915f50489b8512da8a24b2cf8488e64850` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; [#107](https://github.com/nguyendodary/DBCAS/pull/107) tooling and [#100](https://github.com/nguyendodary/DBCAS/pull/100) submission documents are merged, and this docs-only STATUS/BACKLOG snapshot is the last change. Production remains **HOLD**.
+`develop2` `333e8c4518c217eae1d1aaf65813bdb84b4e050b` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; [#107](https://github.com/nguyendodary/DBCAS/pull/107) tooling, [#100](https://github.com/nguyendodary/DBCAS/pull/100) submission documents, [#108](https://github.com/nguyendodary/DBCAS/pull/108) status snapshot and [#109](https://github.com/nguyendodary/DBCAS/pull/109) test-only flake fix are merged. The earlier 3x on `14ffdead` failed attempt 3 in `test_capability_peer_identity_and_replay` (base64url padding-only forgery); #109 makes the forgery deterministic with no production change. New 3x on `333e8c45`: [run `45192055379`](https://github.com/nguyendodary/DBCAS/actions/runs/45192055379) attempts 1-3 green, backend 1914. This docs-only snapshot is the last change. Production remains **HOLD**.
 
 ## Waiting for owner
 
