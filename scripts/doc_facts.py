@@ -14,9 +14,10 @@ import re
 import sys
 from pathlib import Path
 
+from docs_qa_guard import ensure_safe_output
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "_review" / "project-facts.json"
-from docs_qa_guard import ensure_safe_output
 
 
 def yaml_services(text):

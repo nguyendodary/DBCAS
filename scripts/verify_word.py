@@ -36,10 +36,11 @@ import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from docs_qa_guard import ensure_safe_output
+
 ROOT = Path(__file__).resolve().parents[1]
 ACA = ROOT / "docs/academic"
 OUT = ROOT / "_review" / "word-verification"
-from docs_qa_guard import ensure_safe_output
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 WP = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
