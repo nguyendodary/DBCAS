@@ -46,6 +46,48 @@ def test_demo_seed_creates_real_published_evidence_and_preserves_edits(db_sessio
     assert db_session.scalar(select(func.count()).select_from(AssessmentSession)) == 4
 
 
+def test_demo_snapshot_rejects_missing_invalid_or_stale(tmp_path, db_session):
+    import psycopg
+    from app.config import get_settings
+    from app.seed_demo import SNAPSHOT_HEADER, _restore_snapshot, _schema_version
+
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://", 1)
+    with psycopg.connect(url) as conn:
+        version = _schema_version(conn)
+
+    assert _restore_snapshot(url, str(tmp_path / "missing.sql"), version) is False
+
+    broken = tmp_path / "broken.sql"
+    broken.write_text(f"{SNAPSHOT_HEADER} {version}\nTHIS IS NOT SQL;\n", encoding="utf-8")
+    assert _restore_snapshot(url, str(broken), version) is False
+
+    stale = tmp_path / "stale.sql"
+    stale.write_text(f"{SNAPSHOT_HEADER} stale\nSELECT 1;\n", encoding="utf-8")
+    assert _restore_snapshot(url, str(stale), version) is False
+
+
+def test_demo_snapshot_accepts_versioned_multistatement_script(tmp_path, db_session):
+    import psycopg
+    from app.config import get_settings
+    from app.seed_demo import SNAPSHOT_HEADER, _restore_snapshot, _schema_version
+
+    url = get_settings().database_url.replace("postgresql+psycopg://", "postgresql://", 1)
+    with psycopg.connect(url) as conn:
+        version = _schema_version(conn)
+
+    snapshot = tmp_path / "valid.sql"
+    snapshot.write_text(
+        f"{SNAPSHOT_HEADER} {version}\n"
+        "\\restrict dummy-token\n"
+        "SELECT pg_catalog.set_config('search_path', '', false);\n"
+        "SET statement_timeout = 0;\n"
+        "SELECT 1;\n"
+        "\\unrestrict dummy-token\n",
+        encoding="utf-8",
+    )
+    assert _restore_snapshot(url, str(snapshot), version) is True
+
+
 @pytest.mark.parametrize("mode", ["production", "staging"])
 def test_demo_seed_refuses_nonlocal_modes_before_writing(db_session, sandbox_runner, mode):
     with pytest.raises(ValueError, match="forbidden"):

@@ -67,6 +67,14 @@ export function demoProfileFiles(value = '') {
   return files
 }
 
+export function composeOverlayFiles(root, value = '') {
+  const files = demoProfileFiles(value)
+  if (existsSync(path.join(root, '.demo-seed.sql'))) {
+    files.push('docker-compose.demo-snapshot.yml')
+  }
+  return files
+}
+
 export function main(action = 'start', root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')) {
   if (!['start', 'stop', 'reset'].includes(action)) throw new Error('Dùng npm start, npm run stop hoặc npm run reset.')
   const env = { ...ensureEnvironment(root), ...process.env }
@@ -113,13 +121,16 @@ export function main(action = 'start', root = path.resolve(path.dirname(fileURLT
     throw new Error('Docker chưa sẵn sàng. Mở Docker Desktop (Linux containers) rồi chạy lại npm start.')
   }
   const compose = ['compose', '--project-name', project, '-f', 'docker-compose.local.yml']
-  const profileFiles = demoProfileFiles(env.DBCAS_DEMO_PROFILE)
-  for (const file of profileFiles) compose.push('-f', file)
-  if (profileFiles.includes('docker-compose.demo-free-pro.yml')) {
+  const overlayFiles = composeOverlayFiles(root, env.DBCAS_DEMO_PROFILE)
+  for (const file of overlayFiles) compose.push('-f', file)
+  if (overlayFiles.includes('docker-compose.demo-free-pro.yml')) {
     console.log('Demo Free/Pro UI simulation enabled (static data only).')
   }
-  if (profileFiles.includes('docker-compose.demo-writable.yml')) {
+  if (overlayFiles.includes('docker-compose.demo-writable.yml')) {
     console.log('Demo writable SQL profile enabled (development only).')
+  }
+  if (overlayFiles.includes('docker-compose.demo-snapshot.yml')) {
+    console.log('Demo seed snapshot found; restoring it with full-seed fallback.')
   }
   env.LOCAL_DATABASE_URL = databaseUrl(env)
   if (action === 'stop') {

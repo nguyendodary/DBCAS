@@ -1,6 +1,9 @@
 """Create local demo data atomically, once; never reset an existing installation."""
 import json
+import logging
+import os
 from decimal import Decimal
+from pathlib import Path
 from uuid import uuid4
 
 import psycopg
@@ -24,6 +27,8 @@ DEMO_PASSWORD = "Demo12345!"
 DEMO_ADMIN = "admin@dbcas.local"
 DEMO_LEARNER = "learner@dbcas.local"
 DEMO_TITLE = "Đánh giá năng lực PostgreSQL"
+logger = logging.getLogger("dbcas.seed_demo")
+SNAPSHOT_HEADER = "-- dbcas-schema-version:"
 
 
 def _history(db, concept_ids, learner, admin, runner, *, success_every):
@@ -102,12 +107,58 @@ def seed_demo(db, runner, *, deployment_mode):
     return {"created": True, "history_count": 4, "exam_count": 0, "bank": bank}
 
 
+def _restore_snapshot(url: str, path: str, schema_version: str) -> bool:
+    """Restore a version-matched data-only demo dump into an empty database.
+
+    The dump is synthetic demo data only. It is rejected when its schema
+    version header does not match the freshly migrated database, and every
+    failure leaves the database untouched so the caller can use the full seed.
+    """
+    snapshot = Path(path)
+    if not snapshot.is_file():
+        return False
+    try:
+        with snapshot.open(encoding="utf-8") as handle:
+            header = handle.readline().strip()
+            if header != f"{SNAPSHOT_HEADER} {schema_version}":
+                logger.warning("Demo seed snapshot schema mismatch; using full seed")
+                return False
+            body = "".join(
+                line for line in handle
+                if not line.startswith(("\\restrict ", "\\unrestrict "))
+                and not line.lstrip().startswith("SELECT pg_catalog.set_config('search_path'")
+            )
+            sql = header + "\nSET search_path = public;\n" + body
+        with psycopg.connect(url) as conn:
+            with conn.transaction():
+                # psycopg's simple protocol accepts the plain pg_dump script.
+                conn.execute(sql, prepare=False)
+        return True
+    except Exception as exc:  # noqa: BLE001 - fallback must stay available
+        detail = type(exc).__name__
+        primary = getattr(getattr(exc, "diag", None), "message_primary", "")
+        if primary:
+            detail = f"{detail}: {primary}"
+        logger.warning("Demo seed snapshot restore failed (%s); using full seed", detail)
+        return False
+
+
+def _schema_version(conn) -> str:
+    row = conn.execute("SELECT COALESCE(MAX(version), '') FROM schema_migration").fetchone()
+    return row[0] if row else ""
+
+
 def initialize_demo(settings, runner):
     if settings.deployment_mode != "development":
         raise ValueError("Local demo seed is forbidden outside development")
     url = settings.database_url.replace("postgresql+psycopg://", "postgresql://", 1)
     with psycopg.connect(url) as conn:
         initialize(conn, deployment_mode=settings.deployment_mode)
+        empty = conn.execute("SELECT NOT EXISTS (SELECT 1 FROM account)").fetchone()[0]
+        schema_version = _schema_version(conn)
+    snapshot_path = os.environ.get("DBCAS_DEMO_SNAPSHOT", "").strip()
+    if empty and snapshot_path and _restore_snapshot(url, snapshot_path, schema_version):
+        return {"created": False, "snapshot_restored": True}
     # Services commit their own work. Savepoints keep all demo creation inside
     # one outer transaction, so a failed seed can safely be retried from scratch.
     with get_engine().begin() as connection:
@@ -119,7 +170,12 @@ def initialize_demo(settings, runner):
 def main():
     settings = get_settings()
     result = initialize_demo(settings, build_sandbox_runner(settings))
-    print("Local demo data ready" if result["created"] else "Existing local data preserved")
+    if result.get("snapshot_restored"):
+        print("Demo snapshot restored")
+    elif result["created"]:
+        print("Local demo data ready")
+    else:
+        print("Existing local data preserved")
 
 
 if __name__ == "__main__":
