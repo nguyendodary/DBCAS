@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { existsSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { databaseUrl, demoProfileFiles, ensureEnvironment, maskSecret, readEnvironment } from './local.mjs'
+import { composeOverlayFiles, databaseUrl, demoProfileFiles, ensureEnvironment, maskSecret, readEnvironment } from './local.mjs'
 import { createServer } from 'node:http'
 import { waitForFrontend } from './readiness.mjs'
 
@@ -61,6 +61,19 @@ test('selects demo Compose overlays deterministically and rejects unknown profil
     'docker-compose.demo-writable.yml',
   ])
   assert.throws(() => demoProfileFiles('writable,typo'), /DBCAS_DEMO_PROFILE không hợp lệ: typo/)
+})
+
+test('adds the seed snapshot overlay only when the snapshot exists', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'dbcas-bootstrap-'))
+  try {
+    assert.deepEqual(composeOverlayFiles(root, ''), [])
+    writeFileSync(path.join(root, '.demo-seed.sql'), '-- snapshot\n')
+    assert.deepEqual(composeOverlayFiles(root, ''), ['docker-compose.demo-snapshot.yml'])
+    assert.deepEqual(composeOverlayFiles(root, 'writable'), [
+      'docker-compose.demo-writable.yml',
+      'docker-compose.demo-snapshot.yml',
+    ])
+  } finally { removeTemporary(root) }
 })
 
 test('encodes credentials and parses quoted dotenv values without shell evaluation', () => {

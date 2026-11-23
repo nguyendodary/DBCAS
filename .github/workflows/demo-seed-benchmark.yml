@@ -3,8 +3,6 @@ name: Demo seed benchmark
 # Manual, non-gating measurement for the synthetic demo seed snapshot.
 on:
   workflow_dispatch:
-  push:
-    branches: [fix/demo-seed-snapshot]
 
 permissions:
   contents: read
@@ -19,7 +17,7 @@ jobs:
       LOCAL_WEB_PORT: '18980'
       LOCAL_MAIL_PORT: '18925'
       LOCAL_SMTP_PORT: '11925'
-      BENCH_RUNS: '1'
+      BENCH_RUNS: '5'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
