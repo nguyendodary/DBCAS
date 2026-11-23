@@ -1,4 +1,5 @@
 """SQL capacity is admission control; an ungradable row cannot starve others."""
+import logging
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -14,7 +15,7 @@ from test_ai_admin import _mcq_question
 from test_draft_lifecycle import _fixture
 
 
-def test_sql_capacity_wait_does_not_claim_or_exhaust_a_grading_attempt(db_session, sandbox_runner):
+def test_sql_capacity_wait_does_not_claim_or_exhaust_a_grading_attempt(db_session, sandbox_runner, caplog):
     _, _, attempt, _, _, _, answer = _fixture(db_session, "sql")
     attempt.sql_answer = answer["sql_answer"]
     attempt.submitted_at = datetime.now(timezone.utc)
@@ -37,10 +38,17 @@ def test_sql_capacity_wait_does_not_claim_or_exhaust_a_grading_attempt(db_sessio
     assert job.status == "pending" and job.attempt_count == 0 and job.lease_until is None
     assert attempt.score is None and attempt.sql_answer == answer["sql_answer"]
     runner.admitted = True
-    assert grading_jobs.process_one(db_session, runner) is True
+    with caplog.at_level(logging.INFO, logger="dbcas.grading.jobs"):
+        assert grading_jobs.process_one(db_session, runner) is True
     db_session.refresh(job); db_session.refresh(attempt)
     assert job.status == "completed" and job.attempt_count == 1
     assert attempt.grading_status == "graded" and attempt.score == Decimal(1)
+    assert any(
+        f"job={job.job_id}" in record.getMessage()
+        and "status=completed" in record.getMessage()
+        and "attempt_status=graded" in record.getMessage()
+        for record in caplog.records
+    )
 
 
 def test_failed_frozen_sql_cannot_block_another_learners_ready_evaluation(db_session):
