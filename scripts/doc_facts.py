@@ -93,6 +93,7 @@ def main():
                           "openapi_operation_count", "frontend_routes", "admin_nav", "oauth_providers")},
                      indent=2))
     if args.write:
+        OUT.parent.mkdir(parents=True, exist_ok=True)
         OUT.write_text(json.dumps(facts, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
         try:
             shown = OUT.relative_to(ROOT)
