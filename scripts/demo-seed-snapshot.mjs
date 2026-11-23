@@ -61,8 +61,10 @@ if (!dump.stdout.includes('INSERT INTO')) {
   console.error('Refusing to write a snapshot without demo data')
   process.exit(1)
 }
-const data = dump.stdout.replace(/^\\(?:un)?restrict .*\r?\n/gm, '')
-writeFileSync(output, `-- dbcas-schema-version: ${version}\n${data}`, { encoding: 'utf8' })
+const data = dump.stdout
+  .replace(/^\\(?:un)?restrict .*\r?\n/gm, '')
+  .replace(/^\s*SELECT pg_catalog\.set_config\('search_path', '', false\);.*\r?\n/gm, '')
+writeFileSync(output, `-- dbcas-schema-version: ${version}\nSET search_path = public;\n${data}`, { encoding: 'utf8' })
 console.log(`Wrote ${output} (${Math.round(dump.stdout.length / 1024)} KiB, schema ${version})`)
 if (!existsSync(path.join(root, 'docker-compose.demo-snapshot.yml'))) {
   console.error('Missing docker-compose.demo-snapshot.yml')

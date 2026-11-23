@@ -79,6 +79,7 @@ def test_demo_snapshot_accepts_versioned_multistatement_script(tmp_path, db_sess
     snapshot.write_text(
         f"{SNAPSHOT_HEADER} {version}\n"
         "\\restrict dummy-token\n"
+        "SELECT pg_catalog.set_config('search_path', '', false);\n"
         "SET statement_timeout = 0;\n"
         "SELECT 1;\n"
         "\\unrestrict dummy-token\n",

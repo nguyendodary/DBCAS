@@ -126,8 +126,9 @@ def _restore_snapshot(url: str, path: str, schema_version: str) -> bool:
             body = "".join(
                 line for line in handle
                 if not line.startswith(("\\restrict ", "\\unrestrict "))
+                and not line.lstrip().startswith("SELECT pg_catalog.set_config('search_path'")
             )
-            sql = header + "\n" + body
+            sql = header + "\nSET search_path = public;\n" + body
         with psycopg.connect(url) as conn:
             with conn.transaction():
                 # psycopg's simple protocol accepts the plain pg_dump script.
