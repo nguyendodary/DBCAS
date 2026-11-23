@@ -1,0 +1,445 @@
+{
+  "Proposal": [
+    {
+      "kind": "image",
+      "body_index": 0,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 18,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 22,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 59,
+      "text": "Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones34"
+    },
+    {
+      "kind": "caption",
+      "body_index": 60,
+      "text": "Figure 2: DBCAS System Context Diagram36"
+    },
+    {
+      "kind": "caption",
+      "body_index": 61,
+      "text": "Figure 3: DBCAS Logical System Architecture Diagram40"
+    },
+    {
+      "kind": "caption",
+      "body_index": 62,
+      "text": "Figure 4: Evidence-based Competency & Gap Evaluation Pipeline42"
+    },
+    {
+      "kind": "image",
+      "body_index": 172,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 173,
+      "text": "Figure 1: Agile Scrum Sprint Roadmap & Official Faculty Milestones"
+    },
+    {
+      "kind": "caption",
+      "body_index": 181,
+      "text": "Figure 2 shows DBCAS, its two human actors, and the external systems it depends on: the LLM Provider, the OAuth Identity Provider and email delivery. Directed flows cover registration and sign-in, practice setup and responses, curriculum management, analytics, password-reset mail, and assistive AI requests and results:"
+    },
+    {
+      "kind": "image",
+      "body_index": 182,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 183,
+      "text": "Figure 2: DBCAS System Context Diagram"
+    },
+    {
+      "kind": "image",
+      "body_index": 196,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 197,
+      "text": "Figure 3: DBCAS Logical System Architecture Diagram"
+    },
+    {
+      "kind": "image",
+      "body_index": 206,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 207,
+      "text": "Figure 4: Evidence-based Competency & Gap Evaluation Pipeline"
+    }
+  ],
+  "Architecture": [
+    {
+      "kind": "image",
+      "body_index": 0,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 111,
+      "text": "Figure 1. Use Case Diagram5"
+    },
+    {
+      "kind": "caption",
+      "body_index": 112,
+      "text": "Figure 2. System Context Diagram6"
+    },
+    {
+      "kind": "caption",
+      "body_index": 113,
+      "text": "Figure 3. Container Diagram37"
+    },
+    {
+      "kind": "caption",
+      "body_index": 114,
+      "text": "Figure 4 (1/2). Component Diagram \u2014 controllers, services and repositories: Auth, Practice, Curriculum and Question Bank.40"
+    },
+    {
+      "kind": "caption",
+      "body_index": 115,
+      "text": "Figure 4 (2/2). Component Diagram \u2014 Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cylinder is repeated for connector context; it is identical to Figure 4 (1/2).41"
+    },
+    {
+      "kind": "caption",
+      "body_index": 116,
+      "text": "Figure 5. Module View45"
+    },
+    {
+      "kind": "caption",
+      "body_index": 117,
+      "text": "Figure 6. Allocation View48"
+    },
+    {
+      "kind": "caption",
+      "body_index": 118,
+      "text": "Figure 7. Entity Relationship Diagram51"
+    },
+    {
+      "kind": "caption",
+      "body_index": 119,
+      "text": "Figure 8. Table Relationship Diagram (1/5)52"
+    },
+    {
+      "kind": "caption",
+      "body_index": 120,
+      "text": "Figure 8. Table Relationship Diagram (2/5)53"
+    },
+    {
+      "kind": "caption",
+      "body_index": 121,
+      "text": "Figure 8. Table Relationship Diagram (3/5)54"
+    },
+    {
+      "kind": "caption",
+      "body_index": 122,
+      "text": "Figure 8. Table Relationship Diagram (4/5)55"
+    },
+    {
+      "kind": "caption",
+      "body_index": 123,
+      "text": "Figure 8. Table Relationship Diagram (5/5)56"
+    },
+    {
+      "kind": "image",
+      "body_index": 141,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 142,
+      "text": "Figure 1. Use Case Diagram"
+    },
+    {
+      "kind": "caption",
+      "body_index": 143,
+      "text": "Figure 1 shows the baseline use-case view. The administrator's review-and-approve capability is UC09 in this compact view; system settings are read-only. The personalized assessment extension is specified in Section 3.2."
+    },
+    {
+      "kind": "image",
+      "body_index": 145,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 146,
+      "text": "Figure 2. System Context Diagram"
+    },
+    {
+      "kind": "image",
+      "body_index": 246,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 247,
+      "text": "Figure 3. Container Diagram"
+    },
+    {
+      "kind": "image",
+      "body_index": 256,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 257,
+      "text": "Figure 4 (1/2). Component Diagram \u2014 controllers, services and repositories: Auth, Practice, Curriculum and Question Bank."
+    },
+    {
+      "kind": "image",
+      "body_index": 258,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 259,
+      "text": "Figure 4 (2/2). Component Diagram \u2014 Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cylinder is repeated for connector context; it is identical to Figure 4 (1/2)."
+    },
+    {
+      "kind": "image",
+      "body_index": 269,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 270,
+      "text": "Figure 5. Module View"
+    },
+    {
+      "kind": "image",
+      "body_index": 278,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 279,
+      "text": "Figure 6. Allocation View"
+    },
+    {
+      "kind": "image",
+      "body_index": 288,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 289,
+      "text": "Figure 7. Entity Relationship Diagram"
+    },
+    {
+      "kind": "image",
+      "body_index": 290,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 291,
+      "text": "Figure 8. Table Relationship Diagram (1/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 292,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 293,
+      "text": "Figure 8. Table Relationship Diagram (2/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 294,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 295,
+      "text": "Figure 8. Table Relationship Diagram (3/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 296,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 297,
+      "text": "Figure 8. Table Relationship Diagram (4/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 298,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 299,
+      "text": "Figure 8. Table Relationship Diagram (5/5)"
+    }
+  ],
+  "Database": [
+    {
+      "kind": "image",
+      "body_index": 0,
+      "text": "International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date    International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date"
+    },
+    {
+      "kind": "caption",
+      "body_index": 15,
+      "text": "Figure 1: Entity Relationship Diagram5"
+    },
+    {
+      "kind": "caption",
+      "body_index": 16,
+      "text": "Figure 2: Table Relationship Diagram (1/5)7"
+    },
+    {
+      "kind": "caption",
+      "body_index": 17,
+      "text": "Figure 2: Table Relationship Diagram (2/5)8"
+    },
+    {
+      "kind": "caption",
+      "body_index": 18,
+      "text": "Figure 2: Table Relationship Diagram (3/5)9"
+    },
+    {
+      "kind": "caption",
+      "body_index": 19,
+      "text": "Figure 2: Table Relationship Diagram (4/5)10"
+    },
+    {
+      "kind": "caption",
+      "body_index": 20,
+      "text": "Figure 2: Table Relationship Diagram (5/5)11"
+    },
+    {
+      "kind": "image",
+      "body_index": 86,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 87,
+      "text": "Figure 1: Entity Relationship Diagram"
+    },
+    {
+      "kind": "caption",
+      "body_index": 88,
+      "text": "Figure 1 is the conceptual model: the many-to-many relationships (assigned, maps to, tagged with, targets) are implemented by the junction tables AccountRole, CLOConcept, QuestionConcept and the legacy AssessmentConcept shown in Figure 2. SystemSetting stores historical/operational platform values; result release is no longer selectable. The four legacy tables (Assessment, AssessmentConcept, AssessmentQuestion and AssessmentBlueprint) are marked as historical rows only. Tables added by later migrations (account identity, role audit, OAuth handoff, login throttling, concept prerequisites, question translations, the frozen session question plan, session start-request bindings, evaluation records, grading jobs, grade reviews, grade-edit audit, result-release events, refresh sessions, system settings, password-reset tokens and password-reset audit) are documented in the sections below, and all 41 tables appear in Figure 2."
+    },
+    {
+      "kind": "image",
+      "body_index": 89,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 90,
+      "text": "Figure 2: Table Relationship Diagram (1/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 91,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 92,
+      "text": "Figure 2: Table Relationship Diagram (2/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 93,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 94,
+      "text": "Figure 2: Table Relationship Diagram (3/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 95,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 96,
+      "text": "Figure 2: Table Relationship Diagram (4/5)"
+    },
+    {
+      "kind": "image",
+      "body_index": 97,
+      "text": ""
+    },
+    {
+      "kind": "caption",
+      "body_index": 98,
+      "text": "Figure 2: Table Relationship Diagram (5/5)"
+    }
+  ],
+  "SRS-base": [
+    {
+      "kind": "image",
+      "body_index": 68,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 83,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 91,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 97,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 100,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 106,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 207,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 209,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 212,
+      "text": ""
+    },
+    {
+      "kind": "image",
+      "body_index": 218,
+      "text": ""
+    }
+  ]
+}

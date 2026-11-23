@@ -1,0 +1,3288 @@
+{
+  "Proposal": {
+    "file": "docs\\submission\\Proposal.docx",
+    "file_sha256": "ec7d20982a0969462da9ddb56ffe2a411c6e1a789b5540590d288768fe6268ca",
+    "bytes": 2832300,
+    "paragraphs": 225,
+    "tables": 21,
+    "inline_shapes": 5,
+    "sections": [
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [],
+        "footer_text": [],
+        "header_xml_sha256": "2ebf27a0dfa439e62f2bb827defa2daf09998c304f19914998d528d31dfce610",
+        "footer_xml_sha256": "79b712d49c7a544b9110dccd6a7a6b9b396096060544cb45256dbeeb268c33ee"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "2731f0d0f82e89ba4818800565a479c98ec0026d18bc97362de58efc46bde263",
+        "footer_xml_sha256": "1b6fa888d6661c11c58cafaae4af4001c755feaff0727c331fc029b1b94a56e9"
+      }
+    ],
+    "cover_paragraphs": [
+      {
+        "style": "Body Text Indent",
+        "alignment": "CENTER (1)",
+        "text": "International School",
+        "runs": [
+          {
+            "text": "International School",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Capstone Project 1",
+        "runs": [
+          {
+            "text": "Capstone Project 1",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 20.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "CMU-SE 450_C1SE.70",
+        "runs": [
+          {
+            "text": "CMU-SE 450_C1SE.70",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Project Proposal",
+        "runs": [
+          {
+            "text": "Project Proposal",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 20.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Version 1.2",
+        "runs": [
+          {
+            "text": "Version 1.2",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Date: November 8th, 2026",
+        "runs": [
+          {
+            "text": "Date: November 8th, 2026",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+        "runs": [
+          {
+            "text": "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Submitted by C1SE.70",
+        "runs": [
+          {
+            "text": "Submitted by C1SE.70",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Thu, Nguyen Ngoc Anh - 29209245799",
+        "runs": [
+          {
+            "text": "Thu, Nguyen Ngoc Anh - 29209245799",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Nguyen, Nguyen Nhat - 26211227029",
+        "runs": [
+          {
+            "text": "Nguyen, Nguyen Nhat - 26211227029",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Truong, Nguyen Quang - 29212730635",
+        "runs": [
+          {
+            "text": "Truong, Nguyen Quang - 29212730635",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Do, Nguyen Quoc - 29211156881",
+        "runs": [
+          {
+            "text": "Do, Nguyen Quoc - 29211156881",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Han, Nguyen Ngoc - 29204423268",
+        "runs": [
+          {
+            "text": "Han, Nguyen Ngoc - 29204423268",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Review Panel Representative",
+        "runs": [
+          {
+            "text": "Review Panel Representative",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Name\tSignature \tDate",
+        "runs": [
+          {
+            "text": "Name",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tSignature ",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tDate",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Capstone Project 1 - Mentor:\t",
+        "runs": [
+          {
+            "text": "Capstone Project 1 - Mentor:",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "\t\tName MSc Viet, Huynh Duc\t\t\t\t\tSignature\t\t\t\tDate",
+        "runs": [
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tName MSc Viet, Huynh Duc",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tSignature",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tDate",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "PROJECT INFORMATION",
+        "runs": [
+          {
+            "text": "P",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "R",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "O",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "JECT",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "I",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "N",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "F",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "O",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "R",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "M",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "A",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "T",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "I",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "O",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "N",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "DOCUMENT APPROVALS",
+        "runs": [
+          {
+            "text": "DOCUMENT APPROVALS",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "The following signatures are required for approval of this document.",
+        "runs": [
+          {
+            "text": "The following signatures are required for approval of this document.",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Title",
+        "alignment": "None",
+        "text": "REVISION HISTORY",
+        "runs": [
+          {
+            "text": "REVISION HISTORY",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 13.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      }
+    ],
+    "cover_tables": [
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "Project acronym",
+            "DBCAS",
+            "DBCAS",
+            "DBCAS"
+          ],
+          [
+            "Project Title",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+          ],
+          [
+            "Start Date",
+            "14/09/2026",
+            "End Date",
+            "26/12/2026"
+          ],
+          [
+            "Lead Institution",
+            "International School, Duy Tan University",
+            "International School, Duy Tan University",
+            "International School, Duy Tan University"
+          ],
+          [
+            "Project Mentor",
+            "MSc Viet, Huynh Duc",
+            "MSc Viet, Huynh Duc",
+            "MSc Viet, Huynh Duc"
+          ],
+          [
+            "Scrum master / Project Leader & contact details",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040"
+          ],
+          [
+            "Partner Organization",
+            "Duy Tan University",
+            "Duy Tan University",
+            "Duy Tan University"
+          ],
+          [
+            "Project Web URL",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Team members",
+            "Name",
+            "Email",
+            "Tel"
+          ],
+          [
+            "",
+            "Thu, Nguyen Ngoc Anh",
+            "01258319907anhthu@gmail.com",
+            "0919334040"
+          ],
+          [
+            "",
+            "Nguyen, Nguyen Nhat",
+            "nhnguyen240602@gmail.com",
+            "0355772330"
+          ],
+          [
+            "",
+            "Truong, Nguyen Quang",
+            "quangtruongtt8@gmail.com",
+            "0349039023"
+          ],
+          [
+            "",
+            "Do, Nguyen Quoc",
+            "nguyenquocdodary@gmail.com",
+            "0388496885"
+          ],
+          [
+            "",
+            "Han, Nguyen Ngoc",
+            "Hannguyenngoc0506@gmail.com",
+            "0899455605"
+          ]
+        ]
+      },
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION"
+          ],
+          [
+            "Document Title",
+            "Capstone Project Proposal Document",
+            "Capstone Project Proposal Document",
+            "Capstone Project Proposal Document"
+          ],
+          [
+            "Author(s)",
+            "Do, Nguyen Quoc & C1SE.70 Team",
+            "Do, Nguyen Quoc & C1SE.70 Team",
+            "Do, Nguyen Quoc & C1SE.70 Team"
+          ],
+          [
+            "Role",
+            "Backend Developer",
+            "Backend Developer",
+            "Backend Developer"
+          ],
+          [
+            "Date",
+            "08/11/2026",
+            "File name",
+            "DBCAS-Proposal-v1.2.docx"
+          ],
+          [
+            "URL",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Access",
+            "Project and CMU Program",
+            "Project and CMU Program",
+            "Project and CMU Program"
+          ]
+        ]
+      }
+    ],
+    "toc_fields": [
+      " TOC \\o \"1-3\" \\h \\z \\u ",
+      " TOC \\h \\z \\c \"Table\" ",
+      " TOC \\h \\z \\c \"Figure\" "
+    ],
+    "heading_numbering": {
+      "heading1_xml": {
+        "font": null,
+        "size_pt": 18.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "ff91bcf88e99919b396666a602b7a7bc4dcda2506dc2cf4ccbbd681fe47543e0"
+      },
+      "heading2_xml": {
+        "font": null,
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "11939b8fb991cdd746f6e2ac077ca70041f6b87c1a140993bb85fa7f0073a99c"
+      }
+    },
+    "styles": {
+      "Normal": {
+        "font": null,
+        "size_pt": 13.0,
+        "bold": null,
+        "italic": null,
+        "xml_sha256": "358fd045a0bceb82945ee26cecf90bb02add6ac3d300847695f11cce08b9cb4d"
+      },
+      "Heading 1": {
+        "font": null,
+        "size_pt": 18.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "ff91bcf88e99919b396666a602b7a7bc4dcda2506dc2cf4ccbbd681fe47543e0"
+      },
+      "Heading 2": {
+        "font": null,
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "11939b8fb991cdd746f6e2ac077ca70041f6b87c1a140993bb85fa7f0073a99c"
+      },
+      "Heading 3": {
+        "font": null,
+        "size_pt": null,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "547be300a933b60622e53d3db9e850e95916215649765ae136f2267b6cea0444"
+      },
+      "Title": {
+        "font": null,
+        "size_pt": 24.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "a11649ab352c1fa456bc0a99f3abd7b75387f6be6c1453498912838a417aaaba"
+      },
+      "TOC 1": null,
+      "TOC 2": null,
+      "Caption": {
+        "font": null,
+        "size_pt": null,
+        "bold": null,
+        "italic": true,
+        "xml_sha256": "abc1bcf267b6b4def64a1b35440e67ed997c26db0166b542f02d705883719779"
+      }
+    },
+    "package": {
+      "styles_sha256": "18838315cb959f622d54182bcf467823f34e6fb3c2878ff8ab5d2c2961339530",
+      "document_sha256": "cd91b7d53cdbdebc133d0bedfb410ba166886637d0252c1a599b1a7c51f783ce",
+      "numbering_sha256": "d82659808eaffa5dc0d20355da04903257f89c2527e935151e97cc16995e369b",
+      "theme_sha256": "b38541be90c172cd9286d14402e664fa709386299688cd5fe3755c1a048dd253",
+      "settings_sha256": "6df2949c1f18ca88cea2e36cdbedfbe8590fe5a21b82eb1157f56e6a3e0dca6b"
+    },
+    "image_parts": [
+      {
+        "part": "/word/media/image1.png",
+        "content_type": "image/png",
+        "bytes": 14656,
+        "sha256": "7610f45c2c7c374fa1f15a26135761ce9bbbd59add54c48f202e03bfee56a07e"
+      },
+      {
+        "part": "/word/media/image5.png",
+        "content_type": "image/png",
+        "bytes": 93670,
+        "sha256": "384d998edebf337a08976edba0952b67af407b27a75e0f60bc4734c0906f91b0"
+      },
+      {
+        "part": "/word/media/image4.png",
+        "content_type": "image/png",
+        "bytes": 337308,
+        "sha256": "cf1af7af03e2780be0d22d2deb4f1e3667470ef5e28c6726fde3ecc7f3ba62a8"
+      },
+      {
+        "part": "/word/media/image3.png",
+        "content_type": "image/png",
+        "bytes": 85468,
+        "sha256": "5447fdae3c10ee0897db3186622bdc47358dd2aacb2221fa4198e5930e9c050e"
+      },
+      {
+        "part": "/word/media/image2.png",
+        "content_type": "image/png",
+        "bytes": 2205714,
+        "sha256": "ca2518ad1f51958dd0afa559367de5001f8af6eed6ff0da09a3c95564dcf15a8"
+      }
+    ],
+    "inline_images": [
+      {
+        "index": 0,
+        "width_in": 2.064,
+        "height_in": 0.608,
+        "part": "/word/media/image1.png",
+        "sha256": "7610f45c2c7c374fa1f15a26135761ce9bbbd59add54c48f202e03bfee56a07e"
+      },
+      {
+        "index": 1,
+        "width_in": 6.102,
+        "height_in": 4.529,
+        "part": "/word/media/image2.png",
+        "sha256": "ca2518ad1f51958dd0afa559367de5001f8af6eed6ff0da09a3c95564dcf15a8"
+      },
+      {
+        "index": 2,
+        "width_in": 6.102,
+        "height_in": 4.525,
+        "part": "/word/media/image3.png",
+        "sha256": "5447fdae3c10ee0897db3186622bdc47358dd2aacb2221fa4198e5930e9c050e"
+      },
+      {
+        "index": 3,
+        "width_in": 6.0,
+        "height_in": 5.925,
+        "part": "/word/media/image4.png",
+        "sha256": "cf1af7af03e2780be0d22d2deb4f1e3667470ef5e28c6726fde3ecc7f3ba62a8"
+      },
+      {
+        "index": 4,
+        "width_in": 6.102,
+        "height_in": 3.465,
+        "part": "/word/media/image5.png",
+        "sha256": "384d998edebf337a08976edba0952b67af407b27a75e0f60bc4734c0906f91b0"
+      }
+    ]
+  },
+  "Architecture": {
+    "file": "docs\\submission\\Architecture.docx",
+    "file_sha256": "9da81648dbd54bf7c534a4f185feaaa762d15de3393fc62103836e299615c685",
+    "bytes": 4020592,
+    "paragraphs": 250,
+    "tables": 58,
+    "inline_shapes": 14,
+    "sections": [
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [],
+        "footer_text": [],
+        "header_xml_sha256": "75dd11387b7e15f307c4e50b4e6f62b05105e4b783d2c116e1200968ee51815a",
+        "footer_xml_sha256": "c5efb09a68599430e21c8bf03baf181b0d64ea4b5527ea1a2adb6250ce8782f9"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "34c1c8c5dd8997bdfe1ca4c292484030c215a0c8eee02126125a925e54a2ed34"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "8f3ba4f22cdd95dfcbe04d666d1fbcfbc398b4a016f0f571a44a1b822c706ca6"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      },
+      {
+        "page_width_in": 11.694,
+        "page_height_in": 8.269,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      },
+      {
+        "page_width_in": 11.694,
+        "page_height_in": 8.269,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      },
+      {
+        "page_width_in": 11.694,
+        "page_height_in": 8.269,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | ARCHITECTURE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 1"
+        ],
+        "header_xml_sha256": "a404ec565b7bab4487a9a0f31bb99404374e9037ef3dd3dec942b714f19cc084",
+        "footer_xml_sha256": "16bcf0de20313014ae26a9e8a52c3e1833075bfbaad5a3ff617ed214c291dad9"
+      }
+    ],
+    "cover_paragraphs": [
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "International School",
+        "runs": [
+          {
+            "text": "International School",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Capstone Project 1",
+        "runs": [
+          {
+            "text": "Capstone Project 1",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 28.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "CMU-SE 450_C1SE.70",
+        "runs": [
+          {
+            "text": "CMU-SE 450_C1SE.70",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Architecture Design Document",
+        "runs": [
+          {
+            "text": "Architecture Design Document",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 16.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Version 1.2",
+        "runs": [
+          {
+            "text": "Version 1.2",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Date: November 8th, 2026",
+        "runs": [
+          {
+            "text": "Date: November 8th, 2026",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+        "runs": [
+          {
+            "text": "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 15.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Submitted by C1SE.70",
+        "runs": [
+          {
+            "text": "Submitted by C1SE.70",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Thu, Nguyen Ngoc Anh - 29209245799",
+        "runs": [
+          {
+            "text": "Thu, Nguyen Ngoc Anh - 29209245799",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Nguyen, Nguyen Nhat - 26211227029",
+        "runs": [
+          {
+            "text": "Nguyen, Nguyen Nhat - 26211227029",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Truong, Nguyen Quang - 29212730635",
+        "runs": [
+          {
+            "text": "Truong, Nguyen Quang - 29212730635",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Do, Nguyen Quoc - 29211156881",
+        "runs": [
+          {
+            "text": "Do, Nguyen Quoc - 29211156881",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Han, Nguyen Ngoc - 29204423268",
+        "runs": [
+          {
+            "text": "Han, Nguyen Ngoc - 29204423268",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": true,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Review Panel Representative:",
+        "runs": [
+          {
+            "text": "Review Panel Representative:",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Name\tSignature\tDate",
+        "runs": [
+          {
+            "text": "Name",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tSignature",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tDate",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Capstone Project 1 - Mentor:",
+        "runs": [
+          {
+            "text": "Capstone Project ",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "1 - Mentor",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": ":",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Name MSc Viet, Huynh Duc\tSignature\tDate",
+        "runs": [
+          {
+            "text": "Name MSc Viet, Huynh Duc",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tSignature",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\tDate",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "PROJECT INFORMATION",
+        "runs": [
+          {
+            "text": "PROJECT INFORMATION",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "DOCUMENT APPROVALS",
+        "runs": [
+          {
+            "text": "DOCUMENT APPROVALS",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "JUSTIFY (3)",
+        "text": "The following signatures are required for approval of this document.",
+        "runs": [
+          {
+            "text": "The following signatures are required for approval of this document.",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "REVISION HISTORY",
+        "runs": [
+          {
+            "text": "REVISION HISTORY",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "Table of Contents",
+        "runs": [
+          {
+            "text": "Table of Contents",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      }
+    ],
+    "cover_tables": [
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "Project acronym",
+            "DBCAS",
+            "DBCAS",
+            "DBCAS"
+          ],
+          [
+            "Project Title",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+          ],
+          [
+            "Start Date",
+            "14/09/2026",
+            "End Date",
+            "26/12/2026"
+          ],
+          [
+            "Lead Institution",
+            "International School, Duy Tan University",
+            "International School, Duy Tan University",
+            "International School, Duy Tan University"
+          ],
+          [
+            "Project Mentor",
+            "MSc Viet, Huynh Duc",
+            "MSc Viet, Huynh Duc",
+            "MSc Viet, Huynh Duc"
+          ],
+          [
+            "Scrum master / Project Leader & contact details",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040"
+          ],
+          [
+            "Partner Organization",
+            "Duy Tan University",
+            "Duy Tan University",
+            "Duy Tan University"
+          ],
+          [
+            "Project Web URL",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Team members",
+            "Name",
+            "Email",
+            "Tel"
+          ],
+          [
+            "",
+            "Thu, Nguyen Ngoc Anh",
+            "01258319907anhthu@gmail.com",
+            "0919334040"
+          ],
+          [
+            "",
+            "Nguyen, Nguyen Nhat",
+            "nhnguyen240602@gmail.com",
+            "0355772330"
+          ],
+          [
+            "",
+            "Truong, Nguyen Quang",
+            "quangtruongtt8@gmail.com",
+            "0349039023"
+          ],
+          [
+            "",
+            "Do, Nguyen Quoc",
+            "nguyenquocdodary@gmail.com",
+            "0388496885"
+          ],
+          [
+            "",
+            "Han, Nguyen Ngoc",
+            "Hannguyenngoc0506@gmail.com",
+            "0899455605"
+          ]
+        ]
+      },
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION"
+          ],
+          [
+            "Document Title",
+            "Architecture Design Document",
+            "Architecture Design Document",
+            "Architecture Design Document"
+          ],
+          [
+            "Author(s)",
+            "C1SE.70 Team",
+            "C1SE.70 Team",
+            "C1SE.70 Team"
+          ],
+          [
+            "Role",
+            "Team Members",
+            "Team Members",
+            "Team Members"
+          ],
+          [
+            "Date",
+            "08/11/2026",
+            "File name",
+            "DBCAS-System-Architecture-v1.2.docx"
+          ],
+          [
+            "URL",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Access",
+            "Project and CMU Program",
+            "Project and CMU Program",
+            "Project and CMU Program"
+          ]
+        ]
+      }
+    ],
+    "toc_fields": [
+      " TOC \\o \"1-2\" \\h \\z \\u ",
+      " TOC \\h \\z \\c \"Table\" ",
+      " TOC \\h \\z \\c \"Figure\" "
+    ],
+    "heading_numbering": {
+      "heading1_xml": {
+        "font": null,
+        "size_pt": 18.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "bb68a48367d54ad9723fdc01b07eb530423d6c719d292185fa803329fa3bde88"
+      },
+      "heading2_xml": {
+        "font": null,
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "58a2ea14baa156068bc49bd8019f2907433ca46c4f093794b2a53df0071766f0"
+      }
+    },
+    "styles": {
+      "Normal": {
+        "font": null,
+        "size_pt": null,
+        "bold": null,
+        "italic": null,
+        "xml_sha256": "91112cf53097d228deda2d2d0aa59e6d0ecf82e79dfaaf8f10096957aa852f65"
+      },
+      "Heading 1": {
+        "font": null,
+        "size_pt": 18.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "bb68a48367d54ad9723fdc01b07eb530423d6c719d292185fa803329fa3bde88"
+      },
+      "Heading 2": {
+        "font": null,
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "58a2ea14baa156068bc49bd8019f2907433ca46c4f093794b2a53df0071766f0"
+      },
+      "Heading 3": {
+        "font": null,
+        "size_pt": null,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "340954fb8ec33aeb21be42832184b8f256b24695bd42f5b19b20b95b2b09d3bb"
+      },
+      "Title": {
+        "font": null,
+        "size_pt": 24.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "bb950ba6515825e663ddf483210df10b4a1476b2cb2d505bae4ea247af125e05"
+      },
+      "TOC 1": null,
+      "TOC 2": null,
+      "Caption": {
+        "font": null,
+        "size_pt": null,
+        "bold": null,
+        "italic": true,
+        "xml_sha256": "04bf57ec1ddee806e4afa4e6ad6d70108d8e8d3475fd6a9e0a2221cbbe2343f9"
+      }
+    },
+    "package": {
+      "styles_sha256": "b4e60d0f28b04a258d7793d15986486b1cfcbc3b595b0bf439405dc345b35549",
+      "document_sha256": "f5c3da8152fbac853dfe809a44bba7d64604d77415cc827c845d2d6f3ce0da62",
+      "numbering_sha256": "1f0cd0f7b9d5bb5aae7bc0c3a8e7770a7c37c0d68b0f6ddcaa5a033a4fe88f8d",
+      "theme_sha256": "a5ffe09d5b1b9873f789269bfa129ec170d4e27b03e472129ff772a9bbafc442",
+      "settings_sha256": "802a5a79b7b835f3d9610c664976f473dbb94b02fe857d6babafdeb86164a94a"
+    },
+    "image_parts": [
+      {
+        "part": "/word/media/image3.png",
+        "content_type": "image/png",
+        "bytes": 85468,
+        "sha256": "5447fdae3c10ee0897db3186622bdc47358dd2aacb2221fa4198e5930e9c050e"
+      },
+      {
+        "part": "/word/media/image10.png",
+        "content_type": "image/png",
+        "bytes": 330745,
+        "sha256": "e320a6e9630c28bc9d8ed7bf1746ca9de0417a5f0fb2f51909414f7ba1976757"
+      },
+      {
+        "part": "/word/media/image5.png",
+        "content_type": "image/png",
+        "bytes": 206553,
+        "sha256": "80cfe9208ab57fbe8478e02a72726b6c4e62f3884e1fe7c1012ced47904648f2"
+      },
+      {
+        "part": "/word/media/image1.png",
+        "content_type": "image/png",
+        "bytes": 16805,
+        "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d"
+      },
+      {
+        "part": "/word/media/image2.png",
+        "content_type": "image/png",
+        "bytes": 668389,
+        "sha256": "b720c69de7926d2f29af704da233f74f2070010198c9bb7245a4a718fa612dee"
+      },
+      {
+        "part": "/word/media/image9.png",
+        "content_type": "image/png",
+        "bytes": 316670,
+        "sha256": "7e2eb7857519d138320815315ebf311bd38cf7516831503e99943c96fa623e30"
+      },
+      {
+        "part": "/word/media/image13.png",
+        "content_type": "image/png",
+        "bytes": 347280,
+        "sha256": "84bed6f6bd35d73d09694dc2172c2c6fc65d62a20ea95a5902639566afa06f47"
+      },
+      {
+        "part": "/word/media/image8.png",
+        "content_type": "image/png",
+        "bytes": 180421,
+        "sha256": "49389d8c7dd43cdd1e983404025c031491b6ea8b33ab06920e15ee7f44be4ba7"
+      },
+      {
+        "part": "/word/media/image7.png",
+        "content_type": "image/png",
+        "bytes": 296420,
+        "sha256": "46468d95254fdab5cfe827bba860f7d8fe79adde33d88083019bc3eabf9a9e1f"
+      },
+      {
+        "part": "/word/media/image12.png",
+        "content_type": "image/png",
+        "bytes": 318722,
+        "sha256": "ea311d502e93c92032f25b1b9012ab6d5c2d8ff905da253d4703e97466966838"
+      },
+      {
+        "part": "/word/media/image4.png",
+        "content_type": "image/png",
+        "bytes": 230567,
+        "sha256": "87cc3f4ebc60fa17401a805f43b03d186d6b760770f0169c7b9176e18b17ea57"
+      },
+      {
+        "part": "/word/media/image6.png",
+        "content_type": "image/png",
+        "bytes": 201495,
+        "sha256": "c261e2f01b34128953b48b94dcbecdb6b072f0435cd6080ef6feaba7b311562f"
+      },
+      {
+        "part": "/word/media/image11.png",
+        "content_type": "image/png",
+        "bytes": 349461,
+        "sha256": "14f63ec2e7902d3037e2325fef09d95155b756725c72c435f35b585d8b577f61"
+      },
+      {
+        "part": "/word/media/image14.png",
+        "content_type": "image/png",
+        "bytes": 374128,
+        "sha256": "00f8f6f1124f0f6626c1b62eab1f8b35ee2dfa12d8de4a19b07fadf31cc4ec0c"
+      }
+    ],
+    "inline_images": [
+      {
+        "index": 0,
+        "width_in": 1.979,
+        "height_in": 0.583,
+        "part": "/word/media/image1.png",
+        "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d"
+      },
+      {
+        "index": 1,
+        "width_in": 6.102,
+        "height_in": 6.454,
+        "part": "/word/media/image2.png",
+        "sha256": "b720c69de7926d2f29af704da233f74f2070010198c9bb7245a4a718fa612dee"
+      },
+      {
+        "index": 2,
+        "width_in": 6.102,
+        "height_in": 4.525,
+        "part": "/word/media/image3.png",
+        "sha256": "5447fdae3c10ee0897db3186622bdc47358dd2aacb2221fa4198e5930e9c050e"
+      },
+      {
+        "index": 3,
+        "width_in": 6.102,
+        "height_in": 5.64,
+        "part": "/word/media/image4.png",
+        "sha256": "87cc3f4ebc60fa17401a805f43b03d186d6b760770f0169c7b9176e18b17ea57"
+      },
+      {
+        "index": 4,
+        "width_in": 8.0,
+        "height_in": 5.6,
+        "part": "/word/media/image5.png",
+        "sha256": "80cfe9208ab57fbe8478e02a72726b6c4e62f3884e1fe7c1012ced47904648f2"
+      },
+      {
+        "index": 5,
+        "width_in": 8.0,
+        "height_in": 5.6,
+        "part": "/word/media/image6.png",
+        "sha256": "c261e2f01b34128953b48b94dcbecdb6b072f0435cd6080ef6feaba7b311562f"
+      },
+      {
+        "index": 6,
+        "width_in": 8.96,
+        "height_in": 5.566,
+        "part": "/word/media/image7.png",
+        "sha256": "46468d95254fdab5cfe827bba860f7d8fe79adde33d88083019bc3eabf9a9e1f"
+      },
+      {
+        "index": 7,
+        "width_in": 5.94,
+        "height_in": 5.51,
+        "part": "/word/media/image8.png",
+        "sha256": "49389d8c7dd43cdd1e983404025c031491b6ea8b33ab06920e15ee7f44be4ba7"
+      },
+      {
+        "index": 8,
+        "width_in": 9.528,
+        "height_in": 3.716,
+        "part": "/word/media/image9.png",
+        "sha256": "7e2eb7857519d138320815315ebf311bd38cf7516831503e99943c96fa623e30"
+      },
+      {
+        "index": 9,
+        "width_in": 8.615,
+        "height_in": 5.209,
+        "part": "/word/media/image10.png",
+        "sha256": "e320a6e9630c28bc9d8ed7bf1746ca9de0417a5f0fb2f51909414f7ba1976757"
+      },
+      {
+        "index": 10,
+        "width_in": 8.615,
+        "height_in": 5.209,
+        "part": "/word/media/image11.png",
+        "sha256": "14f63ec2e7902d3037e2325fef09d95155b756725c72c435f35b585d8b577f61"
+      },
+      {
+        "index": 11,
+        "width_in": 8.615,
+        "height_in": 5.209,
+        "part": "/word/media/image12.png",
+        "sha256": "ea311d502e93c92032f25b1b9012ab6d5c2d8ff905da253d4703e97466966838"
+      },
+      {
+        "index": 12,
+        "width_in": 8.615,
+        "height_in": 5.209,
+        "part": "/word/media/image13.png",
+        "sha256": "84bed6f6bd35d73d09694dc2172c2c6fc65d62a20ea95a5902639566afa06f47"
+      },
+      {
+        "index": 13,
+        "width_in": 8.615,
+        "height_in": 5.209,
+        "part": "/word/media/image14.png",
+        "sha256": "00f8f6f1124f0f6626c1b62eab1f8b35ee2dfa12d8de4a19b07fadf31cc4ec0c"
+      }
+    ]
+  },
+  "Database": {
+    "file": "docs\\submission\\Database.docx",
+    "file_sha256": "390723782cb9c2ec5b706c74d762c4f5947e3b04779ccc6bb62964dce8baffa3",
+    "bytes": 2278780,
+    "paragraphs": 228,
+    "tables": 46,
+    "inline_shapes": 6,
+    "sections": [
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [],
+        "footer_text": [],
+        "header_xml_sha256": "8ef730629a143ae79b5a3ce6fcd7c1ad1b3f52036bc0f82b537c82cde23f17f0",
+        "footer_xml_sha256": "d64df056a7bba53afefc596124d56557dbe701d94bf756d621f9f13015aef627"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | DATABASE DESIGN"
+        ],
+        "footer_text": [],
+        "header_xml_sha256": "3d9a7e4e44f19fe174277891f230493022bd4919a13c8ea56222bce37ae32117",
+        "footer_xml_sha256": "42ee73392cc72f8898c636331e98ac758cc883570261e634e37406b72f23cc5c"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | DATABASE DESIGN"
+        ],
+        "footer_text": [],
+        "header_xml_sha256": "3d9a7e4e44f19fe174277891f230493022bd4919a13c8ea56222bce37ae32117",
+        "footer_xml_sha256": "6c4a51df047a7fc9023bd6e13d025a4829b22298e3e890aa9ea87453498505c3"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | DATABASE DESIGN"
+        ],
+        "footer_text": [],
+        "header_xml_sha256": "3d9a7e4e44f19fe174277891f230493022bd4919a13c8ea56222bce37ae32117",
+        "footer_xml_sha256": "33a14d77dd9c428ef82df05a4b2412ecc9e886e692438a66ceb430df845f6a74"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | DATABASE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 2"
+        ],
+        "header_xml_sha256": "3d9a7e4e44f19fe174277891f230493022bd4919a13c8ea56222bce37ae32117",
+        "footer_xml_sha256": "4ca561b8ab9657d363bac1d227450a78ac9e4ee587fc6d0228a592fe979cb07b"
+      },
+      {
+        "page_width_in": 11.694,
+        "page_height_in": 8.269,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | DATABASE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 2"
+        ],
+        "header_xml_sha256": "3d9a7e4e44f19fe174277891f230493022bd4919a13c8ea56222bce37ae32117",
+        "footer_xml_sha256": "4ca561b8ab9657d363bac1d227450a78ac9e4ee587fc6d0228a592fe979cb07b"
+      },
+      {
+        "page_width_in": 8.269,
+        "page_height_in": 11.694,
+        "left_margin_in": 1.378,
+        "right_margin_in": 0.787,
+        "top_margin_in": 0.787,
+        "bottom_margin_in": 0.787,
+        "header_text": [
+          "C1SE.70 | DBCAS | DATABASE DESIGN"
+        ],
+        "footer_text": [
+          "C1SE.70 | Page 2"
+        ],
+        "header_xml_sha256": "3d9a7e4e44f19fe174277891f230493022bd4919a13c8ea56222bce37ae32117",
+        "footer_xml_sha256": "4ca561b8ab9657d363bac1d227450a78ac9e4ee587fc6d0228a592fe979cb07b"
+      }
+    ],
+    "cover_paragraphs": [
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "PROJECT INFORMATION",
+        "runs": [
+          {
+            "text": "P",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "R",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "O",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "JECT",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "I",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "N",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "F",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "O",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "R",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "M",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "A",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "T",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "I",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "O",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "N",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "REVISION HISTORY ",
+        "runs": [
+          {
+            "text": "REVISION HISTORY ",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "TABLE OF CONTENTS ",
+        "runs": [
+          {
+            "text": "TABLE OF CONTENTS ",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "LIST OF FIGURES",
+        "runs": [
+          {
+            "text": "LIST OF FIGURES",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Figure 1: Entity Relationship Diagram\t5",
+        "runs": [
+          {
+            "text": "",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Figure 2: Table Relationship Diagram (1/5)\t7",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Figure 2: Table Relationship Diagram (2/5)\t8",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Figure 2: Table Relationship Diagram (3/5)\t9",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Figure 2: Table Relationship Diagram (4/5)\t10",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Figure 2: Table Relationship Diagram (5/5)\t11",
+        "runs": []
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "\tLIST OF TABLES",
+        "runs": [
+          {
+            "text": "\t",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "LIST OF TABLES",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 1: Table Overview\t2",
+        "runs": [
+          {
+            "text": "",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "",
+            "style": "Default Paragraph Font",
+            "name": null,
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 2: Database Design (Account)\t12",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 3: Database Design (Role)\t12",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 4: Database Design (AccountRole)\t13",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 5: Database Design (UserProfile)\t13",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 6: Database Design (CourseLearningOutcome)\t13",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 7: Database Design (Concept)\t14",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 8: Database Design (CLOConcept)\t14",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 9: Database Design (Question)\t15",
+        "runs": []
+      },
+      {
+        "style": "table of figures",
+        "alignment": "None",
+        "text": "Table 10: Database Design (QuestionConcept)\t16",
+        "runs": []
+      }
+    ],
+    "cover_tables": [
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "Project acronym",
+            "DBCAS",
+            "DBCAS",
+            "DBCAS"
+          ],
+          [
+            "Project Title",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis",
+            "DBCAS \u2013 AI-Assisted Database Competency Assessment and Skill Gap Analysis"
+          ],
+          [
+            "Start Date",
+            "14/09/2026",
+            "End Date",
+            "26/12/2026"
+          ],
+          [
+            "Lead Institution",
+            "International School, Duy Tan University",
+            "International School, Duy Tan University",
+            "International School, Duy Tan University"
+          ],
+          [
+            "Project Mentor",
+            "MSc Viet, Huynh Duc",
+            "MSc Viet, Huynh Duc",
+            "MSc Viet, Huynh Duc"
+          ],
+          [
+            "Scrum master / Project Leader & contact details",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040",
+            "Thu, Nguyen Ngoc Anh\nEmail: 01258319907anhthu@gmail.com\nTel: 0919334040"
+          ],
+          [
+            "Partner Organization",
+            "Duy Tan University",
+            "Duy Tan University",
+            "Duy Tan University"
+          ],
+          [
+            "Project Web URL",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Team members",
+            "Name",
+            "Email",
+            "Tel"
+          ],
+          [
+            "",
+            "Thu, Nguyen Ngoc Anh",
+            "01258319907anhthu@gmail.com",
+            "0919334040"
+          ],
+          [
+            "",
+            "Nguyen, Nguyen Nhat",
+            "nhnguyen240602@gmail.com",
+            "0355772330"
+          ],
+          [
+            "",
+            "Truong, Nguyen Quang",
+            "quangtruongtt8@gmail.com",
+            "0349039023"
+          ],
+          [
+            "",
+            "Do, Nguyen Quoc",
+            "nguyenquocdodary@gmail.com",
+            "0388496885"
+          ],
+          [
+            "",
+            "Han, Nguyen Ngoc",
+            "Hannguyenngoc0506@gmail.com",
+            "0899455605"
+          ]
+        ]
+      },
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION",
+            "DOCUMENT INFORMATION"
+          ],
+          [
+            "Document Title",
+            "Database Design Document",
+            "Database Design Document",
+            "Database Design Document"
+          ],
+          [
+            "Author(s)",
+            "Truong, Nguyen Quang & C1SE.70 Team",
+            "Truong, Nguyen Quang & C1SE.70 Team",
+            "Truong, Nguyen Quang & C1SE.70 Team"
+          ],
+          [
+            "Role",
+            "Database Developer",
+            "Database Developer",
+            "Database Developer"
+          ],
+          [
+            "Date",
+            "08/11/2026",
+            "File name",
+            "DBCAS-Database-Design-v1.2.docx"
+          ],
+          [
+            "URL",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Access",
+            "Project and CMU Program",
+            "Project and CMU Program",
+            "Project and CMU Program"
+          ]
+        ]
+      }
+    ],
+    "toc_fields": [
+      " TOC \\o \"1-2\" \\h \\z \\u ",
+      " TOC \\h \\z \\c \"Figure\" ",
+      " TOC \\h \\z \\c \"Table\" "
+    ],
+    "heading_numbering": {
+      "heading1_xml": {
+        "font": "Times New Roman",
+        "size_pt": 18.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "c6fde2601a070bd206ae16251762a2551534584e5d39c61d727472a8e8c0ae70"
+      },
+      "heading2_xml": {
+        "font": "Times New Roman",
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "12adef1e393b443cf39fb3f7f8be05eef1fec5b31cedc2b84c7526ed37d08c8c"
+      }
+    },
+    "styles": {
+      "Normal": {
+        "font": "Times New Roman",
+        "size_pt": 13.0,
+        "bold": null,
+        "italic": null,
+        "xml_sha256": "7500d054274230fa7e62447ddd71e76123c61a289af60231724955522a4642a5"
+      },
+      "Heading 1": {
+        "font": "Times New Roman",
+        "size_pt": 18.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "c6fde2601a070bd206ae16251762a2551534584e5d39c61d727472a8e8c0ae70"
+      },
+      "Heading 2": {
+        "font": "Times New Roman",
+        "size_pt": 15.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "12adef1e393b443cf39fb3f7f8be05eef1fec5b31cedc2b84c7526ed37d08c8c"
+      },
+      "Heading 3": {
+        "font": null,
+        "size_pt": null,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "7bcfd65c0848746337482a180f481706357559bba7c0da6dd9090082e261e256"
+      },
+      "Title": {
+        "font": null,
+        "size_pt": 24.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "421a88485081005ecb6262b249e9b521294183293c3b6ca0e1a1fd7d536d31cd"
+      },
+      "TOC 1": null,
+      "TOC 2": null,
+      "Caption": {
+        "font": null,
+        "size_pt": null,
+        "bold": null,
+        "italic": true,
+        "xml_sha256": "7bdc1c302b7b3bd9fbee6d6aadbd3f3d51b56b765a717c4184e8a369254d4154"
+      }
+    },
+    "package": {
+      "styles_sha256": "7e62e3d5561134273440778db6a836b36d2aa3a1aebe189fde4e8fa39ec27221",
+      "document_sha256": "cda04a2f8f790e6de84682b8574b201141131f5e135ddb33b22b0d5d0020c4a2",
+      "numbering_sha256": "af0b48f3cc3835792c48dabec73370846269dc2f2523f4ec1a989475e2a5e0ad",
+      "theme_sha256": "addeef03fad3493c75da68bd44982325489a22ea6a93bcb7f77ff8ed49e70626",
+      "settings_sha256": "0845965f12098ad3c7600d3b6a36105cd124157d943c8daf1fcefb1ab9948869"
+    },
+    "image_parts": [
+      {
+        "part": "/word/media/image8.png",
+        "content_type": "image/png",
+        "bytes": 374128,
+        "sha256": "00f8f6f1124f0f6626c1b62eab1f8b35ee2dfa12d8de4a19b07fadf31cc4ec0c"
+      },
+      {
+        "part": "/word/media/image3.png",
+        "content_type": "image/png",
+        "bytes": 316670,
+        "sha256": "7e2eb7857519d138320815315ebf311bd38cf7516831503e99943c96fa623e30"
+      },
+      {
+        "part": "/word/media/image6.png",
+        "content_type": "image/png",
+        "bytes": 318722,
+        "sha256": "ea311d502e93c92032f25b1b9012ab6d5c2d8ff905da253d4703e97466966838"
+      },
+      {
+        "part": "/word/media/image2.png",
+        "content_type": "image/png",
+        "bytes": 16805,
+        "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d"
+      },
+      {
+        "part": "/word/media/image5.png",
+        "content_type": "image/png",
+        "bytes": 349461,
+        "sha256": "14f63ec2e7902d3037e2325fef09d95155b756725c72c435f35b585d8b577f61"
+      },
+      {
+        "part": "/word/media/image1.png",
+        "content_type": "image/png",
+        "bytes": 16805,
+        "sha256": "12c89edc68a3a55aaaa83e5e9704f934b0a9210d3bed78638871de1d9e69725d"
+      },
+      {
+        "part": "/word/media/image4.png",
+        "content_type": "image/png",
+        "bytes": 330745,
+        "sha256": "e320a6e9630c28bc9d8ed7bf1746ca9de0417a5f0fb2f51909414f7ba1976757"
+      },
+      {
+        "part": "/word/media/image7.png",
+        "content_type": "image/png",
+        "bytes": 347280,
+        "sha256": "84bed6f6bd35d73d09694dc2172c2c6fc65d62a20ea95a5902639566afa06f47"
+      }
+    ],
+    "inline_images": [
+      {
+        "index": 0,
+        "width_in": 9.459,
+        "height_in": 3.689,
+        "part": "/word/media/image3.png",
+        "sha256": "7e2eb7857519d138320815315ebf311bd38cf7516831503e99943c96fa623e30"
+      },
+      {
+        "index": 1,
+        "width_in": 9.459,
+        "height_in": 5.719,
+        "part": "/word/media/image4.png",
+        "sha256": "e320a6e9630c28bc9d8ed7bf1746ca9de0417a5f0fb2f51909414f7ba1976757"
+      },
+      {
+        "index": 2,
+        "width_in": 9.459,
+        "height_in": 5.719,
+        "part": "/word/media/image5.png",
+        "sha256": "14f63ec2e7902d3037e2325fef09d95155b756725c72c435f35b585d8b577f61"
+      },
+      {
+        "index": 3,
+        "width_in": 9.459,
+        "height_in": 5.719,
+        "part": "/word/media/image6.png",
+        "sha256": "ea311d502e93c92032f25b1b9012ab6d5c2d8ff905da253d4703e97466966838"
+      },
+      {
+        "index": 4,
+        "width_in": 9.459,
+        "height_in": 5.719,
+        "part": "/word/media/image7.png",
+        "sha256": "84bed6f6bd35d73d09694dc2172c2c6fc65d62a20ea95a5902639566afa06f47"
+      },
+      {
+        "index": 5,
+        "width_in": 9.459,
+        "height_in": 5.719,
+        "part": "/word/media/image8.png",
+        "sha256": "00f8f6f1124f0f6626c1b62eab1f8b35ee2dfa12d8de4a19b07fadf31cc4ec0c"
+      }
+    ]
+  },
+  "SRS-base": {
+    "file": "docs\\submission\\before\\SRS-base.docx",
+    "file_sha256": "b7c184fd7a952b266edd13850d753963bd917a154383b3011728c126665641a7",
+    "bytes": 1216503,
+    "paragraphs": 213,
+    "tables": 11,
+    "inline_shapes": 10,
+    "sections": [
+      {
+        "page_width_in": 8.5,
+        "page_height_in": 11.0,
+        "left_margin_in": 0.591,
+        "right_margin_in": 0.428,
+        "top_margin_in": 1.0,
+        "bottom_margin_in": 1.0,
+        "header_text": [],
+        "footer_text": [
+          "i\tStudent Management\t Version 1.0",
+          "\t\t"
+        ],
+        "header_xml_sha256": "9518a870e31d93091a8f44528dca53974cbfa9e3f278428d53d018ada952875d",
+        "footer_xml_sha256": "618ceb8683fdc61f524597f27f6b75b70f143d44d8ed69916ff2228726954cc3"
+      },
+      {
+        "page_width_in": 8.5,
+        "page_height_in": 11.0,
+        "left_margin_in": 1.0,
+        "right_margin_in": 1.0,
+        "top_margin_in": 0.812,
+        "bottom_margin_in": 1.0,
+        "header_text": [],
+        "footer_text": [
+          "2\tStudent Management\t Version 1.0",
+          "Nguyen Quang Bao",
+          "\t\t"
+        ],
+        "header_xml_sha256": "9518a870e31d93091a8f44528dca53974cbfa9e3f278428d53d018ada952875d",
+        "footer_xml_sha256": "7c742e6e305a913a24a38a15066b91384c96ec786a3eeef57892ad2124bd858b"
+      }
+    ],
+    "cover_paragraphs": [
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "SOFTWARE REQUIREMENT SPECIFICATION",
+        "runs": [
+          {
+            "text": "SOFTWARE REQUIREMENT SPECIFICATION",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 23.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "DOCUMENT",
+        "runs": [
+          {
+            "text": "DOCUMENT",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 23.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "STUDENT MANAGEMENT",
+        "runs": [
+          {
+            "text": "STUDENT MANAGEMENT",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "Version: Version 1.0",
+        "runs": [
+          {
+            "text": "Version:",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 14.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Version",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "1.0",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 14.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "CENTER (1)",
+        "text": "ABSTRACT",
+        "runs": [
+          {
+            "text": "ABSTRACT",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "This document is intended to be the SRS for developing STUDENT MANAGEMENT",
+        "runs": [
+          {
+            "text": "This document is intended to be the SRS for developing ",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "STUDENT MANAGEMENT",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": null,
+            "bold": true,
+            "italic": null,
+            "color": "0000FF"
+          }
+        ]
+      },
+      {
+        "style": "Heading 1",
+        "alignment": "CENTER (1)",
+        "text": "Revision History",
+        "runs": [
+          {
+            "text": "Revision History",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Heading 1",
+        "alignment": "None",
+        "text": "Introduction",
+        "runs": [
+          {
+            "text": "Introduction",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": null,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Heading 2",
+        "alignment": "None",
+        "text": "Purpose",
+        "runs": [
+          {
+            "text": "Purpose",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      },
+      {
+        "style": "Normal",
+        "alignment": "None",
+        "text": "This document describes the Student Management System (SMS), including all main functions for users, students, and administrators.\nThe key features are listed below:",
+        "runs": [
+          {
+            "text": "This",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " document describes the ",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "Student Management System (SMS)",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": true,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": ", including all main functions for",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": " ",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "users, students, and administrators.",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          },
+          {
+            "text": "\nThe key features are listed below:",
+            "style": "Default Paragraph Font",
+            "name": "Arial",
+            "size_pt": 10.0,
+            "bold": null,
+            "italic": null,
+            "color": null
+          }
+        ]
+      }
+    ],
+    "cover_tables": [
+      {
+        "style": "Normal Table",
+        "rows": [
+          [
+            "Project Title",
+            "Student Management",
+            "Student Management",
+            "Student Management"
+          ],
+          [
+            "Project Mentor",
+            "Nguyen Quang Bao",
+            "Nguyen Quang Bao",
+            "Nguyen Quang Bao"
+          ],
+          [
+            "Contact Information",
+            "Nguyenquangbao575@gmail.com",
+            "Nguyenquangbao575@gmail.com",
+            "Nguyenquangbao575@gmail.com"
+          ],
+          [
+            "Start Date",
+            "16/10/2025",
+            "End Date",
+            ""
+          ]
+        ]
+      },
+      {
+        "style": "Plain Table 1",
+        "rows": [
+          [
+            "Date",
+            "Change Iterm",
+            "Description",
+            "by",
+            "Version"
+          ],
+          [
+            "16/10/2025",
+            "Draft",
+            "",
+            "Bao",
+            "1.0"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      }
+    ],
+    "toc_fields": [
+      " TOC \\o \"1-3\" \\h \\z \\u "
+    ],
+    "heading_numbering": {
+      "heading1_xml": {
+        "font": null,
+        "size_pt": 14.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "92a3ed818442c99221904028aa298600d94f5f0f7974f7dec2f4e3b3716ace10"
+      },
+      "heading2_xml": {
+        "font": null,
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "8b06e3efba86fe283d8115f7e70d828b5b0994d325fa555d888a91fb53323b2e"
+      }
+    },
+    "styles": {
+      "Normal": {
+        "font": "Times New Roman",
+        "size_pt": 12.0,
+        "bold": null,
+        "italic": null,
+        "xml_sha256": "d1c1e192fd22899394879c7177f5892ac029f1b949c7c39af3b098124a559e0d"
+      },
+      "Heading 1": {
+        "font": null,
+        "size_pt": 14.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "92a3ed818442c99221904028aa298600d94f5f0f7974f7dec2f4e3b3716ace10"
+      },
+      "Heading 2": {
+        "font": null,
+        "size_pt": 13.0,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "8b06e3efba86fe283d8115f7e70d828b5b0994d325fa555d888a91fb53323b2e"
+      },
+      "Heading 3": {
+        "font": null,
+        "size_pt": null,
+        "bold": true,
+        "italic": null,
+        "xml_sha256": "e6e7c93c41e721321439d262a9f3235b54af83ad6c4cab16d147a1c5ca979acf"
+      },
+      "Title": null,
+      "TOC 1": null,
+      "TOC 2": null,
+      "Caption": null
+    },
+    "package": {
+      "styles_sha256": "3e49b8475f7ce0db43436e7113c9cd23f55bbfaf0269b1849224c158deaffac1",
+      "document_sha256": "59262c700ceab9dd3a423bee34e43369c7e2fd11caeddfbe74950cf4c7b3c442",
+      "numbering_sha256": "b66dc8e1f1477eba40d06c8f538ce308a68d6fa1f173522368bae4a5b632a3cf",
+      "theme_sha256": "bf4992e3fa7832e5c68fdbc4ec5189c8e5d347fef03c5ba2522ad704bde5078f",
+      "settings_sha256": "fd6180e7e82de487839b2a90ea1d9d8487dea31c8d9d17347fe258e91e62d723"
+    },
+    "image_parts": [
+      {
+        "part": "/word/media/image3.emf",
+        "content_type": "image/x-emf",
+        "bytes": 112700,
+        "sha256": "eb06cc1532d7d78e0891b3f83331f036a6b046ea792d20a59a8bf8cc2cb3e154"
+      },
+      {
+        "part": "/word/media/image8.png",
+        "content_type": "image/png",
+        "bytes": 37796,
+        "sha256": "c06a1b4dc712ecbd6dacc3f9fc1d26e4768f4f9a47dc2311456ce0d41541e589"
+      },
+      {
+        "part": "/word/media/image11.png",
+        "content_type": "image/png",
+        "bytes": 203707,
+        "sha256": "56427f15ff6d4d32191d0dd6e749f6fcfa8abf0332677c5a69009fe746a566b5"
+      },
+      {
+        "part": "/word/media/image2.jpeg",
+        "content_type": "image/jpeg",
+        "bytes": 7206,
+        "sha256": "8a8f15d94cbff32258c8f51c82b3bab7827d16c67f09ad9b97f9c0f75ce4cb91"
+      },
+      {
+        "part": "/word/media/image7.png",
+        "content_type": "image/png",
+        "bytes": 366444,
+        "sha256": "7020e8333b837e3877c3ecfb5e3afc506d16772847b56b96fa8ff014db293095"
+      },
+      {
+        "part": "/word/media/image6.png",
+        "content_type": "image/png",
+        "bytes": 19103,
+        "sha256": "a0994020f7cb408ed46ef5069e2054ee1ebf7c58bdc0fecfcad634e7bc5da175"
+      },
+      {
+        "part": "/word/media/image10.png",
+        "content_type": "image/png",
+        "bytes": 35074,
+        "sha256": "a847c7f4009dd49177e866de03a9ed97263838631f96baf91d112377192bc716"
+      },
+      {
+        "part": "/word/media/image1.png",
+        "content_type": "image/png",
+        "bytes": 33457,
+        "sha256": "204270d06f700e79498c1500e95585bb57bf63882a08689aa4a19febf53914cc"
+      },
+      {
+        "part": "/word/media/image5.png",
+        "content_type": "image/png",
+        "bytes": 376852,
+        "sha256": "c46d2d11630342262c44bc2d6b3c31c8aea216213cb3b14b39e9882f27c51f6e"
+      },
+      {
+        "part": "/word/media/image9.png",
+        "content_type": "image/png",
+        "bytes": 37534,
+        "sha256": "cbc202270bda0f92d13e295a7b7a74a43f8ec0e5b214296a0ce701bd9c9199fb"
+      },
+      {
+        "part": "/word/media/image4.png",
+        "content_type": "image/png",
+        "bytes": 20279,
+        "sha256": "af0e93571f0e019bb16d1ff33609e6d825e8050a9e09d2ee32bbc38b739f8a12"
+      }
+    ],
+    "inline_images": [
+      {
+        "index": 0,
+        "width_in": 5.348,
+        "height_in": 5.264,
+        "part": "/word/media/image1.png",
+        "sha256": "204270d06f700e79498c1500e95585bb57bf63882a08689aa4a19febf53914cc"
+      },
+      {
+        "index": 1,
+        "width_in": 6.5,
+        "height_in": 7.398,
+        "part": "/word/media/image3.emf",
+        "sha256": "eb06cc1532d7d78e0891b3f83331f036a6b046ea792d20a59a8bf8cc2cb3e154"
+      },
+      {
+        "index": 2,
+        "width_in": 2.73,
+        "height_in": 2.32,
+        "part": "/word/media/image4.png",
+        "sha256": "af0e93571f0e019bb16d1ff33609e6d825e8050a9e09d2ee32bbc38b739f8a12"
+      },
+      {
+        "index": 3,
+        "width_in": 6.5,
+        "height_in": 4.99,
+        "part": "/word/media/image5.png",
+        "sha256": "c46d2d11630342262c44bc2d6b3c31c8aea216213cb3b14b39e9882f27c51f6e"
+      },
+      {
+        "index": 4,
+        "width_in": 3.042,
+        "height_in": 3.031,
+        "part": "/word/media/image6.png",
+        "sha256": "a0994020f7cb408ed46ef5069e2054ee1ebf7c58bdc0fecfcad634e7bc5da175"
+      },
+      {
+        "index": 5,
+        "width_in": 6.5,
+        "height_in": 7.755,
+        "part": "/word/media/image7.png",
+        "sha256": "7020e8333b837e3877c3ecfb5e3afc506d16772847b56b96fa8ff014db293095"
+      },
+      {
+        "index": 6,
+        "width_in": 5.938,
+        "height_in": 4.658,
+        "part": "/word/media/image8.png",
+        "sha256": "c06a1b4dc712ecbd6dacc3f9fc1d26e4768f4f9a47dc2311456ce0d41541e589"
+      },
+      {
+        "index": 7,
+        "width_in": 6.312,
+        "height_in": 4.952,
+        "part": "/word/media/image9.png",
+        "sha256": "cbc202270bda0f92d13e295a7b7a74a43f8ec0e5b214296a0ce701bd9c9199fb"
+      },
+      {
+        "index": 8,
+        "width_in": 6.312,
+        "height_in": 6.565,
+        "part": "/word/media/image10.png",
+        "sha256": "a847c7f4009dd49177e866de03a9ed97263838631f96baf91d112377192bc716"
+      },
+      {
+        "index": 9,
+        "width_in": 6.308,
+        "height_in": 4.078,
+        "part": "/word/media/image11.png",
+        "sha256": "56427f15ff6d4d32191d0dd6e749f6fcfa8abf0332677c5a69009fe746a566b5"
+      }
+    ]
+  }
+}

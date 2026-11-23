@@ -1,0 +1,579 @@
+{
+  "total": 94,
+  "passed": 94,
+  "failed": 0,
+  "assertions": [
+    {
+      "id": "Proposal-opens",
+      "status": "PASS",
+      "detail": "75208 chars",
+      "source": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\docs\\submission\\Proposal.docx"
+    },
+    {
+      "id": "Architecture-opens",
+      "status": "PASS",
+      "detail": "82664 chars",
+      "source": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\docs\\submission\\Architecture.docx"
+    },
+    {
+      "id": "Database-opens",
+      "status": "PASS",
+      "detail": "58878 chars",
+      "source": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\docs\\submission\\Database.docx"
+    },
+    {
+      "id": "SRS-opens",
+      "status": "PASS",
+      "detail": "11558 chars",
+      "source": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS\\docs\\submission\\SRS.docx"
+    },
+    {
+      "id": "Proposal-tables-67",
+      "status": "PASS",
+      "detail": "67 tables",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "Proposal-no-41-tables",
+      "status": "PASS",
+      "detail": "41 tables absent",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "Proposal-cols-561",
+      "status": "PASS",
+      "detail": "561",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Proposal-fks-122",
+      "status": "PASS",
+      "detail": "122",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Proposal-indexes-159",
+      "status": "PASS",
+      "detail": "159",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Proposal-migrations-28",
+      "status": "PASS",
+      "detail": "28",
+      "source": "db/migrations"
+    },
+    {
+      "id": "Architecture-tables-67",
+      "status": "PASS",
+      "detail": "67 tables",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "Architecture-no-41-tables",
+      "status": "PASS",
+      "detail": "41 tables absent",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "Architecture-cols-561",
+      "status": "PASS",
+      "detail": "561",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Architecture-fks-122",
+      "status": "PASS",
+      "detail": "122",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Architecture-indexes-159",
+      "status": "PASS",
+      "detail": "159",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Architecture-migrations-28",
+      "status": "PASS",
+      "detail": "28",
+      "source": "db/migrations"
+    },
+    {
+      "id": "Database-tables-67",
+      "status": "PASS",
+      "detail": "67 tables",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "Database-no-41-tables",
+      "status": "PASS",
+      "detail": "41 tables absent",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "Database-cols-561",
+      "status": "PASS",
+      "detail": "561",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Database-fks-122",
+      "status": "PASS",
+      "detail": "122",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Database-indexes-159",
+      "status": "PASS",
+      "detail": "159",
+      "source": "schema introspection"
+    },
+    {
+      "id": "Database-migrations-28",
+      "status": "PASS",
+      "detail": "28",
+      "source": "db/migrations"
+    },
+    {
+      "id": "SRS-tables-67",
+      "status": "PASS",
+      "detail": "67 tables",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "SRS-no-41-tables",
+      "status": "PASS",
+      "detail": "41 tables absent",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "SRS-cols-561",
+      "status": "PASS",
+      "detail": "561",
+      "source": "schema introspection"
+    },
+    {
+      "id": "SRS-fks-122",
+      "status": "PASS",
+      "detail": "122",
+      "source": "schema introspection"
+    },
+    {
+      "id": "SRS-indexes-159",
+      "status": "PASS",
+      "detail": "159",
+      "source": "schema introspection"
+    },
+    {
+      "id": "SRS-migrations-28",
+      "status": "PASS",
+      "detail": "28",
+      "source": "db/migrations"
+    },
+    {
+      "id": "SRS-api-106",
+      "status": "PASS",
+      "detail": "106",
+      "source": "docs/openapi.json"
+    },
+    {
+      "id": "SRS-api-118",
+      "status": "PASS",
+      "detail": "118",
+      "source": "docs/openapi.json"
+    },
+    {
+      "id": "SRS-browser-24",
+      "status": "PASS",
+      "detail": "24",
+      "source": "frontend/src/App.jsx"
+    },
+    {
+      "id": "proposal-practice-limits",
+      "status": "PASS",
+      "detail": "legacy 13 / mixed 25 / single 50",
+      "source": "practice_config.py"
+    },
+    {
+      "id": "proposal-25-mixed",
+      "status": "PASS",
+      "detail": "25 mixed",
+      "source": "practice_config.py"
+    },
+    {
+      "id": "proposal-50-single",
+      "status": "PASS",
+      "detail": "50 single",
+      "source": "practice_config.py"
+    },
+    {
+      "id": "proposal-no-1-20",
+      "status": "PASS",
+      "detail": "1–20 absent",
+      "source": "practice_config.py"
+    },
+    {
+      "id": "proposal-fixed-ai-official",
+      "status": "PASS",
+      "detail": "FIXED AI-official",
+      "source": "result_version.py"
+    },
+    {
+      "id": "proposal-writable-demo",
+      "status": "PASS",
+      "detail": "writable demo",
+      "source": "docker-compose.demo-writable.yml"
+    },
+    {
+      "id": "proposal-doc-grounding",
+      "status": "PASS",
+      "detail": "grounding",
+      "source": "document_generation.py"
+    },
+    {
+      "id": "arch-fixed-ai-official",
+      "status": "PASS",
+      "detail": "FIXED V1",
+      "source": "result_version.py"
+    },
+    {
+      "id": "arch-writable",
+      "status": "PASS",
+      "detail": "writable demo",
+      "source": "docker-compose.demo-writable.yml"
+    },
+    {
+      "id": "arch-no-every-result",
+      "status": "PASS",
+      "detail": "conditional release",
+      "source": "grading_review.py"
+    },
+    {
+      "id": "db-no-all-67-figure",
+      "status": "PASS",
+      "detail": "core figure note",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "db-core-note",
+      "status": "PASS",
+      "detail": "core figure note",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "db-dictionary-sections",
+      "status": "PASS",
+      "detail": "67 sections",
+      "source": "db/schema.sql"
+    },
+    {
+      "id": "db-dictionary-columns",
+      "status": "PASS",
+      "detail": "561 columns",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-all-table-names",
+      "status": "PASS",
+      "detail": "missing=[]",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-ai_prompt_content",
+      "status": "PASS",
+      "detail": "ai_prompt_content",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-ai_prompt_record",
+      "status": "PASS",
+      "detail": "ai_prompt_record",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-ai_stage_attempt",
+      "status": "PASS",
+      "detail": "ai_stage_attempt",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-ai_stage_run",
+      "status": "PASS",
+      "detail": "ai_stage_run",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-ai_stage_validation",
+      "status": "PASS",
+      "detail": "ai_stage_validation",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-attempt_rubric_criterion",
+      "status": "PASS",
+      "detail": "attempt_rubric_criterion",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-course_document",
+      "status": "PASS",
+      "detail": "course_document",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-document_chunk",
+      "status": "PASS",
+      "detail": "document_chunk",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-document_clo",
+      "status": "PASS",
+      "detail": "document_clo",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-prompt_access_audit",
+      "status": "PASS",
+      "detail": "prompt_access_audit",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-question_clo",
+      "status": "PASS",
+      "detail": "question_clo",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-question_evidence",
+      "status": "PASS",
+      "detail": "question_evidence",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-question_report",
+      "status": "PASS",
+      "detail": "question_report",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-question_rubric_criterion",
+      "status": "PASS",
+      "detail": "question_rubric_criterion",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-question_rubric_profile",
+      "status": "PASS",
+      "detail": "question_rubric_profile",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-retention_purge_audit",
+      "status": "PASS",
+      "detail": "retention_purge_audit",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-review_deviation",
+      "status": "PASS",
+      "detail": "review_deviation",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-review_deviation_confirmation",
+      "status": "PASS",
+      "detail": "review_deviation_confirmation",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-review_request",
+      "status": "PASS",
+      "detail": "review_request",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-session_final_result",
+      "status": "PASS",
+      "detail": "session_final_result",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-session_result_analysis",
+      "status": "PASS",
+      "detail": "session_result_analysis",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-session_result_criterion_score",
+      "status": "PASS",
+      "detail": "session_result_criterion_score",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-session_result_publication",
+      "status": "PASS",
+      "detail": "session_result_publication",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-session_result_version",
+      "status": "PASS",
+      "detail": "session_result_version",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-session_result_version_score",
+      "status": "PASS",
+      "detail": "session_result_version_score",
+      "source": "schema introspection"
+    },
+    {
+      "id": "db-appendix-tab_leave_interval",
+      "status": "PASS",
+      "detail": "tab_leave_interval",
+      "source": "schema introspection"
+    },
+    {
+      "id": "srs-backend-final",
+      "status": "PASS",
+      "detail": "1913",
+      "source": "test-evidence.json"
+    },
+    {
+      "id": "srs-frontend-final",
+      "status": "PASS",
+      "detail": "459",
+      "source": "test-evidence.json"
+    },
+    {
+      "id": "srs-browser-final",
+      "status": "PASS",
+      "detail": "140 + 2 skipped",
+      "source": "test-evidence.json"
+    },
+    {
+      "id": "srs-browser-2",
+      "status": "PASS",
+      "detail": "2",
+      "source": "test-evidence.json"
+    },
+    {
+      "id": "srs-roles",
+      "status": "PASS",
+      "detail": "roles",
+      "source": "deps.py"
+    },
+    {
+      "id": "srs-flags",
+      "status": "PASS",
+      "detail": "writable",
+      "source": "config.py"
+    },
+    {
+      "id": "final-sha",
+      "status": "PASS",
+      "detail": "3bccbd6ac027fe26d9c05de1424c847766792d0c",
+      "source": "git rev-parse develop2"
+    },
+    {
+      "id": "Architecture-erd-pages",
+      "status": "PASS",
+      "detail": "2",
+      "source": "Figure 7 (1/2, 2/2)"
+    },
+    {
+      "id": "Database-erd-pages",
+      "status": "PASS",
+      "detail": "2",
+      "source": "Figure 1 (1/2, 2/2)"
+    },
+    {
+      "id": "Architecture-trd-pages",
+      "status": "PASS",
+      "detail": "11",
+      "source": "Figure 8 (1/11-11/11)"
+    },
+    {
+      "id": "Database-trd-pages",
+      "status": "PASS",
+      "detail": "11",
+      "source": "Figure 2 (1/11-11/11)"
+    },
+    {
+      "id": "Architecture-trd-cards",
+      "status": "PASS",
+      "detail": "67",
+      "source": "41 original + 26 continuation cards"
+    },
+    {
+      "id": "Database-trd-cards",
+      "status": "PASS",
+      "detail": "67",
+      "source": "41 original + 26 continuation cards"
+    },
+    {
+      "id": "Architecture-trd-legend",
+      "status": "PASS",
+      "detail": "67 tables / 561 columns / 122 FKs / 28 migrations",
+      "source": "TRD legend"
+    },
+    {
+      "id": "Database-trd-legend",
+      "status": "PASS",
+      "detail": "67 tables / 561 columns / 122 FKs / 28 migrations",
+      "source": "TRD legend"
+    },
+    {
+      "id": "SRS-pages",
+      "status": "PASS",
+      "detail": "7",
+      "source": "Word page count"
+    },
+    {
+      "id": "SRS-tables",
+      "status": "PASS",
+      "detail": "11",
+      "source": "6 original + 5 added"
+    },
+    {
+      "id": "SRS-sections",
+      "status": "PASS",
+      "detail": "13",
+      "source": "Heading 1 sections"
+    },
+    {
+      "id": "Architecture-pages",
+      "status": "PASS",
+      "detail": "77",
+      "source": "Word page count"
+    },
+    {
+      "id": "Database-pages",
+      "status": "PASS",
+      "detail": "70",
+      "source": "Word page count"
+    },
+    {
+      "id": "docs-check",
+      "status": "PASS",
+      "detail": "PASS",
+      "source": "npm run docs:check"
+    },
+    {
+      "id": "final-backend-run",
+      "status": "PASS",
+      "detail": "45124260745",
+      "source": "exact-head CI"
+    }
+  ],
+  "baseline": {
+    "root": "C:\\Users\\kudot\\Downloads\\proposal test\\DBCAS",
+    "commit": "3bccbd6ac027fe26d9c05de1424c847766792d0c",
+    "branch": "docs/revise-existing-in-place",
+    "origin_develop2": "3bccbd6ac027fe26d9c05de1424c847766792d0c",
+    "origin_main": "e7e432cefc2e21706ddfec96cfb8fa8b3b32b858",
+    "schema_sha256": "f4ef8c2dd93b030cf04b169233e8b454dec8ea147f00e87a21771f3cf79b0c0a"
+  }
+}

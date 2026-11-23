@@ -1,0 +1,131 @@
+{
+  "Proposal": {
+    "parts_c14n_equal": {
+      "word/styles.xml": true,
+      "word/theme/theme1.xml": true,
+      "word/settings.xml": true,
+      "word/numbering.xml": true
+    },
+    "sections_equal": true,
+    "cover_text_equal": true,
+    "cover_tables_equal": true,
+    "paragraphs": {
+      "before": 225,
+      "after": 225
+    },
+    "tables": {
+      "before": 21,
+      "after": 21
+    },
+    "images": {
+      "before": 5,
+      "after": 5,
+      "changed_indices": [
+        3,
+        4
+      ],
+      "display_sizes_equal": true
+    },
+    "headers_footers_equal": true
+  },
+  "Architecture": {
+    "parts_c14n_equal": {
+      "word/styles.xml": true,
+      "word/theme/theme1.xml": true,
+      "word/settings.xml": true,
+      "word/numbering.xml": true
+    },
+    "sections_equal": true,
+    "cover_text_equal": true,
+    "cover_tables_equal": true,
+    "paragraphs": {
+      "before": 250,
+      "after": 271
+    },
+    "tables": {
+      "before": 58,
+      "after": 58
+    },
+    "images": {
+      "before": 14,
+      "after": 21,
+      "changed_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "display_sizes_equal": true
+    },
+    "headers_footers_equal": true
+  },
+  "Database": {
+    "parts_c14n_equal": {
+      "word/styles.xml": true,
+      "word/theme/theme1.xml": true,
+      "word/settings.xml": true,
+      "word/numbering.xml": true
+    },
+    "sections_equal": true,
+    "cover_text_equal": true,
+    "cover_tables_equal": true,
+    "paragraphs": {
+      "before": 306,
+      "after": 327
+    },
+    "tables": {
+      "before": 72,
+      "after": 72
+    },
+    "images": {
+      "before": 8,
+      "after": 15,
+      "changed_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "display_sizes_equal": true
+    },
+    "headers_footers_equal": true
+  },
+  "SRS": {
+    "parts_c14n_equal": {
+      "word/styles.xml": true,
+      "word/theme/theme1.xml": true,
+      "word/settings.xml": true,
+      "word/numbering.xml": true
+    },
+    "sections_equal": true,
+    "cover_text_equal": true,
+    "cover_tables_equal": true,
+    "paragraphs": {
+      "before": 59,
+      "after": 69
+    },
+    "tables": {
+      "before": 6,
+      "after": 11
+    },
+    "images": {
+      "before": 4,
+      "after": 4,
+      "changed_indices": [],
+      "display_sizes_equal": true
+    },
+    "headers_footers_equal": true
+  }
+}

@@ -1,0 +1,268 @@
+[P001] [Normal] SOFTWARE REQUIREMENT SPECIFICATION
+[P002] [Normal] DOCUMENT
+[P006] [Normal] STUDENT MANAGEMENT
+[P007] [Normal] Version: Version 1.0
+[P008] [Normal] ABSTRACT
+[P009] [Normal] This document is intended to be the SRS for developing STUDENT MANAGEMENT
+[P022] [Heading 1] Revision History
+[P026] [Heading 1] Introduction
+[P027] [Heading 2] Purpose
+[P029] [Normal] This document describes the Student Management System (SMS), including all main functions for users, students, and administrators.\nThe key features are listed below:
+[P030] [Normal] As a student (user): can register for courses, view personal profile, and view the list of available courses.
+[P031] [Normal] As an administrator (admin): can perform all CRUD (Create, Read, Update, Delete) operations on classes, users, and courses.
+[P032] [Heading 2] Intended Audience and Reading Suggestions
+[P035] [Heading 2] References
+[P041] [Heading 1] Project Overview
+[P042] [Heading 2] Project Description
+[P043] [Normal] This project is developed to assist administrators in managing all courses, users and classes within Student Management System.
+[P044] [Normal] It also aims to optimize the course registration process and allow students to easily view their personal profiles and the list of available courses.
+[P045] [Normal] In summary, the system provides:
+[P046] [List Paragraph] Efficient management of courses, classes, and users for administrators.
+[P047] [List Paragraph] Simplified course registration and personal information management for students.
+[P048] [Heading 2] Business Problems
+[P049] [Normal] Currently, students find it difficult to register for courses, view their personal profiles, and access the list of available courses.
+[P050] [Normal] At the same time, administrators face challenges in managing a large number of courses, users, and classes manually, which leads to inefficiency and errors.
+[P051] [Normal] Therefore, there is a need for a centralized system that can:
+[P052] [List Paragraph] Automate course registration and student management.
+[P053] [List Paragraph] Reduce administrative workload.
+[P054] [List Paragraph] Provide real-time access to information for both students and administrators.
+[P055] [Heading 2] Business Need
+[P056] [Normal] The Student Management System is needed to improve the efficiency and accuracy of managing academic information.\nCurrently, most of the operations, such as course registration, class management, and student information updates, are performed manually.\nThis manual process is time-consuming, prone to human errors, and lacks real-time data access.
+[P057] [Normal] By developing this system:
+[P058] [List Paragraph] Administrators can easily manage courses, users, and classes through an integrated digital platform.
+[P059] [List Paragraph] Students can register for courses, view their profiles, and access course information conveniently.
+[P060] [List Paragraph] The system ensures data consistency, reduces workload, and improves overall productivity for educational institutions.
+[P061] [Heading 2] Project Analyst
+[P062] [Heading 2] Business Function Diagram
+[P064] [Heading 2]  System Context Diagram
+[P065] [Heading 2] Data Flow Diagram
+[P066] [Heading 2] Software Requirement Specification
+[P067] [Heading 2] High level Fucntional Requirement (FR)
+[P068] [Heading 2] Stakeholders
+[P070] [Heading 2] Usecase
+[P071] [Heading 2] List of use cases
+[P074] [Heading 2] <<project  name>> Use Case Diagram Overview
+[P077] [Heading 2] List of business rule
+[P079] [Heading 2] Use Case Specification
+[P080] [Heading 3] UC 01: Create a New Place
+[P081] [List Paragraph] Use Case Diagram
+[P083] [List Paragraph] Use Case Specìication
+[P086] [List Paragraph] Prototype
+[P088] [Heading 3] UC 02: Edit a Place’s Information
+[P089] [List Paragraph] Use Case Diagram
+[P091] [List Paragraph] Use Case Specìication
+[P094] [List Paragraph] Prototype
+[P097] [Heading 2] Software Quality Attributes
+[P098] [Heading 2] Usability
+[P099] [Normal] GUI
+[P100] [Normal] -  All the text, image text and help documents should be in Vietnamese.
+[P101] [Normal] -  The interface should be elegant, simple and out‐standing.
+[P102] [Normal] -  All images must also provide alt attribute.
+[P103] [Normal] Usability for end‐users
+[P104] [Normal] -  Searching tool should be easy to use.
+[P105] [Normal] -  The website must provide a help page to support novice users.
+[P106] [Normal] -  Users can use main functionality of the system without logging in to the system.
+[P107] [Normal] -  The system should remember information (but not confidential) that users have to
+[P108] [Normal] provide regularly. For example: name, address…
+[P109] [Normal] Usability for admin and staff
+[P110] [Normal] -  Website admin and shop’s staff should need no more than one day of training to be
+[P111] [Normal] productive with the system.
+[P112] [Normal] -  Detailed help must be available for the admin and staff, both in web pages and separate
+[P113] [Normal] documentations.
+[P114] [Normal] Installation
+[P115] [Normal] -  The system must be easy to deploy. Customer can deploy successfully and learn to
+[P116] [Normal] configure, maintain the system within one day of training.
+[P117] [Normal] -  The documentation for installation must be included. It describes detailed steps for
+[P118] [Normal] installing or deploying the system. The customer can follow the steps without direct help from
+[P119] [Normal] the developing team.
+[P120] [Heading 2] Reliability
+[P121] [Normal] -  Initial data must be collected carefully and correctly
+[P122] [Normal] -  The database must be backed up regularly and can be recovered if necessary
+[P123] [Normal] -  Have a good spam filter
+[P124] [Normal] -  Rating system must be reliable
+[P125] [Normal] -  Not conflict with other software
+[P126] [Normal] -  Rate of fault occurrence (ROFO): a number of 0.005 is acceptable. It means that it is
+[P127] [Normal] acceptable to have 5 failures happen in each 1000 operational time units (e.g. 5 failures per
+[P128] [Normal] 1000 hours of operation).
+[P129] [Normal] -  Mean Time Between Failures (MTBF): 1 month
+[P130] [Normal] -  Mean Time To Repair (MTTR): immediately when admin finds out problem or website is attacked by someone. Average 1 day.
+[P131] [Normal] -  Accuracy: precision of floating number should be rounded to 0.01. All currency units must be displayed (e.g. $, VND…)
+[P132] [Normal] -  Maximum Bugs or Defect Rate: 5 bugs / KLOC.
+[P133] [Normal] -  Bugs or Defect Rate
+[P134] [Normal] o  Minor bugs: bugs related to GUI
+[P135] [Normal] o  Significant bugs: bugs related to minor business logic
+[P136] [Normal] o  Critical bugs: function can’t execute correctly, completely loss of data,
+[P137] [Normal] disconnect to the server
+[P138] [Heading 2] Security
+[P139] [Normal] -  Privacy: the system should provide protection method for protecting user information from
+[P140] [Normal] outside or from other users. All the information of users must not be available for anyone or
+[P141] [Normal] software that is not part of the system. User password is also invisible for the system
+[P142] [Normal] administrator.
+[P143] [Normal] -  The system must provide methods to prevent common security attacks. E.g. SQL injection,
+[P144] [Normal] Ddos,…
+[P145] [Normal] -  Transformation of confidential information must be encrypted.
+[P146] [Normal] -  The system must provide secure methods for users to recovery their password, including
+[P147] [Normal] the interference of system’s admin.
+[P148] [Normal] -  Secure information of customers should not be stored on customer’s machine.
+[P149] [Normal] -  Utilize certain cryptographic techniques for database
+[P150] [Normal] -  Provide options for users to choose whether to share private information
+[P151] [Normal] -  Restrict communications between some areas of the program
+[P152] [Normal] -  Check data integrity for critical variables
+[P153] [Normal] -  Must use secure connection (SSL) for transferring sensitive data
+[P154] [Heading 2] Maintainability
+[P155] [Normal] Coding standards and naming conventions
+[P156] [Normal] -  Output of the project must include coding standards and naming conventions
+[P157] [Normal] documentations. Implementation code must be easy to maintain.
+[P158] [Normal] -  All code must be clearly commented, including class, method documentations.
+[P159] [Normal] -  If some components are reused, the documentations of those components must also be
+[P160] [Normal] included.
+[P161] [Normal] Design
+[P162] [Normal] -  The design of the system must be loosely coupled that chances on some module will not
+[P163] [Normal] affect others.
+[P164] [Normal] Logging
+[P165] [Normal] -  All the errors should be logged, supporting for bug fixing and maintenance.
+[P166] [Normal] -  All strange or sensitive situations should also be logged.
+[P167] [Normal] Email
+[P168] [Normal] -  The system must provide an email address to receive customer feedback or send emails.
+[P169] [Heading 2] Portability
+[P170] [Normal] Website can be used by any people with a browser and an Internet connection..
+[P171] [Heading 2] Performance
+[P172] [Normal] Load time
+[P173] [Normal] -  Every page should be completely displayed within: average 1.5 second and maximum 5
+[P174] [Normal] seconds.
+[P175] [Normal] -  Searching should return and display the result within 2 seconds.
+[P176] [Normal] -  Comments and rating and the like should affect immediately, without reloading the web
+[P177] [Normal] page.
+[P178] [Normal] -  Frequently accessed data must be cached
+[P179] [Normal] -  Reference data must be cached
+[P180] [Normal] Mailing system
+[P181] [Normal] -  Mail server should send emails within 1 minute after associated events happen.
+[P182] [Normal] Capacity
+[P183] [Normal] -  The system should serve correctly and reasonably with at least 1000 online users at a
+[P184] [Normal] moment.
+[P185] [Normal] -  The system can store at least 100000 places and 10000 users without affecting the loading
+[P186] [Normal] speed.
+[P187] [Normal] -  If the system is busy, it has to inform users about that.
+[P188] [Normal] Compatibility
+[P189] [Normal] -  The system should provide elegant responses for nowadays common screen resolutions:
+[P190] [Normal] 1024*768, 1280*800.
+[P191] [Normal] -  The output must be compatible with all common browsers: Mozilla Firefox, Internet
+[P192] [Normal] Explorer, Google Chrome, Apple Safari, and Opera.
+[P193] [Heading 2] Software Design Description
+[P194] [Heading 2] Sequence Diagrams
+[P195] [Heading 2] Cập nhật thông tin nhân viên
+[P197] [Heading 2] Quan hệ Gia đình
+[P199] [Heading 2] Activity Diagrams
+[P200] [Heading 2] Cập nhật thông tin nhân viên
+[P204] [Heading 2] State Diagram
+[P206] [Heading 2] Class Diagram
+[P208] [Heading 2] Allocation Diagram
+[P210] [Heading 1] Appendix A: Glossary
+[TABLE 00] style=Normal Table rows=4 cols=4
+  [R00] Project Title | Student Management | Student Management | Student Management
+  [R01] Project Mentor | Nguyen Quang Bao | Nguyen Quang Bao | Nguyen Quang Bao
+  [R02] Contact Information | Nguyenquangbao575@gmail.com | Nguyenquangbao575@gmail.com | Nguyenquangbao575@gmail.com
+  [R03] Start Date | 16/10/2025 | End Date |
+[TABLE 01] style=Plain Table 1 rows=11 cols=5
+  [R00] Date | Change Iterm | Description | by | Version
+  [R01] 16/10/2025 | Draft |  | Bao | 1.0
+  [R02]  |  |  |  |
+  [R03]  |  |  |  |
+  [R04]  |  |  |  |
+  [R05]  |  |  |  |
+  [R06]  |  |  |  |
+  [R07]  |  |  |  |
+  [R08]  |  |  |  |
+  [R09]  |  |  |  |
+  [R10]  |  |  |  |
+[TABLE 02] style=Plain Table 1 rows=5 cols=2
+  [R00] Intended Audience | Reading Suggestions
+  [R01] Administrator | Review overall system functions and management operations
+  [R02] Architect analyst and designer | Overall description and user cases to architect and design the system
+  [R03] Quality control | Overall description and user cases to make test plan and write acceptance test
+  [R04] Developer | Overall description, focus on Functional + Non-Functional Requirements to understand the process
+[TABLE 03] style=Table Grid rows=3 cols=3
+  [R00] No | References | Document Information
+  [R01] 1 | Nguyen Dang Quang Huy - Duy Tan university | Slide: Requirements Engineering
+  [R02] 2 | Nguyen Dang Quang Huy – Duy Tan university | SRS Template
+[TABLE 04] style=Light Grid - Accent 12 rows=6 cols=3
+  [R00] FR1.1 | Title | Create new place
+  [R01] FR1.1 | Stakeholder | Users who use jukebox for playing music
+  [R02] FR1.1 | Description | If user is new one, the system will allow him/her establish an account and specify amount the money that he/she allocate from their credit card into Jukebox account. Otherwise, user can check Jukebox balance.
+  [R03] FR1.2 | Title | Edit a Place’s Information
+  [R04] FR1.2 | Stakeholder | Users who use jukebox for playing music
+  [R05] FR1.2 | Description | The system shall display list of songs grouped into music genres and will allow user select music genres and songs to play. Once the first song is selected the song will start playing while allowing user to make further choices. The system shall also record such selected and played song into database. User can deselect his/her songs from the current playlist and amount of deselecting shall refund. User can create account on one Jukebox and play music on another in distributed system.
+[TABLE 05] style=List Table 3 rows=4 cols=2
+  [R00] Stakeholder | Description
+  [R01] Users | People who use jukeboxes to play music
+  [R02] System administrators | People who administer and configure the jukebox system
+  [R03] Engineer | Person who deploy the Jukebox System
+[TABLE 06] style=Grid Table 4 rows=4 cols=3
+  [R00] Use case ID | Use case name | Functional Req.
+  [R01] UC.01 | Create new place | FR1.1
+  [R02] UC.02 | Edit a Place’s Information | FR1.2
+  [R03] UC.03 | Login | FR1.3
+[TABLE 07] style=Grid Table 4 rows=5 cols=3
+  [R00] Code | Business rules | Use case
+  [R01] BR1 | Rank of a  user will be se  based on the user’s  / contribution point (CP) | UC.02
+  [R02] BR2 | Contribution Point (CP) is calculated as follow:  / ‐ Starter point for every user is 10 point  / ‐ Create a place: + 20 point  / ‐ Your place get deleted: ‐ 25 point | UC.02
+  [R03] BR3 | For user has more than 1000 point (senior user):  / ‐ Can edit a place directly  / ‐ Can upload place’s image directly  / ‐ Can approve suggested edit  / ‐ Can approve suggested images   / ‐ Set a revision as current | UC. 02
+  [R04] BR4 | For user has less than 1000 point (junior user):  / ‐ an revision of a place created by these users  / need approvals from senior users or admins to be  / displayed | UC.02
+[TABLE 08] style=Table Grid rows=24 cols=6
+  [R00] Use case ID | UC1.01 | UC1.01 | UC1.01 | UC1.01 | UC1.01
+  [R01] Use case name | Create new place | Create new place | Create new place | Create new place | Create new place
+  [R02] Create by | Hung Nguyen | Hung Nguyen | Last updated by | Last updated by | Hung Nguyen
+  [R03] Date created | June 20, 2010 | June 20, 2010 | Date last updated | Date last updated | July 01, 2010
+  [R04] Actor | Engineer | Engineer | Engineer | Engineer | Engineer
+  [R05] Description | This use case allows the user to create a place in this system when the user knows an interesting place and wants to share it to everyone | This use case allows the user to create a place in this system when the user knows an interesting place and wants to share it to everyone | This use case allows the user to create a place in this system when the user knows an interesting place and wants to share it to everyone | This use case allows the user to create a place in this system when the user knows an interesting place and wants to share it to everyone | This use case allows the user to create a place in this system when the user knows an interesting place and wants to share it to everyone
+  [R06] Trigger | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page
+  [R07] Pre-condition | User logged into the system successfully. | User logged into the system successfully. | User logged into the system successfully. | User logged into the system successfully. | User logged into the system successfully.
+  [R08] Post-condition  | System redirects user to the place detail page of the just‐created place. | System redirects user to the place detail page of the just‐created place. | System redirects user to the place detail page of the just‐created place. | System redirects user to the place detail page of the just‐created place. | System redirects user to the place detail page of the just‐created place.
+  [R09] Main Success Scenario: | Step | Actor Action | Actor Action | System Response | System Response
+  [R10] Main Success Scenario: | 1 | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page | Redirect to Create Place page | Redirect to Create Place page
+  [R11] Main Success Scenario: | 2 | Fills all mandatory data fields | Fills all mandatory data fields |  |
+  [R12] Main Success Scenario: | 3 | Click to “Tạo địa điểm” button. | Click to “Tạo địa điểm” button. | Redirect to new place’s details page. | Redirect to new place’s details page.
+  [R13] Alternative Scenario | Step | Actor Action | Actor Action | System Response | System Response
+  [R14] Alternative Scenario | 1 | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page | Redirect to Create Place page | Redirect to Create Place page
+  [R15] Alternative Scenario | 2 | Fills all mandatory data fields | Fills all mandatory data fields |  |
+  [R16] Alternative Scenario | 3 | Click to “Bỏ Qua” button. | Click to “Bỏ Qua” button. | Redirect to new place’s details page. | Redirect to new place’s details page.
+  [R17] Exceptions | Step | Actor Action | Actor Action | System Response | System Response
+  [R18] Exceptions | 1 | Click to “Tạo địa điểm” in navigator at home page | Click to “Tạo địa điểm” in navigator at home page | Redirect to Create Place page | Redirect to Create Place page
+  [R19] Exceptions | 2 | User fills some data fields. Some mandatory data fields are skipped.   | User fills some data fields. Some mandatory data fields are skipped.   |  |
+  [R20] Exceptions | 3 | Click to “Tạo địa điểm” button. | Click to “Tạo địa điểm” button. | Shows all required messages for all missing mandatory data fields. | Shows all required messages for all missing mandatory data fields.
+  [R21] Priority | High | High | High | High | High
+  [R22] Business rule | N/A | N/A | N/A | N/A | N/A
+  [R23] Description: | When user have a place to share, they only need click to “To địa điểm” menu on the navigator and get redirect to Create Place page to create a new place. In order to create a new place, user need enter place name, category, city/province, district/town/ward and detail address. Place phone number and description are  / optional.  / Place name: required; must be less than 200 characters  / Category: required; there is a suggest list displayed below as user typing place’s category in the text box. User must choose a category from the list. An unknown or new or invalid category won’t be accepted and a new place won’t be created  / City/ province/ district/ town/ ward: user need choose from combo box list  / Phone number: this number will be used to contact to place’s owner/manager / Detail Address:  this is detail address of new place. It contains all parts left of place address except (city/ province/ district/ town/ ward)   / Description: user can write review,comment, introduction, recommendation for new place / Place location: user can zoom in and out on the map and click to a location on the map to define place’s location / When user click to “Tạo địa điểm” button, the system will open Place Detail page of newly created place. By click to “B qua” button, the user will go back to previous page. | When user have a place to share, they only need click to “To địa điểm” menu on the navigator and get redirect to Create Place page to create a new place. In order to create a new place, user need enter place name, category, city/province, district/town/ward and detail address. Place phone number and description are  / optional.  / Place name: required; must be less than 200 characters  / Category: required; there is a suggest list displayed below as user typing place’s category in the text box. User must choose a category from the list. An unknown or new or invalid category won’t be accepted and a new place won’t be created  / City/ province/ district/ town/ ward: user need choose from combo box list  / Phone number: this number will be used to contact to place’s owner/manager / Detail Address:  this is detail address of new place. It contains all parts left of place address except (city/ province/ district/ town/ ward)   / Description: user can write review,comment, introduction, recommendation for new place / Place location: user can zoom in and out on the map and click to a location on the map to define place’s location / When user click to “Tạo địa điểm” button, the system will open Place Detail page of newly created place. By click to “B qua” button, the user will go back to previous page. | When user have a place to share, they only need click to “To địa điểm” menu on the navigator and get redirect to Create Place page to create a new place. In order to create a new place, user need enter place name, category, city/province, district/town/ward and detail address. Place phone number and description are  / optional.  / Place name: required; must be less than 200 characters  / Category: required; there is a suggest list displayed below as user typing place’s category in the text box. User must choose a category from the list. An unknown or new or invalid category won’t be accepted and a new place won’t be created  / City/ province/ district/ town/ ward: user need choose from combo box list  / Phone number: this number will be used to contact to place’s owner/manager / Detail Address:  this is detail address of new place. It contains all parts left of place address except (city/ province/ district/ town/ ward)   / Description: user can write review,comment, introduction, recommendation for new place / Place location: user can zoom in and out on the map and click to a location on the map to define place’s location / When user click to “Tạo địa điểm” button, the system will open Place Detail page of newly created place. By click to “B qua” button, the user will go back to previous page. | When user have a place to share, they only need click to “To địa điểm” menu on the navigator and get redirect to Create Place page to create a new place. In order to create a new place, user need enter place name, category, city/province, district/town/ward and detail address. Place phone number and description are  / optional.  / Place name: required; must be less than 200 characters  / Category: required; there is a suggest list displayed below as user typing place’s category in the text box. User must choose a category from the list. An unknown or new or invalid category won’t be accepted and a new place won’t be created  / City/ province/ district/ town/ ward: user need choose from combo box list  / Phone number: this number will be used to contact to place’s owner/manager / Detail Address:  this is detail address of new place. It contains all parts left of place address except (city/ province/ district/ town/ ward)   / Description: user can write review,comment, introduction, recommendation for new place / Place location: user can zoom in and out on the map and click to a location on the map to define place’s location / When user click to “Tạo địa điểm” button, the system will open Place Detail page of newly created place. By click to “B qua” button, the user will go back to previous page. | When user have a place to share, they only need click to “To địa điểm” menu on the navigator and get redirect to Create Place page to create a new place. In order to create a new place, user need enter place name, category, city/province, district/town/ward and detail address. Place phone number and description are  / optional.  / Place name: required; must be less than 200 characters  / Category: required; there is a suggest list displayed below as user typing place’s category in the text box. User must choose a category from the list. An unknown or new or invalid category won’t be accepted and a new place won’t be created  / City/ province/ district/ town/ ward: user need choose from combo box list  / Phone number: this number will be used to contact to place’s owner/manager / Detail Address:  this is detail address of new place. It contains all parts left of place address except (city/ province/ district/ town/ ward)   / Description: user can write review,comment, introduction, recommendation for new place / Place location: user can zoom in and out on the map and click to a location on the map to define place’s location / When user click to “Tạo địa điểm” button, the system will open Place Detail page of newly created place. By click to “B qua” button, the user will go back to previous page.
+[TABLE 09] style=Table Grid rows=25 cols=6
+  [R00] Use case ID | UC.02 | UC.02 | UC.02 | UC.02 | UC.02
+  [R01] Use case name | Edit a Place’s Information | Edit a Place’s Information | Edit a Place’s Information | Edit a Place’s Information | Edit a Place’s Information
+  [R02] Create by | Hung Nguyen | Hung Nguyen | Last updated by | Last updated by | Hung Nguyen
+  [R03] Date created | June 20, 2010 | June 20, 2010 | Date last updated | Date last updated | July 01, 2010
+  [R04] Actor | Senior User (has more than 1000 Contribution Point) and administrator (View Business Rule for more detail) | Senior User (has more than 1000 Contribution Point) and administrator (View Business Rule for more detail) | Senior User (has more than 1000 Contribution Point) and administrator (View Business Rule for more detail) | Senior User (has more than 1000 Contribution Point) and administrator (View Business Rule for more detail) | Senior User (has more than 1000 Contribution Point) and administrator (View Business Rule for more detail)
+  [R05] Description | When some information of a place like telephone, title, address… is changed, the user with highest rank type or the admin can make it up‐to‐date by click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page. | When some information of a place like telephone, title, address… is changed, the user with highest rank type or the admin can make it up‐to‐date by click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page. | When some information of a place like telephone, title, address… is changed, the user with highest rank type or the admin can make it up‐to‐date by click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page. | When some information of a place like telephone, title, address… is changed, the user with highest rank type or the admin can make it up‐to‐date by click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page. | When some information of a place like telephone, title, address… is changed, the user with highest rank type or the admin can make it up‐to‐date by click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page.
+  [R06] Goal | This use case allows the actor edit information of a place. | This use case allows the actor edit information of a place. | This use case allows the actor edit information of a place. | This use case allows the actor edit information of a place. | This use case allows the actor edit information of a place.
+  [R07] Trigger | Click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page | Click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page | Click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page | Click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page | Click to “Chỉnh Sửa Thông Tin” hyperlink in the place’s details page
+  [R08] Pre-condition | Logged into the system successfully and open a place’s detail page.. | Logged into the system successfully and open a place’s detail page.. | Logged into the system successfully and open a place’s detail page.. | Logged into the system successfully and open a place’s detail page.. | Logged into the system successfully and open a place’s detail page..
+  [R09] Post-condition  | Redirected back to Place Detail page | Redirected back to Place Detail page | Redirected back to Place Detail page | Redirected back to Place Detail page | Redirected back to Place Detail page
+  [R10] Main Success Scenario: | Step | Actor Action | Actor Action | System Response | System Response
+  [R11] Main Success Scenario: | 1 | User click to “Chỉnh sửa thông tin” hyperlink | User click to “Chỉnh sửa thông tin” hyperlink | System displays the page to edit place   | System displays the page to edit place
+  [R12] Main Success Scenario: | 2 | User edit some data fields | User edit some data fields |  |
+  [R13] Main Success Scenario: | 3 | User click to “Sửa” button | User click to “Sửa” button | System will redirect to the place’s details page with t e up‐to‐date data | System will redirect to the place’s details page with t e up‐to‐date data
+  [R14] Alternative Scenario | Step | Actor Action | Actor Action | System Response | System Response
+  [R15] Alternative Scenario | 1 | User click to “Chỉnh sửa thông tin” hyperlink | User click to “Chỉnh sửa thông tin” hyperlink | System displays the page to edit place | System displays the page to edit place
+  [R16] Alternative Scenario | 2 | User edit some data fields | User edit some data fields |  |
+  [R17] Alternative Scenario | 3 | User Click to “Bỏ Qua” button. | User Click to “Bỏ Qua” button. | System will redirect to the  place’s details page and the data still is as before. | System will redirect to the  place’s details page and the data still is as before.
+  [R18] Exceptions | Step | Actor Action | Actor Action | System Response | System Response
+  [R19] Exceptions | 1 | User click to “Chỉnh sửa thông tin” hyperlink | User click to “Chỉnh sửa thông tin” hyperlink | System displays the page to edit place | System displays the page to edit place
+  [R20] Exceptions | 2 | User delete or leave blank some mandatory data fields | User delete or leave blank some mandatory data fields |  |
+  [R21] Exceptions | 3 | User Click to “Bỏ Qua” button. | User Click to “Bỏ Qua” button. | System validates data in this page and shows all required messages for all missing mandatory data fie ds. | System validates data in this page and shows all required messages for all missing mandatory data fie ds.
+  [R22] Priority | High | High | High | High | High
+  [R23] Business rule | BR1, BR2, BR3 | BR1, BR2, BR3 | BR1, BR2, BR3 | BR1, BR2, BR3 | BR1, BR2, BR3
+  [R24] Description: | Edit place is one of main focuses on the website. Sharing a place isn’t just simply by post a new place on the system. It is also about sharing information between users. And the most useful method to sharing is every user make all places in the system more detail, more precisely, increase its reliability, up‐to‐date… everything can be carry through editing places. But because editing can be contribution but also can be destruction, we can’t let every user has access to this function. So only user who has more than 1000 point can edit places.  / When user has more than 1000 point, It means that user has taken quite a time using our website and he/she is trustable. The chance that user will take some destructive actions is rare.  / For users with less than 1000 point, they still can go to Edit place page and edit information. But the changes they made will be taken as suggestions. These suggestions need approvals from verified users (>= 1000 point) or admin team.  / To edit a place, user need go to its detail page first. After that, click to “Chnh sa thông tin” hyperlink will redirect you to Edit Place page. At Edit place page, click to “Sa” button to save all changes or click to “B qua” button to go back to Detail page. All validations still take effect as creating a new place. | Edit place is one of main focuses on the website. Sharing a place isn’t just simply by post a new place on the system. It is also about sharing information between users. And the most useful method to sharing is every user make all places in the system more detail, more precisely, increase its reliability, up‐to‐date… everything can be carry through editing places. But because editing can be contribution but also can be destruction, we can’t let every user has access to this function. So only user who has more than 1000 point can edit places.  / When user has more than 1000 point, It means that user has taken quite a time using our website and he/she is trustable. The chance that user will take some destructive actions is rare.  / For users with less than 1000 point, they still can go to Edit place page and edit information. But the changes they made will be taken as suggestions. These suggestions need approvals from verified users (>= 1000 point) or admin team.  / To edit a place, user need go to its detail page first. After that, click to “Chnh sa thông tin” hyperlink will redirect you to Edit Place page. At Edit place page, click to “Sa” button to save all changes or click to “B qua” button to go back to Detail page. All validations still take effect as creating a new place. | Edit place is one of main focuses on the website. Sharing a place isn’t just simply by post a new place on the system. It is also about sharing information between users. And the most useful method to sharing is every user make all places in the system more detail, more precisely, increase its reliability, up‐to‐date… everything can be carry through editing places. But because editing can be contribution but also can be destruction, we can’t let every user has access to this function. So only user who has more than 1000 point can edit places.  / When user has more than 1000 point, It means that user has taken quite a time using our website and he/she is trustable. The chance that user will take some destructive actions is rare.  / For users with less than 1000 point, they still can go to Edit place page and edit information. But the changes they made will be taken as suggestions. These suggestions need approvals from verified users (>= 1000 point) or admin team.  / To edit a place, user need go to its detail page first. After that, click to “Chnh sa thông tin” hyperlink will redirect you to Edit Place page. At Edit place page, click to “Sa” button to save all changes or click to “B qua” button to go back to Detail page. All validations still take effect as creating a new place. | Edit place is one of main focuses on the website. Sharing a place isn’t just simply by post a new place on the system. It is also about sharing information between users. And the most useful method to sharing is every user make all places in the system more detail, more precisely, increase its reliability, up‐to‐date… everything can be carry through editing places. But because editing can be contribution but also can be destruction, we can’t let every user has access to this function. So only user who has more than 1000 point can edit places.  / When user has more than 1000 point, It means that user has taken quite a time using our website and he/she is trustable. The chance that user will take some destructive actions is rare.  / For users with less than 1000 point, they still can go to Edit place page and edit information. But the changes they made will be taken as suggestions. These suggestions need approvals from verified users (>= 1000 point) or admin team.  / To edit a place, user need go to its detail page first. After that, click to “Chnh sa thông tin” hyperlink will redirect you to Edit Place page. At Edit place page, click to “Sa” button to save all changes or click to “B qua” button to go back to Detail page. All validations still take effect as creating a new place. | Edit place is one of main focuses on the website. Sharing a place isn’t just simply by post a new place on the system. It is also about sharing information between users. And the most useful method to sharing is every user make all places in the system more detail, more precisely, increase its reliability, up‐to‐date… everything can be carry through editing places. But because editing can be contribution but also can be destruction, we can’t let every user has access to this function. So only user who has more than 1000 point can edit places.  / When user has more than 1000 point, It means that user has taken quite a time using our website and he/she is trustable. The chance that user will take some destructive actions is rare.  / For users with less than 1000 point, they still can go to Edit place page and edit information. But the changes they made will be taken as suggestions. These suggestions need approvals from verified users (>= 1000 point) or admin team.  / To edit a place, user need go to its detail page first. After that, click to “Chnh sa thông tin” hyperlink will redirect you to Edit Place page. At Edit place page, click to “Sa” button to save all changes or click to “B qua” button to go back to Detail page. All validations still take effect as creating a new place.
+[TABLE 10] style=Light Shading - Accent 11 rows=6 cols=2
+  [R00] BC | Business Constraint
+  [R01] TC | Technical Constraint
+  [R02] FR | Functional Requirement
+  [R03] QA | Quality Attribute
+  [R04] UC | Use case
+  [R05] BR | Business rule

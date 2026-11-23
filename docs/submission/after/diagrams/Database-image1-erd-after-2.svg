@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4300" height="1677" viewBox="0 0 4300 1677">
+<rect width="4300" height="1677" fill="#FFFFFF"/>
+<rect x="200" y="120" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="172" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">AiPromptContent</text>
+<rect x="340.0" y="218" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="244" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">prompt_record_id</text>
+<rect x="1250" y="120" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="172" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">AiPromptRecord</text>
+<rect x="1390.0" y="218" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="244" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">prompt_record_id</text>
+<rect x="2300" y="120" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="2550.0" y="172" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">AiStageAttempt</text>
+<rect x="2440.0" y="218" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="2550.0" y="244" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">stage_attempt_id</text>
+<rect x="3350" y="120" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="3600.0" y="172" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">AiStageRun</text>
+<rect x="3490.0" y="218" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="3600.0" y="244" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">stage_run_id</text>
+<rect x="200" y="310" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="362" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">AiStageValidation</text>
+<rect x="340.0" y="408" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="434" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">validation_id</text>
+<rect x="1250" y="310" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="362" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">AttemptRubricCriterion</text>
+<rect x="1390.0" y="408" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="434" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">criterion_snapshot_id</text>
+<rect x="2300" y="310" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="2550.0" y="362" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">CourseDocument</text>
+<rect x="2440.0" y="408" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="2550.0" y="434" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">document_id</text>
+<rect x="3350" y="310" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="3600.0" y="362" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">DocumentChunk</text>
+<rect x="3490.0" y="408" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="3600.0" y="434" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">chunk_id</text>
+<rect x="200" y="500" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="552" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">DocumentClo</text>
+<rect x="340.0" y="598" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="624" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">document_id, clo_id</text>
+<rect x="1250" y="500" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="552" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">PromptAccessAudit</text>
+<rect x="1390.0" y="598" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="624" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">access_id</text>
+<rect x="2300" y="500" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="2550.0" y="552" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">QuestionClo</text>
+<rect x="2440.0" y="598" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="2550.0" y="624" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">question_id, clo_id</text>
+<rect x="3350" y="500" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="3600.0" y="552" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">QuestionEvidence</text>
+<rect x="3490.0" y="598" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="3600.0" y="624" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">evidence_id</text>
+<rect x="200" y="690" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="742" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">QuestionReport</text>
+<rect x="340.0" y="788" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="814" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">question_report_id</text>
+<rect x="1250" y="690" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="742" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">QuestionRubricCriterion</text>
+<rect x="1390.0" y="788" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="814" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">criterion_id</text>
+<rect x="2300" y="690" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="2550.0" y="742" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">QuestionRubricProfile</text>
+<rect x="2440.0" y="788" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="2550.0" y="814" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">rubric_profile_id</text>
+<rect x="3350" y="690" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="3600.0" y="742" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">RetentionPurgeAudit</text>
+<rect x="3490.0" y="788" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="3600.0" y="814" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">purge_audit_id</text>
+<rect x="200" y="880" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="932" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">ReviewDeviation</text>
+<rect x="340.0" y="978" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="1004" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">deviation_id</text>
+<rect x="1250" y="880" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="932" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">ReviewDeviationConfirmation</text>
+<rect x="1390.0" y="978" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="1004" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">deviation_id</text>
+<rect x="2300" y="880" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="2550.0" y="932" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">ReviewRequest</text>
+<rect x="2440.0" y="978" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="2550.0" y="1004" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">review_request_id</text>
+<rect x="3350" y="880" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="3600.0" y="932" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">SessionFinalResult</text>
+<rect x="3490.0" y="978" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="3600.0" y="1004" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">result_id</text>
+<rect x="200" y="1070" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="1122" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">SessionResultAnalysis</text>
+<rect x="340.0" y="1168" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="1194" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">analysis_id</text>
+<rect x="1250" y="1070" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="1122" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">SessionResultCriterionScore</text>
+<rect x="1390.0" y="1168" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="1194" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">criterion_score_id</text>
+<rect x="2300" y="1070" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="2550.0" y="1122" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">SessionResultPublication</text>
+<rect x="2440.0" y="1168" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="2550.0" y="1194" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">result_version_id</text>
+<rect x="3350" y="1070" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="3600.0" y="1122" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">SessionResultVersion</text>
+<rect x="3490.0" y="1168" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="3600.0" y="1194" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">result_version_id</text>
+<rect x="200" y="1260" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="450.0" y="1312" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">SessionResultVersionScore</text>
+<rect x="340.0" y="1358" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="450.0" y="1384" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">version_score_id</text>
+<rect x="1250" y="1260" width="500" height="80" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="4"/>
+<text x="1500.0" y="1312" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#222222">TabLeaveInterval</text>
+<rect x="1390.0" y="1358" width="220" height="38" rx="19" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="1500.0" y="1384" font-family="Arial, Helvetica, sans-serif" font-size="22" text-anchor="middle" fill="#222222">leave_event_id</text>
+<rect x="760" y="1470" width="2780" height="150" rx="20" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<text x="800" y="1515" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="bold" fill="#222222">DBCAS full schema — additional tables</text>
+<text x="800" y="1555" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#222222">67 tables · 561 columns · 122 foreign keys · 28 migrations. This page extends Figure 7/1 with the 26 tables introduced by migrations 020–028; keys are shown inside ovals.</text>
+</svg>

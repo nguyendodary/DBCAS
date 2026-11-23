@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3440" height="2080" viewBox="0 0 3440 2080">
+<rect width="3440" height="2080" fill="#FFFFFF"/>
+<rect x="43" y="45" width="795" height="652" fill="#B8B8B8"/>
+<rect x="893" y="45" width="795" height="592" fill="#B8B8B8"/>
+<rect x="1743" y="45" width="795" height="520" fill="#B8B8B8"/>
+<rect x="2593" y="45" width="795" height="462" fill="#B8B8B8"/>
+<rect x="43" y="757" width="795" height="304" fill="#B8B8B8"/>
+<rect x="893" y="757" width="795" height="304" fill="#B8B8B8"/>
+<rect x="40" y="42" width="795" height="652" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="116" x2="835" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="188" x2="834" y2="188" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="334" x2="834" y2="334" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="406" x2="834" y2="406" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="478" x2="834" y2="478" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="550" x2="834" y2="550" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="622" x2="834" y2="622" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="42" width="795" height="592" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="116" x2="1685" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="188" x2="1684" y2="188" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="274" x2="1684" y2="274" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="346" x2="1684" y2="346" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="418" x2="1684" y2="418" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="490" x2="1684" y2="490" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="562" x2="1684" y2="562" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="1740" y="42" width="795" height="520" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="1741.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="1740" y1="116" x2="2535" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="1741" y1="188" x2="2534" y2="188" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="274" x2="2534" y2="274" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="346" x2="2534" y2="346" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="418" x2="2534" y2="418" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="1741" y1="490" x2="2534" y2="490" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="2590" y="42" width="795" height="462" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="2591.5" y="43.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="2590" y1="116" x2="3385" y2="116" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="2591" y1="202" x2="3384" y2="202" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="288" x2="3384" y2="288" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="360" x2="3384" y2="360" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="2591" y1="432" x2="3384" y2="432" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="40" y="754" width="795" height="304" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="41.5" y="755.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="40" y1="828" x2="835" y2="828" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="41" y1="914" x2="834" y2="914" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="41" y1="986" x2="834" y2="986" stroke="#DCDCDC" stroke-width="2"/>
+<rect x="890" y="754" width="795" height="304" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="2.5"/>
+<rect x="891.5" y="755.5" width="792" height="72" fill="#E8E8E8"/>
+<line x1="890" y1="828" x2="1685" y2="828" stroke="#1A1A1A" stroke-width="2.5"/>
+<line x1="891" y1="914" x2="1684" y2="914" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="891" y1="986" x2="1684" y2="986" stroke="#DCDCDC" stroke-width="2"/>
+<line x1="60" y1="169.5" x2="324" y2="169.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="912" y1="169.5" x2="1139" y2="169.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="1761" y1="169.5" x2="1913" y2="169.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2611" y1="146.5" x2="2810" y2="146.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="2611" y1="232.5" x2="2702" y2="232.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="61" y1="858.5" x2="248" y2="858.5" stroke="#1A1A1A" stroke-width="2"/>
+<line x1="912" y1="858.5" x2="1184" y2="858.5" stroke="#1A1A1A" stroke-width="2"/>
+<g fill="none" stroke="#1A1A1A" stroke-width="2.5">
+</g>
+<g font-family="Arial, Helvetica, sans-serif" fill="#1A1A1A">
+<text x="437.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">session_result_version_score</text>
+<text x="60" y="163" font-size="32" font-weight="bold" fill="#1A1A1A">version_score_id</text>
+<text x="535" y="163" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="815" y="163" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="60" y="212" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="535" y="212" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="212" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="238" font-size="24" font-weight="regular" fill="#0B6B3A">from session_result_criterion_score (p10)</text>
+<text x="60" y="268" font-size="24" font-weight="regular" fill="#1F3A93">to attempt (p4)</text>
+<text x="60" y="298" font-size="24" font-weight="regular" fill="#1F3A93">to session_result_version (p8)</text>
+<text x="60" y="381" font-size="32" font-weight="bold" fill="#1A1A1A">result_version_id</text>
+<text x="535" y="381" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="381" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="60" y="453" font-size="32" font-weight="bold" fill="#1A1A1A">attempt_id</text>
+<text x="535" y="453" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="453" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="60" y="525" font-size="32" font-weight="regular" fill="#1A1A1A">score</text>
+<text x="815" y="525" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">numeric(5,2) NOT NULL</text>
+<text x="60" y="597" font-size="32" font-weight="regular" fill="#1A1A1A">max_score</text>
+<text x="815" y="597" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">numeric(5,2) NOT NULL</text>
+<text x="60" y="669" font-size="32" font-weight="regular" fill="#1A1A1A">source</text>
+<text x="815" y="669" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="1287.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">tab_leave_interval</text>
+<text x="910" y="163" font-size="32" font-weight="bold" fill="#1A1A1A">leave_event_id</text>
+<text x="1385" y="163" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="1665" y="163" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">uuid NOT NULL</text>
+<text x="910" y="212" font-size="32" font-weight="bold" fill="#1A1A1A">session_id</text>
+<text x="1385" y="212" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="1665" y="212" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="910" y="238" font-size="24" font-weight="regular" fill="#1F3A93">to assessment_session (p4)</text>
+<text x="910" y="321" font-size="32" font-weight="regular" fill="#1A1A1A">left_at</text>
+<text x="1665" y="321" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="910" y="393" font-size="32" font-weight="regular" fill="#1A1A1A">returned_at</text>
+<text x="1665" y="393" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="910" y="465" font-size="32" font-weight="regular" fill="#1A1A1A">return_event_id</text>
+<text x="1665" y="465" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">uuid NULL</text>
+<text x="910" y="537" font-size="32" font-weight="regular" fill="#1A1A1A">away_seconds</text>
+<text x="1665" y="537" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="910" y="609" font-size="32" font-weight="regular" fill="#1A1A1A">counted</text>
+<text x="1665" y="609" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bool NOT NULL</text>
+<text x="2137.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">prompt_access_audit</text>
+<text x="1760" y="163" font-size="32" font-weight="bold" fill="#1A1A1A">access_id</text>
+<text x="2235" y="163" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK]</text>
+<text x="2515" y="163" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="1760" y="212" font-size="32" font-weight="bold" fill="#1A1A1A">prompt_record_id</text>
+<text x="2235" y="212" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="212" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="1760" y="238" font-size="24" font-weight="regular" fill="#1F3A93">to ai_prompt_record (p8)</text>
+<text x="1760" y="321" font-size="32" font-weight="bold" fill="#1A1A1A">actor_id</text>
+<text x="2235" y="321" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="2515" y="321" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="1906" y="321" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="1760" y="393" font-size="32" font-weight="regular" fill="#1A1A1A">result</text>
+<text x="2515" y="393" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="1760" y="465" font-size="32" font-weight="regular" fill="#1A1A1A">accessed_at</text>
+<text x="2515" y="465" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="1760" y="537" font-size="32" font-weight="regular" fill="#1A1A1A">request_id</text>
+<text x="2515" y="537" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">uuid NULL</text>
+<text x="2987.5" y="92" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">document_clo</text>
+<text x="2610" y="140" font-size="32" font-weight="bold" fill="#1A1A1A">document_id</text>
+<text x="3085" y="140" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK, FK]</text>
+<text x="3365" y="140" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="166" font-size="24" font-weight="regular" fill="#1F3A93">to course_document (p6)</text>
+<text x="2610" y="226" font-size="32" font-weight="bold" fill="#1A1A1A">clo_id</text>
+<text x="3085" y="226" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK, FK]</text>
+<text x="3365" y="226" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="2610" y="252" font-size="24" font-weight="regular" fill="#1F3A93">to course_learning_outcome (p2)</text>
+<text x="2610" y="335" font-size="32" font-weight="regular" fill="#1A1A1A">status</text>
+<text x="3365" y="335" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(20) NOT NULL</text>
+<text x="2610" y="407" font-size="32" font-weight="bold" fill="#1A1A1A">approved_by</text>
+<text x="3085" y="407" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="3365" y="407" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NULL</text>
+<text x="2832" y="407" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="2610" y="479" font-size="32" font-weight="regular" fill="#1A1A1A">approved_at</text>
+<text x="3365" y="479" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NULL</text>
+<text x="437.5" y="804" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">review_deviation_confirmation</text>
+<text x="60" y="852" font-size="32" font-weight="bold" fill="#1A1A1A">deviation_id</text>
+<text x="535" y="852" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK, FK]</text>
+<text x="815" y="852" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="60" y="878" font-size="24" font-weight="regular" fill="#1F3A93">to review_deviation (p7)</text>
+<text x="60" y="961" font-size="32" font-weight="bold" fill="#1A1A1A">confirmed_by</text>
+<text x="535" y="961" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[FK]</text>
+<text x="815" y="961" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">int NOT NULL</text>
+<text x="292" y="961" font-size="24" font-weight="regular" fill="#1F3A93">to account (p1)</text>
+<text x="60" y="1033" font-size="32" font-weight="regular" fill="#1A1A1A">confirmed_at</text>
+<text x="815" y="1033" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">timestamptz NOT NULL</text>
+<text x="1287.5" y="804" font-size="38" font-weight="bold" text-anchor="middle" fill="#1A1A1A">ai_prompt_content</text>
+<text x="910" y="852" font-size="32" font-weight="bold" fill="#1A1A1A">prompt_record_id</text>
+<text x="1385" y="852" font-size="22" font-weight="bold" text-anchor="end" fill="#1A1A1A">[PK, FK]</text>
+<text x="1665" y="852" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">bigint NOT NULL</text>
+<text x="910" y="878" font-size="24" font-weight="regular" fill="#1F3A93">to ai_prompt_record (p8)</text>
+<text x="910" y="961" font-size="32" font-weight="regular" fill="#1A1A1A">prompt_text</text>
+<text x="1665" y="961" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">text NULL</text>
+<text x="910" y="1033" font-size="32" font-weight="regular" fill="#1A1A1A">model_identifier</text>
+<text x="1665" y="1033" font-size="24" font-weight="regular" text-anchor="end" fill="#1A1A1A">varchar(80) NULL</text>
+</g>
+<text x="40" y="2040" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#1A1A1A">Page 11 of 11 &#183; 67 tables &#183; 561 columns &#183; 122 FKs &#183; 28 migrations</text>
+</svg>
