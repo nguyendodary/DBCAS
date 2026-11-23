@@ -10,15 +10,10 @@ npm start                          # normal demo seed, read-only SQL
 DBCAS_DEMO_PROFILE=writable npm start   # demo DDL/DML profile
 ```
 
-Optional faster cold start (after one successful seeded start):
-
-```bash
-npm run demo:snapshot              # writes gitignored .demo-seed.sql
-npm start                          # restores it; falls back to full seed on error
-```
-
-The snapshot is data-only and synthetic. Rebuild it after changing
-`backend/app/seed_demo.py`, the demo bank or the migration chain.
+The full demo seed runs on every fresh stack. A faster seed snapshot is **not
+available on `develop2`**: PR #89 is skipped by the owner and
+`npm run demo:snapshot` does not exist. Re-running `npm start` preserves an
+existing seeded volume.
 
 Accounts (local demo only): `admin@dbcas.local` / `Demo12345!`,
 `learner@dbcas.local` / `Demo12345!`; additional learners are
@@ -62,16 +57,28 @@ Accounts (local demo only): `admin@dbcas.local` / `Demo12345!`,
 
 If OpenRouter is unavailable, use the repository’s fake provider instead of a
 real key. It is `backend/tests/qa_provider.py`, selected through the QA Compose
-override:
+override. Start the normal stack first so `.env` and the `dbcas-local` project
+exist and the seed has completed, then recreate the app with the override:
 
 ```bash
-docker compose -p dbcas-demo -f docker-compose.local.yml -f docker-compose.qa.yml \
-  up -d --build --wait qa-ai app frontend
+npm start
+docker compose -p dbcas-local -f docker-compose.local.yml -f docker-compose.qa.yml \
+  up -d --build --wait --wait-timeout 600 qa-ai app
 ```
 
 The app gets `LLM_PROVIDER=compatible`, `LLM_BASE_URL=http://qa-ai:8080/v1` and
 `LLM_MODEL=deterministic-local-qa` from that override. The provider makes no
 outbound calls and stores no prompts.
+
+`npm run test:qa` automates the same fake-provider path for the practice suite.
+It refuses to run while `.env` contains a real `LLM_API_KEY`; clear that key
+first. Stop the extra provider with
+`docker compose -p dbcas-local -f docker-compose.local.yml -f docker-compose.qa.yml rm -s -f qa-ai`,
+or stop the whole stack with `npm run stop`.
+
+The runbook's demo E2E specs also need their host flags when run directly:
+`DBCAS_DEMO_WRITABLE=1` and `DBCAS_DEMO_FREE_PRO=1`; the Compose profile itself
+does not set them.
 
 ## Known limits
 
@@ -79,6 +86,9 @@ outbound calls and stores no prompts.
 - Broker/#80 is closed for demo scope; `SANDBOX_BROKER` stays OFF. #66
   (existing `docker.sock`) is accepted as a known demo limitation.
 - #71 qa-1 `sandbox_busy` remains flaky; cause **UNKNOWN — owner must confirm**.
+- #94 `practice-flows` heading “Nhận xét” timeout remains **UNKNOWN — owner must
+  confirm**; the discriminating observation is recorded in the issue.
+- A seed snapshot (#89) is not in this build; the full seed is used.
 - OTP vs reset-link remains an owner decision ([#25](https://github.com/nguyendodary/DBCAS/pull/25)).
 - Free/Pro is simulated design only; no real payment and no real charge.
 - Never use real student data, real cards or production credentials.
@@ -86,11 +96,6 @@ outbound calls and stores no prompts.
 ## Rehearsal and tag
 
 Run the full CI three times on the demo-equivalent head and keep the run links
-in the PR/checkpoint. After owner review, propose:
-
-```bash
-git tag -a demo-v1 -m "DBCAS synthetic demo build" <merge-sha>
-git push origin demo-v1
-```
-
-Do not create or push the tag from this runbook.
+in the PR/checkpoint. The owner decides whether to create a tag; this runbook
+must not create or push one. A proposed name is `demo-v1` on the reviewed merge
+SHA, or `v1.0-final` after the freeze record is merged.

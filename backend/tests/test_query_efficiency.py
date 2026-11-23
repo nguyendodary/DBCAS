@@ -58,6 +58,19 @@ def test_question_bank_list_skips_dataset_payloads(db_session):
     assert not any("sql_test_dataset" in statement.lower() for statement in seen)
 
 
+def test_adaptive_inventory_bulk_loads_locked_questions(db_session):
+    from app.services.continuous_adaptive import build_inventory
+    from test_continuous_adaptive import setup
+
+    _, _, concept = setup(db_session)
+    db_session.expire_all()
+    with statements(db_session) as seen:
+        inventory = build_inventory(db_session, concept, "MEDIUM")
+    assert inventory
+    # Eligible pool, the FOR UPDATE lock probe and one bulk detail load.
+    assert sum("FROM question " in statement for statement in seen) <= 3
+
+
 def test_eager_sql_bank_validation_does_not_issue_per_question_queries(db_session):
     _, _, _, question, _, _, _ = _fixture(db_session, "sql")
     qid = question.question_id
