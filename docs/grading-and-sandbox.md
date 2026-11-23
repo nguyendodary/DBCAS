@@ -92,9 +92,10 @@ Profile này là hành động bật provider calls; không được chạy tron
 Ngừng worker bằng `docker compose -f docker-compose.dn.yml stop ai-worker`.
 Điểm đề xuất/evidence lưu trong attempt; Admin review có audit, sửa hoặc approve
 rồi publish theo result_release_policy. Practice không góp vào năng lực chính thức.
-Mọi bài practice mới dùng `HUMAN_VERIFIED`: AI chấm/đánh giá sơ bộ, quản trị viên
-duyệt các điểm SQL/essay rồi mới công bố. `IMMEDIATE` chỉ còn trong dữ liệu lịch sử;
-giao diện không còn lựa chọn hai luồng.
+Bài FIXED (assessment style Test) dùng kết quả AI chính thức V1 và công bố khi
+kết thúc. Các bài legacy/practice còn lại dùng `HUMAN_VERIFIED`: AI chấm/đánh giá
+sơ bộ, quản trị viên duyệt các điểm SQL/essay rồi mới công bố. `IMMEDIATE` chỉ
+còn trong dữ liệu lịch sử; giao diện không còn lựa chọn hai luồng.
 
 ## Lỗi và khắc phục
 

@@ -3,16 +3,15 @@
 ## Khởi động từ một clone bình thường
 
 Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
-Hướng dẫn áp dụng cho nhánh đang xem và cho `main` sau khi PR tích hợp được duyệt.
+Hướng dẫn áp dụng cho `develop2`; `main` chỉ nhận bản phát hành đã duyệt.
 
 ```bash
 git clone https://github.com/nguyendodary/DBCAS.git
 cd DBCAS
+git switch develop2
 npm start
 ```
 
-Trước khi PR #1 được merge, chọn nhánh PR bằng
-`git switch integration/develop2-to-main-20261114` sau khi clone để kiểm tra bản này.
 Clone mới không cần `.env` có sẵn; launcher tạo khóa JWT/mật khẩu DB ngẫu nhiên.
 Chỉ sửa `.env` tại thư mục repo đang chạy lệnh. Với worktree liên kết, tạo riêng
 tệp này từ `.env.example`; launcher không tự tạo môi trường thứ hai cho worktree.
@@ -26,7 +25,7 @@ npm run env:check
 
 1. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
 2. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
-3. Kết quả chỉ được công bố sau khi quản trị viên duyệt. Prompt Builder dùng template xác định.
+3. Bài FIXED (Test) công bố điểm AI ngay khi kết thúc; bài legacy/practice chờ quản trị viên duyệt. Prompt Builder dùng template xác định.
 
 Tài khoản/mật khẩu demo chỉ dành cho development. Staging/production từ chối
 các mật khẩu công khai hiện tại và cũ, kể cả trên tài khoản bị vô hiệu hóa;
@@ -77,15 +76,18 @@ Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba ngư�
 lịch sử. `linh@dbcas.local`, `minh@dbcas.local` cũng dùng mật khẩu demo ở trên.
 
 Câu trả lời tự lưu nháp, tiếp tục được sau tải lại. SQL chạy trong sandbox tạm,
-chỉ SELECT, không mạng, có giới hạn thời gian/tài nguyên. Kết thúc bài → **Xem
+mặc định chỉ SELECT, không mạng, có giới hạn thời gian/tài nguyên. Hồ sơ demo
+`DBCAS_DEMO_PROFILE=writable` mở thêm DDL/DML trong container dùng một lần, luôn
+rollback và không đổi grading. Kết thúc bài → **Xem
 đánh giá**; **Đánh giá tổng thể** tổng hợp các bài đã công bố, hiển thị riêng số
 bài còn chờ. Chưa có bài có nút bắt đầu; một bài chưa có xu hướng.
 
-Mọi bài nộp đều qua một quy trình duy nhất: AI chấm và đánh giá sơ bộ, sau đó
-quản trị viên mở **Duyệt bài**, kiểm tra đáp án/SQL/AI, có thể sửa bất kỳ điểm nào
-với lý do rồi **Duyệt**. Người học thấy trạng thái chờ duyệt, không thấy điểm trước
-khi công bố. Kết quả có dấu đã duyệt/đã điều chỉnh; thống kê và xếp hạng chỉ dùng
-kết quả đã duyệt. Các bài cũ giữ policy đã snapshot trong lịch sử.
+Bài FIXED (Test) dùng một kết quả AI chính thức (V1) công bố khi kết thúc; bài
+legacy/practice dùng quy trình AI chấm sơ bộ rồi quản trị viên mở **Duyệt bài**,
+kiểm tra đáp án/SQL/AI, có thể sửa điểm với lý do rồi **Duyệt**. Người học bài
+legacy thấy trạng thái chờ duyệt, không thấy điểm trước khi công bố. Kết quả có
+dấu đã duyệt/đã điều chỉnh; thống kê và xếp hạng chỉ dùng kết quả đã duyệt. Các
+bài cũ giữ policy đã snapshot trong lịch sử.
 
 ## Đăng nhập Google / GitHub (tùy chọn)
 
