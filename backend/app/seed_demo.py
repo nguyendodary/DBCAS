@@ -123,7 +123,11 @@ def _restore_snapshot(url: str, path: str, schema_version: str) -> bool:
             if header != f"{SNAPSHOT_HEADER} {schema_version}":
                 logger.warning("Demo seed snapshot schema mismatch; using full seed")
                 return False
-            sql = header + "\n" + handle.read()
+            body = "".join(
+                line for line in handle
+                if not line.startswith(("\\restrict ", "\\unrestrict "))
+            )
+            sql = header + "\n" + body
         with psycopg.connect(url) as conn:
             with conn.transaction():
                 # psycopg's simple protocol accepts the plain pg_dump script.

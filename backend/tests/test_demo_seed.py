@@ -77,7 +77,11 @@ def test_demo_snapshot_accepts_versioned_multistatement_script(tmp_path, db_sess
 
     snapshot = tmp_path / "valid.sql"
     snapshot.write_text(
-        f"{SNAPSHOT_HEADER} {version}\nSET statement_timeout = 0;\nSELECT 1;\n",
+        f"{SNAPSHOT_HEADER} {version}\n"
+        "\\restrict dummy-token\n"
+        "SET statement_timeout = 0;\n"
+        "SELECT 1;\n"
+        "\\unrestrict dummy-token\n",
         encoding="utf-8",
     )
     assert _restore_snapshot(url, str(snapshot), version) is True
