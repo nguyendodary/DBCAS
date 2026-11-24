@@ -4,6 +4,7 @@ import api, { apiMessage } from '../api'
 import { Card, btnPrimary, btnGhost, inputCls } from '../components/ui'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import AssessmentStylePicker from '../components/AssessmentStylePicker'
+import { DemoPlanNotice, demoFreeProEnabled, useDemoPlan } from '../demo/freePro'
 import {
   ADAPTIVE,
   FIXED,
@@ -48,6 +49,9 @@ export function parseConceptIds(value) {
 
 export default function AssessmentsPage() {
   const { locale } = useLocale()
+  const [plan] = useDemoPlan()
+  const gated = demoFreeProEnabled()
+  const allowAi = !gated || plan === 'pro'
   const [searchParams] = useSearchParams()
   const requestedConcepts = searchParams.get('concepts') || ''
   const [options, setOptions] = useState(null)
@@ -99,6 +103,10 @@ export default function AssessmentsPage() {
   }, [selected, bands, mix])
   // Mode 1 uses the reviewed bank; mode 2 uses live AI questions, one concept
   // and one starting band. Both use exactly one band.
+  useEffect(() => {
+    if (!allowAi && style === ADAPTIVE) setStyle(FIXED)
+  }, [allowAi, style])
+
   useEffect(() => {
     if (style === ADAPTIVE) {
       setSelected((previous) => previous.slice(0, 1))
@@ -234,7 +242,13 @@ export default function AssessmentsPage() {
         <form onSubmit={start}>
           <Card className="space-y-7 p-5 sm:p-7">
             <fieldset disabled={busy} className="space-y-7">
-              <AssessmentStylePicker value={style} onChange={setStyle} disabled={busy} />
+              <DemoPlanNotice />
+              <AssessmentStylePicker
+                value={style}
+                onChange={setStyle}
+                disabled={busy}
+                allowAi={allowAi}
+              />
               <fieldset className="min-w-0">
                 <legend className="text-lg font-semibold">{t('ui.assessments.stepConcept')}</legend>
                 {style === ADAPTIVE ? (

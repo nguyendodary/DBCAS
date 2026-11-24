@@ -1855,14 +1855,16 @@
     "demo": {
       "planTitle": "Demo plan",
       "proPlan": "Pro (Demo) · {{price}} VND / {{days}} days",
-      "freePlan": "Free · {{count}} sessions per month",
+      "freePlan": "Free · {{count}} sessions per day",
       "uiOnly": "UI simulation only; no payment, no API call, no stored data.",
       "upgrade": "Upgrade to Pro (Demo)",
       "costsTitle": "Demo costs (static sample)",
       "sampleOnly": "Sample data only; no prompts/SQL/answers; Administrator-only.",
       "revenue": "Revenue",
       "hosting": "Hosting",
-      "balance": "Balance"
+      "balance": "Balance",
+      "freeNotice": "Free plan: {{count}} sessions per day. Mode 2 is available on Pro.",
+      "proUnlocked": "Pro demo active: Mode 2 and unlimited sessions are unlocked."
     },
     "language": {
       "vi": "Vietnamese",

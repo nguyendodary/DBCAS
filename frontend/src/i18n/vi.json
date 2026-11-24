@@ -1855,14 +1855,16 @@
     "demo": {
       "planTitle": "Gói demo",
       "proPlan": "Pro (Demo) · {{price}} VND / {{days}} ngày",
-      "freePlan": "Free · {{count}} phiên mỗi tháng",
+      "freePlan": "Free · {{count}} bài mỗi ngày",
       "uiOnly": "Mô phỏng giao diện; không có thanh toán, không gọi API, không lưu dữ liệu.",
       "upgrade": "Nâng cấp Pro (Demo)",
       "costsTitle": "Chi phí demo (mẫu tĩnh)",
       "sampleOnly": "Dữ liệu mẫu, không có prompt/SQL/answer; chỉ Administrator thấy.",
       "revenue": "Doanh thu",
       "hosting": "Hạ tầng",
-      "balance": "Còn lại"
+      "balance": "Còn lại",
+      "freeNotice": "Gói Free: {{count}} bài mỗi ngày. Chế độ 2 chỉ có trên Pro.",
+      "proUnlocked": "Gói Pro demo đang hoạt động: đã mở Chế độ 2 và không giới hạn số bài."
     },
     "language": {
       "vi": "Tiếng Việt",

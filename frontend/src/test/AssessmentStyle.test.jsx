@@ -241,6 +241,7 @@ describe('practice start flow', () => {
   })
 
   it('enforces adaptive constraints and starts an adaptive session', async () => {
+    localStorage.setItem('dbcas_demo_plan', 'pro')
     renderPractice()
     await userEvent.click(await screen.findByRole('button', { name: 'SELECT', exact: true }))
     await userEvent.click(screen.getByRole('radio', { name: 'Mode 2 · AI questions' }))
@@ -358,5 +359,17 @@ describe('result labels and copy', () => {
     expect(resources.vi.translation.assessmentStyle.fixed.provisionalLabel).toBe('Điểm tạm thời')
     expect(resources.vi.translation.assessmentStyle.fixed.resultLabel).toBe('Điểm chính thức')
     expect(resources.vi.translation.supervisor.adaptiveHelp).toContain('3 câu trắc nghiệm neo')
+  })
+})
+
+describe('Free/Pro mode gating', () => {
+  it('hides Mode 2 on Free and unlocks it after the demo upgrade', async () => {
+    localStorage.removeItem('dbcas_demo_plan')
+    renderPractice()
+    expect(await screen.findByRole('radio', { name: 'Mode 1 · Question bank' })).toBeChecked()
+    expect(screen.queryByRole('radio', { name: 'Mode 2 · AI questions' })).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Upgrade to Pro (Demo)' }))
+    expect(await screen.findByRole('radio', { name: 'Mode 2 · AI questions' })).toBeInTheDocument()
+    expect(localStorage.getItem('dbcas_demo_plan')).toBe('pro')
   })
 })

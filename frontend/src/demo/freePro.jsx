@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { t, useLocale } from '../i18n'
 import { Badge, Card, CardTitle, btnPrimary } from '../components/ui'
 
-export const DEMO_FREE_SESSIONS = 3
+export const DEMO_FREE_SESSIONS = 5
 export const DEMO_PRO_PRICE_VND = 99000
 export const DEMO_PRO_DAYS = 30
+export const DEMO_PLAN_KEY = 'dbcas_demo_plan'
 
 export const DEMO_COST_SAMPLE = [
   { month: '2026-09', revenue: 198000, ai: 82000, hosting: 42000 },
@@ -13,12 +14,64 @@ export const DEMO_COST_SAMPLE = [
 ]
 
 export function demoFreeProEnabled() {
-  return import.meta.env.VITE_DEMO_FREE_PRO === 'true'
+  // The demo profile enables this by default; an explicit false disables it.
+  return import.meta.env.VITE_DEMO_FREE_PRO !== 'false'
+}
+
+export function readDemoPlan() {
+  try {
+    return localStorage.getItem(DEMO_PLAN_KEY) === 'pro' ? 'pro' : 'free'
+  } catch {
+    return 'free'
+  }
+}
+
+export function setDemoPlan(plan) {
+  const value = plan === 'pro' ? 'pro' : 'free'
+  try {
+    localStorage.setItem(DEMO_PLAN_KEY, value)
+  } catch {
+    /* plan still changes for this visit */
+  }
+  window.dispatchEvent(new CustomEvent('dbcas:demo-plan', { detail: value }))
+  return value
+}
+
+export function useDemoPlan() {
+  const [plan, setPlan] = useState(readDemoPlan)
+  useEffect(() => {
+    const listener = (event) => setPlan(event.detail === 'pro' ? 'pro' : 'free')
+    window.addEventListener('dbcas:demo-plan', listener)
+    return () => window.removeEventListener('dbcas:demo-plan', listener)
+  }, [])
+  return [plan, setDemoPlan]
+}
+
+export function DemoPlanNotice() {
+  useLocale()
+  const [plan, upgrade] = useDemoPlan()
+  if (!demoFreeProEnabled()) return null
+  return (
+    <p role="status" className="rounded-lg border border-edge p-3 text-sm text-sub">
+      {plan === 'pro'
+        ? t('ui.demo.proUnlocked')
+        : t('ui.demo.freeNotice', { count: DEMO_FREE_SESSIONS })}{' '}
+      {plan === 'free' && (
+        <button
+          type="button"
+          className="font-semibold text-cyan-300 underline"
+          onClick={() => upgrade('pro')}
+        >
+          {t('ui.demo.upgrade')}
+        </button>
+      )}
+    </p>
+  )
 }
 
 export function DemoPlanPanel() {
   const { locale } = useLocale()
-  const [plan, setPlan] = useState('free')
+  const [plan, upgrade] = useDemoPlan()
   if (!demoFreeProEnabled()) return null
   const pro = plan === 'pro'
   return (
@@ -38,7 +91,7 @@ export function DemoPlanPanel() {
           </p>
           <p className="text-xs text-mute">{t('ui.demo.uiOnly')}</p>
           {!pro && (
-            <button type="button" className={btnPrimary} onClick={() => setPlan('pro')}>
+            <button type="button" className={btnPrimary} onClick={() => upgrade('pro')}>
               {t('ui.demo.upgrade')}
             </button>
           )}

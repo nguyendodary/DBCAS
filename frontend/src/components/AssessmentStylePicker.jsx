@@ -14,8 +14,14 @@ const OPTIONS = [
   },
 ]
 
-export default function AssessmentStylePicker({ value, onChange, disabled = false }) {
+export default function AssessmentStylePicker({
+  value,
+  onChange,
+  disabled = false,
+  allowAi = true,
+}) {
   useLocale()
+  const options = allowAi ? OPTIONS : OPTIONS.filter((option) => option.value === FIXED)
   return (
     <fieldset disabled={disabled} className="min-w-0">
       <legend className="mb-3 text-lg font-semibold">{t('assessmentStyle.title')}</legend>
@@ -24,7 +30,7 @@ export default function AssessmentStylePicker({ value, onChange, disabled = fals
         role="radiogroup"
         aria-label={t('assessmentStyle.title')}
       >
-        {OPTIONS.map((option) => {
+        {options.map((option) => {
           const selected = value === option.value
           return (
             <label
