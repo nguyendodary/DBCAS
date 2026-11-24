@@ -62,11 +62,28 @@ class PracticeStart(BaseModel):
             if self.question_count < 3:
                 raise ValueError("ADAPTIVE practice requires at least three questions")
             if self.source == "ai":
-                # Mode 2: the generation service owns the per-question mix.
-                # Until the typed extension lands, MCQ is the only generated
-                # question type accepted here.
-                if mix is not None and (mix.sql or mix.essay or mix.mcq != self.question_count):
-                    raise ValueError("AI adaptive practice is MCQ-only; question_mix must match question_count")
+                if mix is None:
+                    return self
+                counts = {kind: value for kind, value in mix.model_dump().items() if value > 0}
+                if not counts:
+                    raise ValueError("question_mix must contain at least one question")
+                total = sum(counts.values())
+                if self.question_count != total:
+                    raise ValueError("question_count must equal the sum of question_mix")
+                if len(counts) == 1:
+                    kind, count = next(iter(counts.items()))
+                    if count > SINGLE_TYPE_LIMITS[kind]:
+                        raise ValueError(
+                            f"Single-type practice allows at most {SINGLE_TYPE_LIMITS[kind]} {kind.upper()} questions"
+                        )
+                else:
+                    for kind, count in counts.items():
+                        if count > MIXED_LIMITS[kind]:
+                            raise ValueError(
+                                f"Mixed practice allows at most {MIXED_LIMITS[kind]} {kind.upper()} questions"
+                            )
+                    if total > MIXED_TOTAL_LIMIT:
+                        raise ValueError(f"Mixed practice allows at most {MIXED_TOTAL_LIMIT} questions")
                 return self
             if mix is not None and (mix.sql or mix.essay or mix.mcq != self.question_count):
                 raise ValueError("ADAPTIVE practice is MCQ-only; question_mix must match question_count")
@@ -240,9 +257,10 @@ def preview(db, learner, payload):
             # rejected response falls back to the reviewed bank during the
             # session, so preview never needs an inventory size check.
             covered, uncovered = _coverage(concepts, {concepts[0].concept_id})
+            mix = payload.question_mix.model_dump() if payload.question_mix else {"mcq": payload.question_count}
             return PracticePreviewResult(
                 can_start=True, question_count=payload.question_count,
-                type_counts={"mcq": payload.question_count},
+                type_counts={kind: count for kind, count in mix.items() if count},
                 covered_concepts=covered, uncovered_concepts=uncovered, notice=None,
             )
         from .continuous_adaptive import build_inventory
