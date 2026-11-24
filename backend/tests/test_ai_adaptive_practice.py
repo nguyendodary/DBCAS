@@ -4,9 +4,9 @@ from uuid import uuid4
 
 from sqlalchemy import select
 
-from app.models import AssessmentSession, Attempt
-from app.schemas import SubmitAnswerRequest
-from app.services import adaptive_engine, assessment_lifecycle, practice_service as practice
+from app.models import AssessmentSession, Attempt, QuestionCandidate
+from app.schemas import CandidateApprovalRequest, SubmitAnswerRequest
+from app.services import adaptive_engine, ai_admin_service, assessment_lifecycle, practice_service as practice
 from test_learner_practice import fixture
 
 
@@ -125,3 +125,44 @@ def test_ai_adaptive_falls_back_to_bank_without_exposing_the_error(
     log = db_session.scalar(select(SelectionLog).where(SelectionLog.session_id == state.session_id))
     assert log.is_fallback is True
     assert log.decision_detail["fallback_reason"] == "TimeoutError"
+
+
+def test_ai_question_is_queued_and_approved_by_the_existing_admin_flow(
+    db_session, sandbox_runner, monkeypatch
+):
+    from app.services import ai_adaptive
+    monkeypatch.setattr(ai_adaptive, "_prefetch_after", lambda *args, **kwargs: None)
+    admin, learner, concepts = fixture(db_session)
+    concept = concepts[0]
+    concept.description = "A detailed concept description used for deterministic generation."
+    concept.keywords = ["select"]
+    concept.learning_objectives = ["Write a correct SELECT statement"]
+    db_session.commit()
+    llm = FakeLLM(concept.concept_id)
+    state = practice.start(db_session, learner, _payload(concept), sandbox_runner, llm, locale="en")
+    candidate = db_session.scalar(select(QuestionCandidate).where(
+        QuestionCandidate.payload["session_id"].astext == str(state.session_id)))
+    assert candidate is not None
+    assert candidate.payload["session_id"] == state.session_id
+    detail = ai_admin_service.validate_candidate(db_session, candidate.candidate_id, sandbox_runner)
+    assert detail.validation_status == "validated", detail.validation_detail
+    approved = ai_admin_service.approve_candidate(
+        db_session, candidate.candidate_id, admin,
+        CandidateApprovalRequest(reviewed=True, content_hash=detail.validation_detail["content_hash"]),
+        sandbox_runner,
+    )
+    assert approved.promoted_question_id is not None
+
+    assessment_lifecycle.finalize(
+        db_session, db_session.get(AssessmentSession, state.session_id), timed_out=True
+    )
+    db_session.commit()
+
+    second = FakeLLM(concept.concept_id)
+    state2 = practice.start(db_session, learner, _payload(concept, request_id=uuid4()),
+                            sandbox_runner, second, locale="en")
+    rejected_candidate = db_session.scalar(select(QuestionCandidate).where(
+        QuestionCandidate.payload["session_id"].astext == str(state2.session_id)))
+    assert rejected_candidate is not None
+    rejected = ai_admin_service.reject_candidate(db_session, rejected_candidate.candidate_id, admin)
+    assert rejected.validation_status == "rejected"

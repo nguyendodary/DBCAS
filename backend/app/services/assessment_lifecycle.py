@@ -192,7 +192,7 @@ def finalize(db, session, *, timed_out=False):
     timed_out = timed_out or _expired(session, now)
     timestamp = session.expires_at if timed_out else now
     if ((session.config_snapshot or {}).get("learner_defined")
-            and (session.config_snapshot or {}).get("runner_mode") != "adaptive"):
+            and (session.config_snapshot or {}).get("runner_mode") not in ("adaptive", "ai_adaptive")):
         from .personalized_assessment import serve_planned
         served = {a.seq_no for a in repo.session_attempts(session.session_id)}
         for seq in range(1, session.config_snapshot["max_questions"] + 1):

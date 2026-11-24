@@ -279,6 +279,70 @@ def _staging_question(db, item, concept, learner_id, locale):
     return question, snapshot
 
 
+def _record_candidate(db, session, item, concept, band, locale, learner_id, runner):
+    """Keep every served AI question in the existing admin candidate queue."""
+    from .ai_admin_service import _validate_candidate
+    from .governed_generation import VERSION, context, digest
+
+    options = [
+        {
+            "option_label": str(option.get("option_label") or chr(65 + index)),
+            "option_text": str(option.get("option_text", option.get("text", "")) or ""),
+            "is_correct": bool(option.get("is_correct", option.get("correct", False))),
+        }
+        for index, option in enumerate(item.get("options") or [])
+    ]
+    try:
+        grounding = context(concept)
+    except Exception:
+        grounding = {"sources": {}, "concept": {}}
+    source_ids = list(grounding.get("sources", {}))
+    source_refs = [
+        {key: value for key, value in grounding["sources"][source_id].items() if key != "summary"}
+        for source_id in source_ids
+    ]
+    payload = {
+        "question_type": item["question_type"],
+        "concept_id": concept.concept_id,
+        "prompt": item["prompt"],
+        "reference_answer": item.get("reference_answer"),
+        "explanation": item.get("explanation"),
+        "difficulty_level": int(item["difficulty_level"]),
+        "points": item.get("points", 1),
+        "original_locale": item.get("original_locale", locale),
+        "source_ids": source_ids,
+        "source_refs": source_refs,
+        "objective_indices": [0] if (grounding.get("concept") or {}).get("learning_objectives") else [],
+        "options": options,
+        "datasets": item.get("_datasets") or [],
+        "rubrics": item.get("rubrics") or [],
+        "session_id": session.session_id,
+        "difficulty": band,
+        "_generation": {
+            "version": VERSION,
+            "request_id": f"{session.session_id}:{len(item.get('_generation', {}))}",
+            "request_hash": digest({"session_id": session.session_id,
+                                    "prompt": item["prompt"]}),
+            "admin_id": learner_id,
+            "context_hash": digest(grounding) if grounding.get("sources") else "",
+            "created_at": session.started_at.isoformat() if session.started_at else None,
+            "model": (item.get("_generation") or {}).get("model", "injected-provider"),
+            "difficulty": band,
+            "locale": locale,
+        },
+    }
+    repo = QuestionRepository(db)
+    row = repo.create_candidate(concept.concept_id, item["question_type"], payload)
+    try:
+        detail = _validate_candidate(repo, row, runner)
+    except Exception as exc:  # candidate remains reviewable even if checks fail
+        detail = {"ok": False, "error": type(exc).__name__}
+    row.validation_detail = detail
+    row.validation_status = "validated" if detail.get("ok") else "pending"
+    db.flush()
+    return row
+
+
 def _persist(repo, session, attempt_question, snapshot, seq_no, decision):
     repo.db.add(SessionQuestionPlan(session_id=session.session_id, seq_no=seq_no,
                                     question_id=attempt_question.question_id))
@@ -347,6 +411,9 @@ def _serve(repo, session, attempts, llm, runner, *, seq_no=None):
         "selected_concept_ids": [concept.concept_id],
     }
     attempt = _persist(repo, session, question, question_snapshot, seq, decision)
+    if origin == "ai":
+        _record_candidate(repo.db, session, item, concept, adaptive["start_band"],
+                          session.locale or "vi", session.learner_id, runner)
     # ``assessment_session.config_snapshot`` is immutable by database trigger.
     # Per-question provenance and fallback diagnostics live on the attempt
     # snapshot and selection log instead.
