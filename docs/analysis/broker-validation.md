@@ -2,7 +2,7 @@
 
 **Ngày 2026-11-21.** Tài liệu ghi kết quả xác thực; không thay đổi code/flag. Production **HOLD**. #80 (`feat/broker-runtime`, head `2bd04170a206c3bdf9840274ffb6f3d11674d486`) vẫn MỞ.
 
-> **Cập nhật 2026-11-24:** chủ sở hữu yêu cầu hợp nhất `feat/broker-runtime` vào `develop2` trong đợt dọn nhánh. Các kết luận và GAP bên dưới vẫn là kết quả xác thực tại thời điểm đó; flag `SANDBOX_BROKER` vẫn mặc định **OFF**, chưa có probe runtime thật được bật từ CI, và B3 (tách broker thành service riêng, bỏ Docker CLI/socket khỏi API) vẫn là điều kiện trước khi cân nhắc bật. Production vẫn **HOLD**.
+> **Cập nhật 2026-11-24:** chủ sở hữu yêu cầu hợp nhất `feat/broker-runtime` vào `develop2` trong đợt dọn nhánh. Các kết luận và GAP bên dưới vẫn là kết quả xác thực tại thời điểm đó; flag `SANDBOX_BROKER` vẫn mặc định **OFF**, chưa có probe runtime thật được bật từ CI, và cutover B2 (tách broker thành service riêng, bỏ Docker CLI/socket khỏi API) cùng B3 (writable) vẫn là điều kiện trước khi cân nhắc bật. Production vẫn **HOLD**.
 
 ## 1. Static review (Phase 1)
 

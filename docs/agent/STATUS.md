@@ -29,14 +29,14 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 - Proposed annotated tag `v1.0-final` on the final freeze commit (not created).
 - Proposed `develop2 -> main` PR after this snapshot (not created). `main` stays unchanged.
-- Branch integration (2026-11-24, explicit owner request): `feat/broker-runtime` (#80) merged with fixes; the constrained runtime stays behind default-OFF `SANDBOX_BROKER`, with no new Docker CLI/socket in the API (B3 remains future work). `demo/rehearsal` (#92), `feat/demo-seed-snapshot` (#89) and `docs/submission-final` (#99) were superseded by later `develop2` work (#90, #100, #111) and merged for history only.
+- Branch integration (2026-11-24, explicit owner request): `feat/broker-runtime` (#80) merged with fixes; the constrained runtime stays behind default-OFF `SANDBOX_BROKER`; the API keeps its existing Docker CLI/socket until a separately reviewed cutover, and B3 writable execution plus a standalone broker service remain future work. `demo/rehearsal` (#92), `feat/demo-seed-snapshot` (#89) and `docs/submission-final` (#99) were superseded by later `develop2` work (#90, #100, #111) and merged for history only.
 
 ## Blockers and risks
 
 - [#71](https://github.com/nguyendodary/DBCAS/issues/71): qa-1 `sandbox_busy` remains **UNKNOWN — owner must confirm**; diagnostics only.
 - [#94](https://github.com/nguyendodary/DBCAS/issues/94): result-heading timeout remains **UNKNOWN — owner must confirm**; #105 adds job status/latency logging.
 - [#55](https://github.com/nguyendodary/DBCAS/issues/55): Docker container-create timeouts; open.
-- Broker [#80](https://github.com/nguyendodary/DBCAS/pull/80) is merged but its flag stays OFF; the real-runtime gaps in [validation](../analysis/broker-validation.md) remain, and `docker.sock` [#66](https://github.com/nguyendodary/DBCAS/issues/66) is still a known limitation until B3.
+- Broker [#80](https://github.com/nguyendodary/DBCAS/pull/80) is merged but its flag stays OFF; the real-runtime gaps in [validation](../analysis/broker-validation.md) remain, and `docker.sock` [#66](https://github.com/nguyendodary/DBCAS/issues/66) is still a known limitation until the separately reviewed B2 cutover; writable execution through the broker is B3 and is not part of this merge.
 - SQL-run rate limiting is **not implemented**; per-execution limits and two-slot admission remain the guard.
 - Cold seed remains about three minutes; no safe in-seed parallelism was found without changing validation semantics.
 - Free/Pro is **UI-only** (`VITE_DEMO_FREE_PRO=false` by default); no backend payment route or migration.
