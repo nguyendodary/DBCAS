@@ -110,7 +110,7 @@ each result below refers to a file there.
 | Gate | Command | Result | Log |
 |---|---|---|---|
 | Backend lint | `python -m ruff check app tests manage.py` | All checks passed! | [`backend-lint.log`](agent/freeze-logs/backend-lint.log) |
-| Backend full test | `python -m pytest -q` (from `backend/`) | 1934 passed, 7 skipped; 5 failed — 1 T9 regression fixed, 4 pre-existing host/Docker-CLI limitations documented separately | [`backend-pytest-full.log`](agent/freeze-logs/backend-pytest-full.log), [`pytest-environment-limitation.log`](agent/freeze-logs/pytest-environment-limitation.log) |
+| Backend full test | `python -m pytest -q` (from `backend/`) | 1945 passed, 7 skipped (final run after the two post-freeze bug fixes; the earlier run that exposed the 5 failures is kept for evidence) | [`backend-pytest-final.log`](agent/freeze-logs/backend-pytest-final.log), [`backend-pytest-full.log`](agent/freeze-logs/backend-pytest-full.log), [`pytest-environment-limitation.log`](agent/freeze-logs/pytest-environment-limitation.log) |
 | Frontend lint | `npm --prefix frontend run lint` | PASS (ESLint, `--max-warnings=0`) | [`frontend-lint.log`](agent/freeze-logs/frontend-lint.log) |
 | Frontend unit | `npm --prefix frontend test -- --maxWorkers=2` | 54 files / 463 tests passed | [`frontend-test.log`](agent/freeze-logs/frontend-test.log) |
 | Docs gate | `python scripts/check_docs.py` | PASS — 48 assertions; 106 API paths / 118 operations; schema, migrations, Compose, OpenAPI and frontend routes match | [`docs-check.log`](agent/freeze-logs/docs-check.log) |
@@ -119,11 +119,12 @@ each result below refers to a file there.
 | Launcher/manual smoke | `npm start` + browser flow | PASS — login, Pro demo, Mode 2 with MCQ/SQL/essay, submit, provisional evaluation page, admin login and empty candidate queue; AI provider rate-limited so bank fallback served every question | [`manual-flow.log`](agent/freeze-logs/manual-flow.log) |
 | Fallback check | clear LLM keys, repeat Mode 2 | PASS — session 8 served a reviewed bank question with no error | [`fallback-check.log`](agent/freeze-logs/fallback-check.log) |
 
-The full backend run exposed one T9 regression (the shared validator test used a
-read-only runner for the new DML fixtures); it was fixed and the affected suites
-rerun green (44 passed). Four further failures were traced to two independent
-defects and fixed after the freeze as owner-approved bug fixes, each with its
-own commit (see 7.1). No gate was weakened. The manual flow also showed the
+The original full backend run exposed one T9 regression (the shared validator
+test used a read-only runner for the new DML fixtures); it was fixed and the
+affected suites rerun green (44 passed). Four further failures were traced to
+two independent defects and fixed after the freeze as owner-approved bug fixes,
+each with its own commit (see 7.1). The final full run is completely green:
+1945 passed, 7 skipped. No gate was weakened. The manual flow also showed the
 configured OpenRouter free model returning HTTP 429 to structured prompts;
 Mode 2 silently used the reviewed bank as designed, so the admin candidate queue
 was empty and the approve path remains covered by the T4 test suite.

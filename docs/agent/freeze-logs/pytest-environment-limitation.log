@@ -27,3 +27,8 @@ temporarily restored to their pre-T7 versions from ac74ed1 and the same four
 tests were rerun — identical 4 failed / 0 passed result (14.79s). Files were
 then restored with `git checkout --`. All other sandbox grading paths,
 including DML state capture (backend/tests/test_dml_grading.py), pass.
+
+UPDATE (post-freeze, 2026-11-24): the four failures were subsequently fixed in
+commit 27c3e14 (see bug-a-ephemeral-exec.md). The final full suite is green:
+1945 passed, 7 skipped (backend-pytest-final.log). This log is retained as the
+diagnostic evidence, not as a current failure claim.
