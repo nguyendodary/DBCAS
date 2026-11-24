@@ -2,7 +2,7 @@
 
 Date: 2026-11-24. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Baseline: `develop2` [ba249fb](https://github.com/nguyendodary/DBCAS/commit/ba249fb) as of 2026-11-24, plus the owner-requested branch-integration pass recorded below. **Code freeze: no new feature, table, migration, route or flag work** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Baseline: `develop2` [ba249fb](https://github.com/nguyendodary/DBCAS/commit/ba249fb) as of 2026-11-24, plus the owner-requested branch-integration pass at [e541495](https://github.com/nguyendodary/DBCAS/commit/e541495), recorded below. **Code freeze: no new feature, table, migration, route or flag work** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -23,6 +23,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - Earlier 3x on `14ffdead`: run [`45173345463`](https://github.com/nguyendodary/DBCAS/actions/runs/45173345463) attempts 1-2 green; attempt 3 failed in `test_capability_peer_identity_and_replay` because the old `xy` forgery changed only base64url padding bits (~1/1024). #109 makes the forgery deterministic; no production change.
 - New 3x on `333e8c45`: run [`45192055379`](https://github.com/nguyendodary/DBCAS/actions/runs/45192055379) attempts 1-3 green; backend 1914, frontend 459, all browser shards green.
 - Submission package: `Architecture.docx` (77 pages), `Database.docx` (70), `Proposal.docx` (60), `SRS.docx` (7); fact audit 94/94; style/cover audit unchanged.
+- Branch integration (2026-11-24, owner request): `feat/broker-runtime` merged as `23d4d65`; `demo/rehearsal` and `docs/submission-final` recorded as `aceb0d0` and `e541495`; `feat/demo-seed-snapshot` was already an ancestor of `develop2`. All four branches were deleted locally and on `origin`, and the broker worktree was removed.
 
 ## In progress and next
 
