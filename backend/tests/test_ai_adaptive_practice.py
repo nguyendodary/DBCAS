@@ -353,3 +353,73 @@ def test_legacy_question_field_and_string_options_are_still_rejected(
     log = db_session.scalar(select(SelectionLog).where(SelectionLog.session_id == state.session_id))
     assert log.is_fallback is True
     assert log.decision_detail["fallback_reason"] == "generation_schema"
+
+
+
+def test_dml_rotation_is_deterministic():
+    from app.services.ai_adaptive import DML_KINDS, _target_dml_kind
+
+    def served(verb):
+        reference = {
+            "INSERT": "INSERT INTO t VALUES (1);",
+            "UPDATE": "UPDATE t SET id = 1 WHERE id = 1;",
+            "DELETE": "DELETE FROM t WHERE id = 1;",
+        }[verb]
+        return SimpleNamespace(question_snapshot={"question_type": "sql", "reference_answer": reference})
+
+    sequences = [[], ["INSERT"], ["INSERT", "UPDATE"],
+                 ["INSERT", "UPDATE", "DELETE"], ["INSERT", "UPDATE", "DELETE", "INSERT"]]
+    assert [_target_dml_kind([served(v) for v in seq]) for seq in sequences] == [
+        "INSERT", "UPDATE", "DELETE", "INSERT", "UPDATE"]
+    assert DML_KINDS == ("INSERT", "UPDATE", "DELETE")
+
+
+@pytest.mark.parametrize("target", ["INSERT", "UPDATE", "DELETE"])
+def test_prompt_carries_dml_target_and_matching_example(target):
+    from app.services import ai_adaptive
+    concept = SimpleNamespace(concept_id=16, concept_name="DML knowledge",
+                              concept_code="SQL-DML-KNOW")
+    text = ai_adaptive._prompt(concept, "sql", 2, "MEDIUM", "en", target)
+    assert "if it is DML it MUST" in text and target in text
+    if target in ("UPDATE", "DELETE"):
+        assert "never RETURNING" in text
+    example = json.loads(next(line for line in text.splitlines() if line.startswith("{")))
+    assert ai_adaptive._dml_statement_kind(example["reference_answer"]) == target
+
+
+class FixedLLM:
+    """Provider returning one exact generated object."""
+
+    def __init__(self, item):
+        self.item = item
+
+    def is_configured(self):
+        return True
+
+    def with_budget(self, **_kwargs):
+        return self
+
+    def generate_structured(self, *_args, **_kwargs):
+        return self.item
+
+
+def test_wrong_dml_kind_is_rejected_and_falls_back_to_bank(
+    db_session, sandbox_runner, monkeypatch, caplog
+):
+    from app.services import ai_adaptive
+    monkeypatch.setattr(ai_adaptive, "_prefetch_after", lambda *args, **kwargs: None)
+    monkeypatch.setattr(ai_adaptive, "_target_dml_kind", lambda _attempts: "UPDATE")
+    _, learner, concepts = fixture(db_session)
+    from app.config import get_settings
+    from app.services.sandbox_runner import SandboxRunner
+    writable = SandboxRunner(get_settings().model_copy(update={"sandbox_writable": True}))
+    example = json.loads(ai_adaptive._example_question(concepts[0], "sql", 4, "en", "INSERT"))
+    state = practice.start(db_session, learner, _payload(concepts[0], question_count=3,
+                                                          question_mix={"sql": 3}),
+                           writable, FixedLLM(example), locale="en")
+    assert state.current_question.source == "bank"
+    from app.models import SelectionLog
+    log = db_session.scalar(select(SelectionLog).where(SelectionLog.session_id == state.session_id))
+    assert log.is_fallback is True
+    assert log.decision_detail["fallback_reason"] == "ValueError"
+    assert "dml_kind_mismatch" in caplog.text

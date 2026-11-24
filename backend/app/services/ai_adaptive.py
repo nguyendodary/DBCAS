@@ -11,6 +11,7 @@ from datetime import timedelta
 from hashlib import sha256
 import json
 import logging
+import re
 import threading
 import time
 from types import SimpleNamespace
@@ -40,9 +41,26 @@ POLICY = {
     "correct_ratio": 0.5,
 }
 LEVELS = ("mcq", "sql", "essay")
+DML_KINDS = ("INSERT", "UPDATE", "DELETE")
 _PREFETCH = {}
 _PREFETCH_LOCK = threading.Lock()
 _PREFETCH_MAX = 200
+
+
+def _dml_statement_kind(reference):
+    """Verb of a served/generated DML reference answer, or None."""
+    match = re.match(r"^\s*(INSERT|UPDATE|DELETE)\b", reference or "", re.I)
+    return match.group(1).upper() if match else None
+
+
+def _target_dml_kind(attempts):
+    """Deterministic INSERT -> UPDATE -> DELETE rotation over served DML items."""
+    served = 0
+    for attempt in attempts:
+        snapshot = attempt.question_snapshot or {}
+        if snapshot.get("question_type") == "sql" and _dml_statement_kind(snapshot.get("reference_answer")):
+            served += 1
+    return DML_KINDS[served % len(DML_KINDS)]
 
 
 def _band_bounds(band):
@@ -110,23 +128,23 @@ def _level_for(seq, attempts, adaptive):
     return _next_level(level, _correct(last), adaptive["start_band"])
 
 
-def _cache_key(session_id, seq, kind, level):
-    return (int(session_id), int(seq), str(kind), int(level))
+def _cache_key(session_id, seq, kind, level, dml_target=None):
+    return (int(session_id), int(seq), str(kind), int(level), str(dml_target or ""))
 
 
-def _take_prefetch(session_id, seq, kind, level):
+def _take_prefetch(session_id, seq, kind, level, dml_target=None):
     with _PREFETCH_LOCK:
-        return _PREFETCH.pop(_cache_key(session_id, seq, kind, level), None)
+        return _PREFETCH.pop(_cache_key(session_id, seq, kind, level, dml_target), None)
 
 
-def _store_prefetch(session_id, seq, kind, level, item):
+def _store_prefetch(session_id, seq, kind, level, item, dml_target=None):
     with _PREFETCH_LOCK:
         if len(_PREFETCH) >= _PREFETCH_MAX:
             _PREFETCH.pop(next(iter(_PREFETCH)))
-        _PREFETCH[_cache_key(session_id, seq, kind, level)] = item
+        _PREFETCH[_cache_key(session_id, seq, kind, level, dml_target)] = item
 
 
-def _example_question(concept, kind, level, locale):
+def _example_question(concept, kind, level, locale, dml_target=None):
     """Build a complete example from GeneratedQuestion's own JSON schema.
 
     The example is generated from the schema properties (and its nested $defs),
@@ -167,9 +185,15 @@ def _example_question(concept, kind, level, locale):
         )
         values["edge_setup_sql"] = (
             "CREATE TABLE practice_rows(id INT PRIMARY KEY, name TEXT); "
-            "INSERT INTO practice_rows VALUES (1,'alpha');"
+            "INSERT INTO practice_rows VALUES (1,'alpha'),(2,'beta');"
         )
         values["tables"] = ["practice_rows"]
+        if dml_target == "UPDATE":
+            values["reference_answer"] = "UPDATE practice_rows SET name = 'renamed' WHERE id = 1;"
+        elif dml_target == "DELETE":
+            values["reference_answer"] = "DELETE FROM practice_rows WHERE id = 2;"
+        else:
+            values["reference_answer"] = "INSERT INTO practice_rows VALUES (3,'gamma');"
     else:
         rubric_props = schema["$defs"]["GeneratedRubric"]["properties"]
         rubric_rows = [
@@ -190,15 +214,21 @@ def _example_question(concept, kind, level, locale):
     return json.dumps({key: values[key] for key in properties}, ensure_ascii=False)
 
 
-def _prompt(concept, kind, level, band, locale):
+def _prompt(concept, kind, level, band, locale, dml_target=None):
     language = "Vietnamese" if locale == "vi" else "English"
     source_language = "Accept-Language: vi" if locale == "vi" else "Accept-Language: en"
     extra = {
         "mcq": "concept_ids must be an array of integers like [16]. options must be exactly four objects {text, correct}, with exactly one correct; reference_answer must equal the correct option text. Keep setup_sql and edge_setup_sql null.",
-        "sql": "concept_ids must be an array of integers like [16]. Provide a runnable PostgreSQL reference_answer and both setup_sql and edge_setup_sql. The setup scripts must define exactly the table and columns the reference_answer reads, with at least one matching row in both datasets; the reference must return a deterministic non-empty result. The reference answer may use SELECT, INSERT, UPDATE, DELETE, CREATE TEMP TABLE, ALTER or DROP inside the sandbox. For a DML/DDL answer, list every table whose state must be compared in tables.",
+        "sql": "concept_ids must be an array of integers like [16]. Provide a runnable PostgreSQL reference_answer and both setup_sql and edge_setup_sql. The setup scripts must define exactly the table and columns the reference_answer reads, with at least one matching row in both datasets; the reference must return a deterministic non-empty result. For a DML answer, list every table whose state must be compared in tables.",
         "essay": "concept_ids must be an array of integers like [16]. Provide a reference_answer and four continuous rubrics Incomplete, Partial, Mostly Complete, Complete covering the full points range. Keep setup_sql and edge_setup_sql null: an essay question must not contain any DDL/DML seed.",
     }[kind]
-    example = _example_question(concept, kind, level, locale)
+    if kind == "sql" and dml_target:
+        extra += (f" The reference_answer may be a SELECT or a DML statement; if it is DML it MUST "
+                  f"be {dml_target} (the deterministic target for this session turn).")
+        if dml_target in ("UPDATE", "DELETE"):
+            extra += (f" For {dml_target}, use an explicit WHERE clause, never RETURNING, and seed "
+                      "both datasets with at least one row matching and one row not matching it.")
+    example = _example_question(concept, kind, level, locale, dml_target)
     return (
         f"Create exactly one {kind} PostgreSQL practice question in {language}. "
         f"Output language: {language}, selected by the learner's {source_language} header; "
@@ -217,13 +247,13 @@ def _prompt(concept, kind, level, band, locale):
 
 
 def _generate_one(db, concept, kind, level, band, locale, llm, runner, session_id,
-                  seq_no, timeout_seconds, request_id):
+                  seq_no, timeout_seconds, request_id, dml_target=None):
     if llm is None or not getattr(llm, "is_configured", lambda: False)():
         raise RuntimeError("llm_not_configured")
     deadline = time.monotonic() + timeout_seconds
     call_llm = llm.with_budget(timeout_seconds=timeout_seconds, max_retries=0) if hasattr(llm, "with_budget") else llm
     schema = GeneratedQuestion.model_json_schema()
-    prompt = _prompt(concept, kind, level, band, locale)
+    prompt = _prompt(concept, kind, level, band, locale, dml_target)
     raw = call_llm.generate_structured(
         "ai_practice",
         [ChatMessage("user", prompt)],
@@ -257,6 +287,9 @@ def _generate_one(db, concept, kind, level, band, locale, llm, runner, session_i
     if not validated:
         raise ValueError("generation_empty")
     item = validated[0]
+    generated_verb = _dml_statement_kind(item.get("reference_answer")) if kind == "sql" else None
+    if dml_target and generated_verb and generated_verb != dml_target:
+        raise ValueError(f"dml_kind_mismatch: expected {dml_target}, got {generated_verb}")
     item["_origin"] = "ai"
     item["_generation"] = {
         "version": "practice-ai-v1",
@@ -438,17 +471,18 @@ def _serve(repo, session, attempts, llm, runner, *, seq_no=None):
     kind = sequence[seq - 1] if seq - 1 < len(sequence) else "mcq"
     level = _level_for(seq, attempts, adaptive)
     used = {attempt.question_id for attempt in attempts}
+    dml_target = _target_dml_kind(attempts) if kind == "sql" else None
     concept = repo.db.get(Concept, adaptive["concept_id"])
     if concept is None:
         raise AppError(404, "concept_not_found", "Concept not found")
-    item = _take_prefetch(session.session_id, seq, kind, level)
+    item = _take_prefetch(session.session_id, seq, kind, level, dml_target)
     fallback_reason = None
     if item is None:
         try:
             item = _generate_one(
                 repo.db, concept, kind, level, adaptive["start_band"],
                 session.locale or "vi", llm, runner, session.session_id, seq,
-                adaptive.get("timeout_seconds", 10), adaptive.get("seed"),
+                adaptive.get("timeout_seconds", 10), adaptive.get("seed"), dml_target,
             )
         except Exception as exc:  # provider, timeout, schema or content rejection
             fallback_reason = getattr(exc, "code", None) or type(exc).__name__
@@ -489,36 +523,42 @@ def _serve(repo, session, attempts, llm, runner, *, seq_no=None):
     # ``assessment_session.config_snapshot`` is immutable by database trigger.
     # Per-question provenance and fallback diagnostics live on the attempt
     # snapshot and selection log instead.
-    _prefetch_after(repo, session, seq, kind, level, concept, adaptive, llm is not None)
+    next_dml = _target_dml_kind(attempts + [attempt]) if next_kind_for(adaptive, seq + 1) == "sql" else None
+    _prefetch_after(repo, session, seq, kind, level, concept, adaptive, llm is not None, next_dml)
     return attempt
 
 
-def _prefetch_after(repo, session, seq, kind, level, concept, adaptive, enabled):
+def next_kind_for(adaptive, seq):
+    sequence = (adaptive.get("type_sequence") or [])
+    return sequence[seq - 1] if seq - 1 < len(sequence) else "mcq"
+
+
+def _prefetch_after(repo, session, seq, kind, level, concept, adaptive, enabled, next_dml=None):
     settings = get_settings()
     if not settings.ai_practice_prefetch or not enabled:
         return
     next_seq = seq + 1
     if next_seq > int(session.config_snapshot.get("max_questions") or 0):
         return
-    sequence = adaptive.get("type_sequence") or []
-    next_kind = sequence[next_seq - 1] if next_seq - 1 < len(sequence) else kind
+    next_kind = next_kind_for(adaptive, next_seq)
     targets = {_next_level(level, True, adaptive["start_band"]),
                _next_level(level, False, adaptive["start_band"])}
     for target in targets:
-        key = _cache_key(session.session_id, next_seq, next_kind, target)
+        key = _cache_key(session.session_id, next_seq, next_kind, target, next_dml)
         if key in _PREFETCH:
             continue
         thread = threading.Thread(
             target=_prefetch_worker,
             args=(session.session_id, next_seq, next_kind, target, concept.concept_id,
-                  adaptive["start_band"], session.locale or "vi", adaptive.get("seed")),
+                  adaptive["start_band"], session.locale or "vi", adaptive.get("seed"), next_dml),
             daemon=True,
             name=f"ai-prefetch-{session.session_id}-{next_seq}-{target}",
         )
         thread.start()
 
 
-def _prefetch_worker(session_id, seq, kind, level, concept_id, band, locale, request_id):
+def _prefetch_worker(session_id, seq, kind, level, concept_id, band, locale, request_id,
+                     dml_target=None):
     from ..db import get_session_factory
     from .llm import build_llm_service
     from .sandbox_runner import build_sandbox_runner
@@ -531,9 +571,9 @@ def _prefetch_worker(session_id, seq, kind, level, concept_id, band, locale, req
             item = _generate_one(
                 db, concept, kind, level, band, locale,
                 build_llm_service(settings, db), build_sandbox_runner(settings),
-                session_id, seq, settings.ai_practice_timeout_seconds, request_id,
+                session_id, seq, settings.ai_practice_timeout_seconds, request_id, dml_target,
             )
-        _store_prefetch(session_id, seq, kind, level, item)
+        _store_prefetch(session_id, seq, kind, level, item, dml_target)
     except Exception as exc:  # background fallback is allowed to stay empty
         LOG.info("AI practice prefetch skipped session=%s seq=%s reason=%s",
                  session_id, seq, type(exc).__name__)
