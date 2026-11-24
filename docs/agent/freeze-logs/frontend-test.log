@@ -1,0 +1,20 @@
+﻿
+> dbcas-frontend@0.1.0 test
+> vitest run --maxWorkers=2
+
+
+ RUN  v4.1.12 C:/Users/kudot/Downloads/proposal test/DBCAS/frontend
+
+node.exe : Not implemented: Window's scrollTo() method
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Not implemented...rollTo() method:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+ Test Files  54 passed (54)
+      Tests  463 passed (463)
+   Start at  13:32:30
+   Duration  149.61s (transform 3.38s, setup 30.13s, import 21.42s, tests 95.96s, environment 131.51s)
+

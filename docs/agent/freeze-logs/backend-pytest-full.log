@@ -1,0 +1,233 @@
+..sssssss.....................FFFF...................................... [  3%]
+...............................F........................................ [  7%]
+........................................................................ [ 11%]
+........................................................................ [ 14%]
+........................................................................ [ 18%]
+........................................................................ [ 22%]
+........................................................................ [ 25%]
+........................................................................ [ 29%]
+........................................................................ [ 33%]
+........................................................................ [ 36%]
+........................................................................ [ 40%]
+........................................................................ [ 44%]
+........................................................................ [ 48%]
+........................................................................ [ 51%]
+........................................................................ [ 55%]
+........................................................................ [ 59%]
+........................................................................ [ 62%]
+........................................................................ [ 66%]
+........................................................................ [ 70%]
+........................................................................ [ 73%]
+........................................................................ [ 77%]
+........................................................................ [ 81%]
+........................................................................ [ 85%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 96%]
+........................................................................ [ 99%]
+..                                                                       [100%]
+================================== FAILURES ===================================
+__________ test_offline_container_limits_typed_execution_and_cleanup __________
+
+runner = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x0000027853F2F4D0>
+
+    def test_offline_container_limits_typed_execution_and_cleanup(runner):
+        assert runner.is_ready()
+>       schema = runner.provision_dataset("CREATE TABLE t(id int, name text); INSERT INTO t VALUES (1,'one'),(2,'two');")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\dn\test_ephemeral_sandbox.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\ephemeral_sandbox.py:170: in provision_dataset
+    schema = self._call(name, "provision", setup_sql)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x0000027853F2F4D0>
+name = 'dbcas-sql-d2d5cfe119904d3187759bec2926dd5c', operation = 'provision'
+sql = "CREATE TABLE t(id int, name text); INSERT INTO t VALUES (1,'one'),(2,'two');"
+schema = None, capture_tables = None
+
+    def _call(self, name, operation, sql="", schema=None, capture_tables=None):
+        remaining = self.deadlines[name] - time.monotonic()
+        if remaining <= 0:
+            raise SandboxError("sandbox_unavailable", "SQL executor lifetime exceeded")
+        keys = ("sandbox_statement_timeout_ms", "sandbox_max_rows", "sandbox_max_sql_bytes",
+                "sandbox_max_result_bytes", "sandbox_max_cell_bytes", "sandbox_max_setup_bytes",
+                "sandbox_connect_timeout_seconds")
+        payload = {"operation": operation, "sql": sql, "schema": schema,
+                   "capture_tables": capture_tables or [],
+                   "writable": self.settings.sandbox_writable,
+                   "limits": {key: getattr(self.settings, key) for key in keys}}
+        output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
+                              input=json.dumps(payload, ensure_ascii=False) + "\n", timeout=min(remaining, 15))
+        try:
+            result = json.loads(output)
+        except ValueError:
+>           raise SandboxError("sandbox_unavailable", "SQL executor returned an invalid response") from None
+E           app.services.sandbox_runner.SandboxError: SQL executor returned an invalid response
+
+app\services\ephemeral_sandbox.py:154: SandboxError
+_________________ test_failure_paths_cleanup_and_environment __________________
+
+runner = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x00000278566EA990>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000278542EF150>
+
+    def test_failure_paths_cleanup_and_environment(runner, monkeypatch):
+>       assert runner.validate_environment() == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\dn\test_ephemeral_sandbox.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\ephemeral_sandbox.py:276: in validate_environment
+    return self._call(name, "validate")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x00000278566EA990>
+name = 'dbcas-sql-0cc0e98c776841caad8bf1a5a0ad8e98', operation = 'validate'
+sql = '', schema = None, capture_tables = None
+
+    def _call(self, name, operation, sql="", schema=None, capture_tables=None):
+        remaining = self.deadlines[name] - time.monotonic()
+        if remaining <= 0:
+            raise SandboxError("sandbox_unavailable", "SQL executor lifetime exceeded")
+        keys = ("sandbox_statement_timeout_ms", "sandbox_max_rows", "sandbox_max_sql_bytes",
+                "sandbox_max_result_bytes", "sandbox_max_cell_bytes", "sandbox_max_setup_bytes",
+                "sandbox_connect_timeout_seconds")
+        payload = {"operation": operation, "sql": sql, "schema": schema,
+                   "capture_tables": capture_tables or [],
+                   "writable": self.settings.sandbox_writable,
+                   "limits": {key: getattr(self.settings, key) for key in keys}}
+        output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
+                              input=json.dumps(payload, ensure_ascii=False) + "\n", timeout=min(remaining, 15))
+        try:
+            result = json.loads(output)
+        except ValueError:
+>           raise SandboxError("sandbox_unavailable", "SQL executor returned an invalid response") from None
+E           app.services.sandbox_runner.SandboxError: SQL executor returned an invalid response
+
+app\services\ephemeral_sandbox.py:154: SandboxError
+_________ test_statement_timeout_and_watchdog_remove_abandoned_lease __________
+
+runner = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x00000278566EB250>
+
+    def test_statement_timeout_and_watchdog_remove_abandoned_lease(runner):
+        runner.settings = runner.settings.model_copy(update={"sandbox_statement_timeout_ms": 100,
+                                                           "sandbox_container_lifetime_seconds": 10})
+>       result = runner.execute("WITH RECURSIVE n AS (SELECT 1 AS x UNION ALL SELECT x+1 FROM n WHERE x<100000000) SELECT max(x) FROM n")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\dn\test_ephemeral_sandbox.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\ephemeral_sandbox.py:201: in execute
+    return SandboxResult(**self._call(name, "execute", sql_text, schema))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x00000278566EB250>
+name = 'dbcas-sql-c1b78c0e89f54a338da45d766448390e', operation = 'execute'
+sql = 'WITH RECURSIVE n AS (SELECT 1 AS x UNION ALL SELECT x+1 FROM n WHERE x<100000000) SELECT max(x) FROM n'
+schema = None, capture_tables = None
+
+    def _call(self, name, operation, sql="", schema=None, capture_tables=None):
+        remaining = self.deadlines[name] - time.monotonic()
+        if remaining <= 0:
+            raise SandboxError("sandbox_unavailable", "SQL executor lifetime exceeded")
+        keys = ("sandbox_statement_timeout_ms", "sandbox_max_rows", "sandbox_max_sql_bytes",
+                "sandbox_max_result_bytes", "sandbox_max_cell_bytes", "sandbox_max_setup_bytes",
+                "sandbox_connect_timeout_seconds")
+        payload = {"operation": operation, "sql": sql, "schema": schema,
+                   "capture_tables": capture_tables or [],
+                   "writable": self.settings.sandbox_writable,
+                   "limits": {key: getattr(self.settings, key) for key in keys}}
+        output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
+                              input=json.dumps(payload, ensure_ascii=False) + "\n", timeout=min(remaining, 15))
+        try:
+            result = json.loads(output)
+        except ValueError:
+>           raise SandboxError("sandbox_unavailable", "SQL executor returned an invalid response") from None
+E           app.services.sandbox_runner.SandboxError: SQL executor returned an invalid response
+
+app\services\ephemeral_sandbox.py:154: SandboxError
+____ test_grading_admission_keeps_one_slot_across_datasets_and_releases_it ____
+
+runner = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x00000278543D4D60>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000278542EE580>
+
+    def test_grading_admission_keeps_one_slot_across_datasets_and_releases_it(runner, monkeypatch):
+        from app.services import ephemeral_sandbox as module
+        slots = threading.BoundedSemaphore(1)
+        monkeypatch.setattr(module, "_SLOTS", slots)
+        other = EphemeralSandboxRunner(runner.settings)
+        with runner.grading_capacity() as admitted:
+            assert admitted is True
+            with other.grading_capacity() as second:
+                assert second is False
+            for value in (1, 2):
+>               schema = runner.provision_dataset(f"CREATE TABLE t(id int); INSERT INTO t VALUES ({value});")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\dn\test_ephemeral_sandbox.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\ephemeral_sandbox.py:170: in provision_dataset
+    schema = self._call(name, "provision", setup_sql)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <app.services.ephemeral_sandbox.EphemeralSandboxRunner object at 0x00000278543D4D60>
+name = 'dbcas-sql-dbdc84a6673b486db088d07106d50ccb', operation = 'provision'
+sql = 'CREATE TABLE t(id int); INSERT INTO t VALUES (1);', schema = None
+capture_tables = None
+
+    def _call(self, name, operation, sql="", schema=None, capture_tables=None):
+        remaining = self.deadlines[name] - time.monotonic()
+        if remaining <= 0:
+            raise SandboxError("sandbox_unavailable", "SQL executor lifetime exceeded")
+        keys = ("sandbox_statement_timeout_ms", "sandbox_max_rows", "sandbox_max_sql_bytes",
+                "sandbox_max_result_bytes", "sandbox_max_cell_bytes", "sandbox_max_setup_bytes",
+                "sandbox_connect_timeout_seconds")
+        payload = {"operation": operation, "sql": sql, "schema": schema,
+                   "capture_tables": capture_tables or [],
+                   "writable": self.settings.sandbox_writable,
+                   "limits": {key: getattr(self.settings, key) for key in keys}}
+        output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
+                              input=json.dumps(payload, ensure_ascii=False) + "\n", timeout=min(remaining, 15))
+        try:
+            result = json.loads(output)
+        except ValueError:
+>           raise SandboxError("sandbox_unavailable", "SQL executor returned an invalid response") from None
+E           app.services.sandbox_runner.SandboxError: SQL executor returned an invalid response
+
+app\services\ephemeral_sandbox.py:154: SandboxError
+_____ test_every_source_sql_has_nonempty_primary_and_executes_repeatably ______
+
+sandbox_runner = <app.services.sandbox_runner.SandboxRunner object at 0x000002785655E270>
+
+    def test_every_source_sql_has_nonempty_primary_and_executes_repeatably(sandbox_runner):
+        packs, translations = corpus()
+        failures = {}
+        for pack in packs:
+            for q in pack["questions"]:
+                if q["question_type"] == "sql":
+                    errors = question_problems(q, vietnamese=translations.get(q["key"]), runner=sandbox_runner)
+                    if errors:
+                        failures[q["key"]] = errors
+>       assert not failures, failures
+E       AssertionError: {'dml-insert-001': ['SQL regular: execution failed', 'SQL edge: execution failed'], 'dml-update-001': ['SQL regular: e...d', 'SQL edge: execution failed'], 'dml-temp-ddl-001': ['SQL regular: execution failed', 'SQL edge: execution failed']}
+E       assert not {'dml-insert-001': ['SQL regular: execution failed', 'SQL edge: execution failed'], 'dml-update-001': ['SQL regular: e...d', 'SQL edge: execution failed'], 'dml-temp-ddl-001': ['SQL regular: execution failed', 'SQL edge: execution failed']}
+
+tests\dn\test_question_validator.py:45: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\kudot\Downloads\proposal test\DBCAS\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/dn/test_ephemeral_sandbox.py::test_offline_container_limits_typed_execution_and_cleanup
+FAILED tests/dn/test_ephemeral_sandbox.py::test_failure_paths_cleanup_and_environment
+FAILED tests/dn/test_ephemeral_sandbox.py::test_statement_timeout_and_watchdog_remove_abandoned_lease
+FAILED tests/dn/test_ephemeral_sandbox.py::test_grading_admission_keeps_one_slot_across_datasets_and_releases_it
+FAILED tests/dn/test_question_validator.py::test_every_source_sql_has_nonempty_primary_and_executes_repeatably
+5 failed, 1934 passed, 7 skipped, 1 warning in 1549.06s (0:25:49)

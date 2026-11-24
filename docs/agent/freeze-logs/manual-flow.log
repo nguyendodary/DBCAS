@@ -1,0 +1,45 @@
+Manual browser verification — 2026-11-24
+Stack: npm start (rebuilt from the freeze working tree) with
+DBCAS_DEMO_PROFILE=writable,free-pro and LOCAL_DOCKER_GID=988.
+URL: http://localhost:18080  (API http://localhost:18000)
+
+1. Login as learner@dbcas.local / Demo12345! — PASS; redirected to /dashboard.
+   Dashboard showed the DEMO plan panel "Free · 5 sessions per day" and an
+   "Upgrade to Pro (Demo)" button (T8).
+2. Clicked "Upgrade to Pro (Demo)"; opened /assessments — PASS; notice
+   "Pro demo active: Mode 2 and unlimited sessions are unlocked." and the
+   "Mode 2 · AI questions" radio are present.
+3. Selected Mode 2, concept "DML knowledge", mix MCQ=1 / SQL=1 / Essay=1
+   (total 3, inside the mixed caps) — PASS.
+4. Start -> /practice/preview returned can_start=true with a coverage notice;
+   clicked Continue -> POST /practice/start returned 200, session_id=5,
+   runner_mode=ai_adaptive, result_kind=estimated_ability, locale=en.
+   Learner landed on /exam/5. PASS.
+5. Answered Q1 (MCQ, "Which command changes values in existing rows...",
+   option C UPDATE) via Submit answer & continue — PASS; POST /submit 200.
+   Q2 was an SQL SELECT question; answered with
+   SELECT id, grp, (CASE WHEN n >= 20 THEN n + 5 ELSE n END)::text AS value
+   FROM cases ORDER BY id; — POST /submit 200.
+   Q3 was an essay on DDL keys, targeted UPDATE, FK delete risk and the
+   read-only sandbox; answered and submitted — POST /submit 200.
+6. Finish assessment -> confirmation dialog -> "Yes, finish" ->
+   POST /sessions/5/finish 200 -> redirected to /evaluations/5 showing
+   "Waiting for AI evaluation…" (provisional result). PASS.
+   Repeated the mixed-mode flow as session 6 with the same result.
+7. AI generation limitation (environment, not code): the app log recorded
+   "AI practice fallback session=5/6/7 ... reason=llm_rate_limited" because
+   the configured OpenRouter free-tier model returned HTTP 429 to the
+   structured prompts. Every served question therefore came from the reviewed
+   bank (source="bank"); the learner saw no error, exactly the intended
+   fallback behaviour. Consequently no AI question was written to
+   question_candidate and the admin candidate queue was empty. The
+   validate -> approve -> reject path is instead covered by the automated
+   T4 test in backend/tests/test_ai_adaptive_practice.py.
+8. Admin login admin@dbcas.local / Demo12345! — PASS; /admin loaded with the
+   Grading review / Question bank / Documents navigation and the DEMO cost
+   panel. /admin/documents showed "Grounded question review" with the
+   candidate queue; all status filters returned [] (consistent with 7).
+9. Fallback with no LLM key is recorded in fallback-check.log.
+
+Note: no AI/tool commit trailers, no .env values or provider keys are included
+in this log.

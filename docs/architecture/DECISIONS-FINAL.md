@@ -1,6 +1,6 @@
 # DBCAS final architecture decisions
 
-As of: 2026-11-22. Frozen baseline: `develop2` at `6421b5ad44a0eaaeb9be8d26068c8ca434ae5bb7`. Scope: synthetic-data demo; production **HOLD**. This file is the single decision record for the submission documents. It records what the code does, not what a future product might do. No new table, migration, route or default-on flag is introduced by this record.
+As of: 2026-11-24. Frozen baseline: `develop2` architecture-freeze commit recorded in [`ARCHITECTURE_FREEZE.md`](../ARCHITECTURE_FREEZE.md). Prior baseline: `6421b5ad44a0eaaeb9be8d26068c8ca434ae5bb7`. Scope: synthetic-data demo; production **HOLD**. This file is the single decision record for the submission documents. It records what the code does, not what a future product might do. No new table, migration, route or default-on flag is introduced by this record.
 
 ## Summary
 
@@ -18,8 +18,8 @@ As of: 2026-11-22. Frozen baseline: `develop2` at `6421b5ad44a0eaaeb9be8d26068c8
 | F10 | All capability flags default off; demo enables only explicit profiles | ADOPTED |
 | F11 | One CI workflow, docs-only fast path, nine browser shards, three required checks | ADOPTED |
 | F12 | Local Compose demo profile; no production deployment | ADOPTED-DEMO-ONLY |
-| F13 | Executor broker (`feat/broker-runtime`, PR #80 closed) | DEFERRED |
-| F14 | Seed snapshot (PR #89) | DEFERRED |
+| F13 | Executor broker code merged behind `SANDBOX_BROKER=false`; cutover not wired | DEFERRED (code present, default off) |
+| F14 | Seed snapshot (`npm run demo:snapshot`) | ADOPTED-DEMO-ONLY |
 | F15 | OTP password recovery (PR #25) | DEFERRED |
 
 ## ADR entries
@@ -62,7 +62,7 @@ As of: 2026-11-22. Frozen baseline: `develop2` at `6421b5ad44a0eaaeb9be8d26068c8
 
 ### F10 — Flags and defaults
 
-**Decision.** Capability flags default off: `SANDBOX_MULTI_STATEMENT=false`, `SANDBOX_WRITABLE=false`, `GRADING_STATE_MODE=false`, `SANDBOX_BROKER=false`, `AUTO_GRADE_ESSAYS=false`, `QUESTION_TRANSLATION_ENABLED=false`, `VITE_DEMO_FREE_PRO=false` (`config.py:68-70,81,167-169`; `.env.example`). The only default-on AI behavior is the deterministic fallback, which requires no provider. Local Compose explicitly sets `AUTO_GRADE_ESSAYS=true` for the demo worker (`docker-compose.local.yml:47`). **Alternatives considered.** Enable capabilities by default; one mega-flag. **Why chosen.** An unchanged deployment keeps the legacy read-only, human-verified behaviour; demo profiles are explicit. **Consequences.** The demo needs `DBCAS_DEMO_PROFILE` for writable/Free-Pro; forgetting it yields the safe path. **Status.** ADOPTED.
+**Decision.** Capability flags default off: `SANDBOX_MULTI_STATEMENT=false`, `SANDBOX_WRITABLE=false`, `GRADING_STATE_MODE=false`, `SANDBOX_BROKER=false`, `AUTO_GRADE_ESSAYS=false`, `QUESTION_TRANSLATION_ENABLED=false`. `VITE_DEMO_FREE_PRO=true` is the demo UI default (localStorage plan starts on Free) and has no backend effect. (`config.py:68-70,81,167-169`; `.env.example`). The only default-on AI behavior is the deterministic fallback, which requires no provider. Local Compose explicitly sets `AUTO_GRADE_ESSAYS=true` for the demo worker (`docker-compose.local.yml:47`). **Alternatives considered.** Enable capabilities by default; one mega-flag. **Why chosen.** An unchanged deployment keeps the legacy read-only, human-verified behaviour; demo profiles are explicit. **Consequences.** The demo needs `DBCAS_DEMO_PROFILE` for writable/Free-Pro; forgetting it yields the safe path. **Status.** ADOPTED.
 
 ### F11 — CI strategy
 
@@ -76,10 +76,10 @@ As of: 2026-11-22. Frozen baseline: `develop2` at `6421b5ad44a0eaaeb9be8d26068c8
 
 | Item | Verdict | Basis |
 | --- | --- | --- |
-| Executor broker (`feat/broker-runtime`, #80 closed) | **Not in scope; future work.** | The branch adds a runtime (`git diff 6421b5a...origin/feat/broker-runtime`), but #80 is closed and unmerged. `SANDBOX_BROKER=false` (`config.py:81`); only the B1 stub exists on `develop2`. |
+| Executor broker cutover | **Not in scope; future work.** | Code merged as `23d4d65` with B2 constrained runtime; `SANDBOX_BROKER=false` (`config.py:81`) and `sandbox_runner` still uses Docker CLI/socket. See `docs/analysis/broker-validation.md`. |
 | `docker.sock` in the API | **Known limitation.** | `docker-compose.local.yml:72,84-85` mounts it for init/app; the API shells out to Docker (`ephemeral_sandbox.py:25-67`). Closing #66 needs the broker (F13). |
-| Free/Pro | **UI-only simulation.** | `docker-compose.demo-free-pro.yml:1-6` only sets a frontend build arg; `VITE_DEMO_FREE_PRO=false` default; no backend route, table or payment. |
-| Seed snapshot #89 | **Not in scope.** | Owner skipped #89; `npm run demo:snapshot` is absent from `package.json` on `develop2`. The current demo uses the full seed. |
+| Free/Pro | **UI-only simulation.** | `frontend/src/demo/freePro.jsx` stores the plan in `dbcas_demo_plan`; `VITE_DEMO_FREE_PRO=true` is the demo default; no backend route, table or payment. Free locks Mode 2 and shows `5 sessions/day`; Pro unlocks Mode 2. |
+| Seed snapshot | **Adopted demo-only.** | `npm run demo:snapshot` in `package.json`; `scripts/demo-seed-snapshot.mjs` writes a versioned data-only dump; `seed_demo.py:_restore_snapshot` restores it with full-seed fallback. |
 | OTP #25 | **Not adopted.** | The implemented flow is a reset link (`auth.py:97-172`); #25 remains an unmerged owner item. |
 | Production | **HOLD.** | No release deployment is claimed; `docs/agent/STATUS.md:7` and `docs/demo/README.md:3-5`. |
 

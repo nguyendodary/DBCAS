@@ -34,12 +34,30 @@ def test_all_source_questions_pass_the_shared_validator():
 
 
 def test_every_source_sql_has_nonempty_primary_and_executes_repeatably(sandbox_runner):
+    from app.config import get_settings
+    from app.services.sandbox_runner import SandboxRunner
+
     packs, translations = corpus()
     failures = {}
+    writable_runner = None
     for pack in packs:
         for q in pack["questions"]:
             if q["question_type"] == "sql":
-                errors = question_problems(q, vietnamese=translations.get(q["key"]), runner=sandbox_runner)
+                # Table-state fixtures describe DML/DDL results and need the
+                # writable demo runner; SELECT fixtures stay on the shared one.
+                is_state = any(
+                    isinstance(ds.get("expected_result"), dict)
+                    and ds["expected_result"].get("tables")
+                    for ds in q.get("datasets", [])
+                )
+                if is_state:
+                    if writable_runner is None:
+                        settings = get_settings().model_copy(update={"sandbox_writable": True})
+                        writable_runner = SandboxRunner(settings)
+                    runner = writable_runner
+                else:
+                    runner = sandbox_runner
+                errors = question_problems(q, vietnamese=translations.get(q["key"]), runner=runner)
                 if errors:
                     failures[q["key"]] = errors
     assert not failures, failures

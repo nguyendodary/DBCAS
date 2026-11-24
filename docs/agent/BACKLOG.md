@@ -2,6 +2,16 @@
 
 Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
+## Accepted freeze work (2026-11-24)
+
+T1–T8 are accepted architecture-freeze changes, one commit each (`efb15e1`,
+`59a41df`, `39f1d36`, `25ac1b3`, `2b0641a`, `ac74ed1`, `3a16152`, `974b92b`):
+upload-limit alignment, full i18n, AI adaptive mode 2, AI candidate queue,
+mixed AI question types, mode UI + AI badge, DML state grading, and default
+Free/Pro UI gating. T9 records the freeze and verification in
+[ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). No further feature is
+accepted after the freeze commit.
+
 ## Code freeze (2026-11-23)
 
 `develop2` `333e8c4518c217eae1d1aaf65813bdb84b4e050b` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; [#107](https://github.com/nguyendodary/DBCAS/pull/107) tooling, [#100](https://github.com/nguyendodary/DBCAS/pull/100) submission documents, [#108](https://github.com/nguyendodary/DBCAS/pull/108) status snapshot and [#109](https://github.com/nguyendodary/DBCAS/pull/109) test-only flake fix are merged. The earlier 3x on `14ffdead` failed attempt 3 in `test_capability_peer_identity_and_replay` (base64url padding-only forgery); #109 makes the forgery deterministic with no production change. New 3x on `333e8c45`: [run `45192055379`](https://github.com/nguyendodary/DBCAS/actions/runs/45192055379) attempts 1-3 green, backend 1914. This docs-only snapshot is the last change before the 2026-11-24, owner-requested branch-integration pass: `feat/broker-runtime` (#80) was merged with fixes behind default-OFF `SANDBOX_BROKER`; three superseded branches were merged for history only. No new feature, table, migration, route or flag work was added. Production remains **HOLD**.

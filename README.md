@@ -68,19 +68,37 @@ bằng `npm --prefix frontend run brand:icons`. Khóa logo React dùng chung là
 [`frontend/src/components/BrandLogo.jsx`](frontend/src/components/BrandLogo.jsx).
 Không thêm file logo SVG thứ hai và không gõ lại chữ DBCAS trong trang/component.
 
-Người học mở **Luyện tập**, chọn khái niệm, độ khó và nguồn **ngân hàng** hoặc
-**AI tạo câu hỏi**, rồi **Bắt đầu**. Chọn **1–13 câu**, mặc định 5 câu/30 phút.
-Kế hoạch đủ số câu được đóng băng trước câu đầu; nếu ngân hàng thiếu phạm vi
-hẹp, hệ thống mở rộng có kiểm soát và thông báo phần mở rộng.
-Không có đề dựng sẵn; demo có ngân hàng, CLO/khái niệm, ba người học và bốn bài
-lịch sử. `linh@dbcas.local`, `minh@dbcas.local` cũng dùng mật khẩu demo ở trên.
+Người học mở **Luyện tập** và chọn một trong hai chế độ:
+
+| Chế độ | Nguồn câu | Cấu hình | Giới hạn (giữ nguyên `practice_config.py`) |
+|---|---|---|---|
+| Chế độ 1 | Ngân hàng đã kiểm chứng | FIXED, 1 khái niệm/độ khó, cơ cấu MCQ/SQL/tự luận | Một loại: MCQ 50, SQL 5, tự luận 10; trộn: 20/2/3, tổng 25 |
+| Chế độ 2 | AI tạo từng câu khi làm bài | ADAPTIVE + `source=ai`, 1 khái niệm/band, cơ cấu như trên | Giống Chế độ 1; tối thiểu 3 câu; timeout AI 10 s mặc định |
+
+Chế độ 2 gọi AI cho mỗi câu kế tiếp theo ngôn ngữ giao diện (`en`/`vi`), tăng/giảm
+một mức độ khó trong band đã chọn, sinh sẵn câu kế tiếp trong lúc học viên làm câu
+hiện tại. AI lỗi/timeout hoặc không có key thì dùng câu ngân hàng cùng concept/độ
+khó; học viên không thấy lỗi. Câu AI được gắn nhãn **AI**, lưu snapshot vào
+`attempt` và đưa vào hàng đợi `question_candidate` để quản trị viên
+validate/approve/reject bằng luồng sẵn có. Không có đề dựng sẵn; demo có ngân
+hàng, CLO/khái niệm, ba người học và bốn bài lịch sử. `linh@dbcas.local`,
+`minh@dbcas.local` cũng dùng mật khẩu demo ở trên.
+
+Free/Pro là mô phỏng UI, bật mặc định trong demo: gói Free chỉ mở Chế độ 1 và hiện
+"5 bài/ngày"; gói Pro mở Chế độ 2 và không giới hạn. Nút **Nâng cấp Pro (Demo)**
+đổi gói ngay trong `localStorage` (`dbcas_demo_plan`); không có API, migration hay
+thanh toán.
 
 Câu trả lời tự lưu nháp, tiếp tục được sau tải lại. SQL chạy trong sandbox tạm,
 mặc định chỉ SELECT, không mạng, có giới hạn thời gian/tài nguyên. Hồ sơ demo
 `DBCAS_DEMO_PROFILE=writable` mở thêm DDL/DML trong container dùng một lần, luôn
-rollback và không đổi grading. Kết thúc bài → **Xem
-đánh giá**; **Đánh giá tổng thể** tổng hợp các bài đã công bố, hiển thị riêng số
-bài còn chờ. Chưa có bài có nút bắt đầu; một bài chưa có xu hướng.
+rollback. Với bài DML, đáp án học viên và đáp án tham chiếu chạy trên cùng dataset;
+điểm là so sánh trạng thái các bảng sau khi chạy (SELECT giữ cách chấm cũ). Ngân
+hàng demo có sẵn câu INSERT/UPDATE/DELETE và CREATE/ALTER/DROP bảng tạm làm dự
+phòng; câu DML do AI sinh bắt buộc chạy thử đáp án tham chiếu trước khi phục vụ.
+Kết thúc bài → **Xem đánh giá**; **Đánh giá tổng thể** tổng hợp các bài đã công
+bố, hiển thị riêng số bài còn chờ. Chưa có bài có nút bắt đầu; một bài chưa có xu
+hướng.
 
 Bài FIXED (Test) dùng một kết quả AI chính thức (V1) công bố khi kết thúc; bài
 legacy/practice dùng quy trình AI chấm sơ bộ rồi quản trị viên mở **Duyệt bài**,
@@ -201,7 +219,7 @@ Kiểm toán OAuth/20261112: [nguyên nhân và regression](docs/qa/root-cause-a
 
 Kiểm toán cuối 20261113: [W1 learner](docs/qa/final-20261113/w1-learner.md)
 **30/30**, [W3 backend/AI](docs/qa/final-20261113/w3-backend-ai.md) ma trận
-**2.291.100/0**, ngân hàng **5.482/0 invalid**;
+**2.291.100/0**, ngân hàng **4.046/0 invalid** (số liệu source hiện tại, gồm 4 câu DML demo);
 [logo/thương hiệu](docs/qa/logo-20261113/inventory.md) 22 ảnh / 0 lỗi;
 [W5 dọn dẹp](docs/qa/final-20261113/w5-cleanup-inventory.md) 84 đường dẫn đã
 quarantine; [W6 tài liệu](docs/qa/final-20261113/w6-documents.md) Word **3/3**,

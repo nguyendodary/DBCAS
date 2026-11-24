@@ -2,7 +2,7 @@
 
 Date: 2026-11-24. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Baseline: `develop2` [ba249fb](https://github.com/nguyendodary/DBCAS/commit/ba249fb) as of 2026-11-24, plus the owner-requested branch-integration pass at [e541495](https://github.com/nguyendodary/DBCAS/commit/e541495), recorded below. **Code freeze: no new feature, table, migration, route or flag work** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Baseline: `develop2` architecture-freeze work through `974b92b` (T1–T8), after the earlier integration pass at `e541495`; final freeze commit and verified results are recorded in [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). **Architecture freeze: no new feature, table, migration, route or flag work after the accepted T1–T9 set** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -24,6 +24,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - New 3x on `333e8c45`: run [`45192055379`](https://github.com/nguyendodary/DBCAS/actions/runs/45192055379) attempts 1-3 green; backend 1914, frontend 459, all browser shards green.
 - Submission package: `Architecture.docx` (77 pages), `Database.docx` (70), `Proposal.docx` (60), `SRS.docx` (7); fact audit 94/94; style/cover audit unchanged.
 - Branch integration (2026-11-24, owner request): `feat/broker-runtime` merged as `23d4d65`; `demo/rehearsal` and `docs/submission-final` recorded as `aceb0d0` and `e541495`; `feat/demo-seed-snapshot` was already an ancestor of `develop2`. All four branches were deleted locally and on `origin`, and the broker worktree was removed.
+- Accepted freeze work T1–T8 (one commit each): `efb15e1` upload limit, `59a41df` i18n, `39f1d36` AI adaptive questions, `25ac1b3` AI candidates, `2b0641a` mixed AI types, `ac74ed1` mode UI, `3a16152` DML state grading, `974b92b` Free/Pro demo gating. T9 is documentation/freeze verification.
 
 ## In progress and next
 
@@ -39,6 +40,6 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - Broker [#80](https://github.com/nguyendodary/DBCAS/pull/80) is merged but its flag stays OFF; the real-runtime gaps in [validation](../analysis/broker-validation.md) remain, and `docker.sock` [#66](https://github.com/nguyendodary/DBCAS/issues/66) is still a known limitation until the separately reviewed B2 cutover; writable execution through the broker is B3 and is not part of this merge.
 - SQL-run rate limiting is **not implemented**; per-execution limits and two-slot admission remain the guard.
 - Cold seed remains about three minutes; no safe in-seed parallelism was found without changing validation semantics.
-- Free/Pro is **UI-only** (`VITE_DEMO_FREE_PRO=false` by default); no backend payment route or migration.
+- Free/Pro is **UI-only** (`VITE_DEMO_FREE_PRO=true` demo default, plan stored in `dbcas_demo_plan`); no backend payment route or migration. Free locks Mode 2; Pro unlocks it.
 - No OpenRouter ZDR/logging approval for real data; **production stays HOLD**.
 - Owner decisions remain: DB release default `IMMEDIATE` vs API `HUMAN_VERIFIED`; duplicate `concept_dependency` DDL; OTP [#25](https://github.com/nguyendodary/DBCAS/pull/25); local `dbcas-*` inventory; production substrate and release gates.

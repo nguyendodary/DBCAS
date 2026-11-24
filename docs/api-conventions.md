@@ -63,7 +63,7 @@ a reverse proxy can have a proxy response; this contract cannot govern them.
 ## Implemented endpoints
 
 Method and path truth is generated from the router source into
-[`docs/inventory/api-routes.json`](inventory/api-routes.json) (82 paths / 92
+[`docs/inventory/api-routes.json`](inventory/api-routes.json) (106 paths / 118
 method-path entries at the current HEAD); `npm run inventory:check` fails when a committed inventory no longer matches
 `backend/app/main.py`, `backend/app/routers/*.py` or `frontend/src/App.jsx`. The table below
 is authored: it records the role, use case and behavioural contract that code cannot state.
@@ -112,7 +112,6 @@ here — review, publication, retry, cumulative profiles, candidate actions and 
 | `POST /api/v1/admin/questions/{id}/ai-review` | Administrator | explicit approval/rejection of AI difficulty/criteria |
 | `GET /api/v1/admin/question-candidates`, `GET …/{id}` | Administrator | UC10 — candidate queue and detail |
 | `POST /api/v1/admin/question-candidates/generate`, `POST …/{id}/validate`, `POST …/{id}/approve`, `POST …/{id}/reject` | Administrator | UC10 — draft, revalidate, promote or reject; there is no bare `POST …/question-candidates` collection route |
-| `GET|POST /api/v1/admin/assessments`, `GET|PUT|PATCH|DELETE /api/v1/admin/assessments/{id}` | Administrator | UC09 — adaptive assessment configuration + lifecycle |
 | `GET /api/v1/admin/analytics/cohort?assessment_id={id}` | Administrator | UC11 — class-wide competency + below-benchmark prevalence and trend |
 | `GET /api/v1/admin/learners` | Administrator | learner roster with activity counts |
 | `GET /api/v1/admin/learners/{id}/sessions` | Administrator | learner session drill-down |
@@ -126,6 +125,21 @@ here — review, publication, retry, cumulative profiles, candidate actions and 
 | `GET /api/v1/sessions/{id}/questions?display_locale=` | Learner (owner) | delivered questions with the learner's own saved answers; never grading keys |
 | `GET /api/v1/admin/question-translation/capability`, `POST /api/v1/admin/question-translation/draft` | Administrator | support for UC07/UC08 — opt-in draft only; the response is unpersisted until an administrator saves the question |
 | `GET /api/v1/ping` | public | `{"message": "pong"}` route smoke check; `GET /health` and `GET /readiness` remain the process and dependency probes |
+
+Mode 2 practice uses the same `/api/v1/practice/start`, `/api/v1/sessions/{id}/submit`
+and `/api/v1/sessions/{id}/serve-next` routes with `assessment_style: "ADAPTIVE"`
+and `source: "ai"`. Each served question carries `source` (`bank` or
+`ai_generated`) and a `question_mix` honoring the caps in `practice_config.py`.
+A read-only or timed-out AI generation falls back to a reviewed bank question;
+the learner sees no error. AI questions are also stored in `question_candidate`
+for the existing admin validate/approve/reject flow.
+
+In the writable demo profile (`DBCAS_DEMO_PROFILE=writable`), SQL datasets may
+carry a table-state fixture (`{"tables":[{"table","columns","rows","missing"}],
+"ordered"}`) instead of a SELECT result grid. Both the learner statement and
+the trusted reference run in the disposable sandbox on the same dataset; their
+resulting table states are compared as the grade. SELECT questions keep the
+existing `columns`/`rows` comparison.
 
 `sql-run` executes the query in the isolated sandbox and returns a sanitized
 `{success, columns, rows, row_count, execution_time_ms, error_type,

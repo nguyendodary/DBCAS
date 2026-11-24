@@ -1,0 +1,19 @@
+Key-off fallback check — 2026-11-24
+Temporarily set in the local .env (then restored):
+  LLM_PROVIDER=compatible
+  LLM_API_KEY= (empty)
+  OPENROUTER_API_KEY= (empty)
+Note: with LLM_PROVIDER=openrouter an empty OPENROUTER_API_KEY is rejected at
+startup by config validation; the no-key demo must use the compatible provider
+with both keys empty.
+
+After restarting the API container, POST /api/v1/practice/start with
+assessment_style=ADAPTIVE, source=ai, concept_ids=[16], mix {mcq:3,sql:0,essay:0}
+returned HTTP 200:
+  session_id = 8
+  generation_fallback = false
+  ai_generated_count = 0
+  served question sources = ["bank"]
+
+Result: PASS. Mode 2 starts and serves a reviewed bank question with no LLM
+key; no learner-visible error. This is the documented AI-unavailable fallback.

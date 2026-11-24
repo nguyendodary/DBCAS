@@ -1,0 +1,29 @@
+Ephemeral-sandbox test limitation on this Windows host — 2026-11-24
+
+Full suite (backend/.venv/Scripts/python.exe -m pytest -q from backend/):
+  5 failed, 1934 passed, 7 skipped in 1549.06s (see backend-pytest-full.log).
+
+One of the five failures was a real regression and is fixed in T9:
+  tests/dn/test_question_validator.py::test_every_source_sql_has_nonempty_primary_and_executes_repeatably
+  It used the read-only shared runner for the new table-state DML fixtures.
+  Fixed by routing table-state fixtures to a writable SandboxRunner in that
+  test; rerun: 44 passed (test_question_validator.py + test_dml_grading.py).
+
+The remaining four failures are environmental and pre-existing:
+  tests/dn/test_ephemeral_sandbox.py::test_offline_container_limits_typed_execution_and_cleanup
+  tests/dn/test_ephemeral_sandbox.py::test_failure_paths_cleanup_and_environment
+  tests/dn/test_ephemeral_sandbox.py::test_statement_timeout_and_watchdog_remove_abandoned_lease
+  tests/dn/test_ephemeral_sandbox.py::test_grading_admission_keeps_one_slot_across_datasets_and_releases_it
+
+All four fail with "SandboxError: SQL executor returned an invalid response";
+the local Docker CLI (C:\Users\kudot\docker-cli\docker\docker.EXE) returns an
+empty stdout for `docker exec -i ...`/`docker run ...` in this host setup, so
+the container JSON response cannot be read. This affects only the offline
+ephemeral-container tests; the shared-sandbox suite (1934 tests) passes.
+
+Verification that these four are not caused by T1–T9: the two protocol files
+(backend/app/services/ephemeral_sandbox.py and backend/app/sandbox_job.py) were
+temporarily restored to their pre-T7 versions from ac74ed1 and the same four
+tests were rerun — identical 4 failed / 0 passed result (14.79s). Files were
+then restored with `git checkout --`. All other sandbox grading paths,
+including DML state capture (backend/tests/test_dml_grading.py), pass.
