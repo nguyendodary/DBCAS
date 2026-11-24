@@ -121,15 +121,31 @@ each result below refers to a file there.
 
 The full backend run exposed one T9 regression (the shared validator test used a
 read-only runner for the new DML fixtures); it was fixed and the affected suites
-rerun green (44 passed). The other four failures are pre-existing on this host:
-`docker exec -i` returns empty stdout, so the offline ephemeral-container tests
-cannot read their JSON response. Restoring the pre-T7 protocol files from
-`ac74ed1` reproduced exactly the same four failures, confirming they are not
-introduced by the freeze work. No gate was weakened to hide them. The manual
-flow also showed the configured OpenRouter free model returning HTTP 429 to
-structured prompts; Mode 2 silently used the reviewed bank as designed, so the
-admin candidate queue was empty and the approve path remains covered by the T4
-test suite rather than by this browser run.
+rerun green (44 passed). Four further failures were traced to two independent
+defects and fixed after the freeze as owner-approved bug fixes, each with its
+own commit (see 7.1). No gate was weakened. The manual flow also showed the
+configured OpenRouter free model returning HTTP 429 to structured prompts;
+Mode 2 silently used the reviewed bank as designed, so the admin candidate queue
+was empty and the approve path remains covered by the T4 test suite.
+
+### 7.1 Post-freeze bug fixes (owner-approved, no architecture change)
+
+- **Ephemeral executor** (`27c3e14`, log
+  [`bug-a-ephemeral-exec.md`](agent/freeze-logs/bug-a-ephemeral-exec.md)): the
+  native Windows Docker shim discarded every `docker exec` attach stream, and
+  the trusted in-container job rejected its own writable Settings because
+  `sandbox_mode` defaulted to `shared`. The Windows CLI now prefers WSL Docker
+  when available; the job declares `sandbox_mode=ephemeral`. The missing shared
+  sandbox role was identified as `learner_rw` and is now named in the error.
+  All 5 ephemeral tests pass; a real UPDATE and DELETE each graded 5.00/5.00
+  with the table state captured before rollback.
+- **Grade visibility** (Bug B, log
+  [`bug-b-grade-visibility.md`](agent/freeze-logs/bug-b-grade-visibility.md)):
+  `is_correct` is null in submit responses because HUMAN_VERIFIED hides scores
+  until publication, not because grading failed. A controlled E2E with known
+  answer keys showed ability 1→2 (correct), 2→1 (wrong), 1→2 (correct) and
+  persisted scores `[1.00, 0.00, 1.00]`; a regression test documents it. No
+  production change was needed.
 
 ## 8. Architecture freeze conclusion
 

@@ -226,3 +226,70 @@ def test_ai_adaptive_accepts_a_mixed_type_sequence(
     )
     snapshot = db_session.get(AssessmentSession, state.session_id).config_snapshot
     assert snapshot["adaptive"]["type_sequence"] == ["mcq", "sql", "essay"]
+
+
+
+def test_ability_moves_both_ways_and_grade_is_hidden_until_evidence(
+    db_session, sandbox_runner, monkeypatch
+):
+    """is_correct is hidden by HUMAN_VERIFIED, not missing; ability does move."""
+    from app.services import ai_adaptive
+    monkeypatch.setattr(ai_adaptive, "_prefetch_after", lambda *args, **kwargs: None)
+    _, learner, concepts = fixture(db_session)
+    llm = FakeLLM(concepts[0].concept_id)
+    payload = _payload(concepts[0], difficulties=["EASY"], question_count=3,
+                       question_mix={"mcq": 3})
+    state = practice.start(db_session, learner, payload, sandbox_runner, llm, locale="en")
+    session_id = state.session_id
+
+    def options_for(seq):
+        attempt = db_session.scalar(
+            select(Attempt).where(Attempt.session_id == session_id,
+                                  Attempt.seq_no == seq)
+        )
+        return attempt.question_snapshot["options"]
+
+    # Correct answer: score is persisted but hidden in the submit response.
+    correct = next(o["option_id"] for o in options_for(1) if o["is_correct"])
+    result = assessment_lifecycle.submit(
+        db_session, session_id, learner,
+        SubmitAnswerRequest(question_id=state.current_question.question_id,
+                            selected_option_id=correct),
+        sandbox_runner,
+    )
+    assert result.is_correct is None
+    assert result.score is None
+    served = adaptive_engine.serve_next(db_session, session_id, learner,
+                                        runner=sandbox_runner, llm=llm)
+    assert served.question.difficulty_level == 2  # EASY band 1..2: up
+
+    wrong = next(o["option_id"] for o in options_for(2) if not o["is_correct"])
+    assessment_lifecycle.submit(
+        db_session, session_id, learner,
+        SubmitAnswerRequest(question_id=served.question.question_id,
+                            selected_option_id=wrong),
+        sandbox_runner,
+    )
+    served = adaptive_engine.serve_next(db_session, session_id, learner,
+                                        runner=sandbox_runner, llm=llm)
+    assert served.question.difficulty_level == 1  # down
+
+    correct = next(o["option_id"] for o in options_for(3) if o["is_correct"])
+    assessment_lifecycle.submit(
+        db_session, session_id, learner,
+        SubmitAnswerRequest(question_id=served.question.question_id,
+                            selected_option_id=correct),
+        sandbox_runner,
+    )
+    adaptive_engine.finish_session(db_session, session_id, learner)
+    progress = adaptive_engine.progress(
+        db_session.get(AssessmentSession, session_id),
+        db_session.scalars(select(Attempt).where(Attempt.session_id == session_id)).all(),
+    )
+    assert progress["ability"] == 2.0
+    graded = db_session.scalars(
+        select(Attempt).where(Attempt.session_id == session_id).order_by(Attempt.seq_no)
+    ).all()
+    assert [a.grading_detail["is_correct"] for a in graded] == [True, False, True]
+    assert [str(a.score) for a in graded] == ["1.00", "0.00", "1.00"]
+    assert db_session.get(AssessmentSession, session_id).release_status != "published"
