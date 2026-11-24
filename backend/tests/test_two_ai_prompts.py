@@ -158,8 +158,8 @@ def _prompt_for(db, stage_run_id):
     return record, db.get(AiPromptContent, record.prompt_record_id)
 
 
-def test_openrouter_keeps_two_ai_prompt_storage_validation_and_retention(db_session):
-    from test_openrouter_provider import MODEL, mocked_service, settings
+def test_generic_provider_keeps_two_ai_prompt_storage_validation_and_retention(db_session):
+    from test_llm_provider_config import MODEL, mocked_service, settings
 
     config = settings()
     _, session_id = _seed_session(db_session)

@@ -69,13 +69,11 @@ class StructuredRequest:
     max_tokens: Optional[int] = None
 
 
-@dataclass(frozen=True)
-class OpenRouterOptions:
-    data_collection: str
-    zdr: bool
-    http_referer: str
-    app_title: str
-    provider_endpoint: str = ""
+# Optional request fields that a compatible provider may reject with 400/422.
+# They are retried once without these fields; domain validation is unchanged.
+OPTIONAL_REQUEST_FIELDS = frozenset({
+    "response_format", "seed", "max_tokens", "max_completion_tokens", "reasoning_effort",
+})
 
 
 class LLMProvider(Protocol):
@@ -103,7 +101,6 @@ class ChatCompletionsProvider:
         backoff_seconds: float = 0.5,
         transport: Optional[httpx.BaseTransport] = None,
         sleeper=time.sleep,
-        openrouter: Optional[OpenRouterOptions] = None,
     ):
         self._base_url = base_url.rstrip("/")
         self._api_key = api_key
@@ -112,7 +109,6 @@ class ChatCompletionsProvider:
         self._backoff = backoff_seconds
         self._transport = transport
         self._sleep = sleeper
-        self._openrouter = openrouter
 
     def with_budget(self, *, timeout_seconds, max_retries):
         provider = copy(self)
@@ -152,26 +148,8 @@ class ChatCompletionsProvider:
             if "max_tokens" in body:
                 body["max_completion_tokens"] = body.pop("max_tokens")
 
-        # OpenRouter can route a strict JSON task to a reasoning model which
-        # consumes the entire output allowance without producing an answer.
-        # Ask for the smallest visible reasoning budget up front: the current
-        # free model rejects reasoning-disabled requests with HTTP 400, and a
-        # protocol retry would silently consume another metered call. Other
-        # compatible endpoints must never receive vendor-only parameters.
-        if self._openrouter is not None or urlsplit(self._base_url).hostname == "openrouter.ai":
-            # A default seed is optional and excludes otherwise compatible
-            # endpoints when require_parameters enforces structured output.
-            body.pop("seed", None)
-            body["reasoning"] = {"effort": "minimal"}
-            body["provider"] = {"require_parameters": True}
-        if self._openrouter is not None:
-            body["provider"].update(
-                data_collection=self._openrouter.data_collection, zdr=self._openrouter.zdr,
-            )
-            if self._openrouter.provider_endpoint:
-                route = [self._openrouter.provider_endpoint]
-                body["provider"].update(only=route, order=route, allow_fallbacks=False)
-
+        # No vendor-specific parameters are sent to any compatible provider.
+        # Optional fields rejected with 400/422 are dropped by _post_with_retries.
         response = self._post_with_retries(body)
         return self._extract_content(response)
 
@@ -187,12 +165,8 @@ class ChatCompletionsProvider:
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
         }
-        if self._openrouter is not None:
-            if self._openrouter.http_referer:
-                headers["HTTP-Referer"] = self._openrouter.http_referer
-            if self._openrouter.app_title:
-                headers["X-Title"] = self._openrouter.app_title
         attempt = 0
+        optional_retried = False
         while True:
             attempt += 1
             try:
@@ -230,21 +204,32 @@ class ChatCompletionsProvider:
                 # Some compatible gateways report an upstream failure in an
                 # HTTP 200 envelope. It is never a successful completion.
                 if payload.get("error"):
-                    error = payload["error"]
-                    code = error.get("code") if isinstance(error, dict) else None
-                    if self._openrouter is not None:
-                        self._raise_openrouter_request_error(code)
-                    kind = LLMError.RATE_LIMITED if code == 429 else LLMError.PROVIDER_ERROR
-                    raise LLMError(kind, "The AI provider did not complete the request")
+                    self._raise_envelope_error(payload["error"])
                 return payload
 
-            if self._openrouter is not None:
-                self._raise_openrouter_request_error(resp.status_code)
             if resp.status_code in (401, 403):
                 raise LLMError(
                     LLMError.AUTH_FAILED,
                     "The AI grading service rejected the configured credentials",
                 )
+            if resp.status_code == 402:
+                raise LLMError(
+                    LLMError.INSUFFICIENT_CREDITS,
+                    "The AI grading service has insufficient credits",
+                )
+            if resp.status_code == 408:
+                raise LLMError(LLMError.TIMEOUT, "The AI grading service timed out")
+            if resp.status_code in (400, 422) and not optional_retried:
+                present = sorted(OPTIONAL_REQUEST_FIELDS.intersection(body))
+                if present:
+                    optional_retried = True
+                    logger.warning(
+                        "LLM provider rejected optional fields %s (HTTP %s); retrying once without them",
+                        ",".join(present), resp.status_code,
+                    )
+                    for field in present:
+                        body.pop(field)
+                    continue
             if resp.status_code == 429:
                 if attempt <= self._max_retries:
                     self._sleep(self._backoff * attempt)
@@ -264,13 +249,20 @@ class ChatCompletionsProvider:
             )
 
     @staticmethod
-    def _raise_openrouter_request_error(code):
-        if code == 402:
-            raise LLMError(LLMError.INSUFFICIENT_CREDITS, "The AI grading service has insufficient credits")
-        if code == 408:
-            raise LLMError(LLMError.TIMEOUT, "The AI grading service timed out")
-        if code == 401:
-            raise LLMError(LLMError.AUTH_FAILED, "The AI grading service rejected the configured credentials")
+    def _raise_envelope_error(error):
+        """Map an error inside an HTTP 200 envelope without logging its content."""
+        code = error.get("code") if isinstance(error, dict) else None
+        if code in (401, 403):
+            kind = LLMError.AUTH_FAILED
+        elif code == 402:
+            kind = LLMError.INSUFFICIENT_CREDITS
+        elif code in (408, "llm_timeout"):
+            kind = LLMError.TIMEOUT
+        elif code == 429:
+            kind = LLMError.RATE_LIMITED
+        else:
+            kind = LLMError.PROVIDER_ERROR
+        raise LLMError(kind, "The AI provider did not complete the request")
 
     @staticmethod
     def _extract_content(payload: dict) -> str:

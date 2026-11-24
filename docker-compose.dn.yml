@@ -44,7 +44,7 @@ services:
       SANDBOX_URL: postgresql://learner_ro:${SANDBOX_LEARNER_PASSWORD}@sandbox:5432/postgres
       SANDBOX_ADMIN_URL: postgresql://postgres:${SANDBOX_POSTGRES_PASSWORD}@sandbox:5432/postgres
       LLM_API_KEY: ''
-      LLM_PROVIDER: compatible
+      LLM_PROVIDER: openai_compatible
       LLM_BASE_URL: ''
       LLM_MODEL: ''
       SANDBOX_MODE: ephemeral

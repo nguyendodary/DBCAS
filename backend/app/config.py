@@ -1,4 +1,4 @@
-import re
+import logging
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal, Optional
@@ -9,9 +9,12 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from .credential_policy import is_demo_credential
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1"
-OPENROUTER_RELEASE_ENDPOINTS = ("deepinfra/turbo",)
-OPENROUTER_ENDPOINT_SLUG = re.compile(r"[a-z0-9][a-z0-9_-]*(?:/[a-z0-9][a-z0-9_-]*){0,3}")
+logger = logging.getLogger(__name__)
+
+# One generic OpenAI-compatible provider. Any value that is not a known alias
+# is accepted as this provider and reported; AI never silently turns off.
+OPENAI_COMPATIBLE = "openai_compatible"
+LLM_PROVIDER_ALIASES = {"compatible", OPENAI_COMPATIBLE}
 
 
 class Settings(BaseSettings):
@@ -149,18 +152,10 @@ class Settings(BaseSettings):
     # External LLM provider (Task 3.4). Any OpenAI-compatible
     # chat-completions endpoint works; empty key = AI features disabled
     # gracefully (llm_not_configured), the rest of the app unaffected.
-    llm_provider: Literal["compatible", "openrouter"] = "compatible"
+    llm_provider: str = OPENAI_COMPATIBLE
     llm_api_key: str = Field(default="", repr=False)
     llm_base_url: str = ""
     llm_model: str = ""
-    openrouter_api_key: str = Field(default="", repr=False)
-    openrouter_base_url: str = OPENROUTER_API_URL
-    openrouter_model: str = ""
-    openrouter_http_referer: str = ""
-    openrouter_app_title: str = ""
-    openrouter_data_collection: Literal["deny", "allow"] = "deny"
-    openrouter_zdr: bool = True
-    openrouter_provider_endpoint: str = ""
     llm_temperature: float = 0.1
     llm_seed: Optional[int] = 42
     llm_timeout_seconds: float = Field(default=90.0, ge=1, le=120, allow_inf_nan=False)
@@ -197,53 +192,39 @@ class Settings(BaseSettings):
     database_pool_timeout_seconds: int = Field(default=5, ge=1, le=30)
     readiness_database_timeout_seconds: int = Field(default=2, ge=2, le=10)
 
+    @field_validator("llm_provider")
+    @classmethod
+    def _normalize_llm_provider(cls, value):
+        raw = (value or "").strip()
+        if raw.lower() in LLM_PROVIDER_ALIASES:
+            return OPENAI_COMPATIBLE
+        logger.warning("Unknown LLM_PROVIDER=%s; using %s", raw, OPENAI_COMPATIBLE)
+        return OPENAI_COMPATIBLE
+
     @model_validator(mode="after")
-    def _configure_openrouter(self):
-        if self.llm_provider != "openrouter":
-            if self.deployment_mode != "development":
-                host = (urlsplit(self.llm_base_url).hostname or "").rstrip(".")
-                if host == "openrouter.ai" or host.endswith(".openrouter.ai"):
-                    raise ValueError("OpenRouter in staging/production requires LLM_PROVIDER=openrouter")
+    def _validate_llm(self):
+        api_key = self.llm_api_key.strip()
+        base_url = self.llm_base_url.strip()
+        model = self.llm_model.strip()
+        # No key means AI features are disabled gracefully; never fail startup.
+        self.llm_api_key = api_key
+        self.llm_base_url = base_url
+        self.llm_model = model
+        if not api_key or not base_url:
             return self
-        if not self.openrouter_api_key.strip():
-            raise ValueError("OPENROUTER_API_KEY is required when LLM_PROVIDER=openrouter")
-        model = self.openrouter_model.strip()
-        if not model or len(model) > 80:
-            raise ValueError("OPENROUTER_MODEL must contain 1–80 characters when LLM_PROVIDER=openrouter")
-        base_url = self.openrouter_base_url.strip()
         try:
             endpoint = urlsplit(base_url)
-            valid_url = (endpoint.scheme == "https" and endpoint.hostname and endpoint.username is None
+            valid_url = (endpoint.scheme in ("http", "https") and endpoint.hostname
+                         and endpoint.username is None and endpoint.password is None
                          and not endpoint.query and not endpoint.fragment)
         except ValueError:
             valid_url = False
         if not valid_url:
-            raise ValueError("OPENROUTER_BASE_URL must be an HTTPS URL without credentials, query or fragment")
-        route = self.openrouter_provider_endpoint.strip()
-        if route and not OPENROUTER_ENDPOINT_SLUG.fullmatch(route):
-            raise ValueError("OPENROUTER_PROVIDER_ENDPOINT must be one OpenRouter endpoint slug")
-        if self.deployment_mode != "development":
-            if base_url.rstrip("/") != OPENROUTER_API_URL:
-                raise ValueError("Staging/production requires the official OPENROUTER_BASE_URL")
-            if "/" not in model or model.lower().startswith("openrouter/"):
-                raise ValueError("Staging/production requires a concrete OPENROUTER_MODEL")
-            if self.openrouter_data_collection != "deny" or not self.openrouter_zdr:
-                raise ValueError("Staging/production requires OPENROUTER_DATA_COLLECTION=deny and OPENROUTER_ZDR=true")
-            if route not in OPENROUTER_RELEASE_ENDPOINTS:
-                approved = ", ".join(OPENROUTER_RELEASE_ENDPOINTS)
-                raise ValueError(
-                    "Staging/production requires OPENROUTER_PROVIDER_ENDPOINT to be an approved "
-                    f"provider/variant identifier ({approved})"
-                )
-        for name in ("openrouter_http_referer", "openrouter_app_title"):
-            value = getattr(self, name)
-            if any(not 32 <= ord(char) <= 126 for char in value):
-                raise ValueError(f"{name.upper()} must use printable ASCII for HTTP headers")
-        # Keep auto-grading, translation and prompt audit on the same effective configuration.
-        self.llm_api_key = self.openrouter_api_key.strip()
-        self.llm_base_url = base_url
-        self.llm_model = model
-        self.openrouter_provider_endpoint = route
+            raise ValueError("LLM_BASE_URL must be an HTTP(S) URL without credentials, query or fragment")
+        if self.deployment_mode != "development" and endpoint.scheme != "https":
+            raise ValueError("Staging/production requires an HTTPS LLM_BASE_URL")
+        if len(model) > 120:
+            raise ValueError("LLM_MODEL must contain 1-120 characters")
         return self
 
     @model_validator(mode="after")

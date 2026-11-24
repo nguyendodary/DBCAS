@@ -21,7 +21,7 @@ services:
       retries: 20
   app:
     environment:
-      LLM_PROVIDER: compatible
+      LLM_PROVIDER: openai_compatible
       LLM_API_KEY: qa-only-not-a-real-key
       LLM_BASE_URL: http://qa-ai:8080/v1
       LLM_MODEL: deterministic-local-qa

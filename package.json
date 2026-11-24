@@ -7,6 +7,7 @@
     "start": "node scripts/local.mjs",
     "demo:snapshot": "node scripts/demo-seed-snapshot.mjs",
     "env:check": "node scripts/env-check.mjs",
+    "llm:check": "node scripts/llm-check.mjs",
     "secrets:scan": "node scripts/run_py.mjs scripts/scan_secrets.py",
     "test:secrets": "node scripts/run_py.mjs -m unittest discover -s scripts/tests -p test_secret_scan.py",
     "stop": "node scripts/local.mjs stop",

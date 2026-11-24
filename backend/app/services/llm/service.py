@@ -29,7 +29,6 @@ from .provider import (
     ChatCompletionsProvider,
     ChatMessage,
     LLMProvider,
-    OpenRouterOptions,
     StructuredRequest,
 )
 
@@ -85,22 +84,12 @@ class LLMService:
                 LLMError.NOT_CONFIGURED,
                 "AI grading is not configured on this deployment",
             )
-        openrouter = None
-        if self._settings.llm_provider == "openrouter":
-            openrouter = OpenRouterOptions(
-                data_collection=self._settings.openrouter_data_collection,
-                zdr=self._settings.openrouter_zdr,
-                http_referer=self._settings.openrouter_http_referer.strip(),
-                app_title=self._settings.openrouter_app_title.strip(),
-                provider_endpoint=self._settings.openrouter_provider_endpoint,
-            )
         self._provider = ChatCompletionsProvider(
             self._settings.llm_base_url,
             self._settings.llm_api_key,
             timeout_seconds=self._settings.llm_timeout_seconds,
             max_retries=self._settings.llm_max_retries,
             backoff_seconds=self._settings.llm_backoff_seconds,
-            openrouter=openrouter,
         )
         return self._provider
 
@@ -135,14 +124,7 @@ class LLMService:
             json_schema=json_schema,
             max_tokens=max_tokens,
         )
-        provider_identity = self._settings.llm_base_url
-        if self._settings.llm_provider == "openrouter":
-            provider_identity = (
-                "openrouter", provider_identity, self._settings.openrouter_data_collection,
-                self._settings.openrouter_zdr,
-            )
-            if self._settings.openrouter_provider_endpoint:
-                provider_identity += (self._settings.openrouter_provider_endpoint,)
+        provider_identity = (self._settings.llm_provider, self._settings.llm_base_url)
         request_hash = _request_hash(request, provider=provider_identity,
                                      prompt_version=self._settings.llm_prompt_version,
                                      context_version=context_version)
