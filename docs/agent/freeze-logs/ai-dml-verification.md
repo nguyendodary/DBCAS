@@ -98,3 +98,15 @@ The same check for the mixed sessions' 8 AI DML items also returned
 - Per-call token usage for the E2E sessions is not exposed by the application
   API; token/cost totals are recorded as N/A in the packaging log.
 - No grading or validator change was made to improve these results.
+
+## Token and cost (packaging step 2)
+
+The application API does not expose provider `usage` per served question, so
+per-session token totals for the six E2E sessions are **N/A** (not invented).
+The provider did return `usage` in the direct trials: 13,859 total tokens across
+15 calls before this rotation change (`prompt-contract-fix.md`); that figure is
+not attributable to the E2E sessions above.
+
+Estimated cost per session: **N/A**. The configured Mistral `/models` response
+has no reliable `pricing` field for `deepseek-v4-1-flash-1017`. Zero is not
+assumed.

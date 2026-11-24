@@ -2,9 +2,9 @@
 
 Append only. Each entry records evidence available when backfilled; later changes need a new entry.
 
-## D01 | 2026-11-20 | OpenRouter release endpoint
+## D01 | 2026-11-20 | OpenRouter release endpoint (superseded 2026-11-24)
 
-Decision: staging/production OpenRouter routing accepts only `deepinfra/turbo`.
+Decision was: staging/production OpenRouter routing accepts only `deepinfra/turbo`. Superseded by the generic `openai_compatible` provider — see [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md) section 7.2.
 Reason: pin an approved private route; consequence: other endpoints fail release validation.
 Evidence: [#61](https://github.com/nguyendodary/DBCAS/pull/61), [configuration](../../backend/app/config.py).
 

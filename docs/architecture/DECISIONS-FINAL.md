@@ -10,7 +10,7 @@ As of: 2026-11-24. Frozen baseline: `develop2` architecture-freeze commit record
 | F02 | Modular monolith with router -> service -> repository -> SQLAlchemy layering | ADOPTED |
 | F03 | Relational schema with additive migrations and immutable result versions | ADOPTED |
 | F04 | Deterministic AI #1 prompt template; validated AI #2 JSON; rule fallback | ADOPTED |
-| F05 | OpenRouter release privacy: `deny` data collection, ZDR on, pinned endpoint | ADOPTED |
+| F05 | OpenRouter release privacy flags — **superseded** by the generic provider (2026-11-24) | REMOVED |
 | F06 | Ephemeral Docker SQL executor; `shared` remains a development fallback | ADOPTED-DEMO-ONLY |
 | F07 | Writable SQL only through the demo profile, guarded by `SANDBOX_MODE=ephemeral` | ADOPTED-DEMO-ONLY |
 | F08 | Two grading paths: AI-official FIXED TEST and human-verified LEGACY | ADOPTED |
@@ -42,7 +42,7 @@ As of: 2026-11-24. Frozen baseline: `develop2` architecture-freeze commit record
 
 ### F05 — OpenRouter privacy settings
 
-**Decision.** Defaults are `OPENROUTER_DATA_COLLECTION=deny` and `OPENROUTER_ZDR=true` (`backend/app/config.py:157-158`). In staging/production the application *requires* those values, an HTTPS official base URL, a concrete model, and the approved `deepinfra/turbo` endpoint (`backend/app/config.py:216-228`). No account-level setting is claimed; the account policy remains an owner action. **Alternatives considered.** Allow provider logging; any OpenRouter endpoint. **Why chosen.** Minimises student-data exposure and pins the reviewed route. **Consequences.** Other endpoints fail release validation; demo use without a key uses the deterministic fallback. **Status.** ADOPTED.
+**Decision (superseded).** This record required `OPENROUTER_DATA_COLLECTION=deny`, `OPENROUTER_ZDR=true`, the official base URL, a concrete `openrouter/...` model and the `deepinfra/turbo` endpoint in staging/production. Those flags, guards and vendor-only wire parameters were removed in the owner-approved generic-provider configuration change; the application now requires only an HTTPS base URL and an explicit model in release modes. Provider privacy settings are an owner/operator decision outside the app. **Status.** REMOVED — see section 7.2 of [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md).
 
 ### F06 — Sandbox execution model
 

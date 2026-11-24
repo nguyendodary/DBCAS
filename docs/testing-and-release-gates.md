@@ -241,10 +241,10 @@ multiple criteria. The recorded grouped-citation regression in
 `tests/fixtures/essay_grouped_citations.json` must remain rejected and uncached;
 the correctly paired representation is accepted without changing its score.
 Do not relax evidence validation to accommodate a model ignoring the contract.
-Gateway routes such as `openrouter/free` may select different upstream models;
-record the actual response model/provider as well as the configured route.
+Gateway routes may select different upstream models; record the actual response
+model/provider as well as the configured route.
 An HTTP 200 safety-classifier response such as `User Safety: safe` is not a
-grade and must remain rejected and uncached. The observed free route returned
+grade and must remain rejected and uncached. Some routes return
 such output despite the requested JSON schema; do not assume that a gateway
 success status certifies structured essay grading. Selecting a different,
 explicit grading model requires the configuration owner's authorization and

@@ -2,7 +2,9 @@
 
 ## Khởi động từ một clone bình thường
 
-Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2).
+Cần Node.js 24 và Docker Desktop/Engine (Linux containers, Compose v2). Trên
+Windows, SQL DML chạy trong sandbox ephemeral cần **WSL2** (CLI Docker qua WSL);
+SELECT và phần còn lại chạy được với Docker Desktop thường.
 Hướng dẫn áp dụng cho `develop2`; `main` chỉ nhận bản phát hành đã duyệt.
 
 ```bash
@@ -21,17 +23,27 @@ Kiểm tra tên biến và định dạng key mà không in giá trị:
 
 ```bash
 npm run env:check
+npm run llm:check   # GET /models + 1 chat JSON; không in key
 ```
 
-1. Mở http://localhost:18080 · API http://localhost:18000/docs · Hộp thư http://localhost:18025.
+Khối AI trong `.env` chỉ có một bộ `LLM_*`: `LLM_API_KEY`, `LLM_BASE_URL`,
+`LLM_MODEL` (tuỳ chọn `LLM_TIMEOUT_SECONDS`, `LLM_PROVIDER`). Đổi provider chỉ
+bằng các biến này, không sửa code; `LLM_PROVIDER` không phân biệt hoa/thường,
+giá trị lạ được coi là `openai_compatible` và ghi log cảnh báo. Ví dụ base URL:
+Mistral `https://api.mistral.ai/v1`, OpenAI `https://api.openai.com/v1`,
+OpenRouter `https://openrouter.ai/api/v1`. Thiếu key thì AI tắt êm và dùng
+quy tắc/ngân hàng dự phòng.
+
+1. Mở http://localhost:18080 · API http://localhost:18000/docs · Mailpit UI http://localhost:18025 (SMTP localhost:11025).
 2. Demo `admin@dbcas.local`, `learner@dbcas.local` · mật khẩu chung `Demo12345!`.
 3. Bài FIXED (Test) công bố điểm AI ngay khi kết thúc; bài legacy/practice chờ quản trị viên duyệt. Prompt Builder dùng template xác định.
 
-Tài khoản/mật khẩu demo chỉ dành cho development. Staging/production từ chối
-các mật khẩu công khai hiện tại và cũ, kể cả trên tài khoản bị vô hiệu hóa;
-phải đổi mật khẩu trước khi chuyển DB demo sang môi trường triển khai. Các
-khóa cấu hình cũng không được dùng lại giá trị demo. Chạy `npm run secrets:scan`
-trước khi chia sẻ thay đổi; hook kiểm tra cả nội dung đang stage.
+**Mật khẩu mặc định `change_me`, `Demo12345!` và `Admin123!` chỉ dùng cho demo
+local.** Staging/production từ chối các mật khẩu công khai hiện tại và cũ, kể cả
+trên tài khoản bị vô hiệu hóa; phải đổi trước khi chuyển DB demo sang triển
+khai. Các khóa cấu hình cũng không được dùng lại giá trị demo. Chạy
+`npm run secrets:scan` trước khi chia sẻ thay đổi; hook kiểm tra cả nội dung
+đang stage.
 
 ## Nâng cấp dữ liệu và sao lưu
 

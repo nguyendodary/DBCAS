@@ -55,7 +55,7 @@ Accounts (local demo only): `admin@dbcas.local` / `Demo12345!`,
 
 ## Offline AI fallback (deterministic QA provider)
 
-If OpenRouter is unavailable, use the repository’s fake provider instead of a
+If the configured compatible provider is unavailable, use the repository's fake provider instead of a
 real key. It is `backend/tests/qa_provider.py`, selected through the QA Compose
 override. Start the normal stack first so `.env` and the `dbcas-local` project
 exist and the seed has completed, then recreate the app with the override:

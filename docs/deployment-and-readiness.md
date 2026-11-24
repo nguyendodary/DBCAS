@@ -93,21 +93,18 @@ finite timeout and bounded retries. Responses pass strict JSON/schema/domain
 validation before entering the versioned cache. User profile identifiers
 are redacted with boundaries; AI cannot change deterministic competency math.
 
-For OpenRouter on staging or production, set `LLM_PROVIDER=openrouter`, an
-explicit `OPENROUTER_MODEL`, `OPENROUTER_API_KEY`, and
-`OPENROUTER_PROVIDER_ENDPOINT=deepinfra/turbo`. This is the only endpoint in
-the release allow-list. Startup rejects bare provider slugs and unapproved
-variants. Use the official `https://openrouter.ai/api/v1` base URL,
-`OPENROUTER_DATA_COLLECTION=deny`, and `OPENROUTER_ZDR=true`. The adapter pins
-that endpoint and disables fallback.
-Before enabling real learner traffic, verify the exact model and endpoint are
-listed with `safety_retention=false` and support structured outputs. Set the
-account or key guardrail to **ZDR only**, disable input/output logging for the
-account or key, and have the operator approve the provider's data policy. The
-request flag follows the account's Safety Retention setting. Record the reviewed
-route and use a synthetic contract smoke test before a change of model or
-endpoint. If the route is unavailable, requests fail within the existing budget.
-[OpenRouter ZDR](https://openrouter.ai/docs/guides/features/zdr)
+For any OpenAI-compatible provider on staging or production, set `LLM_API_KEY`,
+an HTTPS `LLM_BASE_URL` and an explicit `LLM_MODEL`. `LLM_PROVIDER` is optional
+and case-insensitive; unknown values are accepted as `openai_compatible` with a
+warning. Example base URLs: Mistral `https://api.mistral.ai/v1`, OpenAI
+`https://api.openai.com/v1`, OpenRouter `https://openrouter.ai/api/v1`.
+Startup no longer enforces provider-specific routing, ZDR or data-collection
+settings; those vendor-only flags were removed with the generic provider.
+Before enabling real learner traffic, the operator must verify the chosen
+provider's data policy, logging settings and structured-output support outside
+the application, and use `npm run llm:check` as a synthetic smoke test before a
+change of model or endpoint. If the provider is unavailable, requests fail
+within the existing budget and the app falls back to deterministic rules.
 
 The API maintenance thread handles timeouts and pending SQL jobs. Essay
 retry jobs require an explicit operator decision to enable provider calls:

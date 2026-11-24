@@ -43,5 +43,5 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - SQL-run rate limiting is **not implemented**; per-execution limits and two-slot admission remain the guard.
 - Cold seed remains about three minutes; no safe in-seed parallelism was found without changing validation semantics.
 - Free/Pro is **UI-only** (`VITE_DEMO_FREE_PRO=true` demo default, plan stored in `dbcas_demo_plan`); no backend payment route or migration. Free locks Mode 2; Pro unlocks it.
-- No OpenRouter ZDR/logging approval for real data; **production stays HOLD**.
+- No provider-level ZDR/logging approval for real data remains in the app (vendor-only flags removed); provider privacy is an operator decision. **Production stays HOLD**.
 - Owner decisions remain: DB release default `IMMEDIATE` vs API `HUMAN_VERIFIED`; duplicate `concept_dependency` DDL; OTP [#25](https://github.com/nguyendodary/DBCAS/pull/25); local `dbcas-*` inventory; production substrate and release gates.

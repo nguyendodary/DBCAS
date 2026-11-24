@@ -1,10 +1,11 @@
-# Architecture Freeze — DBCAS
+# Architecture Freeze — DBCAS (v1.1)
 
 ## 1. Baseline and scope
 
 - Freeze date: 2026-11-24
 - Branch: `develop2`
-- Freeze commit: the T9 commit tagged `arch-freeze-v1` locally (tag not pushed). Resolve with `git rev-parse arch-freeze-v1`.
+- Freeze commit: `arch-freeze-v1` (original baseline, tag not pushed). Packaging
+  revision `arch-freeze-v1.1` will be tagged at the final commit of this pass.
 - Before T1: `436f82e` (integration baseline from `docs/PROJECT_AUDIT.md`)
 - Accepted work: T1–T9, one commit each; see section 3.
 - Production status: **HOLD**; no cloud deployment and no `develop2 -> main` PR in this freeze.
@@ -58,7 +59,7 @@ technology or framework was introduced.
 | C9 | Question caps: legacy 13; single 50/5/10; mixed 20/2/3 total 25; Mode 2 minimum 3. | `practice_config.py`, `practice_service.py` |
 | C10 | Access JWT 60 min, absolute 480 min, refresh 7 days, HS256, password 8–72 bytes. | `config.py`, `schemas.py` |
 | C11 | AI never required: no key/timeouts/failures fall back to deterministic rules or reviewed bank. | `evaluation_pipeline.py`, `ai_adaptive.py` |
-| C12 | OpenRouter release requires official URL, concrete model, `deny` data collection, ZDR, pinned endpoint. | `config.py` |
+| C12 | Removed with the generic provider: OpenRouter-only URL/model/ZDR/data-collection/pinned-endpoint guards. Release now requires HTTPS base URL and explicit model. | `config.py`, section 7.2 |
 | C13 | FIXED TEST = AI-official V1; LEGACY = human verification; no global release switch. | `result_version.py`, `grading_review.py`, `system_settings.py` |
 | C14 | V1/V2 result rows immutable; score edits require audit reason. | `models.py`, `grading_review.py` |
 | C15 | Synthetic demo data only; document upload requires explicit no-personal-data confirmation. | `README.md`, `schemas.py` |
@@ -182,6 +183,32 @@ No generation logic, validator, grading, migration, UI or architecture change.
   calls `GET /models` and one minimal JSON chat completion, prints provider,
   base URL, model, HTTP status, timing and JSON validity, and never prints a key.
   With a wrong model it lists available ids and does not change `LLM_MODEL`.
+
+### 7.3 v1.1 packaging — prompt contract and DML verification (owner-approved)
+
+- **Prompt contract fix** (`4b95102`): `_prompt` builds a complete JSON example
+  from `GeneratedQuestion.model_json_schema()`, names the required `prompt`
+  field, forbids extra keys, states the `Accept-Language` output language and
+  uses a versioned official docs URL. No validator/schema change. Direct trials
+  improved from 0/15 to **13/15` validate_generated`; the two remaining
+  failures are malformed `RETURNING` clauses correctly rejected by the existing
+  validator.
+- **Owner-approved DML rotation** (`9ac87ed`, log
+  [`ai-dml-verification.md`](agent/freeze-logs/ai-dml-verification.md)): SQL
+  turns rotate INSERT → UPDATE → DELETE deterministically from the number of
+  served SQL DML questions; a wrong DML verb is rejected with `dml_kind_mismatch`
+  and uses the bank fallback. Validator, grading and schema untouched.
+- E2E after the fix: 8/8 AI questions in both vi and en sessions; admin candidate
+  queue produced 16 candidates, one approved (`promoted_question_id=4063`) and
+  one rejected through the existing review flow. INSERT/UPDATE/DELETE were all
+  generated in vi and en SQL-only sessions; correct answers graded 1.00 and
+  intentionally wrong answers 0.00 with `sql_semantic`; every DML reference
+  re-executed with `rolled_back: true`.
+- **Remaining limits:** SQL DML needs the disposable writable executor, which on
+  this Windows host requires WSL2 + Docker; two earlier `RETURNING` cases were
+  correctly blocked by the unchanged validator; per-session provider token
+  usage and monetary cost are N/A (no reliable published price/usage exposed by
+  the app API). Production remains HOLD.
 
 ## 8. Architecture freeze conclusion
 

@@ -64,7 +64,7 @@ for release purposes and records subsequently reproduced defects and clean rerun
   role, per-execution fixture schemas, read-only transactions, rollback,
   statement/connect deadlines and bounded results. The application database is
   never an execution target. Existing validation and isolation were not relaxed.
-- The existing OpenRouter-compatible LLM layer validates structured output,
+- The generic OpenAI-compatible LLM layer validates structured output,
   redacts identifiers and caches valid responses. Missing provider configuration
   remains supported. Existing candidate generation is an administrator curation
   tool; it is not part of personalized starts or cumulative scoring.
