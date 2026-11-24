@@ -1,6 +1,10 @@
 """Mode 2 live generation against the real PostgreSQL test fixtures."""
+import json
 import re
+from types import SimpleNamespace
 from uuid import uuid4
+
+import pytest
 
 from sqlalchemy import select
 
@@ -293,3 +297,59 @@ def test_ability_moves_both_ways_and_grade_is_hidden_until_evidence(
     assert [a.grading_detail["is_correct"] for a in graded] == [True, False, True]
     assert [str(a.score) for a in graded] == ["1.00", "0.00", "1.00"]
     assert db_session.get(AssessmentSession, session_id).release_status != "published"
+
+
+
+class LegacyContractLLM(FakeLLM):
+    """Provider that still uses the old `question` / string-options shape."""
+
+    def generate_structured(self, *args, **kwargs):
+        item = super().generate_structured(*args, **kwargs)
+        item["question"] = item.pop("prompt")
+        if item.get("options"):
+            item["options"] = [option["text"] for option in item["options"]]
+        return item
+
+
+@pytest.mark.parametrize("kind", ["mcq", "sql", "essay"])
+@pytest.mark.parametrize("locale", ["vi", "en"])
+def test_prompt_names_the_schema_fields_and_carries_a_valid_example(kind, locale):
+    from app.services import ai_adaptive
+    from app.services.llm.provider import strict_wire_schema
+    from app.services.llm.validation import validate_json_schema
+    from app.services.practice_generation import GeneratedQuestion
+
+    concept = SimpleNamespace(concept_id=16, concept_name="DML knowledge",
+                              concept_code="SQL-DML-KNOW")
+    text = ai_adaptive._prompt(concept, kind, 2, "EASY", locale)
+    assert "Accept-Language" in text
+    assert "Vietnamese" in text if locale == "vi" else "English" in text
+    assert '"prompt"' in text and '"question":' not in text
+    if kind == "mcq":
+        assert '"text"' in text and '"correct"' in text
+    if kind == "sql":
+        assert '"setup_sql"' in text and '"edge_setup_sql"' in text and '"tables"' in text
+    if kind == "essay":
+        assert '"rubrics"' in text
+    assert "additionalProperties" in text
+
+    example_line = next(line for line in text.splitlines() if line.startswith("{"))
+    example = json.loads(example_line)
+    schema = GeneratedQuestion.model_json_schema()
+    assert set(example) == set(schema["properties"])
+    validate_json_schema(example, strict_wire_schema(schema))
+
+
+def test_legacy_question_field_and_string_options_are_still_rejected(
+    db_session, sandbox_runner, monkeypatch
+):
+    from app.services import ai_adaptive
+    from app.models import SelectionLog
+    monkeypatch.setattr(ai_adaptive, "_prefetch_after", lambda *args, **kwargs: None)
+    _, learner, concepts = fixture(db_session)
+    state = practice.start(db_session, learner, _payload(concepts[0]),
+                           sandbox_runner, LegacyContractLLM(concepts[0].concept_id), locale="en")
+    assert state.current_question.source == "bank"
+    log = db_session.scalar(select(SelectionLog).where(SelectionLog.session_id == state.session_id))
+    assert log.is_fallback is True
+    assert log.decision_detail["fallback_reason"] == "generation_schema"

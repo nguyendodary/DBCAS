@@ -126,21 +126,93 @@ def _store_prefetch(session_id, seq, kind, level, item):
         _PREFETCH[_cache_key(session_id, seq, kind, level)] = item
 
 
+def _example_question(concept, kind, level, locale):
+    """Build a complete example from GeneratedQuestion's own JSON schema.
+
+    The example is generated from the schema properties (and its nested $defs),
+    so the prompt cannot drift from the model the validator actually enforces.
+    """
+    schema = GeneratedQuestion.model_json_schema()
+    properties = schema["properties"]
+    vietnamese = locale == "vi"
+    values = {
+        "concept_ids": [concept.concept_id],
+        "difficulty_level": level,
+        "question_type": kind,
+        "prompt": ("Viết một truy vấn SELECT ví dụ cho bảng này." if vietnamese
+                   else "Write an example SELECT query for this table."),
+        "explanation": ("Giải thích đầy đủ ít nhất tám ký tự." if vietnamese
+                        else "An explanation with at least eight characters."),
+        "source_refs": ["https://www.postgresql.org/docs/18/sql-insert.html"],
+        "reference_answer": "SELECT id FROM practice_rows ORDER BY id;",
+        "points": 1,
+        "options": [],
+        "setup_sql": None,
+        "edge_setup_sql": None,
+        "tables": [],
+        "rubrics": [],
+    }
+    if kind == "mcq":
+        option_props = schema["$defs"]["GeneratedOption"]["properties"]
+        labels = ["INSERT INTO", "UPDATE", "DELETE FROM", "SELECT"]
+        values["options"] = [
+            {key: {"text": text, "correct": index == 0}[key] for key in option_props}
+            for index, text in enumerate(labels)
+        ]
+        values["reference_answer"] = labels[0]
+    elif kind == "sql":
+        values["setup_sql"] = (
+            "CREATE TABLE practice_rows(id INT PRIMARY KEY, name TEXT); "
+            "INSERT INTO practice_rows VALUES (1,'alpha'),(2,'beta');"
+        )
+        values["edge_setup_sql"] = (
+            "CREATE TABLE practice_rows(id INT PRIMARY KEY, name TEXT); "
+            "INSERT INTO practice_rows VALUES (1,'alpha');"
+        )
+        values["tables"] = ["practice_rows"]
+    else:
+        rubric_props = schema["$defs"]["GeneratedRubric"]["properties"]
+        rubric_rows = [
+            ("Incomplete", 0.0, 0.24),
+            ("Partial", 0.25, 0.49),
+            ("Mostly Complete", 0.50, 0.74),
+            ("Complete", 0.75, 1.0),
+        ]
+        values["rubrics"] = [
+            {key: {"level_name": name, "min_score": low, "max_score": high,
+                   "criteria": "Mô tả tiêu chí." if vietnamese else "Describe the criterion."}[key]
+             for key in rubric_props}
+            for name, low, high in rubric_rows
+        ]
+        values["reference_answer"] = ("Một đáp án mẫu đầy đủ." if vietnamese
+                                      else "A complete model answer.")
+    # Keys come from the schema itself; never add or omit a field here.
+    return json.dumps({key: values[key] for key in properties}, ensure_ascii=False)
+
+
 def _prompt(concept, kind, level, band, locale):
     language = "Vietnamese" if locale == "vi" else "English"
+    source_language = "Accept-Language: vi" if locale == "vi" else "Accept-Language: en"
     extra = {
-        "mcq": "Return exactly four options, exactly one correct; reference_answer must equal the correct option text.",
-        "sql": "Provide a runnable PostgreSQL reference_answer and both setup_sql and edge_setup_sql. The reference answer may use SELECT, INSERT, UPDATE, DELETE, CREATE TEMP TABLE, ALTER or DROP inside the sandbox; it must be deterministic. For a DML/DDL answer, list every table whose state must be compared in tables.",
-        "essay": "Provide a reference_answer and four continuous rubrics Incomplete, Partial, Mostly Complete, Complete covering the full points range.",
+        "mcq": "concept_ids must be an array of integers like [16]. options must be exactly four objects {text, correct}, with exactly one correct; reference_answer must equal the correct option text. Keep setup_sql and edge_setup_sql null.",
+        "sql": "concept_ids must be an array of integers like [16]. Provide a runnable PostgreSQL reference_answer and both setup_sql and edge_setup_sql. The setup scripts must define exactly the table and columns the reference_answer reads, with at least one matching row in both datasets; the reference must return a deterministic non-empty result. The reference answer may use SELECT, INSERT, UPDATE, DELETE, CREATE TEMP TABLE, ALTER or DROP inside the sandbox. For a DML/DDL answer, list every table whose state must be compared in tables.",
+        "essay": "concept_ids must be an array of integers like [16]. Provide a reference_answer and four continuous rubrics Incomplete, Partial, Mostly Complete, Complete covering the full points range. Keep setup_sql and edge_setup_sql null: an essay question must not contain any DDL/DML seed.",
     }[kind]
+    example = _example_question(concept, kind, level, locale)
     return (
         f"Create exactly one {kind} PostgreSQL practice question in {language}. "
+        f"Output language: {language}, selected by the learner's {source_language} header; "
+        f"write the question text, explanation and any answer text in {language}. "
         f"Concept: {concept.concept_name} ({concept.concept_code}). "
         f"Difficulty level: {level} (band {band}, allowed {levels(SimpleNamespace(difficulties=[band]))}). "
-        f"Return one JSON object with concept_ids [{concept.concept_id}], question_type {kind}, "
-        f"difficulty_level {level}, a non-empty explanation, source_refs, reference_answer and points. "
+        f"Return ONE JSON object matching the supplied JSON schema EXACTLY. "
+        f"Use the key \"prompt\" for the question text - NEVER \"question\". "
+        f"Do not add extra keys (additionalProperties is false) and do not omit keys. "
+        f"source_refs must be a list of verified, versioned official PostgreSQL URLs such as "
+        f"https://www.postgresql.org/docs/18/sql-insert.html (never /docs/current/). "
         f"{extra} Do not use the current time, random values, catalogs or side effects outside the provided dataset. "
-        "The object must match the supplied JSON schema exactly."
+        f"Complete valid example for a {kind} question (replace the values, keep every key and its type):\n"
+        f"{example}\n"
     )
 
 
