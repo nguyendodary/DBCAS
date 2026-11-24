@@ -160,6 +160,7 @@ def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: A
                        db: Session = Depends(get_db), runner: SandboxRunner = Depends(get_sandbox_runner), llm: LLMService = Depends(get_llm_service)):
     """Commit the answer and authoritative next state together; retry is safe."""
     from ..config import get_settings
+    generation_llm = llm
     if get_settings().auto_grade_essays and llm.is_configured():
         llm = None  # The local maintenance worker grades the durable essay job.
     answer = assessment_lifecycle.submit(db, session_id, learner, payload, runner, llm)
@@ -168,7 +169,8 @@ def submit_and_advance(session_id: int, payload: SubmitAnswerRequest, learner: A
         if adaptive_engine._expired(session, AssessmentRepository(db).server_time()):
             assessment_lifecycle.finalize(db, session, timed_out=True)
         else:
-            adaptive_engine.serve_next(db, session_id, learner, commit=False)
+            adaptive_engine.serve_next(db, session_id, learner, commit=False,
+                                       runner=runner, llm=generation_llm)
     db.commit()
     return SubmissionResult(answer=answer, state=adaptive_engine.get_state(db, session_id, learner))
 
@@ -212,6 +214,8 @@ def serve_next_question(
     seq_no: int | None = Query(None, ge=1),
     learner: Account = LearnerOnly,
     db: Session = Depends(get_db),
+    runner=Depends(get_sandbox_runner),
+    llm=Depends(get_llm_service),
     display_locale: Literal["en", "vi"] | None = None,
 ):
     """UC12/FR-15 — return the pending question or adaptively serve the
@@ -225,7 +229,7 @@ def serve_next_question(
             db, session_id, seq_no, learner, display_locale
         )
         return ServeResult(done=False, question=question)
-    return adaptive_engine.serve_next(db, session_id, learner)
+    return adaptive_engine.serve_next(db, session_id, learner, runner=runner, llm=llm)
 
 
 @router.post("/{session_id}/finish", response_model=SessionStateResult)

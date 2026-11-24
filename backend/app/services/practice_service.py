@@ -55,14 +55,19 @@ class PracticeStart(BaseModel):
         """Keep the legacy 13 cap and enforce the typed-practice caps."""
         mix = self.question_mix
         if self.assessment_style == "ADAPTIVE":
-            if self.source != "bank":
-                raise ValueError("ADAPTIVE practice is bank-only")
             if len(self.concept_ids) != 1:
                 raise ValueError("ADAPTIVE practice requires exactly one concept")
             if len(self.difficulties) != 1:
-                raise ValueError("ADAPTIVE practice requires exactly one starting difficulty band")
+                raise ValueError("ADAPTIVE practice requires exactly one difficulty band")
             if self.question_count < 3:
                 raise ValueError("ADAPTIVE practice requires at least three questions")
+            if self.source == "ai":
+                # Mode 2: the generation service owns the per-question mix.
+                # Until the typed extension lands, MCQ is the only generated
+                # question type accepted here.
+                if mix is not None and (mix.sql or mix.essay or mix.mcq != self.question_count):
+                    raise ValueError("AI adaptive practice is MCQ-only; question_mix must match question_count")
+                return self
             if mix is not None and (mix.sql or mix.essay or mix.mcq != self.question_count):
                 raise ValueError("ADAPTIVE practice is MCQ-only; question_mix must match question_count")
             return self
@@ -230,6 +235,16 @@ def preview(db, learner, payload):
                        details={"session_id": active.session_id})
     SecurityRepository(db).lock("question-bank-publication", shared=True)
     if payload.assessment_style == "ADAPTIVE":
+        if payload.source == "ai":
+            # Live generation can always attempt a question; a slow or
+            # rejected response falls back to the reviewed bank during the
+            # session, so preview never needs an inventory size check.
+            covered, uncovered = _coverage(concepts, {concepts[0].concept_id})
+            return PracticePreviewResult(
+                can_start=True, question_count=payload.question_count,
+                type_counts={"mcq": payload.question_count},
+                covered_concepts=covered, uncovered_concepts=uncovered, notice=None,
+            )
         from .continuous_adaptive import build_inventory
         inventory = build_inventory(db, concepts[0], payload.difficulties[0])
         count = min(payload.question_count, len(inventory))
@@ -270,8 +285,13 @@ def start(db, learner, payload, runner=None, llm=None, *, locale="vi"):
         raise AppError(409, "active_practice", "Bạn có bài đang làm. Hãy tiếp tục hoặc hoàn thành bài đó.", details={"session_id": active.session_id})
     SecurityRepository(db).lock("question-bank-publication", shared=True)
     if payload.assessment_style == "ADAPTIVE":
-        from .continuous_adaptive import create
-        session = create(db, learner, payload, concepts, selection, request_id, locale=locale)
+        if payload.source == "ai":
+            from .ai_adaptive import create
+            session = create(db, learner, payload, concepts, selection, request_id,
+                             locale=locale, runner=runner, llm=llm)
+        else:
+            from .continuous_adaptive import create
+            session = create(db, learner, payload, concepts, selection, request_id, locale=locale)
         db.commit()
         return adaptive_engine._state(AssessmentRepository(db), session)
     diagnostics = []

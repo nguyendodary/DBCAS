@@ -114,8 +114,8 @@ class GeneratedAIQuestion(GeneratedQuestion):
     question_type: Literal["mcq", "essay"]
 
 
-def canonical_generated(item, datasets=()):
-    return {"question_type": item["question_type"], "original_locale": "vi", "prompt": item["prompt"],
+def canonical_generated(item, datasets=(), original_locale="vi"):
+    return {"question_type": item["question_type"], "original_locale": original_locale, "prompt": item["prompt"],
         "explanation": item["explanation"], "reference_answer": item["reference_answer"],
         "source_refs": [{"url": url} for url in item["source_refs"]], "points": item["points"],
         "difficulty_level": item["difficulty_level"], "concept_ids": item["concept_ids"],
@@ -132,7 +132,7 @@ def _verified_sql_results():
     return data["results"]
 
 
-def validate_generated(raw, concepts, payload, runner, *, deadline=None, allowed_types=None, expected_types=None):
+def validate_generated(raw, concepts, payload, runner, *, deadline=None, allowed_types=None, expected_types=None, original_locale="vi"):
     raw = normalize_batch(raw)
     if (not isinstance(raw, dict) or not isinstance(raw.get("questions"), list)
             or len(raw["questions"]) != payload.question_count):
@@ -216,7 +216,7 @@ def validate_generated(raw, concepts, payload, runner, *, deadline=None, allowed
                         runner.drop_dataset(schema)
                 datasets.append({"dataset_name": "Generated edge" if edge else "Generated primary", "setup_sql": setup,
                                  "expected_result": expected, "is_edge_case": edge})
-        errors = question_problems(canonical_generated(item, datasets), known_concepts=allowed)
+        errors = question_problems(canonical_generated(item, datasets, original_locale), known_concepts=allowed)
         if errors:
             raise GenerationRejected("generation_content", question_type=item["question_type"],
                                      excerpt=str(errors[0]).split(":", 1)[0][:60], index=index)

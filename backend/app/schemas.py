@@ -997,6 +997,7 @@ class ServedQuestion(BaseModel):
     seq_no: int
     question_id: int
     question_type: str  # 'mcq' | 'sql' | 'essay'
+    source: str = "bank"
     content_locale: str = "en"
     prompt: str
     difficulty_level: int

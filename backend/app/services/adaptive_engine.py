@@ -93,6 +93,7 @@ def _served_question(repo: AssessmentRepository, attempt: Attempt, locale="en") 
         seq_no=attempt.seq_no,
         question_id=q.question_id,
         question_type=q.question_type,
+        source=(attempt.question_snapshot or {}).get("source", "bank"),
         content_locale=getattr(q, "content_locale", "en"),
         prompt=q.prompt,
         difficulty_level=q.difficulty_level,
@@ -119,7 +120,11 @@ def _draft_has_answer(attempt) -> bool:
 
 def progress(session: AssessmentSession, attempts: list[Attempt]):
     """Dispatch frozen progress by runner mode; old sessions keep batch rules."""
-    if (session.config_snapshot or {}).get("runner_mode") == "adaptive":
+    runner_mode = (session.config_snapshot or {}).get("runner_mode")
+    if runner_mode == "ai_adaptive":
+        from .ai_adaptive import progress as ai_progress
+        return ai_progress(session, attempts)
+    if runner_mode == "adaptive":
         from .continuous_adaptive import progress as continuous_progress
         return continuous_progress(session, attempts)
     from .batch_adaptive import progress as batch_progress
@@ -140,7 +145,11 @@ def _state(
     runner_mode = snapshot.get("runner_mode")
     fixed = runner_mode == "fixed"
     ability_estimate, study_suggestions = None, []
-    if runner_mode == "adaptive":
+    if runner_mode == "ai_adaptive":
+        from .ai_adaptive import estimate, study_suggestions as suggestions_for
+        ability_estimate = estimate(session, attempts)
+        study_suggestions = suggestions_for(repo.db, session)
+    elif runner_mode == "adaptive":
         from .continuous_adaptive import estimate, study_suggestions as suggestions_for
         ability_estimate = estimate(session, attempts)
         study_suggestions = suggestions_for(repo.db, session)
@@ -467,7 +476,7 @@ def start_session(
 
 
 def serve_next(
-    db: Session, session_id: int, learner: Account, *, commit=True
+    db: Session, session_id: int, learner: Account, *, commit=True, runner=None, llm=None
 ) -> ServeResult:
     """Return the pending question, or adaptively serve the next one."""
     repo = AssessmentRepository(db)
@@ -482,6 +491,14 @@ def serve_next(
     pending = next((a for a in attempts if a.submitted_at is None), None)
     if pending is not None:
         return ServeResult(done=False, question=_served_question(repo, pending, session.locale or "en"))
+
+    if snapshot.get("runner_mode") == "ai_adaptive":
+        from .ai_adaptive import advance
+        attempt = advance(repo, session, attempts, runner=runner, llm=llm)
+        if commit:
+            db.commit()
+        return ServeResult(done=attempt is None,
+                           question=_served_question(repo, attempt, session.locale or "en") if attempt else None)
 
     if snapshot.get("runner_mode") == "adaptive":
         from .continuous_adaptive import advance
