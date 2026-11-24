@@ -111,7 +111,7 @@ each result below refers to a file there.
 | Gate | Command | Result | Log |
 |---|---|---|---|
 | Backend lint | `python -m ruff check app tests manage.py` | All checks passed! | [`backend-lint.log`](agent/freeze-logs/backend-lint.log) |
-| Backend full test | `python -m pytest -q` (from `backend/`) | 1928 passed, 7 skipped (final run after the generic-provider config change; earlier runs kept for evidence) | [`backend-pytest-final.log`](agent/freeze-logs/backend-pytest-final.log), [`backend-pytest-full.log`](agent/freeze-logs/backend-pytest-full.log), [`pytest-environment-limitation.log`](agent/freeze-logs/pytest-environment-limitation.log) |
+| Backend full test | `python -m pytest -q` (from `backend/`) | 1940 passed, 7 skipped (final v1.1 run after the DML rotation change; earlier runs kept for evidence) | [`backend-pytest-final.log`](agent/freeze-logs/backend-pytest-final.log), [`backend-pytest-full.log`](agent/freeze-logs/backend-pytest-full.log), [`pytest-environment-limitation.log`](agent/freeze-logs/pytest-environment-limitation.log) |
 | Frontend lint | `npm --prefix frontend run lint` | PASS (ESLint, `--max-warnings=0`) | [`frontend-lint.log`](agent/freeze-logs/frontend-lint.log) |
 | Frontend unit | `npm --prefix frontend test -- --maxWorkers=2` | 54 files / 463 tests passed | [`frontend-test.log`](agent/freeze-logs/frontend-test.log) |
 | Docs gate | `python scripts/check_docs.py` | PASS — 48 assertions; 106 API paths / 118 operations; schema, migrations, Compose, OpenAPI and frontend routes match | [`docs-check.log`](agent/freeze-logs/docs-check.log) |
