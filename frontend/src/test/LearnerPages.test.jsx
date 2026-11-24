@@ -82,7 +82,7 @@ describe('AssessmentsPage', () => {
     expect(screen.getByLabelText('MCQ')).toHaveValue(10)
     expect(screen.getByLabelText('SQL')).toHaveValue(2)
     expect(screen.getByLabelText('Essay')).toHaveValue(1)
-    expect(screen.getByText('13 questions in this test.')).toBeInTheDocument()
+    expect(screen.getByText('13 questions in this session.')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Easy/ })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByRole('button', { name: 'Medium' })).toHaveAttribute('aria-pressed', 'false')
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))

@@ -69,6 +69,17 @@ beforeEach(() => {
 })
 
 describe('ExamPage', () => {
+  it('shows the small AI label on a generated question', async () => {
+    api.get.mockResolvedValue({
+      data: {
+        ...STATE_MCQ,
+        current_question: { ...MCQ, source: 'ai_generated' },
+      },
+    })
+    renderExam()
+    expect(await screen.findByText('AI')).toBeInTheDocument()
+  })
+
   it('serializes synchronous submit clicks and allows the next answer after completion', async () => {
     api.get.mockResolvedValue({ data: STATE_MCQ })
     let release

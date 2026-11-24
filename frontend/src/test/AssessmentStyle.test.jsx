@@ -10,7 +10,6 @@ import { EvaluationContent } from '../pages/EvaluationPage'
 import { resources, t } from '../i18n'
 import {
   ADAPTIVE,
-  ADAPTIVE_MAX_QUESTIONS,
   ADAPTIVE_MIN_QUESTIONS,
   FIXED,
   FIXED_DEFAULT_MIX,
@@ -89,19 +88,18 @@ describe('assessment mode helpers', () => {
       style: ADAPTIVE,
       selected: [1, 2],
       bands: ['EASY', 'HARD'],
-      source: 'ai',
-      count: 99,
+      mix: { mcq: 3, sql: 0, essay: 0 },
       requestId: 'req-2',
     })
     expect(payload).toEqual({
       concept_ids: [1],
       difficulties: ['EASY'],
-      source: 'bank',
-      question_count: ADAPTIVE_MAX_QUESTIONS,
+      source: 'ai',
+      question_count: 3,
+      question_mix: { mcq: 3, sql: 0, essay: 0 },
       request_id: 'req-2',
       assessment_style: ADAPTIVE,
     })
-    expect(payload).not.toHaveProperty('question_mix')
     expect(clampAdaptiveCount(1)).toBe(ADAPTIVE_MIN_QUESTIONS)
   })
 
@@ -143,24 +141,16 @@ describe('assessment mode helpers', () => {
     }
     expect(isSelectionValid(base)).toBe(true)
     expect(isSelectionValid({ ...base, bands: ['EASY', 'HARD'] })).toBe(false)
-    expect(isSelectionValid({ ...base, source: 'ai' })).toBe(false)
     expect(isSelectionValid({ ...base, mix: { mcq: 0, sql: 0, essay: 0 } })).toBe(false)
   })
 
   it('validates adaptive selections against the single-concept, single-band rule', () => {
-    const limits = {
-      min: ADAPTIVE_MIN_QUESTIONS,
-      max: ADAPTIVE_MAX_QUESTIONS,
-      presets: [],
-    }
     expect(
       isSelectionValid({
         style: ADAPTIVE,
         selected: [1],
         bands: ['MEDIUM'],
-        source: 'bank',
-        count: 5,
-        limits,
+        mix: { mcq: 3, sql: 0, essay: 0 },
       }),
     ).toBe(true)
     expect(
@@ -168,9 +158,7 @@ describe('assessment mode helpers', () => {
         style: ADAPTIVE,
         selected: [1, 2],
         bands: ['MEDIUM'],
-        source: 'bank',
-        count: 5,
-        limits,
+        mix: { mcq: 3, sql: 0, essay: 0 },
       }),
     ).toBe(false)
     expect(
@@ -178,9 +166,7 @@ describe('assessment mode helpers', () => {
         style: ADAPTIVE,
         selected: [1],
         bands: ['MEDIUM'],
-        source: 'ai',
-        count: 5,
-        limits,
+        mix: { mcq: 2, sql: 0, essay: 0 },
       }),
     ).toBe(false)
   })
@@ -197,23 +183,23 @@ describe('AssessmentStylePicker', () => {
   it('explains the test constraints and both modes', async () => {
     const onChange = vi.fn()
     render(<AssessmentStylePicker value={FIXED} onChange={onChange} />)
-    expect(screen.getByRole('radio', { name: 'Test' })).toBeChecked()
-    expect(screen.getByRole('radio', { name: 'Adaptive practice' })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: 'Mode 1 · Question bank' })).toBeChecked()
+    expect(screen.getByRole('radio', { name: 'Mode 2 · AI questions' })).toBeInTheDocument()
     expect(screen.getByText('Exactly one difficulty band')).toBeInTheDocument()
     expect(
       screen.getByText('Official score only after administrator publication'),
     ).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('radio', { name: 'Adaptive practice' }))
+    await userEvent.click(screen.getByRole('radio', { name: 'Mode 2 · AI questions' }))
     expect(onChange).toHaveBeenCalledWith(ADAPTIVE)
-    expect(screen.queryByText('Adaptive practice constraints')).not.toBeInTheDocument()
+    expect(screen.queryByText('Mode 2 constraints')).not.toBeInTheDocument()
   })
 
   it('documents the adaptive policy without the stale five-per-round copy', () => {
     render(<AssessmentStylePicker value={ADAPTIVE} onChange={() => {}} />)
-    expect(screen.getByText('Adaptive practice constraints')).toBeInTheDocument()
+    expect(screen.getByText('Mode 2 constraints')).toBeInTheDocument()
     expect(screen.getByText('Exactly one concept')).toBeInTheDocument()
-    expect(screen.getByText('Multiple-choice questions only')).toBeInTheDocument()
-    expect(screen.getByText('3–50 questions')).toBeInTheDocument()
+    expect(screen.getByText('A new AI question for every next step')).toBeInTheDocument()
+    expect(screen.getByText('Reviewed bank question when AI is unavailable')).toBeInTheDocument()
     expect(t('supervisor.adaptiveHelp')).toContain('3 anchor MCQs')
     expect(t('supervisor.adaptiveHelp')).toContain('3–50')
     expect(t('supervisor.adaptiveHelp')).not.toContain('13 questions')
@@ -224,7 +210,7 @@ describe('practice start flow', () => {
   it('creates a FIXED test from the picker and lands in the exam room', async () => {
     renderPractice()
     await userEvent.click(await screen.findByRole('button', { name: 'SELECT', exact: true }))
-    expect(screen.getByText('13 questions in this test.')).toBeInTheDocument()
+    expect(screen.getByText('13 questions in this session.')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
 
     const start = api.post.mock.calls.find(([url]) => url === '/practice/start')
@@ -257,15 +243,11 @@ describe('practice start flow', () => {
   it('enforces adaptive constraints and starts an adaptive session', async () => {
     renderPractice()
     await userEvent.click(await screen.findByRole('button', { name: 'SELECT', exact: true }))
-    await userEvent.click(screen.getByRole('radio', { name: 'Adaptive practice' }))
+    await userEvent.click(screen.getByRole('radio', { name: 'Mode 2 · AI questions' }))
 
-    expect(await screen.findByText('Adaptive practice constraints')).toBeInTheDocument()
+    expect(await screen.findByText('Mode 2 constraints')).toBeInTheDocument()
     expect(screen.getByText('Exactly one concept')).toBeInTheDocument()
-    expect(screen.getByText('3–50 questions')).toBeInTheDocument()
-
-    const count = screen.getByLabelText('Number of questions (3–50)')
-    expect(count).toHaveAttribute('min', '3')
-    expect(count).toHaveAttribute('max', '50')
+    expect(screen.getByText('A new AI question for every next step')).toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: 'JOIN', exact: true }))
     expect(screen.getByRole('button', { name: 'SELECT', exact: true })).toHaveAttribute(
@@ -282,12 +264,12 @@ describe('practice start flow', () => {
     expect(start).toBeDefined()
     expect(start[1]).toMatchObject({
       assessment_style: ADAPTIVE,
-      source: 'bank',
+      source: 'ai',
       concept_ids: [2],
       difficulties: ['EASY'],
-      question_count: 5,
+      question_count: 3,
+      question_mix: { mcq: 1, sql: 1, essay: 1 },
     })
-    expect(start[1]).not.toHaveProperty('question_mix')
   })
 })
 

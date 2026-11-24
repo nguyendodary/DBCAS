@@ -75,37 +75,35 @@ export function validateFixedMix(mix) {
   return { counts, total, active, errors, valid: errors.length === 0 }
 }
 
-export function buildPracticePayload({ style, selected, bands, count, mix, requestId }) {
+export function buildPracticePayload({ style, selected, bands, mix, requestId }) {
+  const typed = validateFixedMix(mix)
   if (style === ADAPTIVE) {
     return {
       concept_ids: selected.slice(0, 1),
       difficulties: bands.slice(0, 1),
-      source: 'bank',
-      question_count: clampAdaptiveCount(count),
+      source: 'ai',
+      question_count: typed.total,
+      question_mix: typed.counts,
       request_id: requestId,
       assessment_style: ADAPTIVE,
     }
   }
-  const fixed = validateFixedMix(mix)
   return {
     concept_ids: selected,
     difficulties: bands.slice(0, 1),
     source: 'bank',
-    question_count: fixed.total,
-    question_mix: fixed.counts,
+    question_count: typed.total,
+    question_mix: typed.counts,
     request_id: requestId,
     assessment_style: FIXED,
   }
 }
 
-export function isSelectionValid({ style, selected, bands, source, count, limits, mix }) {
+export function isSelectionValid({ style, selected, bands, mix }) {
+  const typed = validateFixedMix(mix)
   if (style === FIXED) {
-    return (
-      selected.length > 0 && bands.length === 1 && source === 'bank' && validateFixedMix(mix).valid
-    )
+    return selected.length > 0 && bands.length === 1 && typed.valid
   }
   if (style !== ADAPTIVE) return false
-  const parsed = Number(count)
-  const countValid = Number.isInteger(parsed) && parsed >= limits.min && parsed <= limits.max
-  return countValid && selected.length === 1 && bands.length === 1 && source === 'bank'
+  return selected.length === 1 && bands.length === 1 && typed.valid && typed.total >= 3
 }

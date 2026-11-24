@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import api, { apiMessage } from '../api'
 import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/States'
 import GradingStatusPanel from '../components/GradingStatusPanel'
-import { ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
+import { Badge, ConfirmDialog, Icon, btnGhost, focusDialogTrigger } from '../components/ui'
 import { HelpButton } from '../components/HelpGuide'
 import { BrandWordmark } from '../components/BrandLogo'
 import { useAnswerDraft } from '../useAnswerDraft'
@@ -586,6 +586,7 @@ function ExamWorkspace({ sessionId, initialState }) {
                     'exam.mcqSection',
                 )}
               </h2>
+              {q?.source === 'ai_generated' && <Badge tone="teal">{t('ui.exam.aiBadge')}</Badge>}
               <span className="doing-badge">{ended ? t('exam.ended') : t('exam.doingBadge')}</span>
             </div>
             <div className="navigation-heading">

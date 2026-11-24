@@ -1,16 +1,16 @@
 import { t, useLocale } from '../i18n'
-import { ADAPTIVE, ADAPTIVE_MAX_QUESTIONS, ADAPTIVE_MIN_QUESTIONS, FIXED } from '../assessmentStyle'
+import { ADAPTIVE, FIXED } from '../assessmentStyle'
 
 const OPTIONS = [
   {
     value: FIXED,
-    title: 'assessmentStyle.fixed.title',
-    description: 'assessmentStyle.fixed.description',
+    title: 'ui.mode.bankTitle',
+    description: 'ui.mode.bankDescription',
   },
   {
     value: ADAPTIVE,
-    title: 'assessmentStyle.adaptive.title',
-    description: 'assessmentStyle.adaptive.description',
+    title: 'ui.mode.aiTitle',
+    description: 'ui.mode.aiDescription',
   },
 ]
 
@@ -67,17 +67,12 @@ export default function AssessmentStylePicker({ value, onChange, disabled = fals
           role="status"
           className="mt-3 rounded-lg border border-cyan-400/40 bg-cyan-400/10 p-3 text-sm text-sub"
         >
-          <p className="font-semibold text-ink">{t('assessmentStyle.adaptive.constraintsTitle')}</p>
+          <p className="font-semibold text-ink">{t('ui.mode.aiConstraintsTitle')}</p>
           <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>{t('assessmentStyle.adaptive.constraintBank')}</li>
-            <li>{t('assessmentStyle.adaptive.constraintConcept')}</li>
-            <li>{t('assessmentStyle.adaptive.constraintMcq')}</li>
-            <li>
-              {t('assessmentStyle.adaptive.constraintRange', {
-                min: ADAPTIVE_MIN_QUESTIONS,
-                max: ADAPTIVE_MAX_QUESTIONS,
-              })}
-            </li>
+            <li>{t('ui.mode.aiConstraintConcept')}</li>
+            <li>{t('ui.mode.aiConstraintBand')}</li>
+            <li>{t('ui.mode.aiConstraintLive')}</li>
+            <li>{t('ui.mode.aiConstraintFallback')}</li>
           </ul>
         </div>
       )}

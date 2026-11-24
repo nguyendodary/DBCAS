@@ -6,15 +6,11 @@ import { ActionSpinner, EmptyState, ErrorState, Loading } from '../components/St
 import AssessmentStylePicker from '../components/AssessmentStylePicker'
 import {
   ADAPTIVE,
-  ADAPTIVE_MAX_QUESTIONS,
-  ADAPTIVE_MIN_QUESTIONS,
   FIXED,
   FIXED_DEFAULT_MIX,
-  FIXED_MIXED_TOTAL_LIMIT,
   FIXED_QUESTION_TYPES,
   FIXED_SINGLE_LIMITS,
   buildPracticePayload,
-  clampAdaptiveCount,
   fixedMixTotal,
   isSelectionValid,
   validateFixedMix,
@@ -59,7 +55,6 @@ export default function AssessmentsPage() {
   const [selected, setSelected] = useState([])
   const [bands, setBands] = useState([...BANDS])
   const [mix, setMix] = useState({ ...FIXED_DEFAULT_MIX })
-  const [count, setCount] = useState(null)
   const [search, setSearch] = useState('')
   const [active, setActive] = useState(null)
   const [preview, setPreview] = useState(null)
@@ -86,7 +81,6 @@ export default function AssessmentsPage() {
         )
           throw new Error('Invalid question count configuration')
         setOptions(o.data)
-        setCount(limits.default)
         const available = new Set(o.data.concepts.map((c) => c.concept_id))
         setSelected(parseConceptIds(requestedConcepts).filter((id) => available.has(id)))
         setActive(s.data.find((item) => item.status === 'in_progress') || null)
@@ -102,16 +96,17 @@ export default function AssessmentsPage() {
   useEffect(() => {
     requestId.current = crypto.randomUUID()
     setPreview(null)
-  }, [selected, bands, count, mix])
-  // Both modes are bank-only and use exactly one band. ADAPTIVE additionally
-  // requires one concept and 3..50 MCQ questions.
+  }, [selected, bands, mix])
+  // Mode 1 uses the reviewed bank; mode 2 uses live AI questions, one concept
+  // and one starting band. Both use exactly one band.
   useEffect(() => {
     if (style === ADAPTIVE) {
       setSelected((previous) => previous.slice(0, 1))
       setBands((previous) => (previous.length ? previous.slice(0, 1) : ['MEDIUM']))
-      setCount((previous) => clampAdaptiveCount(previous))
+      setMix({ mcq: 1, sql: 1, essay: 1 })
       return
     }
+    setMix({ ...FIXED_DEFAULT_MIX })
     setBands((previous) =>
       previous.length === 1 ? previous : previous.length ? [previous[0]] : ['MEDIUM'],
     )
@@ -149,8 +144,6 @@ export default function AssessmentsPage() {
       style,
       selected,
       bands,
-      source: 'bank',
-      count,
       mix,
       requestId: requestId.current,
     })
@@ -185,21 +178,8 @@ export default function AssessmentsPage() {
   }
   const selectedConcepts =
     options?.concepts.filter((concept) => selected.includes(concept.concept_id)) || []
-  const baseLimits = options?.question_count
-  const limits =
-    style === ADAPTIVE
-      ? {
-          min: ADAPTIVE_MIN_QUESTIONS,
-          max: ADAPTIVE_MAX_QUESTIONS,
-          presets: (baseLimits?.presets || []).filter(
-            (value) => value >= ADAPTIVE_MIN_QUESTIONS && value <= ADAPTIVE_MAX_QUESTIONS,
-          ),
-        }
-      : { min: 1, max: FIXED_MIXED_TOTAL_LIMIT, presets: [] }
   const fixedMix = validateFixedMix(mix)
-  const selectionValid = options
-    ? isSelectionValid({ style, selected, bands, source: 'bank', count, limits, mix })
-    : false
+  const selectionValid = options ? isSelectionValid({ style, selected, bands, mix }) : false
   return (
     <div className="content-wrap mx-auto max-w-4xl space-y-6 py-8">
       <header>
@@ -376,82 +356,51 @@ export default function AssessmentsPage() {
                 <p role="status" className="rounded-lg border border-edge p-4 text-sm text-sub">
                   {t(
                     style === ADAPTIVE
-                      ? 'assessmentStyle.adaptive.sourceNote'
+                      ? 'ui.assessments.aiSourceNote'
                       : 'assessmentStyle.fixed.sourceNote',
                   )}
                 </p>
               </fieldset>
-              {style === ADAPTIVE ? (
-                <fieldset>
-                  <legend className="mb-3 text-lg font-semibold">
-                    {t('assessmentStyle.questionCountTitle')}
-                  </legend>
-                  <div className="mb-3 flex flex-wrap gap-2">
-                    {limits.presets.map((value) => (
-                      <button
-                        type="button"
-                        key={value}
-                        aria-pressed={Number(count) === value}
-                        onClick={() => setCount(value)}
-                        className={`${btnGhost} ${Number(count) === value ? 'border-cyan-400 text-cyan-300' : ''}`}
-                      >
-                        {t('ui.assessments.questionCount', { count: value })}
-                      </button>
-                    ))}
-                  </div>
-                  <label className="text-sm text-sub">
-                    {t('assessmentStyle.adaptive.countLabel', {
-                      min: limits.min,
-                      max: limits.max,
-                    })}
-                    <input
-                      type="number"
-                      min={limits.min}
-                      max={limits.max}
-                      required
-                      value={count ?? ''}
-                      onChange={(e) => setCount(e.target.value)}
-                      className={`${inputCls} ml-3 w-24`}
-                    />
-                  </label>
-                </fieldset>
-              ) : (
-                <fieldset>
-                  <legend className="mb-3 text-lg font-semibold">
-                    {t('assessmentStyle.fixed.mixTitle')}
-                  </legend>
-                  <p className="mb-3 text-sm text-sub">{t('assessmentStyle.fixed.mixHelp')}</p>
-                  <div className="grid gap-3 sm:grid-cols-3">
-                    {FIXED_QUESTION_TYPES.map((kind) => (
-                      <label key={kind} className="text-sm text-sub">
-                        {t(`assessmentStyle.fixed.types.${kind}`)}
-                        <input
-                          type="number"
-                          min="0"
-                          max={FIXED_SINGLE_LIMITS[kind]}
-                          step="1"
-                          aria-label={t(`assessmentStyle.fixed.types.${kind}`)}
-                          value={mix[kind] ?? 0}
-                          onChange={(e) => updateMix(kind, e.target.value)}
-                          className={`${inputCls} mt-1 w-full`}
-                        />
-                      </label>
-                    ))}
-                  </div>
-                  <p className="mt-3 text-sm text-sub">
-                    {t('assessmentStyle.fixed.mixTotal', { total: fixedMixTotal(mix) })}
-                  </p>
-                  {fixedMix.errors.map((mixError, index) => (
-                    <p
-                      key={`${mixError.code}-${mixError.kind ?? index}`}
-                      role="alert"
-                      className="mt-2 text-sm text-amber-300"
-                    >
-                      {mixErrorText(mixError)}
-                    </p>
+              <fieldset>
+                <legend className="mb-3 text-lg font-semibold">
+                  {t('ui.assessments.mixTitle')}
+                </legend>
+                <p className="mb-3 text-sm text-sub">{t('ui.assessments.mixHelp')}</p>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {FIXED_QUESTION_TYPES.map((kind) => (
+                    <label key={kind} className="text-sm text-sub">
+                      {t(`assessmentStyle.fixed.types.${kind}`)}
+                      <input
+                        type="number"
+                        min="0"
+                        max={FIXED_SINGLE_LIMITS[kind]}
+                        step="1"
+                        aria-label={t(`assessmentStyle.fixed.types.${kind}`)}
+                        value={mix[kind] ?? 0}
+                        onChange={(e) => updateMix(kind, e.target.value)}
+                        className={`${inputCls} mt-1 w-full`}
+                      />
+                    </label>
                   ))}
-                </fieldset>
-              )}
+                </div>
+                <p className="mt-3 text-sm text-sub">
+                  {t('ui.assessments.mixTotal', { total: fixedMixTotal(mix) })}
+                </p>
+                {style === ADAPTIVE && fixedMixTotal(mix) < 3 && (
+                  <p role="alert" className="mt-2 text-sm text-amber-300">
+                    {t('ui.assessments.minimumThree')}
+                  </p>
+                )}
+                {fixedMix.errors.map((mixError, index) => (
+                  <p
+                    key={`${mixError.code}-${mixError.kind ?? index}`}
+                    role="alert"
+                    className="mt-2 text-sm text-amber-300"
+                  >
+                    {mixErrorText(mixError)}
+                  </p>
+                ))}
+              </fieldset>
               <p className="text-sm text-sub">
                 {t(
                   style === ADAPTIVE

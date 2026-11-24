@@ -1799,7 +1799,12 @@
         "HARD": "Khó"
       },
       "questionCount_one": "{{count}} câu",
-      "questionCount_other": "{{count}} câu"
+      "questionCount_other": "{{count}} câu",
+      "mixTitle": "3. Cơ cấu câu hỏi",
+      "mixHelp": "Chọn số câu trắc nghiệm, SQL và tự luận cho bài này.",
+      "mixTotal": "Tổng {{total}} câu trong bài.",
+      "minimumThree": "Chế độ 2 cần ít nhất 3 câu.",
+      "aiSourceNote": "Mỗi câu kế tiếp do AI tạo theo ngôn ngữ giao diện; nếu AI không sẵn sàng, hệ thống dùng câu ngân hàng đã kiểm chứng."
     },
     "evaluation": {
       "pendingCount": "{{count}} bài đang chờ chấm hoặc duyệt, chưa được đưa vào đánh giá.",
@@ -1872,10 +1877,22 @@
       "provisionalBody": "Điểm từng câu có thể thay đổi sau khi giảng viên kiểm tra và duyệt."
     },
     "exam": {
-      "fallbackNotice": "Đã dùng câu hỏi dự phòng đã kiểm chứng."
+      "fallbackNotice": "Đã dùng câu hỏi dự phòng đã kiểm chứng.",
+      "aiBadge": "AI"
     },
     "history": {
       "viewEvaluation": "Xem đánh giá"
+    },
+    "mode": {
+      "bankTitle": "Chế độ 1 · Ngân hàng câu hỏi",
+      "bankDescription": "Bài kiểm tra cố định từ ngân hàng đã kiểm chứng; điểm chính thức sau khi duyệt.",
+      "aiTitle": "Chế độ 2 · AI tạo câu hỏi",
+      "aiDescription": "Bài thích ứng; AI tạo từng câu kế tiếp và dự phòng bằng ngân hàng.",
+      "aiConstraintsTitle": "Giới hạn của Chế độ 2",
+      "aiConstraintConcept": "Đúng một khái niệm",
+      "aiConstraintBand": "Một band độ khó bắt đầu",
+      "aiConstraintLive": "Câu AI mới cho mỗi bước tiếp theo",
+      "aiConstraintFallback": "Dùng câu ngân hàng đã kiểm chứng khi AI không sẵn sàng"
     }
   }
 }
