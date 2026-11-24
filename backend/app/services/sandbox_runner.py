@@ -68,6 +68,7 @@ class SandboxResult:
     error_line: Optional[int] = None
     error_column: Optional[int] = None
     rolled_back: bool = True
+    table_states: list[dict] = field(default_factory=list)
 
 
 def _jsonable(value: Any) -> Any:
@@ -498,8 +499,14 @@ class SandboxRunner:
                     [[_jsonable(value) for value in row] for row in rows],
                     len(rows))
 
-    def execute_writable_script(self, sql_text: str, *, schema: Optional[str] = None) -> SandboxResult:
-        """Demo-only DDL/DML/SELECT script in a disposable, rolled-back transaction."""
+    def execute_writable_script(self, sql_text: str, *, schema: Optional[str] = None,
+                                capture_tables: Optional[list[str]] = None) -> SandboxResult:
+        """Demo-only DDL/DML/SELECT script in a disposable, rolled-back transaction.
+
+        ``capture_tables`` records the committed state of those tables before
+        the transaction is rolled back; DML grading uses it to compare the
+        learner's mutation with the reference mutation.
+        """
         sql_text = (sql_text or "").strip()
         if len(sql_text.encode()) > self._max_sql_bytes:
             return SandboxResult(False, error_type="query_too_large",
@@ -578,6 +585,7 @@ class SandboxRunner:
                 rows_used += len(rows)
                 bytes_used += len(json.dumps(rows, ensure_ascii=False, default=str).encode())
             elapsed_ms = int((time.perf_counter() - started) * 1000)
+            table_states = self._capture_table_states(conn, capture_tables or [])
             conn.execute("ROLLBACK")
             last = next((s for s in reversed(statements) if s["columns"]), None)
             return SandboxResult(
@@ -587,7 +595,7 @@ class SandboxRunner:
                 rows=last["rows"] if last else [],
                 row_count=last["row_count"] if last else 0,
                 execution_time_ms=elapsed_ms, statements=statements,
-                mode="writable", rolled_back=True,
+                mode="writable", rolled_back=True, table_states=table_states,
             )
         except psycopg.Error as exc:
             error_type, message = _classify_error(exc, self._timeout_ms)
@@ -600,6 +608,22 @@ class SandboxRunner:
             except Exception:
                 pass
             conn.close()
+
+    @staticmethod
+    def _capture_table_states(conn, tables: list[str]) -> list[dict]:
+        states = []
+        for table in tables:
+            try:
+                cursor = conn.execute(
+                    pgsql.SQL("SELECT * FROM {}").format(pgsql.Identifier(table))
+                )
+                columns = [column.name for column in (cursor.description or [])]
+                rows = [[_jsonable(value) for value in row] for row in cursor.fetchall()]
+                rows.sort(key=lambda row: json.dumps(row, sort_keys=True, default=str))
+                states.append({"table": table, "columns": columns, "rows": rows})
+            except psycopg.errors.UndefinedTable:
+                states.append({"table": table, "missing": True})
+        return states
 
     # ---------- dataset provisioning ----------
 

@@ -3,8 +3,9 @@ import json
 from functools import lru_cache
 from types import SimpleNamespace
 from .dataset_setup import validated_setup_statements
-from .sql_result import parse_expected, compare
+from .sql_result import parse_expected, parse_expected_state, compare, compare_state
 from .sql_features import detect_features
+from .sql_classifier import classify_script, validate_writable_script
 from .sql_validator import validate_learner_sql
 from .sandbox_runner import SandboxError
 
@@ -26,14 +27,21 @@ def _cached_fixture_problems(key, reference_answer, required_features):
         problems.append("SQL needs an edge-case dataset")
     if not isinstance(reference_answer, str) or not reference_answer.strip():
         problems.append("SQL needs a reference answer")
-    elif validate_learner_sql(reference_answer):
-        problems.append("SQL reference answer must be a permitted PostgreSQL SELECT")
+    else:
+        classified = classify_script(reference_answer)
+        writable = classified.ok and any(s.kind != "read_only" for s in classified.statements)
+        if writable:
+            issue = validate_writable_script(reference_answer)
+            if issue:
+                problems.append("SQL reference answer must be a permitted sandbox statement")
+        elif validate_learner_sql(reference_answer):
+            problems.append("SQL reference answer must be a permitted PostgreSQL SELECT or demo DML/DDL statement")
     names = set()
     for dataset in datasets:
         if dataset.dataset_name in names:
             problems.append("SQL dataset names must be unique")
         names.add(dataset.dataset_name)
-        if parse_expected(dataset.expected_result) is None:
+        if parse_expected(dataset.expected_result) is None and parse_expected_state(dataset.expected_result) is None:
             problems.append(f"Dataset '{dataset.dataset_name}' has an invalid expected result")
         try:
             validated_setup_statements(dataset.setup_sql)
@@ -55,10 +63,19 @@ def verify_sql_fixtures(runner, datasets, reference_answer):
         schema = None
         try:
             schema = runner.provision_dataset(dataset.setup_sql)
-            result = runner.execute(reference_answer, schema=schema)
-            expected = parse_expected(dataset.expected_result)
-            if not result.success or expected is None or compare(
-                    result.columns, result.rows, expected, result.column_types).status != "passed":
+            state_expected = parse_expected_state(dataset.expected_result)
+            if state_expected is not None:
+                result = runner.execute_writable_script(
+                    reference_answer, schema=schema,
+                    capture_tables=[table.table for table in state_expected.tables],
+                )
+                passed = result.success and compare_state(result.table_states, state_expected).status == "passed"
+            else:
+                result = runner.execute(reference_answer, schema=schema)
+                expected = parse_expected(dataset.expected_result)
+                passed = (result.success and expected is not None and compare(
+                    result.columns, result.rows, expected, result.column_types).status == "passed")
+            if not passed:
                 problems.append(f"Dataset '{dataset.dataset_name}' does not match its reference result")
         except SandboxError as error:
             problems.append(f"Dataset '{dataset.dataset_name}' cannot be verified ({error.code})")

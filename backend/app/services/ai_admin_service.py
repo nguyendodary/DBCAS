@@ -475,9 +475,9 @@ def _completeness_problems(qtype: str, payload: dict) -> list[str]:
             if not isinstance(d.get("setup_sql"), str) or not d["setup_sql"].strip():
                 problems.append(f"datasets[{i}] needs setup_sql")
             er = d.get("expected_result")
-            if not isinstance(er, dict) or "rows" not in er:
+            if not isinstance(er, dict) or ("rows" not in er and "tables" not in er):
                 problems.append(
-                    f"datasets[{i}].expected_result must contain 'rows'"
+                    f"datasets[{i}].expected_result must contain 'rows' or 'tables'"
                 )
         from .bank_validation import sql_fixture_problems
         problems.extend(sql_fixture_problems([
@@ -511,8 +511,9 @@ def _run_sql_checks(
     results: list[dict] = []
     for ds in payload.get("datasets") or []:
         entry = {"dataset": ds.get("dataset_name") or "?"}
+        expected_state = sql_result.parse_expected_state(ds.get("expected_result"))
         expected = sql_result.parse_expected(ds.get("expected_result"))
-        if expected is None:
+        if expected is None and expected_state is None:
             entry["status"] = "error"
             entry["error_type"] = "invalid_expected_result"
             results.append(entry)
@@ -520,7 +521,13 @@ def _run_sql_checks(
         schema = None
         try:
             schema = runner.provision_dataset(ds.get("setup_sql") or "")
-            outcome_result = runner.execute(ref, schema=schema)
+            if expected_state is not None:
+                outcome_result = runner.execute_writable_script(
+                    ref, schema=schema,
+                    capture_tables=[table.table for table in expected_state.tables],
+                )
+            else:
+                outcome_result = runner.execute(ref, schema=schema)
         except SandboxError as exc:
             entry["status"] = "error"
             entry["error_type"] = getattr(exc, "code", "sandbox_error")
@@ -541,9 +548,12 @@ def _run_sql_checks(
             entry["error_type"] = outcome_result.error_type
             results.append(entry)
             continue
-        outcome = sql_result.compare(
-            outcome_result.columns, outcome_result.rows, expected, outcome_result.column_types
-        )
+        if expected_state is not None:
+            outcome = sql_result.compare_state(outcome_result.table_states, expected_state)
+        else:
+            outcome = sql_result.compare(
+                outcome_result.columns, outcome_result.rows, expected, outcome_result.column_types
+            )
         entry["status"] = outcome.status
         results.append(entry)
     return results

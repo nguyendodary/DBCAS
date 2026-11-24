@@ -292,6 +292,7 @@ def validate_read_only_script(
 
 _WRITABLE_DDL_ROOTS = frozenset({
     "CreateStmt", "IndexStmt", "ViewStmt", "CreateTableAsStmt",
+    "AlterTableStmt", "DropStmt",
 })
 
 
@@ -314,7 +315,7 @@ def validate_writable_script(
     allowed = frozenset(allowed_schemas)
     forbidden_types = (
         _FORBIDDEN_NODES
-        | {"ReturningClause", "TransactionStmt", "VariableSetStmt", "VariableShowStmt",
+        | {"TransactionStmt", "VariableSetStmt", "VariableShowStmt",
            "VariableResetStmt", "GrantStmt", "RevokeStmt", "LockStmt",
            "ExplainStmt", "CallStmt", "CreateFunctionStmt", "AlterSystemStmt",
            "CreateExtensionStmt", "CreateRoleStmt", "PrepareStmt",
@@ -336,11 +337,6 @@ def validate_writable_script(
             expr = parse_sql(statement.sql)[0].stmt
         except Exception:  # noqa: BLE001 - already parsed once; fail closed
             return ("syntax_error", "Could not parse the SQL statement", statement.index)
-        if statement.node_type in {"CreateStmt", "CreateTableAsStmt"}:
-            relation = getattr(expr, "relation", None)
-            if getattr(relation, "relpersistence", "") == "t":
-                return ("prohibited_statement",
-                        "Temporary tables are not allowed in demo mode", statement.index)
         scanner = _scan(expr)
         for node_type in scanner.node_types:
             if node_type in forbidden_types:

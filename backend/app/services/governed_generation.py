@@ -100,9 +100,15 @@ def schema_for(kind, count, concept_id, difficulty, locale, sources, objectives)
             "option_text": text, "is_correct": {"type": "boolean"}}), 2, 6)
     elif kind == "sql":
         cell = {"anyOf": [{"type": t} for t in ("string", "number", "boolean", "null")]}
+        result_grid = obj({"columns": array(text, 1, 50), "rows": array(array(cell, 1, 50), 0, 100),
+                           "ordered": {"type": "boolean"}, "check_columns": {"type": "boolean"}})
+        state_table = obj({"table": {**text, "maxLength": 100},
+                           "columns": array(text, 0, 50),
+                           "rows": array(array(cell, 0, 50), 0, 100),
+                           "missing": {"type": "boolean"}})
+        table_state = obj({"tables": array(state_table, 1, 20), "ordered": {"type": "boolean"}})
         props["datasets"] = array(obj({"dataset_name": {**text, "maxLength": 100}, "setup_sql": text,
-            "expected_result": obj({"columns": array(text, 1, 50), "rows": array(array(cell, 1, 50), 0, 100),
-                                    "ordered": {"type": "boolean"}, "check_columns": {"type": "boolean"}}),
+            "expected_result": {"anyOf": [result_grid, table_state]},
             "is_edge_case": {"type": "boolean"}}), 2, 4)
     else:
         props["rubrics"] = array(obj({"level_name": {"type": "string", "enum": ["Incomplete", "Partial", "Mostly Complete", "Complete"]},

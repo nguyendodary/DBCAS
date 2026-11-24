@@ -32,7 +32,10 @@ def main():
         elif operation == "execute_script":
             result = asdict(runner.execute_script(payload["sql"], schema=payload.get("schema")))
         elif operation == "execute_writable":
-            result = asdict(runner.execute_writable_script(payload["sql"], schema=payload.get("schema")))
+            result = asdict(runner.execute_writable_script(
+                payload["sql"], schema=payload.get("schema"),
+                capture_tables=payload.get("capture_tables") or [],
+            ))
         elif operation == "validate":
             result = runner.validate_environment()
         else:

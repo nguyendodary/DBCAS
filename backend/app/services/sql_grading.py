@@ -34,12 +34,13 @@ def _evaluate_dataset(
     runner: SandboxRunner, dataset: SqlTestDataset, sql_text: str
 ) -> dict:
     """Provision the dataset, run learner SQL, compare, drop the schema."""
+    state_expected = sql_result.parse_expected_state(dataset.expected_result)
     expected = sql_result.parse_expected(dataset.expected_result)
     entry: dict = {
         "dataset": dataset.dataset_name,
         "is_edge_case": dataset.is_edge_case,
     }
-    if expected is None:
+    if state_expected is None and expected is None:
         raise AppError(422, "invalid_expected_result", "This question has an invalid SQL fixture. Contact the administrator.")
 
     try:
@@ -47,9 +48,15 @@ def _evaluate_dataset(
     except SandboxError:
         raise
     try:
-        # Grading stays read-only: writable DML/DDL is a demo editor feature,
-        # never a way to earn a result-based SQL score.
-        result = runner.execute(sql_text, schema=schema)
+        if state_expected is not None:
+            result = runner.execute_writable_script(
+                sql_text, schema=schema,
+                capture_tables=[table.table for table in state_expected.tables],
+            )
+            entry["mode"] = "state"
+        else:
+            # SELECT grading stays read-only.
+            result = runner.execute(sql_text, schema=schema)
     finally:
         runner.drop_dataset(schema)
 
@@ -60,7 +67,10 @@ def _evaluate_dataset(
         entry["error_type"] = result.error_type
         return entry
 
-    outcome = sql_result.compare(result.columns, result.rows, expected, result.column_types)
+    if state_expected is not None:
+        outcome = sql_result.compare_state(result.table_states, state_expected)
+    else:
+        outcome = sql_result.compare(result.columns, result.rows, expected, result.column_types)
     entry["status"] = outcome.status
     if outcome.matched:
         entry["matched_criteria"] = outcome.matched

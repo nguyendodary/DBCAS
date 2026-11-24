@@ -14,7 +14,7 @@ from urllib.parse import urlsplit
 
 from .bank_validation import sql_fixture_problems
 from .rubric_validation import rubric_problems
-from .sql_result import compare, parse_expected
+from .sql_result import compare, compare_state, parse_expected, parse_expected_state
 
 
 DOCUMENTATION_VERSION = "18"
@@ -173,7 +173,11 @@ def question_problems(item, *, known_concepts=None, vietnamese=None, runner=None
         fixture_rows = [SimpleNamespace(**d) if isinstance(d, dict) else d for d in datasets]
         problems.extend(sql_fixture_problems(fixture_rows, item.get("reference_answer"), item.get("required_features", ())))
         primary = [d for d in fixture_rows if not d.is_edge_case]
-        if not primary or any(not isinstance(d.expected_result, dict) or not d.expected_result.get("rows") for d in fixture_rows):
+        if not primary or any(
+            not isinstance(d.expected_result, dict)
+            or (not d.expected_result.get("rows") and not d.expected_result.get("tables"))
+            for d in fixture_rows
+        ):
             problems.append("SQL: nonempty expected results required for every fixture")
         for dependency in reference_dependencies(item.get("reference_answer") or ""):
             problems.append(f"SQL: {dependency}-dependent reference")
@@ -204,16 +208,31 @@ def execute_fixtures(runner, datasets, reference):
         schema = None
         try:
             schema = runner.provision_dataset(dataset.setup_sql)
-            first = runner.execute(reference, schema=schema)
-            second = runner.execute(reference, schema=schema)
-            expected = parse_expected(dataset.expected_result)
-            if not first.success or not second.success or expected is None:
-                problems.append(f"SQL {dataset.dataset_name}: execution failed")
-            elif compare(first.columns, first.rows, expected, first.column_types).status != "passed":
-                problems.append(f"SQL {dataset.dataset_name}: expected result mismatch")
-            elif (first.columns != second.columns or Counter(json.dumps(r, sort_keys=True) for r in first.rows)
-                  != Counter(json.dumps(r, sort_keys=True) for r in second.rows)):
-                problems.append(f"SQL {dataset.dataset_name}: nondeterministic output")
+            state_expected = parse_expected_state(dataset.expected_result)
+            if state_expected is not None:
+                tables = [table.table for table in state_expected.tables]
+                first = runner.execute_writable_script(
+                    reference, schema=schema, capture_tables=tables)
+                second = runner.execute_writable_script(
+                    reference, schema=schema, capture_tables=tables)
+                if not first.success or not second.success:
+                    problems.append(f"SQL {dataset.dataset_name}: execution failed")
+                elif compare_state(first.table_states, state_expected).status != "passed":
+                    problems.append(f"SQL {dataset.dataset_name}: expected state mismatch")
+                elif (json.dumps(first.table_states, sort_keys=True) !=
+                      json.dumps(second.table_states, sort_keys=True)):
+                    problems.append(f"SQL {dataset.dataset_name}: nondeterministic state")
+            else:
+                first = runner.execute(reference, schema=schema)
+                second = runner.execute(reference, schema=schema)
+                expected = parse_expected(dataset.expected_result)
+                if not first.success or not second.success or expected is None:
+                    problems.append(f"SQL {dataset.dataset_name}: execution failed")
+                elif compare(first.columns, first.rows, expected, first.column_types).status != "passed":
+                    problems.append(f"SQL {dataset.dataset_name}: expected result mismatch")
+                elif (first.columns != second.columns or Counter(json.dumps(r, sort_keys=True) for r in first.rows)
+                      != Counter(json.dumps(r, sort_keys=True) for r in second.rows)):
+                    problems.append(f"SQL {dataset.dataset_name}: nondeterministic output")
         except Exception as exc:
             problems.append(f"SQL {dataset.dataset_name}: {type(exc).__name__}")
         finally:

@@ -18,6 +18,7 @@ from .practice_recipes import RECIPES
 from .practice_selection import Candidate, Catalog
 from .prompt_builder import canonical
 from .question_validator import question_problems, fingerprint
+from .sql_classifier import classify_script, validate_writable_script
 
 GENERATION_ATTEMPTS = 2
 _TEMPLATE_LOCK = Lock()
@@ -106,6 +107,7 @@ class GeneratedQuestion(BaseModel):
     options: list[GeneratedOption] = Field(max_length=4)
     setup_sql: str | None = Field(max_length=12000)
     edge_setup_sql: str | None = Field(default=None, max_length=12000)
+    tables: list[str] = Field(default_factory=list, max_length=20)
     rubrics: list[GeneratedRubric] = Field(max_length=4)
 
 
@@ -180,7 +182,17 @@ def validate_generated(raw, concepts, payload, runner, *, deadline=None, allowed
         if item["question_type"] == "sql":
             from .dataset_setup import validated_setup_statements
             from .sql_validator import validate_learner_sql
-            if validate_learner_sql(item["reference_answer"]):
+            classified = classify_script(item["reference_answer"])
+            writable_reference = classified.ok and any(
+                statement.kind != "read_only" for statement in classified.statements)
+            if writable_reference:
+                if validate_writable_script(item["reference_answer"]):
+                    raise GenerationRejected("generation_sql_syntax", question_type="sql",
+                                             excerpt="reference_answer", index=index)
+                if not item["tables"]:
+                    raise GenerationRejected("generation_sql_fixture", question_type="sql",
+                                             excerpt="tables", index=index)
+            elif validate_learner_sql(item["reference_answer"]):
                 raise GenerationRejected("generation_sql_syntax", question_type="sql",
                                          excerpt="reference_answer", index=index)
             if not item["setup_sql"] or not item["edge_setup_sql"]:
@@ -199,21 +211,41 @@ def validate_generated(raw, concepts, payload, runner, *, deadline=None, allowed
             for edge, setup in ((False, item["setup_sql"]), (True, item["edge_setup_sql"])):
                 if deadline is not None and time.monotonic() >= deadline:
                     raise GenerationRejected("generation_deadline", question_type="sql", index=index)
-                cached = _verified_sql_results().get(result_key(setup, item["reference_answer"]))
-                if cached is not None:
-                    expected = deepcopy(cached)
-                else:
+                if writable_reference:
                     schema = runner.provision_dataset(setup)
                     try:
-                        first = runner.execute(item["reference_answer"], schema=schema)
-                        second = runner.execute(item["reference_answer"], schema=schema)
-                        if (not first.success or not second.success or not first.rows
-                                or first.columns != second.columns or first.rows != second.rows):
+                        first = runner.execute_writable_script(
+                            item["reference_answer"], schema=schema,
+                            capture_tables=item["tables"],
+                        )
+                        second = runner.execute_writable_script(
+                            item["reference_answer"], schema=schema,
+                            capture_tables=item["tables"],
+                        )
+                        if (not first.success or not second.success
+                                or not first.table_states
+                                or first.table_states != second.table_states):
                             raise GenerationRejected("generation_sql_execution", question_type="sql",
                                                      excerpt="empty_or_nondeterministic", index=index)
-                        expected = {"columns": first.columns, "rows": first.rows, "column_types": first.column_types}
+                        expected = {"tables": first.table_states, "ordered": False}
                     finally:
                         runner.drop_dataset(schema)
+                else:
+                    cached = _verified_sql_results().get(result_key(setup, item["reference_answer"]))
+                    if cached is not None:
+                        expected = deepcopy(cached)
+                    else:
+                        schema = runner.provision_dataset(setup)
+                        try:
+                            first = runner.execute(item["reference_answer"], schema=schema)
+                            second = runner.execute(item["reference_answer"], schema=schema)
+                            if (not first.success or not second.success or not first.rows
+                                    or first.columns != second.columns or first.rows != second.rows):
+                                raise GenerationRejected("generation_sql_execution", question_type="sql",
+                                                         excerpt="empty_or_nondeterministic", index=index)
+                            expected = {"columns": first.columns, "rows": first.rows, "column_types": first.column_types}
+                        finally:
+                            runner.drop_dataset(schema)
                 datasets.append({"dataset_name": "Generated edge" if edge else "Generated primary", "setup_sql": setup,
                                  "expected_result": expected, "is_edge_case": edge})
         errors = question_problems(canonical_generated(item, datasets, original_locale), known_concepts=allowed)

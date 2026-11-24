@@ -119,6 +119,11 @@ def sync_bank(db, admin, *, packs=None, translations=None):
         for item in pack["questions"]:
             if item["question_type"] == "sql":
                 for dataset in item["datasets"]:
+                    # Writable DML fixtures carry a table state rather than a
+                    # SELECT result; they are executed by the writable sandbox
+                    # checks and are not part of the SELECT result manifest.
+                    if isinstance(dataset.get("expected_result"), dict) and dataset["expected_result"].get("tables"):
+                        continue
                     actual = verified.get(result_key(dataset["setup_sql"], item["reference_answer"]))
                     if actual is None or compare(actual["columns"], actual["rows"], parse_expected(dataset["expected_result"]), actual["column_types"]).status != "passed":
                         raise ValueError(f"SQL requires actual PostgreSQL verification before seed: {item['key']}")

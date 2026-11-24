@@ -130,7 +130,7 @@ def _prompt(concept, kind, level, band, locale):
     language = "Vietnamese" if locale == "vi" else "English"
     extra = {
         "mcq": "Return exactly four options, exactly one correct; reference_answer must equal the correct option text.",
-        "sql": "Provide a runnable PostgreSQL reference_answer and both setup_sql and edge_setup_sql. The reference answer may use SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER or DROP inside the sandbox; it must be deterministic.",
+        "sql": "Provide a runnable PostgreSQL reference_answer and both setup_sql and edge_setup_sql. The reference answer may use SELECT, INSERT, UPDATE, DELETE, CREATE TEMP TABLE, ALTER or DROP inside the sandbox; it must be deterministic. For a DML/DDL answer, list every table whose state must be compared in tables.",
         "essay": "Provide a reference_answer and four continuous rubrics Incomplete, Partial, Mostly Complete, Complete covering the full points range.",
     }[kind]
     return (

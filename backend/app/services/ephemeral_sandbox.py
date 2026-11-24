@@ -135,7 +135,7 @@ class EphemeralSandboxRunner:
             self._cleanup(name)
             raise
 
-    def _call(self, name, operation, sql="", schema=None):
+    def _call(self, name, operation, sql="", schema=None, capture_tables=None):
         remaining = self.deadlines[name] - time.monotonic()
         if remaining <= 0:
             raise SandboxError("sandbox_unavailable", "SQL executor lifetime exceeded")
@@ -143,6 +143,7 @@ class EphemeralSandboxRunner:
                 "sandbox_max_result_bytes", "sandbox_max_cell_bytes", "sandbox_max_setup_bytes",
                 "sandbox_connect_timeout_seconds")
         payload = {"operation": operation, "sql": sql, "schema": schema,
+                   "capture_tables": capture_tables or [],
                    "writable": self.settings.sandbox_writable,
                    "limits": {key: getattr(self.settings, key) for key in keys}}
         output = self._docker("exec", "-i", name, "/opt/runner/bin/python", "-m", "app.sandbox_job",
@@ -237,13 +238,14 @@ class EphemeralSandboxRunner:
             if schema is None:
                 self._cleanup(name)
 
-    def execute_writable_script(self, sql_text, *, schema=None):
+    def execute_writable_script(self, sql_text, *, schema=None, capture_tables=None):
         """Demo-only DDL/DML/SELECT on the disposable executor."""
         name = self.leases.get(schema) if schema else self._create()
         if not name:
             raise SandboxError("sandbox_unavailable", "SQL dataset lease is no longer available")
         try:
-            return SandboxResult(**self._call(name, "execute_writable", sql_text, schema))
+            return SandboxResult(**self._call(name, "execute_writable", sql_text, schema,
+                                              capture_tables))
         finally:
             if schema is None:
                 self._cleanup(name)

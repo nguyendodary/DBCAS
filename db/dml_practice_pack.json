@@ -1,0 +1,341 @@
+{
+  "version": "dml-demo-v1",
+  "scope": "Demo DML/DDL fallback bank for writable practice",
+  "concepts": [],
+  "clos": [],
+  "dependencies": {},
+  "assessments": [],
+  "questions": [
+    {
+      "key": "dml-insert-001",
+      "question_type": "sql",
+      "prompt": "Chèn hai dòng (1, 'alpha') và (2, 'beta') vào bảng dml_items. Chỉ dùng một câu lệnh INSERT.",
+      "reference_answer": "INSERT INTO dml_items VALUES (1,'alpha'),(2,'beta');",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "original_locale": "vi",
+      "explanation": "Câu lệnh INSERT thêm đúng hai dòng vào bảng; trạng thái bảng sau khi chạy được so sánh với đáp án tham chiếu.",
+      "tags": [
+        "pg:pg-dml",
+        "postgres",
+        "postgres:dml"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/sql-insert.html",
+          "version": "18",
+          "section": "INSERT",
+          "title": "INSERT",
+          "retrieved": "2026-11-24"
+        }
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT NOT NULL);",
+          "is_edge_case": false,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_items",
+                "columns": [
+                  "id",
+                  "name"
+                ],
+                "rows": [
+                  [
+                    1,
+                    "alpha"
+                  ],
+                  [
+                    2,
+                    "beta"
+                  ]
+                ]
+              }
+            ],
+            "ordered": false
+          }
+        },
+        {
+          "dataset_name": "edge",
+          "setup_sql": "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT NOT NULL);",
+          "is_edge_case": true,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_items",
+                "columns": [
+                  "id",
+                  "name"
+                ],
+                "rows": [
+                  [
+                    1,
+                    "alpha"
+                  ],
+                  [
+                    2,
+                    "beta"
+                  ]
+                ]
+              }
+            ],
+            "ordered": false
+          }
+        }
+      ]
+    },
+    {
+      "key": "dml-update-001",
+      "question_type": "sql",
+      "prompt": "Cập nhật tên của dòng có id = 2 thành 'gamma' trong bảng dml_items.",
+      "reference_answer": "UPDATE dml_items SET name='gamma' WHERE id=2;",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "original_locale": "vi",
+      "explanation": "Câu lệnh UPDATE chỉ sửa đúng dòng id = 2; trạng thái bảng sau khi chạy được so sánh với đáp án tham chiếu.",
+      "tags": [
+        "pg:pg-dml",
+        "postgres",
+        "postgres:dml"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/dml-update.html",
+          "version": "18",
+          "section": "UPDATE",
+          "title": "UPDATE",
+          "retrieved": "2026-11-24"
+        }
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT NOT NULL); INSERT INTO dml_items VALUES (1,'alpha'),(2,'beta');",
+          "is_edge_case": false,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_items",
+                "columns": [
+                  "id",
+                  "name"
+                ],
+                "rows": [
+                  [
+                    1,
+                    "alpha"
+                  ],
+                  [
+                    2,
+                    "gamma"
+                  ]
+                ]
+              }
+            ],
+            "ordered": false
+          }
+        },
+        {
+          "dataset_name": "edge",
+          "setup_sql": "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT NOT NULL); INSERT INTO dml_items VALUES (2,'beta');",
+          "is_edge_case": true,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_items",
+                "columns": [
+                  "id",
+                  "name"
+                ],
+                "rows": [
+                  [
+                    2,
+                    "gamma"
+                  ]
+                ]
+              }
+            ],
+            "ordered": false
+          }
+        }
+      ]
+    },
+    {
+      "key": "dml-delete-001",
+      "question_type": "sql",
+      "prompt": "Xóa dòng có id = 2 khỏi bảng dml_items.",
+      "reference_answer": "DELETE FROM dml_items WHERE id=2;",
+      "difficulty_level": 3,
+      "points": 5,
+      "concept_codes": [
+        "PG-DML"
+      ],
+      "original_locale": "vi",
+      "explanation": "Câu lệnh DELETE chỉ xóa đúng dòng id = 2; các dòng còn lại phải giữ nguyên trạng thái.",
+      "tags": [
+        "pg:pg-dml",
+        "postgres",
+        "postgres:dml"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/dml-delete.html",
+          "version": "18",
+          "section": "DELETE",
+          "title": "DELETE",
+          "retrieved": "2026-11-24"
+        }
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT NOT NULL); INSERT INTO dml_items VALUES (1,'alpha'),(2,'beta'),(3,'gamma');",
+          "is_edge_case": false,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_items",
+                "columns": [
+                  "id",
+                  "name"
+                ],
+                "rows": [
+                  [
+                    1,
+                    "alpha"
+                  ],
+                  [
+                    3,
+                    "gamma"
+                  ]
+                ]
+              }
+            ],
+            "ordered": false
+          }
+        },
+        {
+          "dataset_name": "edge",
+          "setup_sql": "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT NOT NULL); INSERT INTO dml_items VALUES (2,'beta');",
+          "is_edge_case": true,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_items",
+                "columns": [
+                  "id",
+                  "name"
+                ],
+                "rows": []
+              }
+            ],
+            "ordered": false
+          }
+        }
+      ]
+    },
+    {
+      "key": "dml-temp-ddl-001",
+      "question_type": "sql",
+      "prompt": "Tạo bảng tạm dml_scratch(id int), thêm cột label text, chèn một dòng (1, 'x') rồi xóa bảng tạm. Bảng dml_base phải giữ nguyên.",
+      "reference_answer": "CREATE TEMP TABLE dml_scratch(id INT); INSERT INTO dml_scratch VALUES (1); ALTER TABLE dml_scratch ADD COLUMN label TEXT; UPDATE dml_scratch SET label='x' WHERE id=1; DROP TABLE dml_scratch;",
+      "difficulty_level": 4,
+      "points": 5,
+      "concept_codes": [
+        "PG-ALTER"
+      ],
+      "original_locale": "vi",
+      "explanation": "Bài tập tạo, sửa và xóa bảng tạm trong sandbox; trạng thái bảng tạm sau khi xóa là không tồn tại, còn bảng nền không đổi.",
+      "tags": [
+        "pg:pg-alter",
+        "postgres",
+        "postgres:dml"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.postgresql.org/docs/18/sql-createtable.html",
+          "version": "18",
+          "section": "CREATE TABLE",
+          "title": "CREATE TABLE",
+          "retrieved": "2026-11-24"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/18/sql-altertable.html",
+          "version": "18",
+          "section": "ALTER TABLE",
+          "title": "ALTER TABLE",
+          "retrieved": "2026-11-24"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/18/sql-droptable.html",
+          "version": "18",
+          "section": "DROP TABLE",
+          "title": "DROP TABLE",
+          "retrieved": "2026-11-24"
+        }
+      ],
+      "datasets": [
+        {
+          "dataset_name": "regular",
+          "setup_sql": "CREATE TABLE dml_base(id INT PRIMARY KEY); INSERT INTO dml_base VALUES (1);",
+          "is_edge_case": false,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_base",
+                "columns": [
+                  "id"
+                ],
+                "rows": [
+                  [
+                    1
+                  ]
+                ]
+              },
+              {
+                "table": "dml_scratch",
+                "missing": true,
+                "rows": []
+              }
+            ],
+            "ordered": false
+          }
+        },
+        {
+          "dataset_name": "edge",
+          "setup_sql": "CREATE TABLE dml_base(id INT PRIMARY KEY); INSERT INTO dml_base VALUES (2);",
+          "is_edge_case": true,
+          "expected_result": {
+            "tables": [
+              {
+                "table": "dml_base",
+                "columns": [
+                  "id"
+                ],
+                "rows": [
+                  [
+                    2
+                  ]
+                ]
+              },
+              {
+                "table": "dml_scratch",
+                "missing": true,
+                "rows": []
+              }
+            ],
+            "ordered": false
+          }
+        }
+      ]
+    }
+  ]
+}

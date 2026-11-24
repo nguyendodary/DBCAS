@@ -40,5 +40,6 @@ psql -v ON_ERROR_STOP=1 -v writable_password="$WRITABLE_PASSWORD" -v statement_t
     ALTER ROLE learner_rw SET default_transaction_read_only = off;
     ALTER ROLE learner_rw SET idle_in_transaction_session_timeout = '15s';
     GRANT CONNECT ON DATABASE :"database_name" TO learner_rw;
+    GRANT TEMPORARY ON DATABASE :"database_name" TO learner_rw;
 EOSQL
 fi

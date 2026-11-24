@@ -173,17 +173,23 @@ def test_writable_policy_allows_ddl_dml_and_select():
     "CREATE ROLE attacker",
     "CREATE EXTENSION dblink",
     "VACUUM demo_t",
-    "UPDATE demo_t SET note='x' RETURNING id",
-    "DELETE FROM demo_t RETURNING *",
-    "DROP TABLE demo_t",
-    "ALTER TABLE demo_t ADD COLUMN extra INT",
     "COMMENT ON TABLE demo_t IS 'x'",
-    "CREATE TEMP TABLE evil(id INT)",
 ])
 def test_writable_policy_rejects_privilege_and_admin_statements(sql):
     issue = validate_writable_script(sql)
     assert issue is not None
     assert issue[0] == "prohibited_statement"
+
+
+@pytest.mark.parametrize("sql", [
+    "UPDATE demo_t SET note='x' RETURNING id",
+    "DELETE FROM demo_t RETURNING *",
+    "DROP TABLE demo_t",
+    "ALTER TABLE demo_t ADD COLUMN extra INT",
+    "CREATE TEMP TABLE scratch(id INT)",
+])
+def test_writable_policy_allows_dml_and_temporary_ddl(sql):
+    assert validate_writable_script(sql) is None
 
 
 @pytest.mark.parametrize("sql", [
