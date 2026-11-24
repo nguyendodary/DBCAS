@@ -273,7 +273,7 @@ describe('AdminPage', () => {
   it('uses the whole released cohort and directs the admin to review without an exam filter', async () => {
     mockApi()
     renderPage()
-    expect(await screen.findByRole('link', { name: 'Duyệt bài' })).toHaveAttribute(
+    expect(await screen.findByRole('link', { name: 'Grading review' })).toHaveAttribute(
       'href',
       '/admin/grading',
     )

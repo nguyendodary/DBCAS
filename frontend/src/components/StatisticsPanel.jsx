@@ -191,7 +191,7 @@ export default function StatisticsPanel({
                 className={`${btnPrimary} mt-3`}
                 to={admin ? '/admin/questions' : '/assessments'}
               >
-                {admin ? 'Bổ sung câu hỏi' : t('supervisor.start')}
+                {admin ? t('ui.statistics.addQuestions') : t('supervisor.start')}
               </Link>
             </EmptyState>
           ) : (

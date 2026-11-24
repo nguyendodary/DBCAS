@@ -437,7 +437,7 @@ export default function AdminDocumentsPage() {
               className={selectCls}
             >
               <option value="en">English</option>
-              <option value="vi">Tiếng Việt</option>
+              <option value="vi">{t('ui.language.vi')}</option>
             </select>
           </label>
           <label className="flex items-center gap-1.5">

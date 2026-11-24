@@ -97,11 +97,11 @@ afterEach(() => vi.useRealTimers())
 it('shows loading, automatically refreshes and renders per-question feedback', async () => {
   api.get.mockResolvedValueOnce({ data: { status: 'pending' } }).mockResolvedValue({ data: ready })
   renderEvaluation()
-  expect(screen.getByText('Đang chờ AI đánh giá...')).toBeInTheDocument()
+  expect(screen.getByText('Waiting for AI evaluation…')).toBeInTheDocument()
   expect(await screen.findByText('Câu trả lời đúng.', {}, { timeout: 3000 })).toBeInTheDocument()
   // one evaluation fetch, one session-result-kind fetch, then the bounded poll
   expect(api.get).toHaveBeenCalledTimes(3)
-  expect(screen.getByText(/Đánh giá dự phòng/)).toBeInTheDocument()
+  expect(screen.getByText(/Rule-based fallback evaluation/)).toBeInTheDocument()
 })
 it('recovers from an offline request with a bounded explicit retry', async () => {
   api.get.mockRejectedValue(new Error('secret internal error'))
@@ -109,7 +109,7 @@ it('recovers from an offline request with a bounded explicit retry', async () =>
   renderEvaluation()
   await screen.findByRole('alert')
   expect(screen.queryByText('secret internal error')).not.toBeInTheDocument()
-  await userEvent.click(screen.getAllByRole('button', { name: /Thử lại/i }).at(-1))
+  await userEvent.click(screen.getAllByRole('button', { name: /Retry/i }).at(-1))
   expect(await screen.findByText('Câu trả lời đúng.')).toBeInTheDocument()
   expect(api.post).toHaveBeenCalledWith('/evaluations/attempts/7/retry', null, { timeout: 15000 })
 })
@@ -117,8 +117,8 @@ it('continues checking when a retry returns a pending evaluation', async () => {
   api.get.mockResolvedValueOnce({ data: { status: 'pending' } }).mockResolvedValue({ data: ready })
   api.post.mockResolvedValue({ data: { status: 'pending' } })
   renderEvaluation()
-  await screen.findByText('Đang chờ AI đánh giá...')
-  await userEvent.click(screen.getByRole('button', { name: 'Thử lại' }))
+  await screen.findByText('Waiting for AI evaluation…')
+  await userEvent.click(screen.getByRole('button', { name: 'Retry' }))
   expect(await screen.findByText('Câu trả lời đúng.', {}, { timeout: 3000 })).toBeVisible()
 })
 it('rejects a ready response without feedback instead of rendering an empty chart screen', async () => {
@@ -126,7 +126,7 @@ it('rejects a ready response without feedback instead of rendering an empty char
   renderEvaluation()
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(screen.queryByTestId('charts')).not.toBeInTheDocument()
-  expect(screen.getByText(/Đánh giá đang mất nhiều thời gian/)).toBeInTheDocument()
+  expect(screen.getByText(/The evaluation is taking a long time/)).toBeInTheDocument()
 })
 it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async (count) => {
   api.get.mockResolvedValue({
@@ -143,27 +143,27 @@ it.each([0, 1, 3])('adapts overall evaluation to %s completed attempts', async (
     },
   })
   renderEvaluation(true)
-  await screen.findByRole('heading', { name: count ? 'Nhận xét' : 'Bắt đầu hành trình của bạn' })
+  await screen.findByRole('heading', { name: count ? 'Comments' : 'Start your learning path' })
   if (!count)
-    expect(screen.getByRole('link', { name: 'Bắt đầu luyện tập' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Start practice' })).toHaveAttribute(
       'href',
       '/assessments',
     )
   else if (count === 1) {
-    expect(screen.getByText('Làm thêm bài để xem xu hướng')).toBeInTheDocument()
+    expect(screen.getByText('Complete another assessment to see a trend.')).toBeInTheDocument()
     expect(screen.getByTestId('charts')).toHaveTextContent('NO TREND')
   } else {
     expect(screen.getByTestId('charts')).toHaveTextContent('TREND')
     expect(screen.getByText('Tiến bộ theo thời gian')).toBeInTheDocument()
   }
-  expect(screen.getByText(/2 bài đang chờ/)).toBeInTheDocument()
+  expect(screen.getByText(/2 assessments are awaiting/)).toBeInTheDocument()
 })
 it('shows the provisional AI result with an explicit label', async () => {
   api.get.mockResolvedValue({ data: provisional })
   renderEvaluation()
   expect(await screen.findByText(/Provisional result/)).toBeInTheDocument()
   expect(screen.getByText('Câu trả lời đúng.')).toBeVisible()
-  expect(screen.getByText('Điểm mạnh và điểm cần cải thiện theo khái niệm')).toBeInTheDocument()
+  expect(screen.getByText('Strengths and areas to improve by concept')).toBeInTheDocument()
   expect(screen.queryByText(/Approved by an administrator/)).not.toBeInTheDocument()
 })
 it('marks approved and adjusted results clearly', async () => {
@@ -203,7 +203,9 @@ it('bounds provisional polling and offers a manual check', async () => {
   renderEvaluation()
   await act(async () => {})
   await act(async () => vi.advanceTimersByTimeAsync(300_000))
-  expect(screen.getByRole('heading', { name: 'Đánh giá vẫn đang xử lý' })).toBeInTheDocument()
+  expect(
+    screen.getByRole('heading', { name: 'Evaluation is still processing' }),
+  ).toBeInTheDocument()
   const calls = api.get.mock.calls.length
   await act(async () => vi.advanceTimersByTimeAsync(60_000))
   expect(api.get).toHaveBeenCalledTimes(calls)
@@ -218,7 +220,7 @@ it('falls back after 45 seconds and stops the spinner', async () => {
   })
   expect(api.post).toHaveBeenCalledTimes(1)
   expect(screen.getByText('Câu trả lời đúng.')).toBeInTheDocument()
-  expect(screen.queryByText('Đang chờ AI đánh giá...')).not.toBeInTheDocument()
+  expect(screen.queryByText('Waiting for AI evaluation…')).not.toBeInTheDocument()
 })
 it('prevents double submit, shows generation state and keeps the request id for retry', async () => {
   api.get.mockImplementation((url) =>
@@ -244,7 +246,7 @@ it('prevents double submit, shows generation state and keeps the request id for 
       <AssessmentsPage />
     </MemoryRouter>,
   )
-  await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+  await userEvent.click(await screen.findByRole('button', { name: 'Select all concepts' }))
   const button = screen.getByRole('button', { name: 'Start' })
   fireEvent.click(button)
   fireEvent.click(button)

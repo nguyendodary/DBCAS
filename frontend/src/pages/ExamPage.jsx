@@ -508,9 +508,7 @@ function ExamWorkspace({ sessionId, initialState }) {
               <h1>{state.assessment_title}</h1>
               {(state.selection_notice ||
                 (state.question_source === 'ai' && state.generation_fallback)) && (
-                <p role="status">
-                  {state.selection_notice || 'Đã dùng câu hỏi dự phòng đã kiểm chứng.'}
-                </p>
+                <p role="status">{state.selection_notice || t('ui.exam.fallbackNotice')}</p>
               )}
               <p>
                 {t('exam.progress', {

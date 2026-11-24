@@ -83,8 +83,8 @@ describe('AssessmentsPage', () => {
     expect(screen.getByLabelText('SQL')).toHaveValue(2)
     expect(screen.getByLabelText('Essay')).toHaveValue(1)
     expect(screen.getByText('13 questions in this test.')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Dễ/ })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByRole('button', { name: 'Vừa' })).toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByRole('button', { name: /Easy/ })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Medium' })).toHaveAttribute('aria-pressed', 'false')
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     expect(api.post).toHaveBeenCalledWith(
       '/practice/start',
@@ -102,7 +102,7 @@ describe('AssessmentsPage', () => {
       'false',
     )
     expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'false')
-    const selectedBands = ['Dễ', 'Vừa', 'Khó'].filter(
+    const selectedBands = ['Easy', 'Medium', 'Hard'].filter(
       (label) =>
         screen.getByRole('button', { name: new RegExp(label) }).getAttribute('aria-pressed') ===
         'true',
@@ -115,7 +115,7 @@ describe('AssessmentsPage', () => {
     mockPractice()
     api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Select all concepts' }))
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     expect(api.post).toHaveBeenCalledWith(
       '/practice/start',
@@ -146,21 +146,21 @@ describe('AssessmentsPage', () => {
       }),
     )
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Select all concepts' }))
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     expect(
-      await screen.findByRole('heading', { name: 'Một số khái niệm chưa có câu hỏi phù hợp' }),
+      await screen.findByRole('heading', { name: 'Some concepts have no suitable questions' }),
     ).toBeInTheDocument()
     expect(screen.getByText('Indexing')).toBeInTheDocument()
     expect(api.post).not.toHaveBeenCalledWith('/practice/start', expect.anything())
-    await userEvent.click(screen.getByRole('button', { name: 'Tiếp tục' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Continue' }))
     expect(api.post).toHaveBeenCalledWith('/practice/start', expect.objectContaining({}))
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
   })
   it('resumes the real active session without posting another start', async () => {
     mockPractice(SESSIONS)
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    const link = await screen.findByRole('link', { name: 'Tiếp tục bài làm' })
+    const link = await screen.findByRole('link', { name: 'Continue assessment' })
     expect(link).toHaveAttribute('href', '/exam/43')
     await userEvent.click(link)
     expect(await screen.findByText('EXAM ROOM')).toBeInTheDocument()
@@ -189,7 +189,7 @@ describe('AssessmentsPage', () => {
     await userEvent.click(await screen.findByRole('button', { name: 'JOIN', exact: true }))
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     const alert = await screen.findByRole('alert')
-    expect(alert).toHaveTextContent('Chưa tạo được bài đánh giá. Hãy thử lại.')
+    expect(alert).toHaveTextContent('Could not create the assessment. Try again.')
     expect(alert.parentElement).toBe(screen.getByRole('button', { name: 'Retry' }).parentElement)
   })
   it('offers the bank only, with no AI source selector', async () => {
@@ -209,7 +209,7 @@ describe('AssessmentsPage', () => {
     expect(screen.getByRole('button', { name: /SELECT/ })).toHaveAttribute('aria-pressed', 'false')
     await userEvent.click(screen.getByRole('button', { name: /JOIN/ }))
     expect(screen.getByRole('button', { name: 'Start' })).toBeDisabled()
-    await userEvent.click(screen.getByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Select all concepts' }))
     expect(screen.getByRole('button', { name: /JOIN/ })).toHaveAttribute('aria-pressed', 'true')
   })
   it.each(['EASY', 'MEDIUM', 'HARD'])(
@@ -218,8 +218,8 @@ describe('AssessmentsPage', () => {
       mockPractice()
       api.post.mockResolvedValue({ data: { session_id: 99 } })
       renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-      await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
-      const label = { EASY: 'Dễ', MEDIUM: 'Vừa', HARD: 'Khó' }[band]
+      await userEvent.click(await screen.findByRole('button', { name: 'Select all concepts' }))
+      const label = { EASY: 'Easy', MEDIUM: 'Medium', HARD: 'Hard' }[band]
       await userEvent.click(screen.getByRole('button', { name: new RegExp(label) }))
       await userEvent.click(screen.getByRole('button', { name: 'Start' }))
       expect(api.post.mock.calls[0][1].difficulties).toEqual([band])
@@ -232,7 +232,7 @@ describe('AssessmentsPage', () => {
     ])
     api.post.mockResolvedValue({ data: { session_id: 99 } })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    await userEvent.click(await screen.findByRole('button', { name: 'Chọn tất cả khái niệm' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Select all concepts' }))
     await userEvent.click(screen.getByRole('button', { name: 'Start' }))
     expect(api.post.mock.calls[0][1].source).toBe('bank')
     expect(api.post.mock.calls[0][1].question_mix).toEqual({ mcq: 10, sql: 2, essay: 1 })
@@ -241,7 +241,7 @@ describe('AssessmentsPage', () => {
   it('shows an actionable empty state when concepts are missing', async () => {
     mockPractice([], { concepts: [] })
     renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
-    expect(await screen.findByText('Ngân hàng chưa có khái niệm')).toBeInTheDocument()
+    expect(await screen.findByText('The bank has no concepts yet')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Start' })).not.toBeInTheDocument()
   })
 })
@@ -272,7 +272,7 @@ describe('HistoryPage', () => {
     expect(
       await screen.findAllByText('Provisional — awaiting instructor approval'),
     ).not.toHaveLength(0)
-    expect(screen.getByRole('link', { name: 'Xem đánh giá' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'View evaluation' })).toHaveAttribute(
       'href',
       '/evaluations/42',
     )

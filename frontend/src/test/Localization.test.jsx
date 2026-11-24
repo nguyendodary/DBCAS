@@ -47,7 +47,7 @@ it('defaults to Vietnamese until the user saves a supported preference', () => {
 it('switches immediately, persists the preference, and synchronizes html lang', async () => {
   render(<LanguageSelector />)
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(document.documentElement.lang).toBe('vi')
   expect(localStorage.getItem(LOCALE_KEY)).toBe('vi')
   expect(screen.getByRole('button', { name: 'Ngôn ngữ' })).toHaveAttribute('aria-expanded', 'false')

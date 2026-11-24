@@ -68,7 +68,7 @@ it('keeps the Vietnamese practice setup and real resume route when locale change
       <AssessmentsPage />
     </MemoryRouter>,
   )
-  await screen.findByText('Bạn có bài đang làm')
+  await screen.findByText('You have an assessment in progress')
   await act(() => setLocale('vi'))
   expect(screen.getByRole('heading', { name: 'Tạo bài đánh giá', level: 1 })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Tiếp tục bài làm' })).toHaveAttribute('href', '/exam/9')

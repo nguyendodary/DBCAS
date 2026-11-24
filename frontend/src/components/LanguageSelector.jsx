@@ -2,10 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { useLocale } from '../i18n'
 import { Icon } from './ui'
 
-const LANGUAGES = [
-  { code: 'vi', name: 'Tiếng Việt' },
-  { code: 'en', name: 'English' },
-]
+const LANGUAGES = [{ code: 'vi' }, { code: 'en' }]
 
 export default function LanguageSelector({ className = '' }) {
   const id = useId()
@@ -112,7 +109,7 @@ export default function LanguageSelector({ className = '' }) {
                   close(true)
                 }}
               >
-                <span>{language.name}</span>
+                <span>{t(`ui.language.${language.code}`)}</span>
                 {locale === language.code && <Icon name="check" />}
               </button>
             ))}

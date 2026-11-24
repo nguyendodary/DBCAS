@@ -102,11 +102,11 @@ it('updates a directly linked practice review when asynchronous evaluation finis
     await act(async () => {
       await vi.advanceTimersByTimeAsync(0)
     })
-    expect(screen.getByRole('button', { name: 'Duyệt', exact: true })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Approve score', exact: true })).toBeDisabled()
     await act(async () => {
       await vi.advanceTimersByTimeAsync(2100)
     })
-    expect(screen.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Approve score', exact: true })).toBeEnabled()
     expect(screen.getAllByText('Ready for review').length).toBeGreaterThan(0)
     expect(screen.getByRole('button', { name: /Test learner.*Database rules/ })).toHaveTextContent(
       t('supervisor.provisional_ai'),
@@ -137,7 +137,7 @@ it('labels an adjusted practice score as current and hides unneeded pagination',
       </Routes>
     </MemoryRouter>,
   )
-  expect(await screen.findByText(/^Điểm hiện tại:/)).toHaveTextContent('0.25 / 2')
+  expect(await screen.findByText(/^Current score:/)).toHaveTextContent('0.25 / 2')
   expect(screen.queryByText(/Automated suggested score/)).not.toBeInTheDocument()
   expect(
     screen.queryByRole('navigation', { name: t('supervisor.reviewPages') }),
@@ -179,10 +179,10 @@ it('submits edited final feedback when the administrator approves', async () => 
     </MemoryRouter>,
   )
   await userEvent.click(await screen.findByRole('button', { name: /Test learner.*Database rules/ }))
-  const summary = await screen.findByLabelText('Tóm tắt')
+  const summary = await screen.findByLabelText('Summary')
   await userEvent.clear(summary)
   await userEvent.type(summary, 'Admin final summary')
-  await userEvent.click(screen.getByRole('button', { name: 'Lưu và duyệt' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Save and approve' }))
   expect(api.post).toHaveBeenCalledWith(
     '/admin/grading-reviews/9/publish',
     expect.objectContaining({

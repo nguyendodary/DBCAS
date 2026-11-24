@@ -29,7 +29,7 @@ it('opens on hover, stays open over the popup, and closes after leaving both', a
 it('changes locale on selection, persists, closes, and restores focus', async () => {
   render(<LanguageSelector />)
   await userEvent.hover(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(document.documentElement.lang).toBe('vi')
   expect(localStorage.getItem('dbcas_locale')).toBe('vi')
   expect(screen.queryByRole('menu')).not.toBeInTheDocument()
@@ -48,13 +48,13 @@ it('supports focus, arrows, Home/End, selection, Escape and Tab dismissal', asyn
   expect(screen.getByRole('menu')).toBeVisible()
   await user.keyboard('{ArrowDown}')
   await waitFor(() =>
-    expect(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toHaveFocus(),
+    expect(screen.getByRole('menuitemradio', { name: 'Vietnamese' })).toHaveFocus(),
   )
   await user.keyboard('{ArrowUp}')
   await waitFor(() => expect(screen.getByRole('menuitemradio', { name: 'English' })).toHaveFocus())
   await user.keyboard('{Home}')
   await waitFor(() =>
-    expect(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toHaveFocus(),
+    expect(screen.getByRole('menuitemradio', { name: 'Vietnamese' })).toHaveFocus(),
   )
   await user.keyboard('{End}')
   await waitFor(() => expect(screen.getByRole('menuitemradio', { name: 'English' })).toHaveFocus())
@@ -65,13 +65,13 @@ it('supports focus, arrows, Home/End, selection, Escape and Tab dismissal', asyn
   await waitFor(() => expect(screen.getByRole('menuitemradio', { name: 'English' })).toHaveFocus())
   await user.keyboard('{ArrowDown}')
   await waitFor(() =>
-    expect(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toHaveFocus(),
+    expect(screen.getByRole('menuitemradio', { name: 'Vietnamese' })).toHaveFocus(),
   )
   await user.keyboard(' ')
   expect(localStorage.getItem('dbcas_locale')).toBe('vi')
   await user.keyboard(' ')
   await waitFor(() =>
-    expect(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toHaveFocus(),
+    expect(screen.getByRole('menuitemradio', { name: /Vietnamese|Tiếng Việt/ })).toHaveFocus(),
   )
   await user.tab()
   expect(screen.getByRole('button', { name: 'After menu' })).toHaveFocus()

@@ -19,13 +19,9 @@ import {
   isSelectionValid,
   validateFixedMix,
 } from '../assessmentStyle'
-import { t, useLocale } from '../i18n'
+import { message, t, useLocale } from '../i18n'
 
-const BANDS = [
-  ['EASY', 'Dễ'],
-  ['MEDIUM', 'Vừa'],
-  ['HARD', 'Khó'],
-]
+const BANDS = ['EASY', 'MEDIUM', 'HARD']
 const toggle = (items, value) =>
   items.includes(value) ? items.filter((item) => item !== value) : [...items, value]
 
@@ -55,13 +51,13 @@ export function parseConceptIds(value) {
 }
 
 export default function AssessmentsPage() {
-  useLocale()
+  const { locale } = useLocale()
   const [searchParams] = useSearchParams()
   const requestedConcepts = searchParams.get('concepts') || ''
   const [options, setOptions] = useState(null)
   const [style, setStyle] = useState(FIXED)
   const [selected, setSelected] = useState([])
-  const [bands, setBands] = useState(BANDS.map(([value]) => value))
+  const [bands, setBands] = useState([...BANDS])
   const [mix, setMix] = useState({ ...FIXED_DEFAULT_MIX })
   const [count, setCount] = useState(null)
   const [search, setSearch] = useState('')
@@ -137,7 +133,7 @@ export default function AssessmentsPage() {
       navigate(`/exam/${details.session_id}`)
       return
     }
-    setError(apiMessage(e, 'Chưa tạo được bài đánh giá. Hãy thử lại.'))
+    setError(apiMessage(e, message('ui.assessments.startError')))
   }
   async function create(payload) {
     const r = await api.post('/practice/start', payload)
@@ -215,20 +211,20 @@ export default function AssessmentsPage() {
       {!options ? (
         !error && <Loading />
       ) : !options.concepts.length ? (
-        <EmptyState title="Ngân hàng chưa có khái niệm">
-          Giảng viên cần bổ sung khái niệm và câu hỏi trước khi bạn bắt đầu.
+        <EmptyState title={t('ui.assessments.emptyTitle')}>
+          {t('ui.assessments.emptyBody')}
         </EmptyState>
       ) : active ? (
         <Card className="space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Bạn có bài đang làm</h2>
-          <p className="text-sub">Câu trả lời đã lưu sẽ được khôi phục.</p>
+          <h2 className="text-lg font-semibold">{t('ui.assessments.activeTitle')}</h2>
+          <p className="text-sub">{t('ui.assessments.activeBody')}</p>
           <Link className={btnPrimary} to={`/exam/${active.session_id}`}>
-            Tiếp tục bài làm
+            {t('ui.assessments.activeContinue')}
           </Link>
         </Card>
       ) : preview ? (
         <Card className="space-y-4 p-6">
-          <h2 className="text-lg font-semibold">Một số khái niệm chưa có câu hỏi phù hợp</h2>
+          <h2 className="text-lg font-semibold">{t('ui.assessments.previewTitle')}</h2>
           <p className="text-sub">{preview.data.notice}</p>
           <ul className="list-disc space-y-1 pl-5 text-sub">
             {preview.data.uncovered_concepts.map((c) => (
@@ -239,7 +235,7 @@ export default function AssessmentsPage() {
           <div className="flex flex-wrap gap-3">
             <button type="button" className={btnPrimary} disabled={busy} onClick={continueStart}>
               {busy && <ActionSpinner />}
-              Tiếp tục
+              {t('ui.assessments.continue')}
             </button>
             <button
               type="button"
@@ -250,7 +246,7 @@ export default function AssessmentsPage() {
                 setError(null)
               }}
             >
-              Chọn lại
+              {t('ui.assessments.chooseAgain')}
             </button>
           </div>
         </Card>
@@ -260,7 +256,7 @@ export default function AssessmentsPage() {
             <fieldset disabled={busy} className="space-y-7">
               <AssessmentStylePicker value={style} onChange={setStyle} disabled={busy} />
               <fieldset className="min-w-0">
-                <legend className="text-lg font-semibold">1. Chọn khái niệm</legend>
+                <legend className="text-lg font-semibold">{t('ui.assessments.stepConcept')}</legend>
                 {style === ADAPTIVE ? (
                   <p role="status" className="my-3 text-sm text-sub">
                     {t('assessmentStyle.adaptive.conceptNote')}
@@ -271,12 +267,12 @@ export default function AssessmentsPage() {
                     className={`${btnGhost} my-3`}
                     onClick={() => setSelected(options.concepts.map((c) => c.concept_id))}
                   >
-                    Chọn tất cả khái niệm
+                    {t('ui.assessments.selectAll')}
                   </button>
                 )}
                 {options.concepts.length > 12 && (
                   <label className="mb-3 block text-sm text-sub">
-                    Tìm khái niệm
+                    {t('ui.assessments.searchConcepts')}
                     <input
                       type="search"
                       value={search}
@@ -289,8 +285,8 @@ export default function AssessmentsPage() {
                   {options.concepts
                     .filter((c) =>
                       c.concept_name
-                        .toLocaleLowerCase('vi')
-                        .includes(search.toLocaleLowerCase('vi')),
+                        .toLocaleLowerCase(locale)
+                        .includes(search.toLocaleLowerCase(locale)),
                     )
                     .map((c) => (
                       <button
@@ -306,7 +302,9 @@ export default function AssessmentsPage() {
                       </button>
                     ))}
                 </div>
-                <p className="mt-3 text-sm text-mute">Đã chọn {selected.length} khái niệm.</p>
+                <p className="mt-3 text-sm text-mute">
+                  {t('ui.assessments.selectedCount', { count: selected.length })}
+                </p>
                 {requestedConcepts && selected.length > 0 && (
                   <p
                     role="status"
@@ -346,7 +344,9 @@ export default function AssessmentsPage() {
                 )}
               </fieldset>
               <fieldset>
-                <legend className="mb-3 text-lg font-semibold">2. Chọn độ khó</legend>
+                <legend className="mb-3 text-lg font-semibold">
+                  {t('ui.assessments.stepDifficulty')}
+                </legend>
                 <p className="mb-3 text-sm text-sub">
                   {t(
                     style === ADAPTIVE
@@ -355,7 +355,7 @@ export default function AssessmentsPage() {
                   )}
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  {BANDS.map(([value, label]) => (
+                  {BANDS.map((value) => (
                     <button
                       type="button"
                       key={value}
@@ -364,7 +364,7 @@ export default function AssessmentsPage() {
                       onClick={() => toggleBand(value)}
                     >
                       {bands.includes(value) && <span aria-hidden="true">✓ </span>}
-                      {label}
+                      {t(`ui.assessments.band.${value}`)}
                     </button>
                   ))}
                 </div>
@@ -395,7 +395,7 @@ export default function AssessmentsPage() {
                         onClick={() => setCount(value)}
                         className={`${btnGhost} ${Number(count) === value ? 'border-cyan-400 text-cyan-300' : ''}`}
                       >
-                        {value} câu
+                        {t('ui.assessments.questionCount', { count: value })}
                       </button>
                     ))}
                   </div>

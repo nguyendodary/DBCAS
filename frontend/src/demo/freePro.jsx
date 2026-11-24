@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocale } from '../i18n'
+import { t, useLocale } from '../i18n'
 import { Badge, Card, CardTitle, btnPrimary } from '../components/ui'
 
 export const DEMO_FREE_SESSIONS = 3
@@ -20,32 +20,26 @@ export function DemoPlanPanel() {
   const { locale } = useLocale()
   const [plan, setPlan] = useState('free')
   if (!demoFreeProEnabled()) return null
-  const vi = locale === 'vi'
   const pro = plan === 'pro'
   return (
     <div data-testid="demo-plan-panel">
       <Card className="mx-4 mt-4 border-cyan-400/30">
-        <CardTitle title={vi ? 'Gói demo' : 'Demo plan'}>
+        <CardTitle title={t('ui.demo.planTitle')}>
           <Badge tone="teal">DEMO</Badge>
         </CardTitle>
         <div className="space-y-3 p-5 text-sm">
           <p className="font-semibold text-ink">
             {pro
-              ? vi
-                ? `Pro (Demo) · ${DEMO_PRO_PRICE_VND.toLocaleString('vi-VN')} VND / ${DEMO_PRO_DAYS} ngày`
-                : `Pro (Demo) · ${DEMO_PRO_PRICE_VND.toLocaleString('en-US')} VND / ${DEMO_PRO_DAYS} days`
-              : vi
-                ? `Free · ${DEMO_FREE_SESSIONS} phiên mỗi tháng`
-                : `Free · ${DEMO_FREE_SESSIONS} sessions per month`}
+              ? t('ui.demo.proPlan', {
+                  price: DEMO_PRO_PRICE_VND.toLocaleString(locale === 'vi' ? 'vi-VN' : 'en-US'),
+                  days: DEMO_PRO_DAYS,
+                })
+              : t('ui.demo.freePlan', { count: DEMO_FREE_SESSIONS })}
           </p>
-          <p className="text-xs text-mute">
-            {vi
-              ? 'Mô phỏng giao diện; không có thanh toán, không gọi API, không lưu dữ liệu.'
-              : 'UI simulation only; no payment, no API call, no stored data.'}
-          </p>
+          <p className="text-xs text-mute">{t('ui.demo.uiOnly')}</p>
           {!pro && (
             <button type="button" className={btnPrimary} onClick={() => setPlan('pro')}>
-              {vi ? 'Nâng cấp Pro (Demo)' : 'Upgrade to Pro (Demo)'}
+              {t('ui.demo.upgrade')}
             </button>
           )}
         </div>
@@ -55,22 +49,17 @@ export function DemoPlanPanel() {
 }
 
 export function DemoCostsPanel({ isAdmin = false }) {
-  const { locale } = useLocale()
+  useLocale()
   if (!demoFreeProEnabled() || !isAdmin) return null
-  const vi = locale === 'vi'
   const max = Math.max(...DEMO_COST_SAMPLE.map((row) => row.revenue))
   return (
     <div data-testid="demo-costs-panel">
       <Card>
-        <CardTitle title={vi ? 'Chi phí demo (mẫu tĩnh)' : 'Demo costs (static sample)'}>
+        <CardTitle title={t('ui.demo.costsTitle')}>
           <Badge tone="teal">DEMO</Badge>
         </CardTitle>
         <div className="space-y-4 p-5 text-sm">
-          <p className="text-xs text-mute">
-            {vi
-              ? 'Dữ liệu mẫu, không có prompt/SQL/answer; chỉ Administrator thấy.'
-              : 'Sample data only; no prompts/SQL/answers; Administrator-only.'}
-          </p>
+          <p className="text-xs text-mute">{t('ui.demo.sampleOnly')}</p>
           <ul className="space-y-2">
             {DEMO_COST_SAMPLE.map((row) => {
               const balance = row.revenue - row.ai - row.hosting
@@ -79,10 +68,10 @@ export function DemoCostsPanel({ isAdmin = false }) {
                   <div className="flex justify-between text-xs text-sub">
                     <span>{row.month}</span>
                     <span>
-                      {vi ? 'Doanh thu' : 'Revenue'} {row.revenue.toLocaleString('vi-VN')} ·{' '}
-                      {vi ? 'AI' : 'AI'} {row.ai.toLocaleString('vi-VN')} ·{' '}
-                      {vi ? 'Hạ tầng' : 'Hosting'} {row.hosting.toLocaleString('vi-VN')} ·{' '}
-                      {vi ? 'Còn lại' : 'Balance'} {balance.toLocaleString('vi-VN')}
+                      {t('ui.demo.revenue')} {row.revenue.toLocaleString('vi-VN')} · AI{' '}
+                      {row.ai.toLocaleString('vi-VN')} · {t('ui.demo.hosting')}{' '}
+                      {row.hosting.toLocaleString('vi-VN')} · {t('ui.demo.balance')}{' '}
+                      {balance.toLocaleString('vi-VN')}
                     </span>
                   </div>
                   <div className="h-2 overflow-hidden rounded bg-surface-hover" aria-hidden="true">

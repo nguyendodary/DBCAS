@@ -124,17 +124,15 @@ export default function EvidencePage() {
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <StatusBadge status={data.status} />
           <Link to={`/evaluations/${sessionId}`} className="font-semibold text-cyan-300 underline">
-            Xem đánh giá
+            {t('ui.evidence.viewEvaluation')}
           </Link>
         </div>
       </HeroBand>
 
       {data.provisional && (
         <p role="status" className="rounded-xl border border-amber-500 p-4 font-semibold">
-          Kết quả tạm thời – AI đã chấm, chưa được giảng viên xác nhận
-          <span className="mt-1 block text-sm font-normal">
-            Điểm từng câu có thể thay đổi sau khi giảng viên kiểm tra và duyệt.
-          </span>
+          {t('ui.evidence.provisionalTitle')}
+          <span className="mt-1 block text-sm font-normal">{t('ui.evidence.provisionalBody')}</span>
         </p>
       )}
       {data.items.length > 0 && (

@@ -177,7 +177,7 @@ export default function HistoryPage() {
                         to={`/evaluations/${s.session_id}`}
                         className="text-sm font-semibold text-cyan-300 hover:underline"
                       >
-                        Xem đánh giá
+                        {t('ui.history.viewEvaluation')}
                       </Link>
                       <Link
                         to={`/history/${s.session_id}`}

@@ -58,7 +58,7 @@ it('keeps the selected MCQ and authoritative timer when requesting reviewed cont
   await mount()
   await userEvent.click(await screen.findByRole('radio', { name: 'A: SELECT' }))
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(screen.getByRole('radio', { name: 'A: SELECT' })).toBeChecked()
   expect(screen.getByText('Original question')).toBeInTheDocument()
   expect(screen.getByLabelText('Thời gian còn lại')).toHaveTextContent(/59:5\d|60:00/)

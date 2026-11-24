@@ -196,7 +196,7 @@ function GradingQueue() {
                 })
               }
             >
-              {detail.learner_defined ? 'Duyệt' : t('supervisor.publish')}
+              {detail.learner_defined ? t('supervisor.approve') : t('supervisor.publish')}
             </button>
             {detail.release_status === 'grading_failed' && (
               <button
@@ -215,33 +215,35 @@ function GradingQueue() {
           </div>
           {detail.learner_defined && (
             <Card className="space-y-3 p-5">
-              <h3 className="font-semibold">Đánh giá AI</h3>
+              <h3 className="font-semibold">{t('ui.grading.aiEvaluation')}</h3>
               {detail.evaluation ? (
                 <>
                   <p className="text-sub">{detail.evaluation.evaluation.summary}</p>
                   {detail.evaluation.evaluator_fallback && (
-                    <p className="text-sm text-sub">Đánh giá dự phòng theo quy tắc.</p>
+                    <p className="text-sm text-sub">{t('ui.grading.fallbackRule')}</p>
                   )}
                   <ul className="list-disc space-y-2 pl-5 text-sub">
                     {detail.evaluation.evaluation.question_comments.map((item, index) => (
                       <li key={item.attempt_id}>
-                        Câu {index + 1}: {item.comment}
+                        {t('ui.grading.questionN', { n: index + 1 })}: {item.comment}
                       </li>
                     ))}
                   </ul>
                 </>
               ) : (
-                <p role="status">Đang chờ AI đánh giá...</p>
+                <p role="status">{t('ui.grading.waitingAI')}</p>
               )}
             </Card>
           )}
           {detail.learner_defined && detail.final_result && (
             <Card className="space-y-2 p-5">
-              <h3 className="font-semibold">Kết quả cuối cùng đã duyệt</h3>
+              <h3 className="font-semibold">{t('ui.grading.finalApproved')}</h3>
               <p className="text-sub">{detail.final_result.final_evaluation?.summary}</p>
               <p className="text-sm text-sub">
-                Nguồn:{' '}
-                {detail.final_result.source === 'legacy' ? 'bản cũ đã duyệt' : 'giảng viên duyệt'}
+                {t('ui.grading.source')}:{' '}
+                {detail.final_result.source === 'legacy'
+                  ? t('ui.grading.sourceLegacy')
+                  : t('ui.grading.sourceInstructor')}
               </p>
             </Card>
           )}
@@ -290,12 +292,14 @@ function GradingQueue() {
           </Card>
           {detail.score_edits?.length > 0 && (
             <Card className="p-4">
-              <h3 className="font-semibold">Lịch sử điều chỉnh điểm</h3>
+              <h3 className="font-semibold">{t('ui.grading.scoreHistory')}</h3>
               <ul className="mt-3 space-y-3 text-sm text-sub">
                 {detail.score_edits.map((edit, i) => (
                   <li key={i}>
-                    {dateTime(edit.created_at)} · Giảng viên #{edit.reviewer_id} ·{' '}
-                    {edit.old_score ?? 'Chưa chấm'} → {edit.new_score} điểm<p>{edit.reason}</p>
+                    {dateTime(edit.created_at)} · {t('ui.grading.instructor')} #{edit.reviewer_id} ·{' '}
+                    {edit.old_score ?? t('ui.grading.notGraded')} → {edit.new_score}{' '}
+                    {t('common.points')}
+                    <p>{edit.reason}</p>
                   </li>
                 ))}
               </ul>
@@ -339,11 +343,8 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
   return (
     <Card className="space-y-3 p-5">
       <div>
-        <h3 className="font-semibold">Kết quả cuối cùng do giảng viên duyệt</h3>
-        <p className="mt-1 text-sm text-sub">
-          Nội dung AI bên dưới là bản nháp. Chỉnh sửa nếu cần; bản đã duyệt sẽ thay thế hoàn toàn
-          kết quả tạm thời của người học.
-        </p>
+        <h3 className="font-semibold">{t('ui.grading.finalByInstructor')}</h3>
+        <p className="mt-1 text-sm text-sub">{t('ui.grading.draftHelp')}</p>
       </div>
       <form
         className="space-y-3"
@@ -367,7 +368,7 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
         }}
       >
         <label className="block text-sm text-sub">
-          Tóm tắt
+          {t('ui.grading.summary')}
           <textarea
             className={`${inputCls} mt-1 block min-h-24 w-full`}
             value={summary}
@@ -376,13 +377,13 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
           />
         </label>
         {[
-          ['Điểm mạnh', strengths, setStrengths],
-          ['Điểm cần cải thiện', weaknesses, setWeaknesses],
-          ['Gợi ý luyện tập', suggestions, setSuggestions],
-          ['Lộ trình học', learningPath, setLearningPath],
+          [t('ui.grading.strengths'), strengths, setStrengths],
+          [t('ui.grading.improvements'), weaknesses, setWeaknesses],
+          [t('ui.grading.suggestions'), suggestions, setSuggestions],
+          [t('ui.grading.learningPath'), learningPath, setLearningPath],
         ].map(([label, value, setter]) => (
           <label className="block text-sm text-sub" key={label}>
-            {label} (mỗi dòng một mục)
+            {t('ui.grading.onePerLine', { label })}
             <textarea
               className={`${inputCls} mt-1 block min-h-20 w-full`}
               value={value}
@@ -393,18 +394,18 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
         ))}
         {concepts.length > 0 && (
           <div className="space-y-2">
-            <p className="text-sm font-semibold">Ghi chú theo khái niệm</p>
+            <p className="text-sm font-semibold">{t('ui.grading.conceptNotes')}</p>
             {concepts.map((item) => (
               <div
                 className="grid gap-2 rounded-lg border border-edge p-3 md:grid-cols-3"
                 key={item.concept_id}
               >
                 <p className="text-sm font-medium md:col-span-3">
-                  {item.concept_name || `Khái niệm #${item.concept_id}`}
+                  {item.concept_name || t('ui.grading.conceptN', { n: item.concept_id })}
                 </p>
                 <input
                   className={inputCls}
-                  placeholder="Điểm mạnh"
+                  placeholder={t('ui.grading.strengths')}
                   value={item.strength}
                   onChange={(event) =>
                     updateConcept(item.concept_id, 'strength', event.target.value)
@@ -412,7 +413,7 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
                 />
                 <input
                   className={inputCls}
-                  placeholder="Cần cải thiện"
+                  placeholder={t('ui.grading.improvements')}
                   value={item.weakness}
                   onChange={(event) =>
                     updateConcept(item.concept_id, 'weakness', event.target.value)
@@ -420,7 +421,7 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
                 />
                 <input
                   className={inputCls}
-                  placeholder="Gợi ý"
+                  placeholder={t('ui.grading.suggestions')}
                   value={item.recommendation}
                   onChange={(event) =>
                     updateConcept(item.concept_id, 'recommendation', event.target.value)
@@ -431,7 +432,7 @@ function FinalFeedbackEditor({ detail, busy, onPublish }) {
           </div>
         )}
         <button type="submit" className={btnPrimary} disabled={busy}>
-          Lưu và duyệt
+          {t('ui.grading.saveApprove')}
         </button>
       </form>
     </Card>
@@ -498,7 +499,7 @@ function ReviewItem({
         </details>
       )}
       <p className="text-sm text-sub">
-        {practice ? 'Điểm hiện tại' : t('supervisor.suggested')}:{' '}
+        {practice ? t('ui.grading.currentScore') : t('supervisor.suggested')}:{' '}
         {item.automated_score == null ? t('evidence.notGraded') : number(item.automated_score)} /{' '}
         {number(item.points)}
       </p>
@@ -552,7 +553,7 @@ function ReviewItem({
                 />
               </label>
               <label className="grow text-sm text-sub">
-                {practice ? 'Lý do điều chỉnh' : t('supervisor.comments')}
+                {practice ? t('ui.grading.adjustReason') : t('supervisor.comments')}
                 <textarea
                   minLength={practice ? 3 : undefined}
                   maxLength={practice ? 1000 : 4000}
@@ -563,7 +564,7 @@ function ReviewItem({
                 />
               </label>
               <button type="submit" className={practice ? btnGhost : btnPrimary}>
-                {practice ? 'Lưu điểm điều chỉnh' : t('supervisor.approve')}
+                {practice ? t('ui.grading.saveAdjustment') : t('supervisor.approve')}
               </button>
             </fieldset>
           </form>
@@ -588,7 +589,7 @@ function SqlVerification({ sessionId, item }) {
       })
       setResult(r.data)
     } catch {
-      setResult({ success: false, error_message: 'Sandbox chưa sẵn sàng. Hãy thử lại.' })
+      setResult({ success: false, error_message: t('ui.grading.sandboxNotReady') })
     } finally {
       setBusy(false)
     }
@@ -596,7 +597,7 @@ function SqlVerification({ sessionId, item }) {
   return (
     <div className="space-y-3 rounded-xl border border-edge p-4">
       <label className="block text-sm text-sub">
-        SQL kiểm tra (chỉ SELECT)
+        {t('ui.grading.sqlCheck')}
         <textarea
           className={`${inputCls} mt-2 block min-h-24 w-full font-mono`}
           value={sql}
@@ -604,14 +605,17 @@ function SqlVerification({ sessionId, item }) {
         />
       </label>
       <button type="button" className={btnGhost} disabled={busy || !sql.trim()} onClick={run}>
-        {busy ? 'Đang chạy...' : 'Chạy SQL kiểm tra'}
+        {busy ? t('ui.grading.running') : t('ui.grading.runSqlCheck')}
       </button>
       {result && (
         <div role="status" className="space-y-2 text-sm text-sub">
           <p>
             {result.success
-              ? `Thành công · ${result.row_count} dòng · ${result.execution_time_ms} ms`
-              : 'Không chạy được truy vấn. Chỉ dùng SELECT hợp lệ trên schema của câu hỏi.'}
+              ? t('ui.grading.sqlSuccess', {
+                  rows: result.row_count,
+                  ms: result.execution_time_ms,
+                })
+              : t('ui.grading.sqlFailure')}
           </p>
           {result.success && (
             <div className="overflow-x-auto">

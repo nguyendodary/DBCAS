@@ -96,7 +96,7 @@ export default function AdminPage() {
     <div className="space-y-6">
       <AdminPageHeader title={t('admin.analytics.title')} subtitle={t('admin.analytics.subtitle')}>
         <Link className={btnPrimary} to="/admin/grading">
-          Duyệt bài
+          {t('supervisor.reviewTitle')}
         </Link>
       </AdminPageHeader>
       <DemoCostsPanel isAdmin />

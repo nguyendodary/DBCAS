@@ -53,7 +53,7 @@ it('keeps typed credentials and OAuth links when switching languages and navigat
   await userEvent.type(screen.getByLabelText('Password', { exact: true }), 'NotSubmitted123!')
   const calls = api.get.mock.calls.length
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(screen.getByRole('heading', { name: 'Đăng nhập DBCAS' })).toBeInTheDocument()
   expect(screen.getByLabelText('Mật khẩu', { exact: true })).toHaveValue('NotSubmitted123!')
   expect(screen.getByLabelText('Email', { exact: true })).toHaveValue('learner@test.dev')
@@ -71,7 +71,7 @@ it('localizes the password recovery pages and keeps labelled controls', async ()
   const { unmount } = mount('/forgot-password')
   expect(screen.getByRole('heading', { name: 'Reset your password' })).toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(screen.getByRole('heading', { name: 'Đặt lại mật khẩu' })).toBeInTheDocument()
   expect(screen.getByLabelText('Email', { exact: true })).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Gửi liên kết đặt lại' })).toBeInTheDocument()
@@ -98,7 +98,7 @@ it('updates an already visible authentication error without retrying the request
   await userEvent.click(screen.getByRole('button', { name: 'Sign in', exact: true }))
   expect(await screen.findByRole('alert')).toHaveTextContent('Invalid email or password.')
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(screen.getByRole('alert')).toHaveTextContent('Email hoặc mật khẩu chưa đúng.')
   expect(screen.queryByText(/private untrusted/)).not.toBeInTheDocument()
   expect(api.post).toHaveBeenCalledTimes(1)
@@ -106,7 +106,7 @@ it('updates an already visible authentication error without retrying the request
 it('localizes OAuth callback errors and rejects unknown error text', async () => {
   mount('/login?oauth_error=state')
   await userEvent.click(screen.getByRole('button', { name: 'Language' }))
-  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Tiếng Việt' }))
+  await userEvent.click(screen.getByRole('menuitemradio', { name: 'Vietnamese' }))
   expect(screen.getByRole('alert')).toHaveTextContent('Yêu cầu đăng nhập đã hết hạn.')
   expect(
     resolveMessage(
