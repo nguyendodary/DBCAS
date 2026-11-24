@@ -99,7 +99,11 @@ class Settings(BaseSettings):
     sandbox_broker_client_cert_path: str = ""
     sandbox_broker_client_key_path: str = ""
     sandbox_broker_ca_cert_path: str = ""
-    sandbox_broker_runtime: Literal["stub"] = "stub"
+    # PR-B2 execution slice. OFF by default; "stub" never runs real SQL.
+    sandbox_broker_runtime: Literal["stub", "docker"] = "stub"
+    sandbox_broker_image_digest: str = ""
+    sandbox_broker_queue_size: int = Field(default=8, ge=1, le=64)
+    sandbox_broker_admission_timeout_ms: int = Field(default=5000, ge=100, le=30000)
 
     # Social sign-in (OAuth 2.0 authorization-code flow, backend-managed).
     # Empty client id = provider disabled; /auth/oauth/{provider}/start then

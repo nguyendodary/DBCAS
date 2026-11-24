@@ -1,8 +1,8 @@
 ﻿# Status snapshot
 
-Date: 2026-11-23. Overwrite this snapshot when state changes; do not treat it as CI evidence.
+Date: 2026-11-24. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Last verified: `develop2` [333e8c4518c217eae1d1aaf65813bdb84b4e050b](https://github.com/nguyendodary/DBCAS/commit/333e8c4518c217eae1d1aaf65813bdb84b4e050b) as of 2026-11-23; this is the final code and submission state before the docs-only STATUS/BACKLOG snapshot. **Code freeze: no further feature, table, migration, route or flag work** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)). `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Baseline: `develop2` [ba249fb](https://github.com/nguyendodary/DBCAS/commit/ba249fb) as of 2026-11-24, plus the owner-requested branch-integration pass recorded below. **Code freeze: no new feature, table, migration, route or flag work** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
@@ -26,16 +26,16 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## In progress and next
 
-- This docs-only PR: record #109, the earlier flake and the new 3x results; no code, schema, route, flag or `.docx` change.
 - Proposed annotated tag `v1.0-final` on the final freeze commit (not created).
 - Proposed `develop2 -> main` PR after this snapshot (not created). `main` stays unchanged.
+- Branch integration (2026-11-24, explicit owner request): `feat/broker-runtime` (#80) merged with fixes; the constrained runtime stays behind default-OFF `SANDBOX_BROKER`, with no new Docker CLI/socket in the API (B3 remains future work). `demo/rehearsal` (#92), `feat/demo-seed-snapshot` (#89) and `docs/submission-final` (#99) were superseded by later `develop2` work (#90, #100, #111) and merged for history only.
 
 ## Blockers and risks
 
 - [#71](https://github.com/nguyendodary/DBCAS/issues/71): qa-1 `sandbox_busy` remains **UNKNOWN — owner must confirm**; diagnostics only.
 - [#94](https://github.com/nguyendodary/DBCAS/issues/94): result-heading timeout remains **UNKNOWN — owner must confirm**; #105 adds job status/latency logging.
 - [#55](https://github.com/nguyendodary/DBCAS/issues/55): Docker container-create timeouts; open.
-- Broker [#80](https://github.com/nguyendodary/DBCAS/pull/80) is closed; `docker.sock` [#66](https://github.com/nguyendodary/DBCAS/issues/66) remains a known limitation; broker stays OFF.
+- Broker [#80](https://github.com/nguyendodary/DBCAS/pull/80) is merged but its flag stays OFF; the real-runtime gaps in [validation](../analysis/broker-validation.md) remain, and `docker.sock` [#66](https://github.com/nguyendodary/DBCAS/issues/66) is still a known limitation until B3.
 - SQL-run rate limiting is **not implemented**; per-execution limits and two-slot admission remain the guard.
 - Cold seed remains about three minutes; no safe in-seed parallelism was found without changing validation semantics.
 - Free/Pro is **UI-only** (`VITE_DEMO_FREE_PRO=false` by default); no backend payment route or migration.
