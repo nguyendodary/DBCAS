@@ -104,3 +104,33 @@ def test_grading_admission_keeps_one_slot_across_datasets_and_releases_it(runner
         raise RuntimeError("Test worker interruption")
     assert slots.acquire(blocking=False) is True
     slots.release()
+
+
+
+def test_writable_job_runs_dml_and_captures_state_before_rollback(runner):
+    """The executor job must accept the writable demo profile in its own Settings."""
+    writable = EphemeralSandboxRunner(
+        runner.settings.model_copy(update={"sandbox_writable": True})
+    )
+    schema = writable.provision_dataset(
+        "CREATE TABLE dml_items(id INT PRIMARY KEY, name TEXT); "
+        "INSERT INTO dml_items VALUES (1,'alpha'),(2,'beta');"
+    )
+    try:
+        result = writable.execute_writable_script(
+            "UPDATE dml_items SET name='gamma' WHERE id=2;",
+            schema=schema, capture_tables=["dml_items"],
+        )
+        assert result.success and result.rolled_back
+        assert result.table_states == [{
+            "table": "dml_items", "columns": ["id", "name"],
+            "rows": [[1, "alpha"], [2, "gamma"]],
+        }]
+        deleted = writable.execute_writable_script(
+            "DELETE FROM dml_items WHERE id=2;",
+            schema=schema, capture_tables=["dml_items"],
+        )
+        assert deleted.success and deleted.rolled_back
+        assert deleted.table_states[0]["rows"] == [[1, "alpha"]]
+    finally:
+        writable.drop_dataset(schema)

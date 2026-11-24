@@ -18,6 +18,7 @@ def main():
     writable = bool(payload.get("writable"))
     writable_password = os.environ.get("SANDBOX_WRITABLE_PASSWORD", "learner_rw_dev")
     settings = Settings(_env_file=None, deployment_mode="development",
+                        sandbox_mode="ephemeral",
                         sandbox_url="postgresql://learner_ro@/postgres",
                         sandbox_writable_url="postgresql://learner_rw:" + writable_password + "@/postgres",
                         sandbox_admin_url="postgresql://postgres@/postgres",

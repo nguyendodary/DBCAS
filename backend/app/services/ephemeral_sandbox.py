@@ -24,10 +24,35 @@ _SLOTS = threading.BoundedSemaphore(_SLOT_COUNT)
 _LABEL = "com.dbcas.ephemeral"
 
 
+_WSL_DOCKER = None
+
+
+def _wsl_docker_available():
+    """True when WSL exposes a usable Docker CLI for attach/exec streams."""
+    try:
+        probe = subprocess.run(
+            ["wsl.exe", "-e", "docker", "info", "--format", "{{.ServerVersion}}"],
+            capture_output=True, text=True, timeout=10,
+        )
+        return probe.returncode == 0 and bool(probe.stdout.strip())
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+
 def docker_cli():
     executable = shutil.which("docker") or "docker"
-    # A Windows batch wrapper can lose exec stdin/JSON across cmd parsing.
-    return ["wsl.exe", "-e", "docker"] if os.name == "nt" and executable.lower().endswith(".cmd") else [executable]
+    if os.name != "nt":
+        return [executable]
+    global _WSL_DOCKER
+    if _WSL_DOCKER is None:
+        _WSL_DOCKER = _wsl_docker_available()
+    # Native Windows shims may run compose commands yet silently discard every
+    # `docker exec` attach stream (stdout/stderr), which breaks the JSON
+    # protocol. The WSL CLI forwards the stream; keep the native fallback for
+    # hosts without WSL, including the old .cmd-wrapper workaround.
+    if _WSL_DOCKER:
+        return ["wsl.exe", "-e", "docker"]
+    return ["wsl.exe", "-e", "docker"] if executable.lower().endswith(".cmd") else [executable]
 
 
 class EphemeralSandboxRunner:

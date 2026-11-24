@@ -651,6 +651,14 @@ class SandboxRunner:
                     CREATE ROLE dbcas_dataset_setup NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
                   END IF;
                 EXCEPTION WHEN duplicate_object OR unique_violation THEN NULL; END $$""")
+                if self._writable and conn.execute(
+                    "SELECT 1 FROM pg_roles WHERE rolname='learner_rw'"
+                ).fetchone() is None:
+                    raise SandboxError(
+                        "dataset_setup_failed",
+                        "Required sandbox role 'learner_rw' is missing; writable "
+                        "execution requires SANDBOX_MODE=ephemeral",
+                    )
                 with conn.transaction():
                     conn.execute(f"SET LOCAL statement_timeout = {self._timeout_ms}")
                     conn.execute(pgsql.SQL("CREATE SCHEMA {} AUTHORIZATION dbcas_dataset_setup").format(pgsql.Identifier(schema)))
