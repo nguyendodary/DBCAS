@@ -25,6 +25,8 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - Submission package: `Architecture.docx` (77 pages), `Database.docx` (70), `Proposal.docx` (60), `SRS.docx` (7); fact audit 94/94; style/cover audit unchanged.
 - Branch integration (2026-11-24, owner request): `feat/broker-runtime` merged as `23d4d65`; `demo/rehearsal` and `docs/submission-final` recorded as `aceb0d0` and `e541495`; `feat/demo-seed-snapshot` was already an ancestor of `develop2`. All four branches were deleted locally and on `origin`, and the broker worktree was removed.
 - Accepted freeze work T1–T8 (one commit each): `efb15e1` upload limit, `59a41df` i18n, `39f1d36` AI adaptive questions, `25ac1b3` AI candidates, `2b0641a` mixed AI types, `ac74ed1` mode UI, `3a16152` DML state grading, `974b92b` Free/Pro demo gating. T9 is documentation/freeze verification.
+- Post-freeze owner-approved fixes: `27c3e14` ephemeral exec + writable job, `3aec0b8` grade-visibility test, `ab06d14` final all-green suite. Model trials are recorded in `freeze-logs/model-trials.md` (uncommitted running log).
+- Owner-approved configuration change (2026-11-24): one generic `openai_compatible` LLM provider configured only by `LLM_API_KEY`/`LLM_BASE_URL`/`LLM_MODEL`; all `OPENROUTER_*` settings and OpenRouter-only guards/parameters removed, replaced by generic HTTPS + explicit-model release checks. `npm run llm:check` added. Details in `freeze-logs/llm-provider-notes.md`, `freeze-logs/llm-check-results.md` and section 7.2 of [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md).
 
 ## In progress and next
 

@@ -15,6 +15,6 @@ At line:1 char:1
 
  Test Files  54 passed (54)
       Tests  463 passed (463)
-   Start at  13:32:30
-   Duration  149.61s (transform 3.38s, setup 30.13s, import 21.42s, tests 95.96s, environment 131.51s)
+   Start at  20:35:06
+   Duration  108.07s (transform 2.33s, setup 20.40s, import 13.83s, tests 74.71s, environment 93.03s)
 

@@ -110,21 +110,23 @@ each result below refers to a file there.
 | Gate | Command | Result | Log |
 |---|---|---|---|
 | Backend lint | `python -m ruff check app tests manage.py` | All checks passed! | [`backend-lint.log`](agent/freeze-logs/backend-lint.log) |
-| Backend full test | `python -m pytest -q` (from `backend/`) | 1945 passed, 7 skipped (final run after the two post-freeze bug fixes; the earlier run that exposed the 5 failures is kept for evidence) | [`backend-pytest-final.log`](agent/freeze-logs/backend-pytest-final.log), [`backend-pytest-full.log`](agent/freeze-logs/backend-pytest-full.log), [`pytest-environment-limitation.log`](agent/freeze-logs/pytest-environment-limitation.log) |
+| Backend full test | `python -m pytest -q` (from `backend/`) | 1928 passed, 7 skipped (final run after the generic-provider config change; earlier runs kept for evidence) | [`backend-pytest-final.log`](agent/freeze-logs/backend-pytest-final.log), [`backend-pytest-full.log`](agent/freeze-logs/backend-pytest-full.log), [`pytest-environment-limitation.log`](agent/freeze-logs/pytest-environment-limitation.log) |
 | Frontend lint | `npm --prefix frontend run lint` | PASS (ESLint, `--max-warnings=0`) | [`frontend-lint.log`](agent/freeze-logs/frontend-lint.log) |
 | Frontend unit | `npm --prefix frontend test -- --maxWorkers=2` | 54 files / 463 tests passed | [`frontend-test.log`](agent/freeze-logs/frontend-test.log) |
 | Docs gate | `python scripts/check_docs.py` | PASS — 48 assertions; 106 API paths / 118 operations; schema, migrations, Compose, OpenAPI and frontend routes match | [`docs-check.log`](agent/freeze-logs/docs-check.log) |
 | OpenAPI contract | `python scripts/export_openapi.py --check` | OpenAPI matches the runtime contract (106 paths) | [`openapi-check.log`](agent/freeze-logs/openapi-check.log) |
-| Env inventory | `python scripts/check_environment.py` | 112 backend and 3 frontend keys documented; no values loaded | [`env-check.log`](agent/freeze-logs/env-check.log) |
+| Env inventory | `python scripts/check_environment.py` | 104 backend and 3 frontend keys documented (8 `OPENROUTER_*` keys removed); no values loaded | [`env-check.log`](agent/freeze-logs/env-check.log) |
 | Launcher/manual smoke | `npm start` + browser flow | PASS — login, Pro demo, Mode 2 with MCQ/SQL/essay, submit, provisional evaluation page, admin login and empty candidate queue; AI provider rate-limited so bank fallback served every question | [`manual-flow.log`](agent/freeze-logs/manual-flow.log) |
 | Fallback check | clear LLM keys, repeat Mode 2 | PASS — session 8 served a reviewed bank question with no error | [`fallback-check.log`](agent/freeze-logs/fallback-check.log) |
+| LLM provider check | `npm run llm:check` | PASS with the current Mistral-compatible configuration; unknown provider value reported as `openai_compatible`; fake local provider PASS; wrong base URL fails clearly | [`llm-check-results.md`](agent/freeze-logs/llm-check-results.md) |
 
 The original full backend run exposed one T9 regression (the shared validator
 test used a read-only runner for the new DML fixtures); it was fixed and the
 affected suites rerun green (44 passed). Four further failures were traced to
 two independent defects and fixed after the freeze as owner-approved bug fixes,
-each with its own commit (see 7.1). The final full run is completely green:
-1945 passed, 7 skipped. No gate was weakened. The manual flow also showed the
+each with its own commit (see 7.1). After the owner-approved LLM provider
+configuration change (7.2) the final full run is completely green:
+1928 passed, 7 skipped. No gate was weakened. The manual flow also showed the
 configured OpenRouter free model returning HTTP 429 to structured prompts;
 Mode 2 silently used the reviewed bank as designed, so the admin candidate queue
 was empty and the approve path remains covered by the T4 test suite.
@@ -147,6 +149,39 @@ was empty and the approve path remains covered by the T4 test suite.
   answer keys showed ability 1→2 (correct), 2→1 (wrong), 1→2 (correct) and
   persisted scores `[1.00, 0.00, 1.00]`; a regression test documents it. No
   production change was needed.
+
+### 7.2 Owner-approved LLM provider configuration change (2026-11-24)
+
+Scope: `backend/app/config.py`, `backend/app/services/llm/*`, `.env.example`,
+Compose env examples, `scripts/llm-check.mjs`, `package.json` and related tests.
+No generation logic, validator, grading, migration, UI or architecture change.
+
+- One generic `openai_compatible` provider now speaks
+  `POST {LLM_BASE_URL}/chat/completions` with a Bearer key, using only
+  `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` (plus optional `LLM_TIMEOUT_SECONDS`).
+  `LLM_PROVIDER` is case-insensitive; unknown values (e.g. `Mistral`, `openai`,
+  `groq`) are accepted as `openai_compatible` with a clear warning, never a
+  silent AI shutdown. Missing key still disables AI gracefully with bank/template
+  fallback.
+- Optional request fields (`response_format`, `seed`, `max_tokens`,
+  `max_completion_tokens`, `reasoning_effort`) are dropped and retried **once**
+  with a warning when a provider answers 400/422; content validation
+  (`validate_generated`) is untouched.
+- **Removed, explicitly reported:** every `OPENROUTER_*` setting and all
+  OpenRouter-only wire parameters/headers (`provider` routing, `data_collection`,
+  `zdr`, `HTTP-Referer`, `X-Title`, `reasoning`, seeded endpoint allow-list).
+  Consequently the OpenRouter-specific production guards (official base URL,
+  concrete `openrouter/...` model, `deny` + ZDR, `deepinfra/turbo` allow-list)
+  no longer exist. A generic HTTPS base URL is still required in staging/production;
+  an explicit model is still required for `LLMService.is_configured()`, and a
+  missing URL or model leaves AI unconfigured with the existing bank/template
+  fallback (no startup failure). No other production security guard was removed.
+  Official Mistral API facts are recorded in
+  [`llm-provider-notes.md`](agent/freeze-logs/llm-provider-notes.md).
+- `npm run llm:check` reads `.env` (environment overrides are temporary only),
+  calls `GET /models` and one minimal JSON chat completion, prints provider,
+  base URL, model, HTTP status, timing and JSON validity, and never prints a key.
+  With a wrong model it lists available ids and does not change `LLM_MODEL`.
 
 ## 8. Architecture freeze conclusion
 

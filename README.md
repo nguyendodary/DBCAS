@@ -147,8 +147,16 @@ AI #1 chỉ chuyển dữ liệu bài đã kết thúc thành **một prompt**, 
 dùng template xác định. Evaluator nhận đúng prompt đã xây.
 AI #2 đánh giá JSON, đồng thời là provider cho sinh câu hỏi. Không key hoặc API
 lỗi thì dùng quy tắc/mẫu dự phòng, ghi rõ trên kết quả. Không cần key để chạy demo.
-Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng API tương thích
-Chat Completions. Không commit `.env`; giao diện chỉ hiển thị trạng thái cấu hình.
+Đặt `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL` trong `.env` để dùng **bất kỳ**
+provider tương thích Chat Completions (Mistral, OpenAI, OpenRouter, Gemini,
+Groq...). Chỉ cần đổi các biến này — không sửa code. `LLM_PROVIDER` không bắt
+buộc, không phân biệt hoa/thường; giá trị lạ được coi là `openai_compatible`
+và ghi log cảnh báo, không âm thầm tắt AI. Thiếu key thì AI tắt êm và dùng
+quy tắc/ngân hàng dự phòng. Tham số tùy chọn không được provider hỗ trợ
+(`response_format`, `seed`, ...) sẽ được thử lại một lần không có các tham số đó.
+Chạy `npm run llm:check` để kiểm tra base URL, model và một request JSON tối
+thiểu (không in key). Không commit `.env`; giao diện chỉ hiển thị trạng thái
+cấu hình.
 
 Nghiên cứu model local cho Prompt Builder đã dừng và không được triển khai;
 xem [pipeline và quyết định](docs/ai-pipeline.md).

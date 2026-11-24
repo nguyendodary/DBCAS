@@ -1,9 +1,9 @@
-﻿backend\.venv\Scripts\python.exe : JWT_SECRET is the development default ù set a real secret for any deployment 
-reachable by others.
-At line:1 char:230
+﻿backend\.venv\Scripts\python.exe : Unknown LLM_PROVIDER=Mistral; using openai_compatible
+At line:1 char:270
 + ... oding utf8; backend\.venv\Scripts\python.exe scripts\export_openapi.p ...
 +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (JWT_SECRET is t...able by others.:String) [], RemoteException
+    + CategoryInfo          : NotSpecified: (Unknown LLM_PRO...enai_compatible:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
+JWT_SECRET is the development default ù set a real secret for any deployment reachable by others.
 OpenAPI matches the runtime contract

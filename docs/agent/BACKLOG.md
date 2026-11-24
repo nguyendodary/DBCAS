@@ -12,6 +12,15 @@ Free/Pro UI gating. T9 records the freeze and verification in
 [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). No further feature is
 accepted after the freeze commit.
 
+## Owner-approved configuration change (2026-11-24)
+
+After the freeze, the owner approved a configuration-only change so any
+OpenAI-compatible LLM provider can be selected by editing `.env` alone. It
+removes `OPENROUTER_*` and vendor-only guards/parameters, keeps one `LLM_*`
+block, adds `npm run llm:check`, and retries optional request fields once
+without them on 400/422. No generation logic, validator, grading, migration or
+UI changed; see section 7.2 of [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md).
+
 ## Code freeze (2026-11-23)
 
 `develop2` `333e8c4518c217eae1d1aaf65813bdb84b4e050b` is frozen: no further feature, table, migration, route or flag work for the synthetic demo submission. Phase B fixes #96, #97, #98 and #101-#105 are merged; [#107](https://github.com/nguyendodary/DBCAS/pull/107) tooling, [#100](https://github.com/nguyendodary/DBCAS/pull/100) submission documents, [#108](https://github.com/nguyendodary/DBCAS/pull/108) status snapshot and [#109](https://github.com/nguyendodary/DBCAS/pull/109) test-only flake fix are merged. The earlier 3x on `14ffdead` failed attempt 3 in `test_capability_peer_identity_and_replay` (base64url padding-only forgery); #109 makes the forgery deterministic with no production change. New 3x on `333e8c45`: [run `45192055379`](https://github.com/nguyendodary/DBCAS/actions/runs/45192055379) attempts 1-3 green, backend 1914. This docs-only snapshot is the last change before the 2026-11-24, owner-requested branch-integration pass: `feat/broker-runtime` (#80) was merged with fixes behind default-OFF `SANDBOX_BROKER`; three superseded branches were merged for history only. No new feature, table, migration, route or flag work was added. Production remains **HOLD**.
