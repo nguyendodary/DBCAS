@@ -176,7 +176,7 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
     )
     expect((await api(page, '/sessions/statistics')).published_formal_sessions).toBe(0)
     await admin.goto(`/admin/grading/${sid}`)
-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+    await expect(approvalButton(admin)).toBeEnabled({
       timeout: 45000,
     })
     await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()
@@ -187,10 +187,10 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
     await form.getByLabel('Lý do điều chỉnh').fill('Đối chiếu theo rubric và kết quả sandbox.')
     await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
     await expect(admin.getByRole('heading', { name: 'Lịch sử điều chỉnh điểm' })).toBeVisible()
-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+    await expect(approvalButton(admin)).toBeEnabled({
       timeout: 45000,
     })
-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
+    await approvalButton(admin).click()
     await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
       timeout: 45000,
     })

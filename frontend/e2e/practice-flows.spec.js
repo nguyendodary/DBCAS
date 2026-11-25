@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { approvalButton, expectQuestionComments } from './locale-helpers.js'
 import {
   api,
   vi,
@@ -155,7 +156,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
     await learner.reload()
     await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
     await admin.goto(`/admin/grading/${sid}`)
-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+    await expect(approvalButton(admin)).toBeEnabled({
       timeout: 45000,
     })
     await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()
@@ -170,7 +171,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
     await form.getByLabel('Lý do điều chỉnh').fill('Điều chỉnh theo rubric sau khi kiểm tra SQL.')
     await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
     await expect(admin.getByRole('heading', { name: 'Lịch sử điều chỉnh điểm' })).toBeVisible()
-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+    await expect(approvalButton(admin)).toBeEnabled({
       timeout: 45000,
     })
     await expect(admin.getByRole('button', { name: new RegExp(`#${sid}\\b`) })).toContainText(
@@ -178,7 +179,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
     )
     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
+    await approvalButton(admin).click()
     await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
       timeout: 45000,
     })

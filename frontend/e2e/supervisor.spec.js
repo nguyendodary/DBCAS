@@ -6,6 +6,7 @@ import {
   api as practiceApi,
   approveWithApi,
 } from './practice-harness.js'
+import { approvalButton, expectQuestionComments } from './locale-helpers.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
@@ -193,17 +194,15 @@ test('supervisor journeys A–E: classification, personalization, both release p
               .finalized_assessments,
           ).toBe(0)
           await adminPage.goto(`/admin/grading/${sid}`)
-          await expect(adminPage.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+          await expect(approvalButton(adminPage, 'en')).toBeEnabled({
             timeout: 45000,
           })
-          await adminPage.getByRole('button', { name: 'Duyệt', exact: true }).click()
+          await approvalButton(adminPage, 'en').click()
           await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
             timeout: 45000,
           })
         }
-        await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-          timeout: 45000,
-        })
+        await expectQuestionComments(page, sid, { locale: 'vi' })
         const evidence = await practiceApi(page, `/sessions/${sid}/evidence`)
         expect(evidence.items).toHaveLength(3)
         expect(evidence.items.every((item) => item.score !== null)).toBe(true)

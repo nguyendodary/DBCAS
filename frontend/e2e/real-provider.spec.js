@@ -1,4 +1,5 @@
 // Separate opt-in acceptance. Never load credentials into browser storage or traces.
+import { approvalButton, expectQuestionComments } from './locale-helpers.js'
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import {
@@ -185,7 +186,7 @@ test('real provider: three attempts, automatic release, admin approval and overa
         expect(provisional).toHaveProperty('result')
         expect(await api(admin, '/admin/analytics/cohort')).toEqual(cohort)
         await admin.goto(`/admin/grading/${sid}`)
-        await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+        await expect(approvalButton(admin)).toBeEnabled({
           timeout: 90000,
         })
         await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()
@@ -196,10 +197,10 @@ test('real provider: three attempts, automatic release, admin approval and overa
           .getByLabel('Lý do điều chỉnh')
           .fill('Kiểm thử đối chiếu rubric và đồng bộ điểm đã duyệt.')
         await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
-        await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+        await expect(approvalButton(admin)).toBeEnabled({
           timeout: 90000,
         })
-        await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
+        await approvalButton(admin).click()
         await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
           timeout: 90000,
         })

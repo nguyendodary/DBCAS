@@ -1,4 +1,5 @@
 import { start as beginPractice, setFlow } from './practice-harness.js'
+import { approvalButton, expectQuestionComments } from './locale-helpers.js'
 import { test, expect } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 
@@ -162,7 +163,7 @@ test('local Admin and Learner complete grading, publication and competency with 
     await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
 
     await visit(admin, `/admin/grading/${sessionId}`, `/admin/grading-reviews/${sessionId}`)
-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+    await expect(approvalButton(admin)).toBeEnabled({
       timeout: 45000,
     })
     await admin.getByText(text.local.autoMcq, { exact: true }).click()
@@ -176,19 +177,17 @@ test('local Admin and Learner complete grading, publication and competency with 
         .getByLabel('Lý do điều chỉnh')
         .fill('Đã kiểm tra câu trả lời và rubric; công bố điểm chính thức.')
       await form.getByRole('button', { name: 'Lưu điểm điều chỉnh', exact: true }).click()
-      await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
+      await expect(approvalButton(admin)).toBeEnabled({
         timeout: 45000,
       })
     }
-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
+    await approvalButton(admin).click()
     await expect
       .poll(async () => (await api(admin, `/admin/grading-reviews/${sessionId}`)).release_status)
       .toBe('published')
     expect((await api(admin, `/admin/grading-reviews/${sessionId}`)).score_edits).toHaveLength(3)
     await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible()
-    await expect(
-      learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
-    ).toBeVisible()
+    await expectQuestionComments(learner, sessionId)
     const evidence = await api(learner, `/sessions/${sessionId}/evidence`)
     expect(evidence.items).toHaveLength(13)
     expect(evidence.items.every((item) => item.score != null)).toBe(true)
