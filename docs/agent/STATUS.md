@@ -1,13 +1,14 @@
 ﻿# Status snapshot
 
-Date: 2026-11-24. Overwrite this snapshot when state changes; do not treat it as CI evidence.
+Date: 2026-11-25. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Baseline: `develop2` architecture-freeze work through `974b92b` (T1–T8), after the earlier integration pass at `e541495`; final freeze commit and verified results are recorded in [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). **Architecture freeze: no new feature, table, migration, route or flag work after the accepted T1–T9 set** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
+Baseline: `develop2` architecture-freeze work through `974b92b` (T1–T8), after the earlier integration pass at `e541495`; final freeze commit and verified results are recorded in [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). **Architecture freeze: no new feature, table, migration, route or flag work after the accepted T1–T9 set** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. Handover docs and the local tag `arch-freeze-v1.2` were added on 2026-11-25; nothing was pushed. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 
 Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## Last done
 
+- Handover (2026-11-25): [release notes v1.1](../RELEASE_NOTES_v1.1.md), [submission summary](../submission-pack/SUMMARY.md), [demo checklist](../submission-pack/DEMO_CHECKLIST.md), README Windows Docker GID fallback, and [handover gates](freeze-logs/handover-gates.md); clean-clone `npm start` verified with fake keys; local tag `arch-freeze-v1.2` (not pushed). `main` unchanged.
 - [#96](https://github.com/nguyendodary/DBCAS/pull/96): freeze decisions and bloat register — merge `598e409c02a8630778ab3db5dd89430e6d50fee8`.
 - [#97](https://github.com/nguyendodary/DBCAS/pull/97): aligned demo runbook and README — merge `187c7e07f17363c02aa57b74c5580cdc796e6b07`.
 - [#98](https://github.com/nguyendodary/DBCAS/pull/98): pytest moved to development requirements — merge `e742f245d1468bfe88ed6740c58f212606074812`.
@@ -30,8 +31,8 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## In progress and next
 
-- Proposed annotated tag `v1.0-final` on the final freeze commit (not created).
-- Proposed `develop2 -> main` PR after this snapshot (not created). `main` stays unchanged.
+- Local freeze tags `arch-freeze-v1`, `arch-freeze-v1.1` and `arch-freeze-v1.2` exist; none is pushed. The annotated `v1.0-final` tag is still not created.
+- `develop2 -> main` PR remains owner-gated and not created; `main` stays unchanged.
 - Branch integration (2026-11-24, explicit owner request): `feat/broker-runtime` (#80) merged with fixes; the constrained runtime stays behind default-OFF `SANDBOX_BROKER`; the API keeps its existing Docker CLI/socket until a separately reviewed cutover, and B3 writable execution plus a standalone broker service remain future work. `demo/rehearsal` (#92), `feat/demo-seed-snapshot` (#89) and `docs/submission-final` (#99) were superseded by later `develop2` work (#90, #100, #111) and merged for history only.
 
 ## Blockers and risks
