@@ -1,6 +1,7 @@
 # Recovery progress
 
-Last updated: 2026-11-25. Project checkout: `develop2`.
+Last updated: 2026-11-26. Project checkout: `docs/quality-pass-20261125`
+(created from `develop2` at `66045b7` on 2026-11-25 23:59 ICT).
 
 | Phase | Status | Evidence or next action |
 |---|---|---|
@@ -13,6 +14,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | 6 | Complete | [final-gates-v2.md](final-gates-v2.md) records all local gates, QA-stack teardown and exact-commit CI run `45597486074` **success** (14/14 jobs). |
 | 7 | Gates verified; no merge | [phase7-branch-gates.md](phase7-branch-gates.md): `main` unchanged, no open PR, no branch protection/ruleset bypass. |
 | 8 | Document set complete; recovered push passed CI | SRS removed from the owner set (archived to `Documents/Archive/`), five `ver1.3` documents committed under `docs/submission/final`, FITAI layout measured from all 31 reference files, 149 XML assertions and 0 failures, clean-clone run passed. |
+| 9 | Takeover verified; interrupted quality pass preserved | The five `docs/submission/final` DOCX differ from `recovery/backups` (byte-identical to HEAD `66045b7`) and match `Archive/quality-pass-20261125-before/final` byte-for-byte; they were never committed. The quality pass fixed the condensed set but kept 20/22/40/12/13 pages. It did not perform the owner's baseline-replacement mission. Evidence below. |
 
 ## Phase 8 — owner document set (2026-11-25)
 
@@ -62,3 +64,23 @@ Never print secrets or commit `.env`; do not modify `docs/qa/**`, applied
 migrations, validators or scoring schema; do not add dependencies, relax or
 delete tests, force-push, rebase published history, or delete remote refs.
 No changes to `main` are authorized before the release gate.
+
+## Phase 9 — baseline replacement takeover (2026-11-26)
+
+State verified from files, not from the interrupted transcript.
+
+| Item | Observed |
+|---|---|
+| Git root | `C:\Users\kudot\Downloads\proposal test\DBCAS` (the parent workspace is not a Git repository) |
+| HEAD | `66045b7` — `docs(agent): close the interrupted submission CI record` |
+| Branch | `docs/quality-pass-20261125`, cut from `develop2` (`origin/develop2` = same SHA) |
+| Working tree | 19 modified tracked files and 6 untracked groups; the five `docs/submission/final` DOCX are the interrupted quality pass |
+| Backups | `docs/submission/recovery/backups/` = byte-identical to HEAD versions (SHA-256 prefix for Proposal `1A50115D…`, Architecture `8F72A278…`, Database `AA009B2F…`, Code Standards `B43CEABA…`, Technical Report `FAC7A8F0…`); `Archive/quality-pass-20261125-before/final/` = byte-identical to the current five (Proposal `540FF23F…`, Architecture `2FBFE66F…`, Database `E7AE9FD6…`, Code Standards `C3864B46…`, Technical Report `1DD64E51…`) |
+| `docs/submission/final` | **Not deleted.** Still the condensed regenerated set (20/22/40/12/13 pages), quality-pass revised. No `Archive/rejected-final-*` exists yet. |
+| Content-complete baseline | `Documents/Final-ver1.3/` — Proposal 61, Architecture 78, Database 72 pages; 21/58/72 DOCX tables; 5/21/15 images; author `Do, Nguyen Quoc`; all three carry the 67-table/561-column/122-FK/159-index/28-migration facts in text. |
+| Code Standards / Technical Report | No older DBCAS baseline exists in the repository, `Documents/`, or the recovery backups; only the current net-new 12/13-page files. The nearest FITAI reference is `FITAI - Documents/11. Code Standard/C1SE.56_CodeStandard_SHFA_ver2.0.docx`; no FITAI Technical Report template exists. |
+
+The interrupted session's quality pass is preserved in a commit before any
+replacement, so none of its factual corrections or QA evidence is lost. The
+owner mission then starts by archiving and replacing the condensed set with
+in-place revisions of the content-complete baseline.

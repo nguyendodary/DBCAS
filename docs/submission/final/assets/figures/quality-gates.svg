@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1060" viewBox="0 0 1800 1060" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="1800" height="1060" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">CI quality gates</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Fourteen jobs in the Local quality gate workflow at commit d6df804</text>
+<rect x="60" y="180" width="320" height="160" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="220" y="242" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#FFFFFF" text-anchor="middle" font-weight="bold">changes</text>
+<text x="220" y="282" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">classifies docs-only</text>
+<text x="220" y="312" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">docs/qa forces full run</text>
+<rect x="460" y="180" width="380" height="180" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="650" y="228" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="middle" font-weight="bold">secrets</text>
+<text x="650" y="272" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">secret-scan tests</text>
+<text x="650" y="302" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">tree + history scan</text>
+<rect x="460" y="420" width="380" height="240" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="650" y="468" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="middle" font-weight="bold">backend</text>
+<text x="650" y="512" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">ruff + compile</text>
+<text x="650" y="542" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">OpenAPI + bank</text>
+<text x="650" y="572" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">pytest + pip-audit</text>
+<text x="650" y="602" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">image build</text>
+<rect x="900" y="420" width="380" height="240" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1090" y="468" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="middle" font-weight="bold">frontend-static</text>
+<text x="1090" y="512" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">ESLint + Prettier</text>
+<text x="1090" y="542" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">vitest + build</text>
+<text x="1090" y="572" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">audit + inventory</text>
+<text x="1090" y="602" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">docs:check</text>
+<rect x="1340" y="420" width="380" height="180" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1530" y="468" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="middle" font-weight="bold">frontend-shard</text>
+<text x="1530" y="512" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">9 legs: e2e 1–3</text>
+<text x="1530" y="542" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">QA 1–3 · smoke 1–3</text>
+<rect x="1340" y="720" width="380" height="180" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1530" y="768" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="middle" font-weight="bold">frontend-local</text>
+<text x="1530" y="812" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">fan-in: all 9 shard</text>
+<text x="1530" y="842" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">reports must succeed</text>
+<line x1="380" y1="260" x2="450" y2="260" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="840" y1="260" x2="900" y2="260" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="840" y1="300" x2="840" y2="410" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1280" y1="480" x2="1330" y2="480" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1530" y1="620" x2="1530" y2="710" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="60" y="900" width="1680" height="110" rx="10" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="80" y="940" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="start">14 jobs: changes, secrets, backend, frontend-static, 9 frontend-shard legs, frontend-local fan-in. No coverage job, no type-check job.</text>
+<text x="80" y="974" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">Source: .github/workflows/dn-backend.yml; docs/agent/freeze-logs/final-ci-conclusion.log (run 45597486074, commit d6df804, 14/14 success).</text>
+</svg>

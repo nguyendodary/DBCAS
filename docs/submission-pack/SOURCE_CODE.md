@@ -58,14 +58,16 @@ and start again.
 
 ```text
 backend/                 FastAPI application
-  app/routers/           8 router modules, 106 paths / 118 operations
-  app/services/          73 service modules (use cases, transactions)
+  app/routers/           7 registered router modules (8 .py files including __init__.py),
+                         106 paths / 118 operations
+  app/services/          72 top-level service modules (83 including broker/ and llm/)
   app/repositories.py    13 repository classes (queries, locks)
   app/models.py          SQLAlchemy models, 67 tables
   tests/                 94 pytest modules + tests/dn/ (24 contract modules)
 frontend/                React 19 + Vite single-page application
   src/                   pages, components, hooks, i18n, 54 vitest files
-  e2e/                   25 Playwright specs, sharded by configuration
+  e2e/                   28 browser specs (25 in e2e/ plus 3 in e2e-application/),
+                         sharded by configuration
 db/                      schema.sql, 28 forward migrations, seed packs
 scripts/                 gates, generators, document build and verification
 docs/                    architecture, diagrams, deliverables, submission
@@ -95,20 +97,21 @@ deploy/                  deployment assets
 | Gate | Result | Evidence |
 |---|---|---|
 | Backend lint (ruff) | PASS, exit 0 | `manage.py lint` |
-| Backend tests | **1 940 passed, 7 skipped**, exit 0 (24 min 22 s) | `pytest -q` log in the session record |
+| Backend tests | **1 940 passed, 7 skipped**, exit 0 (23 min 54 s) | `docs/agent/freeze-logs/backend-pytest-final.log:35` |
 | Frontend unit tests | 54 files / **463 tests**, exit 0 | `vitest run` |
 | Frontend lint and format | PASS, exit 0 | CI job `frontend-static` |
-| Browser suites | 11 localization + 72 end-to-end + 12 practice + 3 smoke + 54 QA = **152 passed, 4 skipped** | sharded runs in the freeze logs |
+| Browser suites | 11 localization + 72 end-to-end + 12 practice + 3 smoke + 54 QA = **152 passed** | six baseline shard logs in `docs/agent/freeze-logs/` |
 | API contract | 106 paths / 118 operations, check PASS | `export_openapi.py --check` |
 | Route inventory | PASS | `npm run inventory:check` |
-| Secret scan (tree) | **Whole tree, 0 findings** (3,129 files at the last run) | `npm run secrets:scan` |
+| Secret scan (tree) | **Whole tree, 0 findings** (3,083 files at the last saved run) | `docs/agent/freeze-logs/final-secrets-tree.log:5` |
 | Submission documents | 5 documents, **149 assertions, 0 failures** | `npm run docs:verify-word` |
 | Documentation gate | PASS, 48 assertions, 67 tables / 561 columns / 122 FKs / 159 indexes / 28 migrations | `npm run docs:check` |
-| Exact-commit CI | **14 of 14 jobs successful** | [Run 45597486074 at `d6df804`](https://github.com/nguyendodary/DBCAS/actions/runs/45597486074) |
+| Exact-commit CI | **14 of 14 jobs successful at the frozen commit `d6df804`** | [Run 45597486074](https://github.com/nguyendodary/DBCAS/actions/runs/45597486074); `docs/agent/freeze-logs/final-ci-conclusion.log` |
 
 Five jobs run once each. The frontend matrix runs three end-to-end shards,
 three QA shards and three smoke shards. The frontend-local job checks all
-nine shard reports.
+nine shard reports. `d6df804` is behind the current documentation-only HEAD;
+this result must not be read as a CI result for HEAD.
 
 ## 6. Hygiene
 

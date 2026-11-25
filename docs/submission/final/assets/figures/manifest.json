@@ -1,0 +1,81 @@
+{
+ "figures": [
+  {
+   "file": "system-context.svg",
+   "title": "System context",
+   "source": "docker-compose.local.yml; backend/app/routers/*; services/oauth.py; services/mail.py; docs/openapi.json",
+   "width": 1800,
+   "height": 1220
+  },
+  {
+   "file": "logical-architecture.svg",
+   "title": "Logical architecture",
+   "source": "backend/app/main.py; backend/Dockerfile; docker-compose.local.yml; docs/openapi.json",
+   "width": 1800,
+   "height": 1280
+  },
+  {
+   "file": "module-view.svg",
+   "title": "Module view",
+   "source": "backend/app/routers/*; backend/app/services/*; backend/app/repositories.py; docs/openapi.json",
+   "width": 3000,
+   "height": 1720
+  },
+  {
+   "file": "deployment-view.svg",
+   "title": "Deployment view",
+   "source": "docker-compose.local.yml; docker-compose.qa.yml; docker-compose.real-qa.yml; services/ephemeral_sandbox.py",
+   "width": 3000,
+   "height": 1720
+  },
+  {
+   "file": "ai-pipeline.svg",
+   "title": "AI generation, evaluation and fallback",
+   "source": "services/governed_generation.py; services/prompt_builder.py; services/llm/*; services/question_validator.py; services/evaluation_pipeline.py",
+   "width": 3000,
+   "height": 1560
+  },
+  {
+   "file": "assessment-lifecycle.svg",
+   "title": "Assessment lifecycle",
+   "source": "services/practice_service.py; services/adaptive_engine.py; services/assessment_lifecycle.py; services/competency_service.py",
+   "width": 1800,
+   "height": 1300
+  },
+  {
+   "file": "practice-start-sequence.svg",
+   "title": "Practice session start sequence",
+   "source": "routers/practice.py:96; services/practice_service.py:287; services/practice_selection.py:212",
+   "width": 3000,
+   "height": 1560
+  },
+  {
+   "file": "grading-review-sequence.svg",
+   "title": "Answer submission, grading and review sequence",
+   "source": "routers/sessions.py:159,262; services/assessment_lifecycle.py:submit; services/grading_service.py; services/review_flow.py",
+   "width": 3000,
+   "height": 1620
+  },
+  {
+   "file": "quality-gates.svg",
+   "title": "CI quality gates",
+   "source": ".github/workflows/dn-backend.yml; freeze-logs/final-ci-conclusion.log",
+   "width": 1800,
+   "height": 1060
+  },
+  {
+   "file": "gantt-roadmap.svg",
+   "title": "Agile delivery roadmap",
+   "source": "submission_content/proposal.py §11.2; docs/academic proposal calendar",
+   "width": 3000,
+   "height": 1560
+  },
+  {
+   "file": "schema-overview.svg",
+   "title": "Schema map",
+   "source": "docs/diagrams/schema-028/schema-introspection.json; db/schema.sql; db/migrations/*",
+   "width": 1800,
+   "height": 1160
+  }
+ ]
+}

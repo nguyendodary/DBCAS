@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1220" viewBox="0 0 1800 1220" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="1800" height="1220" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">DBCAS system context</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Two human actors, the system and the three external services it depends on</text>
+<circle cx="150" cy="324" r="20" fill="none" stroke="#083F75" stroke-width="3"/>
+<line x1="150" y1="344" x2="150" y2="404" stroke="#083F75" stroke-width="3"/>
+<line x1="116" y1="366" x2="184" y2="366" stroke="#083F75" stroke-width="3"/>
+<line x1="150" y1="404" x2="122" y2="448" stroke="#083F75" stroke-width="3"/>
+<line x1="150" y1="404" x2="178" y2="448" stroke="#083F75" stroke-width="3"/>
+<text x="150" y="486" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#083F75" text-anchor="middle" font-weight="bold">Learner</text>
+<circle cx="1650" cy="324" r="20" fill="none" stroke="#083F75" stroke-width="3"/>
+<line x1="1650" y1="344" x2="1650" y2="404" stroke="#083F75" stroke-width="3"/>
+<line x1="1616" y1="366" x2="1684" y2="366" stroke="#083F75" stroke-width="3"/>
+<line x1="1650" y1="404" x2="1622" y2="448" stroke="#083F75" stroke-width="3"/>
+<line x1="1650" y1="404" x2="1678" y2="448" stroke="#083F75" stroke-width="3"/>
+<text x="1650" y="486" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#083F75" text-anchor="middle" font-weight="bold">Administrator</text>
+<rect x="620" y="250" width="560" height="300" rx="18" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="900" y="350" font-family="Arial, Helvetica, sans-serif" font-size="60" fill="#FFFFFF" text-anchor="middle" font-weight="bold">DBCAS</text>
+<text x="900" y="402" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#FFFFFF" text-anchor="middle">FastAPI /api/v1 + React SPA</text>
+<text x="900" y="446" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#EAF4FB" text-anchor="middle">PostgreSQL 17 application database</text>
+<text x="900" y="492" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#EAF4FB" text-anchor="middle">106 paths · 118 operations</text>
+<rect x="120" y="860" width="460" height="170" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="3"/>
+<text x="350.0" y="920" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">LLM provider</text>
+<text x="350.0" y="962" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#52657A" text-anchor="middle">OpenAI-compatible chat completions</text>
+<text x="350.0" y="998" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">essay rubric · question generation</text>
+<rect x="670" y="860" width="460" height="170" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="3"/>
+<text x="900.0" y="920" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">OAuth providers</text>
+<text x="900.0" y="962" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#52657A" text-anchor="middle">Google and GitHub</text>
+<text x="900.0" y="998" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">authorisation-code sign-in</text>
+<rect x="1220" y="860" width="460" height="170" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="3"/>
+<text x="1450.0" y="920" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">SMTP service</text>
+<text x="1450.0" y="962" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#52657A" text-anchor="middle">Mailpit locally</text>
+<text x="1450.0" y="998" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">password-reset mail</text>
+<path d="M255 360 C330 360 360 390 600 400" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M600 460 C380 470 340 500 255 500" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="430" y="335" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#083F75" text-anchor="middle">practice, answers, results</text>
+<text x="430" y="535" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#083F75" text-anchor="middle">profile, guidance</text>
+<path d="M1545 360 C1470 360 1440 390 1200 400" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1200 460 C1420 470 1460 500 1545 500" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1370" y="335" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#083F75" text-anchor="middle">curriculum, bank, review</text>
+<text x="1370" y="535" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#083F75" text-anchor="middle">queue, audit, settings</text>
+<path d="M720 550 L720 700 L350 700 L350 850" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="380" y="725" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#083F75" text-anchor="start">HTTPS · structured JSON</text>
+<path d="M1080 550 L1080 700 L900 700 L900 850" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="940" y="725" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#083F75" text-anchor="start">OAuth 302 / callback</text>
+<path d="M1000 550 L1000 760 L1380 760 L1380 850" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1180" y="740" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#083F75" text-anchor="start">SMTP 1025</text>
+<rect x="120" y="1090" width="1560" height="86" rx="10" fill="#EAF4FB" stroke="#B8C4D0" stroke-width="2"/>
+<text x="150" y="1132" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Solid arrow: request or response path. Every element is named in the repository; the SMTP and OAuth paths are configuration-driven and disabled only when their keys are absent.</text>
+<text x="150" y="1164" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="start">Source: docker-compose.local.yml, backend/app/routers/*, backend/app/services/{oauth,mail}.py, docs/openapi.json</text>
+</svg>

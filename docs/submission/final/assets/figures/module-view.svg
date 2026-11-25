@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1720" viewBox="0 0 3000 1720" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="3000" height="1720" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">DBCAS module view</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Seven registered routers, seven service domains, one repository module and the data tier</text>
+<text x="60" y="170" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#083F75" text-anchor="start" font-weight="bold">HTTP routers · backend/app/routers</text>
+<rect x="60" y="210" width="520" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="320.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">auth.py</text>
+<text x="320.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">8 paths</text>
+<rect x="640" y="210" width="520" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="900.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">oauth.py</text>
+<text x="900.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">4 paths</text>
+<rect x="1220" y="210" width="520" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1480.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">admin.py</text>
+<text x="1480.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">58 paths</text>
+<rect x="1800" y="210" width="300" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1950.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">assessments.py</text>
+<text x="1950.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">2 paths</text>
+<rect x="2140" y="210" width="300" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2290.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">concepts.py</text>
+<text x="2290.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">1 path</text>
+<rect x="2480" y="210" width="520" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2740.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">sessions.py</text>
+<text x="2740.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">23 paths</text>
+<rect x="2100" y="210" width="700" height="150" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2450.0" y="276" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">practice.py</text>
+<text x="2450.0" y="320" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">7 paths</text>
+<text x="60" y="470" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="#083F75" text-anchor="start" font-weight="bold">Service layer · 72 top-level modules grouped by use case</text>
+<rect x="60" y="520" width="560" height="310" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="84" y="564" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Identity and access</text>
+<text x="84" y="608" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">auth_service</text>
+<text x="84" y="646" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">oauth</text>
+<text x="84" y="684" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">login_throttle</text>
+<text x="84" y="722" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">refresh_tokens</text>
+<text x="84" y="760" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">password_reset</text>
+<rect x="760" y="520" width="560" height="310" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="784" y="564" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Curriculum</text>
+<text x="784" y="608" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">curriculum_service</text>
+<text x="784" y="646" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">concept_graph_service</text>
+<text x="784" y="684" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">clo_tagging</text>
+<text x="784" y="722" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">document_service</text>
+<rect x="1460" y="520" width="560" height="310" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="1484" y="564" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Bank and generation</text>
+<text x="1484" y="608" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">question_service</text>
+<text x="1484" y="646" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">question_validator</text>
+<text x="1484" y="684" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">governed_generation</text>
+<text x="1484" y="722" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">practice_generation</text>
+<rect x="2160" y="520" width="560" height="310" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="2184" y="564" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Practice and assessment</text>
+<text x="2184" y="608" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">practice_service</text>
+<text x="2184" y="646" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">adaptive_engine</text>
+<text x="2184" y="684" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">assessment_lifecycle</text>
+<text x="2184" y="722" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">fixed_paper</text>
+<rect x="60" y="1000" width="1060" height="310" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="84" y="1044" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Grading and review</text>
+<text x="84" y="1088" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">grading_service</text>
+<text x="84" y="1126" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">evaluation_service</text>
+<text x="84" y="1164" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">essay_grading</text>
+<text x="84" y="1202" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">review_flow</text>
+<text x="84" y="1240" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">review_regrade</text>
+<rect x="1460" y="1000" width="1060" height="310" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="1484" y="1044" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Competency and analytics</text>
+<text x="1484" y="1088" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">competency_service</text>
+<text x="1484" y="1126" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">cumulative_competency</text>
+<text x="1484" y="1164" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">guidance_service</text>
+<text x="1484" y="1202" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">analytics_service</text>
+<rect x="2460" y="1000" width="480" height="210" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="2484" y="1044" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="start" font-weight="bold">Operations</text>
+<text x="2484" y="1088" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">system_settings</text>
+<text x="2484" y="1126" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">readiness_service</text>
+<text x="2484" y="1164" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">mail</text>
+<rect x="60" y="1410" width="900" height="220" rx="14" fill="#D6EAF8" stroke="#4472C4" stroke-width="3"/>
+<text x="90" y="1462" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#083F75" text-anchor="start" font-weight="bold">Persistence layer</text>
+<text x="90" y="1504" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">13 repository classes in backend/app/repositories.py</text>
+<text x="90" y="1544" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">queries, locks, leases, pagination; no HTTP errors</text>
+<rect x="1170" y="1410" width="700" height="220" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1520" y="1470" font-family="Arial, Helvetica, sans-serif" font-size="38" fill="#FFFFFF" text-anchor="middle" font-weight="bold">PostgreSQL 17</text>
+<text x="1520" y="1520" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">67 tables · 561 columns</text>
+<text x="1520" y="1560" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#EAF4FB" text-anchor="middle">122 FKs · 159 indexes</text>
+<rect x="2050" y="1410" width="890" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="2080" y="1462" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#083F75" text-anchor="start" font-weight="bold">Side systems</text>
+<text x="2080" y="1504" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#1F2937" text-anchor="start">LLM provider · SMTP · OAuth</text>
+<text x="2080" y="1544" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">ephemeral SQL sandbox · in-process worker</text>
+<line x1="350" y1="360" x2="350" y2="510" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1560" y1="360" x2="1560" y2="510" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="2620" y1="360" x2="2620" y2="510" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="500" y1="830" x2="500" y2="995" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1900" y1="830" x2="1900" y2="995" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="510" y1="1380" x2="510" y2="1405" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="960" y1="1520" x2="1165" y2="1520" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="980" y="1500" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start">SQLAlchemy</text>
+<line x1="1875" y1="1520" x2="2045" y2="1520" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1885" y="1500" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start">HTTPS / SMTP</text>
+<rect x="60" y="1640" width="2880" height="56" rx="10" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="1675" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Measured at 66045b7: 7 registered routers (8 .py files), 72 top-level service modules, 13 repository classes, 106 paths / 118 operations.</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1560" viewBox="0 0 3000 1560" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="3000" height="1560" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">Practice session start</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">POST /api/v1/practice/start — verified call order at 66045b7</text>
+<rect x="70" y="180" width="380" height="110" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="260" y="232" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Learner</text>
+<text x="260" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#EAF4FB" text-anchor="middle">actor / store</text>
+<line x1="260" y1="290" x2="260" y2="1340" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="570" y="180" width="380" height="110" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="760" y="232" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#FFFFFF" text-anchor="middle" font-weight="bold">React SPA</text>
+<text x="760" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#EAF4FB" text-anchor="middle">object</text>
+<line x1="760" y1="290" x2="760" y2="1340" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="1070" y="180" width="380" height="110" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1260" y="232" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#FFFFFF" text-anchor="middle" font-weight="bold">FastAPI router</text>
+<text x="1260" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#EAF4FB" text-anchor="middle">object</text>
+<line x1="1260" y1="290" x2="1260" y2="1340" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="1570" y="180" width="380" height="110" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1760" y="232" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#FFFFFF" text-anchor="middle" font-weight="bold">practice_service</text>
+<text x="1760" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#EAF4FB" text-anchor="middle">object</text>
+<line x1="1760" y1="290" x2="1760" y2="1340" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="2070" y="180" width="380" height="110" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2260" y="232" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#FFFFFF" text-anchor="middle" font-weight="bold">PostgreSQL</text>
+<text x="2260" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#EAF4FB" text-anchor="middle">actor / store</text>
+<line x1="2260" y1="290" x2="2260" y2="1340" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="2570" y="180" width="380" height="110" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2760" y="232" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Bank / LLM</text>
+<text x="2760" y="266" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#EAF4FB" text-anchor="middle">actor / store</text>
+<line x1="2760" y1="290" x2="2760" y2="1340" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<line x1="268" y1="370" x2="752" y2="370" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="510.0" y="358" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">1. select concepts, bands, count, source</text>
+<line x1="768" y1="488" x2="1252" y2="488" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1010.0" y="476" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">2. POST /api/v1/practice/start</text>
+<line x1="1268" y1="606" x2="1752" y2="606" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1510.0" y="594" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">3. practice_service.start(db, learner, payload)</text>
+<line x1="1768" y1="724" x2="2252" y2="724" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2010.0" y="712" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">4. advisory lock; live-session lookup</text>
+<line x1="1768" y1="842" x2="2752" y2="842" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2260.0" y="830" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">5. assemble plan: bank + validated AI</text>
+<line x1="1768" y1="960" x2="2252" y2="960" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2010.0" y="948" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">6. persist session + plan snapshot</text>
+<line x1="1252" y1="1078" x2="768" y2="1078" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1010.0" y="1066" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">7. 201 SessionState (first question)</text>
+<line x1="752" y1="1196" x2="268" y2="1196" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="510.0" y="1184" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="middle">8. render question 1</text>
+<rect x="60" y="1320" width="2880" height="84" rx="10" fill="#FBE5D6" stroke="#C55A11" stroke-width="2"/>
+<text x="80" y="1358" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#C55A11" text-anchor="start">Alternate: no eligible item → HTTP 422 insufficient_question_pool with shortage_by_type; no silent shortening.</text>
+<text x="80" y="1388" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#C55A11" text-anchor="start">The plan is committed before the first question is returned. A repeated request id returns the existing live session or 409 start_request_conflict.</text>
+</svg>

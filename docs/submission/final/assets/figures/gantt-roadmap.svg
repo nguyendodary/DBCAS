@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1560" viewBox="0 0 3000 1560" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="3000" height="1560" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">Agile delivery roadmap</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Five two-week sprints, four status reports and two faculty milestones (28/07/2026 – 26/12/2026)</text>
+<line x1="695.609756097561" y1="196" x2="695.609756097561" y2="1296" stroke="#E3E8EE" stroke-width="2"/>
+<text x="701.609756097561" y="184" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Aug</text>
+<line x1="1149.2682926829268" y1="196" x2="1149.2682926829268" y2="1296" stroke="#E3E8EE" stroke-width="2"/>
+<text x="1155.2682926829268" y="184" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Sep</text>
+<line x1="1588.2926829268292" y1="196" x2="1588.2926829268292" y2="1296" stroke="#E3E8EE" stroke-width="2"/>
+<text x="1594.2926829268292" y="184" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Oct</text>
+<line x1="2041.9512195121952" y1="196" x2="2041.9512195121952" y2="1296" stroke="#E3E8EE" stroke-width="2"/>
+<text x="2047.9512195121952" y="184" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Nov</text>
+<line x1="2480.9756097560976" y1="196" x2="2480.9756097560976" y2="1296" stroke="#E3E8EE" stroke-width="2"/>
+<text x="2486.9756097560976" y="184" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Dec</text>
+<rect x="40" y="192" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="230" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Preparation</text>
+<text x="60" y="260" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">team, repositories, research</text>
+<rect x="637.0731707317074" y="208" width="248.78048780487802" height="22" rx="8" fill="#EAF4FB" stroke="#083F75" stroke-width="2"/>
+<text x="60" y="312" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Advisor assignment</text>
+<text x="60" y="342" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">mentor and scope</text>
+<rect x="827.3170731707316" y="290" width="87.80487804878055" height="22" rx="8" fill="#EAF4FB" stroke="#083F75" stroke-width="2"/>
+<rect x="40" y="356" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="394" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Proposal drafting</text>
+<text x="60" y="424" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">title, problem, SMART, diagrams</text>
+<rect x="929.7560975609756" y="372" width="87.80487804878044" height="22" rx="8" fill="#EAF4FB" stroke="#083F75" stroke-width="2"/>
+<text x="60" y="476" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Proposal submission</text>
+<text x="60" y="506" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">v1.1 Word + PDF, review slides</text>
+<rect x="1032.1951219512193" y="454" width="175.6097560975611" height="22" rx="8" fill="#EAF4FB" stroke="#083F75" stroke-width="2"/>
+<rect x="40" y="520" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="558" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Sprint 1 · architecture and data</text>
+<text x="60" y="588" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">schema, concept model</text>
+<rect x="1339.5121951219512" y="536" width="190.2439024390244" height="22" rx="8" fill="#23A2D9" stroke="#083F75" stroke-width="2"/>
+<text x="60" y="640" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Sprint 2 · identity and MCQ</text>
+<text x="60" y="670" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">JWT, roles, MCQ, SQL editor</text>
+<rect x="1544.390243902439" y="618" width="190.24390243902462" height="22" rx="8" fill="#23A2D9" stroke="#083F75" stroke-width="2"/>
+<rect x="40" y="684" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="722" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Sprint 3 · sandbox and AI</text>
+<text x="60" y="752" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">sandbox, rubric, bank</text>
+<rect x="1749.2682926829268" y="700" width="190.2439024390244" height="22" rx="8" fill="#23A2D9" stroke="#083F75" stroke-width="2"/>
+<text x="60" y="804" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Midterm buffer</text>
+<text x="60" y="834" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">integration and rehearsal</text>
+<rect x="1954.1463414634145" y="782" width="73.17073170731715" height="22" rx="8" fill="#EAF4FB" stroke="#083F75" stroke-width="2"/>
+<rect x="40" y="848" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="886" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Midterm review</text>
+<text x="60" y="916" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">end-to-end demo</text>
+<rect x="2041.9512195121952" y="864" width="87.80487804878067" height="22" rx="8" fill="#D6EAF8" stroke="#083F75" stroke-width="2"/>
+<text x="60" y="968" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Sprint 4 · competency</text>
+<text x="60" y="998" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">scoring, radar, gaps</text>
+<rect x="2144.390243902439" y="946" width="204.87804878048746" height="22" rx="8" fill="#23A2D9" stroke="#083F75" stroke-width="2"/>
+<rect x="40" y="1012" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="1050" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Sprint 5 · plan and analytics</text>
+<text x="60" y="1080" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">plan assembly, cohort API</text>
+<rect x="2363.9024390243903" y="1028" width="190.24390243902417" height="22" rx="8" fill="#23A2D9" stroke="#083F75" stroke-width="2"/>
+<text x="60" y="1132" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Final delivery</text>
+<text x="60" y="1162" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">freeze, documents, video</text>
+<rect x="2612.682926829268" y="1110" width="43.90243902439033" height="22" rx="8" fill="#D6EAF8" stroke="#083F75" stroke-width="2"/>
+<rect x="40" y="1176" width="2920" height="74" rx="0" fill="#FAFCFE" stroke="#FFFFFF" stroke-width="0"/>
+<text x="60" y="1214" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start" font-weight="bold">Capstone defence</text>
+<text x="60" y="1244" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#52657A" text-anchor="start">rehearsal and committee</text>
+<rect x="2715.121951219512" y="1192" width="131.707317073171" height="22" rx="8" fill="#D6EAF8" stroke="#083F75" stroke-width="2"/>
+<polygon points="1617.560975609756,180 1630.560975609756,198 1617.560975609756,216 1604.560975609756,198" fill="#FFFFFF" stroke="#C55A11" stroke-width="2"/>
+<text x="1617.560975609756" y="172" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#C55A11" text-anchor="middle" font-weight="bold">SR1</text>
+<polygon points="1822.439024390244,180 1835.439024390244,198 1822.439024390244,216 1809.439024390244,198" fill="#FFFFFF" stroke="#C55A11" stroke-width="2"/>
+<text x="1822.439024390244" y="172" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#C55A11" text-anchor="middle" font-weight="bold">SR2</text>
+<polygon points="2320.0,180 2333.0,198 2320.0,216 2307.0,198" fill="#FFFFFF" stroke="#C55A11" stroke-width="2"/>
+<text x="2320.0" y="172" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#C55A11" text-anchor="middle" font-weight="bold">SR3</text>
+<polygon points="2539.512195121951,180 2552.512195121951,198 2539.512195121951,216 2526.512195121951,198" fill="#FFFFFF" stroke="#C55A11" stroke-width="2"/>
+<text x="2539.512195121951" y="172" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#C55A11" text-anchor="middle" font-weight="bold">SR4</text>
+<polygon points="2085.8536585365855,722 2123.8536585365855,760 2085.8536585365855,798 2047.8536585365855,760" fill="#FBE5D6" stroke="#C55A11" stroke-width="3"/>
+<text x="2085.8536585365855" y="770" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#C55A11" text-anchor="middle" font-weight="bold">MIDTERM REVIEW</text>
+<polygon points="2773.6585365853657,1242 2811.6585365853657,1280 2773.6585365853657,1318 2735.6585365853657,1280" fill="#FBE5D6" stroke="#C55A11" stroke-width="3"/>
+<text x="2773.6585365853657" y="1290" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#C55A11" text-anchor="middle" font-weight="bold">FINAL DEFENCE</text>
+<rect x="60" y="1400" width="2880" height="110" rx="10" fill="#FFFFFF" stroke="#B8C4D0" stroke-width="2"/>
+<rect x="90" y="1434" width="44" height="24" rx="8" fill="#23A2D9" stroke="#083F75" stroke-width="2"/>
+<text x="150" y="1454" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#1F2937" text-anchor="start">Sprint</text>
+<rect x="300" y="1434" width="44" height="24" rx="8" fill="#EAF4FB" stroke="#083F75" stroke-width="2"/>
+<text x="360" y="1454" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#1F2937" text-anchor="start">Preparation / delivery phase</text>
+<polygon points="720,1446 735,1434 750,1446 735,1458" fill="#FFFFFF" stroke="#C55A11" stroke-width="2"/>
+<text x="765" y="1454" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#1F2937" text-anchor="start">Status report (04/10, 18/10, 21/11, 06/12)</text>
+<polygon points="1350,1446 1370,1428 1390,1446 1370,1464" fill="#FBE5D6" stroke="#C55A11" stroke-width="2"/>
+<text x="1405" y="1454" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#1F2937" text-anchor="start">Faculty milestone</text>
+<text x="90" y="1494" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">Rows and dates are the table in Proposal §11.2. Status reports are team reports, not faculty gates; the two faculty milestones are the midterm review and the final defence.</text>
+</svg>

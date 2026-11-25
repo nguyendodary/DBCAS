@@ -32,15 +32,15 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
 | Gate | Kết quả |
 |---|---|
 | Backend lint (`ruff`) | PASS |
-| Backend test | **1940 passed, 7 skipped** (1462.64 s, đo lại 2026-11-25) |
+| Backend test | **1940 passed, 7 skipped** (1434.00 s = 23:54, `docs/agent/freeze-logs/backend-pytest-final.log:35`) |
 | Frontend lint (ESLint `--max-warnings=0`) | PASS |
 | Frontend unit test | **54 file / 463 test** PASS |
 | Docs gate | PASS — 48 assertion; 106 API path / 118 operation |
 | OpenAPI contract | Khớp runtime |
 | Environment inventory | 104 key backend + 3 key frontend |
 | Route inventory | PASS sau khi tái sinh `docs/inventory/api-routes.json` |
-| Secret scan (cây hiện tại) | **toàn bộ cây, 0 finding** (3129 file ở lần chạy cuối, 2026-11-25) |
-| Secret scan lịch sử (mẫu key thật) | 1042 commit, **0 commit khớp**; các fixture giả nằm trong allowlist hash-pinned |
+| Secret scan (cây hiện tại) | **toàn bộ cây, 0 finding** (3083 file ở lần chạy cuối lưu lại, `docs/agent/freeze-logs/final-secrets-tree.log:5`) |
+| Secret scan lịch sử (mẫu key thật) | **0 commit khớp** trong lần quét lưu lại; số commit chính xác không có log đối chiếu, nên không khẳng định con số; các fixture giả nằm trong allowlist hash-pinned |
 | Tài liệu nộp (`npm run docs:verify-word`) | **5 tài liệu, 149 assertion, 0 lỗi** |
 | `npm run llm:check` | PASS — provider `openai_compatible`, `GET /models` HTTP 200 (63 model), chat HTTP 200, JSON hợp lệ, không in key |
 | Clone sạch không có `.env` | Copy `.env.example` → `env:check` PASS chế độ AI-off → `npm start` PASS sau khi đặt `LOCAL_DOCKER_GID=988` qua WSL; `/readiness` báo `database: true`, `sandbox: true`; đăng nhập demo và Mailpit HTTP 200; stop + xoá container/volume sạch |

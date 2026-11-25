@@ -1,0 +1,226 @@
+DUY TAN UNIVERSITY
+International School
+Capstone Project 1
+CMU-SE 450_C1SE.70
+[DBCAS Cover Title] Code Standards Document
+Version 1.3
+Date: November 25th, 2026
+DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+[DBCAS Meta] Submitted by C1SE.70
+[DBCAS Cover Team] Thu, Nguyen Ngoc Anh - 29209245799
+[DBCAS Cover Team] Nguyen, Nguyen Nhat - 26211227029
+[DBCAS Cover Team] Truong, Nguyen Quang - 29212730635
+[DBCAS Cover Team] Do, Nguyen Quoc - 29211156881
+[DBCAS Cover Team] Han, Nguyen Ngoc - 29204423268
+[DBCAS Cover Signature] Review Panel Representative
+[DBCAS Cover Signature] Name                    Signature                    Date
+[DBCAS Cover Signature] Capstone Project 1 - Mentor: MSc Viet, Huynh Duc
+[DBCAS Cover Signature] Signature                                        Date
+[DBCAS Meta] PROJECT INFORMATION
+[DBCAS Meta] DOCUMENT INFORMATION
+[DBCAS Meta] DOCUMENT APPROVALS
+[DBCAS Note] Approval status: [OWNER TO PROVIDE: approval decisions and signature dates]. This document does not assert approval.
+[DBCAS Meta] REVISION HISTORY
+[DBCAS Meta] TABLE OF CONTENTS
+[toc 1] 1. Purpose and Scope	5
+[toc 1] 2. Repository Structure	5
+[toc 1] 3. Naming Conventions	5
+[toc 1] 4. Backend Layering	6
+[toc 1] 5. API Conventions	7
+[toc 1] 6. Error Handling	8
+[toc 1] 7. Frontend Conventions	8
+[toc 1] 8. Internationalization	9
+[toc 1] 9. Testing Standards	9
+[toc 1] 10. Lint and Format	10
+[toc 1] 11. Commit and Branch Conventions	10
+[toc 1] 12. Pull Requests and CI	10
+[toc 1] 13. Secret Handling	11
+[toc 1] 14. Review Checklist	12
+[toc 1] 15. Known Gaps	12
+[Heading 1] 1. Purpose and Scope
+This document records the coding standards that the DBCAS repository actually applies, and separates them from advice. A rule appears here only if a configuration file, a script, a hook or a CI job enforces it, or if the repository states it as review policy. Where the project does not enforce something that a standard document usually claims, this document says so.
+[DBCAS Caption] Table 1. Enforcement levels used in this document
+[Heading 1] 2. Repository Structure
+[DBCAS Code] DBCAS/
+[DBCAS Code] ├── backend/            FastAPI application, tests, manage.py, pyproject.toml
+[DBCAS Code] │   ├── app/            26 modules, routers/ (8 files), services/ (73 files)
+[DBCAS Code] │   └── tests/          94 test modules + tests/dn/ (24 contract modules)
+[DBCAS Code] ├── frontend/           React 19 + Vite SPA, vitest, Playwright configs
+[DBCAS Code] │   ├── src/            components, pages, hooks, i18n, test
+[DBCAS Code] │   └── e2e/            25 specs; e2e-application/ 3 specs
+[DBCAS Code] ├── db/                 schema.sql, migrations/ (28 files), seed data
+[DBCAS Code] ├── scripts/            gates, generators, document build and verification
+[DBCAS Code] ├── docs/               architecture, diagrams, deliverables, submission
+[DBCAS Code] └── deploy/, sandbox/   deployment and executor assets
+The layout is by technical role, not by feature. A feature touches a router, a service, a repository method, a React page and one or two i18n keys; the pull request template asks for all of them.
+[Heading 1] 3. Naming Conventions
+[DBCAS Caption] Table 2. Naming rules
+[Heading 1] 4. Backend Layering
+The backend separates HTTP contracts, use cases and queries. Routers declare paths, request models and dependencies; services own transactions and rules; repository classes own SQLAlchemy queries and locks. The dependency direction is one-way and is checked in review: no repository imports a service, no service imports a router.
+[DBCAS Caption] Table 3. Layer responsibilities
+One measured exception exists: six router handlers query the session directly (practice.py lines 148 and 167, sessions.py 167, admin.py 227 and two adjacent handlers). They are listed here as known debt, not as an accepted pattern, and a change touching them should move the query into a repository method.
+[Heading 1] 5. API Conventions
+[List Bullet] Versioning is a URL path segment: every business route is under /api/v1. Two infrastructure routes (/health and /readiness) are unversioned by design.
+[List Bullet] Resources are plural nouns; actions that are not CRUD use a verb segment (/sessions/{id}/submit, /admin/reviews/{id}/claim).
+[List Bullet] Request and response bodies are Pydantic models; a handler never returns a raw ORM object.
+[List Bullet] The OpenAPI document is generated from the application and checked into CI: python scripts/export_openapi.py --check fails when the committed contract differs from the code.
+[List Bullet] Machine-readable errors use the envelope {error: {code, message, details}} with a stable lower_snake_case code; the frontend translates by that code, so a code is part of the public contract.
+[List Bullet] List endpoints paginate with limit and offset and return the total when the UI needs it; a missing bound is a review finding.
+[List Bullet] Authentication is a bearer token resolved by a dependency; authorisation is a capability check in the same dependency chain, never an if-statement in a handler.
+[DBCAS Caption] Table 4. Status code usage
+[Heading 1] 6. Error Handling
+One application exception class, AppError, carries a status code, a machine-readable code, a human message and optional details. Seven handlers translate exceptions at the boundary: LLM errors, database programming and operational errors, the catch-all, AppError, HTTP exceptions and request-validation errors. The catch-all re-applies the security headers because it short-circuits the middleware, a detail that must be preserved in any refactor.
+[List Bullet] Raise AppError with a new code rather than returning an error body from a handler.
+[List Bullet] Never leak a driver message, a stack trace or a prompt to the client.
+[List Bullet] Log the code and the identifiers, never the answer text or the key.
+[List Bullet] A provider failure must degrade to a documented fallback; an unexpected validation failure must not fabricate a score.
+[Heading 1] 7. Frontend Conventions
+[List Bullet] Components are function components with hooks; no class components.
+[List Bullet] Data access goes through the single API client, which owns the base URL, the bearer token and error-code translation.
+[List Bullet] Route guards check the role at the route level; a page does not re-implement authorisation.
+[List Bullet] Every user-visible string is an i18n key; a literal string in JSX is a review finding.
+[List Bullet] Charts read prepared series from the API; no scoring is recomputed in the browser.
+[List Bullet] Styling uses Tailwind utility classes; shared visual tokens live in one place.
+[Heading 1] 8. Internationalization
+English and Vietnamese catalogues are flat JSON with the same key set: 1 700 leaf keys in 34 groups in each language, zero drift. Question text is translated separately in the database, with English as the canonical original and a source hash per translation. Error codes are also i18n keys, so a new backend code requires a matching entry in both catalogues.
+[Heading 1] 9. Testing Standards
+[DBCAS Caption] Table 5. Test layers
+[List Bullet] A bug fix adds a regression test that fails before the fix.
+[List Bullet] A test never calls a real provider: the QA profile serves deterministic fake JSON.
+[List Bullet] A test may not be skipped or weakened to make a gate pass; a skip must name the reason in the test.
+[List Bullet] There is no coverage threshold. Coverage is not measured anywhere in the repository, so no percentage is claimed in this document.
+[Heading 1] 10. Lint and Format
+[DBCAS Caption] Table 6. Configured tools
+Python formatting is not automated: there is no ruff format configuration and no formatter job. Python style is therefore a review standard. Line endings are normalised at the Git layer (.gitattributes) so the formatter sees the same text on Windows and Linux.
+[Heading 1] 11. Commit and Branch Conventions
+Commits follow Conventional Commits: <type>(<scope>): <description>, with ten accepted types (feat, fix, docs, style, refactor, test, chore, perf, ci, build), a lowercase imperative description of 50–72 characters without a trailing period, and an optional body of lines up to 72 characters. One commit does one thing. The integration branch is develop2; main receives merges by pull request only.
+Attribution is the one mechanically enforced part: the commit-msg hook rejects AI or tool credit trailers and bot co-authors. The message format itself is a review standard, not a hook or a CI gate; the repository has no commitlint job.
+[Heading 1] 12. Pull Requests and CI
+The pull request template requires a summary, a verification list (tests, lint and format, manual verification, STATUS and BACKLOG when state changed), a risk section naming affected users and data with a rollback path, migration and breaking-change flags, and an independent-review flag.
+[DBCAS Caption] Table 7. CI workflows and jobs
+There is no coverage job, no static-analysis security job beyond the dependency audits and the custom frontend audit, and no type-checking job.
+[Heading 1] 13. Secret Handling
+Secrets live in the environment only. .env is ignored and never committed; .env.example documents every variable name and is checked by the environment inventory gate. The scanner applies seven patterns to the working tree, to staged blobs in the pre-commit hook, and to archives up to 128 MiB; it reports paths, never values.
+[List Bullet] The allowlist has six entries, each pinned by path, rule, SHA-256 and a reason that must start with “Fake fixture:”; it cannot be widened to hide a real secret.
+[List Bullet] A finding is fixed at the source; deleting the line from history is an owner decision, not a routine fix.
+[List Bullet] The measured result at this commit is zero findings in the tree and zero matching commits in history.
+[Heading 1] 14. Review Checklist
+[DBCAS Caption] Table 8. Reviewer checklist
+[Heading 1] 15. Known Gaps
+[List Bullet] No coverage measurement or threshold exists.
+[List Bullet] No Python type checker or formatter is configured.
+[List Bullet] ruff checks only four correctness families and skips backend/tests outside tests/dn.
+[List Bullet] Six router handlers still access the database session directly.
+[List Bullet] Two foreign-key columns lack a dedicated index.
+[List Bullet] [OWNER TO PROVIDE: whether commitlint and a coverage gate should be added before the defence]
+
+===== TABLE 1 =====
+Project acronym | DBCAS | Project code | C1SE.70
+Project title | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis | Version | 1.3
+Start date | 14/09/2026 | End date | 26/12/2026
+Lead institution | International School, Duy Tan University | Project mentor | MSc Viet, Huynh Duc
+Document | Code Standards Document | File name | C1SE.70_CodeStandards_DBCAS_ver1.3.docx
+Group | C1SE.70 | Date | 25/11/2026
+
+===== TABLE 2 =====
+Document title | Code Standards Document | Version | ver1.3
+Author | Do, Nguyen Quoc | Role | Backend Developer
+Group | C1SE.70 | Project | DBCAS
+Date | 25/11/2026 | Status | Owner review
+File name | C1SE.70_CodeStandards_DBCAS_ver1.3.docx | Access | Project and CMU Program
+URL | [OWNER TO PROVIDE: public document URL] | Group | C1SE.70
+
+===== TABLE 3 =====
+Name | Student ID | Role | Signature / Date
+Thu, Nguyen Ngoc Anh | 29209245799 | Project Manager, Scrum Master, Frontend Developer | 
+Nguyen, Nguyen Nhat | 26211227029 | Backend Developer, QA Tester | 
+Truong, Nguyen Quang | 29212730635 | Database Developer | 
+Do, Nguyen Quoc | 29211156881 | Backend Developer | 
+Han, Nguyen Ngoc | 29204423268 | Frontend Developer, QA Tester | 
+MSc Viet, Huynh Duc |  | Project mentor | 
+
+===== TABLE 4 =====
+Version | Date | Description | Author
+1.0 | 18/09/2026 | Initial release | C1SE.70 Team
+1.1 | 30/10/2026 | Update | C1SE.70 Team
+1.2 | 08/11/2026 | Correct project facts and diagrams | C1SE.70 Team
+1.3 | 25/11/2026 | Align to the measured FITAI layout and re-verify every measured figure | Do, Nguyen Quoc
+
+===== TABLE 5 =====
+Level | Meaning | Example
+Enforced | A tool fails the build or the commit | ruff correctness rules, ESLint, Prettier, secret scan
+Gated | A CI job must pass before merge | pytest, vitest, Playwright shards, docs:check
+Review | A reviewer checks it; no tool fails | commit message format, naming, layering
+Absent | Not enforced anywhere in the repository | coverage threshold, mypy, ruff format
+
+===== TABLE 6 =====
+Element | Rule | Example
+Python modules | lower_snake_case | grading_review.py
+Python classes | PascalCase, suffix by role | AssessmentRepository, GradeReview
+Python functions | lower_snake_case, verb first | claim_grading_job, compare_state
+Constants | UPPER_SNAKE_CASE | REVIEW_STATUSES, CLAIM_LEASE_MINUTES
+React components | PascalCase file and export | CompetencyRadar.jsx
+React hooks | use prefix, camelCase | useSessionGuard
+Routes | kebab-case path segments | /admin/review-queue
+Database tables | lower_snake_case, singular | question_concept
+Database keys | <table>_id, foreign keys <table>_<col>_fkey | attempt_id, attempt_session_id_fkey
+i18n keys | camelCase groups, one flat leaf per string | errors.sandbox_busy
+Error codes | lower_snake_case string literal | sandbox_busy, review_window_closed
+Commits | Conventional Commits | fix(api): handle null response
+
+===== TABLE 7 =====
+Layer | Owns | Must not
+Router | Path, status code, request and response schema, dependency | Open a transaction or build a query
+Service | Use case, transaction boundary, error codes | Return an ORM object to the router without a schema
+Repository | Queries, locks, pagination | Raise HTTP errors or know about request data
+Model / schema | Table mapping, validation and serialisation | Contain business rules
+
+===== TABLE 8 =====
+Code | Used for
+200 | Successful read, replay of an idempotent request
+201 | Resource created
+204 | Successful delete without a body
+409 | State conflict: already submitted, claim expired, idempotency conflict
+422 | Validation failure or an invalid state transition
+403 | Authenticated but not permitted
+503 | Database unavailable, sandbox unavailable or provider unavailable
+
+===== TABLE 9 =====
+Layer | Tool | Location | Rule
+Backend unit and integration | pytest 9.1.1 | backend/tests (94 modules) | One behaviour per test; no network or provider call
+Backend contract | pytest | backend/tests/dn (24 modules) | Contract and migration behaviour, separately linted
+Frontend unit | vitest 4.1.12, Testing Library | frontend/src/test (54 files) | Component behaviour, not snapshots of markup
+Browser end-to-end | Playwright 1.64, chromium | frontend/e2e (25 specs) | Every spec belongs to exactly one shard
+Application flow | Playwright | frontend/e2e-application (3 specs) | Full journey across two roles
+Gate scripts | unittest and node --test | scripts/tests | The gates themselves are tested
+
+===== TABLE 10 =====
+Tool | Configuration | What it enforces
+ruff 0.14.2 | backend/pyproject.toml: target py313, line length 120, select E9, F63, F7, F82 | Correctness only: syntax errors, undefined names, invalid escapes. Not a style or import-order gate.
+ESLint 10.14.0 | frontend/eslint.config.js: js recommended, jsx, no-unused-vars with _ pattern | Errors and unused variables; run with --max-warnings=0
+Prettier 3.9.10 | frontend/.prettierrc.json: no semicolons, single quotes, trailing commas, width 100, LF | Formatting; format:check fails on any difference
+EditorConfig | .editorconfig: UTF-8, LF, final newline | Editor-level consistency
+
+===== TABLE 11 =====
+Workflow | Job | Gate
+Local quality gate | changes | Classifies a documentation-only change; docs/qa always forces a full run
+Local quality gate | secrets | Secret-scan unit tests and a full tree scan
+Local quality gate | backend | ruff, compile, OpenAPI check, bank validation, pytest, pip-audit, image build
+Local quality gate | frontend-static | ESLint, Prettier, vitest, build, security audit, npm audit, inventory, diagrams, docs:check
+Local quality gate | frontend-shard | Nine legs: e2e 1–3, QA 1–3, smoke 1–3
+Local quality gate | frontend-local | Fan-in: requires all nine shard artifacts to report success
+Demo seed benchmark | measure | Manual: seed and snapshot timing
+QA provider OOM repro | repro | Manual: provider memory reproduction
+
+===== TABLE 12 =====
+# | Check | Why
+1 | The change has one purpose and one commit | Revertability
+2 | Router, service and repository responsibilities are respected | Layering
+3 | New error codes are added to both i18n catalogues | User-visible message
+4 | New user-visible strings are i18n keys | Localization
+5 | A new query has an index or a bounded scan | Performance
+6 | A migration is a new file, forward-only, with a checksum | Applied history is immutable
+7 | A bug fix has a regression test | Prevention
+8 | No secret, no .env, no stray file | Hygiene
+9 | Docs, STATUS and BACKLOG updated when state changed | Traceability
+10 | The PR names a rollback path | Operability

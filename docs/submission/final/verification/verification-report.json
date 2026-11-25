@@ -113,12 +113,12 @@
     {
       "id": "proposal: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tPROJECT PROPOSAL"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
     },
     {
       "id": "proposal: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Project Proposal\tPage 1 of 1"
+      "detail": "C1SE.70 · DBCAS · Project Proposal\tPage 1"
     },
     {
       "id": "architecture: file opens",
@@ -178,12 +178,12 @@
     {
       "id": "architecture: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tARCHITECTURE DESIGN"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
     },
     {
       "id": "architecture: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Architecture Design Document\tPage 1 of 1"
+      "detail": "C1SE.70 · DBCAS · Architecture Design Document\tPage 1"
     },
     {
       "id": "database: file opens",
@@ -243,12 +243,12 @@
     {
       "id": "database: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tDATABASE DESIGN"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
     },
     {
       "id": "database: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Database Design Document\tPage 1 of 1"
+      "detail": "C1SE.70 · DBCAS · Database Design Document\tPage 1"
     },
     {
       "id": "codestandards: file opens",
@@ -308,12 +308,12 @@
     {
       "id": "codestandards: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tCODE STANDARDS"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
     },
     {
       "id": "codestandards: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Code Standards Document\tPage 1 of 1"
+      "detail": "C1SE.70 · DBCAS · Code Standards Document\tPage 1"
     },
     {
       "id": "technicalreport: file opens",
@@ -373,12 +373,12 @@
     {
       "id": "technicalreport: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tTECHNICAL REPORT"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
     },
     {
       "id": "technicalreport: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Technical Report\tPage 1 of 1"
+      "detail": "C1SE.70 · DBCAS · Technical Report\tPage 1"
     },
     {
       "id": "final directory holds only the five documents",
@@ -749,7 +749,7 @@
   "exceptions": [
     {
       "document": "proposal",
-      "context_size": "DBCAS Caption:9.0",
+      "context_size": "DBCAS Caption:13.0",
       "runs": 18
     },
     {
@@ -764,7 +764,7 @@
     },
     {
       "document": "proposal",
-      "context_size": "DBCAS Cover Title:26.0",
+      "context_size": "DBCAS Cover Title:16.0",
       "runs": 1
     },
     {
@@ -779,12 +779,12 @@
     },
     {
       "document": "proposal",
-      "context_size": "Heading 1:18.0",
+      "context_size": "Heading 1:13.0",
       "runs": 15
     },
     {
       "document": "proposal",
-      "context_size": "Heading 2:14.0",
+      "context_size": "Heading 2:13.0",
       "runs": 8
     },
     {
@@ -794,8 +794,8 @@
     },
     {
       "document": "architecture",
-      "context_size": "DBCAS Caption:9.0",
-      "runs": 15
+      "context_size": "DBCAS Caption:13.0",
+      "runs": 16
     },
     {
       "document": "architecture",
@@ -814,7 +814,7 @@
     },
     {
       "document": "architecture",
-      "context_size": "DBCAS Cover Title:26.0",
+      "context_size": "DBCAS Cover Title:16.0",
       "runs": 1
     },
     {
@@ -829,38 +829,28 @@
     },
     {
       "document": "architecture",
-      "context_size": "Heading 1:18.0",
+      "context_size": "Heading 1:13.0",
       "runs": 14
     },
     {
       "document": "architecture",
-      "context_size": "Heading 2:14.0",
+      "context_size": "Heading 2:13.0",
       "runs": 25
     },
     {
       "document": "architecture",
       "context_size": "table:13.0",
-      "runs": 28
-    },
-    {
-      "document": "architecture",
-      "context_size": "table:14.0",
-      "runs": 5
-    },
-    {
-      "document": "architecture",
-      "context_size": "table:9.0",
-      "runs": 4
+      "runs": 33
     },
     {
       "document": "database",
-      "context_size": "DBCAS Caption:9.0",
-      "runs": 6
+      "context_size": "DBCAS Caption:13.0",
+      "runs": 5
     },
     {
       "document": "database",
       "context_size": "DBCAS Cover Signature:11.0",
-      "runs": 3
+      "runs": 1
     },
     {
       "document": "database",
@@ -869,33 +859,28 @@
     },
     {
       "document": "database",
-      "context_size": "DBCAS Cover Title:26.0",
-      "runs": 1
-    },
-    {
-      "document": "database",
       "context_size": "DBCAS Meta:12.0",
       "runs": 3
     },
     {
       "document": "database",
-      "context_size": "DBCAS Note:13.0",
-      "runs": 1
+      "context_size": "Heading 1:13.0",
+      "runs": 6
     },
     {
       "document": "database",
-      "context_size": "Heading 1:18.0",
-      "runs": 5
+      "context_size": "Heading 2:13.0",
+      "runs": 2
     },
     {
       "document": "database",
       "context_size": "Heading 3:13.0",
-      "runs": 32
+      "runs": 23
     },
     {
       "document": "database",
       "context_size": "table:11.0",
-      "runs": 4
+      "runs": 6
     },
     {
       "document": "database",
@@ -905,27 +890,17 @@
     {
       "document": "database",
       "context_size": "table:13.0",
-      "runs": 57
+      "runs": 79
     },
     {
       "document": "database",
-      "context_size": "table:14.0",
-      "runs": 5
-    },
-    {
-      "document": "database",
-      "context_size": "table:18.0",
-      "runs": 5
-    },
-    {
-      "document": "database",
-      "context_size": "table:9.0",
-      "runs": 5
+      "context_size": "table:16.0",
+      "runs": 1
     },
     {
       "document": "codestandards",
-      "context_size": "DBCAS Caption:9.0",
-      "runs": 6
+      "context_size": "DBCAS Caption:13.0",
+      "runs": 8
     },
     {
       "document": "codestandards",
@@ -944,7 +919,7 @@
     },
     {
       "document": "codestandards",
-      "context_size": "DBCAS Cover Title:26.0",
+      "context_size": "DBCAS Cover Title:16.0",
       "runs": 1
     },
     {
@@ -959,8 +934,8 @@
     },
     {
       "document": "codestandards",
-      "context_size": "Heading 1:18.0",
-      "runs": 12
+      "context_size": "Heading 1:13.0",
+      "runs": 11
     },
     {
       "document": "codestandards",
@@ -968,18 +943,8 @@
       "runs": 9
     },
     {
-      "document": "codestandards",
-      "context_size": "table:18.0",
-      "runs": 3
-    },
-    {
-      "document": "codestandards",
-      "context_size": "table:9.0",
-      "runs": 2
-    },
-    {
       "document": "technicalreport",
-      "context_size": "DBCAS Caption:9.0",
+      "context_size": "DBCAS Caption:13.0",
       "runs": 2
     },
     {
@@ -994,7 +959,7 @@
     },
     {
       "document": "technicalreport",
-      "context_size": "DBCAS Cover Title:26.0",
+      "context_size": "DBCAS Cover Title:16.0",
       "runs": 1
     },
     {
@@ -1009,12 +974,12 @@
     },
     {
       "document": "technicalreport",
-      "context_size": "Heading 1:18.0",
+      "context_size": "Heading 1:13.0",
       "runs": 9
     },
     {
       "document": "technicalreport",
-      "context_size": "Heading 2:14.0",
+      "context_size": "Heading 2:13.0",
       "runs": 9
     },
     {
@@ -1087,7 +1052,7 @@
     "pages": {
       "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 20,
       "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 22,
-      "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 39,
+      "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 40,
       "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 12,
       "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 13
     },

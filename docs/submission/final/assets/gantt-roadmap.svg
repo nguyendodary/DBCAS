@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1560" viewBox="0 0 2400 1560">
+<rect width="2400" height="1560" fill="#FFFFFF"/>
+<text x="1200.0" y="84" font-family="Arial,Helvetica,sans-serif" font-size="54" fill="#000000" text-anchor="middle" font-weight="bold">Agile Scrum Sprint Roadmap &amp; Official Faculty Milestones</text>
+<text x="1200.0" y="150" font-family="Arial,Helvetica,sans-serif" font-size="32" fill="#44546A" text-anchor="middle"  font-style="italic">Iterative development lifecycle, engineering tracks and quality gates (14/09 – 26/12/2026)</text>
+<rect x="430" y="246" width="380" height="86" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="620.0" y="286" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">Sprint 1</text><text x="620.0" y="324" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">14/09 – 27/09</text>
+<rect x="810" y="246" width="380" height="86" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="286" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">Sprint 2</text><text x="1000.0" y="324" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">28/09 – 11/10</text>
+<rect x="1190" y="246" width="380" height="86" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="286" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">Sprint 3</text><text x="1380.0" y="324" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">12/10 – 25/10</text>
+<rect x="1570" y="246" width="380" height="86" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1760.0" y="286" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">Sprint 4</text><text x="1760.0" y="324" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">08/11 – 22/11</text>
+<rect x="1950" y="246" width="380" height="86" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="2140.0" y="286" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">Sprint 5</text><text x="2140.0" y="324" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#1F3863" text-anchor="middle" font-weight="bold">23/11 – 06/12</text>
+<rect x="10" y="246" width="410" height="86" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="20" y="286" font-family="Arial,Helvetica,sans-serif" font-size="26" fill="#1F3863" text-anchor="start" font-weight="bold">ENGINEERING TRACKS</text><text x="20" y="320" font-family="Arial,Helvetica,sans-serif" font-size="26" fill="#1F3863" text-anchor="start" font-weight="bold">&amp; Agile workstreams</text>
+<rect x="10" y="336" width="410" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<text x="24" y="411.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">1. REQUIREMENTS</text><text x="24" y="449.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">&amp; CONCEPT MODEL</text>
+<rect x="430" y="336" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="810" y="336" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1190" y="336" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1570" y="336" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1950" y="336" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="442" y="352" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="620.0" y="433.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Database syllabus &amp;</text><text x="620.0" y="468.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">research</text>
+<rect x="442" y="352" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="620.0" y="433.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">PostgreSQL concept</text><text x="620.0" y="468.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">model</text>
+<rect x="822" y="352" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="433.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Rubrics &amp; question</text><text x="1000.0" y="468.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">modeling</text>
+<rect x="10" y="514" width="410" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<text x="24" y="589.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">2. FRONTEND WEB</text><text x="24" y="627.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">APPLICATION (REACT)</text>
+<rect x="430" y="514" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="810" y="514" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1190" y="514" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1570" y="514" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1950" y="514" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="442" y="530" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="620.0" y="611.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">UI wireframes &amp;</text><text x="620.0" y="646.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">components</text>
+<rect x="822" y="530" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="611.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Learner portal &amp;</text><text x="1000.0" y="646.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">auth UI</text>
+<rect x="822" y="530" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="611.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">SQL editor &amp;</text><text x="1000.0" y="646.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">schema browser</text>
+<rect x="1202" y="530" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="611.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Short essay</text><text x="1380.0" y="646.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">submission UI</text>
+<rect x="1582" y="530" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1760.0" y="611.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Competency radar</text><text x="1760.0" y="646.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">chart UI</text>
+<rect x="1962" y="530" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="2140.0" y="611.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Competency gap &amp;</text><text x="2140.0" y="646.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">review UI</text>
+<rect x="10" y="692" width="410" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<text x="24" y="767.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">3. BACKEND API &amp;</text><text x="24" y="805.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">DATABASE (FASTAPI)</text>
+<rect x="430" y="692" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="810" y="692" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1190" y="692" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1570" y="692" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1950" y="692" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="442" y="708" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="620.0" y="789.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">FastAPI setup &amp;</text><text x="620.0" y="824.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">database schema</text>
+<rect x="822" y="708" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="789.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">JWT auth &amp;</text><text x="1000.0" y="824.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">role permissions</text>
+<rect x="822" y="708" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="789.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">MCQ automated</text><text x="1000.0" y="824.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">scoring API</text>
+<rect x="1202" y="708" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="789.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Question bank &amp;</text><text x="1380.0" y="824.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">plan assembly</text>
+<rect x="1582" y="708" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1760.0" y="789.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Competency</text><text x="1760.0" y="824.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">scoring engine</text>
+<rect x="1962" y="708" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="2140.0" y="789.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Administrator</text><text x="2140.0" y="824.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">analytics API</text>
+<rect x="10" y="870" width="410" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<text x="24" y="945.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">4. DOCKER SQL</text><text x="24" y="983.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">SANDBOX &amp; EXECUTION</text>
+<rect x="430" y="870" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="810" y="870" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1190" y="870" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1570" y="870" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1950" y="870" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="822" y="886" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="967.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Docker container</text><text x="1000.0" y="1002.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">setup</text>
+<rect x="1202" y="886" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="967.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">SQL syntax &amp;</text><text x="1380.0" y="1002.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">safety validation</text>
+<rect x="1202" y="886" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="967.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Sandbox resource</text><text x="1380.0" y="1002.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">limits</text>
+<rect x="1582" y="886" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1760.0" y="967.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">SQL result set</text><text x="1760.0" y="1002.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">evaluation</text>
+<rect x="10" y="1048" width="410" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<text x="24" y="1123.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">5. AI EVALUATION</text><text x="24" y="1161.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">&amp; LLM INTEGRATION</text>
+<rect x="430" y="1048" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="810" y="1048" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1190" y="1048" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1570" y="1048" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1950" y="1048" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="822" y="1064" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="1145.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Essay grading</text><text x="1000.0" y="1180.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">rubric design</text>
+<rect x="1202" y="1064" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="1145.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Prompt assembly</text><text x="1380.0" y="1180.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">&amp; calibration</text>
+<rect x="1202" y="1064" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="1145.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">LLM evaluation</text><text x="1380.0" y="1180.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">service integration</text>
+<rect x="1582" y="1064" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1760.0" y="1145.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Competency gap</text><text x="1760.0" y="1180.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">detection logic</text>
+<rect x="1962" y="1064" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="2140.0" y="1145.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Personalized study</text><text x="2140.0" y="1180.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">guidance</text>
+<rect x="10" y="1226" width="410" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<text x="24" y="1301.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">6. TESTING &amp;</text><text x="24" y="1339.0" font-family="Arial,Helvetica,sans-serif" font-size="30" fill="#000000" text-anchor="start" font-weight="bold">REPORTS</text>
+<rect x="430" y="1226" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="810" y="1226" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1190" y="1226" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1570" y="1226" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="1950" y="1226" width="380" height="178" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="442" y="1242" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="620.0" y="1323.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Git repo &amp; Docker</text><text x="620.0" y="1358.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">setup</text>
+<rect x="822" y="1242" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1000.0" y="1323.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Unit testing &amp;</text><text x="1000.0" y="1358.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">report 1</text>
+<rect x="1202" y="1242" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1380.0" y="1323.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Integration &amp;</text><text x="1380.0" y="1358.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">report 2</text>
+<rect x="1582" y="1242" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="1760.0" y="1323.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">System test &amp;</text><text x="1760.0" y="1358.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">report 3</text>
+<rect x="1962" y="1242" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="2140.0" y="1323.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Optimization &amp;</text><text x="2140.0" y="1358.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">report 4</text>
+<rect x="1962" y="1242" width="356" height="146" rx="14" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="2140.0" y="1323.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">Final delivery</text><text x="2140.0" y="1358.0" font-family="Arial,Helvetica,sans-serif" font-size="27" fill="#111111" text-anchor="middle" font-weight="bold">10/12 – 13/12</text>
+<polygon points="1620.0,425.0 1760.0,369.0 1900.0,425.0 1760.0,481.0" fill="#FFFFFF" stroke="#ED7D31" stroke-width="3"/>
+<text x="1760.0" y="417.0" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#ED7D31" text-anchor="middle" font-weight="bold">MILESTONE 1</text>
+<text x="1760.0" y="453.0" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="#1F3863" text-anchor="middle" font-weight="bold">MIDTERM REVIEW</text>
+<polygon points="2000.0,959.0 2140.0,903.0 2280.0,959.0 2140.0,1015.0" fill="#FFFFFF" stroke="#ED7D31" stroke-width="3"/>
+<text x="2140.0" y="951.0" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#ED7D31" text-anchor="middle" font-weight="bold">MILESTONE 2</text>
+<text x="2140.0" y="987.0" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="#1F3863" text-anchor="middle" font-weight="bold">FINAL DEFENCE</text>
+<rect x="10" y="1428" width="2380" height="80" fill="#FFFFFF" stroke="#44546A" stroke-width="2"/>
+<rect x="80" y="1450" width="34" height="34" rx="8" fill="#D9E2F3" stroke="#4472C4" stroke-width="2"/>
+<text x="140" y="1476" font-family="Arial,Helvetica,sans-serif" font-size="28" fill="#000000" text-anchor="start" >Engineering workstream</text>
+<polygon points="620,1467 650,1448 680,1467 650,1486" fill="#FFFFFF" stroke="#ED7D31" stroke-width="2"/>
+<text x="710" y="1476" font-family="Arial,Helvetica,sans-serif" font-size="28" fill="#000000" text-anchor="start" >Official faculty milestone gate</text>
+</svg>

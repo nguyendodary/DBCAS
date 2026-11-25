@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1620" viewBox="0 0 3000 1620" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="3000" height="1620" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">Answer submission, grading and review</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">POST /api/v1/sessions/{id}/submit and the administrator review queue</text>
+<rect x="70" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="240" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Learner</text>
+<text x="240" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">actor</text>
+<line x1="240" y1="286" x2="240" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="530" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="700" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">React SPA</text>
+<text x="700" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">component / store</text>
+<line x1="700" y1="286" x2="700" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="990" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1160" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">sessions router</text>
+<text x="1160" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">component / store</text>
+<line x1="1160" y1="286" x2="1160" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="1450" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1620" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">assessment_lifecycle</text>
+<text x="1620" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">component / store</text>
+<line x1="1620" y1="286" x2="1620" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="1910" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2080" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Grader / sandbox</text>
+<text x="2080" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">component / store</text>
+<line x1="2080" y1="286" x2="2080" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="2370" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2540" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">PostgreSQL</text>
+<text x="2540" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">component / store</text>
+<line x1="2540" y1="286" x2="2540" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<rect x="2730" y="180" width="340" height="106" rx="12" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="2900" y="228" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Admin</text>
+<text x="2900" y="262" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#EAF4FB" text-anchor="middle">actor</text>
+<line x1="2900" y1="286" x2="2900" y2="1430" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="7 8"/>
+<line x1="248" y1="360" x2="692" y2="360" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="470.0" y="350" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">1. submit answer</text>
+<line x1="708" y1="456" x2="1152" y2="456" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="930.0" y="446" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">2. POST /sessions/{id}/submit</text>
+<line x1="1168" y1="552" x2="1612" y2="552" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1390.0" y="542" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">3. assessment_lifecycle.submit()</text>
+<line x1="1628" y1="648" x2="2532" y2="648" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2080.0" y="638" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">4. lock attempt; check answer hash</text>
+<line x1="1628" y1="744" x2="2072" y2="744" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1850.0" y="734" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">5. MCQ key / SQL sandbox / essay rubric</text>
+<line x1="2088" y1="840" x2="2532" y2="840" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2310.0" y="830" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">6. score + grading_detail</text>
+<line x1="1612" y1="936" x2="1168" y2="936" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1390.0" y="926" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">7. commit answer + next state</text>
+<line x1="1152" y1="1032" x2="708" y2="1032" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="930.0" y="1022" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">8. SubmissionResult</text>
+<line x1="692" y1="1128" x2="248" y2="1128" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="470.0" y="1118" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">9. next question or result</text>
+<line x1="248" y1="1224" x2="2892" y2="1224" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1570.0" y="1214" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">10. request review (≤ 7 days)</text>
+<line x1="2892" y1="1320" x2="2548" y2="1320" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2720.0" y="1310" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="middle">11. claim 30 min; reject or regrade</text>
+<rect x="60" y="1410" width="2880" height="100" rx="10" fill="#EAF4FB" stroke="#4472C4" stroke-width="2"/>
+<text x="80" y="1450" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">Provider or sandbox failure: the attempt is stored and a durable grading_job is queued (pending → processing → completed/failed, three attempts); nothing is fabricated.</text>
+<text x="80" y="1482" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">A repeated submit with the same hash returns the stored result; a changed answer is 409 already_submitted. A review deviation above 30% needs a second administrator.</text>
+</svg>

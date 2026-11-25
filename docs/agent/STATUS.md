@@ -17,7 +17,9 @@ no deletion was performed and item 1 awaits the owner's D1 decision.
 The [real UI review](freeze-logs/ui-review.md) is complete with two D4-gated
 copy findings and no product or image-snapshot change.
 [Word verification](freeze-logs/doc-verify.md) records the **five** `ver1.3`
-documents now committed under `docs/submission/final` (20/22/39/12/13 pages),
+documents now committed under `docs/submission/final` (20/22/40/12/13 pages
+after the 2026-11-25 quality recovery; see
+[recovery](../../docs/submission/recovery/recovery-report.md)),
 the 149-assertion XML gate, the clean-clone run and the removed SRS: one
 generator (`npm run docs:build`), one Word finaliser (`docs:finalize`), one
 verifier (`docs:verify-word`). The SRS was archived outside the repository and

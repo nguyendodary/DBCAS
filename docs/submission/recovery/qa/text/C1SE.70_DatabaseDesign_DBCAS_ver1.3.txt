@@ -1,0 +1,1108 @@
+DUY TAN UNIVERSITY
+International School
+Capstone Project 1
+CMU-SE 450_C1SE.70
+[DBCAS Cover Title] Database Design Document
+Version 1.3
+Date: November 25th, 2026
+DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis
+[DBCAS Meta] Submitted by C1SE.70
+[DBCAS Cover Team] Thu, Nguyen Ngoc Anh - 29209245799
+[DBCAS Cover Team] Nguyen, Nguyen Nhat - 26211227029
+[DBCAS Cover Team] Truong, Nguyen Quang - 29212730635
+[DBCAS Cover Team] Do, Nguyen Quoc - 29211156881
+[DBCAS Cover Team] Han, Nguyen Ngoc - 29204423268
+[DBCAS Cover Signature] Review Panel Representative
+[DBCAS Cover Signature] Name                    Signature                    Date
+[DBCAS Cover Signature] Capstone Project 1 - Mentor: MSc Viet, Huynh Duc
+[DBCAS Cover Signature] Signature                                        Date
+[DBCAS Meta] PROJECT INFORMATION
+[DBCAS Meta] DOCUMENT INFORMATION
+[DBCAS Meta] DOCUMENT APPROVALS
+[DBCAS Note] Approval status: [OWNER TO PROVIDE: approval decisions and signature dates]. This document does not assert approval.
+[DBCAS Meta] REVISION HISTORY
+[DBCAS Meta] TABLE OF CONTENTS
+[toc 1] 1. Introduction	5
+[toc 2] 1.1 Scope	5
+[toc 2] 1.2 How This Document Was Measured	5
+[toc 1] 2. Conventions	6
+[toc 1] 3. Entity-Relationship Overview	6
+[toc 1] 4. Table Registry	10
+[toc 1] 5. Column Dictionary	13
+[toc 1] 6. Keys and Indexes	35
+[toc 1] 7. Migrations	36
+[toc 1] 8. Seed Data	37
+[toc 1] 9. Version, Snapshot and Audit	38
+[toc 2] 9.1 Result Versions	38
+[toc 2] 9.2 Snapshots	38
+[toc 2] 9.3 Audit	38
+[toc 1] 10. Maintenance Notes and Open Items	39
+[Heading 1] 1. Introduction
+[Heading 2] 1.1 Scope
+This document describes the DBCAS relational schema: its conventions, its entity-relationship overview, the table registry, the column dictionary, keys and indexes, the migration history, the seed data, and the snapshot, version and audit layers. It is the reference for the persistence contract used by the API described in the Architecture Design document.
+[Heading 2] 1.2 How This Document Was Measured
+Every object below was read from PostgreSQL 17.12 introspection of db/schema.sql after all 28 migrations, recorded in docs/diagrams/schema-028/schema-introspection.json and gated by docs:check. The application schema has 67 tables and 561 columns, 122 foreign keys and 159 indexes. The migration ledger table schema_migration is excluded from these counts because it is runtime bookkeeping, not domain data; the live database therefore shows one table and three columns more than this document.
+[DBCAS Caption] Table 1. Measured schema totals
+[DBCAS Note] The four assessment-prefixed tables are retained legacy objects. They are present in the schema, marked as legacy in the ERD, and are not written by current code paths.
+[Heading 1] 2. Conventions
+[List Bullet] Names are lower_snake_case. A table is singular and names the entity (account, question, attempt); join tables concatenate both entities (question_concept).
+[List Bullet] Every table has a surrogate primary key named <table>_id, except tables whose identity is the pair itself.
+[List Bullet] Foreign keys are named <table>_<column>_fkey by PostgreSQL and are declared with an explicit ON DELETE policy; no cascade deletes domain history.
+[List Bullet] Timestamps are timezone-aware and default to now(); audit tables are append-only and protected by triggers.
+[List Bullet] There is no soft-delete flag and no tenant column: the deployment is single-institution, and history is preserved in dedicated tables rather than by hiding rows.
+[List Bullet] Constraint names are stable and referenced by the API error codes, so renaming requires a migration and a code change together.
+[DBCAS Caption] Table 2. Data types used
+[Heading 1] 3. Entity-Relationship Overview
+The entity-relationship diagram is generated from the live catalog and split into sheets of eight entities so that every table is drawn at a printable size. Four sheets are reproduced here: identity and AI audit, the question bank, the result and review tables, and the operational tail of the alphabet. The complete ten-sheet ERD, the relationship graph and the foreign-key ledger are generated in docs/diagrams/schema-028.
+[DBCAS Caption] Figure 1. ERD sheet 1: account, identity, roles, audit and AI stage attempts
+[DBCAS Caption] Figure 2. ERD sheet 6: question bank, options, candidates and localization
+[DBCAS Caption] Figure 3. ERD sheet 9: selection log, plan, result analysis and publication
+[DBCAS Caption] Figure 4. ERD sheet 10: result versions, start requests, datasets and settings
+[Heading 1] 4. Table Registry
+All 67 tables, grouped by domain, with their column count, primary key, outgoing foreign keys and index count. The column dictionary in section 5 is the authoritative list of every column.
+[DBCAS Caption] Table 3. Table registry
+[Heading 1] 5. Column Dictionary
+One block per table, in alphabetical order. Type names are the PostgreSQL types as introspected; flags list primary key (PK), single-column unique (UQ), foreign-key targets, identity columns, defaults and nullability.
+[Heading 3] account — 8 columns
+[Heading 3] account_identity — 7 columns
+[Heading 3] account_role — 3 columns
+[Heading 3] account_role_audit — 7 columns
+[Heading 3] adaptive_event — 5 columns
+[Heading 3] ai_prompt_content — 3 columns
+[Heading 3] ai_prompt_record — 8 columns
+[Heading 3] ai_stage_attempt — 10 columns
+[Heading 3] ai_stage_run — 21 columns
+[Heading 3] ai_stage_validation — 8 columns
+[Heading 3] assessment — 14 columns
+[Heading 3] assessment_blueprint — 16 columns
+[Heading 3] assessment_concept — 5 columns
+[Heading 3] assessment_question — 2 columns
+[Heading 3] assessment_session — 22 columns
+[Heading 3] attempt — 21 columns
+[Heading 3] attempt_rubric_criterion — 14 columns
+[Heading 3] clo_concept — 5 columns
+[Heading 3] competency_gap — 7 columns
+[Heading 3] concept — 9 columns
+[Heading 3] concept_competency — 8 columns
+[Heading 3] concept_dependency — 3 columns
+[Heading 3] course_document — 14 columns
+[Heading 3] course_learning_outcome — 7 columns
+[Heading 3] document_chunk — 9 columns
+[Heading 3] document_clo — 5 columns
+[Heading 3] evaluation_record — 10 columns
+[Heading 3] grade_edit_audit — 7 columns
+[Heading 3] grade_review — 8 columns
+[Heading 3] grading_job — 8 columns
+[Heading 3] llm_cache — 7 columns
+[Heading 3] login_throttle — 3 columns
+[Heading 3] mcq_option — 5 columns
+[Heading 3] oauth_handoff — 5 columns
+[Heading 3] password_reset_audit — 4 columns
+[Heading 3] password_reset_token — 6 columns
+[Heading 3] prompt_access_audit — 6 columns
+[Heading 3] question — 18 columns
+[Heading 3] question_candidate — 8 columns
+[Heading 3] question_clo — 7 columns
+[Heading 3] question_concept — 6 columns
+[Heading 3] question_evidence — 8 columns
+[Heading 3] question_report — 13 columns
+[Heading 3] question_rubric_criterion — 9 columns
+[Heading 3] question_rubric_profile — 8 columns
+[Heading 3] question_translation — 8 columns
+[Heading 3] refresh_session — 8 columns
+[Heading 3] result_release_event — 6 columns
+[Heading 3] retention_purge_audit — 8 columns
+[Heading 3] review_deviation — 14 columns
+[Heading 3] review_deviation_confirmation — 3 columns
+[Heading 3] review_request — 20 columns
+[Heading 3] role — 3 columns
+[Heading 3] rubric — 6 columns
+[Heading 3] selection_log — 7 columns
+[Heading 3] session_final_result — 14 columns
+[Heading 3] session_question_plan — 3 columns
+[Heading 3] session_result_analysis — 9 columns
+[Heading 3] session_result_criterion_score — 8 columns
+[Heading 3] session_result_publication — 8 columns
+[Heading 3] session_result_version — 14 columns
+[Heading 3] session_result_version_score — 7 columns
+[Heading 3] session_start_request — 5 columns
+[Heading 3] sql_test_dataset — 6 columns
+[Heading 3] system_setting — 4 columns
+[Heading 3] tab_leave_interval — 7 columns
+[Heading 3] user_profile — 6 columns
+[Heading 1] 6. Keys and Indexes
+The schema declares 122 foreign keys and 159 indexes. Of the indexes, 68 are primary-key indexes, 41 back a unique constraint and 51 are standalone performance indexes created explicitly by db/schema.sql.
+[DBCAS Caption] Table 4. Key and index inventory
+Index rules applied: every foreign-key column is indexed because the API filters attempts by session, questions by concept and audit rows by actor. Status columns used by the worker are indexed with the timestamp that orders them, so the job claim query never scans the table. Two known gaps remain and are listed in section 10: mcq_option.question_id and rubric.question_id have no index of their own.
+[Heading 1] 7. Migrations
+28 forward-only migrations are applied in order inside one transaction under an advisory lock. The runner stores the SHA-256 of each file in schema_migration and refuses to run if an applied file changed, so an edited migration must become a new file. There is no down-migration path.
+[DBCAS Caption] Table 5. Migration history
+[Heading 1] 8. Seed Data
+Seed data has three independent sources, each idempotent by a different mechanism.
+[DBCAS Caption] Table 6. Seed sources
+The development administrator password is a documented development credential and must never reach a released database. The demo seed refuses to run outside development mode.
+[Heading 1] 9. Version, Snapshot and Audit
+[Heading 2] 9.1 Result Versions
+A published result is immutable. session_result_version stores one row per version with the source (V1 or V2), a supersedes pointer, the result hash and the approving administrator; session_result_version_score stores the per-attempt scores and session_result_criterion_score the per-criterion scores. session_result_publication is the only mutable row and carries a revision counter that guards every transition.
+[Heading 2] 9.2 Snapshots
+[List Bullet] assessment_session.config_snapshot freezes the session configuration chosen by the learner.
+[List Bullet] attempt.question_snapshot freezes the question text served, so a later edit cannot change a historical answer.
+[List Bullet] attempt_rubric_criterion freezes the rubric criterion and its maximum at grading time.
+[List Bullet] question_rubric_profile and its criteria are versioned by profile_hash, so a rubric edit creates a new profile.
+[List Bullet] question.family_id and version_no give each question a lineage; a session may not contain two versions of the same family.
+[Heading 2] 9.3 Audit
+[DBCAS Caption] Table 7. Audit tables
+Immutability is enforced by database triggers, not by convention: 36 row-level guards reject updates and deletes on the audit and result tables, and five constraint triggers validate that a result version is complete and totals match before publication.
+[Heading 1] 10. Maintenance Notes and Open Items
+[List Bullet] schema_migration is runtime bookkeeping and must not be seeded or edited by hand.
+[List Bullet] Two foreign-key columns still lack a dedicated index: mcq_option.question_id and rubric.question_id. This is a known performance gap, not a correctness defect.
+[List Bullet] assessment_session.result_release_policy mixes a policy value with lifecycle states; a future migration should split the vocabulary.
+[List Bullet] The duplicate concept_dependency definition recorded in the backlog remains an owner decision.
+[List Bullet] updated_at is maintained by the application, not by a trigger.
+[List Bullet] [OWNER TO PROVIDE: whether the legacy assessment tables may be dropped after the defence]
+[List Bullet] [OWNER TO PROVIDE: data retention period for learner attempts]
+
+===== TABLE 1 =====
+Project acronym | DBCAS | Project code | C1SE.70
+Project title | DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis | Version | 1.3
+Start date | 14/09/2026 | End date | 26/12/2026
+Lead institution | International School, Duy Tan University | Project mentor | MSc Viet, Huynh Duc
+Document | Database Design Document | File name | C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx
+Group | C1SE.70 | Date | 25/11/2026
+
+===== TABLE 2 =====
+Document title | Database Design Document | Version | ver1.3
+Author | Do, Nguyen Quoc | Role | Backend Developer
+Group | C1SE.70 | Project | DBCAS
+Date | 25/11/2026 | Status | Owner review
+File name | C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx | Access | Project and CMU Program
+URL | [OWNER TO PROVIDE: public document URL] | Group | C1SE.70
+
+===== TABLE 3 =====
+Name | Student ID | Role | Signature / Date
+Thu, Nguyen Ngoc Anh | 29209245799 | Project Manager, Scrum Master, Frontend Developer | 
+Nguyen, Nguyen Nhat | 26211227029 | Backend Developer, QA Tester | 
+Truong, Nguyen Quang | 29212730635 | Database Developer | 
+Do, Nguyen Quoc | 29211156881 | Backend Developer | 
+Han, Nguyen Ngoc | 29204423268 | Frontend Developer, QA Tester | 
+MSc Viet, Huynh Duc |  | Project mentor | 
+
+===== TABLE 4 =====
+Version | Date | Description | Author
+1.0 | 18/09/2026 | Initial release | C1SE.70 Team
+1.1 | 30/10/2026 | Update | C1SE.70 Team
+1.2 | 08/11/2026 | Correct project facts and diagrams | C1SE.70 Team
+1.3 | 25/11/2026 | Align to the measured FITAI layout and re-verify every measured figure | Do, Nguyen Quoc
+
+===== TABLE 5 =====
+Measure | Value
+Application tables | 67
+Columns | 561
+Foreign keys | 122
+Indexes | 159
+Migrations | 28
+Native enum types | 0
+Views | 0
+
+===== TABLE 6 =====
+Type | Use
+integer / bigint identity | Surrogate keys
+varchar(n) | Bounded text; email and names are capped
+text | Prompt text, essays and explanations
+jsonb | Snapshots, structured AI output and score detail
+timestamptz | All event and audit times
+numeric(p,s) | Scores and thresholds; never floating point
+boolean | Capabilities and flags
+char(64) | SHA-256 hashes of prompts and results
+text[] | Tag lists such as question tags
+
+===== TABLE 7 =====
+Table | Domain | Columns | Primary key | FKs | Idx
+account | Identity and access | 8 | account_id | 0 | 2
+account_identity | Identity and access | 7 | identity_id | 1 | 2
+account_role | Identity and access | 3 | account_id, role_id | 2 | 1
+account_role_audit | Identity and access | 7 | audit_id | 2 | 3
+adaptive_event | Assessment and attempts | 5 | session_id, round_no, event_type | 1 | 1
+ai_prompt_content | AI audit and retention | 3 | prompt_record_id | 1 | 1
+ai_prompt_record | AI audit and retention | 8 | prompt_record_id | 1 | 2
+ai_stage_attempt | AI audit and retention | 10 | stage_attempt_id | 1 | 2
+ai_stage_run | AI audit and retention | 21 | stage_run_id | 5 | 4
+ai_stage_validation | AI audit and retention | 8 | validation_id | 1 | 2
+assessment | Assessment and attempts | 14 | assessment_id | 2 | 2
+assessment_blueprint | Assessment and attempts | 16 | blueprint_id | 2 | 3
+assessment_concept | Assessment and attempts | 5 | assessment_id, concept_id | 2 | 1
+assessment_question | Assessment and attempts | 2 | assessment_id, question_id | 2 | 2
+assessment_session | Assessment and attempts | 22 | session_id | 4 | 7
+attempt | Assessment and attempts | 21 | attempt_id | 3 | 4
+attempt_rubric_criterion | Assessment and attempts | 14 | criterion_snapshot_id | 3 | 3
+clo_concept | Curriculum and concepts | 5 | clo_id, concept_id | 2 | 1
+competency_gap | Competency analytics | 7 | gap_id | 2 | 2
+concept | Curriculum and concepts | 9 | concept_id | 0 | 2
+concept_competency | Curriculum and concepts | 8 | competency_id | 2 | 2
+concept_dependency | Curriculum and concepts | 3 | concept_id, prerequisite_concept_id | 2 | 2
+course_document | Curriculum and concepts | 14 | document_id | 2 | 2
+course_learning_outcome | Curriculum and concepts | 7 | clo_id | 1 | 2
+document_chunk | Curriculum and concepts | 9 | chunk_id | 1 | 3
+document_clo | Curriculum and concepts | 5 | document_id, clo_id | 3 | 2
+evaluation_record | Grading and results | 10 | evaluation_id | 2 | 4
+grade_edit_audit | Grading and results | 7 | audit_id | 2 | 1
+grade_review | Grading and results | 8 | review_id | 2 | 3
+grading_job | Grading and results | 8 | job_id | 1 | 3
+llm_cache | AI audit and retention | 7 | cache_id | 0 | 3
+login_throttle | Identity and access | 3 | key_hash | 0 | 2
+mcq_option | Question bank and generation | 5 | option_id | 1 | 1
+oauth_handoff | Identity and access | 5 | jti_hash | 1 | 2
+password_reset_audit | Identity and access | 4 | audit_id | 1 | 2
+password_reset_token | Identity and access | 6 | token_hash | 1 | 3
+prompt_access_audit | AI audit and retention | 6 | access_id | 2 | 2
+question | Question bank and generation | 18 | question_id | 2 | 2
+question_candidate | Question bank and generation | 8 | candidate_id | 2 | 2
+question_clo | Question bank and generation | 7 | question_id, clo_id | 2 | 4
+question_concept | Question bank and generation | 6 | question_id, concept_id | 2 | 2
+question_evidence | Question bank and generation | 8 | evidence_id | 2 | 3
+question_report | Review workflow | 13 | question_report_id | 5 | 4
+question_rubric_criterion | Question bank and generation | 9 | criterion_id | 1 | 3
+question_rubric_profile | Question bank and generation | 8 | rubric_profile_id | 2 | 4
+question_translation | Question bank and generation | 8 | question_id, locale | 1 | 2
+refresh_session | Identity and access | 8 | token_hash | 1 | 4
+result_release_event | Grading and results | 6 | event_id | 2 | 2
+retention_purge_audit | AI audit and retention | 8 | purge_audit_id | 0 | 1
+review_deviation | Review workflow | 14 | deviation_id | 5 | 3
+review_deviation_confirmation | Review workflow | 3 | deviation_id | 2 | 1
+review_request | Review workflow | 20 | review_request_id | 7 | 4
+role | Identity and access | 3 | role_id | 0 | 2
+rubric | Question bank and generation | 6 | rubric_id | 1 | 1
+selection_log | Assessment and attempts | 7 | log_id | 2 | 2
+session_final_result | Grading and results | 14 | result_id | 2 | 3
+session_question_plan | Assessment and attempts | 3 | session_id, seq_no | 2 | 3
+session_result_analysis | Grading and results | 9 | analysis_id | 3 | 2
+session_result_criterion_score | Grading and results | 8 | criterion_score_id | 2 | 2
+session_result_publication | Grading and results | 8 | result_version_id | 2 | 2
+session_result_version | Grading and results | 14 | result_version_id | 4 | 3
+session_result_version_score | Grading and results | 7 | version_score_id | 2 | 2
+session_start_request | Assessment and attempts | 5 | learner_id, request_id | 1 | 2
+sql_test_dataset | Question bank and generation | 6 | dataset_id | 1 | 1
+system_setting | Identity and access | 4 | setting_key | 1 | 1
+tab_leave_interval | Assessment and attempts | 7 | leave_event_id | 1 | 4
+user_profile | Identity and access | 6 | user_id | 1 | 2
+
+===== TABLE 8 =====
+Column | Type | Key / nullability / default
+account_id | integer | PK; identity; not null
+email | varchar(255) | UQ; not null
+password_hash | varchar(255) | not null
+password_set | boolean | default true; not null
+password_changed_at | timestamptz | 
+status | varchar(20) | default 'active'::character varying; not null
+can_manage_roles | boolean | default false; not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 9 =====
+Column | Type | Key / nullability / default
+identity_id | integer | PK; identity; not null
+account_id | integer | FK → account; not null
+provider | varchar(20) | not null
+provider_user_id | varchar(255) | not null
+provider_email | varchar(255) | 
+email_verified | boolean | default false; not null
+linked_at | timestamptz | default now(); not null
+
+===== TABLE 10 =====
+Column | Type | Key / nullability / default
+account_id | integer | PK; FK → account; not null
+role_id | integer | PK; FK → role; not null
+assigned_at | timestamptz | default now(); not null
+
+===== TABLE 11 =====
+Column | Type | Key / nullability / default
+audit_id | bigint | PK; identity; not null
+action_type | varchar(40) | not null
+actor_account_id | integer | FK → account
+target_account_id | integer | FK → account; not null
+previous_role | varchar(50) | 
+new_role | varchar(50) | 
+created_at | timestamptz | default now(); not null
+
+===== TABLE 12 =====
+Column | Type | Key / nullability / default
+session_id | integer | PK; FK → assessment_session; not null
+round_no | smallint | PK; not null
+event_type | varchar(16) | PK; not null
+payload | jsonb | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 13 =====
+Column | Type | Key / nullability / default
+prompt_record_id | bigint | PK; FK → ai_prompt_record; not null
+prompt_text | text | 
+model_identifier | varchar(80) | 
+
+===== TABLE 14 =====
+Column | Type | Key / nullability / default
+prompt_record_id | bigint | PK; identity; not null
+session_id | integer | FK → ai_stage_run; not null
+stage_run_id | bigint | FK → ai_stage_run; not null
+stage | varchar(3) | not null
+prompt_hash | char(64) | not null
+created_at | timestamptz | default now(); not null
+expires_at | timestamptz | not null
+purged_at | timestamptz | 
+
+===== TABLE 15 =====
+Column | Type | Key / nullability / default
+stage_attempt_id | bigint | PK; identity; not null
+session_id | integer | FK → ai_stage_run; not null
+stage_run_id | bigint | FK → ai_stage_run; not null
+attempt_no | integer | not null
+status | varchar(20) | not null
+input_hash | char(64) | not null
+output_hash | char(64) | 
+error_code | varchar(80) | 
+started_at | timestamptz | default now(); not null
+finished_at | timestamptz | 
+
+===== TABLE 16 =====
+Column | Type | Key / nullability / default
+stage_run_id | bigint | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+scope_key | varchar(40) | not null
+stage | varchar(3) | not null
+run_mode | varchar(20) | not null
+result_version_id | bigint | FK → session_result_version
+execution_run_no | integer | not null
+recovery_of_run_id | bigint | FK → ai_stage_run
+recovery_authorized_by | integer | FK → account
+recovery_reason | varchar(1000) | 
+predecessor_validation_id | bigint | FK → ai_stage_validation
+status | varchar(20) | not null
+attempt_count | integer | default 0; not null
+input_hash | char(64) | not null
+output_hash | char(64) | 
+last_error_code | varchar(80) | 
+available_at | timestamptz | default now(); not null
+lease_until | timestamptz | 
+created_at | timestamptz | default now(); not null
+started_at | timestamptz | 
+finished_at | timestamptz | 
+
+===== TABLE 17 =====
+Column | Type | Key / nullability / default
+validation_id | bigint | PK; identity; not null
+session_id | integer | FK → ai_stage_run; not null
+stage_run_id | bigint | UQ; FK → ai_stage_run; not null
+validator_version | varchar(40) | not null
+input_hash | char(64) | not null
+output_hash | char(64) | not null
+status | varchar(10) | not null
+validated_at | timestamptz | default now(); not null
+
+===== TABLE 18 =====
+Column | Type | Key / nullability / default
+assessment_id | integer | PK; identity; not null
+title | varchar(200) | not null
+description | text | 
+max_questions | smallint | default 13; not null
+duration_min | smallint | default 60; not null
+target_mcq | smallint | default 10; not null
+target_sql | smallint | default 2; not null
+target_essay | smallint | default 1; not null
+status | varchar(20) | default 'draft'::character varying; not null
+created_by | integer | FK → account; not null
+created_at | timestamptz | default now(); not null
+family_id | integer | FK → assessment
+version_no | integer | default 1; not null
+result_release_policy | varchar(20) | default 'IMMEDIATE'::character varying; not null
+
+===== TABLE 19 =====
+Column | Type | Key / nullability / default
+blueprint_id | integer | PK; identity; not null
+assessment_id | integer | FK → assessment; not null
+subject_area | varchar(100) | not null
+difficulty_band | varchar(10) | not null
+version_no | integer | default 1; not null
+status | varchar(20) | default 'approved'::character varying; not null
+max_questions | smallint | not null
+target_mcq | smallint | not null
+target_sql | smallint | not null
+target_essay | smallint | not null
+scoring | jsonb | default '{}'::jsonb; not null
+evidence_types | jsonb | default '[]'::jsonb; not null
+approval_basis | text | not null
+approved_by | integer | FK → account
+approved_at | timestamptz | default now(); not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 20 =====
+Column | Type | Key / nullability / default
+assessment_id | integer | PK; FK → assessment; not null
+concept_id | integer | PK; FK → concept; not null
+min_difficulty | smallint | default 1; not null
+max_difficulty | smallint | default 5; not null
+target_pct | numeric(5,2) | not null
+
+===== TABLE 21 =====
+Column | Type | Key / nullability / default
+assessment_id | integer | PK; FK → assessment; not null
+question_id | integer | PK; FK → question; not null
+
+===== TABLE 22 =====
+Column | Type | Key / nullability / default
+session_id | integer | PK; FK → session_result_version; identity; not null
+assessment_id | integer | FK → assessment
+learner_id | integer | FK → account; not null
+status | varchar(20) | default 'in_progress'::character varying; not null
+purpose | varchar(10) | default 'PRACTICE'::character varying; not null
+purpose_source | varchar(10) | default 'SERVER'::character varying; not null
+locale | varchar(16) | default 'en'::character varying; not null
+started_at | timestamptz | default now(); not null
+expires_at | timestamptz | not null
+submitted_at | timestamptz | 
+config_snapshot | jsonb | 
+result_release_policy | varchar(20) | default 'IMMEDIATE'::character varying; not null
+release_status | varchar(20) | default 'unsubmitted'::character varying; not null
+start_request_id | varchar(36) | 
+review_revision | integer | default 0; not null
+published_at | timestamptz | 
+blueprint_id | integer | FK → assessment_blueprint
+tab_leave_count | integer | default 0; not null
+cancelled_at | timestamptz | 
+cancel_reason | varchar(40) | 
+review_policy | varchar(20) | default 'LEGACY'::character varying; not null
+current_result_version_id | bigint | FK → session_result_version
+
+===== TABLE 23 =====
+Column | Type | Key / nullability / default
+attempt_id | integer | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+question_id | integer | FK → question; not null
+seq_no | smallint | not null
+selected_option_id | integer | FK → mcq_option
+sql_answer | text | 
+essay_answer | text | 
+score | numeric(5,2) | 
+grading_detail | jsonb | 
+served_at | timestamptz | default now(); not null
+submitted_at | timestamptz | 
+is_flagged | boolean | default false; not null
+flag_revision | integer | default 0; not null
+first_opened_at | timestamptz | 
+question_snapshot | jsonb | 
+draft_answer | jsonb | 
+draft_revision | integer | default 0; not null
+draft_saved_at | timestamptz | 
+submission_hash | varchar(64) | 
+grading_status | varchar(20) | default 'unsubmitted'::character varying; not null
+review_revision | integer | default 0; not null
+
+===== TABLE 24 =====
+Column | Type | Key / nullability / default
+criterion_snapshot_id | bigint | PK; identity; not null
+session_id | integer | FK → attempt; not null
+attempt_id | integer | FK → attempt; not null
+question_id | integer | FK → question_rubric_profile; not null
+rubric_profile_id | bigint | FK → question_rubric_profile; not null
+criterion_id | bigint | FK → question_rubric_criterion; not null
+criterion_code | varchar(40) | not null
+criterion_name | varchar(120) | not null
+description | text | not null
+scoring_guidance | text | not null
+max_points | numeric(5,2) | not null
+sort_order | smallint | not null
+profile_snapshot_hash | char(64) | not null
+criterion_hash | char(64) | not null
+
+===== TABLE 25 =====
+Column | Type | Key / nullability / default
+clo_id | integer | PK; FK → course_learning_outcome; not null
+concept_id | integer | PK; FK → concept; not null
+mapping_source | varchar(10) | default 'admin'::character varying; not null
+status | varchar(20) | default 'pending'::character varying; not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 26 =====
+Column | Type | Key / nullability / default
+gap_id | integer | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+concept_id | integer | FK → concept; not null
+llm_explanation | text | 
+status | varchar(20) | default 'open'::character varying; not null
+created_at | timestamptz | default now(); not null
+explanation_context_hash | varchar(64) | 
+
+===== TABLE 27 =====
+Column | Type | Key / nullability / default
+concept_id | integer | PK; identity; not null
+concept_code | varchar(30) | UQ; not null
+concept_name | varchar(100) | not null
+subject_area | varchar(100) | not null
+description | text | 
+difficulty_level | smallint | default 1; not null
+sql_feature | varchar(30) | 
+keywords | ARRAY | default '{}'::text[]; not null
+learning_objectives | ARRAY | default '{}'::text[]; not null
+
+===== TABLE 28 =====
+Column | Type | Key / nullability / default
+competency_id | integer | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+concept_id | integer | FK → concept; not null
+points_earned | numeric(10,2) | default 0; not null
+points_possible | numeric(10,2) | default 0; not null
+competency_pct | numeric(5,2) | default 0; not null
+below_target | boolean | default false; not null
+computed_at | timestamptz | default now(); not null
+
+===== TABLE 29 =====
+Column | Type | Key / nullability / default
+concept_id | integer | PK; FK → concept; not null
+prerequisite_concept_id | integer | PK; FK → concept; not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 30 =====
+Column | Type | Key / nullability / default
+document_id | integer | PK; identity; not null
+title | varchar(300) | not null
+source_type | varchar(20) | default 'upload'::character varying; not null
+mime_type | varchar(100) | not null
+original_filename | varchar(255) | 
+sha256 | varchar(64) | not null
+char_count | integer | not null
+page_count | integer | 
+status | varchar(20) | default 'draft'::character varying; not null
+uploaded_by | integer | FK → account; not null
+uploaded_at | timestamptz | default now(); not null
+approved_by | integer | FK → account
+approved_at | timestamptz | 
+text_policy_version | varchar(20) | default 'untrusted-v1'::character varying; not null
+
+===== TABLE 31 =====
+Column | Type | Key / nullability / default
+clo_id | integer | PK; identity; not null
+clo_code | varchar(20) | UQ; not null
+title | varchar(200) | not null
+description | text | 
+status | varchar(20) | default 'active'::character varying; not null
+created_by | integer | FK → account; not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 32 =====
+Column | Type | Key / nullability / default
+chunk_id | integer | PK; identity; not null
+document_id | integer | FK → course_document; not null
+ordinal | integer | not null
+page_from | integer | 
+page_to | integer | 
+heading | text | 
+text | text | not null
+text_hash | varchar(64) | not null
+char_count | integer | not null
+
+===== TABLE 33 =====
+Column | Type | Key / nullability / default
+document_id | integer | PK; FK → course_document; not null
+clo_id | integer | PK; FK → course_learning_outcome; not null
+status | varchar(20) | default 'approved'::character varying; not null
+approved_by | integer | FK → account
+approved_at | timestamptz | 
+
+===== TABLE 34 =====
+Column | Type | Key / nullability / default
+evaluation_id | integer | PK; default nextval('evaluation_record_evaluation_id_seq'::regclass); not null
+learner_id | integer | FK → account; not null
+session_id | integer | FK → assessment_session
+scope_key | varchar(80) | not null
+input_hash | varchar(64) | not null
+status | varchar(20) | default 'pending'::character varying; not null
+payload | jsonb | 
+lease_until | timestamptz | 
+updated_at | timestamptz | default now(); not null
+available_at | timestamptz | default now(); not null
+
+===== TABLE 35 =====
+Column | Type | Key / nullability / default
+audit_id | integer | PK; default nextval('grade_edit_audit_audit_id_seq'::regclass); not null
+attempt_id | integer | FK → attempt; not null
+reviewer_id | integer | FK → account; not null
+old_score | numeric(5,2) | 
+new_score | numeric(5,2) | not null
+reason | varchar(1000) | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 36 =====
+Column | Type | Key / nullability / default
+review_id | integer | PK; identity; not null
+attempt_id | integer | UQ; FK → attempt; not null
+reviewer_id | integer | FK → account; not null
+automated_score | numeric(5,2) | 
+automated_detail | jsonb | 
+approved_score | numeric(5,2) | not null
+comments | text | 
+reviewed_at | timestamptz | default now(); not null
+
+===== TABLE 37 =====
+Column | Type | Key / nullability / default
+job_id | integer | PK; identity; not null
+attempt_id | integer | UQ; FK → attempt; not null
+status | varchar(20) | default 'pending'::character varying; not null
+attempt_count | integer | default 0; not null
+available_at | timestamptz | default now(); not null
+lease_until | timestamptz | 
+last_error_code | varchar(80) | 
+finished_at | timestamptz | 
+
+===== TABLE 38 =====
+Column | Type | Key / nullability / default
+cache_id | integer | PK; identity; not null
+request_hash | varchar(64) | UQ; not null
+task_type | varchar(30) | not null
+model | varchar(50) | not null
+response | jsonb | not null
+created_at | timestamptz | default now(); not null
+expires_at | timestamptz | not null
+
+===== TABLE 39 =====
+Column | Type | Key / nullability / default
+key_hash | varchar(64) | PK; not null
+failures | jsonb | default '[]'::jsonb; not null
+expires_at | timestamptz | not null
+
+===== TABLE 40 =====
+Column | Type | Key / nullability / default
+option_id | integer | PK; identity; not null
+question_id | integer | FK → question; not null
+option_label | varchar(5) | not null
+option_text | text | not null
+is_correct | boolean | default false; not null
+
+===== TABLE 41 =====
+Column | Type | Key / nullability / default
+jti_hash | varchar(64) | PK; not null
+account_id | integer | FK → account; not null
+expires_at | timestamptz | not null
+consumed_at | timestamptz | 
+created_at | timestamptz | default now(); not null
+
+===== TABLE 42 =====
+Column | Type | Key / nullability / default
+audit_id | integer | PK; identity; not null
+account_id | integer | FK → account; not null
+event | varchar(20) | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 43 =====
+Column | Type | Key / nullability / default
+token_hash | varchar(64) | PK; not null
+account_id | integer | FK → account; not null
+requested_at | timestamptz | default now(); not null
+expires_at | timestamptz | not null
+used_at | timestamptz | 
+revoked_at | timestamptz | 
+
+===== TABLE 44 =====
+Column | Type | Key / nullability / default
+access_id | bigint | PK; identity; not null
+prompt_record_id | bigint | FK → ai_prompt_record; not null
+actor_id | integer | FK → account; not null
+result | varchar(20) | not null
+accessed_at | timestamptz | default now(); not null
+request_id | uuid | 
+
+===== TABLE 45 =====
+Column | Type | Key / nullability / default
+question_id | integer | PK; identity; not null
+question_type | varchar(10) | not null
+prompt | text | not null
+reference_answer | text | 
+difficulty_level | smallint | default 1; not null
+points | numeric(5,2) | default 1.0; not null
+source | varchar(15) | default 'bank'::character varying; not null
+status | varchar(20) | default 'draft'::character varying; not null
+created_by | integer | FK → account; not null
+created_at | timestamptz | default now(); not null
+updated_at | timestamptz | default now(); not null
+ai_review | jsonb | 
+family_id | integer | FK → question
+version_no | integer | default 1; not null
+explanation | text | 
+tags | ARRAY | default '{}'::text[]; not null
+source_refs | jsonb | default '[]'::jsonb; not null
+original_locale | varchar(16) | default 'en'::character varying; not null
+
+===== TABLE 46 =====
+Column | Type | Key / nullability / default
+candidate_id | integer | PK; identity; not null
+concept_id | integer | FK → concept; not null
+question_type | varchar(10) | not null
+payload | jsonb | not null
+validation_status | varchar(20) | default 'pending'::character varying; not null
+validation_detail | jsonb | 
+promoted_question_id | integer | UQ; FK → question
+created_at | timestamptz | default now(); not null
+
+===== TABLE 47 =====
+Column | Type | Key / nullability / default
+question_id | integer | PK; FK → question; not null
+clo_id | integer | PK; FK → course_learning_outcome; not null
+is_primary | boolean | default false; not null
+status | varchar(20) | default 'pending'::character varying; not null
+tag_source | varchar(10) | default 'admin'::character varying; not null
+confirmed_at | timestamptz | 
+created_at | timestamptz | default now(); not null
+
+===== TABLE 48 =====
+Column | Type | Key / nullability / default
+question_id | integer | PK; FK → question; not null
+concept_id | integer | PK; FK → concept; not null
+tag_source | varchar(10) | default 'admin'::character varying; not null
+is_required | boolean | default false; not null
+confirmed | boolean | default false; not null
+review_status | varchar(20) | default 'pending'::character varying; not null
+
+===== TABLE 49 =====
+Column | Type | Key / nullability / default
+evidence_id | integer | PK; identity; not null
+question_id | integer | FK → question; not null
+chunk_id | integer | FK → document_chunk; not null
+quote | text | not null
+start_offset | integer | 
+end_offset | integer | 
+source_hash | varchar(64) | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 50 =====
+Column | Type | Key / nullability / default
+question_report_id | bigint | PK; identity; not null
+review_request_id | bigint | FK → review_request
+session_id | integer | FK → attempt; not null
+attempt_id | integer | FK → attempt; not null
+question_id | integer | FK → question; not null
+reported_by | integer | FK → account; not null
+category | varchar(20) | not null
+details | varchar(2000) | not null
+status | varchar(10) | default 'OPEN'::character varying; not null
+resolution_note | varchar(2000) | 
+resolved_by | integer | FK → account
+resolved_at | timestamptz | 
+created_at | timestamptz | default now(); not null
+
+===== TABLE 51 =====
+Column | Type | Key / nullability / default
+criterion_id | bigint | PK; identity; not null
+rubric_profile_id | bigint | FK → question_rubric_profile; not null
+criterion_code | varchar(40) | not null
+criterion_name | varchar(120) | not null
+description | text | not null
+scoring_guidance | text | not null
+max_points | numeric(5,2) | not null
+sort_order | smallint | not null
+criterion_hash | char(64) | not null
+
+===== TABLE 52 =====
+Column | Type | Key / nullability / default
+rubric_profile_id | bigint | PK; identity; not null
+question_id | integer | FK → question; not null
+version_no | integer | not null
+status | varchar(10) | not null
+profile_hash | char(64) | not null
+created_by | integer | FK → account; not null
+created_at | timestamptz | default now(); not null
+retired_at | timestamptz | 
+
+===== TABLE 53 =====
+Column | Type | Key / nullability / default
+question_id | integer | PK; FK → question; not null
+locale | varchar(16) | PK; not null
+source_hash | varchar(64) | not null
+prompt | text | not null
+explanation | text | 
+option_texts | jsonb | default '{}'::jsonb; not null
+rubrics | jsonb | default '{}'::jsonb; not null
+updated_at | timestamptz | default now(); not null
+
+===== TABLE 54 =====
+Column | Type | Key / nullability / default
+token_hash | varchar(64) | PK; not null
+family_id | varchar(32) | not null
+account_id | integer | FK → account; not null
+credential_version | bigint | default 0; not null
+created_at | timestamptz | default now(); not null
+expires_at | timestamptz | not null
+consumed_at | timestamptz | 
+revoked_at | timestamptz | 
+
+===== TABLE 55 =====
+Column | Type | Key / nullability / default
+event_id | integer | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+previous_status | varchar(20) | not null
+new_status | varchar(20) | not null
+reviewer_id | integer | FK → account
+created_at | timestamptz | default now(); not null
+
+===== TABLE 56 =====
+Column | Type | Key / nullability / default
+purge_audit_id | bigint | PK; identity; not null
+object_type | varchar(20) | not null
+object_id | text | not null
+content_hash | char(64) | 
+purged_at | timestamptz | default now(); not null
+purge_reason | varchar(40) | not null
+actor | varchar(80) | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 57 =====
+Column | Type | Key / nullability / default
+deviation_id | bigint | PK; identity; not null
+review_request_id | bigint | FK → review_request; not null
+session_id | integer | FK → attempt_rubric_criterion; FK → attempt; not null
+attempt_id | integer | FK → attempt_rubric_criterion; FK → attempt; not null
+criterion_snapshot_id | bigint | FK → attempt_rubric_criterion
+ai_score | numeric(5,2) | not null
+reviewed_score | numeric(5,2) | not null
+max_points | numeric(5,2) | not null
+deviation_ratio | numeric(6,4) | not null
+reason | varchar(4000) | not null
+first_reviewer_id | integer | FK → account; not null
+second_reviewer_id | integer | FK → account
+confirmation | varchar(24) | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 58 =====
+Column | Type | Key / nullability / default
+deviation_id | bigint | PK; FK → review_deviation; not null
+confirmed_by | integer | FK → account; not null
+confirmed_at | timestamptz | default now(); not null
+
+===== TABLE 59 =====
+Column | Type | Key / nullability / default
+review_request_id | bigint | PK; identity; not null
+session_id | integer | UQ; FK → session_result_version; FK → assessment_session; FK → session_result_version; not null
+learner_id | integer | FK → account; not null
+requested_by | integer | FK → account; not null
+origin | varchar(12) | not null
+request_key | uuid | UQ; not null
+reason | varchar(2000) | not null
+status | varchar(20) | default 'REQUESTED'::character varying; not null
+base_result_version_id | bigint | FK → session_result_version; not null
+requested_at | timestamptz | default now(); not null
+window_expires_at | timestamptz | 
+claimed_by | integer | FK → account
+claimed_at | timestamptz | 
+claim_expires_at | timestamptz | 
+resolved_by | integer | FK → account
+resolved_at | timestamptz | 
+resolution_note | varchar(2000) | 
+regraded_result_version_id | bigint | FK → session_result_version
+revision | integer | default 0; not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 60 =====
+Column | Type | Key / nullability / default
+role_id | integer | PK; identity; not null
+role_name | varchar(50) | UQ; not null
+description | text | 
+
+===== TABLE 61 =====
+Column | Type | Key / nullability / default
+rubric_id | integer | PK; identity; not null
+question_id | integer | FK → question; not null
+level_name | varchar(30) | not null
+min_score | numeric(5,2) | not null
+max_score | numeric(5,2) | not null
+criteria | text | not null
+
+===== TABLE 62 =====
+Column | Type | Key / nullability / default
+log_id | integer | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+seq_no | smallint | not null
+question_id | integer | FK → question; not null
+is_fallback | boolean | default false; not null
+decision_detail | jsonb | 
+created_at | timestamptz | default now(); not null
+
+===== TABLE 63 =====
+Column | Type | Key / nullability / default
+result_id | integer | PK; identity; not null
+session_id | integer | UQ; FK → assessment_session; not null
+reviewer_id | integer | FK → account
+source | varchar(20) | not null
+evaluation_input_hash | varchar(64) | not null
+approval_revision | integer | not null
+ai_evaluation | jsonb | not null
+final_evaluation | jsonb | not null
+concept_results | jsonb | default '[]'::jsonb; not null
+scores | jsonb | default '[]'::jsonb; not null
+overall | jsonb | not null
+uncovered_concepts | jsonb | default '[]'::jsonb; not null
+approved_at | timestamptz | default now(); not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 64 =====
+Column | Type | Key / nullability / default
+session_id | integer | PK; FK → assessment_session; not null
+seq_no | smallint | PK; not null
+question_id | integer | FK → question; not null
+
+===== TABLE 65 =====
+Column | Type | Key / nullability / default
+analysis_id | bigint | PK; identity; not null
+session_id | integer | FK → ai_stage_run; FK → ai_stage_run; FK → session_result_version; not null
+result_version_id | bigint | FK → session_result_version; not null
+ai1_run_id | bigint | FK → ai_stage_run; not null
+ai2_run_id | bigint | FK → ai_stage_run; not null
+analysis_schema_version | integer | not null
+analysis_hash | char(64) | not null
+analysis | jsonb | not null
+created_at | timestamptz | default now(); not null
+
+===== TABLE 66 =====
+Column | Type | Key / nullability / default
+criterion_score_id | bigint | PK; identity; not null
+session_id | integer | FK → attempt_rubric_criterion; FK → session_result_version_score; not null
+result_version_id | bigint | FK → session_result_version_score; not null
+attempt_id | integer | FK → attempt_rubric_criterion; FK → session_result_version_score; not null
+criterion_snapshot_id | bigint | FK → attempt_rubric_criterion; not null
+score | numeric(5,2) | not null
+max_points | numeric(5,2) | not null
+comment | varchar(2000) | 
+
+===== TABLE 67 =====
+Column | Type | Key / nullability / default
+result_version_id | bigint | PK; FK → session_result_version; not null
+session_id | integer | FK → session_result_version; not null
+state | varchar(30) | not null
+state_revision | integer | default 0; not null
+published_at | timestamptz | 
+analysis_failed_at | timestamptz | 
+updated_at | timestamptz | default now(); not null
+updated_by | integer | FK → account
+
+===== TABLE 68 =====
+Column | Type | Key / nullability / default
+result_version_id | bigint | PK; identity; not null
+session_id | integer | FK → assessment_session; not null
+version_no | integer | not null
+source | varchar(10) | not null
+supersedes_version_id | bigint | FK → session_result_version
+total_score | numeric(7,2) | not null
+max_score | numeric(7,2) | not null
+result_hash | char(64) | not null
+approved_by | integer | FK → account
+approved_at | timestamptz | default now(); not null
+approved_draft_hash | char(64) | 
+approved_review_revision | integer | default 0; not null
+created_at | timestamptz | default now(); not null
+review_request_id | bigint | FK → review_request
+
+===== TABLE 69 =====
+Column | Type | Key / nullability / default
+version_score_id | bigint | PK; identity; not null
+session_id | integer | FK → attempt; FK → session_result_version; not null
+result_version_id | bigint | FK → session_result_version; not null
+attempt_id | integer | FK → attempt; not null
+score | numeric(5,2) | not null
+max_score | numeric(5,2) | not null
+source | varchar(20) | not null
+
+===== TABLE 70 =====
+Column | Type | Key / nullability / default
+learner_id | integer | PK; FK → assessment_session; not null
+request_id | varchar(36) | PK; not null
+session_id | integer | FK → assessment_session; not null
+created_at | timestamptz | default now(); not null
+request_hash | char(64) | 
+
+===== TABLE 71 =====
+Column | Type | Key / nullability / default
+dataset_id | integer | PK; identity; not null
+question_id | integer | FK → question; not null
+dataset_name | varchar(100) | not null
+setup_sql | text | not null
+expected_result | jsonb | not null
+is_edge_case | boolean | default false; not null
+
+===== TABLE 72 =====
+Column | Type | Key / nullability / default
+setting_key | varchar(80) | PK; not null
+value | jsonb | not null
+updated_by | integer | FK → account
+updated_at | timestamptz | default now(); not null
+
+===== TABLE 73 =====
+Column | Type | Key / nullability / default
+leave_event_id | uuid | PK; not null
+session_id | integer | FK → assessment_session; not null
+left_at | timestamptz | not null
+returned_at | timestamptz | 
+return_event_id | uuid | UQ
+away_seconds | integer | 
+counted | boolean | default false; not null
+
+===== TABLE 74 =====
+Column | Type | Key / nullability / default
+user_id | integer | PK; identity; not null
+account_id | integer | UQ; FK → account; not null
+full_name | varchar(100) | not null
+student_code | varchar(20) | 
+phone_number | varchar(20) | 
+date_of_birth | date | 
+
+===== TABLE 75 =====
+Object | Count | Rule
+Primary keys | 68 | One per table, including the migration ledger; 12 are composite
+Foreign keys | 122 | Every reference is indexed on the referencing side
+Unique constraints | 41 | Business identity, not surrogate key
+Check constraints | 140 | Status vocabularies and ranges
+Standalone indexes | 51 | Foreign-key columns and hot filters
+Triggers | 41 | On application tables: 36 row-level guards and 5 constraint validators
+
+===== TABLE 76 =====
+# | File | Purpose
+001 | 001_account_identity.sql | Linked Google/GitHub sign-in identities, one row per provider identity
+002 | 002_concept_dependency.sql | Directed prerequisite edges between concepts with a self-FK guard
+003 | 003_drafts_evidence_and_security.sql | Draft and submission state, immutable snapshots, OAuth handoff, login throttle and the grading queue
+004 | 004_bank_versions.sql | Question version lineage and canonical SQL feature metadata
+005 | 005_release_roles.sql | Reference roles Learner and Administrator
+006 | 006_question_provenance.sql | Question explanation, tags and documentation provenance
+007 | 007_question_localization.sql | Bilingual question content; English remains canonical
+008 | 008_personalization_and_verified_results.sql | Concept keywords, release policy, human grade review, release audit and the frozen session plan
+009 | 009_incomplete_grade_release_repair.sql | Data repair of stale legacy publication decisions
+010 | 010_session_start_request_bindings.sql | Idempotency ledger binding start requests to sessions
+011 | 011_secure_role_management.sql | Default-deny role-management capability and role-change audit
+012 | 012_question_original_locale.sql | Explicit original locale for source prose
+013 | 013_assessment_blueprints.sql | Versioned assessment blueprints
+014 | 014_adaptive_events.sql | Append-only adaptive decision event log
+015 | 015_password_recovery.sql | Hashed single-use password-reset tokens and reset audit
+016 | 016_refresh_sessions.sql | Refresh credentials stored only as hashes
+017 | 017_assessment_question_pool.sql | Optional curated question pool for assessments (legacy)
+018 | 018_learner_practice_evaluations.sql | Learner-defined practice, runtime setting, evaluation evidence and grade-edit audit
+019 | 019_archive_prebuilt_exams.sql | Closes prebuilt published exams
+020 | 020_provisional_ai_final_results.sql | Immutable final result snapshot replacing provisional drafts
+021 | 021_fixed_paper_attempt_state.sql | Fixed-paper attempt state counters
+022 | 022_question_clo_tagging.sql | Course-learning-outcome tagging with deterministic backfill
+023 | 023_document_grounding.sql | Course documents, extracted chunks, document-to-CLO links and question evidence
+024 | 024_tab_leave_guard.sql | Tab-leave counters, cancellation columns and observed intervals
+025 | 025_session_purpose.sql | Test versus practice session purpose with provenance
+026 | 026_pr3a_database_foundation.sql | Immutable result evidence: rubric snapshots, result versions, scores, analysis, publication state, AI stage runs and prompt retention
+027 | 027_review_flow.sql | Learner review cases: window, claim, TTL, report triage and deviation evidence
+028 | 028_review_deviation_confirmation.sql | Second-administrator confirmation of a nominated deviation
+
+===== TABLE 77 =====
+Source | Content | Idempotency
+db/seed.sql | Two roles, one development administrator, one profile, one role link | ON CONFLICT DO NOTHING on every statement
+Curated bank packs | 98 concepts, 12 course learning outcomes, 46 prerequisite edges, 446 questions (326 MCQ, 71 SQL, 49 essay) and 442 Vietnamese translations | Registry row in system_setting; a second run is a no-op
+seed_demo | One administrator, three learners and four synthetic practice histories | Existence check on the demo administrator
+Blueprint backfill | Immutable blueprint versions for assessments that lack one | Dry run unless --confirm is passed
+
+===== TABLE 78 =====
+Table | Records
+schema_migration | Applied migration, checksum and time
+account_role_audit | Role grant, revocation and bootstrap
+grade_edit_audit | Manual grade change with old and new score
+password_reset_audit | Reset request and completion
+prompt_access_audit | Granted, expired and purged prompt reads
+retention_purge_audit | Prompt and cache purge operations
+result_release_event | Every release-status transition
+selection_log | Every question-selection decision
+adaptive_event | Adaptive batch and decision events

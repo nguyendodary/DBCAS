@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1280" viewBox="0 0 1800 1280" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="1800" height="1280" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">DBCAS logical architecture</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Four tiers, one deployable API and an ephemeral execution tier</text>
+<rect x="80" y="150" width="1240" height="230" rx="18" fill="#F7FAFD" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="110" y="192" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="start" font-weight="bold">Presentation tier</text>
+<text x="110" y="232" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#52657A" text-anchor="start" font-weight="bold">React 19 · Vite · Tailwind CSS 4</text>
+<text x="110" y="274" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">Learner portal: practice setup, exam, profile, guidance</text>
+<text x="110" y="308" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">Administrator portal: curriculum, bank, review queue, system</text>
+<rect x="80" y="150" width="1240" height="510" rx="18" fill="#F7FAFD" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="110" y="192" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="start" font-weight="bold">Application tier</text>
+<text x="110" y="232" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#52657A" text-anchor="start" font-weight="bold">FastAPI on Python 3.13 · /api/v1</text>
+<text x="110" y="274" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">7 registered routers · 72 service modules · 13 repository classes</text>
+<text x="110" y="308" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">118 operations · in-process worker with database job leases</text>
+<rect x="80" y="150" width="1240" height="820" rx="18" fill="#F7FAFD" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="110" y="192" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="start" font-weight="bold">Data tier</text>
+<text x="110" y="232" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#52657A" text-anchor="start" font-weight="bold">PostgreSQL 17</text>
+<text x="110" y="274" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">67 tables · 561 columns · 122 foreign keys · 159 indexes</text>
+<text x="110" y="308" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">28 forward migrations · no external queue or cache</text>
+<rect x="80" y="150" width="1240" height="1060" rx="18" fill="#F7FAFD" stroke="#B8C4D0" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="110" y="192" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="start" font-weight="bold">Execution tier</text>
+<text x="110" y="232" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#52657A" text-anchor="start" font-weight="bold">Ephemeral PostgreSQL container</text>
+<text x="110" y="274" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">Created per SQL run · no network · 256 MB · 1 CPU · 45 s</text>
+<text x="110" y="308" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#1F2937" text-anchor="start">read-only root · non-root user · 3 000 ms timeout · 1 000 rows</text>
+<rect x="1400" y="300" width="340" height="190" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="1570" y="350" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">LLM provider</text>
+<text x="1570" y="390" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">OpenAI-compatible</text>
+<text x="1570" y="424" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">essay + generation</text>
+<text x="1570" y="458" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">external · no weights</text>
+<rect x="1400" y="560" width="340" height="160" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="1570" y="610" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">SMTP</text>
+<text x="1570" y="650" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">Mailpit locally</text>
+<text x="1570" y="684" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">password reset</text>
+<rect x="1400" y="800" width="340" height="190" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="1570" y="850" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">OAuth</text>
+<text x="1570" y="890" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">Google · GitHub</text>
+<text x="1570" y="924" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">authorisation code</text>
+<text x="1570" y="958" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">external identity</text>
+<line x1="700" y1="460" x2="700" y2="505" stroke="#083F75" stroke-width="4" marker-end="url(#arrow)"/>
+<text x="730" y="492" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#083F75" text-anchor="start">HTTPS / JSON</text>
+<line x1="700" y1="740" x2="700" y2="815" stroke="#083F75" stroke-width="4" marker-end="url(#arrow)"/>
+<text x="730" y="792" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#083F75" text-anchor="start">SQLAlchemy · psycopg</text>
+<line x1="700" y1="1050" x2="700" y2="1055" stroke="#083F75" stroke-width="4"/>
+<line x1="380" y1="820" x2="380" y2="1055" stroke="#C55A11" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#arrow)"/>
+<text x="405" y="950" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#C55A11" text-anchor="start">Docker API</text>
+<text x="405" y="985" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#C55A11" text-anchor="start">create / exec / rm</text>
+<path d="M1320 620 L1390 620" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1328" y="604" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">HTTPS</text>
+<path d="M1320 680 L1390 680" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1328" y="664" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">SMTP</text>
+<path d="M1320 900 L1390 900" fill="none" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1322" y="884" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">OAuth</text>
+<text x="90" y="1260" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">The browser never reaches PostgreSQL. The API is the only client of the data tier and of the ephemeral execution container.</text>
+</svg>

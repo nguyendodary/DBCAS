@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1720" viewBox="0 0 3000 1720" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="3000" height="1720" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">DBCAS deployment view</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Default local Compose profile, the QA-only provider and the per-execution sandbox</text>
+<rect x="60" y="220" width="520" height="200" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="320" y="286" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">User&#x27;s browser</text>
+<text x="320" y="330" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">Chrome, Edge, Firefox, Safari</text>
+<text x="320" y="366" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">React 19 SPA</text>
+<rect x="60" y="500" width="2880" height="1080" rx="20" fill="#F7FAFD" stroke="#52657A" stroke-width="3" stroke-dasharray="12 9"/>
+<text x="90" y="550" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#083F75" text-anchor="start" font-weight="bold">Docker-capable host · Compose project dbcas-local</text>
+<rect x="100" y="620" width="500" height="220" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="350.0" y="682" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">frontend</text>
+<text x="350.0" y="724" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#EAF4FB" text-anchor="middle">Nginx + built SPA</text>
+<text x="350.0" y="768" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">18080 → 8080</text>
+<text x="350.0" y="798" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">proxies /api/v1</text>
+<rect x="680" y="620" width="620" height="220" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="990.0" y="682" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">app</text>
+<text x="990.0" y="724" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#EAF4FB" text-anchor="middle">FastAPI + in-process worker</text>
+<text x="990.0" y="768" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">18000 → 8000</text>
+<text x="990.0" y="798" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">2 uvicorn workers</text>
+<rect x="1380" y="620" width="440" height="220" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1600.0" y="682" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="bold">db</text>
+<text x="1600.0" y="724" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#EAF4FB" text-anchor="middle">PostgreSQL 17</text>
+<text x="1600.0" y="768" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">internal database network</text>
+<text x="1600.0" y="798" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">volume local-data</text>
+<rect x="1900" y="620" width="420" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="2110.0" y="682" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">init</text>
+<text x="2110.0" y="724" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">one-shot migrate + seed</text>
+<text x="2110.0" y="768" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">schema.sql + 28 migrations</text>
+<text x="2110.0" y="798" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">exits after seed</text>
+<rect x="2400" y="620" width="500" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="2650.0" y="682" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">mailpit</text>
+<text x="2650.0" y="724" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">SMTP capture + mailbox UI</text>
+<text x="2650.0" y="768" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">11025 → 1025 SMTP</text>
+<text x="2650.0" y="798" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">18025 → 8025 UI</text>
+<rect x="100" y="980" width="500" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="350.0" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">executor-image</text>
+<text x="350.0" y="1084" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">dbcas-sql-ephemeral:local</text>
+<text x="350.0" y="1128" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">build only</text>
+<text x="350.0" y="1158" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">no long-running process</text>
+<rect x="680" y="980" width="620" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="990.0" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">SQL sandbox</text>
+<text x="990.0" y="1084" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">ephemeral PostgreSQL 17</text>
+<text x="990.0" y="1128" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">docker create/exec/rm</text>
+<text x="990.0" y="1158" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">network none · 256 MB</text>
+<rect x="1380" y="980" width="440" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="1600.0" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">qa-ai (QA only)</text>
+<text x="1600.0" y="1084" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">deterministic fake provider</text>
+<text x="1600.0" y="1128" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">docker-compose.qa.yml</text>
+<text x="1600.0" y="1158" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">never calls a real model</text>
+<rect x="1900" y="980" width="420" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="2110.0" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#083F75" text-anchor="middle" font-weight="bold">real-QA meter</text>
+<text x="2110.0" y="1084" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="middle">opt-in outbound counter</text>
+<text x="2110.0" y="1128" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">docker-compose.real-qa.yml</text>
+<text x="2110.0" y="1158" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">counts LLM requests</text>
+<rect x="2400" y="980" width="500" height="220" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="2650.0" y="1034" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">LLM provider</text>
+<text x="2650.0" y="1078" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">OpenAI-compatible HTTPS</text>
+<text x="2650.0" y="1108" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">external · no weights</text>
+<rect x="2400" y="1280" width="500" height="170" rx="14" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="2650.0" y="1334" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">OAuth providers</text>
+<text x="2650.0" y="1378" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">Google · GitHub</text>
+<text x="2650.0" y="1408" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="middle">authorisation code</text>
+<line x1="320" y1="420" x2="320" y2="610" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="340" y="525" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#083F75" text-anchor="start">HTTPS :18080</text>
+<line x1="600" y1="720" x2="675" y2="720" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="610" y="700" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">proxy /api/v1</text>
+<line x1="1300" y1="720" x2="1375" y2="720" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1310" y="700" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#083F75" text-anchor="start">SQLAlchemy</text>
+<path d="M1000 840 L1000 900 L950 900 L950 975" fill="none" stroke="#C55A11" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="960" y="890" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#C55A11" text-anchor="start">docker.sock</text>
+<path d="M2400 720 L2350 720 L2350 690 L2200 690" fill="none" stroke="#083F75" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="2540" y1="960" x2="2540" y2="970" stroke="#083F75" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="2400" y1="1090" x2="2340" y2="1090" stroke="#083F75" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="900" y="1320" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#52657A" text-anchor="start">Network boundaries: web (frontend, app, mailpit) and database (internal, app and db only). The sandbox is not a Compose service.</text>
+<text x="900" y="1360" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="start">Sources: docker-compose.local.yml, docker-compose.qa.yml, docker-compose.real-qa.yml, backend/app/services/ephemeral_sandbox.py</text>
+<text x="900" y="1400" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#52657A" text-anchor="start">QA-only services are never started by the default profile; they exist so browser tests never call a real model.</text>
+</svg>

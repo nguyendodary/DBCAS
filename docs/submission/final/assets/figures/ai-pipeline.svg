@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1560" viewBox="0 0 3000 1560" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="3000" height="1560" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">AI generation, evaluation and fallback</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">Two AI roles, one validation gate and a deterministic fallback</text>
+<text x="60" y="180" font-family="Arial, Helvetica, sans-serif" font-size="38" fill="#083F75" text-anchor="start" font-weight="bold">A. Question generation (administrator path)</text>
+<text x="60" y="760" font-family="Arial, Helvetica, sans-serif" font-size="38" fill="#083F75" text-anchor="start" font-weight="bold">B. Essay evaluation (learner path)</text>
+<rect x="60" y="240" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="280" y="300" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Administrator request</text>
+<text x="280" y="348" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">concept · band · type</text>
+<text x="280" y="378" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">request id</text>
+<rect x="560" y="240" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="780" y="300" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Governed generation</text>
+<text x="780" y="348" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">governed_generation.py</text>
+<text x="780" y="378" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">source ids · prompt digest</text>
+<rect x="1060" y="240" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1280" y="300" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">LLM provider</text>
+<text x="1280" y="348" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">structured JSON</text>
+<text x="1280" y="378" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">OpenAI-compatible</text>
+<rect x="1560" y="240" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1780" y="300" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Schema gate</text>
+<text x="1780" y="348" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">required fields</text>
+<text x="1780" y="378" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">types · score caps</text>
+<rect x="2060" y="240" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="2280" y="300" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Domain gate</text>
+<text x="2280" y="348" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">concept tags · options</text>
+<text x="2280" y="378" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">answer key · docs</text>
+<rect x="2560" y="240" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="2780" y="300" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Execution + duplicate</text>
+<text x="2780" y="348" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">SQL fixtures · fingerprint</text>
+<text x="2780" y="378" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">candidate draft</text>
+<line x1="506" y1="370" x2="552" y2="370" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1006" y1="370" x2="1052" y2="370" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1506" y1="370" x2="1552" y2="370" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="2006" y1="370" x2="2052" y2="370" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="2506" y1="370" x2="2552" y2="370" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="2560" y="560" width="440" height="160" rx="14" fill="#FBE5D6" stroke="#C55A11" stroke-width="3"/>
+<text x="2780" y="612" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#C55A11" text-anchor="middle" font-weight="bold">Administrator review</text>
+<text x="2780" y="652" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#C55A11" text-anchor="middle">approve / reject candidate</text>
+<text x="2780" y="688" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#C55A11" text-anchor="middle">no auto-publication</text>
+<line x1="2780" y1="500" x2="2780" y2="552" stroke="#C55A11" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="2060" y="560" width="440" height="160" rx="14" fill="#2E7D32" stroke="#2E7D32" stroke-width="3"/>
+<text x="2280" y="612" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Validated question bank</text>
+<text x="2280" y="652" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="middle">only approved items served</text>
+<line x1="2560" y1="640" x2="2508" y2="640" stroke="#2E7D32" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="2780" y1="720" x2="2780" y2="790" stroke="#C55A11" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="2800" y="760" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#C55A11" text-anchor="start">reject</text>
+<rect x="60" y="840" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="280" y="900" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Attempt + rubric</text>
+<text x="280" y="948" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">question version</text>
+<text x="280" y="978" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">rubric profile</text>
+<rect x="560" y="840" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="780" y="900" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Prompt builder</text>
+<text x="780" y="948" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">prompt_builder.py</text>
+<text x="780" y="978" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">deterministic template</text>
+<text x="780" y="1008" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">no model call</text>
+<rect x="1060" y="840" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1280" y="900" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">LLM evaluation</text>
+<text x="1280" y="948" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">llm/service.py</text>
+<text x="1280" y="978" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">structured JSON</text>
+<rect x="1560" y="840" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1780" y="900" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Validation</text>
+<text x="1780" y="948" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">schema + rubric</text>
+<text x="1780" y="978" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">criterion maxima</text>
+<rect x="2060" y="840" width="440" height="260" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="2280" y="900" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#083F75" text-anchor="middle" font-weight="bold">Rubric score</text>
+<text x="2280" y="948" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">criterion scores</text>
+<text x="2280" y="978" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="middle">feedback · flags</text>
+<line x1="506" y1="970" x2="552" y2="970" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1006" y1="970" x2="1052" y2="970" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="1506" y1="970" x2="1552" y2="970" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="2006" y1="970" x2="2052" y2="970" stroke="#083F75" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="560" y="1180" width="440" height="170" rx="14" fill="#FBE5D6" stroke="#C55A11" stroke-width="3"/>
+<text x="780" y="1234" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#C55A11" text-anchor="middle" font-weight="bold">Deterministic fallback</text>
+<text x="780" y="1276" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#C55A11" text-anchor="middle">template rubric · evaluator_fallback</text>
+<text x="780" y="1312" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#C55A11" text-anchor="middle">same score contract</text>
+<path d="M1280 1100 L1280 1265 L1008 1265" fill="none" stroke="#C55A11" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#arrow)"/>
+<text x="1020" y="1248" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#C55A11" text-anchor="start">provider / schema failure</text>
+<path d="M1000 1265 L1000 1180" fill="none" stroke="#C55A11" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#arrow)"/>
+<text x="1020" y="1130" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#C55A11" text-anchor="start">fallback grade</text>
+<rect x="60" y="1400" width="2880" height="120" rx="12" fill="#F2F2F2" stroke="#B8C4D0" stroke-width="2"/>
+<text x="90" y="1442" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Audit and retention</text>
+<text x="90" y="1482" font-family="Arial, Helvetica, sans-serif" font-size="23" fill="#52657A" text-anchor="start">ai_stage_run · ai_stage_attempt · ai_stage_validation · ai_prompt_record · llm_cache · prompt_access_audit · retention_purge_audit</text>
+</svg>

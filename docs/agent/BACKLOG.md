@@ -22,6 +22,13 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   [FITAI specification](freeze-logs/doc-style-spec.md), the clean-clone run and
   the removal of the SRS from the owner set (archived outside the repository).
   `npm run docs:verify-word` is the gate.
+- 2026-11-25 quality recovery: the five documents were revised **in place** after
+  an independent audit. Factual claims were tied to saved logs (test durations,
+  browser skips, secret-scan counts, CI commit, router/service conventions, index
+  breakdown), running heads/captions/cover typography were aligned to the measured
+  FITAI reference, and the illegible Gantt was recreated from a new editable SVG
+  source. Page counts are 20/22/40/12/13; 149/149 assertions pass. Evidence and
+  owner-gated issues: [recovery index](../submission/recovery/document-index.md).
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.

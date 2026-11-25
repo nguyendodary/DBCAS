@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1160" viewBox="0 0 1800 1160" role="img">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#083F75"/></marker><marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#23A2D9"/></marker><marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#52657A"/></marker></defs>
+<rect width="1800" height="1160" fill="#FFFFFF"/>
+<text x="40" y="62" font-family="Arial, Helvetica, sans-serif" font-size="54" fill="#083F75" text-anchor="start" font-weight="bold">Schema map</text>
+<text x="42" y="104" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#52657A" text-anchor="start">67 tables in eight domains, 122 foreign keys and 28 forward migrations</text>
+<rect x="60" y="190" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="84" y="238" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Identity and access</text>
+<text x="84" y="274" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">accounts, roles, sessions, tokens</text>
+<text x="84" y="336" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">12 tables</text>
+<rect x="620" y="190" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="644" y="238" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Curriculum and concepts</text>
+<text x="644" y="274" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">CLOs, concepts, prerequisites, documents</text>
+<text x="644" y="336" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">8 tables</text>
+<rect x="1180" y="190" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1204" y="238" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Question bank and generation</text>
+<text x="1204" y="274" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">questions, options, rubrics, candidates</text>
+<text x="1204" y="336" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">11 tables</text>
+<rect x="60" y="470" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="84" y="518" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Assessment and attempts</text>
+<text x="84" y="554" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">blueprints, sessions, attempts, plans</text>
+<text x="84" y="616" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">12 tables</text>
+<rect x="620" y="470" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="644" y="518" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Grading, results and competency</text>
+<text x="644" y="554" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">jobs, versions, scores, gaps</text>
+<text x="644" y="616" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">12 tables</text>
+<rect x="1180" y="470" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="1204" y="518" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">Review workflow</text>
+<text x="1204" y="554" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">requests, reports, deviations</text>
+<text x="1204" y="616" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">4 tables</text>
+<rect x="620" y="750" width="540" height="200" rx="14" fill="#EAF4FB" stroke="#4472C4" stroke-width="3"/>
+<text x="644" y="798" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#083F75" text-anchor="start" font-weight="bold">AI audit and retention</text>
+<text x="644" y="834" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">stage runs, prompts, caches, purges</text>
+<text x="644" y="896" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#23A2D9" text-anchor="start" font-weight="bold">8 tables</text>
+<rect x="620" y="990" width="1100" height="120" rx="14" fill="#23A2D9" stroke="#083F75" stroke-width="3"/>
+<text x="1170" y="1038" font-family="Arial, Helvetica, sans-serif" font-size="27" fill="#FFFFFF" text-anchor="middle" font-weight="bold">67 tables · 561 columns · 122 foreign keys · 159 indexes · 28 migrations</text>
+<text x="1170" y="1078" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#EAF4FB" text-anchor="middle">PostgreSQL 17.12 introspection; no native enums and no views</text>
+<text x="60" y="990" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#52657A" text-anchor="start">Each domain is expanded in Figures 2–8. The column dictionary in Section 5 lists every column and every FK target.</text>
+</svg>

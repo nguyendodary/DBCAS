@@ -13,7 +13,7 @@ that produced it was removed or repointed.
 |---|---|---:|---:|---:|
 | Proposal | `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx` | 20 | 20 | 4 141 |
 | Architecture Design | `C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx` | 22 | 22 | 4 218 |
-| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 39 | 39 | 5 988 |
+| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 40 | 40 | 5 988 |
 | Code Standards | `C1SE.70_CodeStandards_DBCAS_ver1.3.docx` | 12 | 12 | 2 209 |
 | Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 13 | 13 | 2 843 |
 
@@ -21,8 +21,10 @@ Word page counts come from `ComputeStatistics(2)` after the fields were updated;
 PDF page counts come from PyMuPDF on the Word export
 (`docs/submission/final/verification/page-counts.json`). Word and PDF agree for
 all five files. The previous set was 61 / 78 / 72 / 9 pages plus an SRS; the new
-set is 106 pages in total and covers one more document (Code Standards) and a
-new Technical Report.
+set is 107 pages in total (20 / 22 / 40 / 12 / 13) after the 2026-11-25 quality
+recovery, which corrected factual claims and aligned running heads, captions and
+cover conventions to the measured FITAI reference. It covers one more document
+(Code Standards) and a new Technical Report.
 
 ## 2. Visual inspection
 
@@ -92,10 +94,10 @@ The table combines repository measurements with dated results from the freeze lo
 | Migrations | 28 | `db/migrations/*.sql` |
 | API paths | 106 | `app.openapi()` |
 | API operations | 118 | same |
-| Backend tests | 1 940 passed, 7 skipped | `pytest -q`, re-run 2026-11-25 (24 min 22 s) |
-| Frontend unit tests | 54 files / 463 tests | `vitest` |
-| Browser tests | 152 passed, 4 skipped | sharded Playwright/QA runs |
-| Secret scan | Whole tree (3 129 files in the pre-recovery run), 0 findings | `npm run secrets:scan` |
+| Backend tests | 1 940 passed, 7 skipped | `docs/agent/freeze-logs/backend-pytest-final.log:35` (0:23:54) |
+| Frontend unit tests | 54 files / 463 tests | `docs/agent/freeze-logs/frontend-test.log:16-17` |
+| Browser tests | 152 passed | six baseline shard logs in `docs/agent/freeze-logs/`; no skips recorded |
+| Secret scan | Whole tree (3 083 files at the last saved run), 0 findings | `docs/agent/freeze-logs/final-secrets-tree.log:5` |
 
 The live database reports 68 tables and 564 columns because it also holds
 `schema_migration`; the documents state this exclusion explicitly instead of
@@ -128,7 +130,7 @@ The old `OWNER UNKNOWN` placeholder is replaced by explicit
 | Documentation gate | `npm run docs:check` | PASS, exit 0 (48 assertions, 67 tables / 561 columns / 122 FKs / 159 indexes / 28 migrations) |
 | Submission documents | `npm run docs:verify-word` | PASS, exit 0 (5 documents, 149 assertions, 0 failures) |
 | Route inventory | `npm run inventory:check` | PASS, exit 0 |
-| Secret scan | `npm run secrets:scan` | PASS, whole tree (3 129 files), 0 findings |
+| Secret scan | `npm run secrets:scan` | PASS, whole tree (3 083 files at last saved run), 0 findings |
 | Clean clone | `npm ci` + `npm run env:check` + `npm start` + `/readiness` | PASS, exit 0; readiness reports database true and sandbox true (`verification/clean-clone.log`) |
 
 ## 8. Owner questions raised by this verification
