@@ -1,0 +1,8 @@
+pid=27428
+started=2026-11-25T17:29:31.542859+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" run ui:contrast
+child_pid=25140
+finished=2026-11-25T17:29:32.571748+07:00
+duration_seconds=1.029
+exit=0

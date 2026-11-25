@@ -1,0 +1,3 @@
+npm audit summary: high=0 critical=0 total=0
+advisories found: none
+npm audit --audit-level=high: PASS (no high/critical advisories)

@@ -1,0 +1,8 @@
+pid=23480
+started=2026-11-25T17:29:31.537820+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command=bash scripts/e2e-shards.sh check
+child_pid=24404
+finished=2026-11-25T17:29:32.050677+07:00
+duration_seconds=0.513
+exit=0

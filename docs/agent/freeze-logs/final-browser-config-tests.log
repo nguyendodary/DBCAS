@@ -1,0 +1,11 @@
+✔ production browser profile boots the real API and web app (1.2141ms)
+✔ default browser profile starts the loopback OAuth fixture (0.2448ms)
+✔ provider control POST does not resolve an embedded-DNS service alias (1.668ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 865.9216

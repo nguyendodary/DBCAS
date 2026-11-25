@@ -1,0 +1,11 @@
+pid=22540
+started=2026-11-25T18:03:40.197754+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command=gh run watch 45597486074 --exit-status --interval 60
+run=45597486074
+commit=d6df804
+reason=single_deliberate_watch_after_proven_api_network_timeout
+child_pid=23636
+finished=2026-11-25T18:03:51.480034+07:00
+duration_seconds=11.282
+exit=1

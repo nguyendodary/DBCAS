@@ -1,0 +1,10 @@
+pid=20772
+started=2026-11-25T17:43:45.276813+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command=gh run watch 45597486074 --exit-status --interval 30
+run=45597486074
+commit=d6df804
+child_pid=12112
+finished=2026-11-25T18:02:20.831845+07:00
+duration_seconds=1115.555
+exit=1

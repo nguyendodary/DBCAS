@@ -10,17 +10,16 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Review complete; no product change | [ui-review.md](ui-review.md) records desktop/mobile/admin evidence and two D4-gated copy findings; no image snapshot, translation or behavior was edited. |
 | 5 | Generation and verification complete; approval gated | [doc-verify.md](doc-verify.md) records four hashes, 79/79 audit assertions, Word/PDF page parity (61/78/72/9) and the narrow collector fix. DOCX remain outside Git pending owner approval. |
-| 6 | Pending | Run final gates and real-stack E2E after the preceding work. |
-| 7 | Pending | Follow branch protection; owner review remains gated by D3. |
+| 6 | Complete | [final-gates-v2.md](final-gates-v2.md) records all local gates, QA-stack teardown and exact-commit CI run `45597486074` **success** (12/12 jobs); two watch attempts only failed on GitHub API connectivity. |
+| 7 | Gates verified; no merge | [phase7-branch-gates.md](phase7-branch-gates.md): `main` unchanged, no open PR, no branch protection/ruleset bypass, D1/D3/D4 still owner-gated. |
 
 ## Next commands
 
-Phase B is recorded; do not rerun its green gates. Next: review the real UI and
-write `ui-review.md` without product changes (D4), finish the four verified
-`ver1.3` Word files and the narrow collector correction, then run the Phase 6
-final gates. Keep Docker-using gates sequential and preserve logs. The
-interrupted first shard-2 launch remains retained as `*-attempt1-aborted.*` and
-is not evidence.
+All recovery phases are complete. Do not rerun green gates. Remaining actions
+are owner decisions only: D1 cleanup deletion, D3 `develop2 → main` promotion,
+and D4 approval of the two stale-copy corrections and the four external
+`ver1.3` DOCX. The interrupted first shard-2 launch remains retained as
+`*-attempt1-aborted.*` and is not evidence. Production stays **HOLD**.
 
 An isolated, detached worktree at
 `_worktrees/recovery-baseline-20261125/DBCAS` points at `253f272`. It reuses

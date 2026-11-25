@@ -1,0 +1,8 @@
+pid=26760
+started=2026-11-25T17:29:31.533480+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command=node scripts/frontend_security_audit.mjs
+child_pid=22740
+finished=2026-11-25T17:29:34.057244+07:00
+duration_seconds=2.524
+exit=0

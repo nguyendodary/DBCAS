@@ -1,0 +1,8 @@
+pid=14932
+started=2026-11-25T17:29:31.538286+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command=node --test scripts/browser_config.test.mjs scripts/provider_control.test.mjs
+child_pid=2536
+finished=2026-11-25T17:29:32.491030+07:00
+duration_seconds=0.953
+exit=0

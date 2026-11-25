@@ -1,0 +1,39 @@
+✔ formerly excepted picomatch advisory -> FAIL (3.3395ms)
+✔ different GHSA high -> FAIL (0.7017ms)
+✔ different GHSA critical -> FAIL (0.3768ms)
+✔ non-GHSA high -> FAIL (0.3554ms)
+✔ non-GHSA critical -> FAIL (0.3769ms)
+✔ mixed GHSA findings -> FAIL (0.438ms)
+✔ empty JSON -> FAIL (0.2561ms)
+✔ missing metadata -> FAIL (0.337ms)
+✔ missing vulnerabilities -> FAIL (2.264ms)
+✔ registry error -> FAIL (0.7955ms)
+✔ malformed JSON -> FAIL (1.0128ms)
+✔ unknown via chain -> FAIL (0.4522ms)
+✔ unresolvable package reference -> FAIL (0.3051ms)
+✔ test-mode bypass attempt in GitHub Actions -> FAIL (0.5202ms)
+✔ npm exit 0 with high findings -> FAIL (0.3116ms)
+✔ npm exit 1 with no high or critical findings -> FAIL (0.2769ms)
+✔ moderate finding stays below the high threshold (0.2676ms)
+✔ clean report with npm exit 0 -> PASS (0.94ms)
+✔ metadata package counts must match vulnerability entries (0.3001ms)
+✔ cyclic via chain -> FAIL (0.2696ms)
+✔ unknown auditReportVersion -> FAIL (0.1967ms)
+✔ non-object vulnerabilities or metadata counts -> FAIL (0.2523ms)
+✔ non-GitHub URL carrying the former exception id -> FAIL (2.0033ms)
+✔ valid JSON with UTF-8 BOM -> PASS (0.4209ms)
+✔ mock: clean JSON + exit 0 + registry error on stderr -> BLOCKED (1.5708ms)
+✔ registry/network/audit-endpoint stderr signatures -> BLOCKED (1.2784ms)
+✔ error signature inside an npm WARN line -> BLOCKED (0.4434ms)
+✔ stderr failure overrides valid JSON and any exit code (0.4595ms)
+✔ benign stderr (empty or npm WARN lines) -> PASS (0.6651ms)
+✔ unknown stderr -> BLOCKED (allowlist) (0.3537ms)
+✔ wrapper process fails closed on mocked registry stderr (316.9031ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 515.8426

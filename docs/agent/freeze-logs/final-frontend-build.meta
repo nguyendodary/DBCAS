@@ -1,0 +1,8 @@
+pid=23388
+started=2026-11-25T17:29:31.550223+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" --prefix frontend run build
+child_pid=3852
+finished=2026-11-25T17:29:34.912010+07:00
+duration_seconds=3.362
+exit=0

@@ -1,0 +1,8 @@
+pid=14940
+started=2026-11-25T17:29:31.542595+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" audit --audit-level=high
+child_pid=19468
+finished=2026-11-25T17:29:33.948319+07:00
+duration_seconds=2.406
+exit=0

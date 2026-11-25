@@ -2,20 +2,24 @@
 
 Date: 2026-11-25. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Recovery in progress: the renewed packaging task is tracked in
-[PROGRESS](freeze-logs/PROGRESS.md). Phase A inventory has been recorded;
-the local Phase B baseline is running and later packaging phases remain pending.
-The partial [baseline record](freeze-logs/baseline-v2.md) includes the pytest
-exit-code capture limitation and points to the original local output.
-E2E verification is running in the isolated recovery worktree; completed shard
-results and logs are in the partial baseline record.
-The Phase 0 workspace and branch inventory is recorded, with a limitation on
-the detailed review of one large historical synchronization diff.
-The [cleanup proposal](freeze-logs/cleanup-proposal.md) is ready; no deletion
-has been performed and item 1 awaits the owner's D1 decision.
-The FITAI template measurements are recorded; the revised Word files and their
-render verification are not complete. A stale practice-limit value in the
-documentation fact collector is recorded for correction.
+Recovery packaging is complete; see [PROGRESS](freeze-logs/PROGRESS.md). The
+[Phase B baseline](freeze-logs/baseline-v2.md) and
+[final gates](freeze-logs/final-gates-v2.md) record green local checks and an
+exact-commit CI `success` for `d6df804` (12/12 jobs); the older pytest child
+exit-code capture limitation is preserved without being silently turned into a
+zero. E2E, practice, local smoke and QA ran sequentially in the isolated
+worktree, which was then stopped without removing its volume.
+The [Phase 0 review](freeze-logs/phase0-large-sync-review.md) disposes of all
+236 remaining historical sync paths with a binary/generated-content limitation.
+The [cleanup proposal](freeze-logs/cleanup-proposal.md) remains proposal-only;
+no deletion was performed and item 1 awaits the owner's D1 decision.
+The [real UI review](freeze-logs/ui-review.md) is complete with two D4-gated
+copy findings and no product or image-snapshot change.
+[Word verification](freeze-logs/doc-verify.md) records four `ver1.3` files
+outside Git and the narrow practice-limit collector correction; no draft DOCX
+was committed to `docs/academic`.
+[Branch gates](freeze-logs/phase7-branch-gates.md) were checked without a merge;
+D3 remains owner-gated.
 
 Baseline: `develop2` architecture-freeze work through `974b92b` (T1–T8), after the earlier integration pass at `e541495`; final freeze commit and verified results are recorded in [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). **Architecture freeze: no new feature, table, migration, route or flag work after the accepted T1–T9 set** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. Handover docs and the local tag `arch-freeze-v1.2` were added on 2026-11-25; nothing was pushed. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 

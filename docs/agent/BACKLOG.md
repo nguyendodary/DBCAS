@@ -2,24 +2,30 @@
 
 Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
-## Packaging recovery (2026-11-25)
+## Packaging recovery (2026-11-25) — complete
 
-- Finish and record the sequential Phase B baseline, then the workspace and
-  branch survey, UI review, Word verification, and final gates listed in
-  [PROGRESS](freeze-logs/PROGRESS.md).
-- Preserve the reported pytest exit-code capture limitation when assessing the
-  [partial baseline](freeze-logs/baseline-v2.md).
-- Finish the isolated E2E shards and remaining sequential browser gates.
-- Complete the outstanding detailed review of the historical synchronization
-  diff identified in [phase0-survey](freeze-logs/phase0-survey.md).
-- Create and verify the four new Word files using the measured
-  [FITAI style specification](freeze-logs/doc-style-spec.md).
-- Correct the stale practice count in the documentation collector described in
-  [doc-facts-discrepancy](freeze-logs/doc-facts-discrepancy.md), then verify it
-  against the existing public configuration without changing validators.
-- Await the D1 decision on item 1 in the
-  [cleanup proposal](freeze-logs/cleanup-proposal.md); do not delete any item
-  without approval. Follow the existing release and snapshot review gates.
+- The sequential [Phase B baseline](freeze-logs/baseline-v2.md) and
+  [final gates](freeze-logs/final-gates-v2.md) are recorded with saved logs and
+  exit codes; exact-commit CI run `45597486074` was `success` (12/12 jobs). The
+  historical pytest child exit-code capture limitation remains documented.
+- The workspace/branch survey and the
+  [detailed sync review](freeze-logs/phase0-large-sync-review.md) are complete;
+  all 236 remaining paths were dispositioned with the stated binary/generated
+  limitation and no import candidate.
+- The [real UI review](freeze-logs/ui-review.md) is complete. Two stale-copy
+  items await the D4 decision; no product copy, image snapshot or behavior was
+  changed.
+- Four `ver1.3` Word files were generated and
+  [verified](freeze-logs/doc-verify.md) outside Git using the measured
+  [FITAI specification](freeze-logs/doc-style-spec.md). Committing revised
+  academic DOCX remains an owner decision.
+- The stale practice count in `scripts/doc_facts.py` was corrected from
+  `public_config()` and verified against the current public configuration
+  without changing validators or application validation.
+- Await the owner gates: D1 deletion of item 1 in the
+  [cleanup proposal](freeze-logs/cleanup-proposal.md), D3 `develop2 → main`
+  promotion, and D4 approval of external documents and the two copy fixes.
+  No deletion, merge, remote ref change or product snapshot change was made.
 
 ## Accepted freeze work (2026-11-24)
 

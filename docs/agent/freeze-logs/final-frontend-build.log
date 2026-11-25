@@ -1,0 +1,47 @@
+
+> dbcas-frontend@0.1.0 build
+> vite build
+
+[36mvite v8.3.5 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                       0.92 kB │ gzip:   0.45 kB
+dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2              10.25 kB
+dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.19 kB
+dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2                   48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2               85.06 kB
+dist/assets/hinhnen-D7sbDL2R.jpg                                    220.12 kB
+dist/assets/SQL-Da2dzN9n.jpg                                        281.94 kB
+dist/assets/hinhnen_Home-SQd3q-1_.jpg                               283.30 kB
+dist/assets/nen1-B2ia90PC.jpg                                       422.07 kB
+dist/assets/video1-_rNGMUlU.mp4                                   1,267.78 kB
+dist/assets/hinhnen_Home-B9v50u7V.mp4                             4,844.77 kB
+dist/assets/index-DBeGau7I.css                                      141.57 kB │ gzip:  24.98 kB
+dist/assets/video1-DJ6oyyUJ.js                                        0.08 kB │ gzip:   0.09 kB
+dist/assets/AdaptiveOutcome-Bxe1p84X.js                               0.49 kB │ gzip:   0.30 kB
+dist/assets/usePendingResults-ZcZs7gvX.js                             0.85 kB │ gzip:   0.49 kB
+dist/assets/AdminSystemPage-zak3ZjDY.js                               2.23 kB │ gzip:   0.72 kB
+dist/assets/GradingStatusPanel-CkiX5D7f.js                            2.49 kB │ gzip:   1.02 kB
+dist/assets/SettingsPage-CFvb0ia9.js                                  3.40 kB │ gzip:   0.97 kB
+dist/assets/HistoryPage-BUvIhwXz.js                                   4.61 kB │ gzip:   1.81 kB
+dist/assets/admin-DC_rFFXX.js                                         5.09 kB │ gzip:   1.94 kB
+dist/assets/StatisticsPanel-CLuDK-s9.js                               8.60 kB │ gzip:   2.69 kB
+dist/assets/AdminPage-BiKSgNiy.js                                     8.72 kB │ gzip:   2.57 kB
+dist/assets/AdminAccountsPage-DbpiW9ka.js                             9.91 kB │ gzip:   2.95 kB
+dist/assets/EvidencePage-CKntV29A.js                                  9.95 kB │ gzip:   3.20 kB
+dist/assets/CumulativePage-wfW1WwR-.js                               13.02 kB │ gzip:   3.63 kB
+dist/assets/AdminDocumentsPage-CN74E-gZ.js                           15.73 kB │ gzip:   4.19 kB
+dist/assets/DashboardPage-DMfSx7Jb.js                                18.47 kB │ gzip:   4.61 kB
+dist/assets/EvaluationPage-CXGirt7A.js                               22.59 kB │ gzip:   5.94 kB
+dist/assets/AdminGradingPage-DYq_TzGz.js                             29.21 kB │ gzip:   6.87 kB
+dist/assets/AdminBankPage-DAf1001c.js                                53.56 kB │ gzip:  11.47 kB
+dist/assets/ExamPage-CEU6knd9.js                                     53.70 kB │ gzip:  13.54 kB
+dist/assets/CompetencyCharts-D4k254zF.js                            186.03 kB │ gzip:  64.69 kB
+dist/assets/ui-BzG-Uu5f.js                                          320.03 kB │ gzip: 102.59 kB
+dist/assets/index-DgyYv2ey.js                                       322.13 kB │ gzip:  97.59 kB
+
+[32m✓ built in 962ms[39m

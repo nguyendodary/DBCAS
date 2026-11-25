@@ -1,0 +1,197 @@
+
+> dbcas-local@0.1.0 ui:contrast
+> node scripts/check_contrast.mjs
+
+
+dark theme
+  PASS text on bg: 18.32:1
+  PASS text on surface: 17.32:1
+  PASS text on surface-elevated: 16.02:1
+  PASS text on surface-muted: 16.91:1
+  PASS text on surface-sidebar: 18.11:1
+  PASS text-muted on bg: 11.77:1
+  PASS text-muted on surface: 11.13:1
+  PASS text-muted on surface-elevated: 10.30:1
+  PASS text-muted on surface-muted: 10.87:1
+  PASS text-muted on surface-sidebar: 11.64:1
+  PASS text-subtle on bg: 7.86:1
+  PASS text-subtle on surface: 7.43:1
+  PASS text-subtle on surface-elevated: 6.87:1
+  PASS text-subtle on surface-muted: 7.25:1
+  PASS text-subtle on surface-sidebar: 7.77:1
+  PASS text-faint on bg: 6.65:1
+  PASS text-faint on surface: 6.28:1
+  PASS text-faint on surface-elevated: 5.81:1
+  PASS text-faint on surface-muted: 6.14:1
+  PASS text-faint on surface-sidebar: 6.57:1
+  PASS brand-text on bg: 16.13:1
+  PASS brand-text on surface: 15.25:1
+  PASS brand-text on surface-elevated: 14.11:1
+  PASS brand-text on surface-muted: 14.89:1
+  PASS brand-text on surface-sidebar: 15.95:1
+  PASS brand-soft on bg: 13.89:1
+  PASS brand-soft on surface: 13.13:1
+  PASS brand-soft on surface-elevated: 12.15:1
+  PASS brand-soft on surface-muted: 12.82:1
+  PASS brand-soft on surface-sidebar: 13.73:1
+  PASS primary on bg: 11.14:1
+  PASS primary on surface: 10.53:1
+  PASS primary on surface-elevated: 9.75:1
+  PASS primary on surface-muted: 10.29:1
+  PASS primary on surface-sidebar: 11.01:1
+  PASS success-text on bg: 13.21:1
+  PASS success-text on surface: 12.49:1
+  PASS success-text on surface-elevated: 11.56:1
+  PASS success-text on surface-muted: 12.20:1
+  PASS success-text on surface-sidebar: 13.06:1
+  PASS warning-text on bg: 13.96:1
+  PASS warning-text on surface: 13.20:1
+  PASS warning-text on surface-elevated: 12.22:1
+  PASS warning-text on surface-muted: 12.89:1
+  PASS warning-text on surface-sidebar: 13.80:1
+  PASS danger-text on bg: 10.65:1
+  PASS danger-text on surface: 10.07:1
+  PASS danger-text on surface-elevated: 9.31:1
+  PASS danger-text on surface-muted: 9.83:1
+  PASS danger-text on surface-sidebar: 10.53:1
+  PASS info-text on bg: 12.08:1
+  PASS info-text on surface: 11.42:1
+  PASS info-text on surface-elevated: 10.56:1
+  PASS info-text on surface-muted: 11.15:1
+  PASS info-text on surface-sidebar: 11.94:1
+  PASS secondary-text on bg: 10.91:1
+  PASS secondary-text on surface: 10.31:1
+  PASS secondary-text on surface-elevated: 9.54:1
+  PASS secondary-text on surface-muted: 10.07:1
+  PASS secondary-text on surface-sidebar: 10.78:1
+  PASS neutral-status-text on bg: 13.56:1
+  PASS neutral-status-text on surface: 12.82:1
+  PASS neutral-status-text on surface-elevated: 11.86:1
+  PASS neutral-status-text on surface-muted: 12.52:1
+  PASS neutral-status-text on surface-sidebar: 13.41:1
+  PASS text-disabled on surface: 7.43:1 (inactive 3:1)
+  PASS text-disabled on surface-muted: 7.25:1 (inactive 3:1)
+  PASS success-text on success-surface: 10.46:1
+  PASS warning-text on warning-surface: 10.96:1
+  PASS danger-text on danger-surface: 8.99:1
+  PASS primary-foreground on primary: 11.16:1
+  PASS chart-1 on surface: 7.49:1 (graphic 3:1)
+  PASS chart-1 on bg: 7.92:1 (graphic 3:1)
+  PASS chart-2 on surface: 8.41:1 (graphic 3:1)
+  PASS chart-2 on bg: 8.90:1 (graphic 3:1)
+  PASS chart-3 on surface: 10.92:1 (graphic 3:1)
+  PASS chart-3 on bg: 11.56:1 (graphic 3:1)
+  PASS chart-4 on surface: 7.20:1 (graphic 3:1)
+  PASS chart-4 on bg: 7.62:1 (graphic 3:1)
+  PASS chart-5 on surface: 12.43:1 (graphic 3:1)
+  PASS chart-5 on bg: 13.15:1 (graphic 3:1)
+  PASS chart-6 on surface: 5.06:1 (graphic 3:1)
+  PASS chart-6 on bg: 5.35:1 (graphic 3:1)
+  PASS chart-7 on surface: 10.53:1 (graphic 3:1)
+  PASS chart-7 on bg: 11.14:1 (graphic 3:1)
+  PASS chart-8 on surface: 10.23:1 (graphic 3:1)
+  PASS chart-8 on bg: 10.82:1 (graphic 3:1)
+  PASS chart-9 on surface: 7.74:1 (graphic 3:1)
+  PASS chart-9 on bg: 8.18:1 (graphic 3:1)
+  PASS chart-10 on surface: 12.63:1 (graphic 3:1)
+  PASS chart-10 on bg: 13.35:1 (graphic 3:1)
+  PASS chart-target on surface: 7.07:1 (graphic 3:1)
+  PASS chart-target on bg: 7.48:1 (graphic 3:1)
+
+light theme
+  PASS text on bg: 17.37:1
+  PASS text on surface: 18.95:1
+  PASS text on surface-elevated: 18.95:1
+  PASS text on surface-muted: 16.88:1
+  PASS text on surface-sidebar: 18.29:1
+  PASS text-muted on bg: 7.53:1
+  PASS text-muted on surface: 8.22:1
+  PASS text-muted on surface-elevated: 8.22:1
+  PASS text-muted on surface-muted: 7.32:1
+  PASS text-muted on surface-sidebar: 7.93:1
+  PASS text-subtle on bg: 5.29:1
+  PASS text-subtle on surface: 5.77:1
+  PASS text-subtle on surface-elevated: 5.77:1
+  PASS text-subtle on surface-muted: 5.14:1
+  PASS text-subtle on surface-sidebar: 5.57:1
+  PASS text-faint on bg: 4.64:1
+  PASS text-faint on surface: 5.06:1
+  PASS text-faint on surface-elevated: 5.06:1
+  PASS text-faint on surface-muted: 4.51:1
+  PASS text-faint on surface-sidebar: 4.88:1
+  PASS brand-text on bg: 6.73:1
+  PASS brand-text on surface: 7.34:1
+  PASS brand-text on surface-elevated: 7.34:1
+  PASS brand-text on surface-muted: 6.54:1
+  PASS brand-text on surface-sidebar: 7.09:1
+  PASS brand-soft on bg: 6.73:1
+  PASS brand-soft on surface: 7.34:1
+  PASS brand-soft on surface-elevated: 7.34:1
+  PASS brand-soft on surface-muted: 6.54:1
+  PASS brand-soft on surface-sidebar: 7.09:1
+  PASS primary on bg: 5.37:1
+  PASS primary on surface: 5.86:1
+  PASS primary on surface-elevated: 5.86:1
+  PASS primary on surface-muted: 5.22:1
+  PASS primary on surface-sidebar: 5.66:1
+  PASS success-text on bg: 6.05:1
+  PASS success-text on surface: 6.60:1
+  PASS success-text on surface-elevated: 6.60:1
+  PASS success-text on surface-muted: 5.88:1
+  PASS success-text on surface-sidebar: 6.37:1
+  PASS warning-text on bg: 6.34:1
+  PASS warning-text on surface: 6.92:1
+  PASS warning-text on surface-elevated: 6.92:1
+  PASS warning-text on surface-muted: 6.17:1
+  PASS warning-text on surface-sidebar: 6.68:1
+  PASS danger-text on bg: 6.88:1
+  PASS danger-text on surface: 7.50:1
+  PASS danger-text on surface-elevated: 7.50:1
+  PASS danger-text on surface-muted: 6.68:1
+  PASS danger-text on surface-sidebar: 7.24:1
+  PASS info-text on bg: 6.93:1
+  PASS info-text on surface: 7.56:1
+  PASS info-text on surface-elevated: 7.56:1
+  PASS info-text on surface-muted: 6.74:1
+  PASS info-text on surface-sidebar: 7.30:1
+  PASS secondary-text on bg: 6.51:1
+  PASS secondary-text on surface: 7.10:1
+  PASS secondary-text on surface-elevated: 7.10:1
+  PASS secondary-text on surface-muted: 6.33:1
+  PASS secondary-text on surface-sidebar: 6.86:1
+  PASS neutral-status-text on bg: 8.28:1
+  PASS neutral-status-text on surface: 9.03:1
+  PASS neutral-status-text on surface-elevated: 9.03:1
+  PASS neutral-status-text on surface-muted: 8.05:1
+  PASS neutral-status-text on surface-sidebar: 8.72:1
+  PASS text-disabled on surface: 4.89:1 (inactive 3:1)
+  PASS text-disabled on surface-muted: 4.36:1 (inactive 3:1)
+  PASS success-text on success-surface: 5.99:1
+  PASS warning-text on warning-surface: 6.43:1
+  PASS danger-text on danger-surface: 6.79:1
+  PASS primary-foreground on primary: 5.86:1
+  PASS chart-1 on surface: 5.17:1 (graphic 3:1)
+  PASS chart-1 on bg: 4.74:1 (graphic 3:1)
+  PASS chart-2 on surface: 5.18:1 (graphic 3:1)
+  PASS chart-2 on bg: 4.75:1 (graphic 3:1)
+  PASS chart-3 on surface: 5.02:1 (graphic 3:1)
+  PASS chart-3 on bg: 4.60:1 (graphic 3:1)
+  PASS chart-4 on surface: 5.70:1 (graphic 3:1)
+  PASS chart-4 on bg: 5.22:1 (graphic 3:1)
+  PASS chart-5 on surface: 4.92:1 (graphic 3:1)
+  PASS chart-5 on bg: 4.51:1 (graphic 3:1)
+  PASS chart-6 on surface: 6.47:1 (graphic 3:1)
+  PASS chart-6 on bg: 5.93:1 (graphic 3:1)
+  PASS chart-7 on surface: 5.36:1 (graphic 3:1)
+  PASS chart-7 on bg: 4.91:1 (graphic 3:1)
+  PASS chart-8 on surface: 4.99:1 (graphic 3:1)
+  PASS chart-8 on bg: 4.58:1 (graphic 3:1)
+  PASS chart-9 on surface: 6.32:1 (graphic 3:1)
+  PASS chart-9 on bg: 5.80:1 (graphic 3:1)
+  PASS chart-10 on surface: 7.58:1 (graphic 3:1)
+  PASS chart-10 on bg: 6.95:1 (graphic 3:1)
+  PASS chart-target on surface: 6.29:1 (graphic 3:1)
+  PASS chart-target on bg: 5.76:1 (graphic 3:1)
+
+186 contrast pairs checked
+All contrast checks passed
