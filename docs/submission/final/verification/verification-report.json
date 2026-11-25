@@ -61,7 +61,7 @@
       "detail": ""
     },
     {
-      "id": "proposal: page size A4",
+      "id": "proposal: page size A4 (portrait or landscape)",
       "status": "PASS",
       "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
@@ -113,12 +113,12 @@
     {
       "id": "proposal: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026"
     },
     {
       "id": "proposal: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Project Proposal\tPage 1"
+      "detail": "Do, Nguyen Quoc\tPage 1 of 1"
     },
     {
       "id": "architecture: file opens",
@@ -126,14 +126,14 @@
       "detail": ""
     },
     {
-      "id": "architecture: page size A4",
+      "id": "architecture: page size A4 (portrait or landscape)",
       "status": "PASS",
-      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 29.7, \"height_cm\": 21.0, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 29.7, \"height_cm\": 21.0, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 29.7, \"height_cm\": 21.0, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
     {
       "id": "architecture: margins 3.5/2/2/2 cm",
       "status": "PASS",
-      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
     {
       "id": "architecture: Normal 13 pt",
@@ -178,12 +178,12 @@
     {
       "id": "architecture: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026"
     },
     {
       "id": "architecture: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Architecture Design Document\tPage 1"
+      "detail": "Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1"
     },
     {
       "id": "database: file opens",
@@ -191,14 +191,14 @@
       "detail": ""
     },
     {
-      "id": "database: page size A4",
+      "id": "database: page size A4 (portrait or landscape)",
       "status": "PASS",
-      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 29.7, \"height_cm\": 21.0, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
     {
       "id": "database: margins 3.5/2/2/2 cm",
       "status": "PASS",
-      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
     {
       "id": "database: Normal 13 pt",
@@ -243,12 +243,12 @@
     {
       "id": "database: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026 C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026"
     },
     {
       "id": "database: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Database Design Document\tPage 1"
+      "detail": "Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1 Do, Nguyen Quoc\tPage 1 of 1"
     },
     {
       "id": "codestandards: file opens",
@@ -256,7 +256,7 @@
       "detail": ""
     },
     {
-      "id": "codestandards: page size A4",
+      "id": "codestandards: page size A4 (portrait or landscape)",
       "status": "PASS",
       "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
@@ -308,12 +308,12 @@
     {
       "id": "codestandards: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026"
     },
     {
       "id": "codestandards: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Code Standards Document\tPage 1"
+      "detail": "Do, Nguyen Quoc\tPage 1 of 1"
     },
     {
       "id": "technicalreport: file opens",
@@ -321,7 +321,7 @@
       "detail": ""
     },
     {
-      "id": "technicalreport: page size A4",
+      "id": "technicalreport: page size A4 (portrait or landscape)",
       "status": "PASS",
       "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
     },
@@ -373,12 +373,12 @@
     {
       "id": "technicalreport: header",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 - 2026"
+      "detail": "C1SE.70 · DBCAS\tInternational School Capstone 1 – 2026"
     },
     {
       "id": "technicalreport: footer page field",
       "status": "PASS",
-      "detail": "C1SE.70 · DBCAS · Technical Report\tPage 1"
+      "detail": "Do, Nguyen Quoc\tPage 1 of 1"
     },
     {
       "id": "final directory holds only the five documents",
@@ -588,7 +588,7 @@
     {
       "id": "proposal: 15 required sections in order",
       "status": "PASS",
-      "detail": "[\"1. Project Title\", \"2. Team Members\", \"3. Supervisor(s)\", \"4. Problem Statement\", \"5. Survey / Existing Solutions\", \"6. Objectives and Scope\", \"7. Key Features & Requirements\", \"8. Constraints and Assumptions\", \"9. Target Users / Stakeholders\", \"10. Technology Stack\", \"11. Methodology & Development Plan\", \"12. System Architecture Overview\", \"13. Potential Risks and Mitigation\", \"14. Expected Outcomes / Deliverables\", \"15. References\"]"
+      "detail": "[\"1. Project Title\", \"2. Team Members\", \"3. Supervisor(s)\", \"4. Problem Statement\", \"5. Survey / Existing Solutions\", \"6. Objectives and Scope\", \"7. Key Features & Requirements\", \"8. Constraints and Assumptions\", \"9. Target Users / Stakeholders\", \"10. Technology Stack\", \"11. Methodology & Development Plan\", \"12. System Architecture Overview\", \"13. Potential Risks and Mitigation Strategies\", \"14. Expected Outcomes / Deliverables\", \"15. References\"]"
     },
     {
       "id": "proposal: tables claims match measured 67",
@@ -618,27 +618,22 @@
     {
       "id": "architecture: tables claims match measured 67",
       "status": "PASS",
-      "detail": "found=[]"
+      "detail": "found=[67]"
     },
     {
       "id": "architecture: migrations claims match measured 28",
       "status": "PASS",
-      "detail": "found=[]"
+      "detail": "found=[28]"
     },
     {
       "id": "architecture: foreign_keys claims match measured 122",
       "status": "PASS",
-      "detail": "found=[]"
+      "detail": "found=[122]"
     },
     {
       "id": "architecture: indexes claims match measured 159",
       "status": "PASS",
-      "detail": "found=[]"
-    },
-    {
-      "id": "architecture: operation claim 118",
-      "status": "PASS",
-      "detail": "118"
+      "detail": "found=[159]"
     },
     {
       "id": "database: tables claims match measured 67",
@@ -749,157 +744,167 @@
   "exceptions": [
     {
       "document": "proposal",
-      "context_size": "DBCAS Caption:13.0",
-      "runs": 18
-    },
-    {
-      "document": "proposal",
-      "context_size": "DBCAS Cover Signature:11.0",
-      "runs": 4
-    },
-    {
-      "document": "proposal",
-      "context_size": "DBCAS Cover Team:11.0",
-      "runs": 5
-    },
-    {
-      "document": "proposal",
-      "context_size": "DBCAS Cover Title:16.0",
+      "context_size": "Body Text Indent:14.0",
       "runs": 1
     },
     {
       "document": "proposal",
-      "context_size": "DBCAS Meta:12.0",
-      "runs": 6
+      "context_size": "Caption:11.0",
+      "runs": 21
     },
     {
       "document": "proposal",
-      "context_size": "DBCAS Note:13.0",
-      "runs": 7
+      "context_size": "Heading 1:18.0",
+      "runs": 17
     },
     {
       "document": "proposal",
-      "context_size": "Heading 1:13.0",
-      "runs": 15
+      "context_size": "Heading 2:14.0",
+      "runs": 21
     },
     {
       "document": "proposal",
-      "context_size": "Heading 2:13.0",
-      "runs": 8
-    },
-    {
-      "document": "proposal",
-      "context_size": "table:13.0",
-      "runs": 1
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Caption:13.0",
-      "runs": 16
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Code:9.0",
-      "runs": 30
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Cover Signature:11.0",
-      "runs": 4
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Cover Team:11.0",
-      "runs": 5
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Cover Title:16.0",
-      "runs": 1
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Meta:12.0",
-      "runs": 6
-    },
-    {
-      "document": "architecture",
-      "context_size": "DBCAS Note:13.0",
-      "runs": 2
-    },
-    {
-      "document": "architecture",
-      "context_size": "Heading 1:13.0",
-      "runs": 14
-    },
-    {
-      "document": "architecture",
-      "context_size": "Heading 2:13.0",
-      "runs": 25
-    },
-    {
-      "document": "architecture",
-      "context_size": "table:13.0",
+      "context_size": "Normal:13.0",
       "runs": 33
     },
     {
-      "document": "database",
-      "context_size": "DBCAS Caption:13.0",
-      "runs": 5
+      "document": "proposal",
+      "context_size": "Normal:16.0",
+      "runs": 2
     },
     {
-      "document": "database",
-      "context_size": "DBCAS Cover Signature:11.0",
+      "document": "proposal",
+      "context_size": "Normal:20.0",
+      "runs": 1
+    },
+    {
+      "document": "proposal",
+      "context_size": "Title:13.0",
+      "runs": 1
+    },
+    {
+      "document": "proposal",
+      "context_size": "table of figures:13.0",
+      "runs": 44
+    },
+    {
+      "document": "proposal",
+      "context_size": "table:13.0",
+      "runs": 1
+    },
+    {
+      "document": "proposal",
+      "context_size": "table:20.0",
+      "runs": 1
+    },
+    {
+      "document": "architecture",
+      "context_size": "Heading 1:18.0",
+      "runs": 9
+    },
+    {
+      "document": "architecture",
+      "context_size": "Heading 2:14.0",
+      "runs": 10
+    },
+    {
+      "document": "architecture",
+      "context_size": "Normal:11.0",
+      "runs": 74
+    },
+    {
+      "document": "architecture",
+      "context_size": "Normal:13.0",
+      "runs": 22
+    },
+    {
+      "document": "architecture",
+      "context_size": "Normal:14.0",
+      "runs": 4
+    },
+    {
+      "document": "architecture",
+      "context_size": "Normal:15.0",
+      "runs": 1
+    },
+    {
+      "document": "architecture",
+      "context_size": "Normal:16.0",
+      "runs": 1
+    },
+    {
+      "document": "architecture",
+      "context_size": "Normal:28.0",
+      "runs": 1
+    },
+    {
+      "document": "architecture",
+      "context_size": "table of figures:13.0",
+      "runs": 148
+    },
+    {
+      "document": "architecture",
+      "context_size": "table:13.0",
       "runs": 1
     },
     {
       "document": "database",
-      "context_size": "DBCAS Cover Team:11.0",
-      "runs": 2
+      "context_size": "Caption:11.0",
+      "runs": 40
     },
     {
       "document": "database",
-      "context_size": "DBCAS Meta:12.0",
+      "context_size": "Heading 1:18.0",
+      "runs": 4
+    },
+    {
+      "document": "database",
+      "context_size": "Heading 2:14.0",
+      "runs": 34
+    },
+    {
+      "document": "database",
+      "context_size": "List Paragraph:13.0",
       "runs": 3
     },
     {
       "document": "database",
-      "context_size": "Heading 1:13.0",
-      "runs": 6
-    },
-    {
-      "document": "database",
-      "context_size": "Heading 2:13.0",
+      "context_size": "Normal:13.0",
       "runs": 2
     },
     {
       "document": "database",
-      "context_size": "Heading 3:13.0",
-      "runs": 23
+      "context_size": "table of figures:13.0",
+      "runs": 46
     },
     {
       "document": "database",
       "context_size": "table:11.0",
-      "runs": 6
-    },
-    {
-      "document": "database",
-      "context_size": "table:12.0",
-      "runs": 3
+      "runs": 42
     },
     {
       "document": "database",
       "context_size": "table:13.0",
-      "runs": 79
+      "runs": 125
     },
     {
       "document": "database",
-      "context_size": "table:16.0",
+      "context_size": "table:14.0",
+      "runs": 38
+    },
+    {
+      "document": "database",
+      "context_size": "table:18.0",
+      "runs": 2
+    },
+    {
+      "document": "codestandards",
+      "context_size": "Caption:11.0",
       "runs": 1
     },
     {
       "document": "codestandards",
-      "context_size": "DBCAS Caption:13.0",
+      "context_size": "DBCAS Caption:11.0",
       "runs": 8
     },
     {
@@ -915,7 +920,7 @@
     {
       "document": "codestandards",
       "context_size": "DBCAS Cover Team:11.0",
-      "runs": 5
+      "runs": 4
     },
     {
       "document": "codestandards",
@@ -925,7 +930,7 @@
     {
       "document": "codestandards",
       "context_size": "DBCAS Meta:12.0",
-      "runs": 6
+      "runs": 5
     },
     {
       "document": "codestandards",
@@ -934,17 +939,32 @@
     },
     {
       "document": "codestandards",
-      "context_size": "Heading 1:13.0",
-      "runs": 11
+      "context_size": "Heading 1:18.0",
+      "runs": 17
+    },
+    {
+      "document": "codestandards",
+      "context_size": "Normal:13.0",
+      "runs": 3
+    },
+    {
+      "document": "codestandards",
+      "context_size": "table:11.0",
+      "runs": 1
+    },
+    {
+      "document": "codestandards",
+      "context_size": "table:12.0",
+      "runs": 1
     },
     {
       "document": "codestandards",
       "context_size": "table:13.0",
-      "runs": 9
+      "runs": 4
     },
     {
       "document": "technicalreport",
-      "context_size": "DBCAS Caption:13.0",
+      "context_size": "DBCAS Caption:11.0",
       "runs": 2
     },
     {
@@ -974,18 +994,23 @@
     },
     {
       "document": "technicalreport",
-      "context_size": "Heading 1:13.0",
+      "context_size": "Heading 1:18.0",
+      "runs": 11
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "Heading 2:14.0",
       "runs": 9
     },
     {
       "document": "technicalreport",
-      "context_size": "Heading 2:13.0",
-      "runs": 9
+      "context_size": "Normal:13.0",
+      "runs": 6
     },
     {
       "document": "technicalreport",
       "context_size": "table:13.0",
-      "runs": 2
+      "runs": 1
     }
   ],
   "measured": {
@@ -1046,22 +1071,84 @@
       "08",
       "09"
     ],
-    "database_tables": 67
+    "database_tables": 67,
+    "database_blocks": {
+      "system_setting": 4,
+      "account": 8,
+      "role": 3,
+      "account_role": 3,
+      "user_profile": 6,
+      "course_learning_outcome": 7,
+      "concept": 9,
+      "clo_concept": 5,
+      "question": 18,
+      "question_concept": 6,
+      "mcq_option": 5,
+      "sql_test_dataset": 6,
+      "rubric": 6,
+      "assessment": 14,
+      "assessment_concept": 5,
+      "assessment_session": 22,
+      "attempt": 21,
+      "selection_log": 7,
+      "concept_competency": 8,
+      "competency_gap": 7,
+      "llm_cache": 7,
+      "question_candidate": 8,
+      "account_identity": 7,
+      "account_role_audit": 7,
+      "oauth_handoff": 5,
+      "login_throttle": 3,
+      "concept_dependency": 3,
+      "question_translation": 8,
+      "session_question_plan": 3,
+      "session_start_request": 5,
+      "grading_job": 8,
+      "grade_review": 8,
+      "result_release_event": 6,
+      "assessment_blueprint": 16,
+      "adaptive_event": 5,
+      "password_reset_token": 6,
+      "password_reset_audit": 4,
+      "assessment_question": 2,
+      "evaluation_record": 10,
+      "grade_edit_audit": 7,
+      "refresh_session": 8,
+      "ai_prompt_content": 3,
+      "ai_prompt_record": 8,
+      "ai_stage_attempt": 10,
+      "ai_stage_run": 21,
+      "ai_stage_validation": 8,
+      "attempt_rubric_criterion": 14,
+      "course_document": 14,
+      "document_chunk": 9,
+      "document_clo": 5,
+      "prompt_access_audit": 6,
+      "question_clo": 7,
+      "question_evidence": 8,
+      "question_report": 13,
+      "question_rubric_criterion": 9,
+      "question_rubric_profile": 8,
+      "retention_purge_audit": 8,
+      "review_deviation": 14,
+      "review_deviation_confirmation": 3,
+      "review_request": 20,
+      "session_final_result": 14,
+      "session_result_analysis": 9,
+      "session_result_criterion_score": 8,
+      "session_result_publication": 8,
+      "session_result_version": 14,
+      "session_result_version_score": 7,
+      "tab_leave_interval": 7
+    }
   },
   "pages": {
-    "pages": {
-      "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 20,
-      "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 22,
-      "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 40,
-      "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 12,
-      "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 13
-    },
-    "words": {
-      "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 4141,
-      "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 4218,
-      "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 5988,
-      "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 2209,
-      "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 2843
-    }
+    "proposal": 62,
+    "architecture": 79,
+    "database": 75,
+    "codestandards": 14,
+    "technicalreport": 15,
+    "source": "Word/PyMuPDF render on 2026-11-26",
+    "notes": "Printed page counts. Baselines were 61/78/72/12/13; the deltas come from the two uniform appendices, the explicit Mode 1/Mode 2 paragraph, the reflowed 11 pt captions and the 13-page ERD/ledger figure set."
   }
 }

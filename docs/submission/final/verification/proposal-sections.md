@@ -1,29 +1,27 @@
-# Proposal — required 15-section check (ver1.3)
+# Proposal — required 15-section audit (final ver1.3)
 
-Audited against `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx`. The document
-already carried the fifteen sections in the required order before this pass; the
-table records the state found and what was fixed. The section order is asserted
-mechanically by `scripts/verify_submission_docs.py`.
+Audited 2026-11-26 against the rendered 62-page Proposal. Status values:
+**present** = required section and content exist; **wrong** = section exists but
+contained a fact/structure defect that was fixed in place.
 
-| # | Section | State found | Fix applied |
+| # | Required section | Status | Fix applied |
 |---:|---|---|---|
-| 1 | Project Title (under 15 words) | Present — 9 words | Kept; metadata lines shortened |
-| 2 | Team Members (name, ID, email, role) | Present | Rebuilt as a four-column table; phone numbers dropped as not required; effort-allocation gap marked for the owner |
-| 3 | Supervisor(s) (name, faculty/department, email, industry co-supervisor) | Present — department contradictory | Table keeps `CSE Center`; email kept; the prose/table conflict and a possible co-supervisor are explicit owner fields |
-| 4 | Problem Statement (difficulties, impact, why chosen) | Present — unsourced web research | Replaced with cited literature [1]–[8]; difficulties table now names evidence and impact |
-| 5 | Survey / Existing Solutions (comparison, differences) | Present — no citations, only LeetCode documented | Comparison table kept and condensed; LeetCode cited [14]; the six undocumented products are listed as an owner question |
-| 6 | Objectives and Scope (SMART; in/out) | Present — implemented feature inside an exclusion bullet | SMART table kept; scope split into in-scope and out-of-scope lists; document-ingestion grounding moved into scope |
-| 7 | Key Features & Requirements (5–7 features, FR, NFR) | Present — `FR01` vs `FR-01`, compound `FR-06` | Seven features kept; IDs normalised to `FR-01`…`FR-16` and `NFR-01`…`NFR-09`; compound requirement split |
-| 8 | Constraints and Assumptions | Present | Split into ten numbered constraints C1–C10 with consequences |
-| 9 | Target Users / Stakeholders | Present | Kept as a four-row stakeholder table |
-| 10 | Technology Stack (frontend, backend, database, AI/ML, tools) | Present — no AI/ML or testing row | Added an explicit AI/ML row (external endpoint, no trained model) and a testing row |
-| 11 | Methodology & Development Plan (model, plan, tasks by role) | Present — Gantt omitted the buffer week | Sprint table rebuilt with the buffer week and status-report dates; the real roadmap figure is reused; RACI kept; velocity gap marked for the owner |
-| 12 | System Architecture Overview (context, logical) | Present | Kept both diagrams; text reduced to a summary with cross-references to the Architecture Design document |
-| 13 | Potential Risks and Mitigation | Present — mitigation contradicted the writable demo | Risk table rebuilt from the seven real risks, with the writable-demo control stated |
-| 14 | Expected Outcomes / Deliverables | Present — `OWNER UNKNOWN` shipped as content | Replaced with the local-demo statement and a deliverables table that matches the five documents |
-| 15 | References (IEEE) | Present — 14 entries, zero in-text citations | Citations added throughout; IEEE formatting completed with DOIs; the FastAPI entry corrected |
+| 1 | Project Title (<15 words) | present | 9-word title; cover, project-information table and §1 agree. |
+| 2 | Team Members (name, ID, email, role) | present | Five members with MSSV, email, phone, primary role and responsibilities; owner asked to confirm identities (O1). |
+| 3 | Supervisor(s) (name, faculty, email, co-supervisor) | wrong → fixed | Department changed from “Software Engineering Department” to “CSE Center, International School” so §3 and Table 2 agree; owner asked to confirm the official faculty name and co-supervisor policy (O2). |
+| 4 | Problem Statement | wrong → fixed | Added IEEE citations [1], [2], [6], [8] to the online-research paragraph; the problem/impact/why narrative is retained. |
+| 5 | Survey / Existing Solutions | wrong → fixed | Comparison table retained; added [14] for LeetCode-style practice sites, [3] for curriculum alignment and [6], [7] for chatbot risks. |
+| 6 | Objectives and Scope (SMART; in/out) | present | SMART table and in/out scope retained; implemented document grounding is outside the exclusion bullet; writable DML stays opt-in and rolled back. |
+| 7 | Key Features & Requirements (5–7 features; FR/NFR) | wrong → fixed | Exactly seven features; FR-06 split so it no longer mixes runtime status with session configuration; the configuration text moved to FR-07; FR-01–FR-16 and NFR-01–NFR-09 remain. Explicit Mode 1 / Mode 2 paragraph added. |
+| 8 | Constraints and Assumptions | present | Table 10 retained; sandbox wording separates default read-only from the opt-in ephemeral writable demo. |
+| 9 | Target Users / Stakeholders | present | Four stakeholder groups and needs retained (learners, administrators, academic leaders, team). |
+| 10 | Technology Stack | wrong → fixed | Nine layers now: added the AI/ML row (no trained model; OpenAI-compatible endpoint through `.env`) and the Testing & QA row (pytest, Vitest, Playwright, gates). |
+| 11 | Methodology & Development Plan (Gantt/sprints) | wrong → fixed | Table 13 retained; Figure 1 replaced with a legible 13-row roadmap; final submission (10–13/12) precedes the defence (17–26/12); status reports are 03/10, 17/10, 20/11, 05/12. |
+| 12 | System Architecture Overview (context + logical) | present | Figure 2 context and Figure 3 logical replaced with measured, legible versions; counts 67/561/122/159/28 and 106 paths/118 operations agree with the repository. |
+| 13 | Potential Risks and Mitigation | wrong → fixed | RSK-01 no longer says DML/DDL are only assessed by MCQ/essay; it now describes the opt-in writable demo, rollback and read-only grading. |
+| 14 | Expected Outcomes / Deliverables | wrong → fixed | `OWNER UNKNOWN` removed; the public-URL row is an explicit `[OWNER TO PROVIDE: …]` decision (O4). |
+| 15 | References (IEEE/APA) | wrong → fixed | In-text citations added; [13] author corrected from “S. Ramírez” to “FastAPI project and contributors”; 14 IEEE entries retained. |
 
-Result: **15 of 15 sections present and in order; 0 missing; 10 corrected.**
-The only content that is not verifiable from the repository is written as
-`[OWNER TO PROVIDE: ...]` and listed in
-[doc-verify.md section 8](../../../agent/freeze-logs/doc-verify.md#8-owner-questions-raised-by-this-verification).
+**Roll-up:** 15/15 present; 9 sections required a content or wording fix; no
+section was removed or reordered. The two appendices (owner decisions, figure
+sources) sit after §15 and do not count as proposal sections.

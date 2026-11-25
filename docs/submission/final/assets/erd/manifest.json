@@ -1,0 +1,93 @@
+{
+ "source": "docs/diagrams/schema-028/schema-introspection.json",
+ "measured": {
+  "tables": 67,
+  "columns": 561,
+  "foreign_keys": 122,
+  "indexes": 159,
+  "migrations": {
+   "001_account_identity.sql": "0e6ed8bd7cd8538343286fcb9313c6f63f395720c471664bf1a1667c32f2175e",
+   "002_concept_dependency.sql": "d9149b0385bba998f00e305129165a4df55c3ce2f811490bc1a3ee5fcf33e37d",
+   "003_drafts_evidence_and_security.sql": "9c43390c1e7a5a9fd7121bb103e0385592d2607522a4b0ec436a2a00016f3b72",
+   "004_bank_versions.sql": "9da7c312a87eff4aefd2eaa90a518d77970ab89fbb8f3440c1cbae89146466fe",
+   "005_release_roles.sql": "7bdccac6533a6f6521cf207a30a04e92c8901568b2a8293c904ac3674c2eee4f",
+   "006_question_provenance.sql": "5a12c46aa2a826c26f6a35265fb3ea874af3034cd7e9bef5cb05aafbfc6d8599",
+   "007_question_localization.sql": "b12a027629b4490e1340b87b59a6224749dea28d6bf18ef39d91d8caca665a6e",
+   "008_personalization_and_verified_results.sql": "098dff7d10995cba04da026af50526de8dd266265f976f9ce857c5fb0f87d973",
+   "009_incomplete_grade_release_repair.sql": "7c65fe4700734fee31ee6ba1e74f5826f12944e91e9bbd861dd6142517501f65",
+   "010_session_start_request_bindings.sql": "5b08834a63c981af1c4804f4717dbee0b8fbaf808a611bf039d79d38eb7fd3d0",
+   "011_secure_role_management.sql": "91b1128bf340a4696e4a4e023e75784c63a034921280ddd19120907491097d86",
+   "012_question_original_locale.sql": "fc66e105d649f73ce450c0ea8154a43962ea0281d18c7126726bb59c1a14f4f9",
+   "013_assessment_blueprints.sql": "d86406549986133cf237287a509ef6e7b50e9d50faef00d7c66e596587061fb2",
+   "014_adaptive_events.sql": "a438f524eaf191bdb071c5f7d87e8b1c207ec2b23cd807ce7ea2bb98d8505544",
+   "015_password_recovery.sql": "15c3777ff125a3c2c863a4d9ce41ba13034cb785289a4c0d41a7f1dae501ce6a",
+   "016_refresh_sessions.sql": "9beae61b1a2da2714ec6c891df8ec5e239224ff4023de0ba2e52829ba3c01ed0",
+   "017_assessment_question_pool.sql": "8f5b65b6084b63aa620055d3d6f10ba8c958d69cc126a66f986e9c7c827d8506",
+   "018_learner_practice_evaluations.sql": "362e5f9f20056bf8b3e2d212c56da2c6601f493c90f3e005e34bb46fff06d4c0",
+   "019_archive_prebuilt_exams.sql": "d6f363d007468a47f624268f1c1017d804a33721a587c637895a3ac4837d9772",
+   "020_provisional_ai_final_results.sql": "ad37e9654da4f16c1a1b1749e534c058aa72a395dccec4f4707aae9444ba9715",
+   "021_fixed_paper_attempt_state.sql": "41544fa33fc5d9272e0b8b7c48f3821096f759c2e3b2d36b957148460e46d53b",
+   "022_question_clo_tagging.sql": "b561b1c0932089f84e4022a3cbf71f529f81460048d6e9ed0fc2ba4cdfac84e9",
+   "023_document_grounding.sql": "320c282897f25a5eb7054240f285dc8dd603258c0de2d74bdd5534258aaf8b59",
+   "024_tab_leave_guard.sql": "63f217adcc1e32b815b552adca7996b58dc73bb71c562d71baaa2f6f36ca4af5",
+   "025_session_purpose.sql": "de6354f5a3371eee80e38c02bbfacd8d587a1c800808cb74e38c603d5580ccb7",
+   "026_pr3a_database_foundation.sql": "435f44dcfa840bda9124f3af6b54ce6561f375c5b6fd2a6081c2700ecca376dc",
+   "027_review_flow.sql": "fb1db8067711afa1598cdd30d391eea7c91bc8bdfceff9c2631f468c5f437da0",
+   "028_review_deviation_confirmation.sql": "f59d2c17127d2d84d8000a483e3c99e35ed5e21c70571573a189215f008b8701"
+  }
+ },
+ "pages": [
+  {
+   "file": "erd-overview.svg",
+   "title": "ERD overview — domains and cross-domain relationships (1/2)"
+  },
+  {
+   "file": "erd-index.svg",
+   "title": "ERD index — table-to-domain map and relationship counts (2/2)"
+  },
+  {
+   "file": "erd-module-1.svg",
+   "title": "Entity relationship diagram — Identity and access (1/11)"
+  },
+  {
+   "file": "erd-module-2.svg",
+   "title": "Entity relationship diagram — Curriculum and concepts (2/11)"
+  },
+  {
+   "file": "erd-module-3.svg",
+   "title": "Entity relationship diagram — Question bank and generation (3/11)"
+  },
+  {
+   "file": "erd-module-4.svg",
+   "title": "Entity relationship diagram — Assessment and attempts (4/11)"
+  },
+  {
+   "file": "erd-module-5.svg",
+   "title": "Entity relationship diagram — Grading, results and competency (5/11)"
+  },
+  {
+   "file": "erd-module-6.svg",
+   "title": "Entity relationship diagram — Review workflow (6/11)"
+  },
+  {
+   "file": "erd-module-7.svg",
+   "title": "Entity relationship diagram — AI audit and retention (7/11)"
+  },
+  {
+   "file": "erd-ledger-1.svg",
+   "title": "Foreign-key ledger — rows 1–31 of 122 (8/11)"
+  },
+  {
+   "file": "erd-ledger-2.svg",
+   "title": "Foreign-key ledger — rows 32–62 of 122 (9/11)"
+  },
+  {
+   "file": "erd-ledger-3.svg",
+   "title": "Foreign-key ledger — rows 63–92 of 122 (10/11)"
+  },
+  {
+   "file": "erd-ledger-4.svg",
+   "title": "Foreign-key ledger — rows 93–122 of 122 (11/11)"
+  }
+ ]
+}

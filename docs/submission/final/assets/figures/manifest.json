@@ -66,9 +66,9 @@
   {
    "file": "gantt-roadmap.svg",
    "title": "Agile delivery roadmap",
-   "source": "submission_content/proposal.py §11.2; docs/academic proposal calendar",
-   "width": 3000,
-   "height": 1560
+   "source": "Proposal Table 13; docs/academic proposal calendar",
+   "width": 1000,
+   "height": 720
   },
   {
    "file": "schema-overview.svg",

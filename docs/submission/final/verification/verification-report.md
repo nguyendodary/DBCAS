@@ -1,6 +1,6 @@
 # Submission document verification
 
-Documents checked: 5; assertions: 149; failures: 0.
+Documents checked: 5; assertions: 148; failures: 0.
 
 | Assertion | Result | Detail |
 |---|---|---|
@@ -16,7 +16,7 @@ Documents checked: 5; assertions: 149; failures: 0.
 | technicalreport: file exists | PASS | C1SE.70_TechnicalReport_DBCAS_ver1.3.docx |
 | technicalreport: package readable | PASS | None |
 | proposal: file opens | PASS |  |
-| proposal: page size A4 | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
+| proposal: page size A4 (portrait or landscape) | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
 | proposal: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}] |
 | proposal: Normal 13 pt | PASS | 13.0 |
 | proposal: Normal Times New Roman | PASS | Times New Roman |
@@ -26,11 +26,11 @@ Documents checked: 5; assertions: 149; failures: 0.
 | proposal: author | PASS | Do, Nguyen Quoc |
 | proposal: last modified by | PASS | Do, Nguyen Quoc |
 | proposal: table of contents field | PASS |  |
-| proposal: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 - 2026 |
-| proposal: footer page field | PASS | C1SE.70 · DBCAS · Project Proposal	Page 1 |
+| proposal: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 – 2026 |
+| proposal: footer page field | PASS | Do, Nguyen Quoc	Page 1 of 1 |
 | architecture: file opens | PASS |  |
-| architecture: page size A4 | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
-| architecture: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}] |
+| architecture: page size A4 (portrait or landscape) | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
+| architecture: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom |
 | architecture: Normal 13 pt | PASS | 13.0 |
 | architecture: Normal Times New Roman | PASS | Times New Roman |
 | architecture: Normal line spacing 1.5 | PASS | 1.5 |
@@ -39,11 +39,11 @@ Documents checked: 5; assertions: 149; failures: 0.
 | architecture: author | PASS | Do, Nguyen Quoc |
 | architecture: last modified by | PASS | Do, Nguyen Quoc |
 | architecture: table of contents field | PASS |  |
-| architecture: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 - 2026 |
-| architecture: footer page field | PASS | C1SE.70 · DBCAS · Architecture Design Document	Page 1 |
+| architecture: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 – 2026 C1SE.70 · DBCAS	International School Capstone 1 – 2026 C1SE.70 · DBCAS	International School Capstone 1 –  |
+| architecture: footer page field | PASS | Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page |
 | database: file opens | PASS |  |
-| database: page size A4 | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
-| database: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}] |
+| database: page size A4 (portrait or landscape) | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
+| database: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom |
 | database: Normal 13 pt | PASS | 13.0 |
 | database: Normal Times New Roman | PASS | Times New Roman |
 | database: Normal line spacing 1.5 | PASS | 1.5 |
@@ -52,10 +52,10 @@ Documents checked: 5; assertions: 149; failures: 0.
 | database: author | PASS | Do, Nguyen Quoc |
 | database: last modified by | PASS | Do, Nguyen Quoc |
 | database: table of contents field | PASS |  |
-| database: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 - 2026 |
-| database: footer page field | PASS | C1SE.70 · DBCAS · Database Design Document	Page 1 |
+| database: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 – 2026 C1SE.70 · DBCAS	International School Capstone 1 – 2026 C1SE.70 · DBCAS	International School Capstone 1 –  |
+| database: footer page field | PASS | Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page 1 of 1 Do, Nguyen Quoc	Page |
 | codestandards: file opens | PASS |  |
-| codestandards: page size A4 | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
+| codestandards: page size A4 (portrait or landscape) | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
 | codestandards: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}] |
 | codestandards: Normal 13 pt | PASS | 13.0 |
 | codestandards: Normal Times New Roman | PASS | Times New Roman |
@@ -65,10 +65,10 @@ Documents checked: 5; assertions: 149; failures: 0.
 | codestandards: author | PASS | Do, Nguyen Quoc |
 | codestandards: last modified by | PASS | Do, Nguyen Quoc |
 | codestandards: table of contents field | PASS |  |
-| codestandards: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 - 2026 |
-| codestandards: footer page field | PASS | C1SE.70 · DBCAS · Code Standards Document	Page 1 |
+| codestandards: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 – 2026 |
+| codestandards: footer page field | PASS | Do, Nguyen Quoc	Page 1 of 1 |
 | technicalreport: file opens | PASS |  |
-| technicalreport: page size A4 | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
+| technicalreport: page size A4 (portrait or landscape) | PASS | [{"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"width_cm": 21.0, "height_cm": 29.7, "left": 3.5, "right": 2.0, " |
 | technicalreport: margins 3.5/2/2/2 cm | PASS | [{"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}, {"left": 3.5, "right": 2.0, "top": 2.0, "bottom": 2.0}] |
 | technicalreport: Normal 13 pt | PASS | 13.0 |
 | technicalreport: Normal Times New Roman | PASS | Times New Roman |
@@ -78,8 +78,8 @@ Documents checked: 5; assertions: 149; failures: 0.
 | technicalreport: author | PASS | Do, Nguyen Quoc |
 | technicalreport: last modified by | PASS | Do, Nguyen Quoc |
 | technicalreport: table of contents field | PASS |  |
-| technicalreport: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 - 2026 |
-| technicalreport: footer page field | PASS | C1SE.70 · DBCAS · Technical Report	Page 1 |
+| technicalreport: header | PASS | C1SE.70 · DBCAS	International School Capstone 1 – 2026 |
+| technicalreport: footer page field | PASS | Do, Nguyen Quoc	Page 1 of 1 |
 | final directory holds only the five documents | PASS | [] |
 | proposal: no obsolete term 'OpenRouter' | PASS |  |
 | proposal: no obsolete term 'free model' | PASS |  |
@@ -127,11 +127,10 @@ Documents checked: 5; assertions: 149; failures: 0.
 | proposal: foreign_keys claims match measured 122 | PASS | found=[122] |
 | proposal: indexes claims match measured 159 | PASS | found=[159] |
 | proposal: operation claim 118 | PASS | 118 |
-| architecture: tables claims match measured 67 | PASS | found=[] |
-| architecture: migrations claims match measured 28 | PASS | found=[] |
-| architecture: foreign_keys claims match measured 122 | PASS | found=[] |
-| architecture: indexes claims match measured 159 | PASS | found=[] |
-| architecture: operation claim 118 | PASS | 118 |
+| architecture: tables claims match measured 67 | PASS | found=[67] |
+| architecture: migrations claims match measured 28 | PASS | found=[28] |
+| architecture: foreign_keys claims match measured 122 | PASS | found=[122] |
+| architecture: indexes claims match measured 159 | PASS | found=[159] |
 | database: tables claims match measured 67 | PASS | found=[67] |
 | database: migrations claims match measured 28 | PASS | found=[28] |
 | database: foreign_keys claims match measured 122 | PASS | found=[122] |
@@ -158,51 +157,57 @@ Documents checked: 5; assertions: 149; failures: 0.
 
 | Document | Context:size (pt) | Runs |
 |---|---|---:|
-| proposal | DBCAS Caption:13.0 | 18 |
-| proposal | DBCAS Cover Signature:11.0 | 4 |
-| proposal | DBCAS Cover Team:11.0 | 5 |
-| proposal | DBCAS Cover Title:16.0 | 1 |
-| proposal | DBCAS Meta:12.0 | 6 |
-| proposal | DBCAS Note:13.0 | 7 |
-| proposal | Heading 1:13.0 | 15 |
-| proposal | Heading 2:13.0 | 8 |
+| proposal | Body Text Indent:14.0 | 1 |
+| proposal | Caption:11.0 | 21 |
+| proposal | Heading 1:18.0 | 17 |
+| proposal | Heading 2:14.0 | 21 |
+| proposal | Normal:13.0 | 33 |
+| proposal | Normal:16.0 | 2 |
+| proposal | Normal:20.0 | 1 |
+| proposal | Title:13.0 | 1 |
+| proposal | table of figures:13.0 | 44 |
 | proposal | table:13.0 | 1 |
-| architecture | DBCAS Caption:13.0 | 16 |
-| architecture | DBCAS Code:9.0 | 30 |
-| architecture | DBCAS Cover Signature:11.0 | 4 |
-| architecture | DBCAS Cover Team:11.0 | 5 |
-| architecture | DBCAS Cover Title:16.0 | 1 |
-| architecture | DBCAS Meta:12.0 | 6 |
-| architecture | DBCAS Note:13.0 | 2 |
-| architecture | Heading 1:13.0 | 14 |
-| architecture | Heading 2:13.0 | 25 |
-| architecture | table:13.0 | 33 |
-| database | DBCAS Caption:13.0 | 5 |
-| database | DBCAS Cover Signature:11.0 | 1 |
-| database | DBCAS Cover Team:11.0 | 2 |
-| database | DBCAS Meta:12.0 | 3 |
-| database | Heading 1:13.0 | 6 |
-| database | Heading 2:13.0 | 2 |
-| database | Heading 3:13.0 | 23 |
-| database | table:11.0 | 6 |
-| database | table:12.0 | 3 |
-| database | table:13.0 | 79 |
-| database | table:16.0 | 1 |
-| codestandards | DBCAS Caption:13.0 | 8 |
+| proposal | table:20.0 | 1 |
+| architecture | Heading 1:18.0 | 9 |
+| architecture | Heading 2:14.0 | 10 |
+| architecture | Normal:11.0 | 74 |
+| architecture | Normal:13.0 | 22 |
+| architecture | Normal:14.0 | 4 |
+| architecture | Normal:15.0 | 1 |
+| architecture | Normal:16.0 | 1 |
+| architecture | Normal:28.0 | 1 |
+| architecture | table of figures:13.0 | 148 |
+| architecture | table:13.0 | 1 |
+| database | Caption:11.0 | 40 |
+| database | Heading 1:18.0 | 4 |
+| database | Heading 2:14.0 | 34 |
+| database | List Paragraph:13.0 | 3 |
+| database | Normal:13.0 | 2 |
+| database | table of figures:13.0 | 46 |
+| database | table:11.0 | 42 |
+| database | table:13.0 | 125 |
+| database | table:14.0 | 38 |
+| database | table:18.0 | 2 |
+| codestandards | Caption:11.0 | 1 |
+| codestandards | DBCAS Caption:11.0 | 8 |
 | codestandards | DBCAS Code:9.0 | 11 |
 | codestandards | DBCAS Cover Signature:11.0 | 4 |
-| codestandards | DBCAS Cover Team:11.0 | 5 |
+| codestandards | DBCAS Cover Team:11.0 | 4 |
 | codestandards | DBCAS Cover Title:16.0 | 1 |
-| codestandards | DBCAS Meta:12.0 | 6 |
+| codestandards | DBCAS Meta:12.0 | 5 |
 | codestandards | DBCAS Note:13.0 | 1 |
-| codestandards | Heading 1:13.0 | 11 |
-| codestandards | table:13.0 | 9 |
-| technicalreport | DBCAS Caption:13.0 | 2 |
+| codestandards | Heading 1:18.0 | 17 |
+| codestandards | Normal:13.0 | 3 |
+| codestandards | table:11.0 | 1 |
+| codestandards | table:12.0 | 1 |
+| codestandards | table:13.0 | 4 |
+| technicalreport | DBCAS Caption:11.0 | 2 |
 | technicalreport | DBCAS Cover Signature:11.0 | 4 |
 | technicalreport | DBCAS Cover Team:11.0 | 5 |
 | technicalreport | DBCAS Cover Title:16.0 | 1 |
 | technicalreport | DBCAS Meta:12.0 | 6 |
 | technicalreport | DBCAS Note:13.0 | 1 |
-| technicalreport | Heading 1:13.0 | 9 |
-| technicalreport | Heading 2:13.0 | 9 |
-| technicalreport | table:13.0 | 2 |
+| technicalreport | Heading 1:18.0 | 11 |
+| technicalreport | Heading 2:14.0 | 9 |
+| technicalreport | Normal:13.0 | 6 |
+| technicalreport | table:13.0 | 1 |

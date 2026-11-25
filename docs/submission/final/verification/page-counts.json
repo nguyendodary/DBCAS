@@ -1,16 +1,9 @@
 {
-  "pages": {
-    "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 20,
-    "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 22,
-    "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 40,
-    "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 12,
-    "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 13
-  },
-  "words": {
-    "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 4141,
-    "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 4218,
-    "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 5988,
-    "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 2209,
-    "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 2843
-  }
+  "proposal": 62,
+  "architecture": 79,
+  "database": 75,
+  "codestandards": 14,
+  "technicalreport": 15,
+  "source": "Word/PyMuPDF render on 2026-11-26",
+  "notes": "Printed page counts. Baselines were 61/78/72/12/13; the deltas come from the two uniform appendices, the explicit Mode 1/Mode 2 paragraph, the reflowed 11 pt captions and the 13-page ERD/ledger figure set."
 }
