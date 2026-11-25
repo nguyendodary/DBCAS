@@ -31,7 +31,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
   Standards 12, Technical Report 13; Word and PDF counts agree. Every figure
   was re-measured: 67 tables / 561 columns / 122 foreign keys / 159 indexes /
   28 migrations, 106 paths / 118 operations, 1 940 backend tests, 463 frontend
-  tests, 3 152 scanned files with zero findings.
+  tests, and zero whole-tree secret findings.
 - **Proposal.** The 15 required sections already existed in order; ten carried
   content defects. Fixed: supervisor department conflict marked for the owner,
   unsourced survey replaced with cited literature, scope list restructured,
@@ -43,13 +43,13 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
   `npm start`, `/readiness` ready with database and sandbox true).
 - **Gates.** `docs:check` PASS (48 assertions), `docs:verify-word` PASS (5
   documents, 149 assertions, 0 failures), `inventory:check` PASS,
-  `secrets:scan` PASS (3 152 files, 0 findings).
+  `secrets:scan` PASS (0 findings).
 - **CI.** Pending at the time of writing; the run id and conclusion are added
   in the follow-up status commit.
 
 ## Next commands
 
-Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Task 3 corrected the historical job count in the Technical Report. Task 5 complete. The source-code guide links the verified 14-job run. Next command: `npm run docs:check` and reconcile the verification summary. Separate owner decisions:
+Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Task 3 corrected the historical job count in the Technical Report. Task 5 complete. The source-code guide links the verified 14-job run. Task 6 complete. The gates and the direct body-format check passed. Next command: `gh run view 45624475593 --json headSha,status,conclusion,jobs`. Separate owner decisions:
 D1 cleanup deletion, D3 `develop2 → main` promotion, D4 approval of the two
 stale-copy corrections, and the owner facts listed in
 [doc-verify.md](doc-verify.md#8-owner-questions-raised-by-this-verification).

@@ -13,9 +13,9 @@ that produced it was removed or repointed.
 |---|---|---:|---:|---:|
 | Proposal | `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx` | 20 | 20 | 4 141 |
 | Architecture Design | `C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx` | 22 | 22 | 4 218 |
-| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 39 | 39 | 5 980 |
+| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 39 | 39 | 5 988 |
 | Code Standards | `C1SE.70_CodeStandards_DBCAS_ver1.3.docx` | 12 | 12 | 2 209 |
-| Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 13 | 13 | 2 842 |
+| Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 13 | 13 | 2 843 |
 
 Word page counts come from `ComputeStatistics(2)` after the fields were updated;
 PDF page counts come from PyMuPDF on the Word export
@@ -46,8 +46,7 @@ table header.
 
 ## 3. XML-reading checks
 
-`scripts/verify_submission_docs.py` reads each DOCX package and every
-paragraph/run, not a text dump. Result: **5 documents, 149 assertions, 0
+`scripts/verify_submission_docs.py` opens each DOCX package and checks its document structure and styles. Result: **5 documents, 149 assertions, 0
 failures**.
 
 | Check | Result |
@@ -61,7 +60,15 @@ failures**.
 | Fields | TOC field present; `PAGE` field present in the footer |
 | Header/footer | `C1SE.70` in the header of every section |
 
-### Documented exceptions (listed by the script with run counts)
+A separate recovery check followed the XML ancestry and inherited styles of
+all 252 nonempty body paragraphs in Normal or List Bullet style outside table
+cells. All 282 text runs resolved to 13 pt and all 252 paragraphs to 1.5 spacing.
+The verifier produces different exception counts across processes because it
+uses temporary XML wrapper identities to identify table membership. Use the
+independent check for body formatting and the style specification for table
+formatting.
+
+### Documented formatting exceptions
 
 | Element | Size |
 |---|---|
@@ -74,7 +81,7 @@ failures**.
 
 ## 4. Number comparison
 
-The verifier re-measured every number in the text and failed none:
+The table combines repository measurements with dated results from the freeze logs.
 
 | Claim | Measured | Source |
 |---|---:|---|
@@ -88,7 +95,7 @@ The verifier re-measured every number in the text and failed none:
 | Backend tests | 1 940 passed, 7 skipped | `pytest -q`, re-run 2026-11-25 (24 min 22 s) |
 | Frontend unit tests | 54 files / 463 tests | `vitest` |
 | Browser tests | 152 passed, 4 skipped | sharded Playwright/QA runs |
-| Secret scan | Whole tree (3 129 files at the last run), 0 findings | `npm run secrets:scan` |
+| Secret scan | Whole tree (3 129 files in the pre-recovery run), 0 findings | `npm run secrets:scan` |
 
 The live database reports 68 tables and 564 columns because it also holds
 `schema_migration`; the documents state this exclusion explicitly instead of

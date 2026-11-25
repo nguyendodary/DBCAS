@@ -830,27 +830,22 @@
     {
       "document": "architecture",
       "context_size": "Heading 1:18.0",
-      "runs": 12
+      "runs": 14
     },
     {
       "document": "architecture",
       "context_size": "Heading 2:14.0",
-      "runs": 26
+      "runs": 25
     },
     {
       "document": "architecture",
       "context_size": "table:13.0",
-      "runs": 21
+      "runs": 28
     },
     {
       "document": "architecture",
       "context_size": "table:14.0",
-      "runs": 4
-    },
-    {
-      "document": "architecture",
-      "context_size": "table:18.0",
-      "runs": 2
+      "runs": 5
     },
     {
       "document": "architecture",
@@ -860,7 +855,12 @@
     {
       "document": "database",
       "context_size": "DBCAS Caption:9.0",
-      "runs": 7
+      "runs": 6
+    },
+    {
+      "document": "database",
+      "context_size": "DBCAS Cover Signature:11.0",
+      "runs": 3
     },
     {
       "document": "database",
@@ -869,63 +869,63 @@
     },
     {
       "document": "database",
-      "context_size": "DBCAS Meta:12.0",
+      "context_size": "DBCAS Cover Title:26.0",
       "runs": 1
     },
     {
       "document": "database",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 3
+    },
+    {
+      "document": "database",
       "context_size": "DBCAS Note:13.0",
-      "runs": 2
+      "runs": 1
     },
     {
       "document": "database",
       "context_size": "Heading 1:18.0",
-      "runs": 2
-    },
-    {
-      "document": "database",
-      "context_size": "Heading 2:14.0",
       "runs": 5
     },
     {
       "document": "database",
       "context_size": "Heading 3:13.0",
-      "runs": 22
+      "runs": 32
     },
     {
       "document": "database",
       "context_size": "table:11.0",
-      "runs": 7
+      "runs": 4
     },
     {
       "document": "database",
       "context_size": "table:12.0",
-      "runs": 5
+      "runs": 3
     },
     {
       "document": "database",
       "context_size": "table:13.0",
-      "runs": 67
+      "runs": 57
+    },
+    {
+      "document": "database",
+      "context_size": "table:14.0",
+      "runs": 5
     },
     {
       "document": "database",
       "context_size": "table:18.0",
-      "runs": 8
-    },
-    {
-      "document": "database",
-      "context_size": "table:26.0",
-      "runs": 1
+      "runs": 5
     },
     {
       "document": "database",
       "context_size": "table:9.0",
-      "runs": 4
+      "runs": 5
     },
     {
       "document": "codestandards",
       "context_size": "DBCAS Caption:9.0",
-      "runs": 7
+      "runs": 6
     },
     {
       "document": "codestandards",
@@ -960,17 +960,22 @@
     {
       "document": "codestandards",
       "context_size": "Heading 1:18.0",
-      "runs": 15
+      "runs": 12
     },
     {
       "document": "codestandards",
       "context_size": "table:13.0",
-      "runs": 1
+      "runs": 9
+    },
+    {
+      "document": "codestandards",
+      "context_size": "table:18.0",
+      "runs": 3
     },
     {
       "document": "codestandards",
       "context_size": "table:9.0",
-      "runs": 1
+      "runs": 2
     },
     {
       "document": "technicalreport",

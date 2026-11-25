@@ -26,4 +26,4 @@ mechanically by `scripts/verify_submission_docs.py`.
 Result: **15 of 15 sections present and in order; 0 missing; 10 corrected.**
 The only content that is not verifiable from the repository is written as
 `[OWNER TO PROVIDE: ...]` and listed in
-[doc-verify.md section 8](../../agent/freeze-logs/doc-verify.md#8-owner-questions-raised-by-this-verification).
+[doc-verify.md section 8](../../../agent/freeze-logs/doc-verify.md#8-owner-questions-raised-by-this-verification).
