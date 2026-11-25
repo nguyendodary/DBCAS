@@ -13,7 +13,8 @@ the final Phase B result.
 | Frontend lint | `npm --prefix frontend run lint` | PASS, exit 0 | [log](baseline-frontend-lint.log), [metadata](baseline-frontend-lint.meta) |
 | Frontend unit | `npm --prefix frontend test -- --maxWorkers=2` | PASS, 54 files / 463 tests, exit 0 | [log](baseline-frontend-unit.log), [metadata](baseline-frontend-unit.meta) |
 | Frontend format | `npm --prefix frontend run format:check` | Initial run FAIL, exit 1: six checkout files had CRLF. After preserving their exact bytes and normalizing them to the unchanged Git LF content, the same command PASS, exit 0. | [first log](baseline-frontend-format.log), [first exit](baseline-frontend-format.meta), [byte comparison and backups](baseline-format-line-endings.log), [passing log](baseline-frontend-format-after-lf.log), [passing exit](baseline-frontend-format-after-lf.meta) |
-| E2E, practice, local, QA, smoke | Owner-specified commands | Pending | To be recorded |
+| E2E localization shard | `npm --prefix frontend run test:e2e -- e2e/localization.spec.js` | Running on isolated worktree; PID and start time recorded | [metadata](baseline-e2e-1-localization.meta); live output is on disk |
+| E2E remaining shards, practice, local, QA, smoke | Owner-specified commands | Pending | To be recorded |
 | Docs, OpenAPI, environment, inventory, provider, secrets tree/history | Owner-specified commands | Pending | To be recorded |
 
 ## Captured limitation
@@ -35,3 +36,9 @@ Original CRLF bytes and hashes were saved outside the checkout under
 `_worktrees/recovery-baseline-20261125/format-crlf-originals/`. After the
 repair, `git diff --exit-code -- frontend` returned 0; no test expectation or
 product logic was changed.
+
+For browser tests, the separate Compose project `dbcas-baseline-recovery` has
+its own Mailpit on ports 18825/11825; its [startup log](baseline-e2e-mailpit.log)
+and [exit status](baseline-e2e-mailpit.meta) are recorded. The existing `dbcas`
+project is not used by these E2E shards. Test output, manifests and isolation
+proofs are placed beneath the isolated recovery worktree's parent directory.

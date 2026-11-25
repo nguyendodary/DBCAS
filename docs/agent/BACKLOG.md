@@ -9,6 +9,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   [PROGRESS](freeze-logs/PROGRESS.md).
 - Preserve the reported pytest exit-code capture limitation when assessing the
   [partial baseline](freeze-logs/baseline-v2.md).
+- Finish the isolated E2E shards and remaining sequential browser gates.
 - Complete the outstanding detailed review of the historical synchronization
   diff identified in [phase0-survey](freeze-logs/phase0-survey.md).
 - Create and verify the four new Word files using the measured

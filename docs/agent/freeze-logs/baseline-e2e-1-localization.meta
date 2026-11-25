@@ -1,0 +1,5 @@
+pid=22388
+started=2026-11-25T14:59:14.973500+07:00
+commit=253f272
+project=dbcas-baseline-recovery
+command=npm --prefix frontend run test:e2e -- e2e/localization.spec.js

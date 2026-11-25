@@ -1,0 +1,6 @@
+pid=3596
+started=2026-11-25T14:58:23.774676+07:00
+project=dbcas-baseline-recovery
+command=docker compose up -d --wait mailpit
+finished=2026-11-25T14:58:26.083929+07:00
+exit=0
