@@ -1,76 +1,100 @@
-# Phase 5 — FITAI reference style specification
+# FITAI reference style and the DBCAS ver1.3 interpretation
 
-Reference inspection: 2026-11-25. The source documents are the FITAI Proposal
-v1.2, Architecture v1.1, Database v1.2, User Story v1.1, and the separately
-supplied SRS template. Measurements below come from their OOXML style, theme,
-document and header/footer parts; [raw extraction](phase5-fitaistyle-raw.log)
-records the underlying values. Reference PDF covers and front matter were also
-rendered and inspected. A dash in the raw data means “not explicitly set”;
-inherited or theme-based values must not be treated as missing or guessed.
-The [source inventory](phase5-source-inventory.log) records hashes, structural
-counts and headings for the existing DBCAS documents and text sources; it is an
-inventory, not a completed fact or traceability audit.
+Updated 2026-11-25 after reading every file in `FITAI - Documents` (14 DOCX,
+15 PDF, 2 XLSX). No file was unreadable; one embedded JPEG-XR preview
+(`hdphoto1.wdp` in the Database DOCX) cannot be decoded by PIL, which affects
+no visible pixel. The full per-file measurements are in
+`_review/owner-docs-20261125/fitai-survey.md`; this file records the decisions
+the generator implements.
 
-## Measured tokens
+## 1. What the FITAI set actually contains
 
-| Property | Proposal / Architecture / User Story | Database | SRS template |
-|---|---|---|---|
-| Page size, twips | 11907 × 16840 | 11920 × 16860 | 12240 × 15840 |
-| Margins, top / bottom / left / right, twips | 1134 / 1418 / 1701 / 1134 | 1701 / 1701 / 1985 / 1134 | 1440 / 1440 / 851 / 616 |
-| Default or Normal font | Times New Roman (document default) | Times New Roman (Normal) | Times New Roman (Normal); most explicitly formatted runs are Arial |
-| Normal size | Proposal 12 pt; User Story 13 pt; Architecture inherits document default 13 pt | 13 pt | 12 pt (Normal); most explicit runs 10 pt |
-| Heading 1 / 2 | Proposal 13 / 13 pt; Architecture inherits 13 pt | 13 / 13 pt, black | 14 / 13 pt with theme-accent colors |
-| Title style | 14 pt where explicitly set | Not present in the extracted matching styles | Uses template styles and direct formatting |
-| Caption style | Proposal 13 pt; Architecture inherits; both have 200-twip space after | 9 pt, theme `text2` / `#44546A`, 200-twip space after | No matching caption style found by the extractor |
-| Table fills seen in document XML | `#FFFFFF`, `#D0CECE`, `#E7E6E6`, `#D9D9D9`, `#F3F3F3`, `#BFBFBF` | `#BFBFBF`, `#D9D9D9` | `#BFBFBF`, `#D3DFFF`, black and automatic fills |
-| Main explicit run colors | `#000000`; occasional `#4472C4` and `#201F35` | `#000000`, `#00000A`, `#4472C4` and automatic | Red and blue instructional markup also occurs; it is not project content |
+| Property | Measured range across the 14 DOCX |
+|---|---|
+| Page size | Three "A4" widths coexist: 11906/11907 tw (21.00 × 29.70 cm), 11904 tw, 11920 × 16860 tw (21.03 × 29.74 cm); two files are US Letter 12240 × 15840 |
+| Margins | From 851 tw to 1985 tw; the Architecture file is the only one with A4 + left 1701 tw (3.00 cm) |
+| Body font | Times New Roman 13 pt is the mainstream family; Arial 11 pt (Reflection, FitnessAI), Open Sans 11 pt brown `695D46` (TechStack, TestPlan), Calibri 11 pt (SprintBacklog) |
+| Body spacing | Single, 1.15× and 1.5× all occur; CodeStandard and TestPlan use 1.5× |
+| Heading 1 / 2 | Proposal, ProjectPlan, ProductBacklog, UserStory, UI and Architecture use **13 pt bold** (no size step above body); CodeStandard H1/H2 are bold with no size at all; Meeting uses 20/16 pt `0F4761`; TechStack uses 18/16 pt orange/teal |
+| Title | 14 pt bold centred in the mainstream family; 36 pt in CodeStandard/Reflection/FitnessAI |
+| Caption | 9 pt `44546A` in Database and ProjectPlan; 13 pt in Proposal and UserStory (szCs only); absent in CodeStandard, FitnessAI and others |
+| Table heads | `D9D9D9`, `E7E6E6`, `D0CECE`, `BFBFBF`; the Database file uses `BFBFBF` on 113 head cells with 0.5 pt auto borders |
+| Theme | `dk1 #000000`, `lt1 #FFFFFF`, `dk2 #44546A`, `lt2 #E7E6E6`, accent1 `#4472C4`, accent2 `#ED7D31`, accent3 `#A5A5A5`, accent4 `#FFC000`, accent5 `#5B9BD5`, accent6 `#70AD47`, hyperlink `#0563C1` |
+| Covers | Two families: A (stacked text, logo 454 × 134 px at 5.24 × 1.55 cm, signature line shapes) and B (framed box 17.5–18.4 × 25.6–27.7 cm, logo 420 × 124 px) |
+| Front matter | Project information, document information, approvals (4 files only), revision history, TOC field; Architecture has all seven blocks |
+| Header/footer | Text headers with a rule; 12 of 14 have a working `PAGE` field, several have stale project codes (`C1SE.03`, `C1SE.56`, "2024") |
 
-The FITAI Word theme declares `dk1 #000000`, `lt1 #FFFFFF`, `dk2 #44546A`,
-`lt2 #E7E6E6`, accents `#4472C4`, `#ED7D31`, `#A5A5A5`, `#FFC000`,
-`#5B9BD5`, `#70AD47`, hyperlink `#0563C1`, and followed hyperlink `#954F72`.
-These are theme definitions, not evidence that every accent is used visibly.
-The logo is an embedded image with antialiasing; no single logo-red hex value
-was declared by the OOXML extraction.
+Two conclusions follow. First, "FITAI style" is a family, not a single
+specification: no two files agree on margins, and heading sizes are mostly the
+body size. Second, the DBCAS house style that the previous versions already
+used (A4, H1 18 pt) is *not* a FITAI file, so adopting FITAI is a format change,
+made deliberately here and recorded below.
 
-## Reference layout
+## 2. Template decision
 
-- Covers have the university logo, blue school label, a black page frame,
-  centered project/course and document titles, version, date, project name,
-  author block, and signature lines. FITAI's names, dates, approvals and roles
-  are examples and must not be copied as DBCAS facts.
-- Front matter includes project information, a document-information table,
-  optional approval/signature page, revision history, and an automatic table of
-  contents. The document-information header uses gray fill and black borders;
-  the revision-history columns include version, date, description and author,
-  though their order differs across FITAI files.
-- Running headers show the document name at left and the school/capstone label
-  at right with a horizontal rule; the Database/Architecture sample also has a
-  dark accent tab. Footers use a group identifier and Word `PAGE` field.
-- The samples contain Word `TOC`, `SEQ Figure`, and `SEQ Table` fields rather
-  than only static text. Captions, table numbering and references should remain
-  updateable and their rendered page numbers checked.
+`5. Architecture Design Document/C1SE.56_ArchitectureDesign_SHFA_ver1.1.docx`
+is the single best base: exact A4 21.00 × 29.70 cm, Times New Roman 13 pt in
+`docDefaults`, Title plus three heading levels with `outlineLvl`, the complete
+seven-block front matter with an approvals page, a style-based TOC, a header
+built as a two-cell table with a 0.75 pt rule, a working `PAGE` footer from page
+two, and landscape sections for wide figures. The Database file is the better
+*content* model for a schema document (automatic numbering, 9 pt captions,
+`BFBFBF` heads) but its geometry and missing Title style disqualify it as the
+shared base. The Code Standard file has no usable format base (H1/H2 are body
+size, no caption, no monospace style), so Code Standards clones the Architecture
+base and takes only its rule-list *content* pattern. The Technical Report uses
+the same base because the set contains no report template.
 
-## Consistent DBCAS interpretation
+The documents are **generated**, not cloned: cloning would inherit 39 one-off
+table styles, duplicate TOC fields and stale running heads that the survey
+found in the base file. `scripts/submission_style.py` implements the measured
+FITAI values that matter and nothing else.
 
-The FITAI files differ in margins, point sizes, table grays and front-matter
-ordering. For the four new DBCAS files, use the common Proposal/Architecture
-A4 geometry and Times New Roman as the shared baseline, black text, subdued
-gray table headings and the existing university logo. Use 13 pt body text
-where layout permits, preserving smaller readable table/caption text when
-needed. Keep actual OOXML values traceable to the source table above; do not
-describe the selected common geometry as identical to the Database sample.
+## 3. The applied specification
 
-Set group `C1SE.70`, project `DBCAS`, version `ver1.3`, and creator plus last
-modified by `Do, Nguyen Quoc` consistently. Use only verified DBCAS metadata;
-unknown schedule, roles and approvals must be listed for the owner, not
-invented. Write the new files in a separate output directory and do not
-overwrite the source documents.
+| Property | Value | Source of the decision |
+|---|---|---|
+| Page | A4, 21.0 × 29.7 cm | FITAI mainstream geometry |
+| Margins | left 3.5 cm, top 2 cm, bottom 2 cm, right 2 cm | Owner requirement; left 3.5 cm equals the FITAI Database cover margin |
+| Body | Times New Roman 13 pt, line spacing 1.5, justified, 6 pt after | FITAI mainstream font and size; 1.5× as in CodeStandard/TestPlan |
+| Heading 1 | 18 pt bold `#1F3863`, 18 pt before, 8 pt after | FITAI Architecture Heading 3 colour `1F3863`; 18 pt keeps a hierarchy above 13 pt body and matches the DBCAS house H1 |
+| Heading 2 | 14 pt bold `#44546A` | FITAI theme `dk2` |
+| Heading 3 | 13 pt bold black | FITAI body-size heading convention |
+| Caption | 9 pt italic `#44546A`, centred | FITAI Database caption style |
+| Tables | header row 11 pt bold on `#D9D9D9`, body 11 pt, borders `#BFBFBF` 0.5 pt; dense requirement/registry tables 10 pt; the 67-block column dictionary 9 pt | FITAI table fills; smaller sizes only where the survey shows them |
+| Code | Consolas 9 pt, left indent 0.5 cm, single spacing | No FITAI monospace style exists; 9 pt matches the caption step |
+| Header | left `C1SE.70 · DBCAS`, right document name, 9 pt `#44546A`, 1 pt rule | FITAI header pattern |
+| Footer | left `C1SE.70 · DBCAS · <document>`, right `Page X of Y` from `PAGE`/`NUMPAGES` fields | FITAI footer pattern, stale codes removed |
+| Cover | page frame, university logo, blue school labels `#4472C4`, 26 pt title, version, date, project title, five member lines, signature block | FITAI cover family A |
+| Front matter | project information, document information, approvals with an explicit pending status, revision history, automatic TOC | FITAI Architecture's seven blocks |
+| Metadata | author and last modified by `Do, Nguyen Quoc`, group `C1SE.70`, project `DBCAS`, version `ver1.3` | Owner requirement |
 
-## Rendering note
+### Documented size exceptions
 
-Poppler and LibreOffice were not found on PATH, in WSL, or in the checked
-default Windows install locations. The repository's existing Windows PDF
-renderer was used to inspect the supplied reference PDFs; no dependency was
-installed. The required final Word render-and-visual-verify gate is still
-pending, and this reference inspection is not evidence that the new documents
-have been created or verified.
+Only these elements depart from 13 pt, and the verifier lists each one with its
+run count:
+
+1. Cover labels, team lines and signature lines: 11–26 pt.
+2. Front-matter labels and the "Submitted by" line: 12 pt bold.
+3. Table text: 11 pt, or 10 pt in the dense feature, requirement, constraint,
+   risk, registry and migration tables, or 9 pt in the 67-table column
+   dictionary and the experiment table.
+4. Figure and table captions: 9 pt italic.
+5. Code blocks: Consolas 9 pt.
+6. Header and footer: 9 pt.
+7. Table of contents entries as produced by Word.
+
+Everything else — every paragraph in the body flow — is 13 pt at 1.5 line
+spacing. `npm run docs:verify-word` fails if a body run is not 13 pt, if a body
+paragraph is not 1.5, if a section is not A4 with 3.5/2/2/2 cm margins, or if
+the author metadata differs.
+
+## 4. Rendering and verification
+
+Word 16.0 is used to update the TOC and every field, save the DOCX, export the
+PDF and report the page count (`scripts/finalize_submission_docs.py`). Word
+rewrites `cp:lastModifiedBy` to the Windows account name on save, so the script
+restores the required metadata afterwards. LibreOffice and Poppler are not
+installed; the PDF page images are produced with PyMuPDF from the Word exports.
+The rendered PDFs and every page image are inspected as contact sheets and at
+full size for covers, TOC, table pages and figure pages.
