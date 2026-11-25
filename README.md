@@ -7,6 +7,17 @@ Windows, SQL DML chạy trong sandbox ephemeral cần **WSL2** (CLI Docker qua W
 SELECT và phần còn lại chạy được với Docker Desktop thường.
 Hướng dẫn áp dụng cho `develop2`; `main` chỉ nhận bản phát hành đã duyệt.
 
+Trên Windows, nếu `npm start` báo `Không đọc được group Docker socket`, CLI
+Docker native không trả được GID của socket. Lấy GID qua WSL rồi thêm
+`LOCAL_DOCKER_GID=<gid>` vào `.env` và chạy lại:
+
+```bash
+wsl -e docker run --rm --network none --entrypoint stat -v /var/run/docker.sock:/var/run/docker.sock postgres:17 -c "%g" /var/run/docker.sock
+```
+
+Khi GID đúng, `/readiness` trả `sandbox: true`. Không cần đặt biến này nếu
+`npm start` tự dò được GID.
+
 ```bash
 git clone https://github.com/nguyendodary/DBCAS.git
 cd DBCAS
