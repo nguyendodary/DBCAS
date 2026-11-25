@@ -1,0 +1,540 @@
+﻿=== docs\submission\Proposal.docx ===
+sha256=EE3DB51E594E08D215D9FCCA0D5CFC5B5E8500926A2185100E36FA627CAC77EF paragraphs=956 tables=21 drawings=7 text_chars=75905
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 1. Project Title
+heading Heading1 2. Team Members
+heading Heading1 3. Supervisor(s)
+heading Heading1 4. Problem Statement
+heading Heading2 4.1. One Overall Grade Hides Real Strengths and Weaknesses
+heading Heading2 4.2. Lack of Detailed Explanations for Mistakes
+heading Heading2 4.3. Heavy Grading Workload in Large Classes
+heading Heading2 4.4. Problem Identification Through Online Research
+heading Heading2 4.5. How DBCAS Solves These Problems
+heading Heading1 5. Survey / Existing Solutions
+heading Heading2 5.1. Online Query Practice Sites
+heading Heading2 5.2. Traditional Learning Management Systems (LMS)
+heading Heading2 5.3. Conversational AI Chatbots
+heading Heading1 6. Objectives and Scope
+heading Heading2 6.1. SMART Objectives
+heading Heading2 6.2. Project Scope
+heading Heading1 7. Key Features & Requirements
+heading Heading2 7.1. Seven Key System Features
+heading Heading2 7.2. Functional Requirements
+heading Heading2 7.3. Non-Functional Requirements
+heading Heading1 8. Constraints and Assumptions
+heading Heading1 9. Target Users / Stakeholders
+heading Heading1 10. Technology Stack
+heading Heading1 11. Methodology & Development Plan
+heading Heading2 11.1. Agile Scrum Development Methodology
+heading Heading2 11.2. Official Capstone Timeline & Sprint Roadmap
+heading Heading2 11.3. Team Role Assignment & RACI Matrix
+heading Heading1 12. System Architecture Overview
+heading Heading2 12.1. System Context Diagram
+heading Heading2 12.2. Multi-Tier Logical System Architecture
+heading Heading2 12.3. Evidence-Based Competency & Gap Evaluation Pipeline
+heading Heading2 12.4. Multi-Format Practice & How Scores Are Calculated
+heading Heading2 12.5. AI Integration & Prompt Engineering
+heading Heading1 13. Potential Risks and Mitigation Strategies
+heading Heading1 14. Expected Outcomes / Deliverables
+heading Heading1 15. References
+=== docs\submission\Architecture.docx ===
+sha256=C48AC703F6D4524C9CF673B0B626509D481372D483C81DD070EA41BF90EFFD8F paragraphs=1435 tables=58 drawings=21 text_chars=83083
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 1. Actor, Use Case and UC Diagram
+heading Heading2 1.1. Actors
+heading Heading2 1.2. Use Cases
+heading Heading2 1.3. Use Case Diagram
+heading Heading1 2. System Context Diagram
+heading Heading1 3. Architectural Drivers
+heading Heading2 3.1. Use Case Entities
+heading Heading2 3.2. Operational Use Cases
+heading Heading2 3.3. Quality Attribute Scenarios
+heading Heading2 3.4. Technical Constraints
+heading Heading2 3.5. Business Constraints
+heading Heading1 4. C4 Model
+heading Heading2 4.1. Container Diagram
+heading Heading2 4.2. Component Diagram
+heading Heading1 5. Module View
+heading Heading1 6. Allocation View
+heading Heading1 7. Entity Relationship Diagram
+=== docs\submission\Database.docx ===
+sha256=1F4431D5202C719A2FC762C427DD3280B48C2A3C21D49EFEBA4BACF9D3A14B1B paragraphs=4607 tables=72 drawings=15 text_chars=61700
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 Introduction
+heading Heading2 Purpose
+heading Heading2 Scope
+heading Heading2 Introduction about PostgreSQL
+heading Heading1 Database Diagram
+heading Heading2 Table Overview
+heading Heading2 Entity Relationship Diagram
+heading Heading1 Database Design for Sprint
+heading Heading2 Account
+heading Heading2 Role
+heading Heading2 AccountRole
+heading Heading2 UserProfile
+heading Heading2 CourseLearningOutcome
+heading Heading2 Concept
+heading Heading2 CLOConcept
+heading Heading2 Question
+heading Heading2 QuestionConcept
+heading Heading2 MCQOption
+heading Heading2 SQLTestDataset
+heading Heading2 Rubric
+heading Heading2 Assessment
+heading Heading2 AssessmentConcept
+heading Heading2 AssessmentSession
+heading Heading2 Attempt
+heading Heading2 SelectionLog
+heading Heading2 ConceptCompetency
+heading Heading2 CompetencyGap
+heading Heading2 LLMCache
+heading Heading2 QuestionCandidate
+heading Heading2 AccountIdentity
+heading Heading2 AccountRoleAudit
+heading Heading2 OAuthHandoff
+heading Heading2 LoginThrottle
+heading Heading2 ConceptDependency
+heading Heading2 QuestionTranslation
+heading Heading2 SessionQuestionPlan
+heading Heading2 SessionStartRequest
+heading Heading2 GradingJob
+heading Heading2 GradeReview
+heading Heading2 ResultReleaseEvent
+heading Heading2 AssessmentBlueprint
+heading Heading2 AdaptiveEvent
+heading Heading2 PasswordResetToken
+heading Heading2 PasswordResetAudit
+heading Heading2 AssessmentQuestion
+heading Heading2 EvaluationRecord
+heading Heading2 GradeEditAudit
+heading Heading2 RefreshSession
+heading Heading2 SystemSetting
+heading Heading2 A.1 ai_prompt_content
+heading Heading2 A.2 ai_prompt_record
+heading Heading2 A.3 ai_stage_attempt
+heading Heading2 A.4 ai_stage_run
+heading Heading2 A.5 ai_stage_validation
+heading Heading2 A.6 attempt_rubric_criterion
+heading Heading2 A.7 course_document
+heading Heading2 A.8 document_chunk
+heading Heading2 A.9 document_clo
+heading Heading2 A.10 prompt_access_audit
+heading Heading2 A.11 question_clo
+heading Heading2 A.12 question_evidence
+heading Heading2 A.13 question_report
+heading Heading2 A.14 question_rubric_criterion
+heading Heading2 A.15 question_rubric_profile
+heading Heading2 A.16 retention_purge_audit
+heading Heading2 A.17 review_deviation
+heading Heading2 A.18 review_deviation_confirmation
+heading Heading2 A.19 review_request
+heading Heading2 A.20 session_final_result
+heading Heading2 A.21 session_result_analysis
+heading Heading2 A.22 session_result_criterion_score
+heading Heading2 A.23 session_result_publication
+heading Heading2 A.24 session_result_version
+heading Heading2 A.25 session_result_version_score
+heading Heading2 A.26 tab_leave_interval
+heading Heading1 Hardware and Software Requirements
+=== docs\submission\SRS.docx ===
+sha256=7D9EDBB73F29F77EFB283E0BEC371580B2C2728064DCCAAF66C30E9EDD84444F paragraphs=481 tables=11 drawings=0 text_chars=16897
+OpenRouter count=2
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 Introduction
+heading Heading1 Project overview
+heading Heading1 Functional requirements
+heading Heading1 Use cases
+heading Heading1 Non-functional requirements
+heading Heading1 Data and release requirements
+heading Heading1 Constraints and out of scope
+heading Heading1 Traceability and verification
+heading Heading1 Module and role coverage
+heading Heading1 Verification evidence
+heading Heading1 Limitations and owner decisions
+heading Heading1 Traceability matrix
+heading Heading1 Document control and validation
+=== docs\academic\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx ===
+sha256=8685A674BD2AAEA2DDC3E8DBFD41C6ED157A0CFDE1D532D1AC488D1FD29A0123 paragraphs=956 tables=21 drawings=7 text_chars=74879
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 1. Project Title
+heading Heading1 2. Team Members
+heading Heading1 3. Supervisor(s)
+heading Heading1 4. Problem Statement
+heading Heading2 4.1. One Overall Grade Hides Real Strengths and Weaknesses
+heading Heading2 4.2. Lack of Detailed Explanations for Mistakes
+heading Heading2 4.3. Heavy Grading Workload in Large Classes
+heading Heading2 4.4. Problem Identification Through Online Research
+heading Heading2 4.5. How DBCAS Solves These Problems
+heading Heading1 5. Survey / Existing Solutions
+heading Heading2 5.1. Online Query Practice Sites
+heading Heading2 5.2. Traditional Learning Management Systems (LMS)
+heading Heading2 5.3. Conversational AI Chatbots
+heading Heading1 6. Objectives and Scope
+heading Heading2 6.1. SMART Objectives
+heading Heading2 6.2. Project Scope
+heading Heading1 7. Key Features & Requirements
+heading Heading2 7.1. Seven Key System Features
+heading Heading2 7.2. Functional Requirements
+heading Heading2 7.3. Non-Functional Requirements
+heading Heading1 8. Constraints and Assumptions
+heading Heading1 9. Target Users / Stakeholders
+heading Heading1 10. Technology Stack
+heading Heading1 11. Methodology & Development Plan
+heading Heading2 11.1. Agile Scrum Development Methodology
+heading Heading2 11.2. Official Capstone Timeline & Sprint Roadmap
+heading Heading2 11.3. Team Role Assignment & RACI Matrix
+heading Heading1 12. System Architecture Overview
+heading Heading2 12.1. System Context Diagram
+heading Heading2 12.2. Multi-Tier Logical System Architecture
+heading Heading2 12.3. Evidence-Based Competency & Gap Evaluation Pipeline
+heading Heading2 12.4. Multi-Format Practice & How Scores Are Calculated
+heading Heading2 12.5. AI Integration & Prompt Engineering
+heading Heading1 13. Potential Risks and Mitigation Strategies
+heading Heading1 14. Expected Outcomes / Deliverables
+heading Heading1 15. References
+=== docs\academic\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx ===
+sha256=BA359C6FFA5E17709BC8E130737F07FB9340717D475834973CC76E89280B16C8 paragraphs=1414 tables=58 drawings=14 text_chars=81835
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 1. Actor, Use Case and UC Diagram
+heading Heading2 1.1. Actors
+heading Heading2 1.2. Use Cases
+heading Heading2 1.3. Use Case Diagram
+heading Heading1 2. System Context Diagram
+heading Heading1 3. Architectural Drivers
+heading Heading2 3.1. Use Case Entities
+heading Heading2 3.2. Operational Use Cases
+heading Heading2 3.3. Quality Attribute Scenarios
+heading Heading2 3.4. Technical Constraints
+heading Heading2 3.5. Business Constraints
+heading Heading1 4. C4 Model
+heading Heading2 4.1. Container Diagram
+heading Heading2 4.2. Component Diagram
+heading Heading1 5. Module View
+heading Heading1 6. Allocation View
+heading Heading1 7. Entity Relationship Diagram
+=== docs\academic\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx ===
+sha256=84FC137B533AA795B4D72F51BFE663D813A75A4E289A62205B6DE9C8FF623C3E paragraphs=4502 tables=71 drawings=8 text_chars=53658
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 Introduction
+heading Heading2 Purpose
+heading Heading2 Scope
+heading Heading2 Introduction about PostgreSQL
+heading Heading1 Database Diagram
+heading Heading2 Table Overview
+heading Heading2 Entity Relationship Diagram
+heading Heading1 Database Design for Sprint
+heading Heading2 Account
+heading Heading2 Role
+heading Heading2 AccountRole
+heading Heading2 UserProfile
+heading Heading2 CourseLearningOutcome
+heading Heading2 Concept
+heading Heading2 CLOConcept
+heading Heading2 Question
+heading Heading2 QuestionConcept
+heading Heading2 QuestionClo
+heading Heading2 MCQOption
+heading Heading2 SQLTestDataset
+heading Heading2 Rubric
+heading Heading2 Assessment
+heading Heading2 AssessmentConcept
+heading Heading2 AssessmentSession
+heading Heading2 Attempt
+heading Heading2 SelectionLog
+heading Heading2 ConceptCompetency
+heading Heading2 CompetencyGap
+heading Heading2 LLMCache
+heading Heading2 QuestionCandidate
+heading Heading2 AccountIdentity
+heading Heading2 AccountRoleAudit
+heading Heading2 OAuthHandoff
+heading Heading2 LoginThrottle
+heading Heading2 ConceptDependency
+heading Heading2 QuestionTranslation
+heading Heading2 SessionFinalResult
+heading Heading2 SessionQuestionPlan
+heading Heading2 SessionStartRequest
+heading Heading2 GradingJob
+heading Heading2 GradeReview
+heading Heading2 ResultReleaseEvent
+heading Heading2 AssessmentBlueprint
+heading Heading2 AdaptiveEvent
+heading Heading2 PasswordResetToken
+heading Heading2 PasswordResetAudit
+heading Heading2 AssessmentQuestion
+heading Heading2 EvaluationRecord
+heading Heading2 GradeEditAudit
+heading Heading2 RefreshSession
+heading Heading2 SystemSetting
+heading Heading2 CourseDocument
+heading Heading2 DocumentChunk
+heading Heading2 DocumentClo
+heading Heading2 QuestionEvidence
+heading Heading2 TabLeaveInterval
+heading Heading2 AiPromptContent
+heading Heading2 AiPromptRecord
+heading Heading2 AiStageAttempt
+heading Heading2 AiStageRun
+heading Heading2 AiStageValidation
+heading Heading2 AttemptRubricCriterion
+heading Heading2 PromptAccessAudit
+heading Heading2 QuestionRubricCriterion
+heading Heading2 QuestionRubricProfile
+heading Heading2 RetentionPurgeAudit
+heading Heading2 SessionResultAnalysis
+heading Heading2 SessionResultCriterionScore
+heading Heading2 SessionResultPublication
+heading Heading2 SessionResultVersion
+heading Heading2 SessionResultVersionScore
+heading Heading1 Hardware and Software Requirements
+heading Heading2 ReviewRequest
+heading Heading2 QuestionReport
+heading Heading2 ReviewDeviation
+=== ..\Documents\Final\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx ===
+sha256=EC7D20982A0969462DA9DDB56FFE2A411C6E1A789B5540590D288768FE6268CA paragraphs=956 tables=21 drawings=7 text_chars=74879
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 1. Project Title
+heading Heading1 2. Team Members
+heading Heading1 3. Supervisor(s)
+heading Heading1 4. Problem Statement
+heading Heading2 4.1. One Overall Grade Hides Real Strengths and Weaknesses
+heading Heading2 4.2. Lack of Detailed Explanations for Mistakes
+heading Heading2 4.3. Heavy Grading Workload in Large Classes
+heading Heading2 4.4. Problem Identification Through Online Research
+heading Heading2 4.5. How DBCAS Solves These Problems
+heading Heading1 5. Survey / Existing Solutions
+heading Heading2 5.1. Online Query Practice Sites
+heading Heading2 5.2. Traditional Learning Management Systems (LMS)
+heading Heading2 5.3. Conversational AI Chatbots
+heading Heading1 6. Objectives and Scope
+heading Heading2 6.1. SMART Objectives
+heading Heading2 6.2. Project Scope
+heading Heading1 7. Key Features & Requirements
+heading Heading2 7.1. Seven Key System Features
+heading Heading2 7.2. Functional Requirements
+heading Heading2 7.3. Non-Functional Requirements
+heading Heading1 8. Constraints and Assumptions
+heading Heading1 9. Target Users / Stakeholders
+heading Heading1 10. Technology Stack
+heading Heading1 11. Methodology & Development Plan
+heading Heading2 11.1. Agile Scrum Development Methodology
+heading Heading2 11.2. Official Capstone Timeline & Sprint Roadmap
+heading Heading2 11.3. Team Role Assignment & RACI Matrix
+heading Heading1 12. System Architecture Overview
+heading Heading2 12.1. System Context Diagram
+heading Heading2 12.2. Multi-Tier Logical System Architecture
+heading Heading2 12.3. Evidence-Based Competency & Gap Evaluation Pipeline
+heading Heading2 12.4. Multi-Format Practice & How Scores Are Calculated
+heading Heading2 12.5. AI Integration & Prompt Engineering
+heading Heading1 13. Potential Risks and Mitigation Strategies
+heading Heading1 14. Expected Outcomes / Deliverables
+heading Heading1 15. References
+=== ..\Documents\Final\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx ===
+sha256=9DA81648DBD54BF7C534A4F185FEAAA762D15DE3393FC62103836E299615C685 paragraphs=1414 tables=58 drawings=14 text_chars=81835
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 1. Actor, Use Case and UC Diagram
+heading Heading2 1.1. Actors
+heading Heading2 1.2. Use Cases
+heading Heading2 1.3. Use Case Diagram
+heading Heading1 2. System Context Diagram
+heading Heading1 3. Architectural Drivers
+heading Heading2 3.1. Use Case Entities
+heading Heading2 3.2. Operational Use Cases
+heading Heading2 3.3. Quality Attribute Scenarios
+heading Heading2 3.4. Technical Constraints
+heading Heading2 3.5. Business Constraints
+heading Heading1 4. C4 Model
+heading Heading2 4.1. Container Diagram
+heading Heading2 4.2. Component Diagram
+heading Heading1 5. Module View
+heading Heading1 6. Allocation View
+heading Heading1 7. Entity Relationship Diagram
+=== ..\Documents\Final\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx ===
+sha256=390723782CB9C2EC5B706C74D762C4F5947E3B04779CCC6BB62964DCE8BAFFA3 paragraphs=2666 tables=46 drawings=8 text_chars=37522
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 Introduction
+heading Heading2 Purpose
+heading Heading2 Scope
+heading Heading2 Introduction about PostgreSQL
+heading Heading1 Database Diagram
+heading Heading2 Table Overview
+heading Heading2 Entity Relationship Diagram
+heading Heading1 Database Design for Sprint
+heading Heading2 Account
+heading Heading2 Role
+heading Heading2 AccountRole
+heading Heading2 UserProfile
+heading Heading2 CourseLearningOutcome
+heading Heading2 Concept
+heading Heading2 CLOConcept
+heading Heading2 Question
+heading Heading2 QuestionConcept
+heading Heading2 MCQOption
+heading Heading2 SQLTestDataset
+heading Heading2 Rubric
+heading Heading2 Assessment
+heading Heading2 AssessmentConcept
+heading Heading2 AssessmentSession
+heading Heading2 Attempt
+heading Heading2 SelectionLog
+heading Heading2 ConceptCompetency
+heading Heading2 CompetencyGap
+heading Heading2 LLMCache
+heading Heading2 QuestionCandidate
+heading Heading2 AccountIdentity
+heading Heading2 AccountRoleAudit
+heading Heading2 OAuthHandoff
+heading Heading2 LoginThrottle
+heading Heading2 ConceptDependency
+heading Heading2 QuestionTranslation
+heading Heading2 SessionQuestionPlan
+heading Heading2 SessionStartRequest
+heading Heading2 GradingJob
+heading Heading2 GradeReview
+heading Heading2 ResultReleaseEvent
+heading Heading2 AssessmentBlueprint
+heading Heading2 AdaptiveEvent
+heading Heading2 PasswordResetToken
+heading Heading2 PasswordResetAudit
+heading Heading2 AssessmentQuestion
+heading Heading2 EvaluationRecord
+heading Heading2 GradeEditAudit
+heading Heading2 RefreshSession
+heading Heading2 SystemSetting
+heading Heading1 Hardware and Software Requirements
+=== ..\Documents\Other\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx ===
+sha256=ABB68F78B2BAA6EFD49526AD7A0395E274ED69AB137EAF4A3215E12DCFBC6D34 paragraphs=414 tables=7 drawings=3 text_chars=18002
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 Introduction
+heading Heading2 Purpose
+heading Heading2 Scope
+heading Heading1 User Stories
+heading Heading2 User stories for admin
+heading Heading2 User stories for learner
+heading Heading2 User stories for learner before sign-in
+=== ..\Software Requiremen Specification Template.docx ===
+sha256=B7C184FD7A952B266EDD13850D753963BD917A154383B3011728C126665641A7 paragraphs=581 tables=11 drawings=11 text_chars=18144
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+heading Heading1 Revision History
+heading Heading1 Introduction
+heading Heading2 Purpose
+heading Heading2 Intended Audience and Reading Suggestions
+heading Heading2 References
+heading Heading1 Project Overview
+heading Heading2 Project Description
+heading Heading2 Business Problems
+heading Heading2 Business Need
+heading Heading2 Project Analyst
+heading Heading2 Business Function Diagram
+heading Heading2 System Context Diagram
+heading Heading2 Data Flow Diagram
+heading Heading2 Software Requirement Specification
+heading Heading2 High level Fucntional Requirement (FR)
+heading Heading2 Stakeholders
+heading Heading2 Usecase
+heading Heading2 List of use cases
+heading Heading2 <<project  name>> Use Case Diagram Overview
+heading Heading2 List of business rule
+heading Heading2 Use Case Specification
+heading Heading3 UC 01: Create a New Place
+heading Heading3 UC 02: Edit a Place’s Information
+heading Heading2 Software Quality Attributes
+heading Heading2 Usability
+heading Heading2 Reliability
+heading Heading2 Security
+heading Heading2 Maintainability
+heading Heading2 Portability
+heading Heading2 Performance
+heading Heading2 Software Design Description
+heading Heading2 Sequence Diagrams
+heading Heading2 Cập nhật thông tin nhân viên
+heading Heading2 Quan hệ Gia đình
+heading Heading2 Activity Diagrams
+heading Heading2 Cập nhật thông tin nhân viên
+heading Heading2 State Diagram
+heading Heading2 Class Diagram
+heading Heading2 Allocation Diagram
+heading Heading1 Appendix A: Glossary
+=== ..\C1SE.70_ProposalDocument_DBCAS_ver1.2.txt ===
+sha256=A5F4EF62ADC287C84170A883FE3E08C32079348AEF78FC62B580C8BA8E3AB84A text_chars=75546 lines=913
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+=== ..\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.txt ===
+sha256=8AACFE6D2A345857A27822BBE1196072C028C5798E97A979CDBC0B0B4AFA6BDF text_chars=82824 lines=1373
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0
+=== ..\C1SE.70_DatabaseDesign_DBCAS_ver1.2.txt ===
+sha256=1B0EDF5DBBB41CA4824118B3058D6798329BA73F774350718705C52CD42599BC text_chars=39884 lines=2003
+OpenRouter count=0
+model free count=0
+66 bảng count=0
+27 migration count=0
+1-20 câu count=0
+five destinations count=0

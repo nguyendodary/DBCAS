@@ -7,6 +7,9 @@ document and header/footer parts; [raw extraction](phase5-fitaistyle-raw.log)
 records the underlying values. Reference PDF covers and front matter were also
 rendered and inspected. A dash in the raw data means “not explicitly set”;
 inherited or theme-based values must not be treated as missing or guessed.
+The [source inventory](phase5-source-inventory.log) records hashes, structural
+counts and headings for the existing DBCAS documents and text sources; it is an
+inventory, not a completed fact or traceability audit.
 
 ## Measured tokens
 
