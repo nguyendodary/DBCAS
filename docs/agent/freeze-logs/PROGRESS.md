@@ -12,7 +12,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | 5 | Superseded by phase 8 | [doc-verify.md](doc-verify.md) now records the five-document set; the earlier four-file record is history. |
 | 6 | Complete | [final-gates-v2.md](final-gates-v2.md) records all local gates, QA-stack teardown and exact-commit CI run `45597486074` **success** (14/14 jobs). |
 | 7 | Gates verified; no merge | [phase7-branch-gates.md](phase7-branch-gates.md): `main` unchanged, no open PR, no branch protection/ruleset bypass. |
-| 8 | Document set complete; CI pending | SRS removed from the owner set (archived to `Documents/Archive/`), five `ver1.3` documents committed under `docs/submission/final`, FITAI layout measured from all 31 reference files, 149 XML assertions and 0 failures, clean-clone run passed. |
+| 8 | Document set complete; recovered push passed CI | SRS removed from the owner set (archived to `Documents/Archive/`), five `ver1.3` documents committed under `docs/submission/final`, FITAI layout measured from all 31 reference files, 149 XML assertions and 0 failures, clean-clone run passed. |
 
 ## Phase 8 — owner document set (2026-11-25)
 
@@ -44,12 +44,15 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 - **Gates.** `docs:check` PASS (48 assertions), `docs:verify-word` PASS (5
   documents, 149 assertions, 0 failures), `inventory:check` PASS,
   `secrets:scan` PASS (0 findings).
-- **CI.** Pending at the time of writing; the run id and conclusion are added
-  in the follow-up status commit.
+- **CI.** The interrupted push at `272e0df` passed all 14 jobs at 21:04 ICT on 25 November. [GitHub Actions run 45624475593](https://github.com/nguyendodary/DBCAS/actions/runs/45624475593).
 
 ## Next commands
 
-Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Task 3 corrected the historical job count in the Technical Report. Task 5 complete. The source-code guide links the verified 14-job run. Task 6 complete. The gates and the direct body-format check passed. Next command: `gh run view 45624475593 --json headSha,status,conclusion,jobs`. Separate owner decisions:
+[Step 0 inventory and recovery receipts](recovery-20261125-2054.md) cover all seven tasks. The five submission files are under `docs/submission/final/`. The external `Documents/Final-ver1.3` directory contains earlier material.
+
+The interrupted push passed. For the recovery commits, push normally with `git push origin develop2`. Check the exact published revision with `gh run list --branch develop2 --commit <full HEAD SHA>` and watch that run through completion. The machine-local receipt for the recovery push is `_review/recovery-20261125-2054/final-ci.json`.
+
+Separate owner decisions include
 D1 cleanup deletion, D3 `develop2 → main` promotion, D4 approval of the two
 stale-copy corrections, and the owner facts listed in
 [doc-verify.md](doc-verify.md#8-owner-questions-raised-by-this-verification).
