@@ -9,6 +9,8 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   [PROGRESS](freeze-logs/PROGRESS.md).
 - Complete the outstanding detailed review of the historical synchronization
   diff identified in [phase0-survey](freeze-logs/phase0-survey.md).
+- Create and verify the four new Word files using the measured
+  [FITAI style specification](freeze-logs/doc-style-spec.md).
 - Await the D1 decision on item 1 in the
   [cleanup proposal](freeze-logs/cleanup-proposal.md); do not delete any item
   without approval. Follow the existing release and snapshot review gates.

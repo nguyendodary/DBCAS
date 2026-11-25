@@ -1,0 +1,218 @@
+=== FILE: C:\Users\kudot\Downloads\proposal test\FITAI - Documents\1. Proposal Document\C1SE.56_ProposalDocument_SHFA_ver1.2.docx ===
+theme-color dk1=000000
+theme-color lt1=FFFFFF
+theme-color dk2=44546A
+theme-color lt2=E7E6E6
+theme-color accent1=4472C4
+theme-color accent2=ED7D31
+theme-color accent3=A5A5A5
+theme-color accent4=FFC000
+theme-color accent5=5B9BD5
+theme-color accent6=70AD47
+theme-color hlink=0563C1
+theme-color folHlink=954F72
+theme-font majorFont=Calibri Light
+theme-font minorFont=Calibri
+default font=Times New Roman size-halfpt=- color=- theme=-
+style id=Normal name=Normal basedOn=- font=- halfpt=24 color=- theme=- before=- after=- line=-
+style id=Heading1 name=heading 1 basedOn=Normal font=- halfpt=26 color=- theme=- before=240 after=- line=-
+style id=Heading2 name=heading 2 basedOn=Normal font=- halfpt=26 color=- theme=- before=360 after=120 line=276
+style id=BodyTextIndent name=Body Text Indent basedOn=Normal font=- halfpt=- color=- theme=- before=- after=120 line=-
+style id=BodyTextIndent3 name=Body Text Indent 3 basedOn=Normal font=- halfpt=16 color=- theme=- before=- after=120 line=-
+style id=Title name=Title basedOn=Normal font=- halfpt=28 color=- theme=- before=- after=- line=-
+style id=BodyText name=Body Text basedOn=Normal font=- halfpt=- color=- theme=- before=- after=120 line=-
+style id=TOC2 name=toc 2 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=TOC1 name=toc 1 basedOn=Normal font=- halfpt=26 color=- theme=- before=- after=- line=-
+style id=TOC3 name=toc 3 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=ListParagraph name=List Paragraph basedOn=Normal font=- halfpt=26 color=- theme=- before=- after=- line=360
+style id=TOCHeading name=TOC Heading basedOn=Heading1 font=- halfpt=- color=- theme=- before=- after=- line=259
+style id=NormalWeb name=Normal (Web) basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=Caption name=caption basedOn=Normal font=- halfpt=26 color=- theme=- before=- after=200 line=-
+page width-twip=11907 height-twip=16840 margins-top-bottom-left-right=1134,1418,1701,1134
+run-colors 000000:204, auto:6, 4472C4:2, 201F35:2
+fills FFFFFF:61, D0CECE:30, AEAAAA:6, F3F3F3:4, BFBFBF:4
+font-sizes-halfpt 26:844, 40:9, 28:6, 32:2, 24:1
+run-fonts
+part word/header1.xml text=Proposal |  Document | International School Cap | s | tone 1 - 2025 fields=
+part word/footer1.xml text= fields=
+part word/footer2.xml text= fields=
+part word/footer3.xml text= fields=
+part word/footer4.xml text=C1SE.56 | Page  | 6 |   fields=PAGE
+document-fields TOC \o "1-4" \h \z \u | PAGEREF _Toc216813800 \h | TOC \h \z \c "Table" | PAGEREF _Toc216813830 \h | PAGEREF _Toc216813831 \h | TOC \h \z \c "Figure" | SEQ Figure \* ARABIC | SEQ Figure \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Figure \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC
+=== FILE: C:\Users\kudot\Downloads\proposal test\FITAI - Documents\5. Architecture Design Document\C1SE.56_ArchitectureDesign_SHFA_ver1.1.docx ===
+theme-color dk1=000000
+theme-color lt1=FFFFFF
+theme-color dk2=44546A
+theme-color lt2=E7E6E6
+theme-color accent1=4472C4
+theme-color accent2=ED7D31
+theme-color accent3=A5A5A5
+theme-color accent4=FFC000
+theme-color accent5=5B9BD5
+theme-color accent6=70AD47
+theme-color hlink=0563C1
+theme-color folHlink=954F72
+theme-font majorFont=Calibri Light
+theme-font minorFont=Calibri
+default font=Times New Roman size-halfpt=26 color=- theme=-
+style id=Normal name=Normal basedOn=- font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=Heading1 name=heading 1 basedOn=Normal font=- halfpt=- color=- theme=- before=240 after=- line=-
+style id=Heading2 name=heading 2 basedOn=Normal font=- halfpt=- color=- theme=- before=360 after=120 line=276
+style id=Heading3 name=heading 3 basedOn=Normal font=Calibri halfpt=24 color=1F3863 theme=- before=40 after=- line=-
+style id=Heading4 name=heading 4 basedOn=Normal font=- halfpt=24 color=- theme=- before=240 after=40 line=-
+style id=Heading5 name=heading 5 basedOn=Normal font=- halfpt=22 color=- theme=- before=220 after=40 line=-
+style id=Heading6 name=heading 6 basedOn=Normal font=- halfpt=20 color=- theme=- before=200 after=40 line=-
+style id=Title name=Title basedOn=Normal font=- halfpt=28 color=- theme=- before=- after=- line=-
+style id=BodyTextIndent name=Body Text Indent basedOn=Normal font=- halfpt=- color=- theme=- before=- after=120 line=-
+style id=BodyTextIndent3 name=Body Text Indent 3 basedOn=Normal font=- halfpt=16 color=- theme=- before=- after=120 line=-
+style id=BodyText name=Body Text basedOn=Normal font=- halfpt=- color=- theme=- before=- after=120 line=-
+style id=TOC2 name=toc 2 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=TOC1 name=toc 1 basedOn=Normal font=- halfpt=32 color=- theme=- before=- after=- line=-
+style id=TOC3 name=toc 3 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=ListParagraph name=List Paragraph basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=360
+style id=TOCHeading name=TOC Heading basedOn=Heading1 font=- halfpt=- color=- theme=- before=- after=- line=259
+style id=NormalWeb name=Normal (Web) basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=Caption name=caption basedOn=Normal font=- halfpt=- color=- theme=- before=- after=200 line=360
+style id=Subtitle name=Subtitle basedOn=Normal font=Georgia halfpt=48 color=666666 theme=- before=360 after=80 line=-
+page width-twip=11907 height-twip=16840 margins-top-bottom-left-right=1134,1418,1701,1134
+run-colors 000000:1040, 4472C4:4, 201F35:2
+fills FFFFFF:41, E7E6E6:32, D9D9D9:18, D0CECE:16, F3F3F3:4, BFBFBF:1
+font-sizes-halfpt 22:40, 24:28, 40:10, 26:7, 29:4, 20:4, 30:4, 56:4, 16:2, 32:2
+run-fonts Calibri:58, Gungsuh:5
+part word/footer2.xml text=C1SE.56 | Page  | 35 |   fields=PAGE
+part word/header1.xml text=Architecture Design | International School Capstone 1 - 2025 fields=
+part word/footer1.xml text= fields=
+document-fields TOC \h \u \z \t "Heading 1,1,Heading 2,2,Heading 3,3," | TOC \h \u \z \t "Heading 1,1,Heading 2,2,Heading 3,3,Heading 4,4,Heading 5,5,Heading 6,6," | TOC \h \u \z \t "Heading 1,1,Heading 2,2,Heading 3,3,Heading 4,4,Heading 5,5,Heading 6,6,"
+=== FILE: C:\Users\kudot\Downloads\proposal test\FITAI - Documents\6. Database Design Document\C1SE56_DatabaseDesign_SHFA_ver1.2.docx ===
+theme-color dk1=000000
+theme-color lt1=FFFFFF
+theme-color dk2=44546A
+theme-color lt2=E7E6E6
+theme-color accent1=5B9BD5
+theme-color accent2=ED7D31
+theme-color accent3=A5A5A5
+theme-color accent4=FFC000
+theme-color accent5=4472C4
+theme-color accent6=70AD47
+theme-color hlink=0563C1
+theme-color folHlink=954F72
+theme-font majorFont=Calibri Light
+theme-font minorFont=Calibri
+default font=- size-halfpt=22 color=- theme=-
+style id=Normal name=Normal basedOn=- font=Times New Roman halfpt=26 color=000000 theme=- before=- after=127 line=-
+style id=Heading1 name=heading 1 basedOn=- font=Times New Roman halfpt=26 color=000000 theme=- before=- after=128 line=-
+style id=Heading2 name=heading 2 basedOn=- font=Times New Roman halfpt=26 color=000000 theme=- before=- after=128 line=-
+style id=TOC1 name=toc 1 basedOn=- font=Times New Roman halfpt=26 color=000000 theme=- before=- after=127 line=-
+style id=TOC2 name=toc 2 basedOn=- font=Times New Roman halfpt=26 color=000000 theme=- before=- after=127 line=-
+style id=NormalWeb name=Normal (Web) basedOn=Normal font=- halfpt=24 color=auto theme=- before=100 after=100 line=240
+style id=Caption name=caption basedOn=Normal font=- halfpt=18 color=44546A theme=text2 before=- after=200 line=240
+style id=ListParagraph name=List Paragraph basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+page width-twip=11920 height-twip=16860 margins-top-bottom-left-right=1701,1701,1985,1134
+run-colors 000000:197, auto:73, 00000A:30, 4472C4:2
+fills BFBFBF:113, D9D9D9:6
+font-sizes-halfpt 26:217, 22:68, 24:27, 40:12, 56:4, 20:4, 29:4, 16:2
+run-fonts Arial:4
+part word/header13.xml text=  |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2024 |      |   |   fields=
+part word/header8.xml text=  |   | DATABASE DESIGN  |   |   |   | DATABASE DESIGN  |   fields=
+part word/footer7.xml text= fields=
+part word/header7.xml text=  |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2024 |      |   fields=
+part word/footer6.xml text=C1SE.56 | Page  | 10 fields=PAGE
+part word/footer5.xml text= fields=
+part word/footer13.xml text=Page  | 10 |  of  | 14 |   |   fields=PAGE   \* MERGEFORMAT
+part word/header9.xml text=DATABASE DESIGN   |    |       | International School Capstone 1 – 2025 fields=
+part word/footer8.xml text= fields=
+part word/footer9.xml text=C1SE.56 | Page  | 11 fields=PAGE
+part word/footer12.xml text=C1SE.56 | Page  | 21 fields=PAGE
+part word/footer11.xml text=Page  | 14 |  of  | 14 |   |   fields=PAGE   \* MERGEFORMAT
+part word/header12.xml text=    |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2025 |      |   fields=
+part word/header11.xml text=  |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2024 |      |   |   fields=
+part word/footer10.xml text= fields=
+part word/header10.xml text=  |   | DATABASE DESIGN  |   |   |   | DATABASE DESIGN  |   fields=
+part word/header5.xml text=  |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2024 |      |   fields=
+part word/header6.xml text=  |     | DATABASE DESIGN   |    |       | International School Capstone 1 – 2025 |      |   fields=
+part word/footer4.xml text=Page  | 2 |  of  | 2 fields=PAGE | NUMPAGES
+part word/footer1.xml text=Page |  | 2 |   fields=PAGE
+part word/header2.xml text=  |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2024 |      |   fields=
+part word/header1.xml text= fields=
+part word/header3.xml text=  |     | DATABASE DESIGN |    |    |       | International School Capstone 1 – 2025 fields=
+part word/footer2.xml text= fields=
+part word/footer3.xml text= fields=
+part word/header4.xml text=  |   | DATABASE DESIGN   |    |       | International School Capstone 1 – 2024 |      |   fields=
+document-fields TOC \o "1-2" \h \z \u | TOC \h \z \c "Figure" | TOC \h \z \c "Figure" | TOC \h \z \c "Table" | SEQ Table \* ARABIC | SEQ Figure \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC | SEQ Table \* ARABIC
+=== FILE: C:\Users\kudot\Downloads\proposal test\FITAI - Documents\4. User Stories Document\C1SE.56_UserStoryDocument_SHFA_ver1.1.docx ===
+theme-color dk1=000000
+theme-color lt1=FFFFFF
+theme-color dk2=44546A
+theme-color lt2=E7E6E6
+theme-color accent1=4472C4
+theme-color accent2=ED7D31
+theme-color accent3=A5A5A5
+theme-color accent4=FFC000
+theme-color accent5=5B9BD5
+theme-color accent6=70AD47
+theme-color hlink=0563C1
+theme-color folHlink=954F72
+theme-font majorFont=Calibri Light
+theme-font minorFont=Calibri
+default font=Times New Roman size-halfpt=- color=- theme=-
+style id=Normal name=Normal basedOn=- font=- halfpt=26 color=- theme=- before=- after=- line=-
+style id=Heading1 name=heading 1 basedOn=Normal font=- halfpt=- color=- theme=- before=240 after=- line=-
+style id=Heading2 name=heading 2 basedOn=Normal font=- halfpt=- color=- theme=- before=360 after=120 line=276
+style id=Heading3 name=heading 3 basedOn=Normal font=- halfpt=24 color=1F3763 theme=accent1 before=40 after=- line=-
+style id=BodyTextIndent name=Body Text Indent basedOn=Normal font=- halfpt=- color=- theme=- before=- after=120 line=-
+style id=BodyTextIndent3 name=Body Text Indent 3 basedOn=Normal font=- halfpt=16 color=- theme=- before=- after=120 line=-
+style id=Title name=Title basedOn=Normal font=- halfpt=28 color=- theme=- before=- after=- line=-
+style id=BodyText name=Body Text basedOn=Normal font=- halfpt=- color=- theme=- before=- after=120 line=-
+style id=TOC2 name=toc 2 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=TOC1 name=toc 1 basedOn=Normal font=- halfpt=32 color=- theme=- before=- after=- line=-
+style id=TOC3 name=toc 3 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=ListParagraph name=List Paragraph basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=360
+style id=TOCHeading name=TOC Heading basedOn=Heading1 font=- halfpt=- color=- theme=- before=- after=- line=259
+style id=NormalWeb name=Normal (Web) basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=Caption name=caption basedOn=Normal font=- halfpt=- color=- theme=- before=- after=200 line=360
+page width-twip=11907 height-twip=16840 margins-top-bottom-left-right=1134,1418,1701,1134
+run-colors 000000:91, 201F35:2, 4472C4:2
+fills FFFFFF:43, F7CAAC:15, F3F3F3:4, BFBFBF:1
+font-sizes-halfpt 26:45, 40:10, 24:5, 32:4, 28:2, 16:1, 22:1
+run-fonts
+part word/header1.xml text=User Story | International School Cap | s | tone 1 - 2025 fields=
+part word/footer1.xml text= fields=
+part word/footer2.xml text=C1SE.56 | Page  | 7 |   fields=PAGE
+document-fields TOC \o "1-3" \h \z \u | PAGEREF _Toc216883303 \h | PAGEREF _Toc216883304 \h | PAGEREF _Toc216883305 \h | PAGEREF _Toc216883306 \h | PAGEREF _Toc216883307 \h | PAGEREF _Toc216883308 \h | PAGEREF _Toc216883309 \h | TOC \h \z \c "Table" | PAGEREF _Toc216883346 \h | PAGEREF _Toc216883347 \h | PAGEREF _Toc216883348 \h | TOC \h \z \c "Table" | SEQ Table \* ARABIC | SEQ Table \* ARABIC
+=== FILE: C:\Users\kudot\Downloads\proposal test\Software Requiremen Specification Template.docx ===
+theme-color dk1=000000
+theme-color lt1=FFFFFF
+theme-color dk2=1F497D
+theme-color lt2=EEECE1
+theme-color accent1=4F81BD
+theme-color accent2=C0504D
+theme-color accent3=9BBB59
+theme-color accent4=8064A2
+theme-color accent5=4BACC6
+theme-color accent6=F79646
+theme-color hlink=0000FF
+theme-color folHlink=800080
+theme-font majorFont=Cambria
+theme-font minorFont=Calibri
+default font=- size-halfpt=22 color=- theme=-
+style id=Normal name=Normal basedOn=- font=Times New Roman halfpt=24 color=- theme=- before=- after=0 line=240
+style id=Heading1 name=heading 1 basedOn=Normal font=- halfpt=28 color=365F91 theme=accent1 before=480 after=- line=-
+style id=Heading2 name=heading 2 basedOn=Normal font=- halfpt=26 color=4F81BD theme=accent1 before=200 after=- line=-
+style id=Heading3 name=heading 3 basedOn=Normal font=- halfpt=- color=4F81BD theme=accent1 before=200 after=- line=-
+style id=TOCHeading name=TOC Heading basedOn=Heading1 font=- halfpt=- color=- theme=- before=- after=- line=276
+style id=TOC1 name=toc 1 basedOn=Normal font=- halfpt=- color=- theme=- before=- after=100 line=-
+style id=TOC2 name=toc 2 basedOn=Normal font=- halfpt=22 color=- theme=- before=- after=100 line=276
+style id=TOC3 name=toc 3 basedOn=Normal font=- halfpt=22 color=- theme=- before=- after=100 line=276
+style id=Subtitle name=Subtitle basedOn=Normal font=- halfpt=- color=4F81BD theme=accent1 before=- after=- line=-
+style id=ListParagraph name=List Paragraph basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+style id=NormalWeb name=Normal (Web) basedOn=Normal font=- halfpt=- color=- theme=- before=- after=- line=-
+page width-twip=12240 height-twip=15840 margins-top-bottom-left-right=1440,1440,851,616
+run-colors FF0000:17, 0000FF:2, 365F91:1, auto:1
+fills BFBFBF:40, D3DFFF:9, auto:8, 000000:3
+font-sizes-halfpt 20:1204, 22:25, 28:8, 26:4, 46:3, 42:1, 14:1, 24:1
+run-fonts Arial:1306, Cambria Math:2, Times New Roman:1
+part word/header1.xml text=WWP | Tàiliệulưuhànhnộibộ fields=
+part word/footer1.xml text=6 | Từ điểndữ liệu | Phiênbản 0.01 fields=PAGE
+part word/footer2.xml text=i | S | tudent Management |  Version  | 1.0 fields=PAGE
+part word/footer3.xml text=2 | S | tudent Management |  Version  | 1.0 | Nguy | en Quang Bao fields=PAGE
+document-fields TOC \o "1-3" \h \z \u | PAGEREF _Toc22215824 \h | PAGEREF _Toc22215825 \h | PAGEREF _Toc22215826 \h | PAGEREF _Toc22215827 \h | PAGEREF _Toc22215828 \h | PAGEREF _Toc22215829 \h | PAGEREF _Toc22215830 \h | PAGEREF _Toc22215831 \h | PAGEREF _Toc22215832 \h | PAGEREF _Toc22215833 \h | PAGEREF _Toc22215834 \h | PAGEREF _Toc22215835 \h | PAGEREF _Toc22215836 \h | PAGEREF _Toc22215837 \h

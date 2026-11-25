@@ -9,7 +9,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | 0 | Inventory recorded; detailed review incomplete | [phase0-survey.md](phase0-survey.md) records all branches and the remaining large-diff review limitation. |
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
-| 5 | Pending | Read the source Word templates, create `ver1.3` outputs, render and verify. |
+| 5 | Template analysis started | [doc-style-spec.md](doc-style-spec.md) records measured FITAI styles; four `ver1.3` outputs and full render verification remain pending. |
 | 6 | Pending | Run final gates and real-stack E2E after the preceding work. |
 | 7 | Pending | Follow branch protection; owner review remains gated by D3. |
 
