@@ -643,9 +643,7 @@ for (const locale of ['en', 'vi'])
       await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
       await approveWithApi(page, sid)
       await page.reload()
-      await expect(
-        page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
-      ).toBeVisible({ timeout: 45000 })
+      await expectQuestionComments(page, sid, { locale })
       await checkBothThemes(page, locale, 'evaluation')
       await page.goto('/dashboard')
       await expect(page.locator('canvas')).toHaveCount(2)

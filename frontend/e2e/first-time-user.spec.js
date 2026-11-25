@@ -204,9 +204,7 @@ test('49 learner-defined concept and difficulty scopes start through the visible
     await page.reload()
     const result = await api(page, `/evaluations/attempts/${state.session_id}/retry`, 'POST')
     expect(['pending', 'processing', 'ready']).toContain(result.status)
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-      timeout: 45000,
-    })
+    await expectQuestionComments(page, state.session_id)
     expect((await api(page, `/evaluations/attempts/${state.session_id}`)).status).toBe('ready')
     const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
     expect(evidence.items).toHaveLength(3)

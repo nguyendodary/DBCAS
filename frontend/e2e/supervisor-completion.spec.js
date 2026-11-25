@@ -122,16 +122,14 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
   await approveWithApi(page, sid)
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, sid, { locale: 'en' })
   const result = await call(page, `/sessions/${sid}/evidence`, learner)
   expect(result.items).toHaveLength(3)
   const profile = await call(page, '/sessions/competency/cumulative', learner)
   expect(profile.summary.finalized_assessments).toBe(0)
   expect(profile.concepts).toEqual([])
   await page.goto('/competency')
-  await expect(page.getByText('Làm thêm bài để xem xu hướng', { exact: true })).toBeVisible()
+  await expect(page.getByText(en.ui.evaluation.needMore, { exact: true })).toBeVisible()
   expect(
     (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,
   ).toEqual([])

@@ -108,9 +108,7 @@ test('real provider: one AI attempt evaluated through Prompt Builder and Evaluat
     'Generation retries must stay inside the four-call run budget',
   ).toBeLessThanOrEqual(2)
   const { sid } = await take(page, state)
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({
-    timeout: 90000,
-  })
+  await expectQuestionComments(page, sid)
   const attempt = await api(page, `/evaluations/attempts/${sid}`)
   expect(attempt.result.evaluator_fallback, 'Evaluator must run on the real model').toBe(false)
   expect(attempt.result.prompt_hash).toBeTruthy()
@@ -212,9 +210,7 @@ test('real provider: three attempts, automatic release, admin approval and overa
           cohort.finalized_sessions + 1,
         )
       }
-      await expect(
-        learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
-      ).toBeVisible({ timeout: 90000 })
+      await expectQuestionComments(learner, sid)
       const attempt = await api(learner, `/evaluations/attempts/${sid}`)
       expect(
         attempt.result.evaluator_fallback,

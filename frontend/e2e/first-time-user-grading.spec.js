@@ -66,9 +66,7 @@ test('practice: learner source selection, resume, help, bilingual draft and sand
   const { sid, kinds } = await take(page, next, { sandbox: true, refresh: true })
   expect(kinds).toContain('sql')
   expect(kinds).toContain('essay')
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, sid)
   await checkArithmetic(page, sid)
   expect((await api(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(0)
   const history = await api(page, '/sessions')
@@ -87,9 +85,7 @@ test('easy and hard learner practice completions stay out of cumulative evidence
     expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(band === 'EASY' ? 1 : 4)
     expect(state.current_question.difficulty_level).toBeLessThanOrEqual(band === 'EASY' ? 2 : 5)
     const { sid } = await take(page, state, { refresh: true })
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-      timeout: 45000,
-    })
+    await expectQuestionComments(page, sid)
     const evidence = await api(page, `/sessions/${sid}/evidence`)
     expect(evidence.items).toHaveLength(3)
     for (const item of evidence.items) {
@@ -133,9 +129,7 @@ test('automatic result: full submission, persisted answers, duplicate replay and
   const { sid, kinds } = await take(page, state, { refresh: true, sandbox: true })
   expect(kinds).toHaveLength(13)
   expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, sid)
   const replay = await api(page, `/sessions/${sid}/submit`, 'POST', firstPayload)
   expect(replay.answer.attempt_id).toBe(firstAttempt)
   expect(replay.state.answered_count).toBe(13)

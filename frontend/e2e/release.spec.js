@@ -337,9 +337,7 @@ test('learner completes bank practice, drafts, recovery and evidence', async ({
   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
   await approveWithApi(page, sid)
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, sid, { locale: 'en' })
   const evidence = await request(page, `/api/v1/sessions/${sid}/evidence`)
   expect(evidence.items).toHaveLength(13)
   expect(evidence.items.every((i) => i.score !== null && i.submitted_at !== null)).toBe(true)

@@ -177,16 +177,13 @@ for (const locale of ['en', 'vi'])
     for (const [index, item] of evidence.items.entries())
       await expect(historyCards.nth(index).getByText(item.prompt, { exact: true })).toBeVisible()
     await page.goto(`/evaluations/${sid}`)
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
+    await expectQuestionComments(page, sid, { locale })
     const evaluation = await api(`/api/v1/evaluations/attempts/${sid}`)
     expect(evaluation.result.evaluation.question_comments).toHaveLength(13)
     expect(evaluation.result.evaluation.question_comments.map((item) => item.question_id)).toEqual(
       evidence.items.map((item) => item.question_id),
     )
-    const feedbackRows = page
-      .getByRole('heading', { name: 'Nhận xét từng câu' })
-      .locator('..')
-      .locator('ol > li')
+    const feedbackRows = commentsHeading(page, locale).locator('..').locator('ol > li')
     await expect(feedbackRows).toHaveCount(13)
     for (const [index, comment] of evaluation.result.evaluation.question_comments.entries())
       await expect(

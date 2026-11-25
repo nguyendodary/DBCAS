@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import en from '../src/i18n/en.json' with { type: 'json' }
 
 // Deterministic style-picker coverage: every endpoint is fulfilled locally, so
 // the spec needs no bank seeding, grading worker, fixed delay or provider.
@@ -171,18 +172,27 @@ test('adaptive style constrains the builder and never reports a percentage', asy
   })
 
   await page.goto('/assessments')
-  await expect(page.getByRole('radio', { name: 'Test' })).toBeChecked()
-  await expect(page.getByRole('radio', { name: 'Adaptive practice' })).toBeVisible()
+  await expect(page.locator('input[name="assessment-style"][value="FIXED"]')).toBeChecked()
+  await expect(page.locator('input[name="assessment-style"][value="ADAPTIVE"]')).toBeVisible()
 
   await page.getByRole('button', { name: 'SELECT', exact: true }).click()
-  await page.getByRole('radio', { name: 'Adaptive practice' }).check()
+  await page.locator('input[name="assessment-style"][value="ADAPTIVE"]').check()
 
-  await expect(page.getByText('Adaptive practice constraints')).toBeVisible()
-  await expect(page.getByText('Exactly one concept', { exact: true })).toBeVisible()
-  await expect(page.getByText('Multiple-choice questions only')).toBeVisible()
-  await expect(page.getByText('3–50 questions')).toBeVisible()
-  await expect(page.getByLabel('Number of questions (3–50)')).toHaveAttribute('min', '3')
-  await expect(page.getByLabel('Number of questions (3–50)')).toHaveAttribute('max', '50')
+  await expect(page.getByText(en.ui.mode.aiConstraintsTitle)).toBeVisible()
+  await expect(page.getByText(en.ui.mode.aiConstraintConcept, { exact: true })).toBeVisible()
+  await expect(page.getByText(en.ui.mode.aiConstraintBand, { exact: true })).toBeVisible()
+  await expect(page.getByText(en.ui.mode.aiConstraintLive, { exact: true })).toBeVisible()
+  await expect(page.getByText(en.ui.mode.aiConstraintFallback, { exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('spinbutton', { name: en.assessmentStyle.fixed.types.mcq }),
+  ).toHaveValue('1')
+  await expect(
+    page.getByRole('spinbutton', { name: en.assessmentStyle.fixed.types.sql }),
+  ).toHaveValue('1')
+  await expect(
+    page.getByRole('spinbutton', { name: en.assessmentStyle.fixed.types.essay }),
+  ).toHaveValue('1')
+  await expect(page.getByText(en.ui.assessments.mixTotal.replace('{{total}}', '3'))).toBeVisible()
 
   await page.getByRole('button', { name: 'JOIN', exact: true }).click()
   await expect(page.getByRole('button', { name: 'SELECT', exact: true })).toHaveAttribute(
@@ -194,10 +204,11 @@ test('adaptive style constrains the builder and never reports a percentage', asy
   await expect.poll(() => starts.length).toBe(1)
   expect(starts[0]).toMatchObject({
     assessment_style: 'ADAPTIVE',
-    source: 'bank',
+    source: 'ai',
     concept_ids: [2],
     difficulties: ['EASY'],
-    question_count: 5,
+    question_count: 3,
+    question_mix: { mcq: 1, sql: 1, essay: 1 },
   })
 
   await expect(page).toHaveURL(/\/evaluations\/99$/)
@@ -221,7 +232,7 @@ test('test mode creates a FIXED paper and lands in the free-navigation runner', 
   })
 
   await page.goto('/assessments')
-  await expect(page.getByRole('radio', { name: 'Test' })).toBeChecked()
+  await expect(page.locator('input[name="assessment-style"][value="FIXED"]')).toBeChecked()
   await page.getByRole('button', { name: 'SELECT', exact: true }).click()
   await page.getByRole('button', { name: 'Start' }).click()
 

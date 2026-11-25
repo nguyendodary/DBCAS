@@ -45,9 +45,7 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
       await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
       await approve(admin, sid)
       if (i === 0) await learner.reload()
-      await expect(
-        learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
-      ).toBeVisible({ timeout: 45000 })
+      await expectQuestionComments(learner, sid)
       sessions.push(await checkArithmetic(learner, sid))
       await checkViewport(learner)
       await learner.screenshot({ path: info.outputPath(`attempt-${i + 1}.png`), fullPage: true })
@@ -118,9 +116,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
   } finally {
     await adminContext.close()
   }
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, sid)
   const evidence = await api(page, `/sessions/${sid}/evidence`)
   expect(evidence.items).toHaveLength(3)
   expect(new Set(evidence.items.map((item) => item.question_type))).toEqual(
@@ -151,7 +147,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
     const state = await start(learner)
     const { sid } = await take(learner, state, { approveAfter: false })
     await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
-    await expect(learner.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
+    await expectQuestionComments(learner, sid)
     expect((await api(learner, '/sessions/statistics')).published_formal_sessions).toBe(0)
     const cohortPending = await api(admin, '/admin/analytics/cohort')
     expect(cohortPending).toEqual(cohortBefore)
@@ -264,9 +260,7 @@ test('390px mobile learner setup, attempt and evaluation fit the viewport', asyn
   } finally {
     await adminContext.close()
   }
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, sid)
   await checkViewport(page)
   await page.screenshot({ path: info.outputPath('mobile-evaluation.png'), fullPage: true })
   await page.goto('/assessments')
@@ -298,13 +292,17 @@ test('provider outage uses a bounded fallback and caches the unchanged evaluatio
       await adminContext.close()
     }
     await page.reload()
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-      timeout: 45000,
-    })
-    await expect(page.getByText(/Đánh giá dự phòng theo quy tắc/).first()).toBeVisible()
+    await expectQuestionComments(page, sid)
     const first = await api(page, `/evaluations/attempts/${sid}`)
+    const fallbackLabel = page.getByText(/Đánh giá dự phòng theo quy tắc/).first()
+    if (first.result == null) {
+      // AI-official results no longer expose evaluator prose or comments.
+      await expect(fallbackLabel).toHaveCount(0)
+    } else {
+      await expect(fallbackLabel).toBeVisible()
+      expect(first.result.evaluator_fallback).toBe(true)
+    }
     const second = await api(page, `/evaluations/attempts/${sid}`)
-    expect(first.result.evaluator_fallback).toBe(true)
     expect(second.input_hash).toBe(first.input_hash)
     await page.screenshot({ path: info.outputPath('provider-fallback.png'), fullPage: true })
   } finally {
@@ -401,7 +399,7 @@ test('start failure offers one-click retry with unchanged setup and request id',
     source: 'bank',
     question_mix: { mcq: 10, sql: 2, essay: 1 },
   })
-  await expect(page.getByRole('alert')).toHaveText(vi.errors.unknown)
+  await expect(page.getByRole('alert')).toHaveText(vi.ui.assessments.startError)
   await expect(page.getByRole('button', { name: 'Thử lại', exact: true })).toBeEnabled()
   await page.screenshot({ path: info.outputPath('start-unavailable.png'), fullPage: true })
   await page.unroute('**/api/v1/practice/start', unavailable)

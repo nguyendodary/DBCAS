@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { expectQuestionComments } from './locale-helpers.js'
 import {
   register,
   start,
@@ -114,9 +115,7 @@ test('two tabs and a double click commit one answer and restore the next questio
     expect(resumed.current_question.question_id).not.toBe(state.current_question.question_id)
     await other.close()
     await take(page, resumed)
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-      timeout: 45000,
-    })
+    await expectQuestionComments(page, state.session_id)
     await checkArithmetic(page, state.session_id)
     await page.screenshot({ path: info.outputPath('double-submit-restored.png'), fullPage: true })
   } finally {
@@ -144,9 +143,7 @@ test('paused provider is bounded after reload and Retry keeps a cached result', 
     // The fallback evaluation still needs the mandatory administrator release.
     await approveWithApi(page, state.session_id)
     await page.reload()
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-      timeout: 55000,
-    })
+    await expectQuestionComments(page, state.session_id)
     await expect(page.getByText(/Đánh giá dự phòng theo quy tắc/).first()).toBeVisible()
     const fallback = await api(page, `/evaluations/attempts/${state.session_id}`)
     expect(fallback.result.evaluator_fallback).toBe(true)

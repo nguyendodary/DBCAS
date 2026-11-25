@@ -1,4 +1,5 @@
 import { test, expect } from './browser-fixture.js'
+import { expectQuestionComments } from './locale-helpers.js'
 import { call, createConceptUi, login, API } from './optional-capabilities.js'
 import {
   register,
@@ -30,9 +31,7 @@ test('learner practice preserves selected difficulty, saved state and score boun
     expect(served).toHaveLength(1)
     expect(state.current_question.options.every((o) => !Object.hasOwn(o, 'is_correct'))).toBe(true)
     await take(page, state, { refresh: true })
-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-      timeout: 45000,
-    })
+    await expectQuestionComments(page, state.session_id)
     const final = await api(page, `/sessions/${state.session_id}`)
     expect(final.expires_at).toBe(expires)
     const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
@@ -63,9 +62,7 @@ test('mobile early finish counts every planned unanswered item as zero', async (
     .click()
   await approveWithApi(page, state.session_id)
   await page.reload()
-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-    timeout: 45000,
-  })
+  await expectQuestionComments(page, state.session_id)
   const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
   expect(evidence.items).toHaveLength(5)
   expect(evidence.items.every((item) => Number(item.score) === 0 && item.submitted_at)).toBe(true)

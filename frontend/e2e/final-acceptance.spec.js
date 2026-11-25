@@ -1,4 +1,6 @@
+import en from '../src/i18n/en.json' with { type: 'json' }
 import { start as beginPractice, approveWithApi } from './practice-harness.js'
+import { expectQuestionComments } from './locale-helpers.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
 import { readFile } from 'node:fs/promises'
@@ -243,9 +245,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
       await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
       await approveWithApi(page, sid)
       await page.reload()
-      await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
-        timeout: 45000,
-      })
+      await expectQuestionComments(page, sid, { locale: 'en' })
       const evidence = await call(`/api/v1/sessions/${sid}/evidence`, learner)
       expect(evidence.items).toHaveLength(count)
       for (const answer of answers)
