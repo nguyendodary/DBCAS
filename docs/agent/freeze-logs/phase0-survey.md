@@ -48,6 +48,16 @@ examined in detail. One large 32 MB historical synchronization diff has not
 been semantically reviewed line by line; its hash/path inventory is evidence,
 not a claim that every change is redundant.
 
+For that synchronization commit `07e4985`, a three-tree comparison against
+`253f272` classified all 2,388 changed paths: 2,142 match the post-sync blob
+and mode exactly, 10 match the pre-sync state, and 236 differ from both or
+are absent. The ten pre-sync matches include historical local-AI files and
+`scripts/ai.mjs`, all absent at the baseline; no restoration is proposed.
+The 236 remaining paths include 71 under `backend`, 60 under `frontend` and
+74 under `docs`. See the [per-path classification](phase0-large-sync-classification.tsv)
+and [counts](phase0-large-sync-classification.log). Blob equality is not a
+semantic review of the remaining paths.
+
 | Branch | Ahead / behind | Findings and proposed disposition |
 |---|---:|---|
 | `backup/main-before-privacy-cleanup-20261019` | 6 / 744 | Historical assessment, grading, accessibility, migrations and tests. `git cherry` marks four non-merge patches equivalent and one different; retain the branch and do not import old schema or behavior blindly. |
