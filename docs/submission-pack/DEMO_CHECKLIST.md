@@ -26,7 +26,7 @@ liệu tổng hợp; **production HOLD**.
 
 - [ ] Mở sẵn `docs/submission/final/` (5 DOCX + PDF trong `rendered/`).
 - [ ] Đã đọc `docs/submission/final/verification/verification-report.md`
-      (149 assertion, 0 lỗi) và `TRACEABILITY.md`.
+      (148 assertion, 0 lỗi) và `TRACEABILITY.md`.
 - [ ] Biết bộ số liệu hiện tại để trả lời: 67 bảng / 561 cột / 122 khóa ngoại /
       159 index / 28 migration; 106 API path / 118 operation; 1940 backend test;
       463 frontend test; quét secret toàn cây, 0 finding.

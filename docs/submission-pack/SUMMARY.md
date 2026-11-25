@@ -39,9 +39,9 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
 | OpenAPI contract | Khớp runtime |
 | Environment inventory | 104 key backend + 3 key frontend |
 | Route inventory | PASS sau khi tái sinh `docs/inventory/api-routes.json` |
-| Secret scan (cây hiện tại) | **toàn bộ cây, 0 finding** (3083 file ở lần chạy cuối lưu lại, `docs/agent/freeze-logs/final-secrets-tree.log:5`) |
+| Secret scan (cây hiện tại) | **toàn bộ cây, 0 finding** (toàn bộ cây, 0 finding, `npm run secrets:scan` 26/11/2026) |
 | Secret scan lịch sử (mẫu key thật) | **0 commit khớp** trong lần quét lưu lại; số commit chính xác không có log đối chiếu, nên không khẳng định con số; các fixture giả nằm trong allowlist hash-pinned |
-| Tài liệu nộp (`npm run docs:verify-word`) | **5 tài liệu, 149 assertion, 0 lỗi** |
+| Tài liệu nộp (`npm run docs:verify-word`) | **5 tài liệu, 148 assertion, 0 lỗi** |
 | `npm run llm:check` | PASS — provider `openai_compatible`, `GET /models` HTTP 200 (63 model), chat HTTP 200, JSON hợp lệ, không in key |
 | Clone sạch không có `.env` | Copy `.env.example` → `env:check` PASS chế độ AI-off → `npm start` PASS sau khi đặt `LOCAL_DOCKER_GID=988` qua WSL; `/readiness` báo `database: true`, `sandbox: true`; đăng nhập demo và Mailpit HTTP 200; stop + xoá container/volume sạch |
 | Merge thử `develop2 → main` | `git merge-tree` không xung đột (`main` `e7e432c`, `develop2` hơn 200 commit) |
@@ -86,16 +86,17 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
 
 ## 6. Bộ tài liệu nộp ver1.3
 
-Sinh bằng một generator, đo lại toàn bộ số liệu, kiểm tra XML và render từng trang:
+Sửa tại chỗ từ baseline nội dung đầy đủ; đo lại toàn bộ số liệu, kiểm tra XML và render từng trang:
 
 | Tài liệu | Tệp | Trang | Ngày |
 |---|---|---:|---|
-| Proposal | `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx` | 20 | 25/11/2026 |
-| Architecture Design | `C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx` | 22 | 25/11/2026 |
-| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 39 | 25/11/2026 |
-| Code Standards | `C1SE.70_CodeStandards_DBCAS_ver1.3.docx` | 12 | 25/11/2026 |
-| Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 13 | 25/11/2026 |
+| Proposal | `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx` | 62 | 26/11/2026 |
+| Architecture Design | `C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx` | 79 | 26/11/2026 |
+| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 75 | 26/11/2026 |
+| Code Standards | `C1SE.70_CodeStandards_DBCAS_ver1.3.docx` | 14 | 26/11/2026 |
+| Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 15 | 26/11/2026 |
 
+- Bộ condensed 20/22/40/12/13 cũ đã bị loại và lưu nguyên trạng tại `Archive/rejected-final-20261126/` (49 file + `MANIFEST.sha256`).
 - Thư mục: [`docs/submission/final`](../submission/final) (DOCX + PDF trong `rendered/`).
 - Kiểm chứng: [`verification-report.md`](../submission/final/verification/verification-report.md) và
   [`TRACEABILITY.md`](../submission/final/TRACEABILITY.md).

@@ -16,19 +16,22 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   items await the D4 decision; no product copy, image snapshot or behavior was
   changed.
 - The `ver1.3` set is **five** documents (Proposal, Architecture, Database,
-  Code Standards, Technical Report) built by one generator, finalised in Word
-  and committed under `docs/submission/final`; [verification](freeze-logs/doc-verify.md)
-  records page counts, 149 XML assertions, traceability, the measured
-  [FITAI specification](freeze-logs/doc-style-spec.md), the clean-clone run and
-  the removal of the SRS from the owner set (archived outside the repository).
-  `npm run docs:verify-word` is the gate.
-- 2026-11-25 quality recovery: the five documents were revised **in place** after
-  an independent audit. Factual claims were tied to saved logs (test durations,
-  browser skips, secret-scan counts, CI commit, router/service conventions, index
-  breakdown), running heads/captions/cover typography were aligned to the measured
-  FITAI reference, and the illegible Gantt was recreated from a new editable SVG
-  source. Page counts are 20/22/40/12/13; 149/149 assertions pass. Evidence and
-  owner-gated issues: [recovery index](../submission/recovery/document-index.md).
+  Code Standards, Technical Report) under `docs/submission/final`.
+  [Verification](freeze-logs/doc-verify.md) records 62/79/75/14/15 pages, 148 XML
+  assertions / 0 failures, 67-table traceability, the measured
+  [FITAI specification](freeze-logs/doc-style-spec.md), 0 near-empty and 0
+  overflow PDF pages, and 0 TOC/list page mismatches. `npm run docs:verify-word`
+  is the gate.
+- 2026-11-26 baseline replacement: the condensed generated set was rejected and
+  archived to `Archive/rejected-final-20261126/` (49 files + `MANIFEST.sha256`).
+  The owner set was rebuilt by **in-place revision** of the content-complete
+  `Documents/Final-ver1.3` Proposal/Architecture/Database and the best surviving
+  DBCAS Code Standards/Technical Report. The 13-page ERD/ledger set was rebuilt
+  from introspection (67/561/122; 58 intra-domain + 64 cross-domain FKs), the
+  Gantt from Table 13, and a legible layering figure was added to Code Standards.
+  Evidence: [baseline-selection.md](freeze-logs/baseline-selection.md),
+  [doc-verify.md](freeze-logs/doc-verify.md), `verification/proposal-sections.md`.
+  Ten owner facts remain O1–O10 in Appendix A of every document.
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.

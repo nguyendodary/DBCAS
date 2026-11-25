@@ -14,7 +14,7 @@ Last updated: 2026-11-26. Project checkout: `docs/quality-pass-20261125`
 | 6 | Complete | [final-gates-v2.md](final-gates-v2.md) records all local gates, QA-stack teardown and exact-commit CI run `45597486074` **success** (14/14 jobs). |
 | 7 | Gates verified; no merge | [phase7-branch-gates.md](phase7-branch-gates.md): `main` unchanged, no open PR, no branch protection/ruleset bypass. |
 | 8 | Document set complete; recovered push passed CI | SRS removed from the owner set (archived to `Documents/Archive/`), five `ver1.3` documents committed under `docs/submission/final`, FITAI layout measured from all 31 reference files, 149 XML assertions and 0 failures, clean-clone run passed. |
-| 9 | Takeover verified; interrupted quality pass preserved | The five `docs/submission/final` DOCX differ from `recovery/backups` (byte-identical to HEAD `66045b7`) and match `Archive/quality-pass-20261125-before/final` byte-for-byte; they were never committed. The quality pass fixed the condensed set but kept 20/22/40/12/13 pages. It did not perform the owner's baseline-replacement mission. Evidence below. |
+| 9 | Baseline replacement complete; local gates green | The interrupted quality pass is committed as `932ee76`. The condensed set was archived to `Archive/rejected-final-20261126/` (49 files + `MANIFEST.sha256`), `docs/submission/final` was recreated, and the content-complete baselines were revised in place. Final pages 62/79/75/14/15; 148 XML assertions, 0 failures; 0 near-empty and 0 overflow PDF pages; TOC/list page numbers match the printed footers. See §Phase 9 below. |
 
 ## Phase 8 — owner document set (2026-11-25)
 
@@ -84,3 +84,38 @@ The interrupted session's quality pass is preserved in a commit before any
 replacement, so none of its factual corrections or QA evidence is lost. The
 owner mission then starts by archiving and replacing the condensed set with
 in-place revisions of the content-complete baseline.
+
+## Phase 9 result
+
+- **Archive.** `Archive/rejected-final-20261126/` holds the 49-file condensed
+  set, a README and `MANIFEST.sha256`; every DOCX hash matches the rejected
+  copy. No other file was deleted.
+- **Working set.** `docs/submission/final` was recreated and filled with the
+  three `Documents/Final-ver1.3` baselines and the two best-surviving DBCAS
+  Code Standards / Technical Report files (no older baselines exist). Baseline
+  table: [baseline-selection.md](baseline-selection.md).
+- **In-place revision.** No prose was regenerated from a template. Common
+  fixes: A4, 3.5/2/2/2 cm margins, 13 pt/1.5 body, explicit Normal style,
+  author/creator/lastModifiedBy, date 26/11/2026, running heads/feet, captions
+  11 pt, TOC/list page alignment. Document fixes: supervisor department,
+  citations, FR-06 split, nine-layer stack, Mode 1/Mode 2, risk RSK-01, URL
+  placeholders, SRS deliverable removed, Table 54 title, 67-table sentence.
+- **Figures.** 13 ERD/ledger pages rebuilt from introspection (67/561/122,
+  58 intra-domain + 64 cross-domain FKs); the Gantt rebuilt from Table 13
+  (13 dated rows, final submission before defence); a legible backend-layering
+  figure added to Code Standards. Every figure has a caption and a source table
+  in Appendix B.
+- **Page counts.** 62 / 79 / 75 / 14 / 15 (baseline 61 / 78 / 72 / 12 / 13).
+  Deltas are the two appendices, the Mode 1/2 paragraph, the reflowed captions
+  and the rebuilt figure pages; no content was cut to shorten a document.
+- **Verification.** `docs:verify-word` 148 assertions / 0 failures;
+  `docs:check` 48 assertions / PASS; `inventory:check` PASS; `secrets:scan`
+  3 296 files / 0 findings; PDF checks 0 near-empty and 0 overflow pages; TOC
+  and list page numbers 0 mismatches. Evidence: [doc-verify.md](doc-verify.md),
+  `docs/submission/final/verification/`.
+- **Limitation.** Word hangs when updating TOC fields on this baseline, so the
+  DOCX ships with `updateFields` disabled and the TOC/lists are aligned from
+  the rendered PDF. The rendered PDFs are correct.
+- **Owner decisions.** The ten open items (O1–O10) are in Appendix A of each
+  document and in [doc-verify.md](doc-verify.md#8-owner-questions-raised-by-this-verification).
+- **Production.** HOLD. No `main` change, merge, tag or deployment.

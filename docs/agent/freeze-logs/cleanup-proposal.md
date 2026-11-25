@@ -24,6 +24,9 @@ of the DBCAS checkout. Remote branches and tags are not deletion candidates.
 | 13 | `DBCAS/scripts/README.md` link to `ai.mjs` | Tracked README; target absent | The missing target is already documented in `docs/ARCHITECTURE_FREEZE.md`. **No file to delete**; consider a separate documentation correction after review. |
 | 14 | `_worktrees/recovery-baseline-20261125/DBCAS` | Registered detached worktree; test-owned | In use for isolated Phase B browser/QA evidence. **Keep** while needed; any later removal requires the applicable owner decision and a fresh check for uncommitted or unique data. |
 | 15 | Existing local and remote branches | Git refs | Several have unique commits; OTP and Free/Pro backend changes are outside scope. **Keep.** Remote ref deletion is forbidden. |
+| 16 | `Archive/rejected-final-20261126/` | Directory; outside Git | Byte copy of the rejected condensed ver1.3 set with `MANIFEST.sha256` (49 files) and a README. **Keep** as the rejection record; no deletion proposed. |
+| 17 | `DBCAS/docs/submission/recovery/` | Tracked evidence | Audit reports, pre-revision backups, and 22.7 MB of QA images. **Keep**; it is the evidence trail for the in-place revision. |
+| 18 | `_review/fitai-edition-20261125/`, `_review/owner-docs-20261125/` | Directories; outside Git | Style survey, page renders, and earlier build outputs. **Keep** pending owner review; they are ignored by Git and contain no tracked deliverable. |
 
 If the owner explicitly says **“xóa mục số 1”**, the concrete action is to
 remove only `C:\Users\kudot\Downloads\proposal test\dbcas-doc-edits-backup.patch`

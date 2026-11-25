@@ -45,10 +45,13 @@ size, no caption, no monospace style), so Code Standards clones the Architecture
 base and takes only its rule-list *content* pattern. The Technical Report uses
 the same base because the set contains no report template.
 
-The documents are **generated**, not cloned: cloning would inherit 39 one-off
-table styles, duplicate TOC fields and stale running heads that the survey
-found in the base file. `scripts/submission_style.py` implements the measured
-FITAI values that matter and nothing else.
+The 2026-11-26 revision changed the delivery method: the three academic
+documents are **in-place revisions of the content-complete
+`Documents/Final-ver1.3/` packages**, not generated files. Code Standards and
+Technical Report have no older DBCAS baseline and were revised in place from the
+best surviving copies. `scripts/revise_submission_docs.py` applies the common
+FITAI values below and leaves the baseline prose, tables, TOC structure and
+section geometry intact.
 
 ## 3. The applied specification
 
@@ -58,9 +61,9 @@ FITAI values that matter and nothing else.
 | Margins | left 3.5 cm, top 2 cm, bottom 2 cm, right 2 cm | Owner requirement; left 3.5 cm equals the FITAI Database cover margin |
 | Body | Times New Roman 13 pt, line spacing 1.5, justified, 6 pt after | FITAI mainstream font and size; 1.5× as in CodeStandard/TestPlan |
 | Heading 1 | 18 pt bold `#1F3863`, 18 pt before, 8 pt after | FITAI Architecture Heading 3 colour `1F3863`; 18 pt keeps a hierarchy above 13 pt body and matches the DBCAS house H1 |
-| Heading 2 | 14 pt bold `#44546A` | FITAI theme `dk2` |
-| Heading 3 | 13 pt bold black | FITAI body-size heading convention |
-| Caption | 9 pt italic `#44546A`, centred | FITAI Database caption style |
+| Heading 2 | 14 pt bold `#1F3863` | FITAI theme colour, one step below H1 |
+| Heading 3 | 13 pt bold `#1F3863` | FITAI body-size heading convention |
+| Caption | 11 pt italic `#44546A`, centred | FITAI caption family; 9 pt was too small for the new figure captions |
 | Tables | header row 11 pt bold on `#D9D9D9`, body 11 pt, borders `#BFBFBF` 0.5 pt; dense requirement/registry tables 10 pt; the 67-block column dictionary 9 pt | FITAI table fills; smaller sizes only where the survey shows them |
 | Code | Consolas 9 pt, left indent 0.5 cm, single spacing | No FITAI monospace style exists; 9 pt matches the caption step |
 | Header | left `C1SE.70 · DBCAS`, right document name, 9 pt `#44546A`, 1 pt rule | FITAI header pattern |
@@ -78,11 +81,16 @@ run count:
 2. Front-matter labels and the "Submitted by" line: 12 pt bold.
 3. Table text: 11 pt, or 10 pt in the dense feature, requirement, constraint,
    risk, registry and migration tables, or 9 pt in the 67-table column
-   dictionary and the experiment table.
-4. Figure and table captions: 9 pt italic.
+   dictionary and the experiment table. The two new appendices use 8.5 pt in
+   their long source/owner tables so they stay on one page.
+4. Figure and table captions: 11 pt italic.
 5. Code blocks: Consolas 9 pt.
 6. Header and footer: 9 pt.
-7. Table of contents entries as produced by Word.
+7. Table of contents, list of tables and list of figures entries as produced by
+   Word.
+8. Figure labels are raster text, not Word body text; the legibility target is
+   measured on the shipped image (ERD key columns at least 6 pt at 20.5 cm
+   width, module titles at least 7.5 pt, ledger rows at least 5.5 pt).
 
 Everything else — every paragraph in the body flow — is 13 pt at 1.5 line
 spacing. `npm run docs:verify-word` fails if a body run is not 13 pt, if a body

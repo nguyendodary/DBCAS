@@ -103,8 +103,8 @@ deploy/                  deployment assets
 | Browser suites | 11 localization + 72 end-to-end + 12 practice + 3 smoke + 54 QA = **152 passed** | six baseline shard logs in `docs/agent/freeze-logs/` |
 | API contract | 106 paths / 118 operations, check PASS | `export_openapi.py --check` |
 | Route inventory | PASS | `npm run inventory:check` |
-| Secret scan (tree) | **Whole tree, 0 findings** (3,083 files at the last saved run) | `docs/agent/freeze-logs/final-secrets-tree.log:5` |
-| Submission documents | 5 documents, **149 assertions, 0 failures** | `npm run docs:verify-word` |
+| Secret scan (tree) | **Whole tree, 0 findings** (`npm run secrets:scan` 26/11/2026; earlier saved log 3,083) | `npm run secrets:scan` |
+| Submission documents | 5 documents, 62 / 79 / 75 / 14 / 15 pages, **148 assertions, 0 failures** | `npm run docs:verify-word` |
 | Documentation gate | PASS, 48 assertions, 67 tables / 561 columns / 122 FKs / 159 indexes / 28 migrations | `npm run docs:check` |
 | Exact-commit CI | **14 of 14 jobs successful at the frozen commit `d6df804`** | [Run 45597486074](https://github.com/nguyendodary/DBCAS/actions/runs/45597486074); `docs/agent/freeze-logs/final-ci-conclusion.log` |
 
