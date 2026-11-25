@@ -6,7 +6,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
 - The sequential [Phase B baseline](freeze-logs/baseline-v2.md) and
   [final gates](freeze-logs/final-gates-v2.md) are recorded with saved logs and
-  exit codes; exact-commit CI run `45597486074` was `success` (12/12 jobs). The
+  exit codes; exact-commit CI run `45597486074` was `success` (14/14 jobs). The
   historical pytest child exit-code capture limitation remains documented.
 - The workspace/branch survey and the
   [detailed sync review](freeze-logs/phase0-large-sync-review.md) are complete;

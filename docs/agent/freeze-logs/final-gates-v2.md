@@ -72,7 +72,7 @@ CI job was manually rerun. A direct read at that point showed the run genuinely
 `in_progress` with `changes`, `frontend-static` and `secrets` already successful
 and backend, three E2E shards, three QA shards and three smoke shards still
 running. No further watch retry was attempted. A single later status check recorded
-**conclusion `success`** for run `45597486074` on `d6df804`: all 12 jobs were
+**conclusion `success`** for run `45597486074` on `d6df804`: all 14 jobs were
 successful (`changes`, `frontend-static`, `backend`, `secrets`,
 `frontend-local`, E2E localization, E2E rest 1/2 and 2/2, QA-1/2/3, and smoke
 1/2/3). Evidence: [CI conclusion](final-ci-conclusion.log),

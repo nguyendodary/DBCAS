@@ -6,7 +6,7 @@ Recovery packaging is complete and the ver1.3 document set is committed; see
 [PROGRESS](freeze-logs/PROGRESS.md). The
 [Phase B baseline](freeze-logs/baseline-v2.md) and
 [final gates](freeze-logs/final-gates-v2.md) record green local checks and an
-exact-commit CI `success` for `d6df804` (12/12 jobs); the older pytest child
+exact-commit CI `success` for `d6df804` (14/14 jobs); the older pytest child
 exit-code capture limitation is preserved without being silently turned into a
 zero. E2E, practice, local smoke and QA ran sequentially in the isolated
 worktree, which was then stopped without removing its volume.

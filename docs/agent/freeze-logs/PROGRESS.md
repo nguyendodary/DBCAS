@@ -10,7 +10,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Review complete; no product change | [ui-review.md](ui-review.md) records desktop/mobile/admin evidence and two D4-gated copy findings; no image snapshot, translation or behavior was edited. |
 | 5 | Superseded by phase 8 | [doc-verify.md](doc-verify.md) now records the five-document set; the earlier four-file record is history. |
-| 6 | Complete | [final-gates-v2.md](final-gates-v2.md) records all local gates, QA-stack teardown and exact-commit CI run `45597486074` **success** (12/12 jobs). |
+| 6 | Complete | [final-gates-v2.md](final-gates-v2.md) records all local gates, QA-stack teardown and exact-commit CI run `45597486074` **success** (14/14 jobs). |
 | 7 | Gates verified; no merge | [phase7-branch-gates.md](phase7-branch-gates.md): `main` unchanged, no open PR, no branch protection/ruleset bypass. |
 | 8 | Document set complete; CI pending | SRS removed from the owner set (archived to `Documents/Archive/`), five `ver1.3` documents committed under `docs/submission/final`, FITAI layout measured from all 31 reference files, 149 XML assertions and 0 failures, clean-clone run passed. |
 
@@ -49,7 +49,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 
 ## Next commands
 
-Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Next command: inspect the job list with `gh run view 45597486074 --json jobs` and correct the documentary count. Separate owner decisions:
+Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Task 3 corrected the historical job count in the Technical Report. Next, update the source-code guide from the same GitHub run. Separate owner decisions:
 D1 cleanup deletion, D3 `develop2 → main` promotion, D4 approval of the two
 stale-copy corrections, and the owner facts listed in
 [doc-verify.md](doc-verify.md#8-owner-questions-raised-by-this-verification).

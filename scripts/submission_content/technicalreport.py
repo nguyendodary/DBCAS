@@ -202,7 +202,7 @@ BLOCKS = [
              "11 localization + 72 end-to-end + 12 practice + 3 smoke + 54 QA "
              "= 152 passed, 4 skipped", "Playwright and QA logs"],
             ["E7", "CI jobs on the frozen commit",
-             "12 of 12 successful", "workflow run 45597486074"],
+             "14 of 14 successful", "workflow run 45597486074"],
             ["E8", "Secret scan",
              "Whole tree, 0 findings; 1 042 commits, 0 matching real keys",
              "secrets:scan and history scan"],
@@ -281,7 +281,7 @@ BLOCKS = [
           "session, a provider outage falls back to a deterministic rubric, a "
           "sandbox refusal is a named error, and a retried submission returns "
           "the stored result. The measured evidence - 67 tables, 106 API "
-          "paths, 1 940 backend tests, 152 browser tests, 12 green CI jobs and "
+          "paths, 1 940 backend tests, 152 browser tests, 14 green CI jobs and "
           "zero secret findings - describes a system that is small in scope "
           "and strict in evidence. Future work is a controlled study with "
           "learners, a wider concept corpus, and a brokered sandbox that "
