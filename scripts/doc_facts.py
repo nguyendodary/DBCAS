@@ -47,6 +47,7 @@ def main():
     networks = sorted(set(re.findall(r"^\s*([a-z][a-z0-9_-]*):\s*(?:\{\}|\{internal: true\})", local, re.M)))
     sys.path.insert(0, str(ROOT / "backend"))
     from app.main import app
+    from app.services.practice_config import public_config
     spec = app.openapi()
     paths = sorted(spec["paths"])
     operations = sum(1 for item in spec["paths"].values()
@@ -58,6 +59,7 @@ def main():
     learner_nav = re.findall(r"\{ to: '(/[a-z]+)'", layout)
     config = (ROOT / "backend" / "app" / "config.py").read_text(encoding="utf-8")
     oauth = sorted(set(re.findall(r"^\s*(google|github)_client_id", config, re.M)))
+    practice_public = public_config()
     facts = {
         "source": "docker-compose*.yml, app.openapi(), frontend/src, backend/app",
         "compose_services": services,
@@ -83,7 +85,8 @@ def main():
         "evaluator": {"fallback": "rule_evaluation", "flag": "evaluator_fallback"},
         "result_flows": ["IMMEDIATE", "HUMAN_VERIFIED"],
         "question_types": ["mcq", "sql", "essay"],
-        "question_count": {"min": 1, "max": 20, "default": 5},
+        "question_count": {key: practice_public[key] for key in ("min", "max", "default")},
+        "practice_limits": {"presets": practice_public["presets"], "typed": practice_public["typed"]},
         "difficulty_bands": ["EASY", "MEDIUM", "HARD"],
         "question_sources": ["bank", "ai"],
     }
