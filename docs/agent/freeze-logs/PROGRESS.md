@@ -49,7 +49,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 
 ## Next commands
 
-Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Task 3 corrected the historical job count in the Technical Report. Next, update the source-code guide from the same GitHub run. Separate owner decisions:
+Recovery resumed at the Phase 8 CI poll. [Step 0 inventory and checks](recovery-20261125-2054.md). Task 1 complete. All four historical SRS verification copies are now below Documents/Archive. Task 3 corrected the historical job count in the Technical Report. Task 5 complete. The source-code guide links the verified 14-job run. Next command: `npm run docs:check` and reconcile the verification summary. Separate owner decisions:
 D1 cleanup deletion, D3 `develop2 → main` promotion, D4 approval of the two
 stale-copy corrections, and the owner facts listed in
 [doc-verify.md](doc-verify.md#8-owner-questions-raised-by-this-verification).

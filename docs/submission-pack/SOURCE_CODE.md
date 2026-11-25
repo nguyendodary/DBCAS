@@ -104,11 +104,11 @@ deploy/                  deployment assets
 | Secret scan (tree) | **Whole tree, 0 findings** (3,129 files at the last run) | `npm run secrets:scan` |
 | Submission documents | 5 documents, **149 assertions, 0 failures** | `npm run docs:verify-word` |
 | Documentation gate | PASS, 48 assertions, 67 tables / 561 columns / 122 FKs / 159 indexes / 28 migrations | `npm run docs:check` |
-| Exact-commit CI | **12 of 12 jobs successful** | workflow run `45597486074` |
+| Exact-commit CI | **14 of 14 jobs successful** | [Run 45597486074 at `d6df804`](https://github.com/nguyendodary/DBCAS/actions/runs/45597486074) |
 
-The CI workflow has six jobs; three of them expand into nine browser shards and
-a fan-in job requires exactly nine success reports, which is why a run reports
-twelve jobs.
+Five jobs run once each. The frontend matrix runs three end-to-end shards,
+three QA shards and three smoke shards. The frontend-local job checks all
+nine shard reports.
 
 ## 6. Hygiene
 
