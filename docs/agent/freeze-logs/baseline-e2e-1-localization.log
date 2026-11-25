@@ -1,0 +1,54 @@
+
+> dbcas-frontend@0.1.0 test:e2e
+> playwright test e2e/localization.spec.js
+
+[WebServer] (node:3904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Docker readiness attempt 1 succeeded after 0.1s (elapsed 0.1s)
+[WebServer] C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+[WebServer]   from starlette.testclient import TestClient as TestClient  # noqa
+[WebServer] (node:21012) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Disposable database verified before mutating E2E (dbcas-test-4f5e97a7, run 42b3a8b6d83d466680ebd5e14777b29b).
+
+Running 11 tests using 1 worker
+
+(node:13856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\localization.spec.js:37:1 › landing reflects current practice limits and flat light surfaces in both languages (3.2s)
+[WebServer] ai_call role=prompt_builder hash=db6d0c07fb1bdd2c9b141c540e9a1869d72fa91f7ef5bbf51075fcdccf49d757 duration_ms=14 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=db6d0c07fb1bdd2c9b141c540e9a1869d72fa91f7ef5bbf51075fcdccf49d757 duration_ms=1 status=rules fallback=True reason=not_configured
+  ok  2 e2e\localization.spec.js:402:5 › en real workspaces preserve answers and fit 390px (1.6m)
+[WebServer] ai_call role=prompt_builder hash=5ff1368515efa32949ba12a5025aa49c8326b0a1da59da339124a8ed296b1ef4 duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5ff1368515efa32949ba12a5025aa49c8326b0a1da59da339124a8ed296b1ef4 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5ff1368515efa32949ba12a5025aa49c8326b0a1da59da339124a8ed296b1ef4 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5ff1368515efa32949ba12a5025aa49c8326b0a1da59da339124a8ed296b1ef4 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  3 e2e\localization.spec.js:402:5 › en real workspaces preserve answers and fit 768px (1.6m)
+[WebServer] ai_call role=prompt_builder hash=394848e64b77fc91652845848ccbf8105d7d8a83444f6b4a48497555d498122e duration_ms=15 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=394848e64b77fc91652845848ccbf8105d7d8a83444f6b4a48497555d498122e duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=394848e64b77fc91652845848ccbf8105d7d8a83444f6b4a48497555d498122e duration_ms=18 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=394848e64b77fc91652845848ccbf8105d7d8a83444f6b4a48497555d498122e duration_ms=1 status=rules fallback=True reason=not_configured
+  ok  4 e2e\localization.spec.js:402:5 › en real workspaces preserve answers and fit 1024px (1.6m)
+[WebServer] ai_call role=prompt_builder hash=b4fd0f8392a9828c0c5b529a18d39068fc5347cd2224f519efe530788997e7e4 duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=b4fd0f8392a9828c0c5b529a18d39068fc5347cd2224f519efe530788997e7e4 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  5 e2e\localization.spec.js:402:5 › en real workspaces preserve answers and fit 1440px (1.7m)
+[WebServer] ai_call role=prompt_builder hash=a50fd2d17f411ae0ef3f21c0b808a57e31b76fc1eb4087f713317e667f8a6304 duration_ms=13 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=a50fd2d17f411ae0ef3f21c0b808a57e31b76fc1eb4087f713317e667f8a6304 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  6 e2e\localization.spec.js:402:5 › vi real workspaces preserve answers and fit 390px (1.6m)
+[WebServer] ai_call role=prompt_builder hash=beb2df75c81d01e86ea9734e6a3558f448270e3db39d3da50edc58fa5d551359 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=beb2df75c81d01e86ea9734e6a3558f448270e3db39d3da50edc58fa5d551359 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  7 e2e\localization.spec.js:402:5 › vi real workspaces preserve answers and fit 768px (1.6m)
+[WebServer] ai_call role=prompt_builder hash=1837e430196070ce93a464e6df2bd48d5ea738a004882bcec06cc9267f4863c8 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=1837e430196070ce93a464e6df2bd48d5ea738a004882bcec06cc9267f4863c8 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=1837e430196070ce93a464e6df2bd48d5ea738a004882bcec06cc9267f4863c8 duration_ms=13 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=1837e430196070ce93a464e6df2bd48d5ea738a004882bcec06cc9267f4863c8 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  8 e2e\localization.spec.js:402:5 › vi real workspaces preserve answers and fit 1024px (1.6m)
+[WebServer] ai_call role=prompt_builder hash=39bec219eb0ab0893838743d8328801029789dcd3b736403d0d6794fc2d61840 duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=39bec219eb0ab0893838743d8328801029789dcd3b736403d0d6794fc2d61840 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  9 e2e\localization.spec.js:402:5 › vi real workspaces preserve answers and fit 1440px (1.5m)
+  ok 10 e2e\localization.spec.js:768:1 › unsupported browser language falls back while saved light appearance wins at startup (1.0s)
+  ok 11 e2e\localization.spec.js:800:1 › admin tablet system settings and wide evidence tables remain usable (6.2s)
+
+  Slow test file: e2e\localization.spec.js (13.0m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  11 passed (13.5m)

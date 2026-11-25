@@ -14,6 +14,9 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   diff identified in [phase0-survey](freeze-logs/phase0-survey.md).
 - Create and verify the four new Word files using the measured
   [FITAI style specification](freeze-logs/doc-style-spec.md).
+- Correct the stale practice count in the documentation collector described in
+  [doc-facts-discrepancy](freeze-logs/doc-facts-discrepancy.md), then verify it
+  against the existing public configuration without changing validators.
 - Await the D1 decision on item 1 in the
   [cleanup proposal](freeze-logs/cleanup-proposal.md); do not delete any item
   without approval. Follow the existing release and snapshot review gates.

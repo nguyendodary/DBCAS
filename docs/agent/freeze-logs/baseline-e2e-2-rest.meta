@@ -1,0 +1,6 @@
+pid=8392
+started=2026-11-25T15:20:09.504600+07:00
+commit=253f272
+project=dbcas-baseline-recovery
+command=npm --prefix frontend run test:e2e -- <18 rest specs> --shard=1/2
+saved_previous_proof=C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\_review\saved-proofs\e2e-1-localization.json

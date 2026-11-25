@@ -3,3 +3,5 @@ started=2026-11-25T14:59:14.973500+07:00
 commit=253f272
 project=dbcas-baseline-recovery
 command=npm --prefix frontend run test:e2e -- e2e/localization.spec.js
+finished=2026-11-25T15:12:44.902571+07:00
+exit=0

@@ -5,19 +5,19 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | Phase | Status | Evidence or next action |
 |---|---|---|
 | A | Recovery and inventory complete; previous A.4 scope exception recorded | [phase-a-recovery.md](phase-a-recovery.md) |
-| B | Running | [baseline-v2.md](baseline-v2.md) records completed checks and limitations; E2E localization shard is running, PID 22388. |
+| B | Running | [baseline-v2.md](baseline-v2.md) records completed checks and limitations; E2E rest shard 1/2 is running, PID 8392. |
 | 0 | Inventory recorded; detailed review incomplete | [phase0-survey.md](phase0-survey.md) records all branches; 246 paths in a large historical sync differ from the baseline and need review. |
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
-| 5 | Template analysis started | [doc-style-spec.md](doc-style-spec.md) records measured FITAI styles; four `ver1.3` outputs and full render verification remain pending. |
+| 5 | Template analysis started | [doc-style-spec.md](doc-style-spec.md) records measured FITAI styles; [collector discrepancy](doc-facts-discrepancy.md) and four verified `ver1.3` outputs remain. |
 | 6 | Pending | Run final gates and real-stack E2E after the preceding work. |
 | 7 | Pending | Follow branch protection; owner review remains gated by D3. |
 
 ## Next commands
 
-Check `baseline-e2e-1-localization.meta` and its recorded PID before starting
-any other Docker-using gate. After that shard finishes, run the two remaining
-E2E shards, practice, local, QA, smoke, and the remaining documentation,
+Check `baseline-e2e-2-rest.meta` and its recorded PID before starting any other
+Docker-using gate. After it finishes, preserve its isolation proof and run E2E
+rest shard 2/2, then practice, local, QA, smoke, and the remaining documentation,
 provider and secret gates. Keep Docker-using gates sequential and preserve logs.
 
 An isolated, detached worktree at
