@@ -56,7 +56,13 @@ Referenced by `package.json`, CI, application code, or another active script:
 - [build_word_documents.py](./build_word_documents.py)
 - [docx_inplace.py](./docx_inplace.py)
 - [verify_docx.py](./verify_docx.py)
-- [verify_word.py](./verify_word.py)
+- [verify_word.py](./verify_word.py) — v1.1 → v1.2 comparison, now `docs:verify-word:v12`
+- [build_submission_docs.py](./build_submission_docs.py) — builds the five ver1.3 documents
+- [submission_style.py](./submission_style.py) — measured FITAI layout for that build
+- [submission_content/](./submission_content) — section content per document
+- [finalize_submission_docs.py](./finalize_submission_docs.py) — Word fields, PDF, page counts
+- [word_finalize.ps1](./word_finalize.ps1) — Word COM helper used by the finalizer
+- [verify_submission_docs.py](./verify_submission_docs.py) — layout, number and traceability gate
 
 ## Historical one-off scripts
 

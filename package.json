@@ -23,7 +23,10 @@
     "ui:contrast": "node scripts/check_contrast.mjs",
     "inventory:check": "node scripts/inventory.mjs check",
     "inventory:write": "node scripts/inventory.mjs write",
-    "docs:verify-word": "node scripts/run_py.mjs --prefer-tools scripts/verify_word.py"
+    "docs:verify-word": "node scripts/run_py.mjs scripts/verify_submission_docs.py",
+    "docs:build": "node scripts/run_py.mjs scripts/build_submission_docs.py",
+    "docs:finalize": "node scripts/run_py.mjs scripts/finalize_submission_docs.py",
+    "docs:verify-word:v12": "node scripts/run_py.mjs --prefer-tools scripts/verify_word.py"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "12.2.0",
