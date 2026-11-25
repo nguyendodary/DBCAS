@@ -39,7 +39,7 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
 | OpenAPI contract | Khớp runtime |
 | Environment inventory | 104 key backend + 3 key frontend |
 | Route inventory | PASS sau khi tái sinh `docs/inventory/api-routes.json` |
-| Secret scan (cây hiện tại) | **3152 file, 0 finding** (đo lại 2026-11-25) |
+| Secret scan (cây hiện tại) | **toàn bộ cây, 0 finding** (3129 file ở lần chạy cuối, 2026-11-25) |
 | Secret scan lịch sử (mẫu key thật) | 1042 commit, **0 commit khớp**; các fixture giả nằm trong allowlist hash-pinned |
 | Tài liệu nộp (`npm run docs:verify-word`) | **5 tài liệu, 149 assertion, 0 lỗi** |
 | `npm run llm:check` | PASS — provider `openai_compatible`, `GET /models` HTTP 200 (63 model), chat HTTP 200, JSON hợp lệ, không in key |

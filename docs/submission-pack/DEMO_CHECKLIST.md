@@ -29,7 +29,7 @@ liệu tổng hợp; **production HOLD**.
       (149 assertion, 0 lỗi) và `TRACEABILITY.md`.
 - [ ] Biết bộ số liệu hiện tại để trả lời: 67 bảng / 561 cột / 122 khóa ngoại /
       159 index / 28 migration; 106 API path / 118 operation; 1940 backend test;
-      463 frontend test; 3152 file quét secret, 0 finding.
+      463 frontend test; quét secret toàn cây, 0 finding.
 - [ ] Nếu bị hỏi về SRS: nói rõ SRS không thuộc phạm vi tài liệu của owner và bản
       lưu nằm ở `Documents/Archive/`.
 

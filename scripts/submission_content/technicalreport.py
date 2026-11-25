@@ -25,7 +25,7 @@ BLOCKS = [
           "67-table schema with 122 foreign keys and 28 forward migrations, "
           "an API of 106 paths and 118 operations, 1 940 passing backend "
           "tests, 463 frontend tests and 152 browser tests across nine CI "
-          "shards, with zero secret-scan findings in 3 083 files. The "
+          "shards, and zero secret-scan findings across the whole tree. The "
           "contribution is not a new model but an evidence discipline: every "
           "reported number is traceable to a stored attempt, a question "
           "version and a concept, and every figure in this report was "
@@ -204,7 +204,7 @@ BLOCKS = [
             ["E7", "CI jobs on the frozen commit",
              "12 of 12 successful", "workflow run 45597486074"],
             ["E8", "Secret scan",
-             "3 083 files, 0 findings; 1 042 commits, 0 matching",
+             "Whole tree, 0 findings; 1 042 commits, 0 matching real keys",
              "secrets:scan and history scan"],
             ["E9", "Frontend contrast pairs", "186 pairs, 0 failures",
              "npm run ui:contrast"],

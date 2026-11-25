@@ -101,7 +101,7 @@ deploy/                  deployment assets
 | Browser suites | 11 localization + 72 end-to-end + 12 practice + 3 smoke + 54 QA = **152 passed, 4 skipped** | sharded runs in the freeze logs |
 | API contract | 106 paths / 118 operations, check PASS | `export_openapi.py --check` |
 | Route inventory | PASS | `npm run inventory:check` |
-| Secret scan (tree) | **3,152 files, 0 findings** | `npm run secrets:scan` |
+| Secret scan (tree) | **Whole tree, 0 findings** (3,129 files at the last run) | `npm run secrets:scan` |
 | Submission documents | 5 documents, **149 assertions, 0 failures** | `npm run docs:verify-word` |
 | Documentation gate | PASS, 48 assertions, 67 tables / 561 columns / 122 FKs / 159 indexes / 28 migrations | `npm run docs:check` |
 | Exact-commit CI | **12 of 12 jobs successful** | workflow run `45597486074` |

@@ -180,20 +180,19 @@ Documents checked: 5; assertions: 149; failures: 0.
 | architecture | table:14.0 | 4 |
 | architecture | table:18.0 | 2 |
 | architecture | table:9.0 | 4 |
-| database | DBCAS Caption:9.0 | 4 |
-| database | DBCAS Cover Signature:11.0 | 1 |
-| database | DBCAS Cover Team:11.0 | 1 |
-| database | DBCAS Cover Title:26.0 | 1 |
-| database | DBCAS Meta:12.0 | 3 |
-| database | Heading 1:18.0 | 8 |
-| database | Heading 2:14.0 | 2 |
-| database | Heading 3:13.0 | 32 |
+| database | DBCAS Caption:9.0 | 7 |
+| database | DBCAS Cover Team:11.0 | 2 |
+| database | DBCAS Meta:12.0 | 1 |
+| database | DBCAS Note:13.0 | 2 |
+| database | Heading 1:18.0 | 2 |
+| database | Heading 2:14.0 | 5 |
+| database | Heading 3:13.0 | 22 |
 | database | table:11.0 | 7 |
-| database | table:12.0 | 3 |
-| database | table:13.0 | 62 |
-| database | table:14.0 | 3 |
-| database | table:18.0 | 2 |
-| database | table:9.0 | 7 |
+| database | table:12.0 | 5 |
+| database | table:13.0 | 67 |
+| database | table:18.0 | 8 |
+| database | table:26.0 | 1 |
+| database | table:9.0 | 4 |
 | codestandards | DBCAS Caption:9.0 | 7 |
 | codestandards | DBCAS Code:9.0 | 11 |
 | codestandards | DBCAS Cover Signature:11.0 | 4 |
@@ -202,7 +201,7 @@ Documents checked: 5; assertions: 149; failures: 0.
 | codestandards | DBCAS Meta:12.0 | 6 |
 | codestandards | DBCAS Note:13.0 | 1 |
 | codestandards | Heading 1:18.0 | 15 |
-| codestandards | table:13.0 | 2 |
+| codestandards | table:13.0 | 1 |
 | codestandards | table:9.0 | 1 |
 | technicalreport | DBCAS Caption:9.0 | 2 |
 | technicalreport | DBCAS Cover Signature:11.0 | 4 |

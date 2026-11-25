@@ -860,42 +860,37 @@
     {
       "document": "database",
       "context_size": "DBCAS Caption:9.0",
-      "runs": 4
-    },
-    {
-      "document": "database",
-      "context_size": "DBCAS Cover Signature:11.0",
-      "runs": 1
+      "runs": 7
     },
     {
       "document": "database",
       "context_size": "DBCAS Cover Team:11.0",
-      "runs": 1
-    },
-    {
-      "document": "database",
-      "context_size": "DBCAS Cover Title:26.0",
-      "runs": 1
-    },
-    {
-      "document": "database",
-      "context_size": "DBCAS Meta:12.0",
-      "runs": 3
-    },
-    {
-      "document": "database",
-      "context_size": "Heading 1:18.0",
-      "runs": 8
-    },
-    {
-      "document": "database",
-      "context_size": "Heading 2:14.0",
       "runs": 2
     },
     {
       "document": "database",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 1
+    },
+    {
+      "document": "database",
+      "context_size": "DBCAS Note:13.0",
+      "runs": 2
+    },
+    {
+      "document": "database",
+      "context_size": "Heading 1:18.0",
+      "runs": 2
+    },
+    {
+      "document": "database",
+      "context_size": "Heading 2:14.0",
+      "runs": 5
+    },
+    {
+      "document": "database",
       "context_size": "Heading 3:13.0",
-      "runs": 32
+      "runs": 22
     },
     {
       "document": "database",
@@ -905,27 +900,27 @@
     {
       "document": "database",
       "context_size": "table:12.0",
-      "runs": 3
+      "runs": 5
     },
     {
       "document": "database",
       "context_size": "table:13.0",
-      "runs": 62
-    },
-    {
-      "document": "database",
-      "context_size": "table:14.0",
-      "runs": 3
+      "runs": 67
     },
     {
       "document": "database",
       "context_size": "table:18.0",
-      "runs": 2
+      "runs": 8
+    },
+    {
+      "document": "database",
+      "context_size": "table:26.0",
+      "runs": 1
     },
     {
       "document": "database",
       "context_size": "table:9.0",
-      "runs": 7
+      "runs": 4
     },
     {
       "document": "codestandards",
@@ -970,7 +965,7 @@
     {
       "document": "codestandards",
       "context_size": "table:13.0",
-      "runs": 2
+      "runs": 1
     },
     {
       "document": "codestandards",
@@ -1096,7 +1091,7 @@
       "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 4218,
       "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 5988,
       "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 2209,
-      "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 2842
+      "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 2843
     }
   }
 }

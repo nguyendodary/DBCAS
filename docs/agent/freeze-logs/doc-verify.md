@@ -88,7 +88,7 @@ The verifier re-measured every number in the text and failed none:
 | Backend tests | 1 940 passed, 7 skipped | `pytest -q`, re-run 2026-11-25 (24 min 22 s) |
 | Frontend unit tests | 54 files / 463 tests | `vitest` |
 | Browser tests | 152 passed, 4 skipped | sharded Playwright/QA runs |
-| Secret scan | 3 152 files, 0 findings | `npm run secrets:scan` |
+| Secret scan | Whole tree (3 129 files at the last run), 0 findings | `npm run secrets:scan` |
 
 The live database reports 68 tables and 564 columns because it also holds
 `schema_migration`; the documents state this exclusion explicitly instead of
@@ -121,7 +121,7 @@ The old `OWNER UNKNOWN` placeholder is replaced by explicit
 | Documentation gate | `npm run docs:check` | PASS, exit 0 (48 assertions, 67 tables / 561 columns / 122 FKs / 159 indexes / 28 migrations) |
 | Submission documents | `npm run docs:verify-word` | PASS, exit 0 (5 documents, 149 assertions, 0 failures) |
 | Route inventory | `npm run inventory:check` | PASS, exit 0 |
-| Secret scan | `npm run secrets:scan` | PASS, 3 152 files, 0 findings |
+| Secret scan | `npm run secrets:scan` | PASS, whole tree (3 129 files), 0 findings |
 | Clean clone | `npm ci` + `npm run env:check` + `npm start` + `/readiness` | PASS, exit 0; readiness reports database true and sandbox true (`verification/clean-clone.log`) |
 
 ## 8. Owner questions raised by this verification
