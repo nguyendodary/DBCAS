@@ -1,0 +1,5 @@
+pid=23928
+started=2026-11-25T14:50:09.877269+07:00
+command=npm --prefix frontend test -- --maxWorkers=2
+finished=2026-11-25T14:51:51.460578+07:00
+exit=0

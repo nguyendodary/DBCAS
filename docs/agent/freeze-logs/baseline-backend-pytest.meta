@@ -1,3 +1,8 @@
 ﻿pid=27320
 started=2026-11-25T14:24:44.2549409+07:00
 command=python -u -m pytest -q --color=no
+finished=2026-11-25T14:48:52.8767094+07:00
+exit=
+exit_capture_note=unavailable: PowerShell Process.ExitCode was null after WaitForExit
+wrapper_shell_exit=0 (not the pytest process exit code)
+result_summary=1940 passed, 7 skipped, 1 warning; see baseline-backend-pytest.log

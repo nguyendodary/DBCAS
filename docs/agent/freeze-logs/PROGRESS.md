@@ -5,7 +5,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | Phase | Status | Evidence or next action |
 |---|---|---|
 | A | Recovery and inventory complete; previous A.4 scope exception recorded | [phase-a-recovery.md](phase-a-recovery.md) |
-| B | Running | Backend lint passed; full pytest started at `253f272`, PID 27320, with [metadata](baseline-backend-pytest.meta) and `baseline-backend-pytest*.log`. Record the completed baseline in `baseline-v2.md`. |
+| B | Running | [baseline-v2.md](baseline-v2.md) records backend and frontend checks, the resolved checkout line-ending issue, and the pytest exit-code limitation; E2E is next. |
 | 0 | Inventory recorded; detailed review incomplete | [phase0-survey.md](phase0-survey.md) records all branches; 246 paths in a large historical sync differ from the baseline and need review. |
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
@@ -15,11 +15,9 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 
 ## Next commands
 
-First check `baseline-backend-pytest.meta` and the recorded PID; do not start a
-second pytest while the first run is active. Once it finishes, run frontend
-lint, unit tests and format check, followed by E2E, practice, local, QA, smoke,
-and the remaining documentation, provider and secret gates in the owner
-specification. Keep Docker-using gates sequential and preserve each log.
+Run E2E, practice, local, QA, smoke, and the remaining documentation, provider
+and secret gates in the owner specification. Keep Docker-using gates sequential
+and preserve each log.
 
 An isolated, detached worktree at
 `_worktrees/recovery-baseline-20261125/DBCAS` points at `253f272`. It reuses

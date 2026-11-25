@@ -1,0 +1,13 @@
+
+> dbcas-frontend@0.1.0 test
+> vitest run --maxWorkers=2
+
+
+ RUN  v4.1.12 C:/Users/kudot/Downloads/proposal test/DBCAS/frontend
+
+Not implemented: Window's scrollTo() method
+
+ Test Files  54 passed (54)
+      Tests  463 passed (463)
+   Start at  14:50:11
+   Duration  100.06s (transform 2.13s, setup 19.47s, import 13.38s, tests 68.21s, environment 85.14s)

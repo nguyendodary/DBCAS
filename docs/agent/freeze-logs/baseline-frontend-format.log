@@ -1,0 +1,12 @@
+
+> dbcas-frontend@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+[warn] e2e-application/supervisor-completion.spec.js
+[warn] e2e/fake-oauth-server.mjs
+[warn] public/brand/manifest.webmanifest
+[warn] public/brand/README.md
+[warn] scripts/generate-brand-icons.mjs
+[warn] vitest.config.js
+[warn] Code style issues found in 6 files. Run Prettier with --write to fix.

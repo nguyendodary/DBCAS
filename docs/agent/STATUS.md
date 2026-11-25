@@ -5,6 +5,8 @@ Date: 2026-11-25. Overwrite this snapshot when state changes; do not treat it as
 Recovery in progress: the renewed packaging task is tracked in
 [PROGRESS](freeze-logs/PROGRESS.md). Phase A inventory has been recorded;
 the local Phase B baseline is running and later packaging phases remain pending.
+The partial [baseline record](freeze-logs/baseline-v2.md) includes the pytest
+exit-code capture limitation and points to the original local output.
 The Phase 0 workspace and branch inventory is recorded, with a limitation on
 the detailed review of one large historical synchronization diff.
 The [cleanup proposal](freeze-logs/cleanup-proposal.md) is ready; no deletion

@@ -1,0 +1,5 @@
+pid=25032
+started=2026-11-25T14:55:00.374559+07:00
+command=npm --prefix frontend run format:check
+finished=2026-11-25T14:55:04.641317+07:00
+exit=0
