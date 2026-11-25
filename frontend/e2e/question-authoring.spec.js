@@ -1,4 +1,5 @@
 import { test, expect } from './browser-fixture.js'
+import { languageMenuItem } from './locale-helpers.js'
 import AxeBuilder from '@axe-core/playwright'
 
 async function openEditor(page, locale = 'en') {
@@ -158,10 +159,10 @@ test('review an English translation of a Vietnamese original and preserve both o
   await page.getByLabel('Search prompt').fill('Choose the WHERE clause.')
   await expect(page.getByText('Choose the WHERE clause.', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Language', exact: true }).click()
-  await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
+  await languageMenuItem(page, 'vi').click()
   await expect(page.getByText(prompt, { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
-  await page.getByRole('menuitemradio', { name: 'English', exact: true }).click()
+  await languageMenuItem(page, 'en').click()
   await page.getByLabel('Search prompt').fill(prompt)
   await page
     .locator('li')

@@ -1,4 +1,6 @@
+import en from '../src/i18n/en.json' with { type: 'json' }
 import { start as beginPractice, approveWithApi } from './practice-harness.js'
+import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
 import { test, expect } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import { entrypointCases, call, login, PASSWORD } from './supervisor-entrypoints.js'
@@ -76,14 +78,14 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
         (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,
       ).toEqual([])
       await page.getByRole('button', { name: 'Language', exact: true }).click()
-      await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
+      await languageMenuItem(page, 'vi').click()
       await expect(
         page.getByText('Câu trả lời đã nộp được lưu an toàn và không thể chỉnh sửa.', {
           exact: true,
         }),
       ).toBeVisible()
       await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
-      await page.getByRole('menuitemradio', { name: 'English', exact: true }).click()
+      await languageMenuItem(page, 'en').click()
       await page.getByRole('button', { name: 'Return to current question', exact: true }).click()
       const authoritative = await call(page, `/sessions/${sid}`, learner)
       expect(authoritative.expires_at).toBe(expires)

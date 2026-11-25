@@ -61,6 +61,8 @@ async function stubApp(page, session) {
     // A non-JWT token keeps the auth renewal timer dormant.
     localStorage.setItem('dbcas_token', 'fake.token.value')
     localStorage.setItem('dbcas_locale', 'en')
+    // The demo Free/Pro gating hides Mode 2 until the simulated Pro plan is on.
+    localStorage.setItem('dbcas_demo_plan', 'pro')
   })
   await page.route(/\/api\/v1\/auth\/me$/, (route) => route.fulfill(json(ACCOUNT)))
   await page.route(/\/api\/v1\/sessions$/, (route) => route.fulfill(json([])))

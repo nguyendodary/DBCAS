@@ -1,4 +1,5 @@
 import { test, expect, request as apiRequest } from './browser-fixture.js'
+import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
 import AxeBuilder from '@axe-core/playwright'
 
 const API = 'http://127.0.0.1:8100'
@@ -48,7 +49,7 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     await expect(dialog).toHaveCount(0)
 
     await page.getByRole('button', { name: 'Language', exact: true }).click()
-    await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
+    await languageMenuItem(page, 'vi').click()
     const viDialog = await openHelp(page)
     await expect(
       viDialog.getByRole('heading', { name: 'Cách sử dụng DBCAS', exact: true }),
@@ -56,7 +57,7 @@ test('first-time user: registration, role boundary, help discovery and accessibi
     await expect(viDialog.getByText('Hướng dẫn trong ứng dụng', { exact: true })).toBeVisible()
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
-    await page.getByRole('menuitemradio', { name: 'English', exact: true }).click()
+    await languageMenuItem(page, 'en').click()
 
     await page.getByLabel('Full name', { exact: true }).fill('First-time Learner')
     await page.getByLabel('Email', { exact: true }).fill(email)

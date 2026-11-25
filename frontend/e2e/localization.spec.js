@@ -1,4 +1,5 @@
 import { start as beginPractice, approveWithApi } from './practice-harness.js'
+import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
 import { test, expect } from './browser-fixture.js'
 test.use({ legacyEnglish: false })
 import AxeBuilder from '@axe-core/playwright'
@@ -87,9 +88,7 @@ async function api(page, route, { method = 'GET', data, token } = {}) {
 async function switchLocale(page, locale) {
   const theme = await page.evaluate(() => localStorage.getItem('dbcas_theme'))
   await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
-  await page
-    .getByRole('menuitemradio', { name: locale === 'vi' ? 'Tiếng Việt' : 'English', exact: true })
-    .click()
+  await languageMenuItem(page, locale).click()
   await expect(page.locator('html')).toHaveAttribute('lang', locale)
   expect(await page.evaluate(() => localStorage.getItem('dbcas_locale'))).toBe(locale)
   expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(theme)

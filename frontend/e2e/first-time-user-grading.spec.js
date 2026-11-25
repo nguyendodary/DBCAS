@@ -1,4 +1,5 @@
 import { test, expect } from './browser-fixture.js'
+import { languageMenuItem, approvalButton, expectQuestionComments } from './locale-helpers.js'
 import AxeBuilder from '@axe-core/playwright'
 import {
   api,
@@ -36,9 +37,9 @@ test('practice: learner source selection, resume, help, bilingual draft and sand
   await expect(page.getByRole('dialog')).toBeVisible()
   await expect(page.locator('#root')).toHaveAttribute('inert', '')
   await page.keyboard.press('Escape')
-  for (const language of ['English', 'Tiếng Việt']) {
+  for (const language of ['en', 'vi']) {
     await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
-    await page.getByRole('menuitemradio', { name: language, exact: true }).click()
+    await languageMenuItem(page, language).click()
     await expect(page.locator(`input[type="radio"][value="${option}"]`)).toBeChecked()
   }
   await page.reload()

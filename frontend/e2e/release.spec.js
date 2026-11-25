@@ -1,4 +1,6 @@
+import en from '../src/i18n/en.json' with { type: 'json' }
 import { start as beginPractice, approveWithApi } from './practice-harness.js'
+import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
 import { test, expect, request as apiRequest } from './browser-fixture.js'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
@@ -248,7 +250,9 @@ test('learner completes bank practice, drafts, recovery and evidence', async ({
         ).toBeChecked()
         await checkBothThemes(page, 'exam-mcq')
         await page.goto('/assessments')
-        await page.getByRole('link', { name: 'Tiếp tục bài làm', exact: true }).click()
+        await page
+          .getByRole('link', { name: en.ui.assessments.activeContinue, exact: true })
+          .click()
         await expect(page).toHaveURL(new RegExp(`/exam/${sid}$`))
       } else {
         await expect(
@@ -967,7 +971,7 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({
   const language = page.getByRole('button', { name: 'Language', exact: true })
   await language.focus()
   await page.keyboard.press('ArrowDown')
-  await expect(page.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toBeFocused()
+  await expect(languageMenuItem(page, 'vi')).toBeFocused()
   await page.keyboard.press('Escape')
   await expect(language).toBeFocused()
   await expect(page.getByRole('menu')).toBeHidden()
@@ -1020,7 +1024,7 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({
     await touchPage.goto('/')
     await touchPage.getByRole('button', { name: 'Language', exact: true }).tap()
     await expect(touchPage.getByRole('menu')).toBeVisible()
-    await touchPage.getByRole('menuitemradio', { name: 'Tiếng Việt' }).tap()
+    await languageMenuItem(touchPage, 'vi').tap()
     await expect(touchPage.getByRole('menu')).toBeHidden()
     await touchPage.reload()
     await expect(touchPage.locator('html')).toHaveAttribute('lang', 'vi')

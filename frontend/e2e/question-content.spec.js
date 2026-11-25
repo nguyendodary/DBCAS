@@ -1,4 +1,5 @@
 import { start as beginPractice, approveWithApi } from './practice-harness.js'
+import { commentsHeading, languageMenuItem, expectQuestionComments } from './locale-helpers.js'
 import { test, expect } from './browser-fixture.js'
 import fs from 'node:fs/promises'
 
@@ -96,12 +97,7 @@ for (const locale of ['en', 'vi'])
         const selected = await page.getByRole('radio').first().inputValue()
         for (const uiLocale of [locale === 'vi' ? 'en' : 'vi', locale]) {
           await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
-          await page
-            .getByRole('menuitemradio', {
-              name: uiLocale === 'vi' ? 'Tiếng Việt' : 'English',
-              exact: true,
-            })
-            .click()
+          await languageMenuItem(page, uiLocale).click()
           const projected = await api(`/api/v1/sessions/${sid}?display_locale=${uiLocale}`)
           await expect(
             page.getByText(projected.current_question.prompt, { exact: true }),

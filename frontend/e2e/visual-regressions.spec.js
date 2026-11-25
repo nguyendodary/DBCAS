@@ -1,4 +1,5 @@
 import { test, expect } from './browser-fixture.js'
+import { languageMenuItem } from './locale-helpers.js'
 
 test.use({ legacyEnglish: false, reducedMotion: 'reduce' })
 
@@ -107,7 +108,7 @@ test('authentication introduction describes chosen practice and approval in both
   ]) {
     if (locale === 'vi') {
       await page.getByRole('button', { name: 'Language', exact: true }).click()
-      await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
+      await languageMenuItem(page, 'vi').click()
     }
     await expect(page.getByText(expected, { exact: true })).toBeVisible()
   }
