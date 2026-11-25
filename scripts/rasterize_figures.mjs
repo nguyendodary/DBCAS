@@ -6,9 +6,15 @@ import { pathToFileURL } from 'node:url'
 import puppeteer from 'puppeteer'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const DIR = path.join(ROOT, 'docs', 'submission', 'final', 'assets', 'figures')
+const dirArg = process.argv.indexOf('--dir')
+const DIR = dirArg >= 0
+  ? path.resolve(ROOT, process.argv[dirArg + 1])
+  : path.join(ROOT, 'docs', 'submission', 'final', 'assets', 'figures')
+const outArg = process.argv.indexOf('--out')
+const OUT = outArg >= 0 ? path.resolve(ROOT, process.argv[outArg + 1]) : DIR
 const scaleArg = process.argv.indexOf('--scale')
 const scale = scaleArg >= 0 ? Number(process.argv[scaleArg + 1]) : 2
+fs.mkdirSync(OUT, { recursive: true })
 
 const browser = await puppeteer.launch({
   headless: true,
@@ -25,7 +31,7 @@ try {
     const page = await browser.newPage()
     await page.setViewport({ width, height, deviceScaleFactor: scale })
     await page.goto(pathToFileURL(source).href, { waitUntil: 'load' })
-    const target = path.join(DIR, file.replace(/\.svg$/, '.png'))
+    const target = path.join(OUT, file.replace(/\.svg$/, '.png'))
     await page.screenshot({ path: target, type: 'png', fullPage: true })
     await page.close()
     console.log(`${path.basename(target)} ${width * scale}x${height * scale}`)

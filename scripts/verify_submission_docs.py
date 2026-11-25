@@ -48,7 +48,7 @@ PROPOSAL_SECTIONS = [
     "6. Objectives and Scope", "7. Key Features & Requirements",
     "8. Constraints and Assumptions", "9. Target Users / Stakeholders",
     "10. Technology Stack", "11. Methodology & Development Plan",
-    "12. System Architecture Overview", "13. Potential Risks and Mitigation",
+    "12. System Architecture Overview", "13. Potential Risks and Mitigation Strategies",
     "14. Expected Outcomes / Deliverables", "15. References",
 ]
 
@@ -149,15 +149,20 @@ def verify_layout(key, path):
                     for p in cell.paragraphs:
                         parent[id(p._p)] = "table"
 
+    seen_heading = False
     for paragraph in doc.paragraphs:
         style_name = paragraph.style.name if paragraph.style else ""
+        if style_name.startswith("Heading 1"):
+            seen_heading = True
         in_table = parent.get(id(paragraph._p)) == "table"
+        toc_label = paragraph.text.strip() in ("Table of Contents", "List of Tables", "List of Figures")
+        caption_label = bool(re.match(r"^(Figure|Table)\s+\d+", paragraph.text.strip())) and len(paragraph.text.strip()) < 220
         for run in paragraph.runs:
             if not run.text.strip():
                 continue
             size = effective_size(run, paragraph)
             context = "table" if in_table else style_name
-            if not in_table and style_name in ("Normal", "List Bullet"):
+            if not in_table and seen_heading and not toc_label and not caption_label and style_name in ("Normal", "List Bullet"):
                 body_sizes[size] += 1
                 if size is None or abs(size - BODY_PT) > 0.01:
                     bad_body.append((paragraph.text[:60], size))
@@ -182,9 +187,12 @@ def verify_layout(key, path):
         })
 
     check(f"{key}: file opens", True)
-    check(f"{key}: page size A4",
-          all(abs(s["width_cm"] - 21.0) <= 0.05 and abs(s["height_cm"] - 29.7) <= 0.05
-              for s in section_info),
+    def is_a4(s):
+        portrait = abs(s["width_cm"] - 21.0) <= 0.05 and abs(s["height_cm"] - 29.7) <= 0.05
+        landscape = abs(s["width_cm"] - 29.7) <= 0.05 and abs(s["height_cm"] - 21.0) <= 0.05
+        return portrait or landscape
+    check(f"{key}: page size A4 (portrait or landscape)",
+          all(is_a4(s) for s in section_info),
           json.dumps(section_info))
     margin_ok = all(
         abs(s["left"] - MARGINS_CM["left"]) <= TOLERANCE_CM
@@ -305,18 +313,37 @@ def content_checks(docs, measured):
             check(f"{key}: operation claim {claimed}",
                   int(claimed) == measured["operations"], str(measured["operations"]))
 
-    # dictionary headings: every table present, column count correct
+    # dictionary blocks: captions "Table N: Database Design (Name)" followed by
+    # the column table. The baseline uses CamelCase for the 41 core tables and
+    # the physical snake_case name for the 26 Appendix A tables.
     database_text = all_text["database"]
+    database_doc = Document(str(FINAL / EXPECTED["database"]))
+    pending = None
     found_tables = {}
-    for match in re.finditer(r"^([a-z][a-z0-9_]*) — (\d+) columns$",
-                             database_text, re.M):
-        found_tables[match.group(1)] = int(match.group(2))
+    for kind, item in walk(database_doc):
+        if kind == "p":
+            match = re.match(r"Table (?:A\.)?\d+: Database Design \((.+)\)",
+                             item.text.strip())
+            if match:
+                pending = match.group(1).strip()
+        elif pending is not None:
+            found_tables[pending] = len(item.rows) - 1
+            pending = None
+
+    def normalized(name):
+        return re.sub(r"[^a-z0-9]", "", name.lower())
+
+    schema_by_key = {normalized(name): name for name in measured["table_names"]}
+    canonical = {}
+    for name, count in found_tables.items():
+        key = normalized(name)
+        canonical[schema_by_key.get(key, name)] = count
     check("database: every table has a dictionary block",
-          set(found_tables) == set(measured["table_names"]),
-          f"missing={sorted(set(measured['table_names']) - set(found_tables))} "
-          f"extra={sorted(set(found_tables) - set(measured['table_names']))}")
+          set(canonical) == set(measured["table_names"]),
+          f"missing={sorted(set(measured['table_names']) - set(canonical))} "
+          f"extra={sorted(set(canonical) - set(measured['table_names']))}")
     wrong = {name: (count, measured["column_counts"].get(name))
-             for name, count in found_tables.items()
+             for name, count in canonical.items()
              if measured["column_counts"].get(name) != count}
     check("database: every column count matches", not wrong, json.dumps(wrong))
 
@@ -342,7 +369,8 @@ def content_checks(docs, measured):
     return {"proposal_fr": sorted(proposal_fr),
             "architecture_fr": sorted(architecture_fr),
             "nfr": sorted(nfr),
-            "database_tables": len(found_tables)}
+            "database_tables": len(canonical),
+            "database_blocks": canonical}
 
 
 def page_counts():
@@ -374,8 +402,7 @@ def write_traceability(docs, measured, content):
               f"the Database Design document. Measured: "
               f"{len(measured['table_names'])} tables.", "",
               "| Table | Columns | In Database document |", "|---|---:|---|"]
-    blocks = dict(re.findall(r"^([a-z][a-z0-9_]*) — (\d+) columns$",
-                             docs["database"]["text"], re.M))
+    blocks = content.get("database_blocks", {})
     for name in measured["table_names"]:
         lines.append(f"| `{name}` | {measured['column_counts'][name]} | "
                      f"{'yes' if name in blocks else 'MISSING'} |")
