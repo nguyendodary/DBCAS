@@ -9,7 +9,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | 0 | Review complete with stated limitation | [phase0-survey.md](phase0-survey.md) records all branches; [phase0-large-sync-review.md](phase0-large-sync-review.md) disposes of all 236 remaining paths with no import candidate, while preserving the binary/generated-file limitation. |
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Review complete; no product change | [ui-review.md](ui-review.md) records desktop/mobile/admin evidence and two D4-gated copy findings; no image snapshot, translation or behavior was edited. |
-| 5 | Template analysis started | [doc-style-spec.md](doc-style-spec.md) records measured FITAI styles; [collector discrepancy](doc-facts-discrepancy.md) and four verified `ver1.3` outputs remain. |
+| 5 | Generation and verification complete; approval gated | [doc-verify.md](doc-verify.md) records four hashes, 79/79 audit assertions, Word/PDF page parity (61/78/72/9) and the narrow collector fix. DOCX remain outside Git pending owner approval. |
 | 6 | Pending | Run final gates and real-stack E2E after the preceding work. |
 | 7 | Pending | Follow branch protection; owner review remains gated by D3. |
 
