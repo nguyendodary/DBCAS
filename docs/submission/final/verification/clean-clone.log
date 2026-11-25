@@ -1,0 +1,16 @@
+# Clean-clone run (2026-11-25)
+
+Source: git archive HEAD extracted to a temporary directory (no .env, no node_modules).
+Commands and results, from the captured log:
+
+== npm ci
+EXIT=0
+== env:check
+EXIT=0
+== start
+DBCAS: http://localhost:19080
+EXIT=0
+== readiness
+{"status":"ready","dependencies":{"database":true,"sandbox":true}}
+
+Note: ports were moved to 19000/19080/19025/11026 to avoid the running checkout.

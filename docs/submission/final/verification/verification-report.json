@@ -1,0 +1,1097 @@
+{
+  "checks": [
+    {
+      "id": "file set",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: file exists",
+      "status": "PASS",
+      "detail": "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx"
+    },
+    {
+      "id": "proposal: package readable",
+      "status": "PASS",
+      "detail": "None"
+    },
+    {
+      "id": "architecture: file exists",
+      "status": "PASS",
+      "detail": "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx"
+    },
+    {
+      "id": "architecture: package readable",
+      "status": "PASS",
+      "detail": "None"
+    },
+    {
+      "id": "database: file exists",
+      "status": "PASS",
+      "detail": "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx"
+    },
+    {
+      "id": "database: package readable",
+      "status": "PASS",
+      "detail": "None"
+    },
+    {
+      "id": "codestandards: file exists",
+      "status": "PASS",
+      "detail": "C1SE.70_CodeStandards_DBCAS_ver1.3.docx"
+    },
+    {
+      "id": "codestandards: package readable",
+      "status": "PASS",
+      "detail": "None"
+    },
+    {
+      "id": "technicalreport: file exists",
+      "status": "PASS",
+      "detail": "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx"
+    },
+    {
+      "id": "technicalreport: package readable",
+      "status": "PASS",
+      "detail": "None"
+    },
+    {
+      "id": "proposal: file opens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: page size A4",
+      "status": "PASS",
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "proposal: margins 3.5/2/2/2 cm",
+      "status": "PASS",
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "proposal: Normal 13 pt",
+      "status": "PASS",
+      "detail": "13.0"
+    },
+    {
+      "id": "proposal: Normal Times New Roman",
+      "status": "PASS",
+      "detail": "Times New Roman"
+    },
+    {
+      "id": "proposal: Normal line spacing 1.5",
+      "status": "PASS",
+      "detail": "1.5"
+    },
+    {
+      "id": "proposal: body runs are 13 pt",
+      "status": "PASS",
+      "detail": "0 offending runs; first: []"
+    },
+    {
+      "id": "proposal: body spacing 1.5",
+      "status": "PASS",
+      "detail": "0 offending paragraphs; first: []"
+    },
+    {
+      "id": "proposal: author",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "proposal: last modified by",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "proposal: table of contents field",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: header",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS\tPROJECT PROPOSAL"
+    },
+    {
+      "id": "proposal: footer page field",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS · Project Proposal\tPage 1 of 1"
+    },
+    {
+      "id": "architecture: file opens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: page size A4",
+      "status": "PASS",
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "architecture: margins 3.5/2/2/2 cm",
+      "status": "PASS",
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "architecture: Normal 13 pt",
+      "status": "PASS",
+      "detail": "13.0"
+    },
+    {
+      "id": "architecture: Normal Times New Roman",
+      "status": "PASS",
+      "detail": "Times New Roman"
+    },
+    {
+      "id": "architecture: Normal line spacing 1.5",
+      "status": "PASS",
+      "detail": "1.5"
+    },
+    {
+      "id": "architecture: body runs are 13 pt",
+      "status": "PASS",
+      "detail": "0 offending runs; first: []"
+    },
+    {
+      "id": "architecture: body spacing 1.5",
+      "status": "PASS",
+      "detail": "0 offending paragraphs; first: []"
+    },
+    {
+      "id": "architecture: author",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "architecture: last modified by",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "architecture: table of contents field",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: header",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS\tARCHITECTURE DESIGN"
+    },
+    {
+      "id": "architecture: footer page field",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS · Architecture Design Document\tPage 1 of 1"
+    },
+    {
+      "id": "database: file opens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: page size A4",
+      "status": "PASS",
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "database: margins 3.5/2/2/2 cm",
+      "status": "PASS",
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "database: Normal 13 pt",
+      "status": "PASS",
+      "detail": "13.0"
+    },
+    {
+      "id": "database: Normal Times New Roman",
+      "status": "PASS",
+      "detail": "Times New Roman"
+    },
+    {
+      "id": "database: Normal line spacing 1.5",
+      "status": "PASS",
+      "detail": "1.5"
+    },
+    {
+      "id": "database: body runs are 13 pt",
+      "status": "PASS",
+      "detail": "0 offending runs; first: []"
+    },
+    {
+      "id": "database: body spacing 1.5",
+      "status": "PASS",
+      "detail": "0 offending paragraphs; first: []"
+    },
+    {
+      "id": "database: author",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "database: last modified by",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "database: table of contents field",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: header",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS\tDATABASE DESIGN"
+    },
+    {
+      "id": "database: footer page field",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS · Database Design Document\tPage 1 of 1"
+    },
+    {
+      "id": "codestandards: file opens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: page size A4",
+      "status": "PASS",
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "codestandards: margins 3.5/2/2/2 cm",
+      "status": "PASS",
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "codestandards: Normal 13 pt",
+      "status": "PASS",
+      "detail": "13.0"
+    },
+    {
+      "id": "codestandards: Normal Times New Roman",
+      "status": "PASS",
+      "detail": "Times New Roman"
+    },
+    {
+      "id": "codestandards: Normal line spacing 1.5",
+      "status": "PASS",
+      "detail": "1.5"
+    },
+    {
+      "id": "codestandards: body runs are 13 pt",
+      "status": "PASS",
+      "detail": "0 offending runs; first: []"
+    },
+    {
+      "id": "codestandards: body spacing 1.5",
+      "status": "PASS",
+      "detail": "0 offending paragraphs; first: []"
+    },
+    {
+      "id": "codestandards: author",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "codestandards: last modified by",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "codestandards: table of contents field",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: header",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS\tCODE STANDARDS"
+    },
+    {
+      "id": "codestandards: footer page field",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS · Code Standards Document\tPage 1 of 1"
+    },
+    {
+      "id": "technicalreport: file opens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: page size A4",
+      "status": "PASS",
+      "detail": "[{\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"width_cm\": 21.0, \"height_cm\": 29.7, \"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "technicalreport: margins 3.5/2/2/2 cm",
+      "status": "PASS",
+      "detail": "[{\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}, {\"left\": 3.5, \"right\": 2.0, \"top\": 2.0, \"bottom\": 2.0}]"
+    },
+    {
+      "id": "technicalreport: Normal 13 pt",
+      "status": "PASS",
+      "detail": "13.0"
+    },
+    {
+      "id": "technicalreport: Normal Times New Roman",
+      "status": "PASS",
+      "detail": "Times New Roman"
+    },
+    {
+      "id": "technicalreport: Normal line spacing 1.5",
+      "status": "PASS",
+      "detail": "1.5"
+    },
+    {
+      "id": "technicalreport: body runs are 13 pt",
+      "status": "PASS",
+      "detail": "0 offending runs; first: []"
+    },
+    {
+      "id": "technicalreport: body spacing 1.5",
+      "status": "PASS",
+      "detail": "0 offending paragraphs; first: []"
+    },
+    {
+      "id": "technicalreport: author",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "technicalreport: last modified by",
+      "status": "PASS",
+      "detail": "Do, Nguyen Quoc"
+    },
+    {
+      "id": "technicalreport: table of contents field",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: header",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS\tTECHNICAL REPORT"
+    },
+    {
+      "id": "technicalreport: footer page field",
+      "status": "PASS",
+      "detail": "C1SE.70 · DBCAS · Technical Report\tPage 1 of 1"
+    },
+    {
+      "id": "final directory holds only the five documents",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "id": "proposal: no obsolete term 'OpenRouter'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no obsolete term 'free model'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no obsolete term '66 tables'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no obsolete term '27 migrations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no obsolete term '1-20 questions'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no obsolete term 'five destinations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no obsolete term 'OWNER UNKNOWN'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: no SRS owner reference",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term 'OpenRouter'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term 'free model'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term '66 tables'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term '27 migrations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term '1-20 questions'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term 'five destinations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no obsolete term 'OWNER UNKNOWN'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "architecture: no SRS owner reference",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term 'OpenRouter'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term 'free model'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term '66 tables'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term '27 migrations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term '1-20 questions'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term 'five destinations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no obsolete term 'OWNER UNKNOWN'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "database: no SRS owner reference",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term 'OpenRouter'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term 'free model'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term '66 tables'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term '27 migrations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term '1-20 questions'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term 'five destinations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no obsolete term 'OWNER UNKNOWN'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "codestandards: no SRS owner reference",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term 'OpenRouter'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term 'free model'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term '66 tables'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term '27 migrations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term '1-20 questions'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term 'five destinations'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no obsolete term 'OWNER UNKNOWN'",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "technicalreport: no SRS owner reference",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "proposal: 15 required sections in order",
+      "status": "PASS",
+      "detail": "[\"1. Project Title\", \"2. Team Members\", \"3. Supervisor(s)\", \"4. Problem Statement\", \"5. Survey / Existing Solutions\", \"6. Objectives and Scope\", \"7. Key Features & Requirements\", \"8. Constraints and Assumptions\", \"9. Target Users / Stakeholders\", \"10. Technology Stack\", \"11. Methodology & Development Plan\", \"12. System Architecture Overview\", \"13. Potential Risks and Mitigation\", \"14. Expected Outcomes / Deliverables\", \"15. References\"]"
+    },
+    {
+      "id": "proposal: tables claims match measured 67",
+      "status": "PASS",
+      "detail": "found=[67]"
+    },
+    {
+      "id": "proposal: migrations claims match measured 28",
+      "status": "PASS",
+      "detail": "found=[28]"
+    },
+    {
+      "id": "proposal: foreign_keys claims match measured 122",
+      "status": "PASS",
+      "detail": "found=[122]"
+    },
+    {
+      "id": "proposal: indexes claims match measured 159",
+      "status": "PASS",
+      "detail": "found=[159]"
+    },
+    {
+      "id": "proposal: operation claim 118",
+      "status": "PASS",
+      "detail": "118"
+    },
+    {
+      "id": "architecture: tables claims match measured 67",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "architecture: migrations claims match measured 28",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "architecture: foreign_keys claims match measured 122",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "architecture: indexes claims match measured 159",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "architecture: operation claim 118",
+      "status": "PASS",
+      "detail": "118"
+    },
+    {
+      "id": "database: tables claims match measured 67",
+      "status": "PASS",
+      "detail": "found=[67]"
+    },
+    {
+      "id": "database: migrations claims match measured 28",
+      "status": "PASS",
+      "detail": "found=[28]"
+    },
+    {
+      "id": "database: foreign_keys claims match measured 122",
+      "status": "PASS",
+      "detail": "found=[122]"
+    },
+    {
+      "id": "database: indexes claims match measured 159",
+      "status": "PASS",
+      "detail": "found=[159]"
+    },
+    {
+      "id": "codestandards: tables claims match measured 67",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "codestandards: migrations claims match measured 28",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "codestandards: foreign_keys claims match measured 122",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "codestandards: indexes claims match measured 159",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "id": "technicalreport: tables claims match measured 67",
+      "status": "PASS",
+      "detail": "found=[67]"
+    },
+    {
+      "id": "technicalreport: migrations claims match measured 28",
+      "status": "PASS",
+      "detail": "found=[28]"
+    },
+    {
+      "id": "technicalreport: foreign_keys claims match measured 122",
+      "status": "PASS",
+      "detail": "found=[122]"
+    },
+    {
+      "id": "technicalreport: indexes claims match measured 159",
+      "status": "PASS",
+      "detail": "found=[159]"
+    },
+    {
+      "id": "technicalreport: API path claim 106",
+      "status": "PASS",
+      "detail": "106"
+    },
+    {
+      "id": "technicalreport: operation claim 118",
+      "status": "PASS",
+      "detail": "118"
+    },
+    {
+      "id": "technicalreport: operation claim 118",
+      "status": "PASS",
+      "detail": "118"
+    },
+    {
+      "id": "database: every table has a dictionary block",
+      "status": "PASS",
+      "detail": "missing=[] extra=[]"
+    },
+    {
+      "id": "database: every column count matches",
+      "status": "PASS",
+      "detail": "{}"
+    },
+    {
+      "id": "traceability: every Architecture FR exists in the Proposal",
+      "status": "PASS",
+      "detail": "orphans=[]"
+    },
+    {
+      "id": "traceability: every Proposal FR appears in the Architecture",
+      "status": "PASS",
+      "detail": "missing=[]"
+    },
+    {
+      "id": "proposal: at least nine NFRs",
+      "status": "PASS",
+      "detail": "['01', '02', '03', '04', '05', '06', '07', '08', '09']"
+    },
+    {
+      "id": "database: no invented column names",
+      "status": "PASS",
+      "detail": "[]"
+    }
+  ],
+  "exceptions": [
+    {
+      "document": "proposal",
+      "context_size": "DBCAS Caption:9.0",
+      "runs": 18
+    },
+    {
+      "document": "proposal",
+      "context_size": "DBCAS Cover Signature:11.0",
+      "runs": 4
+    },
+    {
+      "document": "proposal",
+      "context_size": "DBCAS Cover Team:11.0",
+      "runs": 5
+    },
+    {
+      "document": "proposal",
+      "context_size": "DBCAS Cover Title:26.0",
+      "runs": 1
+    },
+    {
+      "document": "proposal",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 6
+    },
+    {
+      "document": "proposal",
+      "context_size": "DBCAS Note:13.0",
+      "runs": 7
+    },
+    {
+      "document": "proposal",
+      "context_size": "Heading 1:18.0",
+      "runs": 15
+    },
+    {
+      "document": "proposal",
+      "context_size": "Heading 2:14.0",
+      "runs": 8
+    },
+    {
+      "document": "proposal",
+      "context_size": "table:13.0",
+      "runs": 1
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Caption:9.0",
+      "runs": 15
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Code:9.0",
+      "runs": 30
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Cover Signature:11.0",
+      "runs": 4
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Cover Team:11.0",
+      "runs": 5
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Cover Title:26.0",
+      "runs": 1
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 6
+    },
+    {
+      "document": "architecture",
+      "context_size": "DBCAS Note:13.0",
+      "runs": 2
+    },
+    {
+      "document": "architecture",
+      "context_size": "Heading 1:18.0",
+      "runs": 12
+    },
+    {
+      "document": "architecture",
+      "context_size": "Heading 2:14.0",
+      "runs": 26
+    },
+    {
+      "document": "architecture",
+      "context_size": "table:13.0",
+      "runs": 21
+    },
+    {
+      "document": "architecture",
+      "context_size": "table:14.0",
+      "runs": 4
+    },
+    {
+      "document": "architecture",
+      "context_size": "table:18.0",
+      "runs": 2
+    },
+    {
+      "document": "architecture",
+      "context_size": "table:9.0",
+      "runs": 4
+    },
+    {
+      "document": "database",
+      "context_size": "DBCAS Caption:9.0",
+      "runs": 7
+    },
+    {
+      "document": "database",
+      "context_size": "DBCAS Cover Team:11.0",
+      "runs": 2
+    },
+    {
+      "document": "database",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 1
+    },
+    {
+      "document": "database",
+      "context_size": "DBCAS Note:13.0",
+      "runs": 2
+    },
+    {
+      "document": "database",
+      "context_size": "Heading 1:18.0",
+      "runs": 2
+    },
+    {
+      "document": "database",
+      "context_size": "Heading 2:14.0",
+      "runs": 5
+    },
+    {
+      "document": "database",
+      "context_size": "Heading 3:13.0",
+      "runs": 22
+    },
+    {
+      "document": "database",
+      "context_size": "table:11.0",
+      "runs": 7
+    },
+    {
+      "document": "database",
+      "context_size": "table:12.0",
+      "runs": 5
+    },
+    {
+      "document": "database",
+      "context_size": "table:13.0",
+      "runs": 67
+    },
+    {
+      "document": "database",
+      "context_size": "table:18.0",
+      "runs": 8
+    },
+    {
+      "document": "database",
+      "context_size": "table:26.0",
+      "runs": 1
+    },
+    {
+      "document": "database",
+      "context_size": "table:9.0",
+      "runs": 4
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Caption:9.0",
+      "runs": 7
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Code:9.0",
+      "runs": 11
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Cover Signature:11.0",
+      "runs": 4
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Cover Team:11.0",
+      "runs": 5
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Cover Title:26.0",
+      "runs": 1
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 6
+    },
+    {
+      "document": "codestandards",
+      "context_size": "DBCAS Note:13.0",
+      "runs": 1
+    },
+    {
+      "document": "codestandards",
+      "context_size": "Heading 1:18.0",
+      "runs": 15
+    },
+    {
+      "document": "codestandards",
+      "context_size": "table:13.0",
+      "runs": 1
+    },
+    {
+      "document": "codestandards",
+      "context_size": "table:9.0",
+      "runs": 1
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "DBCAS Caption:9.0",
+      "runs": 2
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "DBCAS Cover Signature:11.0",
+      "runs": 4
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "DBCAS Cover Team:11.0",
+      "runs": 5
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "DBCAS Cover Title:26.0",
+      "runs": 1
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "DBCAS Meta:12.0",
+      "runs": 6
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "DBCAS Note:13.0",
+      "runs": 1
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "Heading 1:18.0",
+      "runs": 9
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "Heading 2:14.0",
+      "runs": 9
+    },
+    {
+      "document": "technicalreport",
+      "context_size": "table:13.0",
+      "runs": 2
+    }
+  ],
+  "measured": {
+    "tables": 67,
+    "columns": 561,
+    "foreign_keys": 122,
+    "indexes": 159,
+    "migrations": 28,
+    "paths": 106,
+    "operations": 118,
+    "frontend_routes": 24
+  },
+  "content": {
+    "proposal_fr": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16"
+    ],
+    "architecture_fr": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16"
+    ],
+    "nfr": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09"
+    ],
+    "database_tables": 67
+  },
+  "pages": {
+    "pages": {
+      "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 20,
+      "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 22,
+      "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 39,
+      "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 12,
+      "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 13
+    },
+    "words": {
+      "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": 4141,
+      "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx": 4218,
+      "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": 5980,
+      "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": 2209,
+      "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": 2842
+    }
+  }
+}
