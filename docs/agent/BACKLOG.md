@@ -4,7 +4,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
 ## Packaging recovery (2026-11-25)
 
-- Execute and record the sequential Phase B baseline, then the workspace and
+- Finish and record the sequential Phase B baseline, then the workspace and
   branch survey, UI review, Word verification, and final gates listed in
   [PROGRESS](freeze-logs/PROGRESS.md).
 - Prepare a cleanup proposal without deleting files; owner approval is needed

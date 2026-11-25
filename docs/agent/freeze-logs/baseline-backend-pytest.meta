@@ -1,0 +1,3 @@
+﻿pid=27320
+started=2026-11-25T14:24:44.2549409+07:00
+command=python -u -m pytest -q --color=no

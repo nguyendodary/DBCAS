@@ -4,7 +4,7 @@ Date: 2026-11-25. Overwrite this snapshot when state changes; do not treat it as
 
 Recovery in progress: the renewed packaging task is tracked in
 [PROGRESS](freeze-logs/PROGRESS.md). Phase A inventory has been recorded;
-the local Phase B baseline and later packaging phases remain pending.
+the local Phase B baseline is running and later packaging phases remain pending.
 
 Baseline: `develop2` architecture-freeze work through `974b92b` (T1–T8), after the earlier integration pass at `e541495`; final freeze commit and verified results are recorded in [ARCHITECTURE_FREEZE.md](../ARCHITECTURE_FREEZE.md). **Architecture freeze: no new feature, table, migration, route or flag work after the accepted T1–T9 set** (code freeze [`69e1e2f`](https://github.com/nguyendodary/DBCAS/commit/69e1e2f1273dc1870df71ad4f17936dfacdf5953)); the integration only lands work already prepared on stale branches. Handover docs and the local tag `arch-freeze-v1.2` were added on 2026-11-25; nothing was pushed. `main` [e7e432cefc2e21706ddfec96cfb8fa8b3b32b858](https://github.com/nguyendodary/DBCAS/commit/e7e432cefc2e21706ddfec96cfb8fa8b3b32b858), unchanged.
 

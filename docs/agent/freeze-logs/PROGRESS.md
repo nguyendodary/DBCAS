@@ -5,7 +5,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | Phase | Status | Evidence or next action |
 |---|---|---|
 | A | Recovery and inventory complete; previous A.4 scope exception recorded | [phase-a-recovery.md](phase-a-recovery.md) |
-| B | Pending | Run the local baseline sequentially; record results in `baseline-v2.md` and individual logs. |
+| B | Running | Backend lint passed; full pytest started at `253f272`, PID 27320, with [metadata](baseline-backend-pytest.meta) and `baseline-backend-pytest*.log`. Record the completed baseline in `baseline-v2.md`. |
 | 0 | Pending | Survey the workspace and branches; write `phase0-survey.md`. |
 | 3 | Pending | Prepare `cleanup-proposal.md`; deletion remains gated by D1. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
@@ -15,10 +15,18 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 
 ## Next commands
 
-From `DBCAS/backend`: `.\.venv\Scripts\python.exe -m ruff check app tests manage.py`,
-then `.\.venv\Scripts\python.exe -m pytest -q`, with output and exit status
-saved under `docs/agent/freeze-logs/`. Continue with the remaining Phase B
-commands in the owner specification, one stack-using gate at a time.
+First check `baseline-backend-pytest.meta` and the recorded PID; do not start a
+second pytest while the first run is active. Once it finishes, run frontend
+lint, unit tests and format check, followed by E2E, practice, local, QA, smoke,
+and the remaining documentation, provider and secret gates in the owner
+specification. Keep Docker-using gates sequential and preserve each log.
+
+An isolated, detached worktree at
+`_worktrees/recovery-baseline-20261125/DBCAS` points at `253f272`. It reuses
+the existing dependency directories through junctions and has its own ignored
+example-based `.env`; browser and QA evidence must use this isolated tree so
+existing `_review` evidence is not overwritten. The size/reference and branch
+surveys started as read-only preparation and have not completed Phase 0 yet.
 
 Never print secrets or commit `.env`; do not modify `docs/qa/**`, applied
 migrations, validators or scoring schema; do not add dependencies, relax or
