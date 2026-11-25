@@ -44,9 +44,10 @@ bases are in [phase0-branches.log](phase0-branches.log). The audit streamed and
 hashed first-parent diffs for all 82 distinct commits and records their paths
 in [phase0-branch-commits.tsv](phase0-branch-commits.tsv); binary assets were
 not visually inspected. Representative product and documentation diffs were
-examined in detail. One large 32 MB historical synchronization diff has not
-been semantically reviewed line by line; its hash/path inventory is evidence,
-not a claim that every change is redundant.
+examined in detail. The large 32 MB historical synchronization diff received a
+[detailed semantic disposition](phase0-large-sync-review.md) of all remaining
+paths; it is not an exhaustive line-by-line audit of binary or generated
+formatting content.
 
 For that synchronization commit `07e4985`, a three-tree comparison against
 `253f272` classified all 2,388 changed paths: 2,142 match the post-sync blob
