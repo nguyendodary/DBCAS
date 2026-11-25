@@ -1,7 +1,8 @@
 # DBCAS — Checklist demo bảo vệ
 
-Mục tiêu: trình diễn bản **Architecture Freeze v1.1** trong 5 phút, có phương án
-dự phòng khi mạng/API/Docker lỗi. Chỉ dùng dữ liệu tổng hợp; **production HOLD**.
+Mục tiêu: trình diễn bản chốt kiến trúc (Architecture Freeze v1.2) và bộ tài liệu
+**ver1.3** trong 5 phút, có phương án dự phòng khi mạng/API/Docker lỗi. Chỉ dùng dữ
+liệu tổng hợp; **production HOLD**.
 
 ## A. Checklist máy bảo vệ (làm trước T-60 phút)
 
@@ -21,10 +22,22 @@ dự phòng khi mạng/API/Docker lỗi. Chỉ dùng dữ liệu tổng hợp; *
       `wsl -e docker run --rm --network none --entrypoint stat -v /var/run/docker.sock:/var/run/docker.sock postgres:17 -c "%g" /var/run/docker.sock`
       rồi thêm `LOCAL_DOCKER_GID=<gid>` vào `.env`.
 
+### Bộ tài liệu nộp
+
+- [ ] Mở sẵn `docs/submission/final/` (5 DOCX + PDF trong `rendered/`).
+- [ ] Đã đọc `docs/submission/final/verification/verification-report.md`
+      (149 assertion, 0 lỗi) và `TRACEABILITY.md`.
+- [ ] Biết bộ số liệu hiện tại để trả lời: 67 bảng / 561 cột / 122 khóa ngoại /
+      159 index / 28 migration; 106 API path / 118 operation; 1940 backend test;
+      463 frontend test; 3152 file quét secret, 0 finding.
+- [ ] Nếu bị hỏi về SRS: nói rõ SRS không thuộc phạm vi tài liệu của owner và bản
+      lưu nằm ở `Documents/Archive/`.
+
 ### Mã nguồn và cấu hình
 
 - [ ] `git status --short` sạch; `git log -1 --oneline` khớp commit bàn giao trong
       `docs/agent/freeze-logs/handover-gates.md`.
+- [ ] `npm run docs:verify-word` PASS (5 tài liệu, 0 lỗi) trước khi demo.
 - [ ] `.env` tồn tại trên máy demo, có `LLM_API_KEY` thật; **không** mở `.env` trước khán giả.
 - [ ] `npm run env:check` PASS (chỉ in tên biến và dạng che).
 - [ ] `npm run llm:check` PASS; nếu FAIL, ghi nhận và chuyển sang phương án ngân hàng.
@@ -96,8 +109,9 @@ giới hạn đã ghi trong `docs/submission-pack/SUMMARY.md`.”
 ### Sự cố máy chiếu/máy tính
 
 - Máy dự phòng: đã clone đúng commit, build sẵn image, `npm start` trước giờ demo.
-- Nếu không kịp khởi động: dùng bộ ảnh/video và mở `docs/submission-pack/SUMMARY.md`
-  cùng `docs/agent/freeze-logs/final-gates.md` để trả lời bằng số liệu thật.
+- Nếu không kịp khởi động: dùng bộ ảnh/video và mở `docs/submission-pack/SUMMARY.md`,
+  `docs/submission-pack/SOURCE_CODE.md` cùng `docs/agent/freeze-logs/final-gates.md`
+  để trả lời bằng số liệu thật.
 - Không bao giờ mở `.env`, log có khóa, hay commit chứa bí mật để “chứng minh”.
 
 ## D. Sau demo
@@ -107,3 +121,5 @@ giới hạn đã ghi trong `docs/submission-pack/SUMMARY.md`.”
 - [ ] Không commit `.env`, file dump, ảnh có khóa hoặc dữ liệu thật.
 - [ ] Nếu phát hiện lỗi mới: ghi vào `docs/agent/BACKLOG.md`, không sửa code tại chỗ
       trong lúc bảo vệ.
+- [ ] Không sửa DOCX tại chỗ sau khi công bố số trang; mọi thay đổi phải chạy lại
+      `npm run docs:build`, `npm run docs:finalize`, `npm run docs:verify-word`.
