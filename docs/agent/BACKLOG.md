@@ -15,10 +15,13 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 - The [real UI review](freeze-logs/ui-review.md) is complete. Two stale-copy
   items await the D4 decision; no product copy, image snapshot or behavior was
   changed.
-- Four `ver1.3` Word files were generated and
-  [verified](freeze-logs/doc-verify.md) outside Git using the measured
-  [FITAI specification](freeze-logs/doc-style-spec.md). Committing revised
-  academic DOCX remains an owner decision.
+- The `ver1.3` set is **five** documents (Proposal, Architecture, Database,
+  Code Standards, Technical Report) built by one generator, finalised in Word
+  and committed under `docs/submission/final`; [verification](freeze-logs/doc-verify.md)
+  records page counts, 149 XML assertions, traceability, the measured
+  [FITAI specification](freeze-logs/doc-style-spec.md), the clean-clone run and
+  the removal of the SRS from the owner set (archived outside the repository).
+  `npm run docs:verify-word` is the gate.
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.

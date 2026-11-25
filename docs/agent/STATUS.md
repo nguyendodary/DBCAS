@@ -2,7 +2,8 @@
 
 Date: 2026-11-25. Overwrite this snapshot when state changes; do not treat it as CI evidence.
 
-Recovery packaging is complete; see [PROGRESS](freeze-logs/PROGRESS.md). The
+Recovery packaging is complete and the ver1.3 document set is committed; see
+[PROGRESS](freeze-logs/PROGRESS.md). The
 [Phase B baseline](freeze-logs/baseline-v2.md) and
 [final gates](freeze-logs/final-gates-v2.md) record green local checks and an
 exact-commit CI `success` for `d6df804` (12/12 jobs); the older pytest child
@@ -15,9 +16,12 @@ The [cleanup proposal](freeze-logs/cleanup-proposal.md) remains proposal-only;
 no deletion was performed and item 1 awaits the owner's D1 decision.
 The [real UI review](freeze-logs/ui-review.md) is complete with two D4-gated
 copy findings and no product or image-snapshot change.
-[Word verification](freeze-logs/doc-verify.md) records four `ver1.3` files
-outside Git and the narrow practice-limit collector correction; no draft DOCX
-was committed to `docs/academic`.
+[Word verification](freeze-logs/doc-verify.md) records the **five** `ver1.3`
+documents now committed under `docs/submission/final` (20/22/39/12/13 pages),
+the 149-assertion XML gate, the clean-clone run and the removed SRS: one
+generator (`npm run docs:build`), one Word finaliser (`docs:finalize`), one
+verifier (`docs:verify-word`). The SRS was archived outside the repository and
+is no longer an owner document.
 [Branch gates](freeze-logs/phase7-branch-gates.md) were checked without a merge;
 D3 remains owner-gated.
 
