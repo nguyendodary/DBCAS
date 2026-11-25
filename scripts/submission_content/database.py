@@ -340,13 +340,15 @@ BLOCKS = [
         "header": ["Object", "Count", "Rule"],
         "widths": [4.4, 1.6, 9.5],
         "rows": [
-            ["Primary keys", "68", "One per table; 12 are composite"],
+            ["Primary keys", "68", "One per table, including the migration "
+             "ledger; 12 are composite"],
             ["Foreign keys", str(TOTAL_FKS),
              "Every reference is indexed on the referencing side"],
             ["Unique constraints", "41", "Business identity, not surrogate key"],
             ["Check constraints", "140", "Status vocabularies and ranges"],
             ["Standalone indexes", "51", "Foreign-key columns and hot filters"],
-            ["Triggers", "41", "36 row-level guards, 5 constraint validators"],
+            ["Triggers", "41", "On application tables: 36 row-level guards "
+             "and 5 constraint validators"],
         ],
     }),
     ("p", "Index rules applied: every foreign-key column is indexed because "
