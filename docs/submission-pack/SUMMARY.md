@@ -32,33 +32,36 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
 | Gate | Kết quả |
 |---|---|
 | Backend lint (`ruff`) | PASS |
-| Backend test | **1940 passed, 7 skipped** (1434 s) |
+| Backend test | **1940 passed, 7 skipped** (1474 s) |
 | Frontend lint (ESLint `--max-warnings=0`) | PASS |
 | Frontend unit test | **54 file / 463 test** PASS |
 | Docs gate | PASS — 48 assertion; 106 API path / 118 operation |
 | OpenAPI contract | Khớp runtime |
 | Environment inventory | 104 key backend + 3 key frontend |
 | Route inventory | PASS sau khi tái sinh `docs/inventory/api-routes.json` |
-| Secret scan (cây hiện tại) | 2969 file, **0 finding** |
+| Secret scan (cây hiện tại) | 2974 file, **0 finding** |
 | Secret scan toàn bộ lịch sử (8038 blob) | 16 match, tất cả là fixture/placeholder (chuỗi `mock-only`, khóa QA giả, token giả trong test, giá trị `sk-` rút gọn dùng kiểm tra mask); **0 key thật** |
 | `npm run llm:check` | PASS — provider `openai_compatible`, `GET /models` HTTP 200 (63 model), chat HTTP 200, JSON hợp lệ, không in key |
-| Clone sạch + `.env` giả lập | `npm start` PASS sau khi đặt `LOCAL_DOCKER_GID`; `/readiness` báo `database: true`, `sandbox: true`; đăng nhập admin và `/api/v1/admin/accounts` trả 4 tài khoản; Mailpit HTTP 200; `npm run stop` sạch |
+| Clone sạch không có `.env` | Copy `.env.example` → `env:check` PASS chế độ AI-off → `npm start` PASS sau khi đặt `LOCAL_DOCKER_GID=988` qua WSL; `/readiness` báo `database: true`, `sandbox: true`; đăng nhập demo và Mailpit HTTP 200; stop + xoá container/volume sạch |
 | Merge thử `develop2 → main` | `git merge-tree` không xung đột (`main` `e7e432c`, `develop2` hơn 200 commit) |
-| E2E thủ công | Phiên 41: 8/8 câu trả lời HTTP 200, 6 câu `ai_generated` + 2 câu fallback ngân hàng, ability 2.0; admin duyệt/từ chối ứng viên; chuyển vi/en; tắt key vẫn chạy bằng ngân hàng |
+| E2E cuối (phiên 43/45/46) | 43: 8/8 câu, ability 3/5, điểm 4.40/8.00 (6 AI + 2 SQL fallback ngân hàng). 45: 3/3 SQL AI (INSERT/UPDATE/DELETE), điểm 1.00/0.00/1.00, rollback `true`. 46: tắt key → câu `bank`, hoàn thành 3/3; `.env` khôi phục đúng hash. Admin duyệt 126 → câu 4175, từ chối 125; chuyển vi/en không lẫn chữ |
 
 ## 4. Kết quả AI
 
 - **Sửa prompt:** trial trực tiếp 5 loại × 3 lần tăng từ **0/15 lên 13/15** câu qua
   `validate_generated`. Hai ca còn lại là `RETURNING` sai cú pháp và được validator
   giữ nguyên từ chối — không nới validator.
-- **E2E Mode 2:** **8/8 câu `ai_generated`** ở cả tiếng Việt (phiên 22) và tiếng Anh
-  (phiên 23), không fallback ngân hàng; độ khó đổi 1↔2 theo năng lực.
-- **DML do AI sinh:** 14/14 câu SQL phục vụ đúng verb mục tiêu (INSERT 6, UPDATE 6,
-  DELETE 2). Đáp án đúng được **1.00**, đáp án sai **0.00**; toàn bộ reference
+- **E2E Mode 2 trước đó:** **8/8 câu `ai_generated`** ở cả tiếng Việt (phiên 22) và
+  tiếng Anh (phiên 23), không fallback ngân hàng; độ khó đổi 1↔2 theo năng lực.
+- **DML do AI sinh:** 14/14 câu SQL phục vụ đúng verb mục tiêu trong đợt kiểm chứng
+  trước (INSERT 6, UPDATE 6, DELETE 2). Đáp án đúng **1.00**, sai **0.00**, reference
   `rolled_back: true`.
-- **Hàng đợi admin:** 16 ứng viên sau hai phiên AI; duyệt 1
-  (`promoted_question_id=4063`), từ chối 1; các phiên sau duyệt thêm ứng viên 117
-  (`promoted_question_id=4168`) và từ chối 120.
+- **E2E cuối:** phiên 43 có 6/8 câu AI (MCQ/tự luận), 2 câu SQL fallback ngân hàng;
+  phiên 45 (SQL-only) có **3/3 câu AI** theo vòng INSERT → UPDATE → DELETE với điểm
+  **1.00 / 0.00 / 1.00** và rollback `true`; phiên 46 tắt key dùng câu `bank` và vẫn
+  hoàn thành bài.
+- **Hàng đợi admin:** đợt trước duyệt 1 (`promoted_question_id=4063`) và từ chối 1;
+  đợt này duyệt ứng viên 126 (`promoted_question_id=4175`), từ chối ứng viên 125.
 
 ## 5. Giới hạn trung thực
 
@@ -71,6 +74,9 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
   Desktop thường; máy demo phải có WSL2 nếu muốn trình diễn DML.
 - **OAuth chưa kiểm với provider thật.** Nút, callback và fake-provider đã có test;
   consent screen và credential Google/GitHub vẫn do owner cung cấp.
+- **Câu SQL trong phiên 43 không do AI sinh.** Cả hai slot SQL fallback ngân hàng
+  (`generation_sql_execution: empty_or_nondeterministic`); bằng chứng AI DML của đợt
+  cuối đến từ phiên SQL-only 45, không phải từ phiên hỗn hợp.
 - **Production HOLD.** Đây là bản demo/submission, không có triển khai cloud, thanh
   toán thật hay dữ liệu sinh viên thật.
 - **Free/Pro chỉ là UI.** Không có route thanh toán, migration hay giao dịch thật.
@@ -82,6 +88,7 @@ provider OpenAI-compatible; prompt sinh câu hỏi lấy ví dụ trực tiếp 
 - [Release notes v1.1](../RELEASE_NOTES_v1.1.md)
 - [Architecture freeze](../ARCHITECTURE_FREEZE.md)
 - [Final gates](../agent/freeze-logs/final-gates.md)
+- [Final manual E2E](../agent/freeze-logs/final-e2e.md)
 - [Prompt contract fix](../agent/freeze-logs/prompt-contract-fix.md)
 - [AI DML verification](../agent/freeze-logs/ai-dml-verification.md)
 - [Demo runbook](../demo/README.md)
