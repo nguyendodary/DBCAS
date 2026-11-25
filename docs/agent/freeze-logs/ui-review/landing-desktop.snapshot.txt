@@ -1,0 +1,33 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - link "DBCAS" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e10]: SKILL ANALYTICS
+    - navigation "Điều hướng chính" [ref=e11]:
+      - button "Ngôn ngữ" [ref=e13] [cursor=pointer]
+      - button "Chuyển sang giao diện sáng" [ref=e16] [cursor=pointer]
+      - generic [ref=e19]:
+        - link "Đăng nhập" [ref=e20] [cursor=pointer]:
+          - /url: /login
+        - link "Đăng ký người dùng" [ref=e21] [cursor=pointer]:
+          - /url: /register
+  - main [ref=e22]:
+    - generic [ref=e23]:
+      - region "Bạn đã nắm vững kiến thức cơ sở dữ liệu đến đâu?" [ref=e24]:
+        - paragraph [ref=e25]: HIỂU RÕ NĂNG LỰC CƠ SỞ DỮ LIỆU
+        - heading "Bạn đã nắm vững kiến thức cơ sở dữ liệu đến đâu?" [level=1] [ref=e29]
+        - paragraph [ref=e30]: Kiểm tra kiến thức qua câu hỏi trắc nghiệm, thực hành SQL và tự luận. DBCAS giúp bạn biết mình đã nắm vững phần nào, cần củng cố phần nào và nên học gì tiếp theo.
+        - generic [ref=e31]
+      - generic [ref=e37]:
+        - generic [ref=e38]
+        - region "Cấu trúc bài đánh giá" [ref=e64]
+    - region "Đánh giá năng lực qua 3 hình thức" [ref=e80]:
+      - generic [ref=e81]:
+        - paragraph [ref=e82]: TRẢI NGHIỆM LÀM BÀI
+        - heading "Đánh giá năng lực qua 3 hình thức" [level=2] [ref=e83]
+        - paragraph [ref=e84]: Kết hợp kiến thức, thực hành SQL và khả năng giải thích để đánh giá theo chuẩn đầu ra.
+      - generic [ref=e85]:
+        - article [ref=e86]
+        - article [ref=e113]
+        - article [ref=e139]
+  - contentinfo [ref=e165]: © 2026 DBCAS · Skill Analytics. Nền tảng đánh giá năng lực cơ sở dữ liệu.
