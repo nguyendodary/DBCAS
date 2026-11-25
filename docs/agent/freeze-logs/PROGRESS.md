@@ -7,7 +7,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | A | Recovery and inventory complete; previous A.4 scope exception recorded | [phase-a-recovery.md](phase-a-recovery.md) |
 | B | Running | Backend lint passed; full pytest started at `253f272`, PID 27320, with [metadata](baseline-backend-pytest.meta) and `baseline-backend-pytest*.log`. Record the completed baseline in `baseline-v2.md`. |
 | 0 | Inventory recorded; detailed review incomplete | [phase0-survey.md](phase0-survey.md) records all branches and the remaining large-diff review limitation. |
-| 3 | Pending | Prepare `cleanup-proposal.md`; deletion remains gated by D1. |
+| 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
 | 5 | Pending | Read the source Word templates, create `ver1.3` outputs, render and verify. |
 | 6 | Pending | Run final gates and real-stack E2E after the preceding work. |
