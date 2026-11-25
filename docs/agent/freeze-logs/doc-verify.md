@@ -133,6 +133,7 @@ an SRS exists.
 | Secret scan | `npm run secrets:scan` | PASS, whole tree, 0 findings |
 | PDF geometry | `py scripts/verify_final_pdfs.py` | PASS; 0 near-empty, 0 overflow |
 | TOC/list pages | `py scripts/check_toc.py` | PASS; 0 mismatches against printed footers |
+| CI at the document commit | GitHub Actions `Local quality gate` | PASS, run `45679605273`, 14/14 jobs at `94bb39901d11f255ac12bde97bad8fb704e7658f` |
 
 ## 8. Owner questions raised by this verification
 

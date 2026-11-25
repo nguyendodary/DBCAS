@@ -43,7 +43,8 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
   0 near-empty and 0 overflow; TOC/list page numbers 0 mismatches. The SRS
   deliverable line was removed and Mode 1/Mode 2, the OpenAI-compatible `.env`
   provider, the 13/50/25 limits, Free/Pro gating and V1/V2 results are explicit.
-  Production remains **HOLD**.
+  CI `Local quality gate` run [45679605273](https://github.com/nguyendodary/DBCAS/actions/runs/45679605273) passed all 14 jobs at
+  `94bb39901d11f255ac12bde97bad8fb704e7658f`. Production remains **HOLD**.
 - Handover (2026-11-25): [release notes v1.1](../RELEASE_NOTES_v1.1.md), [submission summary](../submission-pack/SUMMARY.md), [demo checklist](../submission-pack/DEMO_CHECKLIST.md), README Windows Docker GID fallback, and [handover gates](freeze-logs/handover-gates.md); clean-clone `npm start` verified with fake keys; local tag `arch-freeze-v1.2` (not pushed). `main` unchanged.
 - [#96](https://github.com/nguyendodary/DBCAS/pull/96): freeze decisions and bloat register — merge `598e409c02a8630778ab3db5dd89430e6d50fee8`.
 - [#97](https://github.com/nguyendodary/DBCAS/pull/97): aligned demo runbook and README — merge `187c7e07f17363c02aa57b74c5580cdc796e6b07`.

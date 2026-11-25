@@ -31,7 +31,9 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   Gantt from Table 13, and a legible layering figure was added to Code Standards.
   Evidence: [baseline-selection.md](freeze-logs/baseline-selection.md),
   [doc-verify.md](freeze-logs/doc-verify.md), `verification/proposal-sections.md`.
-  Ten owner facts remain O1–O10 in Appendix A of every document.
+  Ten owner facts remain O1–O10 in Appendix A of every document. CI
+  `Local quality gate` run `45679605273` passed all 14 jobs at
+  `94bb39901d11f255ac12bde97bad8fb704e7658f`.
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.
