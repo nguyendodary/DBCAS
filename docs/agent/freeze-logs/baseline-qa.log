@@ -1,0 +1,182 @@
+Env: C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS\.env (đã nạp)
+AI: key not set · model not set · base URL not set
+Đang dựng DBCAS, khởi tạo dữ liệu demo và chờ dịch vụ sẵn sàng…
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.51kB done
+#1 DONE 0.0s
+
+#2 [app internal] load build definition from Dockerfile
+#2 ...
+
+#3 [executor-i Image dbcas-sql-ephemeral:local Built 
+ Image dbcas-local-api:local Built 
+ Image dbcas-local-api:local Built 
+ Image dbcas-baseline-local-frontend Built 
+ Container dbcas-baseline-local-mailpit-1 Running 
+ Container dbcas-baseline-local-db-1 Running 
+ Container dbcas-baseline-local-executor-image-1 Recreate 
+ Container dbcas-baseline-local-executor-image-1 Recreated 
+ Container dbcas-baseline-local-init-1 Recreate 
+ Container dbcas-baseline-local-init-1 Recreated 
+ Container dbcas-baseline-local-app-1 Recreate 
+ Container dbcas-baseline-local-app-1 Recreated 
+ Container dbcas-baseline-local-frontend-1 Recreate 
+ Container dbcas-baseline-local-frontend-1 Recreated 
+ Container dbcas-baseline-local-executor-image-1 Starting 
+ Container dbcas-baseline-local-executor-image-1 Started 
+ Container dbcas-baseline-local-executor-image-1 Waiting 
+ Container dbcas-baseline-local-db-1 Waiting 
+ Container dbcas-baseline-local-db-1 Healthy 
+ Container dbcas-baseline-local-executor-image-1 Exited 
+ Container dbcas-baseline-local-init-1 Starting 
+ Container dbcas-baseline-local-init-1 Started 
+ Container dbcas-baseline-local-init-1 Waiting 
+ Container dbcas-baseline-local-init-1 Exited 
+ Container dbcas-baseline-local-app-1 Starting 
+ Container dbcas-baseline-local-app-1 Started 
+ Container dbcas-baseline-local-app-1 Waiting 
+ Container dbcas-baseline-local-app-1 Healthy 
+ Container dbcas-baseline-local-frontend-1 Starting 
+ Container dbcas-baseline-local-frontend-1 Started 
+ Container dbcas-baseline-local-frontend-1 Waiting 
+ Container dbcas-baseline-local-mailpit-1 Waiting 
+ Container dbcas-baseline-local-db-1 Waiting 
+ Container dbcas-baseline-local-executor-image-1 Waiting 
+ Container dbcas-baseline-local-init-1 Waiting 
+ Container dbcas-baseline-local-app-1 Waiting 
+ Container dbcas-baseline-local-executor-image-1 Exited 
+ Container dbcas-baseline-local-mailpit-1 Healthy 
+ Container dbcas-baseline-local-db-1 Healthy 
+ Container dbcas-baseline-local-init-1 Exited 
+ Container dbcas-baseline-local-app-1 Healthy 
+ Container dbcas-baseline-local-frontend-1 Healthy 
+DBCAS: http://localhost:18080
+API: http://localhost:18000/docs
+Hộp thư demo: http://localhost:18025
+Demo: admin@dbcas.local / Demo12345! · learner@dbcas.local / Demo12345!
+Dừng: npm run stop · Xóa dữ liệu demo và tạo lại: npm run reset
+ Container dbcas-baseline-local-db-1 Running 
+ Container dbcas-baseline-local-mailpit-1 Running 
+ Container dbcas-baseline-local-qa-ai-1 Creating 
+ Container dbcas-baseline-local-qa-ai-1 Created 
+ Container dbcas-baseline-local-app-1 Recreate 
+ Container dbcas-baseline-local-app-1 Recreated 
+ Container dbcas-baseline-local-executor-image-1 Starting 
+ Container dbcas-baseline-local-qa-ai-1 Starting 
+ Container dbcas-baseline-local-executor-image-1 Started 
+ Container dbcas-baseline-local-db-1 Waiting 
+ Container dbcas-baseline-local-executor-image-1 Waiting 
+ Container dbcas-baseline-local-qa-ai-1 Started 
+ Container dbcas-baseline-local-executor-image-1 Exited 
+ Container dbcas-baseline-local-db-1 Healthy 
+ Container dbcas-baseline-local-init-1 Starting 
+ Container dbcas-baseline-local-init-1 Started 
+ Container dbcas-baseline-local-qa-ai-1 Waiting 
+ Container dbcas-baseline-local-init-1 Waiting 
+ Container dbcas-baseline-local-qa-ai-1 Healthy 
+ Container dbcas-baseline-local-init-1 Exited 
+ Container dbcas-baseline-local-app-1 Starting 
+ Container dbcas-baseline-local-app-1 Started 
+ Container dbcas-baseline-local-mailpit-1 Waiting 
+ Container dbcas-baseline-local-db-1 Waiting 
+ Container dbcas-baseline-local-executor-image-1 Waiting 
+ Container dbcas-baseline-local-init-1 Waiting 
+ Container dbcas-baseline-local-app-1 Waiting 
+ Container dbcas-baseline-local-qa-ai-1 Waiting 
+ Container dbcas-baseline-local-mailpit-1 Healthy 
+ Container dbcas-baseline-local-init-1 Exited 
+ Container dbcas-baseline-local-executor-image-1 Exited 
+ Container dbcas-baseline-local-db-1 Healthy 
+ Container dbcas-baseline-local-qa-ai-1 Healthy 
+ Container dbcas-baseline-local-app-1 Healthy 
+
+Running 54 tests using 1 worker
+
+  ok  1 e2e\assessment-style.spec.js:169:1 › adaptive style constrains the builder and never reports a percentage (2.0s)
+  ok  2 e2e\assessment-style.spec.js:223:1 › test mode creates a FIXED paper and lands in the free-navigation runner (1.6s)
+  ok  3 e2e\browser-qa.spec.js:22:1 › a stalled workspace module offers Retry and recovers when the download completes (16.7s)
+  ok  4 e2e\browser-qa.spec.js:72:1 › two tabs and a double click commit one answer and restore the next question (19.4s)
+  ok  5 e2e\browser-qa.spec.js:127:1 › paused provider is bounded after reload and Retry keeps a cached result (15.6s)
+  ok  6 e2e\browser-qa.spec.js:163:1 › two tabs renew genuinely expired authentication and retain the saved draft (1.0m)
+  ok  7 e2e\free-navigation.spec.js:169:3 › FIXED free navigation › jumps, flags, autosaves, resumes and submits once (5.3s)
+  ok  8 e2e\free-navigation.spec.js:214:3 › FIXED free navigation › counts debounced tab leaves and cancels on the third violation (3.6s)
+  ok  9 e2e\free-navigation.spec.js:244:3 › FIXED free navigation › finalizes automatically when the server clock has expired (3.1s)
+  ok 10 e2e\practice-flows.spec.js:18:1 › bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulative trend (1.1m)
+  ok 11 e2e\practice-flows.spec.js:86:1 › AI-generated source stays inside chosen concepts and hard difficulty (17.5s)
+  ok 12 e2e\practice-flows.spec.js:136:1 › Flow 2: admin verifies SQL, adjusts with a reason and approves the provisional result (36.6s)
+  ok 13 e2e\practice-flows.spec.js:203:1 › Admin navigation has six focused screens and no exam creation surface (4.5s)
+  ok 14 e2e\practice-flows.spec.js:244:1 › 390px mobile learner setup, attempt and evaluation fit the viewport (17.1s)
+  ok 15 e2e\practice-flows.spec.js:273:1 › provider outage uses a bounded fallback and caches the unchanged evaluation (17.3s)
+  ok 16 e2e\practice-flows.spec.js:314:1 › AI provider failure fills the exact count from the validated bank (24.0s)
+  ok 17 e2e\practice-flows.spec.js:340:1 › AI generation timeout falls back within the request deadline at exact count (59.4s)
+  ok 18 e2e\practice-flows.spec.js:366:1 › start failure offers one-click retry with unchanged setup and request id (6.1s)
+  ok 19 e2e\assessment-style.spec.js:169:1 › adaptive style constrains the builder and never reports a percentage (1.9s)
+  ok 20 e2e\assessment-style.spec.js:223:1 › test mode creates a FIXED paper and lands in the free-navigation runner (1.6s)
+  ok 21 e2e\browser-qa.spec.js:22:1 › a stalled workspace module offers Retry and recovers when the download completes (16.8s)
+  ok 22 e2e\browser-qa.spec.js:72:1 › two tabs and a double click commit one answer and restore the next question (17.3s)
+  ok 23 e2e\browser-qa.spec.js:127:1 › paused provider is bounded after reload and Retry keeps a cached result (18.0s)
+  ok 24 e2e\browser-qa.spec.js:163:1 › two tabs renew genuinely expired authentication and retain the saved draft (1.1m)
+  ok 25 e2e\free-navigation.spec.js:169:3 › FIXED free navigation › jumps, flags, autosaves, resumes and submits once (5.5s)
+  ok 26 e2e\free-navigation.spec.js:214:3 › FIXED free navigation › counts debounced tab leaves and cancels on the third violation (3.6s)
+  ok 27 e2e\free-navigation.spec.js:244:3 › FIXED free navigation › finalizes automatically when the server clock has expired (3.1s)
+  ok 28 e2e\practice-flows.spec.js:18:1 › bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulative trend (1.1m)
+  ok 29 e2e\practice-flows.spec.js:86:1 › AI-generated source stays inside chosen concepts and hard difficulty (18.1s)
+  ok 30 e2e\practice-flows.spec.js:136:1 › Flow 2: admin verifies SQL, adjusts with a reason and approves the provisional result (38.8s)
+  ok 31 e2e\practice-flows.spec.js:203:1 › Admin navigation has six focused screens and no exam creation surface (4.5s)
+  ok 32 e2e\practice-flows.spec.js:244:1 › 390px mobile learner setup, attempt and evaluation fit the viewport (17.0s)
+  ok 33 e2e\practice-flows.spec.js:273:1 › provider outage uses a bounded fallback and caches the unchanged evaluation (22.1s)
+  ok 34 e2e\practice-flows.spec.js:314:1 › AI provider failure fills the exact count from the validated bank (25.6s)
+  ok 35 e2e\practice-flows.spec.js:340:1 › AI generation timeout falls back within the request deadline at exact count (1.0m)
+  ok 36 e2e\practice-flows.spec.js:366:1 › start failure offers one-click retry with unchanged setup and request id (6.0s)
+  ok 37 e2e\assessment-style.spec.js:169:1 › adaptive style constrains the builder and never reports a percentage (2.1s)
+  ok 38 e2e\assessment-style.spec.js:223:1 › test mode creates a FIXED paper and lands in the free-navigation runner (1.6s)
+  ok 39 e2e\browser-qa.spec.js:22:1 › a stalled workspace module offers Retry and recovers when the download completes (17.3s)
+  ok 40 e2e\browser-qa.spec.js:72:1 › two tabs and a double click commit one answer and restore the next question (17.6s)
+  ok 41 e2e\browser-qa.spec.js:127:1 › paused provider is bounded after reload and Retry keeps a cached result (18.2s)
+  ok 42 e2e\browser-qa.spec.js:163:1 › two tabs renew genuinely expired authentication and retain the saved draft (1.1m)
+  ok 43 e2e\free-navigation.spec.js:169:3 › FIXED free navigation › jumps, flags, autosaves, resumes and submits once (5.6s)
+  ok 44 e2e\free-navigation.spec.js:214:3 › FIXED free navigation › counts debounced tab leaves and cancels on the third violation (3.7s)
+  ok 45 e2e\free-navigation.spec.js:244:3 › FIXED free navigation › finalizes automatically when the server clock has expired (3.2s)
+  ok 46 e2e\practice-flows.spec.js:18:1 › bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulative trend (1.1m)
+  ok 47 e2e\practice-flows.spec.js:86:1 › AI-generated source stays inside chosen concepts and hard difficulty (18.4s)
+  ok 48 e2e\practice-flows.spec.js:136:1 › Flow 2: admin verifies SQL, adjusts with a reason and approves the provisional result (54.2s)
+  ok 49 e2e\practice-flows.spec.js:203:1 › Admin navigation has six focused screens and no exam creation surface (5.3s)
+  ok 50 e2e\practice-flows.spec.js:244:1 › 390px mobile learner setup, attempt and evaluation fit the viewport (17.6s)
+  ok 51 e2e\practice-flows.spec.js:273:1 › provider outage uses a bounded fallback and caches the unchanged evaluation (19.4s)
+  ok 52 e2e\practice-flows.spec.js:314:1 › AI provider failure fills the exact count from the validated bank (25.9s)
+  ok 53 e2e\practice-flows.spec.js:340:1 › AI generation timeout falls back within the request deadline at exact count (60.0s)
+  ok 54 e2e\practice-flows.spec.js:366:1 › start failure offers one-click retry with unchanged setup and request id (6.1s)
+
+  54 passed (19.7m)
+time="2026-11-25T16:27:55+07:00" level=warning msg="Found orphan containers (dbcas-baseline-local-qa-ai-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container dbcas-baseline-local-db-1 Running 
+ Container dbcas-baseline-local-mailpit-1 Running 
+ Container dbcas-baseline-local-app-1 Recreate 
+ Container dbcas-baseline-local-app-1 Recreated 
+ Container dbcas-baseline-local-executor-image-1 Starting 
+ Container dbcas-baseline-local-executor-image-1 Started 
+ Container dbcas-baseline-local-db-1 Waiting 
+ Container dbcas-baseline-local-executor-image-1 Waiting 
+ Container dbcas-baseline-local-db-1 Healthy 
+ Container dbcas-baseline-local-executor-image-1 Exited 
+ Container dbcas-baseline-local-init-1 Starting 
+ Container dbcas-baseline-local-init-1 Started 
+ Container dbcas-baseline-local-init-1 Waiting 
+ Container dbcas-baseline-local-init-1 Exited 
+ Container dbcas-baseline-local-app-1 Starting 
+ Container dbcas-baseline-local-app-1 Started 
+ Container dbcas-baseline-local-db-1 Waiting 
+ Container dbcas-baseline-local-executor-image-1 Waiting 
+ Container dbcas-baseline-local-init-1 Waiting 
+ Container dbcas-baseline-local-app-1 Waiting 
+ Container dbcas-baseline-local-mailpit-1 Waiting 
+ Container dbcas-baseline-local-mailpit-1 Healthy 
+ Container dbcas-baseline-local-executor-image-1 Exited 
+ Container dbcas-baseline-local-db-1 Healthy 
+ Container dbcas-baseline-local-init-1 Exited 
+ Container dbcas-baseline-local-app-1 Healthy 
+Going to remove dbcas-baseline-local-qa-ai-1
+ing 
+ Container dbcas-baseline-local-qa-ai-1 Stopped 
+ Container dbcas-baseline-local-qa-ai-1 Removing 
+ Container dbcas-baseline-local-qa-ai-1 Removed 

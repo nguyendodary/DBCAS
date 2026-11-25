@@ -1,0 +1,10 @@
+pid=11900
+started=2026-11-25T15:41:48.862820+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" --prefix frontend run test:e2e -- e2e/admin-document-review.spec.js e2e/bank-reconciliation.spec.js e2e/demo-free-pro.spec.js e2e/demo-writable-sql.spec.js e2e/feature-navigation.spec.js e2e/final-acceptance.spec.js e2e/first-time-user-grading.spec.js e2e/first-time-user.spec.js e2e/oauth.spec.js e2e/optional-capabilities.spec.js e2e/password-recovery.spec.js e2e/question-authoring.spec.js e2e/question-content.spec.js e2e/release.spec.js e2e/session-purpose.spec.js e2e/supervisor-completion.spec.js e2e/supervisor.spec.js e2e/visual-regressions.spec.js --shard=2/2
+commit=253f272
+project=dbcas-baseline-recovery
+child_pid=3000
+finished=2026-11-25T15:42:29+07:00
+exit=143
+result=aborted_harness_timeout_not_a_test_result

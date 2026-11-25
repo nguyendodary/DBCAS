@@ -1,0 +1,11 @@
+pid=21812
+started=2026-11-25T16:07:31.433195+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS
+command="C:\Program Files\nodejs\node.exe" scripts/browser-qa.mjs 3
+commit=253f272
+project=dbcas-baseline-local
+provider=fake
+child_pid=27012
+finished=2026-11-25T16:28:17.638711+07:00
+duration_seconds=1246.206
+exit=0

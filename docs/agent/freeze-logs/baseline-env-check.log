@@ -1,0 +1,10 @@
+
+> dbcas-local@0.1.0 env:check
+> node scripts/env-check.mjs
+
+env:check: C:\Users\kudot\Downloads\proposal test\DBCAS\.env
+env:check: AI names present: LLM_API_KEY, LLM_BASE_URL, LLM_MODEL
+env:check: LLM_API_KEY looks syntactically valid (mst...EBqz)
+env:check: LLM_BASE_URL is a valid HTTPS URL
+env:check: LLM_MODEL set
+env:check: PASS - AI variables are present and syntactically valid.

@@ -1,0 +1,9 @@
+pid=21584
+started=2026-11-25T16:29:23.350941+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" run env:check
+commit=253f272
+child_pid=23624
+finished=2026-11-25T16:29:24.440813+07:00
+duration_seconds=1.090
+exit=0

@@ -1,0 +1,9 @@
+pid=21668
+started=2026-11-25T16:29:23.350962+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" run inventory:check
+commit=253f272
+child_pid=21892
+finished=2026-11-25T16:29:25.000079+07:00
+duration_seconds=1.649
+exit=0

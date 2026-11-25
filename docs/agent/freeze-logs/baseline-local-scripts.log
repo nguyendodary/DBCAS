@@ -1,0 +1,23 @@
+
+> dbcas-local@0.1.0 test:local
+> node --test scripts/local.test.mjs
+
+✔ creates distinct random secrets and preserves configuration on restart (9.2345ms)
+✔ adds missing keys without changing an existing operator configuration (5.4131ms)
+✔ refuses to invent a second .env inside a linked worktree (2.0681ms)
+✔ masks a secret without exposing its middle (0.1689ms)
+✔ selects demo Compose overlays deterministically and rejects unknown profiles (0.3144ms)
+✔ adds the seed snapshot overlay only when the snapshot exists (1.8304ms)
+✔ encodes credentials and parses quoted dotenv values without shell evaluation (0.2243ms)
+✔ waits for fresh proxied readiness after a stale Compose healthy flag (57.4126ms)
+✔ rejects a frontend HTML response and an API with an unhealthy dependency (37.9291ms)
+✔ bounds a proxy that never becomes ready (253.586ms)
+✔ aborts a hanging readiness response within the startup budget (160.4254ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 640.5212

@@ -1,0 +1,9 @@
+pid=8444
+started=2026-11-25T16:29:23.349654+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\DBCAS
+command=backend\.venv\Scripts\python.exe scripts\export_openapi.py --check
+commit=253f272
+child_pid=13976
+finished=2026-11-25T16:29:31.061700+07:00
+duration_seconds=7.712
+exit=0

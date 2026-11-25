@@ -1,0 +1,83 @@
+
+> dbcas-frontend@0.1.0 test:e2e
+> playwright test e2e/admin-document-review.spec.js e2e/bank-reconciliation.spec.js e2e/demo-free-pro.spec.js e2e/demo-writable-sql.spec.js e2e/feature-navigation.spec.js e2e/final-acceptance.spec.js e2e/first-time-user-grading.spec.js e2e/first-time-user.spec.js e2e/oauth.spec.js e2e/optional-capabilities.spec.js e2e/password-recovery.spec.js e2e/question-authoring.spec.js e2e/question-content.spec.js e2e/release.spec.js e2e/session-purpose.spec.js e2e/supervisor-completion.spec.js e2e/supervisor.spec.js e2e/visual-regressions.spec.js --shard=2/2
+
+[WebServer] Docker readiness attempt 1 succeeded after 0.1s (elapsed 0.1s)
+[WebServer] C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+[WebServer]   from starlette.testclient import TestClient as TestClient  # noqa
+Disposable database verified before mutating E2E (dbcas-test-8291ac3a, run e1c031ae18cb4e39b90d3946078f8830).
+
+Running 36 tests using 1 worker, shard 2 of 2
+
+  ok  1 e2e\question-authoring.spec.js:24:1 › machine preparation remains an unreviewed draft until administrator review (6.2s)
+  ok  2 e2e\question-authoring.spec.js:75:3 › detect vi prose without selecting an authoring language (3.7s)
+  ok  3 e2e\question-authoring.spec.js:75:3 › detect en prose without selecting an authoring language (3.1s)
+  ok  4 e2e\question-authoring.spec.js:92:3 › author vi original without translation; edit preserves language and answer (5.8s)
+  ok  5 e2e\question-authoring.spec.js:92:3 › author en original without translation; edit preserves language and answer (5.8s)
+  ok  6 e2e\question-authoring.spec.js:126:1 › review an English translation of a Vietnamese original and preserve both on edit (5.8s)
+  ok  7 e2e\question-authoring.spec.js:195:1 › question editor stays accessible and within the viewport (6.2s)
+  ok  8 e2e\question-authoring.spec.js:223:1 › curriculum selects named prerequisites and CLO mappings and preserves saved sets (6.7s)
+  ok  9 e2e\question-authoring.spec.js:302:1 › Vietnamese SQL authoring preserves executable identifiers and fixtures (3.4s)
+  ok 10 e2e\question-authoring.spec.js:339:1 › Vietnamese essay authoring keeps explicit four-band grading criteria (3.7s)
+[WebServer] ai_call role=prompt_builder hash=c7f83263303b3638ea70b967103169f55327158887e1e8bbedc9b1dd9db386ad duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=c7f83263303b3638ea70b967103169f55327158887e1e8bbedc9b1dd9db386ad duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 11 e2e\question-content.spec.js:18:3 › en: authored questions, recorded locale, reviewed display and history (25.6s)
+[WebServer] ai_call role=prompt_builder hash=6131a84f01940a215e3756f3ce3cbfc83cac7ed9f858bda6298247423947cba5 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=6131a84f01940a215e3756f3ce3cbfc83cac7ed9f858bda6298247423947cba5 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 12 e2e\question-content.spec.js:18:3 › vi: authored questions, recorded locale, reviewed display and history (25.7s)
+  ok 13 e2e\question-content.spec.js:191:3 › en: retired legacy essay and active successor share the admin bank (5.9s)
+  ok 14 e2e\question-content.spec.js:191:3 › vi: retired legacy essay and active successor share the admin bank (4.5s)
+[WebServer] ai_call role=prompt_builder hash=1fa15ab1a9ef54939b12e5885f8a596e4638f6855972b051394e5359fca6e834 duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=1fa15ab1a9ef54939b12e5885f8a596e4638f6855972b051394e5359fca6e834 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 15 e2e\release.spec.js:203:1 › learner completes bank practice, drafts, recovery and evidence (1.0m)
+  ok 16 e2e\release.spec.js:366:1 › server timeout submits the saved draft once and refresh shows final state (8.8s)
+[WebServer] ai_call role=prompt_builder hash=69b6ef64dc50e666764aead86f910da30db54b8087970cf43615253bb5b9d211 duration_ms=18 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=69b6ef64dc50e666764aead86f910da30db54b8087970cf43615253bb5b9d211 duration_ms=1 status=rules fallback=True reason=not_configured
+  ok 17 e2e\release.spec.js:389:1 › browser guards and APIs reject admin and cross-user session access (5.1s)
+  ok 18 e2e\release.spec.js:413:1 › admin completes provisioning, curriculum, human AI review, activation and analytics (22.9s)
+  ok 19 e2e\release.spec.js:653:1 › admin native select controls use readable theme surfaces (9.7s)
+[WebServer] ai_call role=prompt_builder hash=6847d4aec8e7880c43e5ec4d8ce549b922d5e0c4b3b26489724d3640775eb55d duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=6847d4aec8e7880c43e5ec4d8ce549b922d5e0c4b3b26489724d3640775eb55d duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 20 e2e\release.spec.js:717:3 › critical routes remain accessible and fit 390px (30.3s)
+[WebServer] ai_call role=prompt_builder hash=57d2d2f61b79a8ff567e4eb2e3911451dcbd880747aa1cd18e20d50c7e265942 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=57d2d2f61b79a8ff567e4eb2e3911451dcbd880747aa1cd18e20d50c7e265942 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 21 e2e\release.spec.js:717:3 › critical routes remain accessible and fit 768px (31.3s)
+[WebServer] ai_call role=prompt_builder hash=277c5de878955fcdbaf1cf5b65da8563158827f4420ba23fa7df94766f3fc90e duration_ms=15 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=277c5de878955fcdbaf1cf5b65da8563158827f4420ba23fa7df94766f3fc90e duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 22 e2e\release.spec.js:717:3 › critical routes remain accessible and fit 1024px (32.1s)
+[WebServer] ai_call role=prompt_builder hash=dc806b71abc88c1d5364b44b5fca4625eed4645d0912666412e7bbec1e822d0f duration_ms=18 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=dc806b71abc88c1d5364b44b5fca4625eed4645d0912666412e7bbec1e822d0f duration_ms=1 status=rules fallback=True reason=not_configured
+  ok 23 e2e\release.spec.js:717:3 › critical routes remain accessible and fit 1440px (35.0s)
+  ok 24 e2e\release.spec.js:946:1 › normal motion stays bounded and keyboard focus remains visible (10.4s)
+  ok 25 e2e\release.spec.js:1039:1 › exam action controls are never painted faded while they stay enabled (6.3s)
+  ok 26 e2e\session-purpose.spec.js:6:1 › legacy practice is labelled practice, server-owned and excluded from cumulative (6.8s)
+[WebServer] ai_call role=prompt_builder hash=4b99fcc87a0241c7f9aac3e32d75f526490627e2d75169136053a072965d0ac1 duration_ms=14 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=4b99fcc87a0241c7f9aac3e32d75f526490627e2d75169136053a072965d0ac1 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=1465e7aefce651ec04d5c28acb5be9456885bfa7b604aea06fbff7a2b46a7592 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=1465e7aefce651ec04d5c28acb5be9456885bfa7b604aea06fbff7a2b46a7592 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 27 e2e\session-purpose.spec.js:49:1 › a published adaptive estimate appears only in the separate cumulative table (10.5s)
+  ok 28 e2e\supervisor-entrypoints.js:33:3 › configured OAuth entry points keep state and safe callbacks without live authentication (1.8s)
+[WebServer] ai_call role=prompt_builder hash=eb6214316991154fc760ef12dcfa72c4f3f17174cb7d5d4f2190bc3a834fd770 duration_ms=7 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=eb6214316991154fc760ef12dcfa72c4f3f17174cb7d5d4f2190bc3a834fd770 duration_ms=0 status=rules fallback=True reason=forced
+  ok 29 e2e\supervisor-entrypoints.js:125:3 › concept authoring generates its reference and persists meaningful metadata (5.8s)
+[WebServer] ai_call role=prompt_builder hash=2b78750415ad4e170b8c40850667e2106235885fca11d202ed1f08f927e884f7 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=2b78750415ad4e170b8c40850667e2106235885fca11d202ed1f08f927e884f7 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5324047308039518605c47ff8dbbeceb072aad868f03a81fd8d814c9130eb0a0 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5324047308039518605c47ff8dbbeceb072aad868f03a81fd8d814c9130eb0a0 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 30 e2e\supervisor-completion.spec.js:10:1 › approved SQL Medium bank: automatic assembly, saved-answer navigation, language and release (14.4s)
+[WebServer] ai_call role=prompt_builder hash=a39e796a7e597155418a34525a0e6ae960f65e84a03cac3dc2018db6518951d3 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=a39e796a7e597155418a34525a0e6ae960f65e84a03cac3dc2018db6518951d3 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=425c658b8122cf6ac213412fd31a5dab8b0be75c9678fa2bbf180d4c61e57623 duration_ms=14 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=425c658b8122cf6ac213412fd31a5dab8b0be75c9678fa2bbf180d4c61e57623 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=0df015310394a4ff5a550e22a20ffa1a825e89854965b6ec216c8d4ca0acd17d duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=0df015310394a4ff5a550e22a20ffa1a825e89854965b6ec216c8d4ca0acd17d duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 31 e2e\supervisor.spec.js:18:1 › supervisor journeys A–E: classification, personalization, both release policies and cumulative evidence (58.3s)
+[WebServer] ai_call role=prompt_builder hash=5e21ea0f42e3dc396882aec8ccbac579ce476a62a550c94a10beb2c2cfbcab51 duration_ms=7 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5e21ea0f42e3dc396882aec8ccbac579ce476a62a550c94a10beb2c2cfbcab51 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 32 e2e\supervisor.spec.js:237:1 › single-topic practice works with the existing approved bank at a narrow viewport (9.0s)
+  ok 33 e2e\visual-regressions.spec.js:96:1 › authentication introduction describes chosen practice and approval in both languages (1.4s)
+  ok 34 e2e\visual-regressions.spec.js:117:1 › long curriculum names leave mobile edit and delete actions inside the card (1.6s)
+  ok 35 e2e\visual-regressions.spec.js:152:1 › administrator review uses Inter for essay prose and JetBrains Mono for SQL (1.0s)
+  ok 36 e2e\visual-regressions.spec.js:172:1 › a single-date trend point is visible inside the plot and has a numeric text equivalent (989ms)
+
+  36 passed (8.4m)

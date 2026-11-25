@@ -1,0 +1,9 @@
+pid=15508
+started=2026-11-25T16:28:57.970564+07:00
+cwd=C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS
+command="C:\Program Files\nodejs\npm.cmd" run test:local
+commit=253f272
+child_pid=7232
+finished=2026-11-25T16:28:59.310437+07:00
+duration_seconds=1.340
+exit=0

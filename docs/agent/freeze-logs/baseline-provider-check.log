@@ -1,0 +1,11 @@
+
+> dbcas-local@0.1.0 llm:check
+> node scripts/llm-check.mjs
+
+llm:check (values from .env unless overridden by environment)
+provider: openai_compatible (unknown value, warning)
+base URL: https://api.mistral.ai/v1
+model: deepseek-v4-1-flash-1017
+GET /models: HTTP 200 in 747 ms; 63 model(s)
+POST /chat/completions: HTTP 200 in 1826 ms; JSON hợp lệ: có
+result: PASS

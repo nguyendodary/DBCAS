@@ -1,0 +1,202 @@
+
+> dbcas-frontend@0.1.0 test:e2e
+> playwright test e2e/admin-document-review.spec.js e2e/bank-reconciliation.spec.js e2e/demo-free-pro.spec.js e2e/demo-writable-sql.spec.js e2e/feature-navigation.spec.js e2e/final-acceptance.spec.js e2e/first-time-user-grading.spec.js e2e/first-time-user.spec.js e2e/oauth.spec.js e2e/optional-capabilities.spec.js e2e/password-recovery.spec.js e2e/question-authoring.spec.js e2e/question-content.spec.js e2e/release.spec.js e2e/session-purpose.spec.js e2e/supervisor-completion.spec.js e2e/supervisor.spec.js e2e/visual-regressions.spec.js --shard=1/2
+
+[WebServer] (node:12936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] Docker readiness attempt 1 succeeded after 0.2s (elapsed 0.2s)
+[WebServer] C:\Users\kudot\Downloads\proposal test\_worktrees\recovery-baseline-20261125\DBCAS\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+[WebServer]   from starlette.testclient import TestClient as TestClient  # noqa
+[WebServer] (node:4716) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Disposable database verified before mutating E2E (dbcas-test-7abb4c30, run 9e34832b576c45d88f8084052d4af97a).
+
+Running 38 tests using 1 worker, shard 1 of 2
+
+(node:4740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\admin-document-review.spec.js:122:1 › admin reviews grounded candidates and confirms no personal data (1.4s)
+  ok  2 e2e\admin-document-review.spec.js:150:1 › generation errors are shown clearly without reloading (1.2s)
+  ok  3 e2e\admin-document-review.spec.js:170:1 › non-admin users cannot open the grounded document screen (694ms)
+  ok  4 e2e\bank-reconciliation.spec.js:15:3 › en: PostgreSQL filter and current foundations publish validation (5.5s)
+  ok  5 e2e\bank-reconciliation.spec.js:15:3 › vi: PostgreSQL filter and current foundations publish validation (4.7s)
+  -   6 e2e\demo-free-pro.spec.js:5:1 › demo Free/Pro badge, fake upgrade and admin-only static costs
+  -   7 e2e\demo-writable-sql.spec.js:6:1 › demo writable SQL: CREATE, INSERT and SELECT in one rolled-back run
+  ok  8 e2e\feature-navigation.spec.js:8:1 › practice opens a planned question out of order; formal sessions stay locked (7.1s)
+[WebServer] ai_call role=prompt_builder hash=7797aeebcb87128f95f60bab9a614b51582903353f5dc0acf4a1c0314b448a40 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=7797aeebcb87128f95f60bab9a614b51582903353f5dc0acf4a1c0314b448a40 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=44042c5592354a97f5dcdc36cd5a8749bb39d07907c6d1ae9a8ca2050abf4b91 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=44042c5592354a97f5dcdc36cd5a8749bb39d07907c6d1ae9a8ca2050abf4b91 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=c8c1c42870b98199f80e9d5d39d5f505005266102458863b68f8a904f10fe88a duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=c8c1c42870b98199f80e9d5d39d5f505005266102458863b68f8a904f10fe88a duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=7b18e11cd2cf3ac55c9332586fb6eb32ca0f046e9b9fdbec3a83abdeb44daa64 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=7b18e11cd2cf3ac55c9332586fb6eb32ca0f046e9b9fdbec3a83abdeb44daa64 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=4c3e2af9331012b14651fcdccf7df8bbdb7522c4086eea309b423e74dd312094 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=4c3e2af9331012b14651fcdccf7df8bbdb7522c4086eea309b423e74dd312094 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok  9 e2e\final-acceptance.spec.js:10:1 › final acceptance: single, multiple and comprehensive skills, resume, retries and reserved bank editing (35.4s)
+[WebServer] ai_call role=prompt_builder hash=d401e49374dddf80dd140b2476b8a7b82543e750944581134794cb8d8ba79242 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=d401e49374dddf80dd140b2476b8a7b82543e750944581134794cb8d8ba79242 duration_ms=1 status=rules fallback=True reason=not_configured
+  ok 10 e2e\first-time-user-grading.spec.js:24:1 › practice: learner source selection, resume, help, bilingual draft and sandbox safety (15.5s)
+[WebServer] ai_call role=prompt_builder hash=58753deebea09332049562eea3c65f22a7840eac92f66fe10098e2fe0f862cdb duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=58753deebea09332049562eea3c65f22a7840eac92f66fe10098e2fe0f862cdb duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=12750c0de73c3cdf48db29871ac731e8bd000defbfec1228536696235b2330a7 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=12750c0de73c3cdf48db29871ac731e8bd000defbfec1228536696235b2330a7 duration_ms=1 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=148e2cc03006d6c2443eb95c81c694e03d5854f6de865727173376b5b09722d9 duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=148e2cc03006d6c2443eb95c81c694e03d5854f6de865727173376b5b09722d9 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 11 e2e\first-time-user-grading.spec.js:79:1 › easy and hard learner practice completions stay out of cumulative evidence (29.6s)
+[WebServer] ai_call role=prompt_builder hash=8517f5a9c501a15d0ba6333d0147e14bfdceadd8daa0e2e8aeb360ff2971ef02 duration_ms=15 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=8517f5a9c501a15d0ba6333d0147e14bfdceadd8daa0e2e8aeb360ff2971ef02 duration_ms=1 status=rules fallback=True reason=not_configured
+  ok 12 e2e\first-time-user-grading.spec.js:111:1 › automatic result: full submission, persisted answers, duplicate replay and evidence (37.6s)
+[WebServer] ai_call role=prompt_builder hash=5fa69c127d5984574fa023a37c33788b968d37bebbf340982de7e004320df420 duration_ms=23 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5fa69c127d5984574fa023a37c33788b968d37bebbf340982de7e004320df420 duration_ms=3 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=f560ff8c8634df16f7402a0395654cd2a4ec9c96e76d9b1f7926c4927b7f0978 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=f560ff8c8634df16f7402a0395654cd2a4ec9c96e76d9b1f7926c4927b7f0978 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 13 e2e\first-time-user-grading.spec.js:151:1 › human verification: waiting, retry, unauthorized access, adjusted review and approval (30.0s)
+[WebServer] ai_call role=prompt_builder hash=6673247b23b53b0cf6c0c790ee102d79f8f5c3bdef506b1738cd80a43d116e28 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=6673247b23b53b0cf6c0c790ee102d79f8f5c3bdef506b1738cd80a43d116e28 duration_ms=0 status=rules fallback=True reason=forced
+  ok 14 e2e\first-time-user.spec.js:17:1 › first-time user: registration, role boundary, help discovery and accessibility (11.7s)
+[WebServer] ai_call role=prompt_builder hash=4aaa7664c3bd19f507b71461a709f76d29361a556ca676dceb2588e599f9bede duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=4aaa7664c3bd19f507b71461a709f76d29361a556ca676dceb2588e599f9bede duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=15bea90fc7da61ba3f2105af130da9c786dc7670885b021757bc9cc59057b4ab duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=15bea90fc7da61ba3f2105af130da9c786dc7670885b021757bc9cc59057b4ab duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=2574dd395d154ba7829b45a6dd176bb6cf2700dc7b9b304a05622fc3b13d4cb7 duration_ms=14 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=2574dd395d154ba7829b45a6dd176bb6cf2700dc7b9b304a05622fc3b13d4cb7 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=3442a6c5cdf9d36668360103b4356e6c07748699752e225ce5d2a9412d14d57e duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=3442a6c5cdf9d36668360103b4356e6c07748699752e225ce5d2a9412d14d57e duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=e6185268c5a77263d7715b3dcf7affb803987b721b4e334d75684425f97f43fb duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=e6185268c5a77263d7715b3dcf7affb803987b721b4e334d75684425f97f43fb duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=3e8b7b2d48459e819e347ae83dc97dd6810c3d8890e33c43c538055381539823 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=3e8b7b2d48459e819e347ae83dc97dd6810c3d8890e33c43c538055381539823 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=55ae22016589dc86e1d961707cb4f237793f4b43c7b09774bbc9ef2177a4b0e9 duration_ms=14 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=55ae22016589dc86e1d961707cb4f237793f4b43c7b09774bbc9ef2177a4b0e9 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5973f276986b043ba2648e89cff73d83610bcc2d1d6f0323ccc9cf96ba76e857 duration_ms=13 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5973f276986b043ba2648e89cff73d83610bcc2d1d6f0323ccc9cf96ba76e857 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=8b2cfa408137a1cb917f30ecdccd397ee983e5e43a3776da3e32e68c8e496de0 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=8b2cfa408137a1cb917f30ecdccd397ee983e5e43a3776da3e32e68c8e496de0 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5d6eb339d286d542f011c782ccb5e09b34de86dd7dbb2999af0b9ea2154863ac duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5d6eb339d286d542f011c782ccb5e09b34de86dd7dbb2999af0b9ea2154863ac duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=dbb5a5edb4cf737790dd05c515d3a23e9e2d024f97a12a441cec5d6a237fde18 duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=dbb5a5edb4cf737790dd05c515d3a23e9e2d024f97a12a441cec5d6a237fde18 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=07a6b87560f5f0e5e0998bf7a22a244d8eb9e610c1939a0c24b4a473ed434904 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=07a6b87560f5f0e5e0998bf7a22a244d8eb9e610c1939a0c24b4a473ed434904 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=b2e2e9d449a694335e1a3c8abe23b21ef9006276af3a2f03ff3aeae45131850a duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=b2e2e9d449a694335e1a3c8abe23b21ef9006276af3a2f03ff3aeae45131850a duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=36d252486f294a3ed63724f745d2495a202455b75d1f1d3e8112b2d73245019b duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=36d252486f294a3ed63724f745d2495a202455b75d1f1d3e8112b2d73245019b duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=b04f12838589a1de9a93c8e8426dfbe154502501bf23e6e429d390eefba631e2 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=b04f12838589a1de9a93c8e8426dfbe154502501bf23e6e429d390eefba631e2 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=3c73837410bc2cbbd28feea0dd3e27534e395a5c2d126d987efd44357ec519f7 duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=3c73837410bc2cbbd28feea0dd3e27534e395a5c2d126d987efd44357ec519f7 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5ed9399b43612cb2a0058f673d4710d2d7e92dcee1fa5073d01b76ef4548d969 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5ed9399b43612cb2a0058f673d4710d2d7e92dcee1fa5073d01b76ef4548d969 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=2fc54d40dfdd4ccb3e93ed37fbe024a1226d5a1d511b7058de5dd2bc55a3cfa1 duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=2fc54d40dfdd4ccb3e93ed37fbe024a1226d5a1d511b7058de5dd2bc55a3cfa1 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] Practice generation rejected attempt=1 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] Practice generation rejected attempt=2 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] ai_call role=prompt_builder hash=c328312b6e9b108df2629ad3bc1be9fa438a3a88a420aac1a5687e235d11bc06 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=c328312b6e9b108df2629ad3bc1be9fa438a3a88a420aac1a5687e235d11bc06 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] Practice generation rejected attempt=1 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] Practice generation rejected attempt=2 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] ai_call role=prompt_builder hash=3e218a220e4dde515686ccbba8ce071fae00eeef30cd1854b9edb704665d552c duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=3e218a220e4dde515686ccbba8ce071fae00eeef30cd1854b9edb704665d552c duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] Practice generation rejected attempt=1 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] Practice generation rejected attempt=2 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] ai_call role=prompt_builder hash=bc6c50e9575a08d1b2c6aa2ba45c061394a541104a08fab1167773731d431105 duration_ms=13 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=bc6c50e9575a08d1b2c6aa2ba45c061394a541104a08fab1167773731d431105 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] Practice generation rejected attempt=1 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] Practice generation rejected attempt=2 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] ai_call role=prompt_builder hash=67b9bdbca4ff8f606982941e97db29956bd0520caab4d9fd2901b1415f2a4520 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=67b9bdbca4ff8f606982941e97db29956bd0520caab4d9fd2901b1415f2a4520 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] Practice generation rejected attempt=1 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] Practice generation rejected attempt=2 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] ai_call role=prompt_builder hash=94aa6699c24808a5a8b508a7e1e0ed981178459c98db3c6cde41449dc70a7071 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=94aa6699c24808a5a8b508a7e1e0ed981178459c98db3c6cde41449dc70a7071 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] Practice generation rejected attempt=1 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] Practice generation rejected attempt=2 reason=provider_or_validation code=provider_or_validation question_type=None excerpt=ValueError
+[WebServer] ai_call role=prompt_builder hash=4556960ef28f03980e58689a4f522ce27f5d5fe5df8a1425ea857d9ccb39fb58 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=4556960ef28f03980e58689a4f522ce27f5d5fe5df8a1425ea857d9ccb39fb58 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=caf505384171cad0f2b869ace24a1f73151e38a416cdf4d6b0cb87f0a6e22a9f duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=caf505384171cad0f2b869ace24a1f73151e38a416cdf4d6b0cb87f0a6e22a9f duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5fa6b90a3bdf249bed86e8b6d516ad2d33f17fbb4f1e77df2d75c7d5e35ee29e duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5fa6b90a3bdf249bed86e8b6d516ad2d33f17fbb4f1e77df2d75c7d5e35ee29e duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=fb5a4be6b8f47990ed40c1e8b5456ee54689defa65e06d49221cd718646ccf85 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=fb5a4be6b8f47990ed40c1e8b5456ee54689defa65e06d49221cd718646ccf85 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=5505656a94a72c8a8797cdcdf3794994862577681052120105a1b7adb2236efc duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=5505656a94a72c8a8797cdcdf3794994862577681052120105a1b7adb2236efc duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=b290fb4a4c1e56f03308cb8ef949471eaa50b80521b72ff0527e22462966a48c duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=b290fb4a4c1e56f03308cb8ef949471eaa50b80521b72ff0527e22462966a48c duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=9bf1de31d8476c534cd472b81ab9156a6b835036470c7ccba7dd05c915592716 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=9bf1de31d8476c534cd472b81ab9156a6b835036470c7ccba7dd05c915592716 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=b4f0d9a3460ff3c29ab21ef5bcc6c1ee7919e9695e527aec6f83c3fde2cac74e duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=b4f0d9a3460ff3c29ab21ef5bcc6c1ee7919e9695e527aec6f83c3fde2cac74e duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=365e116ca3c06d39f79acfeb0a45feabde6a743941187ea06eefa14236e78bc4 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=365e116ca3c06d39f79acfeb0a45feabde6a743941187ea06eefa14236e78bc4 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=a8fcf2beeb449044026dccf679dd87195ef80880e6c3fb02455277b8be606806 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=a8fcf2beeb449044026dccf679dd87195ef80880e6c3fb02455277b8be606806 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=17e68fca9b974dd773347e7df847ee18cda3fb6f14d590bc47e7134a3dd25925 duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=17e68fca9b974dd773347e7df847ee18cda3fb6f14d590bc47e7134a3dd25925 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=c6cb3c9f1fe385e0603a91e5451fa6d3951fd64fdf6d34084af1884b29b8f0a0 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=c6cb3c9f1fe385e0603a91e5451fa6d3951fd64fdf6d34084af1884b29b8f0a0 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=2d9cc1f3623bd1112c0c17b357b720a483cbbe7d5648b6fc329c5847fa2977d7 duration_ms=14 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=2d9cc1f3623bd1112c0c17b357b720a483cbbe7d5648b6fc329c5847fa2977d7 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=73e749f9682e66c30b000ffa063edbd5ecfc7d1aa319dd637e5352963eb22303 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=73e749f9682e66c30b000ffa063edbd5ecfc7d1aa319dd637e5352963eb22303 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=3c3045ca6c66b227cc9e1e14b43516ad964f02e8d3b3c30357778a88d847ae63 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=3c3045ca6c66b227cc9e1e14b43516ad964f02e8d3b3c30357778a88d847ae63 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=1683b165434ac358c813897b8a1a7bd213d2c78057df9c32f8ee45fd0fe0e08e duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=1683b165434ac358c813897b8a1a7bd213d2c78057df9c32f8ee45fd0fe0e08e duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=34d5332b0c5ec87b7ac941f17264e0c33b251e460dfea927bca73883b008e507 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=34d5332b0c5ec87b7ac941f17264e0c33b251e460dfea927bca73883b008e507 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=4406fdc949aef1360dea8050d4975370587f737b42f9eee1e2a6fa7346eeaac1 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=4406fdc949aef1360dea8050d4975370587f737b42f9eee1e2a6fa7346eeaac1 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=4923152ae719d8656b076b6f32362b8bcdc6f9e95e835ad48e22d65359f5135a duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=4923152ae719d8656b076b6f32362b8bcdc6f9e95e835ad48e22d65359f5135a duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=65dadebc14fea607ddb9035b2274faead7ea340451a21b2cfca82f82c89f2ab5 duration_ms=9 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=65dadebc14fea607ddb9035b2274faead7ea340451a21b2cfca82f82c89f2ab5 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=3eeac02cce477d11878075cc02b1a75bec1740ef3e0bee0ca52089179761a9df duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=3eeac02cce477d11878075cc02b1a75bec1740ef3e0bee0ca52089179761a9df duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=9ea218e8aea70182d7ded6676da8841163a2a363ef4ca6c4c216a00aa8bff85b duration_ms=8 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=9ea218e8aea70182d7ded6676da8841163a2a363ef4ca6c4c216a00aa8bff85b duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=03e3309de029285241f7e492a74f6f7ab00ce91bc22652c5d9a8734ff4b9ea01 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=03e3309de029285241f7e492a74f6f7ab00ce91bc22652c5d9a8734ff4b9ea01 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=f581153b3bc59ef16d9f3e734a43dfccebeb3697553ad0c00311e2cc224c668c duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=f581153b3bc59ef16d9f3e734a43dfccebeb3697553ad0c00311e2cc224c668c duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=734bdb85b610b5e0c7b405cdd98f811b271063c43e2d71676b20eff7d261fb51 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=734bdb85b610b5e0c7b405cdd98f811b271063c43e2d71676b20eff7d261fb51 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=f4163ea8d9d778ee8c0f53e5973a4eae397bd4b7115d18169a08b7dacff8926f duration_ms=12 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=f4163ea8d9d778ee8c0f53e5973a4eae397bd4b7115d18169a08b7dacff8926f duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 15 e2e\first-time-user.spec.js:161:1 › 49 learner-defined concept and difficulty scopes start through the visible UI (4.3m)
+  ok 16 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: light/vi/1280 (2.9s)
+  ok 17 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: light/vi/390 (2.6s)
+  ok 18 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: light/en/1280 (2.9s)
+  ok 19 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: light/en/390 (2.5s)
+  ok 20 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: dark/vi/1280 (2.9s)
+  ok 21 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: dark/vi/390 (2.6s)
+  ok 22 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: dark/en/1280 (2.8s)
+  ok 23 e2e\oauth.spec.js:9:7 › OAuth remains discoverable without credentials: dark/en/390 (2.8s)
+  ok 24 e2e\oauth.spec.js:57:1 › metadata failure keeps both controls safe (1.4s)
+  ok 25 e2e\oauth.spec.js:113:1 › local fake OAuth signup, verified-email linking, signin, single-use handoff and refresh (7.2s)
+  ok 26 e2e\oauth.spec.js:192:5 › local fake google handles Deny consent (2.1s)
+  ok 27 e2e\oauth.spec.js:192:5 › local fake google handles Use unverified email (2.0s)
+  ok 28 e2e\oauth.spec.js:192:5 › local fake google handles Provider unavailable (2.0s)
+  ok 29 e2e\oauth.spec.js:192:5 › local fake github handles Deny consent (2.1s)
+  ok 30 e2e\oauth.spec.js:192:5 › local fake github handles Use unverified email (2.1s)
+  ok 31 e2e\oauth.spec.js:192:5 › local fake github handles Provider unavailable (2.0s)
+  ok 32 e2e\optional-capabilities.spec.js:15:1 › an expired OAuth handoff returns to sign-in with an explanation (852ms)
+[WebServer] ai_call role=prompt_builder hash=891ff32bc30356e973dc114f271fc1f727f29661132aaa7c235c12cd4dca38fe duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=891ff32bc30356e973dc114f271fc1f727f29661132aaa7c235c12cd4dca38fe duration_ms=1 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=88418ecb1732e372a52e63725ae2f5a6ea182a120004a195bd6a8e0845ce84d2 duration_ms=11 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=88418ecb1732e372a52e63725ae2f5a6ea182a120004a195bd6a8e0845ce84d2 duration_ms=0 status=rules fallback=True reason=not_configured
+[WebServer] ai_call role=prompt_builder hash=21b54e2bf5de8101ed31063f1c49733fecad05f3ce81249ed7ff2fa20cab7927 duration_ms=15 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=21b54e2bf5de8101ed31063f1c49733fecad05f3ce81249ed7ff2fa20cab7927 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 33 e2e\optional-capabilities.spec.js:22:1 › learner practice preserves selected difficulty, saved state and score bounds (47.4s)
+[WebServer] ai_call role=prompt_builder hash=87cbbf269b3461593fa94fce665ea5bd8a099f52bcec387a8e8dc0184edca857 duration_ms=10 status=template fallback=True reason=no_model
+[WebServer] ai_call role=evaluator hash=87cbbf269b3461593fa94fce665ea5bd8a099f52bcec387a8e8dc0184edca857 duration_ms=0 status=rules fallback=True reason=not_configured
+  ok 34 e2e\optional-capabilities.spec.js:54:1 › mobile early finish counts every planned unanswered item as zero (11.4s)
+  ok 35 e2e\optional-capabilities.spec.js:80:1 › bank AI draft API retains human approval for MCQ, SQL and Vietnamese essay (4.9s)
+  ok 36 e2e\optional-capabilities.spec.js:120:1 › bank AI draft API rejects invalid sources and duplicate promotion (5.5s)
+  ok 37 e2e\password-recovery.spec.js:11:1 › password recovery delivers a real Mailpit email, resets, and rejects replay (4.3s)
+  ok 38 e2e\password-recovery.spec.js:93:1 › unknown addresses get the same neutral answer and no email (3.1s)
+
+  2 skipped
+  36 passed (9.8m)

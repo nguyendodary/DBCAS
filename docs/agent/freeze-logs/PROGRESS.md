@@ -5,8 +5,8 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 | Phase | Status | Evidence or next action |
 |---|---|---|
 | A | Recovery and inventory complete; previous A.4 scope exception recorded | [phase-a-recovery.md](phase-a-recovery.md) |
-| B | Running | [baseline-v2.md](baseline-v2.md) records completed checks and limitations; E2E rest shard 1/2 is running, PID 8392. |
-| 0 | Inventory recorded; detailed review incomplete | [phase0-survey.md](phase0-survey.md) records all branches; 246 paths in a large historical sync differ from the baseline and need review. |
+| B | Complete with one limitation | [baseline-v2.md](baseline-v2.md): all gates passed with recorded exit codes except the old pytest child exit-code capture limitation; E2E 11+36+36, practice 12/2 skipped, local smoke 3/3, QA 54/54, all static/provider/secret gates green. |
+| 0 | Review complete with stated limitation | [phase0-survey.md](phase0-survey.md) records all branches; [phase0-large-sync-review.md](phase0-large-sync-review.md) disposes of all 236 remaining paths with no import candidate, while preserving the binary/generated-file limitation. |
 | 3 | Proposal ready; D1 pending | [cleanup-proposal.md](cleanup-proposal.md); item 1 is the only proposed deletion. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
 | 5 | Template analysis started | [doc-style-spec.md](doc-style-spec.md) records measured FITAI styles; [collector discrepancy](doc-facts-discrepancy.md) and four verified `ver1.3` outputs remain. |
@@ -15,10 +15,12 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 
 ## Next commands
 
-Check `baseline-e2e-2-rest.meta` and its recorded PID before starting any other
-Docker-using gate. After it finishes, preserve its isolation proof and run E2E
-rest shard 2/2, then practice, local, QA, smoke, and the remaining documentation,
-provider and secret gates. Keep Docker-using gates sequential and preserve logs.
+Phase B is recorded; do not rerun its green gates. Next: review the real UI and
+write `ui-review.md` without product changes (D4), finish the four verified
+`ver1.3` Word files and the narrow collector correction, then run the Phase 6
+final gates. Keep Docker-using gates sequential and preserve logs. The
+interrupted first shard-2 launch remains retained as `*-attempt1-aborted.*` and
+is not evidence.
 
 An isolated, detached worktree at
 `_worktrees/recovery-baseline-20261125/DBCAS` points at `253f272`. It reuses
