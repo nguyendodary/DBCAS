@@ -1,0 +1,834 @@
+diff --git a/frontend/e2e/assessment-style.spec.js b/frontend/e2e/assessment-style.spec.js
+index f3ecf29..7a2d13c 100644
+--- a/frontend/e2e/assessment-style.spec.js
++++ b/frontend/e2e/assessment-style.spec.js
+@@ -1,4 +1,5 @@
+ import { expect, test } from '@playwright/test'
++import en from '../src/i18n/en.json' with { type: 'json' }
+ 
+ // Deterministic style-picker coverage: every endpoint is fulfilled locally, so
+ // the spec needs no bank seeding, grading worker, fixed delay or provider.
+@@ -60,6 +61,8 @@ async function stubApp(page, session) {
+     // A non-JWT token keeps the auth renewal timer dormant.
+     localStorage.setItem('dbcas_token', 'fake.token.value')
+     localStorage.setItem('dbcas_locale', 'en')
++    // The demo Free/Pro gating hides Mode 2 until the simulated Pro plan is on.
++    localStorage.setItem('dbcas_demo_plan', 'pro')
+   })
+   await page.route(/\/api\/v1\/auth\/me$/, (route) => route.fulfill(json(ACCOUNT)))
+   await page.route(/\/api\/v1\/sessions$/, (route) => route.fulfill(json([])))
+@@ -171,18 +174,27 @@ test('adaptive style constrains the builder and never reports a percentage', asy
+   })
+ 
+   await page.goto('/assessments')
+-  await expect(page.getByRole('radio', { name: 'Test' })).toBeChecked()
+-  await expect(page.getByRole('radio', { name: 'Adaptive practice' })).toBeVisible()
++  await expect(page.locator('input[name="assessment-style"][value="FIXED"]')).toBeChecked()
++  await expect(page.locator('input[name="assessment-style"][value="ADAPTIVE"]')).toBeVisible()
+ 
+   await page.getByRole('button', { name: 'SELECT', exact: true }).click()
+-  await page.getByRole('radio', { name: 'Adaptive practice' }).check()
+-
+-  await expect(page.getByText('Adaptive practice constraints')).toBeVisible()
+-  await expect(page.getByText('Exactly one concept', { exact: true })).toBeVisible()
+-  await expect(page.getByText('Multiple-choice questions only')).toBeVisible()
+-  await expect(page.getByText('3–50 questions')).toBeVisible()
+-  await expect(page.getByLabel('Number of questions (3–50)')).toHaveAttribute('min', '3')
+-  await expect(page.getByLabel('Number of questions (3–50)')).toHaveAttribute('max', '50')
++  await page.locator('input[name="assessment-style"][value="ADAPTIVE"]').check()
++
++  await expect(page.getByText(en.ui.mode.aiConstraintsTitle)).toBeVisible()
++  await expect(page.getByText(en.ui.mode.aiConstraintConcept, { exact: true })).toBeVisible()
++  await expect(page.getByText(en.ui.mode.aiConstraintBand, { exact: true })).toBeVisible()
++  await expect(page.getByText(en.ui.mode.aiConstraintLive, { exact: true })).toBeVisible()
++  await expect(page.getByText(en.ui.mode.aiConstraintFallback, { exact: true })).toBeVisible()
++  await expect(
++    page.getByRole('spinbutton', { name: en.assessmentStyle.fixed.types.mcq }),
++  ).toHaveValue('1')
++  await expect(
++    page.getByRole('spinbutton', { name: en.assessmentStyle.fixed.types.sql }),
++  ).toHaveValue('1')
++  await expect(
++    page.getByRole('spinbutton', { name: en.assessmentStyle.fixed.types.essay }),
++  ).toHaveValue('1')
++  await expect(page.getByText(en.ui.assessments.mixTotal.replace('{{total}}', '3'))).toBeVisible()
+ 
+   await page.getByRole('button', { name: 'JOIN', exact: true }).click()
+   await expect(page.getByRole('button', { name: 'SELECT', exact: true })).toHaveAttribute(
+@@ -194,10 +206,11 @@ test('adaptive style constrains the builder and never reports a percentage', asy
+   await expect.poll(() => starts.length).toBe(1)
+   expect(starts[0]).toMatchObject({
+     assessment_style: 'ADAPTIVE',
+-    source: 'bank',
++    source: 'ai',
+     concept_ids: [2],
+     difficulties: ['EASY'],
+-    question_count: 5,
++    question_count: 3,
++    question_mix: { mcq: 1, sql: 1, essay: 1 },
+   })
+ 
+   await expect(page).toHaveURL(/\/evaluations\/99$/)
+@@ -221,7 +234,7 @@ test('test mode creates a FIXED paper and lands in the free-navigation runner',
+   })
+ 
+   await page.goto('/assessments')
+-  await expect(page.getByRole('radio', { name: 'Test' })).toBeChecked()
++  await expect(page.locator('input[name="assessment-style"][value="FIXED"]')).toBeChecked()
+   await page.getByRole('button', { name: 'SELECT', exact: true }).click()
+   await page.getByRole('button', { name: 'Start' }).click()
+ 
+diff --git a/frontend/e2e/browser-qa.spec.js b/frontend/e2e/browser-qa.spec.js
+index 7bbcbf6..40e2e4f 100644
+--- a/frontend/e2e/browser-qa.spec.js
++++ b/frontend/e2e/browser-qa.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect } from '@playwright/test'
++import { expectQuestionComments } from './locale-helpers.js'
+ import {
+   register,
+   start,
+@@ -114,9 +115,7 @@ test('two tabs and a double click commit one answer and restore the next questio
+     expect(resumed.current_question.question_id).not.toBe(state.current_question.question_id)
+     await other.close()
+     await take(page, resumed)
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 45000,
+-    })
++    await expectQuestionComments(page, state.session_id)
+     await checkArithmetic(page, state.session_id)
+     await page.screenshot({ path: info.outputPath('double-submit-restored.png'), fullPage: true })
+   } finally {
+@@ -144,9 +143,7 @@ test('paused provider is bounded after reload and Retry keeps a cached result',
+     // The fallback evaluation still needs the mandatory administrator release.
+     await approveWithApi(page, state.session_id)
+     await page.reload()
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 55000,
+-    })
++    await expectQuestionComments(page, state.session_id)
+     await expect(page.getByText(/Đánh giá dự phòng theo quy tắc/).first()).toBeVisible()
+     const fallback = await api(page, `/evaluations/attempts/${state.session_id}`)
+     expect(fallback.result.evaluator_fallback).toBe(true)
+diff --git a/frontend/e2e/final-acceptance.spec.js b/frontend/e2e/final-acceptance.spec.js
+index 2eb8066..e9c266f 100644
+--- a/frontend/e2e/final-acceptance.spec.js
++++ b/frontend/e2e/final-acceptance.spec.js
+@@ -1,4 +1,6 @@
++import en from '../src/i18n/en.json' with { type: 'json' }
+ import { start as beginPractice, approveWithApi } from './practice-harness.js'
++import { expectQuestionComments } from './locale-helpers.js'
+ import { test, expect, request as apiRequest } from './browser-fixture.js'
+ import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
+ import { readFile } from 'node:fs/promises'
+@@ -243,9 +245,7 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
+       await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+       await approveWithApi(page, sid)
+       await page.reload()
+-      await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-        timeout: 45000,
+-      })
++      await expectQuestionComments(page, sid, { locale: 'en' })
+       const evidence = await call(`/api/v1/sessions/${sid}/evidence`, learner)
+       expect(evidence.items).toHaveLength(count)
+       for (const answer of answers)
+@@ -268,16 +268,20 @@ test('final acceptance: single, multiple and comprehensive skills, resume, retri
+       expect(Number(record.overall_result_pct)).toBe(100)
+     }
+     await page.goto('/competency')
+-    await expect(page.getByRole('heading', { name: 'Nhận xét', exact: true })).toBeVisible({
++    await expect(
++      page.getByRole('heading', { name: en.ui.evaluation.commentsTitle, exact: true }),
++    ).toBeVisible({
+       timeout: 45000,
+     })
+-    await expect(page.getByRole('heading', { name: 'Xu hướng qua các bài' })).toBeVisible()
++    await expect(page.getByRole('heading', { name: en.ui.charts.trendTitle })).toBeVisible()
+     expect(history.every((record) => record.purpose === 'PRACTICE')).toBe(true)
+     const cumulative = await call('/api/v1/sessions/competency/cumulative', learner)
+     expect(cumulative.summary.finalized_assessments).toBe(0)
+     expect(cumulative.concepts).toEqual([])
+     await page.reload()
+-    await expect(page.getByRole('heading', { name: 'Nhận xét', exact: true })).toBeVisible()
++    await expect(
++      page.getByRole('heading', { name: en.ui.evaluation.commentsTitle, exact: true }),
++    ).toBeVisible()
+     expect(await call('/api/v1/sessions/competency/cumulative', learner)).toEqual(cumulative)
+     expect(
+       unexpectedWebkitPageErrors(errors, {
+diff --git a/frontend/e2e/first-time-user-grading.spec.js b/frontend/e2e/first-time-user-grading.spec.js
+index 964bb43..ae723a1 100644
+--- a/frontend/e2e/first-time-user-grading.spec.js
++++ b/frontend/e2e/first-time-user-grading.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect } from './browser-fixture.js'
++import { languageMenuItem, approvalButton, expectQuestionComments } from './locale-helpers.js'
+ import AxeBuilder from '@axe-core/playwright'
+ import {
+   api,
+@@ -36,9 +37,9 @@ test('practice: learner source selection, resume, help, bilingual draft and sand
+   await expect(page.getByRole('dialog')).toBeVisible()
+   await expect(page.locator('#root')).toHaveAttribute('inert', '')
+   await page.keyboard.press('Escape')
+-  for (const language of ['English', 'Tiếng Việt']) {
++  for (const language of ['en', 'vi']) {
+     await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
+-    await page.getByRole('menuitemradio', { name: language, exact: true }).click()
++    await languageMenuItem(page, language).click()
+     await expect(page.locator(`input[type="radio"][value="${option}"]`)).toBeChecked()
+   }
+   await page.reload()
+@@ -66,9 +67,7 @@ test('practice: learner source selection, resume, help, bilingual draft and sand
+   const { sid, kinds } = await take(page, next, { sandbox: true, refresh: true })
+   expect(kinds).toContain('sql')
+   expect(kinds).toContain('essay')
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, sid)
+   await checkArithmetic(page, sid)
+   expect((await api(page, '/sessions/competency/cumulative')).summary.finalized_assessments).toBe(0)
+   const history = await api(page, '/sessions')
+@@ -87,9 +86,7 @@ test('easy and hard learner practice completions stay out of cumulative evidence
+     expect(state.current_question.difficulty_level).toBeGreaterThanOrEqual(band === 'EASY' ? 1 : 4)
+     expect(state.current_question.difficulty_level).toBeLessThanOrEqual(band === 'EASY' ? 2 : 5)
+     const { sid } = await take(page, state, { refresh: true })
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 45000,
+-    })
++    await expectQuestionComments(page, sid)
+     const evidence = await api(page, `/sessions/${sid}/evidence`)
+     expect(evidence.items).toHaveLength(3)
+     for (const item of evidence.items) {
+@@ -133,9 +130,7 @@ test('automatic result: full submission, persisted answers, duplicate replay and
+   const { sid, kinds } = await take(page, state, { refresh: true, sandbox: true })
+   expect(kinds).toHaveLength(13)
+   expect(new Set(kinds)).toEqual(new Set(['mcq', 'sql', 'essay']))
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, sid)
+   const replay = await api(page, `/sessions/${sid}/submit`, 'POST', firstPayload)
+   expect(replay.answer.attempt_id).toBe(firstAttempt)
+   expect(replay.state.answered_count).toBe(13)
+@@ -182,7 +177,7 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
+     )
+     expect((await api(page, '/sessions/statistics')).published_formal_sessions).toBe(0)
+     await admin.goto(`/admin/grading/${sid}`)
+-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++    await expect(approvalButton(admin)).toBeEnabled({
+       timeout: 45000,
+     })
+     await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()
+@@ -193,10 +188,10 @@ test('human verification: waiting, retry, unauthorized access, adjusted review a
+     await form.getByLabel('Lý do điều chỉnh').fill('Đối chiếu theo rubric và kết quả sandbox.')
+     await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
+     await expect(admin.getByRole('heading', { name: 'Lịch sử điều chỉnh điểm' })).toBeVisible()
+-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++    await expect(approvalButton(admin)).toBeEnabled({
+       timeout: 45000,
+     })
+-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
++    await approvalButton(admin).click()
+     await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+       timeout: 45000,
+     })
+diff --git a/frontend/e2e/first-time-user.spec.js b/frontend/e2e/first-time-user.spec.js
+index b1ed890..2530401 100644
+--- a/frontend/e2e/first-time-user.spec.js
++++ b/frontend/e2e/first-time-user.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect, request as apiRequest } from './browser-fixture.js'
++import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
+ import AxeBuilder from '@axe-core/playwright'
+ 
+ const API = 'http://127.0.0.1:8100'
+@@ -48,7 +49,7 @@ test('first-time user: registration, role boundary, help discovery and accessibi
+     await expect(dialog).toHaveCount(0)
+ 
+     await page.getByRole('button', { name: 'Language', exact: true }).click()
+-    await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
++    await languageMenuItem(page, 'vi').click()
+     const viDialog = await openHelp(page)
+     await expect(
+       viDialog.getByRole('heading', { name: 'Cách sử dụng DBCAS', exact: true }),
+@@ -56,7 +57,7 @@ test('first-time user: registration, role boundary, help discovery and accessibi
+     await expect(viDialog.getByText('Hướng dẫn trong ứng dụng', { exact: true })).toBeVisible()
+     await page.keyboard.press('Escape')
+     await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
+-    await page.getByRole('menuitemradio', { name: 'English', exact: true }).click()
++    await languageMenuItem(page, 'en').click()
+ 
+     await page.getByLabel('Full name', { exact: true }).fill('First-time Learner')
+     await page.getByLabel('Email', { exact: true }).fill(email)
+@@ -204,9 +205,7 @@ test('49 learner-defined concept and difficulty scopes start through the visible
+     await page.reload()
+     const result = await api(page, `/evaluations/attempts/${state.session_id}/retry`, 'POST')
+     expect(['pending', 'processing', 'ready']).toContain(result.status)
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 45000,
+-    })
++    await expectQuestionComments(page, state.session_id)
+     expect((await api(page, `/evaluations/attempts/${state.session_id}`)).status).toBe('ready')
+     const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
+     expect(evidence.items).toHaveLength(3)
+diff --git a/frontend/e2e/local-smoke.spec.js b/frontend/e2e/local-smoke.spec.js
+index b4e4181..bbeb2ea 100644
+--- a/frontend/e2e/local-smoke.spec.js
++++ b/frontend/e2e/local-smoke.spec.js
+@@ -1,4 +1,5 @@
+ import { start as beginPractice, setFlow } from './practice-harness.js'
++import { approvalButton, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect } from '@playwright/test'
+ import { readFile } from 'node:fs/promises'
+ 
+@@ -162,7 +163,7 @@ test('local Admin and Learner complete grading, publication and competency with
+     await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
+ 
+     await visit(admin, `/admin/grading/${sessionId}`, `/admin/grading-reviews/${sessionId}`)
+-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++    await expect(approvalButton(admin)).toBeEnabled({
+       timeout: 45000,
+     })
+     await admin.getByText(text.local.autoMcq, { exact: true }).click()
+@@ -176,19 +177,17 @@ test('local Admin and Learner complete grading, publication and competency with
+         .getByLabel('Lý do điều chỉnh')
+         .fill('Đã kiểm tra câu trả lời và rubric; công bố điểm chính thức.')
+       await form.getByRole('button', { name: 'Lưu điểm điều chỉnh', exact: true }).click()
+-      await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++      await expect(approvalButton(admin)).toBeEnabled({
+         timeout: 45000,
+       })
+     }
+-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
++    await approvalButton(admin).click()
+     await expect
+       .poll(async () => (await api(admin, `/admin/grading-reviews/${sessionId}`)).release_status)
+       .toBe('published')
+     expect((await api(admin, `/admin/grading-reviews/${sessionId}`)).score_edits).toHaveLength(3)
+     await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible()
+-    await expect(
+-      learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
+-    ).toBeVisible()
++    await expectQuestionComments(learner, sessionId)
+     const evidence = await api(learner, `/sessions/${sessionId}/evidence`)
+     expect(evidence.items).toHaveLength(13)
+     expect(evidence.items.every((item) => item.score != null)).toBe(true)
+diff --git a/frontend/e2e/locale-helpers.js b/frontend/e2e/locale-helpers.js
+new file mode 100644
+index 0000000..c7c686d
+--- /dev/null
++++ b/frontend/e2e/locale-helpers.js
+@@ -0,0 +1,56 @@
++import { readFile } from 'node:fs/promises'
++import { expect } from '@playwright/test'
++
++const messages = Object.fromEntries(
++  await Promise.all(
++    ['vi', 'en'].map(async (locale) => [
++      locale,
++      JSON.parse(await readFile(new URL(`../src/i18n/${locale}.json`, import.meta.url), 'utf8')),
++    ]),
++  ),
++)
++
++const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
++
++// The language menu exposes lang="vi"/"en" on each menuitemradio. Select by
++// that stable attribute instead of the localized display name.
++export function languageMenuItem(page, locale) {
++  return page.locator(`[role="menuitemradio"][lang="${locale}"]`)
++}
++
++export async function switchLocale(page, locale) {
++  await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
++  await languageMenuItem(page, locale).click()
++}
++
++// Admin grading uses either the approve label or the publish label depending
++// on session ownership. Both come from the current i18n catalog.
++export function approvalButton(scope, locale = 'vi') {
++  const { approve, publish } = messages[locale].supervisor
++  return scope.getByRole('button', {
++    name: new RegExp(`^(${escapeRegExp(approve)}|${escapeRegExp(publish)})$`),
++  })
++}
++
++export function commentsHeading(scope, locale = 'vi') {
++  return scope.getByRole('heading', {
++    name: messages[locale].ui.evaluation.questionComments,
++  })
++}
++
++// AI-official results intentionally carry no per-question comments; legacy or
++// manually approved results do. Assert whichever the running app actually
++// exposes instead of assuming the old universal heading.
++export async function expectQuestionComments(page, sessionId, { locale = 'vi' } = {}) {
++  const token = await page.evaluate(() => localStorage.getItem('dbcas_token'))
++  const response = await page.request.get(`/api/v1/evaluations/attempts/${sessionId}`, {
++    headers: token ? { Authorization: `Bearer ${token}` } : {},
++  })
++  expect(response.ok(), await response.text()).toBe(true)
++  const evaluation = await response.json()
++  if (evaluation.result == null) {
++    await expect(commentsHeading(page, locale)).toHaveCount(0)
++    return
++  }
++  await expect(commentsHeading(page, locale)).toBeVisible({ timeout: 45_000 })
++}
+diff --git a/frontend/e2e/localization.spec.js b/frontend/e2e/localization.spec.js
+index a559452..e072f47 100644
+--- a/frontend/e2e/localization.spec.js
++++ b/frontend/e2e/localization.spec.js
+@@ -1,4 +1,5 @@
+ import { start as beginPractice, approveWithApi } from './practice-harness.js'
++import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect } from './browser-fixture.js'
+ test.use({ legacyEnglish: false })
+ import AxeBuilder from '@axe-core/playwright'
+@@ -87,9 +88,7 @@ async function api(page, route, { method = 'GET', data, token } = {}) {
+ async function switchLocale(page, locale) {
+   const theme = await page.evaluate(() => localStorage.getItem('dbcas_theme'))
+   await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
+-  await page
+-    .getByRole('menuitemradio', { name: locale === 'vi' ? 'Tiếng Việt' : 'English', exact: true })
+-    .click()
++  await languageMenuItem(page, locale).click()
+   await expect(page.locator('html')).toHaveAttribute('lang', locale)
+   expect(await page.evaluate(() => localStorage.getItem('dbcas_locale'))).toBe(locale)
+   expect(await page.evaluate(() => localStorage.getItem('dbcas_theme'))).toBe(theme)
+@@ -643,9 +642,7 @@ for (const locale of ['en', 'vi'])
+       await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+       await approveWithApi(page, sid)
+       await page.reload()
+-      await expect(
+-        page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
+-      ).toBeVisible({ timeout: 45000 })
++      await expectQuestionComments(page, sid, { locale })
+       await checkBothThemes(page, locale, 'evaluation')
+       await page.goto('/dashboard')
+       await expect(page.locator('canvas')).toHaveCount(2)
+diff --git a/frontend/e2e/optional-capabilities.spec.js b/frontend/e2e/optional-capabilities.spec.js
+index f0798ee..9548dc1 100644
+--- a/frontend/e2e/optional-capabilities.spec.js
++++ b/frontend/e2e/optional-capabilities.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect } from './browser-fixture.js'
++import { expectQuestionComments } from './locale-helpers.js'
+ import { call, createConceptUi, login, API } from './optional-capabilities.js'
+ import {
+   register,
+@@ -30,9 +31,7 @@ test('learner practice preserves selected difficulty, saved state and score boun
+     expect(served).toHaveLength(1)
+     expect(state.current_question.options.every((o) => !Object.hasOwn(o, 'is_correct'))).toBe(true)
+     await take(page, state, { refresh: true })
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 45000,
+-    })
++    await expectQuestionComments(page, state.session_id)
+     const final = await api(page, `/sessions/${state.session_id}`)
+     expect(final.expires_at).toBe(expires)
+     const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
+@@ -63,9 +62,7 @@ test('mobile early finish counts every planned unanswered item as zero', async (
+     .click()
+   await approveWithApi(page, state.session_id)
+   await page.reload()
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, state.session_id)
+   const evidence = await api(page, `/sessions/${state.session_id}/evidence`)
+   expect(evidence.items).toHaveLength(5)
+   expect(evidence.items.every((item) => Number(item.score) === 0 && item.submitted_at)).toBe(true)
+diff --git a/frontend/e2e/practice-flows.spec.js b/frontend/e2e/practice-flows.spec.js
+index 302ec5f..0364541 100644
+--- a/frontend/e2e/practice-flows.spec.js
++++ b/frontend/e2e/practice-flows.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect } from '@playwright/test'
++import { approvalButton, expectQuestionComments } from './locale-helpers.js'
+ import {
+   api,
+   vi,
+@@ -45,9 +46,7 @@ test('bank practice: 0/1/3 attempts, saved drafts, loading, evidence and cumulat
+       await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
+       await approve(admin, sid)
+       if (i === 0) await learner.reload()
+-      await expect(
+-        learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
+-      ).toBeVisible({ timeout: 45000 })
++      await expectQuestionComments(learner, sid)
+       sessions.push(await checkArithmetic(learner, sid))
+       await checkViewport(learner)
+       await learner.screenshot({ path: info.outputPath(`attempt-${i + 1}.png`), fullPage: true })
+@@ -118,9 +117,7 @@ test('AI-generated source stays inside chosen concepts and hard difficulty', asy
+   } finally {
+     await adminContext.close()
+   }
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, sid)
+   const evidence = await api(page, `/sessions/${sid}/evidence`)
+   expect(evidence.items).toHaveLength(3)
+   expect(new Set(evidence.items.map((item) => item.question_type))).toEqual(
+@@ -151,7 +148,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
+     const state = await start(learner)
+     const { sid } = await take(learner, state, { approveAfter: false })
+     await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
+-    await expect(learner.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
++    await expectQuestionComments(learner, sid)
+     expect((await api(learner, '/sessions/statistics')).published_formal_sessions).toBe(0)
+     const cohortPending = await api(admin, '/admin/analytics/cohort')
+     expect(cohortPending).toEqual(cohortBefore)
+@@ -159,7 +156,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
+     await learner.reload()
+     await expect(learner.getByText(/Kết quả tạm thời/)).toBeVisible()
+     await admin.goto(`/admin/grading/${sid}`)
+-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++    await expect(approvalButton(admin)).toBeEnabled({
+       timeout: 45000,
+     })
+     await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()
+@@ -174,7 +171,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
+     await form.getByLabel('Lý do điều chỉnh').fill('Điều chỉnh theo rubric sau khi kiểm tra SQL.')
+     await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
+     await expect(admin.getByRole('heading', { name: 'Lịch sử điều chỉnh điểm' })).toBeVisible()
+-    await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++    await expect(approvalButton(admin)).toBeEnabled({
+       timeout: 45000,
+     })
+     await expect(admin.getByRole('button', { name: new RegExp(`#${sid}\\b`) })).toContainText(
+@@ -182,7 +179,7 @@ test('Flow 2: admin verifies SQL, adjusts with a reason and approves the provisi
+     )
+     await expect(admin.getByText(/^Điểm hiện tại:/).first()).toContainText('0,25')
+     await admin.screenshot({ path: info.outputPath('admin-review.png'), fullPage: true })
+-    await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
++    await approvalButton(admin).click()
+     await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+       timeout: 45000,
+     })
+@@ -264,9 +261,7 @@ test('390px mobile learner setup, attempt and evaluation fit the viewport', asyn
+   } finally {
+     await adminContext.close()
+   }
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, sid)
+   await checkViewport(page)
+   await page.screenshot({ path: info.outputPath('mobile-evaluation.png'), fullPage: true })
+   await page.goto('/assessments')
+@@ -298,13 +293,17 @@ test('provider outage uses a bounded fallback and caches the unchanged evaluatio
+       await adminContext.close()
+     }
+     await page.reload()
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 45000,
+-    })
+-    await expect(page.getByText(/Đánh giá dự phòng theo quy tắc/).first()).toBeVisible()
++    await expectQuestionComments(page, sid)
+     const first = await api(page, `/evaluations/attempts/${sid}`)
++    const fallbackLabel = page.getByText(/Đánh giá dự phòng theo quy tắc/).first()
++    if (first.result == null) {
++      // AI-official results no longer expose evaluator prose or comments.
++      await expect(fallbackLabel).toHaveCount(0)
++    } else {
++      await expect(fallbackLabel).toBeVisible()
++      expect(first.result.evaluator_fallback).toBe(true)
++    }
+     const second = await api(page, `/evaluations/attempts/${sid}`)
+-    expect(first.result.evaluator_fallback).toBe(true)
+     expect(second.input_hash).toBe(first.input_hash)
+     await page.screenshot({ path: info.outputPath('provider-fallback.png'), fullPage: true })
+   } finally {
+@@ -401,7 +400,7 @@ test('start failure offers one-click retry with unchanged setup and request id',
+     source: 'bank',
+     question_mix: { mcq: 10, sql: 2, essay: 1 },
+   })
+-  await expect(page.getByRole('alert')).toHaveText(vi.errors.unknown)
++  await expect(page.getByRole('alert')).toHaveText(vi.ui.assessments.startError)
+   await expect(page.getByRole('button', { name: 'Thử lại', exact: true })).toBeEnabled()
+   await page.screenshot({ path: info.outputPath('start-unavailable.png'), fullPage: true })
+   await page.unroute('**/api/v1/practice/start', unavailable)
+diff --git a/frontend/e2e/question-authoring.spec.js b/frontend/e2e/question-authoring.spec.js
+index 7c35831..ad1fcad 100644
+--- a/frontend/e2e/question-authoring.spec.js
++++ b/frontend/e2e/question-authoring.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect } from './browser-fixture.js'
++import { languageMenuItem } from './locale-helpers.js'
+ import AxeBuilder from '@axe-core/playwright'
+ 
+ async function openEditor(page, locale = 'en') {
+@@ -158,10 +159,10 @@ test('review an English translation of a Vietnamese original and preserve both o
+   await page.getByLabel('Search prompt').fill('Choose the WHERE clause.')
+   await expect(page.getByText('Choose the WHERE clause.', { exact: true })).toBeVisible()
+   await page.getByRole('button', { name: 'Language', exact: true }).click()
+-  await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
++  await languageMenuItem(page, 'vi').click()
+   await expect(page.getByText(prompt, { exact: true })).toBeVisible()
+   await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
+-  await page.getByRole('menuitemradio', { name: 'English', exact: true }).click()
++  await languageMenuItem(page, 'en').click()
+   await page.getByLabel('Search prompt').fill(prompt)
+   await page
+     .locator('li')
+diff --git a/frontend/e2e/question-content.spec.js b/frontend/e2e/question-content.spec.js
+index 00ea0bd..3160945 100644
+--- a/frontend/e2e/question-content.spec.js
++++ b/frontend/e2e/question-content.spec.js
+@@ -1,4 +1,5 @@
+ import { start as beginPractice, approveWithApi } from './practice-harness.js'
++import { commentsHeading, languageMenuItem, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect } from './browser-fixture.js'
+ import fs from 'node:fs/promises'
+ 
+@@ -96,12 +97,7 @@ for (const locale of ['en', 'vi'])
+         const selected = await page.getByRole('radio').first().inputValue()
+         for (const uiLocale of [locale === 'vi' ? 'en' : 'vi', locale]) {
+           await page.getByRole('button', { name: /^(Language|Ngôn ngữ)$/ }).click()
+-          await page
+-            .getByRole('menuitemradio', {
+-              name: uiLocale === 'vi' ? 'Tiếng Việt' : 'English',
+-              exact: true,
+-            })
+-            .click()
++          await languageMenuItem(page, uiLocale).click()
+           const projected = await api(`/api/v1/sessions/${sid}?display_locale=${uiLocale}`)
+           await expect(
+             page.getByText(projected.current_question.prompt, { exact: true }),
+@@ -177,16 +173,13 @@ for (const locale of ['en', 'vi'])
+     for (const [index, item] of evidence.items.entries())
+       await expect(historyCards.nth(index).getByText(item.prompt, { exact: true })).toBeVisible()
+     await page.goto(`/evaluations/${sid}`)
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible()
++    await expectQuestionComments(page, sid, { locale })
+     const evaluation = await api(`/api/v1/evaluations/attempts/${sid}`)
+     expect(evaluation.result.evaluation.question_comments).toHaveLength(13)
+     expect(evaluation.result.evaluation.question_comments.map((item) => item.question_id)).toEqual(
+       evidence.items.map((item) => item.question_id),
+     )
+-    const feedbackRows = page
+-      .getByRole('heading', { name: 'Nhận xét từng câu' })
+-      .locator('..')
+-      .locator('ol > li')
++    const feedbackRows = commentsHeading(page, locale).locator('..').locator('ol > li')
+     await expect(feedbackRows).toHaveCount(13)
+     for (const [index, comment] of evaluation.result.evaluation.question_comments.entries())
+       await expect(
+diff --git a/frontend/e2e/real-provider.spec.js b/frontend/e2e/real-provider.spec.js
+index 207b863..6455953 100644
+--- a/frontend/e2e/real-provider.spec.js
++++ b/frontend/e2e/real-provider.spec.js
+@@ -1,4 +1,5 @@
+ // Separate opt-in acceptance. Never load credentials into browser storage or traces.
++import { approvalButton, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect } from '@playwright/test'
+ import { readFileSync } from 'node:fs'
+ import {
+@@ -108,9 +109,7 @@ test('real provider: one AI attempt evaluated through Prompt Builder and Evaluat
+     'Generation retries must stay inside the four-call run budget',
+   ).toBeLessThanOrEqual(2)
+   const { sid } = await take(page, state)
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({
+-    timeout: 90000,
+-  })
++  await expectQuestionComments(page, sid)
+   const attempt = await api(page, `/evaluations/attempts/${sid}`)
+   expect(attempt.result.evaluator_fallback, 'Evaluator must run on the real model').toBe(false)
+   expect(attempt.result.prompt_hash).toBeTruthy()
+@@ -187,7 +186,7 @@ test('real provider: three attempts, automatic release, admin approval and overa
+         expect(provisional).toHaveProperty('result')
+         expect(await api(admin, '/admin/analytics/cohort')).toEqual(cohort)
+         await admin.goto(`/admin/grading/${sid}`)
+-        await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++        await expect(approvalButton(admin)).toBeEnabled({
+           timeout: 90000,
+         })
+         await admin.getByRole('button', { name: 'Chạy SQL kiểm tra', exact: true }).click()
+@@ -198,10 +197,10 @@ test('real provider: three attempts, automatic release, admin approval and overa
+           .getByLabel('Lý do điều chỉnh')
+           .fill('Kiểm thử đối chiếu rubric và đồng bộ điểm đã duyệt.')
+         await form.getByRole('button', { name: 'Lưu điểm điều chỉnh' }).click()
+-        await expect(admin.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++        await expect(approvalButton(admin)).toBeEnabled({
+           timeout: 90000,
+         })
+-        await admin.getByRole('button', { name: 'Duyệt', exact: true }).click()
++        await approvalButton(admin).click()
+         await expect(learner.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+           timeout: 90000,
+         })
+@@ -212,9 +211,7 @@ test('real provider: three attempts, automatic release, admin approval and overa
+           cohort.finalized_sessions + 1,
+         )
+       }
+-      await expect(
+-        learner.getByRole('heading', { name: 'Nhận xét từng câu', exact: true }),
+-      ).toBeVisible({ timeout: 90000 })
++      await expectQuestionComments(learner, sid)
+       const attempt = await api(learner, `/evaluations/attempts/${sid}`)
+       expect(
+         attempt.result.evaluator_fallback,
+diff --git a/frontend/e2e/release.spec.js b/frontend/e2e/release.spec.js
+index 2cc8f2f..4a5d84f 100644
+--- a/frontend/e2e/release.spec.js
++++ b/frontend/e2e/release.spec.js
+@@ -1,4 +1,6 @@
++import en from '../src/i18n/en.json' with { type: 'json' }
+ import { start as beginPractice, approveWithApi } from './practice-harness.js'
++import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect, request as apiRequest } from './browser-fixture.js'
+ import AxeBuilder from '@axe-core/playwright'
+ import fs from 'node:fs/promises'
+@@ -248,7 +250,9 @@ test('learner completes bank practice, drafts, recovery and evidence', async ({
+         ).toBeChecked()
+         await checkBothThemes(page, 'exam-mcq')
+         await page.goto('/assessments')
+-        await page.getByRole('link', { name: 'Tiếp tục bài làm', exact: true }).click()
++        await page
++          .getByRole('link', { name: en.ui.assessments.activeContinue, exact: true })
++          .click()
+         await expect(page).toHaveURL(new RegExp(`/exam/${sid}$`))
+       } else {
+         await expect(
+@@ -337,9 +341,7 @@ test('learner completes bank practice, drafts, recovery and evidence', async ({
+   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+   await approveWithApi(page, sid)
+   await page.reload()
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu', exact: true })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, sid, { locale: 'en' })
+   const evidence = await request(page, `/api/v1/sessions/${sid}/evidence`)
+   expect(evidence.items).toHaveLength(13)
+   expect(evidence.items.every((i) => i.score !== null && i.submitted_at !== null)).toBe(true)
+@@ -969,7 +971,7 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({
+   const language = page.getByRole('button', { name: 'Language', exact: true })
+   await language.focus()
+   await page.keyboard.press('ArrowDown')
+-  await expect(page.getByRole('menuitemradio', { name: 'Tiếng Việt' })).toBeFocused()
++  await expect(languageMenuItem(page, 'vi')).toBeFocused()
+   await page.keyboard.press('Escape')
+   await expect(language).toBeFocused()
+   await expect(page.getByRole('menu')).toBeHidden()
+@@ -1022,7 +1024,7 @@ test('normal motion stays bounded and keyboard focus remains visible', async ({
+     await touchPage.goto('/')
+     await touchPage.getByRole('button', { name: 'Language', exact: true }).tap()
+     await expect(touchPage.getByRole('menu')).toBeVisible()
+-    await touchPage.getByRole('menuitemradio', { name: 'Tiếng Việt' }).tap()
++    await languageMenuItem(touchPage, 'vi').tap()
+     await expect(touchPage.getByRole('menu')).toBeHidden()
+     await touchPage.reload()
+     await expect(touchPage.locator('html')).toHaveAttribute('lang', 'vi')
+diff --git a/frontend/e2e/supervisor-completion.spec.js b/frontend/e2e/supervisor-completion.spec.js
+index b23ab50..91b93d0 100644
+--- a/frontend/e2e/supervisor-completion.spec.js
++++ b/frontend/e2e/supervisor-completion.spec.js
+@@ -1,4 +1,6 @@
++import en from '../src/i18n/en.json' with { type: 'json' }
+ import { start as beginPractice, approveWithApi } from './practice-harness.js'
++import { languageMenuItem, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect } from './browser-fixture.js'
+ import AxeBuilder from '@axe-core/playwright'
+ import { entrypointCases, call, login, PASSWORD } from './supervisor-entrypoints.js'
+@@ -76,14 +78,14 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
+         (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,
+       ).toEqual([])
+       await page.getByRole('button', { name: 'Language', exact: true }).click()
+-      await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
++      await languageMenuItem(page, 'vi').click()
+       await expect(
+         page.getByText('Câu trả lời đã nộp được lưu an toàn và không thể chỉnh sửa.', {
+           exact: true,
+         }),
+       ).toBeVisible()
+       await page.getByRole('button', { name: 'Ngôn ngữ', exact: true }).click()
+-      await page.getByRole('menuitemradio', { name: 'English', exact: true }).click()
++      await languageMenuItem(page, 'en').click()
+       await page.getByRole('button', { name: 'Return to current question', exact: true }).click()
+       const authoritative = await call(page, `/sessions/${sid}`, learner)
+       expect(authoritative.expires_at).toBe(expires)
+@@ -122,16 +124,14 @@ test('approved SQL Medium bank: automatic assembly, saved-answer navigation, lan
+   await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+   await approveWithApi(page, sid)
+   await page.reload()
+-  await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-    timeout: 45000,
+-  })
++  await expectQuestionComments(page, sid, { locale: 'en' })
+   const result = await call(page, `/sessions/${sid}/evidence`, learner)
+   expect(result.items).toHaveLength(3)
+   const profile = await call(page, '/sessions/competency/cumulative', learner)
+   expect(profile.summary.finalized_assessments).toBe(0)
+   expect(profile.concepts).toEqual([])
+   await page.goto('/competency')
+-  await expect(page.getByText('Làm thêm bài để xem xu hướng', { exact: true })).toBeVisible()
++  await expect(page.getByText(en.ui.evaluation.needMore, { exact: true })).toBeVisible()
+   expect(
+     (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()).violations,
+   ).toEqual([])
+diff --git a/frontend/e2e/supervisor.spec.js b/frontend/e2e/supervisor.spec.js
+index 816120c..9b05b91 100644
+--- a/frontend/e2e/supervisor.spec.js
++++ b/frontend/e2e/supervisor.spec.js
+@@ -6,6 +6,7 @@ import {
+   api as practiceApi,
+   approveWithApi,
+ } from './practice-harness.js'
++import { approvalButton, expectQuestionComments } from './locale-helpers.js'
+ import { test, expect, request as apiRequest } from './browser-fixture.js'
+ import AxeBuilder from '@axe-core/playwright'
+ import { successfulGetPathsFrom, unexpectedWebkitPageErrors } from './requestFailurePolicy.js'
+@@ -193,17 +194,15 @@ test('supervisor journeys A–E: classification, personalization, both release p
+               .finalized_assessments,
+           ).toBe(0)
+           await adminPage.goto(`/admin/grading/${sid}`)
+-          await expect(adminPage.getByRole('button', { name: 'Duyệt', exact: true })).toBeEnabled({
++          await expect(approvalButton(adminPage, 'en')).toBeEnabled({
+             timeout: 45000,
+           })
+-          await adminPage.getByRole('button', { name: 'Duyệt', exact: true }).click()
++          await approvalButton(adminPage, 'en').click()
+           await expect(page.getByText(/Đã được (?:giảng viên|quản trị viên) duyệt/)).toBeVisible({
+             timeout: 45000,
+           })
+         }
+-        await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-          timeout: 45000,
+-        })
++        await expectQuestionComments(page, sid, { locale: 'vi' })
+         const evidence = await practiceApi(page, `/sessions/${sid}/evidence`)
+         expect(evidence.items).toHaveLength(3)
+         expect(evidence.items.every((item) => item.score !== null)).toBe(true)
+@@ -305,9 +304,7 @@ test('single-topic practice works with the existing approved bank at a narrow vi
+     await expect(page).toHaveURL(new RegExp(`/evaluations/${sid}$`))
+     await approveWithApi(page, sid)
+     await page.reload()
+-    await expect(page.getByRole('heading', { name: 'Nhận xét từng câu' })).toBeVisible({
+-      timeout: 45000,
+-    })
++    await expectQuestionComments(page, sid, { locale: 'en' })
+     await page.goto(`/history/${sid}`)
+     await expect(
+       page.getByRole('heading', { name: 'Assessment evidence', exact: true }),
+diff --git a/frontend/e2e/visual-regressions.spec.js b/frontend/e2e/visual-regressions.spec.js
+index fd4c92d..d779609 100644
+--- a/frontend/e2e/visual-regressions.spec.js
++++ b/frontend/e2e/visual-regressions.spec.js
+@@ -1,4 +1,5 @@
+ import { test, expect } from './browser-fixture.js'
++import { languageMenuItem } from './locale-helpers.js'
+ 
+ test.use({ legacyEnglish: false, reducedMotion: 'reduce' })
+ 
+@@ -107,7 +108,7 @@ test('authentication introduction describes chosen practice and approval in both
+   ]) {
+     if (locale === 'vi') {
+       await page.getByRole('button', { name: 'Language', exact: true }).click()
+-      await page.getByRole('menuitemradio', { name: 'Tiếng Việt', exact: true }).click()
++      await languageMenuItem(page, 'vi').click()
+     }
+     await expect(page.getByText(expected, { exact: true })).toBeVisible()
+   }

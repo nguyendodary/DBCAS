@@ -2,6 +2,14 @@
 
 Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 
+## Packaging recovery (2026-11-25)
+
+- Execute and record the sequential Phase B baseline, then the workspace and
+  branch survey, UI review, Word verification, and final gates listed in
+  [PROGRESS](freeze-logs/PROGRESS.md).
+- Prepare a cleanup proposal without deleting files; owner approval is needed
+  for each deletion. Follow the existing release and snapshot review gates.
+
 ## Accepted freeze work (2026-11-24)
 
 T1–T8 are accepted architecture-freeze changes, one commit each (`efb15e1`,
