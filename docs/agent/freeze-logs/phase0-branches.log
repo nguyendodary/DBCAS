@@ -1,0 +1,165 @@
+Baseline: 253f272d01d20aace9225e7eb494af0faa4582ce
+
+  backup/main-before-privacy-cleanup-20261019  6c57364 feat(web): add accessible AI grading progress and waiting states
+* develop2                                     a45d83d [origin/develop2] docs(agent): track phase b baseline run
+  docs/pending-readiness-edits                 8bc95fb docs: update local setup and integration readiness
+  frontend                                     7f1219f [origin/frontend: behind 24] Update Admin and Learner pages, settings and system logs
+  main                                         e7e432c [origin/main] Merge pull request #15 from nguyendodary/develop2
+  remotes/origin/HEAD                          -> origin/main
+  remotes/origin/develop2                      a45d83d docs(agent): track phase b baseline run
+  remotes/origin/feature/han                   9a89cf3 test: update admin navigation test
+  remotes/origin/feature/truong-free-pro-costs bd95673 Add Free Pro subscription and cost reporting
+  remotes/origin/frontend                      560911d fix(frontend): navigate questions from number buttons
+  remotes/origin/main                          e7e432c Merge pull request #15 from nguyendodary/develop2
+  remotes/origin/nguyen/forget-password        2351f7c Implement OTP-based password reset functionality
+
+## backup/main-before-privacy-cleanup-20261019: ahead=6 behind=744
+6c57364 feat(web): add accessible AI grading progress and waiting states
+ec6b608 docs: document migration and controlled live ai validation
+2cebaac test: expand isolated cross-browser regression coverage
+132b242 fix: stabilize assessment retries, drafts and essay grading
+96a7eed chore: merge verified supervisor requirements into main
+9388b3f test: verify supervisor workflows and document acceptance
+Merge bases: 223edb56c50ebba806b4803c189a9b148a882d41, eddd95ef94293a5a92b63343e057b4cf8c07d242
+
+## docs/pending-readiness-edits: ahead=1 behind=99
+8bc95fb docs: update local setup and integration readiness
+Merge bases: 37a384a44fc7b112eb6493061de590702a3c7bf3
+
+## frontend: ahead=24 behind=913
+7f1219f Update Admin and Learner pages, settings and system logs
+d60f420 Update Learner pages, settings and navigation
+9b137ff Add SettingsContext
+33a105d Update Admin routes
+5bb6365 Update Admin UI and exam search
+3a9c37a Update Test Management page – CLO & Skills – Competency Assessment – ​​AI Assessmen
+1f5844d feat: add new admin pages for competency assessment, AI evaluation, and exam management with corresponding CSS styles
+ab65c79 Merge remote-tracking branch 'origin/frontend' into frontend
+a0306ea feat: add AI evaluation and competency assessment admin pages with corresponding CSS styling
+878086c Update React admin exam pages and question scoring
+c313e0d Update React admin exam pages and question scoring
+e6ded48 Update React admin exam pages and question scoring
+b48ca28 Convert HTML CSS pages to React
+0111d12 feat: add CLO & Kỹ năng admin page with CSS styling
+178c913 Cap nhat giao dien TN SQL TL Learner
+81e6337 Cap nhat giao dien Home_Admin TN SQL TL
+13e0e07 Cập nhật trang Đăng ký, Đăng nhập, GitHub, Google
+b9cc9dc Thêm video nền cho trang Home
+43b15ce refactor: move static pages into frontend folder
+c99a482 chore: merge project template into frontend
+9e41ee4 feat: hoàn thành giao diện frontend 5 trang
+9595c2a (feat): UI HOME
+1a6f046 first commit
+3a4753e first commit
+Merge bases: 07f0462243eaf220e004bdf9abd202464f238295
+
+## origin/feature/han: ahead=24 behind=268
+9a89cf3 test: update admin navigation test
+1f5ba31 test: include costs page in admin navigation
+2471f16 test: update practice API call count
+98e751d fix: remove unused plan state setter
+d09038a fix: avoid unavailable plan API during assessment setup
+a2658a2 docs: sync financial report API inventory
+b52eebb docs: sync financial report response schema
+ab6d293 fix: declare financial report response schema
+92a5209 docs: sync API and frontend route inventories
+9c1d570 test: update admin navigation count for costs page
+0064695 test: update practice API request count
+18ea059 style: format admin costs and assessments pages
+014b5a0 docs: sync OpenAPI with financial report endpoint
+edfd16b feat: add admin monthly financial report API
+4c0b42a feat: add admin costs and Pro upgrade interfaces
+3412ce6 fix: prevent mobile header overflow
+626e537 fix: update admin navigation tests and mobile upgrade button
+75a2c81 feat: add bilingual Free Pro upgrade page
+0858ab7 docs: sync routes and admin navigation
+5d75158 chore: update frontend route inventory
+456fea2 style: fix admin costs page formatting
+a9e8345 fix: remove hardcoded brand name
+ba00882 style: format admin costs frontend files
+dc0f524 feat: add admin costs frontend page
+Merge bases: f82eb24a6049824691e46882cdd64f7d44d418f4
+
+## origin/feature/truong-free-pro-costs: ahead=25 behind=268
+bd95673 Add Free Pro subscription and cost reporting
+9a89cf3 test: update admin navigation test
+1f5ba31 test: include costs page in admin navigation
+2471f16 test: update practice API call count
+98e751d fix: remove unused plan state setter
+d09038a fix: avoid unavailable plan API during assessment setup
+a2658a2 docs: sync financial report API inventory
+b52eebb docs: sync financial report response schema
+ab6d293 fix: declare financial report response schema
+92a5209 docs: sync API and frontend route inventories
+9c1d570 test: update admin navigation count for costs page
+0064695 test: update practice API request count
+18ea059 style: format admin costs and assessments pages
+014b5a0 docs: sync OpenAPI with financial report endpoint
+edfd16b feat: add admin monthly financial report API
+4c0b42a feat: add admin costs and Pro upgrade interfaces
+3412ce6 fix: prevent mobile header overflow
+626e537 fix: update admin navigation tests and mobile upgrade button
+75a2c81 feat: add bilingual Free Pro upgrade page
+0858ab7 docs: sync routes and admin navigation
+5d75158 chore: update frontend route inventory
+456fea2 style: fix admin costs page formatting
+a9e8345 fix: remove hardcoded brand name
+ba00882 style: format admin costs frontend files
+dc0f524 feat: add admin costs frontend page
+Merge bases: f82eb24a6049824691e46882cdd64f7d44d418f4
+
+## origin/frontend: ahead=48 behind=913
+560911d fix(frontend): navigate questions from number buttons
+0986553 feat: add admin costs frontend page
+4b21b3b fix(frontend): improve practice flow and question bank loading
+03b98c1 fix(frontend): refine learner page visuals
+65eee76 ci(frontend): move focused checks into local quality gate
+8367c2c ci(frontend): run focused checks on branch pushes
+c425d97 style(frontend): add dashboard hero to assessments and competency
+c449e5f style(frontend): improve light theme contrast and image visibility
+8d98175 fix(dashboard): remove assessment shortcuts from user page
+8e8e237 fix(auth): order OAuth options after registration form
+e99a499 fix(question): speed up bank filtering and reset
+d70533f fix(admin): align admin header and logout controls
+aba34de fix(question): simplify question authoring and preview
+0fcea72 fix(frontend): keep admin footer branding on one line
+cd77fd7 style(frontend): refine brand logo lockup
+42255fd fix(frontend): place login form before OAuth buttons
+bea647e feat(frontend): add hover account menu with logout
+07e4985 sync(frontend): update code from main
+c43b189 refactor(frontend): inline page-specific components and remove unused files
+e9ca4be refactor(frontend): organize pages by role and align file names
+9bb7d17 refactor(frontend): clarify file names and setup instructions
+24a08b9 feat(frontend): show AI explanations in answer review
+c86cefe feat: integrate updated assessment application
+12c7c6b feat(frontend): integrate updated application interface
+7f1219f Update Admin and Learner pages, settings and system logs
+d60f420 Update Learner pages, settings and navigation
+9b137ff Add SettingsContext
+33a105d Update Admin routes
+5bb6365 Update Admin UI and exam search
+3a9c37a Update Test Management page – CLO & Skills – Competency Assessment – ​​AI Assessmen
+1f5844d feat: add new admin pages for competency assessment, AI evaluation, and exam management with corresponding CSS styles
+ab65c79 Merge remote-tracking branch 'origin/frontend' into frontend
+a0306ea feat: add AI evaluation and competency assessment admin pages with corresponding CSS styling
+878086c Update React admin exam pages and question scoring
+c313e0d Update React admin exam pages and question scoring
+e6ded48 Update React admin exam pages and question scoring
+b48ca28 Convert HTML CSS pages to React
+0111d12 feat: add CLO & Kỹ năng admin page with CSS styling
+178c913 Cap nhat giao dien TN SQL TL Learner
+81e6337 Cap nhat giao dien Home_Admin TN SQL TL
+13e0e07 Cập nhật trang Đăng ký, Đăng nhập, GitHub, Google
+b9cc9dc Thêm video nền cho trang Home
+43b15ce refactor: move static pages into frontend folder
+c99a482 chore: merge project template into frontend
+9e41ee4 feat: hoàn thành giao diện frontend 5 trang
+9595c2a (feat): UI HOME
+1a6f046 first commit
+3a4753e first commit
+Merge bases: 07f0462243eaf220e004bdf9abd202464f238295
+
+## origin/nguyen/forget-password: ahead=2 behind=217
+2351f7c Implement OTP-based password reset functionality
+2661a30 Backend: Implement one-time passcode (OTP) functionality for password resets
+Merge bases: e7e432cefc2e21706ddfec96cfb8fa8b3b32b858

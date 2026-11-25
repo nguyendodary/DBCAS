@@ -7,6 +7,8 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
 - Finish and record the sequential Phase B baseline, then the workspace and
   branch survey, UI review, Word verification, and final gates listed in
   [PROGRESS](freeze-logs/PROGRESS.md).
+- Complete the outstanding detailed review of the historical synchronization
+  diff identified in [phase0-survey](freeze-logs/phase0-survey.md).
 - Prepare a cleanup proposal without deleting files; owner approval is needed
   for each deletion. Follow the existing release and snapshot review gates.
 

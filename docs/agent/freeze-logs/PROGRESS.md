@@ -6,7 +6,7 @@ Last updated: 2026-11-25. Project checkout: `develop2`.
 |---|---|---|
 | A | Recovery and inventory complete; previous A.4 scope exception recorded | [phase-a-recovery.md](phase-a-recovery.md) |
 | B | Running | Backend lint passed; full pytest started at `253f272`, PID 27320, with [metadata](baseline-backend-pytest.meta) and `baseline-backend-pytest*.log`. Record the completed baseline in `baseline-v2.md`. |
-| 0 | Pending | Survey the workspace and branches; write `phase0-survey.md`. |
+| 0 | Inventory recorded; detailed review incomplete | [phase0-survey.md](phase0-survey.md) records all branches and the remaining large-diff review limitation. |
 | 3 | Pending | Prepare `cleanup-proposal.md`; deletion remains gated by D1. |
 | 4 | Pending | Review the real UI; record `ui-review.md`; snapshot and out-of-scope product changes remain gated by D4. |
 | 5 | Pending | Read the source Word templates, create `ver1.3` outputs, render and verify. |
@@ -25,8 +25,9 @@ An isolated, detached worktree at
 `_worktrees/recovery-baseline-20261125/DBCAS` points at `253f272`. It reuses
 the existing dependency directories through junctions and has its own ignored
 example-based `.env`; browser and QA evidence must use this isolated tree so
-existing `_review` evidence is not overwritten. The size/reference and branch
-surveys started as read-only preparation and have not completed Phase 0 yet.
+existing `_review` evidence is not overwritten. The workspace and branch
+inventory is recorded; see the Phase 0 report before treating its large
+historical synchronization diff as semantically reviewed.
 
 Never print secrets or commit `.env`; do not modify `docs/qa/**`, applied
 migrations, validators or scoring schema; do not add dependencies, relax or

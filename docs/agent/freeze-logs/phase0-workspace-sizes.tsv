@@ -1,0 +1,18 @@
+name	kind	modified_local	apparent_bytes	files	directories	links_excluded	errors
+.playwright-mcp	directory	2026-11-25T10:35:32	742897	73	0	0	0
+_review	directory	2026-11-23T06:57:39	3405648592	3907	229	3	0
+_worktrees	directory	2026-11-23T06:42:30	197412672	1018	13	2	0
+Archive	directory	2026-11-11T20:12:47	14227413685	61399	6798	0	0
+C1SE.70_ArchitectureDesign_DBCAS_ver1.2.txt	file	2026-11-22T20:26:27	82865	1	0	0	0
+C1SE.70_DatabaseDesign_DBCAS_ver1.2.txt	file	2026-11-22T20:26:27	40045	1	0	0	0
+C1SE.70_ProposalDocument_DBCAS_ver1.2.txt	file	2026-11-22T20:26:27	75915	1	0	0	0
+DBCAS	directory	2026-11-25T13:49:16	4222471452	58544	5874	0	0
+dbcas-doc-edits-backup.patch	file	2026-11-20T12:28:29	20388	1	0	0	0
+DBCAS-feature-merge	directory	2026-11-22T09:57:08	0	0	1	2	0
+dbcas-seed-cold-start-20261120-123031	directory	2026-11-20T13:44:20	3398888	392	46	0	0
+dbcas-seed-diagnostics-20261120-144812	directory	2026-11-20T15:46:01	588437946	254	26	0	0
+docs	directory	2026-11-24T10:35:39	87457	1	0	0	0
+Documents	directory	2026-11-11T20:12:39	27636666	16	6	0	0
+FITAI - Documents	directory	2026-10-01T15:08:33	37714494	31	15	0	0
+README.txt	file	2026-11-24T13:26:52	2815	1	0	0	0
+Software Requiremen Specification Template.docx	file	2026-11-22T20:04:04	1216503	1	0	0	0

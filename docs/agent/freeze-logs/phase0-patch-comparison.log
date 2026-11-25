@@ -1,0 +1,5 @@
+comparison: ../dbcas-doc-edits-backup.patch vs git show --format= --binary 8bc95fb
+backup_bytes=20388
+commit_diff_bytes=20388
+byte_identical=True
+sha256=9e11b394234f96141b6e31acccd05db21e691694e0e4b5cd21f189ff7ec527e3

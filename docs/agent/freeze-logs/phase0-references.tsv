@@ -1,0 +1,18 @@
+workspace_name	tracked_in_dbcas	tracked_files_mentioning_name	examples
+.playwright-mcp	outside repository	6	HEAD:.gitignore, HEAD:docs/qa/final-20261113/w5-cleanup-inventory.json, HEAD:docs/qa/final-20261113/w5-cleanup-inventory.md, HEAD:docs/qa/workspace-inventory-20261112.json, HEAD:docs/qa/workspace-inventory-20261112.md, HEAD:docs/qa/workspace-restructure-20261114.md
+_review	outside repository	331	HEAD:.dockerignore, HEAD:.github/workflows/dn-backend.yml, HEAD:.github/workflows/qa-oom-repro.yml, HEAD:.gitignore, HEAD:README.md, HEAD:_content/expansion-20261024/activate_dev.py
+_worktrees	outside repository	28	HEAD:docs/dn/report.md, HEAD:docs/qa/ai-20261114/README.md, HEAD:docs/qa/ai-pipeline-audit.md, HEAD:docs/qa/cleanup-report.md, HEAD:docs/qa/env-20261114/README.md, HEAD:docs/qa/env-20261114/live-request-ledger.json
+Archive	outside repository	81	HEAD:_content/expansion-20261024/evidence/content_review.json, HEAD:_content/expansion-20261024/evidence/content_review.txt, HEAD:_content/expansion-20261024/evidence/content_review_compact.txt, HEAD:_content/expansion-20261024/evidence/existing_prompts.tsv, HEAD:_content/expansion-20261024/evidence/verification_20261025/repair_proposals_validation.json, HEAD:_content/expansion-20261024/evidence/verification_20261025/verdicts/df_dm.json
+C1SE.70_ArchitectureDesign_DBCAS_ver1.2.txt	outside repository	1	HEAD:docs/qa/workspace-inventory-20261112.json
+C1SE.70_DatabaseDesign_DBCAS_ver1.2.txt	outside repository	0	-
+C1SE.70_ProposalDocument_DBCAS_ver1.2.txt	outside repository	0	-
+DBCAS	repository	common-name-not-searched	repository root
+dbcas-doc-edits-backup.patch	outside repository	0	-
+DBCAS-feature-merge	outside repository	0	-
+dbcas-seed-cold-start-20261120-123031	outside repository	0	-
+dbcas-seed-diagnostics-20261120-144812	outside repository	0	-
+docs	outside repository	common-name-not-searched	workspace sibling; distinguish from DBCAS/docs
+Documents	outside repository	122	HEAD:README.md, HEAD:_content/expansion-20261024/evidence/content_review_compact.txt, HEAD:_content/expansion-20261024/evidence/verification_20261025/verdicts/concb.json, HEAD:_content/expansion-20261024/evidence/verification_20261025/verdicts/dt_fn.json, HEAD:_content/expansion-20261024/evidence/verification_20261025/verdicts/perf_b_adm.json, HEAD:_content/expansion-20261024/evidence/verification_20261025/verdicts/qy_perf_a.json
+FITAI - Documents	outside repository	10	HEAD:docs/academic-reconciliation-20261027.md, HEAD:docs/diagrams/inventory.json, HEAD:docs/documentation-alignment-20261027.md, HEAD:docs/qa/final-20261113/w5-cleanup-inventory.json, HEAD:docs/qa/final-20261113/w5-cleanup-inventory.md, HEAD:docs/qa/handover.md
+README.txt	outside repository	3	HEAD:docs/ARCHITECTURE_FREEZE.md, HEAD:docs/qa/handover.md, HEAD:docs/qa/workspace-restructure-20261114.md
+Software Requiremen Specification Template.docx	outside repository	1	HEAD:docs/submission/REVISION-PLAN.md
