@@ -96,15 +96,16 @@ def main():
                 title, page_text = m.group(1).strip(" ."), m.group(2)
             if len(title) < 3 or not page_text.isdigit():
                 continue
+            search_title = re.sub(r"^\d+(?:\.\d+)*\.?\s+", "", title)
             found = None
             for idx in range(body_start, len(pages)):
                 page_text = pages[idx]
-                if title[:60].lower() in page_text.lower():
+                if search_title[:60].lower() in page_text.lower():
                     found = idx + 1
                     break
             if found is None:
                 # try a shorter prefix
-                short = title[:35]
+                short = search_title[:35]
                 for idx in range(body_start, len(pages)):
                     if short.lower() in pages[idx].lower():
                         found = idx + 1

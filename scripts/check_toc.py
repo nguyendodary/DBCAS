@@ -61,14 +61,15 @@ def main():
                 title, page = norm(parts[0]), parts[-1].strip()
             if not page.isdigit() or not title:
                 continue
+            search_title = re.sub(r"^\d+(?:\.\d+)*\.?\s+", "", title)
             found = None
             for idx in range(body_start, len(pages)):
-                if title[:60].lower() in pages[idx].lower():
+                if search_title[:60].lower() in pages[idx].lower():
                     found = idx + 1
                     break
             if found is None:
                 for idx in range(body_start, len(pages)):
-                    if title[:35].lower() in pages[idx].lower():
+                    if search_title[:35].lower() in pages[idx].lower():
                         found = idx + 1
                         break
             if found is not None:

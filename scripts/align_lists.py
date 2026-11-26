@@ -47,7 +47,7 @@ def main():
             if "table of contents" in head or "list of tables" in head or "list of figures" in head:
                 body_start = i + 1
         doc = docx.Document(str(docx_path))
-        cap_re = re.compile(r"^(Figure|Table)\s+\d+(?:\s*\(\d+/\d+\))?\.\s")
+        cap_re = re.compile(r"^(Figure|Table)\s+(?:A\.)?\d+(?:\s*\(\d+/\d+\))?[.:]\s*")
         body_figs, body_tabs = [], []
         for p in doc.element.body.iter(qn("w:p")):
             style = style_of(p)

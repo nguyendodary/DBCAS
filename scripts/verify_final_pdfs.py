@@ -50,14 +50,21 @@ def main():
             if i > 0:  # cover is allowed its own geometry
                 for block in page.get_text("blocks"):
                     x0, y0, x1, y1 = block[:4]
+                    text = block[4]
                     if y0 < top - TOL or y1 > bottom + TOL:
                         continue  # running header/footer live in the margins
+                    if "Page " in text and ("C1SE.70" in text or " of " in text):
+                        continue  # rendered footer
+                    if len(text.strip()) < 2:
+                        continue  # stray space / zero-width run
                     if x1 > right + TOL or x0 < left - TOL:
-                        bad_text.append([round(x0, 1), round(y0, 1), round(x1, 1), round(y1, 1), block[4][:50]])
+                        bad_text.append([round(x0, 1), round(y0, 1), round(x1, 1), round(y1, 1), text[:50]])
                 bad_images = []
                 for im in imgs:
                     try:
                         for rect in page.get_image_rects(im[0]):
+                            if rect.height < 12 or rect.width > page.rect.width - 5:
+                                continue  # rule / decorative line
                             if rect.y0 < top - 20 or rect.y1 > bottom + 20:
                                 continue  # cover logo / decorative image
                             if rect.x1 > right + 20 or rect.x0 < left - 20:
