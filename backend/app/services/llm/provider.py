@@ -94,6 +94,7 @@ class ChatCompletionsProvider:
         backoff_seconds: float = 0.5,
         transport: Optional[httpx.BaseTransport] = None,
         sleeper=time.sleep,
+        on_attempt=None,
     ):
         self._base_url = base_url.rstrip("/")
         self._api_key = api_key
@@ -102,11 +103,13 @@ class ChatCompletionsProvider:
         self._backoff = backoff_seconds
         self._transport = transport
         self._sleep = sleeper
+        self._on_attempt = on_attempt
 
     def with_budget(self, *, timeout_seconds, max_retries):
         return ChatCompletionsProvider(self._base_url, self._api_key,
             timeout_seconds=min(self._timeout, timeout_seconds), max_retries=min(self._max_retries, max_retries),
-            backoff_seconds=self._backoff, transport=self._transport, sleeper=self._sleep)
+            backoff_seconds=self._backoff, transport=self._transport, sleeper=self._sleep,
+            on_attempt=self._on_attempt)
 
     # ---------- public API ----------
 
@@ -120,13 +123,19 @@ class ChatCompletionsProvider:
         }
         if request.seed is not None:
             body["seed"] = request.seed
-        if request.json_schema is not None:
+        provider_host = urlsplit(self._base_url).hostname
+        if request.json_schema is not None and provider_host != "api.deepseek.com":
             body["response_format"] = {
                 "type": "json_schema",
                 "json_schema": strict_wire_schema(request.json_schema),
             }
         else:
             body["response_format"] = {"type": "json_object"}
+        # DeepSeek Chat Completions currently accepts json_object, but not
+        # json_schema. The application validates the returned JSON itself.
+        if provider_host == "api.deepseek.com":
+            body.pop("seed", None)
+            body["thinking"] = {"type": "disabled"}
         if request.max_tokens is not None:
             body["max_tokens"] = request.max_tokens
 
@@ -153,12 +162,12 @@ class ChatCompletionsProvider:
             body["reasoning"] = {"effort": "minimal"}
             body["provider"] = {"require_parameters": True}
 
-        response = self._post_with_retries(body)
+        response = self._post_with_retries(body, request)
         return self._extract_content(response)
 
     # ---------- internals ----------
 
-    def _post_with_retries(self, body: dict) -> dict:
+    def _post_with_retries(self, body: dict, request: StructuredRequest) -> dict:
         configured = urlsplit(self._base_url)
         path = configured.path.rstrip("/")
         if not path.endswith("/chat/completions"):
@@ -177,6 +186,8 @@ class ChatCompletionsProvider:
                 ) as client:
                     resp = client.post(url, json=body, headers=headers)
             except httpx.TimeoutException:
+                if self._on_attempt:
+                    self._on_attempt(request, "network_error", None, None)
                 if attempt <= self._max_retries:
                     self._sleep(self._backoff * attempt)
                     continue
@@ -185,6 +196,8 @@ class ChatCompletionsProvider:
                     "The AI grading service timed out",
                 )
             except httpx.HTTPError:
+                if self._on_attempt:
+                    self._on_attempt(request, "network_error", None, None)
                 if attempt <= self._max_retries:
                     self._sleep(self._backoff * attempt)
                     continue
@@ -193,10 +206,18 @@ class ChatCompletionsProvider:
                     "The AI grading service is unavailable",
                 )
 
+            try:
+                payload = resp.json()
+            except ValueError:
+                payload = None
+            if self._on_attempt:
+                outcome = ("http_error" if resp.status_code >= 400 else
+                           "provider_error" if not isinstance(payload, dict) or payload.get("error") else
+                           "success")
+                self._on_attempt(request, outcome,
+                                 resp.status_code, payload)
             if resp.status_code < 400:
-                try:
-                    payload = resp.json()
-                except ValueError:
+                if payload is None:
                     raise LLMError(
                         LLMError.INVALID_RESPONSE,
                         "The AI grading service returned an unreadable response",

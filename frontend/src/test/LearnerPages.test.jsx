@@ -58,9 +58,20 @@ const OPTIONS = {
     { concept_id: 2, concept_name: 'JOIN' },
   ],
 }
-function mockPractice(sessions = [], options = OPTIONS) {
+function mockPractice(
+  sessions = [],
+  options = OPTIONS,
+  plan = { plan: 'free', free_sessions_remaining: 3 },
+) {
   api.get.mockImplementation((url) =>
-    Promise.resolve({ data: url === '/practice/options' ? { ...OPTIONS, ...options } : sessions }),
+    Promise.resolve({
+      data:
+        url === '/practice/options'
+          ? { ...OPTIONS, ...options }
+          : url === '/auth/plan'
+            ? plan
+            : sessions,
+    }),
   )
 }
 describe('AssessmentsPage', () => {
@@ -98,6 +109,16 @@ describe('AssessmentsPage', () => {
       )
     expect(screen.getByRole('button', { name: 'Bắt đầu' })).toBeDisabled()
     expect(api.get).not.toHaveBeenCalledWith('/assessments')
+  })
+  it('offers Pro when the monthly Free assessment allowance is exhausted', async () => {
+    mockPractice([], OPTIONS, { plan: 'free', free_sessions_remaining: 0 })
+    renderRoutes('/assessments', <AssessmentsPage />, '/assessments')
+    expect(await screen.findByText('Bạn đã dùng hết lượt đánh giá miễn phí')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Nâng cấp Pro' })).toHaveAttribute(
+      'href',
+      '/upgrade',
+    )
+    expect(screen.queryByRole('button', { name: 'Bắt đầu' })).not.toBeInTheDocument()
   })
   it('starts a session with explicit source and scope and navigates to the exam room', async () => {
     mockPractice()

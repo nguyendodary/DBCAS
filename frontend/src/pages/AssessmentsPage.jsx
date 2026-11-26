@@ -25,6 +25,8 @@ function durationForQuestionCount(questionCount) {
 
 export default function AssessmentsPage() {
   const [options, setOptions] = useState(null)
+  const [plan, setPlan] = useState(null)
+  const [planError, setPlanError] = useState(null)
   const [selected, setSelected] = useState([])
   const [bands, setBands] = useState(BANDS.map(([value]) => value))
   const [source, setSource] = useState('bank')
@@ -46,6 +48,8 @@ export default function AssessmentsPage() {
     ) ?? []
   const load = useCallback(() => {
     setError(null)
+    setPlan(null)
+    setPlanError(null)
     let canceled = false
     Promise.all([api.get('/practice/options'), api.get('/sessions')])
       .then(([o, s]) => {
@@ -69,11 +73,25 @@ export default function AssessmentsPage() {
       .catch((e) => {
         if (!canceled) setError(apiMessage(e))
       })
+    api.get('/auth/plan')
+      .then(({ data }) => {
+        if (
+          !data ||
+          !['free', 'pro'].includes(data.plan) ||
+          !Number.isInteger(data.free_sessions_remaining)
+        )
+          throw new Error('Invalid plan status response')
+        if (!canceled) setPlan(data)
+      })
+      .catch((e) => {
+        if (!canceled) setPlanError(apiMessage(e))
+      })
     return () => {
       canceled = true
     }
   }, [])
   useEffect(load, [load])
+  const freeLimitReached = plan?.plan === 'free' && plan.free_sessions_remaining === 0
   useEffect(() => {
     requestId.current = crypto.randomUUID()
   }, [selected, bands, source, count])
@@ -134,10 +152,33 @@ export default function AssessmentsPage() {
             Tiếp tục bài đánh giá
           </Link>
         </Card>
+      ) : freeLimitReached ? (
+        <Card className="space-y-4 p-6">
+          <h2 className="text-lg font-semibold">Bạn đã dùng hết lượt đánh giá miễn phí</h2>
+          <p className="text-sub">Nâng cấp Pro để tiếp tục tạo bài đánh giá trong tháng này.</p>
+          <Link className={btnPrimary} to="/upgrade">
+            Nâng cấp Pro
+          </Link>
+        </Card>
       ) : (
         <form onSubmit={start}>
           <Card className="space-y-7 p-5 sm:p-7">
             <fieldset disabled={busy} className="space-y-7">
+              {planError && <ErrorState message={planError} />}
+              {plan && (
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-cyan-400/20 bg-cyan-400/[0.06] px-4 py-3">
+                  <p className="text-sm text-sub">
+                    {plan.plan === 'pro'
+                      ? 'Gói Pro đang hoạt động.'
+                      : `Bạn còn ${plan.free_sessions_remaining}/3 lượt Free trong tháng này.`}
+                  </p>
+                  {plan.plan === 'free' && (
+                    <Link className={btnGhost} to="/upgrade">
+                      Nâng cấp Pro
+                    </Link>
+                  )}
+                </div>
+              )}
               <fieldset className="min-w-0">
                 <legend className="text-lg font-semibold">1. Chọn khái niệm</legend>
                 <div className="mt-4 overflow-hidden rounded-2xl border border-edge/80 bg-surface/40">

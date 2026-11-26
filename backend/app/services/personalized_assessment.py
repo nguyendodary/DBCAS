@@ -282,6 +282,8 @@ def start_session(db, assessment_id, learner, payload, *, locale="en"):
                     assembly_mode=payload.mode, requested_question_count=payload.question_count,
                     question_ids=[q.question_id for q in chosen],
                     question_plan=[plan[q.question_id] for q in chosen])
+    from .subscription_service import require_new_session
+    require_new_session(db, learner)
     now = repo.server_time()
     session = repo.create_session(assessment_id, learner.account_id, now + timedelta(minutes=assessment.duration_min),
                                   started_at=now, locale=normalize_locale(locale),
