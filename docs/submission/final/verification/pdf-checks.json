@@ -1,6 +1,6 @@
 {
  "C1SE.70_ArchitectureDesign_DBCAS_ver1.3.pdf": {
-  "pages": 80,
+  "pages": 79,
   "near_empty": [],
   "overflow": [],
   "page_info": [
@@ -50,7 +50,7 @@
     "page": 7,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 64,
+    "chars": 75,
     "image_area_ratio": 0.0
    },
    {
@@ -64,7 +64,7 @@
     "page": 9,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 63,
+    "chars": 49,
     "image_area_ratio": 0.0
    },
    {
@@ -106,231 +106,231 @@
     "page": 15,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 316,
-    "image_area_ratio": 0.261
+    "chars": 331,
+    "image_area_ratio": 0.285
    },
    {
     "page": 16,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 276,
+    "chars": 108,
     "image_area_ratio": 0.0
    },
    {
     "page": 17,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 163,
+    "chars": 78,
     "image_area_ratio": 0.0
    },
    {
     "page": 18,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 6,
+    "chars": 89,
     "image_area_ratio": 0.0
    },
    {
     "page": 19,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 113,
+    "chars": 303,
     "image_area_ratio": 0.0
    },
    {
     "page": 20,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 520,
+    "chars": 168,
     "image_area_ratio": 0.0
    },
    {
     "page": 21,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 105,
+    "chars": 44,
     "image_area_ratio": 0.0
    },
    {
     "page": 22,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 155,
+    "chars": 38,
     "image_area_ratio": 0.0
    },
    {
     "page": 23,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 101,
+    "chars": 59,
     "image_area_ratio": 0.0
    },
    {
     "page": 24,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 311,
+    "chars": 866,
     "image_area_ratio": 0.0
    },
    {
     "page": 25,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 232,
+    "chars": 38,
     "image_area_ratio": 0.0
    },
    {
     "page": 26,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 397,
+    "chars": 58,
     "image_area_ratio": 0.0
    },
    {
     "page": 27,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 45,
+    "chars": 285,
     "image_area_ratio": 0.0
    },
    {
     "page": 28,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 84,
+    "chars": 821,
     "image_area_ratio": 0.0
    },
    {
     "page": 29,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 88,
+    "chars": 162,
     "image_area_ratio": 0.0
    },
    {
     "page": 30,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 52,
+    "chars": 84,
     "image_area_ratio": 0.0
    },
    {
     "page": 31,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 117,
+    "chars": 94,
     "image_area_ratio": 0.0
    },
    {
     "page": 32,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 357,
+    "chars": 41,
     "image_area_ratio": 0.0
    },
    {
     "page": 33,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 37,
+    "chars": 333,
     "image_area_ratio": 0.0
    },
    {
     "page": 34,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 64,
+    "chars": 35,
     "image_area_ratio": 0.0
    },
    {
     "page": 35,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 64,
+    "chars": 512,
     "image_area_ratio": 0.0
    },
    {
     "page": 36,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 90,
+    "chars": 87,
     "image_area_ratio": 0.0
    },
    {
     "page": 37,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 144,
+    "chars": 29,
     "image_area_ratio": 0.0
    },
    {
     "page": 38,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 199,
+    "chars": 84,
     "image_area_ratio": 0.0
    },
    {
     "page": 39,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 84,
+    "chars": 33,
     "image_area_ratio": 0.0
    },
    {
     "page": 40,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 65,
+    "chars": 41,
     "image_area_ratio": 0.0
    },
    {
     "page": 41,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 49,
+    "chars": 36,
     "image_area_ratio": 0.0
    },
    {
     "page": 42,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 98,
+    "chars": 232,
     "image_area_ratio": 0.0
    },
    {
     "page": 43,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 160,
+    "chars": 247,
     "image_area_ratio": 0.0
    },
    {
     "page": 44,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 29,
+    "chars": 430,
     "image_area_ratio": 0.0
    },
    {
     "page": 45,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 86,
-    "image_area_ratio": 0.263
+    "chars": 29,
+    "image_area_ratio": 0.356
    },
    {
     "page": 46,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 123,
+    "chars": 72,
     "image_area_ratio": 0.0
    },
    {
     "page": 47,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 90,
+    "chars": 99,
     "image_area_ratio": 0.0
    },
    {
@@ -421,144 +421,137 @@
     "page": 60,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 32,
-    "image_area_ratio": 0.0
+    "chars": 45,
+    "image_area_ratio": 0.366
    },
    {
     "page": 61,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 46,
-    "image_area_ratio": 0.521
+    "chars": 65,
+    "image_area_ratio": 0.366
    },
    {
     "page": 62,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 43,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 63,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 68,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 64,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 72,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 65,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 77,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 66,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 72,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 67,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 80,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 68,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 64,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 69,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 71,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 70,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 56,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.464
    },
    {
     "page": 71,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 57,
-    "image_area_ratio": 0.521
+    "chars": 46,
+    "image_area_ratio": 0.464
    },
    {
     "page": 72,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 58,
-    "image_area_ratio": 0.521
+    "chars": 46,
+    "image_area_ratio": 0.464
    },
    {
     "page": 73,
-    "width_pt": 841.9,
-    "height_pt": 595.3,
-    "chars": 59,
-    "image_area_ratio": 0.521
-   },
-   {
-    "page": 74,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 27,
     "image_area_ratio": 0.0
    },
    {
-    "page": 75,
+    "page": 74,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 168,
     "image_area_ratio": 0.0
    },
    {
-    "page": 76,
+    "page": 75,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 145,
     "image_area_ratio": 0.0
    },
    {
-    "page": 77,
+    "page": 76,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 108,
     "image_area_ratio": 0.0
    },
    {
-    "page": 78,
+    "page": 77,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 2,
     "image_area_ratio": 0.0
    },
    {
-    "page": 79,
+    "page": 78,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 77,
     "image_area_ratio": 0.0
    },
    {
-    "page": 80,
+    "page": 79,
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 55,
@@ -576,7 +569,7 @@
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 594,
-    "image_area_ratio": 1.158
+    "image_area_ratio": 1.209
    },
    {
     "page": 2,
@@ -639,7 +632,7 @@
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 79,
-    "image_area_ratio": 0.17
+    "image_area_ratio": 0.204
    },
    {
     "page": 11,
@@ -693,7 +686,7 @@
   ]
  },
  "C1SE.70_DatabaseDesign_DBCAS_ver1.3.pdf": {
-  "pages": 75,
+  "pages": 76,
   "near_empty": [],
   "overflow": [],
   "page_info": [
@@ -702,7 +695,7 @@
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 801,
-    "image_area_ratio": 0.353
+    "image_area_ratio": 0.391
    },
    {
     "page": 2,
@@ -750,301 +743,301 @@
     "page": 8,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 52,
+    "chars": 43,
     "image_area_ratio": 0.0
    },
    {
     "page": 9,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 49,
+    "chars": 58,
     "image_area_ratio": 0.0
    },
    {
     "page": 10,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 63,
+    "chars": 49,
     "image_area_ratio": 0.0
    },
    {
     "page": 11,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 75,
+    "chars": 49,
     "image_area_ratio": 0.0
    },
    {
     "page": 12,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 199,
+    "chars": 75,
     "image_area_ratio": 0.0
    },
    {
     "page": 13,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 298,
+    "chars": 199,
     "image_area_ratio": 0.0
    },
    {
     "page": 14,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 85,
+    "chars": 298,
     "image_area_ratio": 0.0
    },
    {
     "page": 15,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 75,
+    "chars": 85,
     "image_area_ratio": 0.0
    },
    {
     "page": 16,
-    "width_pt": 841.9,
-    "height_pt": 595.3,
-    "chars": 38,
+    "width_pt": 595.3,
+    "height_pt": 841.9,
+    "chars": 75,
     "image_area_ratio": 0.0
    },
    {
     "page": 17,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 46,
-    "image_area_ratio": 0.521
+    "chars": 129,
+    "image_area_ratio": 0.0
    },
    {
     "page": 18,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 43,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.366
    },
    {
     "page": 19,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 68,
-    "image_area_ratio": 0.521
+    "chars": 65,
+    "image_area_ratio": 0.366
    },
    {
     "page": 20,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 72,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 21,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 77,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 22,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 72,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 23,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 80,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 24,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 64,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 25,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 71,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 26,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 56,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 27,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 57,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 28,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 58,
-    "image_area_ratio": 0.521
+    "chars": 45,
+    "image_area_ratio": 0.56
    },
    {
     "page": 29,
     "width_pt": 841.9,
     "height_pt": 595.3,
-    "chars": 59,
-    "image_area_ratio": 0.521
+    "chars": 46,
+    "image_area_ratio": 0.56
    },
    {
     "page": 30,
-    "width_pt": 595.3,
-    "height_pt": 841.9,
-    "chars": 40,
-    "image_area_ratio": 0.0
+    "width_pt": 841.9,
+    "height_pt": 595.3,
+    "chars": 46,
+    "image_area_ratio": 0.56
    },
    {
     "page": 31,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 50,
+    "chars": 40,
     "image_area_ratio": 0.0
    },
    {
     "page": 32,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 39,
+    "chars": 50,
     "image_area_ratio": 0.0
    },
    {
     "page": 33,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 37,
+    "chars": 39,
     "image_area_ratio": 0.0
    },
    {
     "page": 34,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 20,
+    "chars": 37,
     "image_area_ratio": 0.0
    },
    {
     "page": 35,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 44,
+    "chars": 20,
     "image_area_ratio": 0.0
    },
    {
     "page": 36,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 40,
+    "chars": 44,
     "image_area_ratio": 0.0
    },
    {
     "page": 37,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 47,
+    "chars": 40,
     "image_area_ratio": 0.0
    },
    {
     "page": 38,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 53,
+    "chars": 47,
     "image_area_ratio": 0.0
    },
    {
     "page": 39,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 37,
+    "chars": 53,
     "image_area_ratio": 0.0
    },
    {
     "page": 40,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 42,
+    "chars": 37,
     "image_area_ratio": 0.0
    },
    {
     "page": 41,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 43,
+    "chars": 42,
     "image_area_ratio": 0.0
    },
    {
     "page": 42,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 47,
+    "chars": 43,
     "image_area_ratio": 0.0
    },
    {
     "page": 43,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 46,
+    "chars": 47,
     "image_area_ratio": 0.0
    },
    {
     "page": 44,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 47,
+    "chars": 46,
     "image_area_ratio": 0.0
    },
    {
     "page": 45,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 49,
+    "chars": 47,
     "image_area_ratio": 0.0
    },
    {
     "page": 46,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 41,
+    "chars": 49,
     "image_area_ratio": 0.0
    },
    {
     "page": 47,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 49,
+    "chars": 41,
     "image_area_ratio": 0.0
    },
    {
     "page": 48,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 2,
+    "chars": 49,
     "image_area_ratio": 0.0
    },
    {
     "page": 49,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 46,
+    "chars": 2,
     "image_area_ratio": 0.0
    },
    {
     "page": 50,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 44,
+    "chars": 46,
     "image_area_ratio": 0.0
    },
    {
@@ -1058,168 +1051,175 @@
     "page": 52,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 48,
+    "chars": 44,
     "image_area_ratio": 0.0
    },
    {
     "page": 53,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 47,
+    "chars": 48,
     "image_area_ratio": 0.0
    },
    {
     "page": 54,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 43,
+    "chars": 47,
     "image_area_ratio": 0.0
    },
    {
     "page": 55,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 30,
+    "chars": 43,
     "image_area_ratio": 0.0
    },
    {
     "page": 56,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 55,
+    "chars": 30,
     "image_area_ratio": 0.0
    },
    {
     "page": 57,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 46,
+    "chars": 55,
     "image_area_ratio": 0.0
    },
    {
     "page": 58,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 45,
+    "chars": 46,
     "image_area_ratio": 0.0
    },
    {
     "page": 59,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 51,
+    "chars": 45,
     "image_area_ratio": 0.0
    },
    {
     "page": 60,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 49,
+    "chars": 51,
     "image_area_ratio": 0.0
    },
    {
     "page": 61,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 47,
+    "chars": 49,
     "image_area_ratio": 0.0
    },
    {
     "page": 62,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 57,
+    "chars": 47,
     "image_area_ratio": 0.0
    },
    {
     "page": 63,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 30,
+    "chars": 57,
     "image_area_ratio": 0.0
    },
    {
     "page": 64,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 48,
+    "chars": 30,
     "image_area_ratio": 0.0
    },
    {
     "page": 65,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 61,
+    "chars": 48,
     "image_area_ratio": 0.0
    },
    {
     "page": 66,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 46,
+    "chars": 61,
     "image_area_ratio": 0.0
    },
    {
     "page": 67,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 60,
+    "chars": 46,
     "image_area_ratio": 0.0
    },
    {
     "page": 68,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 30,
+    "chars": 60,
     "image_area_ratio": 0.0
    },
    {
     "page": 69,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 62,
+    "chars": 30,
     "image_area_ratio": 0.0
    },
    {
     "page": 70,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 30,
+    "chars": 62,
     "image_area_ratio": 0.0
    },
    {
     "page": 71,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 60,
+    "chars": 30,
     "image_area_ratio": 0.0
    },
    {
     "page": 72,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 50,
+    "chars": 60,
     "image_area_ratio": 0.0
    },
    {
     "page": 73,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 2,
+    "chars": 50,
     "image_area_ratio": 0.0
    },
    {
     "page": 74,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 77,
+    "chars": 2,
     "image_area_ratio": 0.0
    },
    {
     "page": 75,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 481,
+    "chars": 77,
+    "image_area_ratio": 0.0
+   },
+   {
+    "page": 76,
+    "width_pt": 595.3,
+    "height_pt": 841.9,
+    "chars": 389,
     "image_area_ratio": 0.0
    }
   ]
@@ -1527,8 +1527,8 @@
     "page": 43,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 56,
-    "image_area_ratio": 0.277
+    "chars": 65,
+    "image_area_ratio": 0.286
    },
    {
     "page": 44,
@@ -1541,77 +1541,77 @@
     "page": 45,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 74,
-    "image_area_ratio": 0.261
+    "chars": 11,
+    "image_area_ratio": 0.285
    },
    {
     "page": 46,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 86,
+    "chars": 72,
     "image_area_ratio": 0.0
    },
    {
     "page": 47,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 73,
+    "chars": 81,
     "image_area_ratio": 0.0
    },
    {
     "page": 48,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 77,
-    "image_area_ratio": 0.274
+    "chars": 53,
+    "image_area_ratio": 0.368
    },
    {
     "page": 49,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 76,
+    "chars": 31,
     "image_area_ratio": 0.0
    },
    {
     "page": 50,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 83,
+    "chars": 82,
     "image_area_ratio": 0.219
    },
    {
     "page": 51,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 79,
+    "chars": 82,
     "image_area_ratio": 0.0
    },
    {
     "page": 52,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 103,
+    "chars": 60,
     "image_area_ratio": 0.0
    },
    {
     "page": 53,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 68,
+    "chars": 2,
     "image_area_ratio": 0.0
    },
    {
     "page": 54,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 182,
+    "chars": 235,
     "image_area_ratio": 0.0
    },
    {
     "page": 55,
     "width_pt": 595.3,
     "height_pt": 841.9,
-    "chars": 77,
+    "chars": 294,
     "image_area_ratio": 0.0
    },
    {
@@ -1668,7 +1668,7 @@
     "width_pt": 595.3,
     "height_pt": 841.9,
     "chars": 780,
-    "image_area_ratio": 1.01
+    "image_area_ratio": 1.026
    },
    {
     "page": 2,

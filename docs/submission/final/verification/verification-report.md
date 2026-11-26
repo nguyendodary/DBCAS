@@ -167,7 +167,7 @@ Documents checked: 5; assertions: 148; failures: 0.
 | proposal | Normal:16.0 | 2 |
 | proposal | Normal:20.0 | 2 |
 | proposal | Title:13.0 | 1 |
-| proposal | table of figures:11.0 | 21 |
+| proposal | table of figures:13.0 | 42 |
 | proposal | table:13.0 | 1 |
 | proposal | toc 1:11.0 | 17 |
 | proposal | toc 2:11.0 | 21 |
@@ -180,38 +180,35 @@ Documents checked: 5; assertions: 148; failures: 0.
 | architecture | Normal:15.0 | 1 |
 | architecture | Normal:16.0 | 1 |
 | architecture | Normal:28.0 | 1 |
-| architecture | table of figures:11.0 | 74 |
+| architecture | table of figures:13.0 | 148 |
 | architecture | table:13.0 | 1 |
 | architecture | toc 1:11.0 | 9 |
 | architecture | toc 2:11.0 | 10 |
-| database | Caption:11.0 | 23 |
-| database | Heading 1:18.0 | 2 |
-| database | Heading 2:14.0 | 39 |
-| database | List Paragraph:13.0 | 1 |
-| database | Normal (Web):13.0 | 2 |
-| database | Normal:14.0 | 1 |
-| database | table of figures:11.0 | 37 |
-| database | table:11.0 | 166 |
-| database | table:13.0 | 58 |
-| database | table:14.0 | 35 |
-| database | table:18.0 | 4 |
-| database | toc 1:11.0 | 1 |
-| database | toc 2:11.0 | 15 |
-| codestandards | Heading 1:None | 14 |
+| database | Caption:11.0 | 31 |
+| database | Heading 1:18.0 | 5 |
+| database | Heading 2:14.0 | 38 |
+| database | Normal (Web):13.0 | 1 |
+| database | table of figures:13.0 | 84 |
+| database | table:11.0 | 117 |
+| database | table:13.0 | 144 |
+| database | table:14.0 | 37 |
+| database | table:18.0 | 1 |
+| database | toc 1:11.0 | 2 |
+| database | toc 2:11.0 | 10 |
+| codestandards | Heading 1:None | 12 |
 | codestandards | Normal:11.0 | 6 |
 | codestandards | Normal:13.0 | 15 |
 | codestandards | Normal:14.0 | 4 |
-| codestandards | table of figures:11.0 | 9 |
+| codestandards | table of figures:11.0 | 18 |
 | codestandards | table:11.0 | 3 |
 | codestandards | table:13.0 | 12 |
-| codestandards | table:None | 3 |
+| codestandards | table:None | 5 |
 | codestandards | toc 1:11.0 | 17 |
 | technicalreport | Heading 1:24.0 | 11 |
 | technicalreport | Heading 2:18.0 | 9 |
 | technicalreport | Normal:11.0 | 2 |
 | technicalreport | Normal:13.0 | 1 |
-| technicalreport | Normal:14.0 | 2 |
-| technicalreport | table of figures:11.0 | 2 |
-| technicalreport | table:14.0 | 1 |
+| technicalreport | Normal:14.0 | 3 |
+| technicalreport | table of figures:11.0 | 4 |
 | technicalreport | toc 1:11.0 | 11 |
 | technicalreport | toc 2:11.0 | 9 |

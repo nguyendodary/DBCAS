@@ -35,7 +35,17 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## Last done
 
-- Baseline rebuild (2026-11-26): the owner-confirmed baselines — Proposal
+- Diagram 1:1 restore (2026-11-26): every baseline figure in Proposal,
+  Architecture and Database is byte-identical to `Documents/Final-ver1.3`
+  (4/20/13 body figures), the Technical Report pipeline is the exact baseline
+  media, and Code Standards has one new figure with no baseline source. The
+  11-page TRD set already covers all 67 tables, so no figure is listed as
+  minimally extended. [Diagram audit](../submission/final/verification/diagram-audit.md)
+  reports 0 defects. Final pages 61/79/76/17/18; `docs:check` 48/48,
+  `docs:verify-word` 148/148, `inventory:check` PASS, `secrets:scan` 3 417
+  files / 0 findings, PDF checks 0 near-empty and 0 overflow, TOC/List 0
+  mismatches. Push and CI are pending.
+- Baseline rebuild (2026-11-26): the owner-confirmed baselines - Proposal
   `C1SE.70_ProposalDocument_DBCAS_ver1.4.docx`, Architecture
   `docs/academic/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`, Database
   `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx`, FITAI Code Standard
@@ -43,7 +53,8 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
   `C1SE.56_FitnessAI_FNAI_ver2.0.docx` - were rebuilt in place on branch
   `docs/baseline-rebuild-20261126`. The previous 81-file set is archived
   byte-for-byte with `MANIFEST.sha256` under
-  `Archive/rejected-final-2-20261126/`. Final pages 61/80/75/17/18;
+  `Archive/rejected-final-2-20261126/`. Final pages 61/79/76/17/18 after the
+  diagram restore;
   `docs:verify-word` 148/148; `docs:check` 48/48 (diagram, schema, docx and
   figure checks PASS); `inventory:check` PASS; `secrets:scan` 3 402 files /
   0 findings; PDF checks 0 near-empty and 0 overflow; TOC/List 360 entries,

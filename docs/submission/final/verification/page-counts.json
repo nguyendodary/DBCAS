@@ -1,9 +1,9 @@
 {
   "proposal": 61,
-  "architecture": 80,
-  "database": 75,
+  "architecture": 79,
+  "database": 76,
   "codestandards": 17,
   "technicalreport": 18,
-  "source": "Word/PyMuPDF render on 2026-11-26",
-  "notes": "Printed PDF pages after rebuilding from the confirmed baselines. Baselines: Proposal v1.4 52, Architecture v1.2 70, Database v1.3 21, FITAI CodeStandard 14, FITAI AI Documentation 12."
+  "source": "Word render on 2026-11-26 after the diagram 1:1 restore",
+  "notes": "Printed PDF pages after the original diagrams were restored in place. Baselines: Proposal v1.4 52, Architecture v1.2 70, Database v1.3 21, FITAI CodeStandard 14, FITAI AI Documentation 12. The Database count grew by one page from the restored baseline extents; the Architecture count fell by one."
 }

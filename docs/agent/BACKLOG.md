@@ -17,7 +17,7 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   changed.
 - The `ver1.3` set is **five** documents (Proposal, Architecture, Database,
   Code Standards, Technical Report) under `docs/submission/final`.
-  [Verification](freeze-logs/doc-verify.md) records 61/80/75/17/18 pages, 148 XML
+  [Verification](freeze-logs/doc-verify.md) records 61/79/76/17/18 pages, 148 XML
   assertions / 0 failures, 67-table traceability, the measured
   [FITAI specification](freeze-logs/doc-style-spec.md), 0 near-empty and 0
   overflow PDF pages, and 360 TOC/list entries with 0 mismatches against Word
@@ -26,10 +26,14 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   academic Architecture v1.2, Database v1.3, FITAI Code Standard v2.0 and FITAI
   AI Documentation v2.0) replaced the earlier attempt; the previous 81-file set
   is archived under `Archive/rejected-final-2-20261126/` with `MANIFEST.sha256`.
-  The 13-page ERD/ledger set was rebuilt from introspection (67/561/122; 58
-  intra-domain + 64 cross-domain FKs), the Gantt from Table 13, and the layering
-  and pipeline figures were restored.
-  Evidence: [focused inventory](freeze-logs/baseline-inventory-focused-20261126.md),
+  The installed diagrams are the 11-page baseline TRD set, which already covers
+  67 tables, 561 columns, 122 foreign keys and 28 migrations; the Proposal,
+  Architecture and Database figures are byte-identical to the baseline, the
+  Technical Report pipeline is the exact baseline media, and Code Standards has
+  one new figure with no baseline source. The 13-page rebuilt ERD set is
+  superseded. Evidence:
+  [diagram audit](../submission/final/verification/diagram-audit.md),
+  [focused inventory](freeze-logs/baseline-inventory-focused-20261126.md),
   [duplicate audit](freeze-logs/baseline-duplicates-20261126.md),
   [baseline selection](freeze-logs/baseline-selection-proposal-20261126.md),
   [doc verification](freeze-logs/doc-verify.md), `verification/diffs/` and
