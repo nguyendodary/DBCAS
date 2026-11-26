@@ -132,7 +132,7 @@ manifest and a [recovery receipt](recovery-20261126-1105.md).
 | audit | complete | [diagram-audit.md](../../submission/final/verification/diagram-audit.md): 44 body images, 37 restored/shared originals, 1 new figure, 5 logos, 0 defects |
 | restore | complete | Proposal 4/4, Architecture 20/20, Database 13/13 byte-identical to `Documents/Final-ver1.3`; Technical Report pipeline exact baseline bytes; Code Standards new figure has no baseline source |
 | verify | complete | Word PDFs 61/79/76/17/18; `docs:check` 48/48, `docs:verify-word` 148/148, `inventory:check` PASS, `secrets:scan` 3 417 files / 0 findings; PDF 0 near-empty / 0 overflow; TOC and lists 0 mismatches |
-| finish | pending | commit the logical groups, push `develop2`, wait for green CI |
+| finish | complete | pushed to `develop2`; CI run [`45763819399`](https://github.com/nguyendodary/DBCAS/actions/runs/45763819399) passed all 14 jobs at `5583013` |
 
 The baseline original-style SVGs already carry the current facts: `(67 tables)`
 on the container/component pages, and the 11-page TRD set covers 67 tables,
@@ -150,4 +150,7 @@ list page numbers have 0 mismatches. `docs:check` passed 48 assertions,
 stalled on the restored multi-megabyte media; the render used a fresh copy and
 `SaveAs2` after clearing stale `~$` locks. The package-level fixes
 (`updateFields=false`, static list entries, orphan-media pruning) are recorded
-in the [recovery receipt](recovery-20261126-1105.md). CI is the remaining step.
+in the [recovery receipt](recovery-20261126-1105.md). CI run
+[`45763819399`](https://github.com/nguyendodary/DBCAS/actions/runs/45763819399)
+passed all 14 jobs at `5583013`; the final docs-only status commit is checked
+separately.

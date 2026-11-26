@@ -42,7 +42,9 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   run
   [`45744571747`](https://github.com/nguyendodary/DBCAS/actions/runs/45744571747)
   passed all 14 jobs at `889e8bf`; the earlier run for `96f7af6` was canceled
-  after the diagram fix.
+  after the diagram fix. The diagram-restore head `5583013` passed all 14 jobs
+  in run
+  [`45763819399`](https://github.com/nguyendodary/DBCAS/actions/runs/45763819399).
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.

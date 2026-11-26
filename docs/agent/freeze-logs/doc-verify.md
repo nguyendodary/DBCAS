@@ -1,5 +1,12 @@
 # ver1.3 submission document verification (2026-11-26)
 
+> **Diagram state superseded (2026-11-26).** The five documents now ship the
+> restored original figures, not the rebuilt 13-page ERD/ledger set described
+> below. Current pages are 61/79/76/17/18 and the figure evidence is
+> [diagram-audit.md](../../submission/final/verification/diagram-audit.md) with
+> [PROGRESS](PROGRESS.md) Phase 10. The XML, margin, style and content checks in
+> this record still apply.
+
 This is the current verification record for the five owner documents rebuilt
 from the **owner-confirmed baselines**: Proposal
 `C1SE.70_ProposalDocument_DBCAS_ver1.4.docx` (52 pages), Architecture

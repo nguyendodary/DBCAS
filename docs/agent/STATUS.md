@@ -44,7 +44,9 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
   reports 0 defects. Final pages 61/79/76/17/18; `docs:check` 48/48,
   `docs:verify-word` 148/148, `inventory:check` PASS, `secrets:scan` 3 417
   files / 0 findings, PDF checks 0 near-empty and 0 overflow, TOC/List 0
-  mismatches. Push and CI are pending.
+  mismatches. CI run
+  [`45763819399`](https://github.com/nguyendodary/DBCAS/actions/runs/45763819399)
+  passed all 14 jobs at `5583013`.
 - Baseline rebuild (2026-11-26): the owner-confirmed baselines - Proposal
   `C1SE.70_ProposalDocument_DBCAS_ver1.4.docx`, Architecture
   `docs/academic/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`, Database
