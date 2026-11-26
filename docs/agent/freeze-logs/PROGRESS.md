@@ -116,6 +116,38 @@ in-place revisions of the content-complete baseline.
 - **Limitation.** Word hangs when updating TOC fields on this baseline, so the
   DOCX ships with `updateFields` disabled and the TOC/lists are aligned from
   the rendered PDF. The rendered PDFs are correct.
-- **Owner decisions.** The ten open items (O1–O10) are in Appendix A of each
+- **Owner decisions.** The ten open items (O1-O10) are in Appendix A of each
   document and in [doc-verify.md](doc-verify.md#8-owner-questions-raised-by-this-verification).
 - **Production.** HOLD. No `main` change, merge, tag or deployment.
+
+## Phase 10 — diagram 1:1 restoration takeover (2026-11-26)
+
+The previous session stopped on the image-limit guard after restoring the
+Proposal, Architecture and Database figures. The uncommitted state was saved as
+[recovery-20261126-1105.patch](recovery-20261126-1105.patch) with an untracked
+manifest and a [recovery receipt](recovery-20261126-1105.md).
+
+| Step | Status | Evidence |
+|---|---|---|
+| audit | complete | [diagram-audit.md](../../submission/final/verification/diagram-audit.md): 44 body images, 37 restored/shared originals, 1 new figure, 5 logos, 0 defects |
+| restore | complete | Proposal 4/4, Architecture 20/20, Database 13/13 byte-identical to `Documents/Final-ver1.3`; Technical Report pipeline exact baseline bytes; Code Standards new figure has no baseline source |
+| verify | complete | Word PDFs 61/79/76/17/18; `docs:check` 48/48, `docs:verify-word` 148/148, `inventory:check` PASS, `secrets:scan` 3 417 files / 0 findings; PDF 0 near-empty / 0 overflow; TOC and lists 0 mismatches |
+| finish | pending | commit the logical groups, push `develop2`, wait for green CI |
+
+The baseline original-style SVGs already carry the current facts: `(67 tables)`
+on the container/component pages, and the 11-page TRD set covers 67 tables,
+561 columns, 122 foreign keys and 28 migrations. No figure is listed as
+minimally extended. The Code Standards layering figure is the only new drawing;
+it copies the original ERD/TRD style values and replaces the earlier blue
+FITAI-palette asset. The stale `backend-layering.svg` and
+`scripts/build_backend_layering.py` were retired with it.
+
+**Phase 10 result.** Page counts are 61 / 79 / 76 / 17 / 18. The audit has 0
+defects; the Word renderer produced 0 near-empty and 0 overflow pages; TOC and
+list page numbers have 0 mismatches. `docs:check` passed 48 assertions,
+`docs:verify-word` 148 assertions / 0 failures, `inventory:check` passed, and
+`secrets:scan` covered 3 417 files with 0 findings. Word's default PDF export
+stalled on the restored multi-megabyte media; the render used a fresh copy and
+`SaveAs2` after clearing stale `~$` locks. The package-level fixes
+(`updateFields=false`, static list entries, orphan-media pruning) are recorded
+in the [recovery receipt](recovery-20261126-1105.md). CI is the remaining step.
