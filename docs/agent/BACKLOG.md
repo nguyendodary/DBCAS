@@ -34,8 +34,11 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   [baseline selection](freeze-logs/baseline-selection-proposal-20261126.md),
   [doc verification](freeze-logs/doc-verify.md), `verification/diffs/` and
   `verification/figure-manifest.md`.
-  Ten owner facts remain O1–O10 in Appendix A of every document. The
-  exact-commit CI result is recorded after the push.
+  Ten owner facts remain O1–O10 in Appendix A of every document. The final CI
+  run
+  [`45744571747`](https://github.com/nguyendodary/DBCAS/actions/runs/45744571747)
+  passed all 14 jobs at `889e8bf`; the earlier run for `96f7af6` was canceled
+  after the diagram fix.
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.
