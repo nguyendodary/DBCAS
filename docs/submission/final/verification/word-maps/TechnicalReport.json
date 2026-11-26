@@ -1,0 +1,140 @@
+[
+    {
+        "kind":  "h1",
+        "page":  7,
+        "style":  "Heading 1",
+        "text":  "Abstract"
+    },
+    {
+        "kind":  "h1",
+        "page":  7,
+        "style":  "Heading 1",
+        "text":  "1. Introduction"
+    },
+    {
+        "kind":  "h1",
+        "page":  8,
+        "style":  "Heading 1",
+        "text":  "2. Related Work"
+    },
+    {
+        "kind":  "h1",
+        "page":  9,
+        "style":  "Heading 1",
+        "text":  "3. Method"
+    },
+    {
+        "kind":  "h2",
+        "page":  9,
+        "style":  "Heading 2",
+        "text":  "3.1 Requirements and Scope"
+    },
+    {
+        "kind":  "h2",
+        "page":  9,
+        "style":  "Heading 2",
+        "text":  "3.2 Architecture"
+    },
+    {
+        "kind":  "caption",
+        "page":  10,
+        "style":  "Normal",
+        "text":  "Figure 1. The evaluation pipeline: deterministic prompt assembly, provider call, validation, fallback and evidence publication"
+    },
+    {
+        "kind":  "h2",
+        "page":  10,
+        "style":  "Heading 2",
+        "text":  "3.3 Measurement Protocol"
+    },
+    {
+        "kind":  "h1",
+        "page":  10,
+        "style":  "Heading 1",
+        "text":  "4. Implementation"
+    },
+    {
+        "kind":  "h2",
+        "page":  10,
+        "style":  "Heading 2",
+        "text":  "4.1 Data Model"
+    },
+    {
+        "kind":  "h2",
+        "page":  11,
+        "style":  "Heading 2",
+        "text":  "4.2 Practice and Grading"
+    },
+    {
+        "kind":  "h2",
+        "page":  11,
+        "style":  "Heading 2",
+        "text":  "4.3 Isolation"
+    },
+    {
+        "kind":  "h2",
+        "page":  11,
+        "style":  "Heading 2",
+        "text":  "4.4 Audit and Publication"
+    },
+    {
+        "kind":  "h1",
+        "page":  12,
+        "style":  "Heading 1",
+        "text":  "5. Experiments"
+    },
+    {
+        "kind":  "caption",
+        "page":  12,
+        "style":  "Normal",
+        "text":  "Table 1. Measured results"
+    },
+    {
+        "kind":  "h2",
+        "page":  13,
+        "style":  "Heading 2",
+        "text":  "5.1 What the Numbers Show"
+    },
+    {
+        "kind":  "h2",
+        "page":  13,
+        "style":  "Heading 2",
+        "text":  "5.2 Reproducibility"
+    },
+    {
+        "kind":  "h1",
+        "page":  14,
+        "style":  "Heading 1",
+        "text":  "6. Discussion and Limitations"
+    },
+    {
+        "kind":  "h1",
+        "page":  15,
+        "style":  "Heading 1",
+        "text":  "7. Conclusion"
+    },
+    {
+        "kind":  "h1",
+        "page":  15,
+        "style":  "Heading 1",
+        "text":  "References"
+    },
+    {
+        "kind":  "h1",
+        "page":  17,
+        "style":  "Heading 1",
+        "text":  "Appendix A. Open owner decisions"
+    },
+    {
+        "kind":  "h1",
+        "page":  18,
+        "style":  "Heading 1",
+        "text":  "Appendix B. Figure sources"
+    },
+    {
+        "kind":  "caption",
+        "page":  18,
+        "style":  "Normal",
+        "text":  "Figure 1\r\u0007"
+    }
+]

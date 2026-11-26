@@ -1,0 +1,164 @@
+[
+    {
+        "kind":  "h1",
+        "page":  8,
+        "style":  "Heading 1",
+        "text":  "1. Purpose and Scope"
+    },
+    {
+        "kind":  "caption",
+        "page":  8,
+        "style":  "Normal",
+        "text":  "Table 1. Enforcement levels used in this document"
+    },
+    {
+        "kind":  "h1",
+        "page":  8,
+        "style":  "Heading 1",
+        "text":  "2. Repository Structure"
+    },
+    {
+        "kind":  "h1",
+        "page":  9,
+        "style":  "Heading 1",
+        "text":  "3. Naming Conventions"
+    },
+    {
+        "kind":  "caption",
+        "page":  9,
+        "style":  "Normal",
+        "text":  "Table 2. Naming rules"
+    },
+    {
+        "kind":  "h1",
+        "page":  10,
+        "style":  "Heading 1",
+        "text":  "4. Backend Layering"
+    },
+    {
+        "kind":  "caption",
+        "page":  10,
+        "style":  "Normal",
+        "text":  "Figure 1. Backend layering and dependency direction"
+    },
+    {
+        "kind":  "caption",
+        "page":  10,
+        "style":  "Normal",
+        "text":  "Table 3. Layer responsibilities"
+    },
+    {
+        "kind":  "h1",
+        "page":  10,
+        "style":  "Heading 1",
+        "text":  "5. API Conventions"
+    },
+    {
+        "kind":  "caption",
+        "page":  11,
+        "style":  "Normal",
+        "text":  "Table 4. Status code usage"
+    },
+    {
+        "kind":  "h1",
+        "page":  11,
+        "style":  "Heading 1",
+        "text":  "6. Error Handling"
+    },
+    {
+        "kind":  "h1",
+        "page":  12,
+        "style":  "Heading 1",
+        "text":  "7. Frontend Conventions"
+    },
+    {
+        "kind":  "h1",
+        "page":  12,
+        "style":  "Heading 1",
+        "text":  "8. Internationalization"
+    },
+    {
+        "kind":  "h1",
+        "page":  12,
+        "style":  "Heading 1",
+        "text":  "9. Testing Standards"
+    },
+    {
+        "kind":  "caption",
+        "page":  12,
+        "style":  "Normal",
+        "text":  "Table 5. Test layers"
+    },
+    {
+        "kind":  "h1",
+        "page":  13,
+        "style":  "Heading 1",
+        "text":  "10. Lint and Format"
+    },
+    {
+        "kind":  "caption",
+        "page":  13,
+        "style":  "Normal",
+        "text":  "Table 6. Configured tools"
+    },
+    {
+        "kind":  "h1",
+        "page":  13,
+        "style":  "Heading 1",
+        "text":  "11. Commit and Branch Conventions"
+    },
+    {
+        "kind":  "h1",
+        "page":  14,
+        "style":  "Heading 1",
+        "text":  "12. Pull Requests and CI"
+    },
+    {
+        "kind":  "caption",
+        "page":  14,
+        "style":  "Normal",
+        "text":  "Table 7. CI workflows and jobs"
+    },
+    {
+        "kind":  "h1",
+        "page":  14,
+        "style":  "Heading 1",
+        "text":  "13. Secret Handling"
+    },
+    {
+        "kind":  "h1",
+        "page":  15,
+        "style":  "Heading 1",
+        "text":  "14. Review Checklist"
+    },
+    {
+        "kind":  "caption",
+        "page":  15,
+        "style":  "Normal",
+        "text":  "Table 8. Reviewer checklist"
+    },
+    {
+        "kind":  "h1",
+        "page":  15,
+        "style":  "Heading 1",
+        "text":  "15. Known Gaps"
+    },
+    {
+        "kind":  "h1",
+        "page":  16,
+        "style":  "Heading 1",
+        "text":  "Appendix A. Open owner decisions"
+    },
+    {
+        "kind":  "h1",
+        "page":  17,
+        "style":  "Heading 1",
+        "text":  "Appendix B. Figure sources"
+    },
+    {
+        "kind":  "caption",
+        "page":  17,
+        "style":  "Normal",
+        "text":  "Figure 1\r\u0007"
+    }
+]

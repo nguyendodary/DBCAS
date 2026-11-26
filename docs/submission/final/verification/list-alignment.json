@@ -5,23 +5,23 @@
   "rewritten": 74
  },
  "C1SE.70_CodeStandards_DBCAS_ver1.3.docx": {
-  "figure_entries": 0,
-  "table_entries": 0,
-  "rewritten": 0
+  "figure_entries": 1,
+  "table_entries": 8,
+  "rewritten": 8
  },
  "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx": {
-  "figure_entries": 0,
-  "table_entries": 0,
-  "rewritten": 0
+  "figure_entries": 13,
+  "table_entries": 69,
+  "rewritten": 82
  },
  "C1SE.70_ProposalDocument_DBCAS_ver1.3.docx": {
-  "figure_entries": 0,
-  "table_entries": 0,
-  "rewritten": 0
+  "figure_entries": 4,
+  "table_entries": 17,
+  "rewritten": 21
  },
  "C1SE.70_TechnicalReport_DBCAS_ver1.3.docx": {
-  "figure_entries": 0,
-  "table_entries": 0,
-  "rewritten": 0
+  "figure_entries": 1,
+  "table_entries": 1,
+  "rewritten": 2
  }
 }

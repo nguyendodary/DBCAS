@@ -1,0 +1,386 @@
+[
+    {
+        "kind":  "h1",
+        "page":  9,
+        "style":  "Heading 1",
+        "text":  "1. Project Title"
+    },
+    {
+        "kind":  "h1",
+        "page":  10,
+        "style":  "Heading 1",
+        "text":  "2. Team Members"
+    },
+    {
+        "kind":  "caption",
+        "page":  10,
+        "style":  "Caption",
+        "text":  "Table 1: Project Team Members and Role Assignment"
+    },
+    {
+        "kind":  "h1",
+        "page":  11,
+        "style":  "Heading 1",
+        "text":  "3. Supervisor(s)"
+    },
+    {
+        "kind":  "caption",
+        "page":  11,
+        "style":  "Caption",
+        "text":  "Table 2: Capstone Project Supervisor Information"
+    },
+    {
+        "kind":  "h1",
+        "page":  11,
+        "style":  "Heading 1",
+        "text":  "4. Problem Statement"
+    },
+    {
+        "kind":  "h2",
+        "page":  12,
+        "style":  "Heading 2",
+        "text":  "4.1. One Overall Grade Hides Real Strengths and Weaknesses"
+    },
+    {
+        "kind":  "h2",
+        "page":  12,
+        "style":  "Heading 2",
+        "text":  "4.2. Lack of Detailed Explanations for Mistakes"
+    },
+    {
+        "kind":  "h2",
+        "page":  12,
+        "style":  "Heading 2",
+        "text":  "4.3. Heavy Grading Workload in Large Classes"
+    },
+    {
+        "kind":  "h2",
+        "page":  12,
+        "style":  "Heading 2",
+        "text":  "4.4. Problem Identification Through Online Research"
+    },
+    {
+        "kind":  "caption",
+        "page":  13,
+        "style":  "Caption",
+        "text":  "Table 3: Common Database Learning Difficulties Identified from Online Research"
+    },
+    {
+        "kind":  "h2",
+        "page":  14,
+        "style":  "Heading 2",
+        "text":  "4.5. How DBCAS Solves These Problems"
+    },
+    {
+        "kind":  "h1",
+        "page":  14,
+        "style":  "Heading 1",
+        "text":  "5. Survey / Existing Solutions"
+    },
+    {
+        "kind":  "h2",
+        "page":  14,
+        "style":  "Heading 2",
+        "text":  "5.1. Online Query Practice Sites"
+    },
+    {
+        "kind":  "h2",
+        "page":  15,
+        "style":  "Heading 2",
+        "text":  "5.2. Traditional Learning Management Systems (LMS)"
+    },
+    {
+        "kind":  "h2",
+        "page":  15,
+        "style":  "Heading 2",
+        "text":  "5.3. Conversational AI Chatbots"
+    },
+    {
+        "kind":  "caption",
+        "page":  15,
+        "style":  "Caption",
+        "text":  "Table 4: Comparison of Existing Solutions vs. Proposed DBCAS Platform"
+    },
+    {
+        "kind":  "h1",
+        "page":  17,
+        "style":  "Heading 1",
+        "text":  "6. Objectives and Scope"
+    },
+    {
+        "kind":  "h2",
+        "page":  17,
+        "style":  "Heading 2",
+        "text":  "6.1. SMART Objectives"
+    },
+    {
+        "kind":  "caption",
+        "page":  17,
+        "style":  "Caption",
+        "text":  "Table 5: SMART Project Objectives Breakdown"
+    },
+    {
+        "kind":  "h2",
+        "page":  18,
+        "style":  "Heading 2",
+        "text":  "6.2. Project Scope"
+    },
+    {
+        "kind":  "caption",
+        "page":  18,
+        "style":  "Caption",
+        "text":  "Table 6: Knowledge Scope and Assessment Exam Structure"
+    },
+    {
+        "kind":  "h1",
+        "page":  21,
+        "style":  "Heading 1",
+        "text":  "7. Key Features \u0026 Requirements"
+    },
+    {
+        "kind":  "h2",
+        "page":  21,
+        "style":  "Heading 2",
+        "text":  "7.1. Seven Key System Features"
+    },
+    {
+        "kind":  "caption",
+        "page":  21,
+        "style":  "Caption",
+        "text":  "Table 7: Core Functional Modules and System Features Overview"
+    },
+    {
+        "kind":  "h2",
+        "page":  23,
+        "style":  "Heading 2",
+        "text":  "7.2. Functional Requirements"
+    },
+    {
+        "kind":  "caption",
+        "page":  23,
+        "style":  "Normal",
+        "text":  "Table 8 outlines the functional requirements across primary human actors (Learner, Administrator), the core system (DBCAS), the external AI service (LLM Provider), and the OAuth Identity Provider used for sign-in:"
+    },
+    {
+        "kind":  "caption",
+        "page":  23,
+        "style":  "Caption",
+        "text":  "Table 8: Functional Requirements Specification (FR01 – FR16)"
+    },
+    {
+        "kind":  "h2",
+        "page":  28,
+        "style":  "Heading 2",
+        "text":  "7.3. Non-Functional Requirements"
+    },
+    {
+        "kind":  "caption",
+        "page":  28,
+        "style":  "Caption",
+        "text":  "Table 9: Non-Functional Requirements Specification (NFR01 – NFR09)"
+    },
+    {
+        "kind":  "h1",
+        "page":  31,
+        "style":  "Heading 1",
+        "text":  "8. Constraints and Assumptions"
+    },
+    {
+        "kind":  "caption",
+        "page":  31,
+        "style":  "Caption",
+        "text":  "Table 10: Technical \u0026 Academic Constraints and Project Assumptions Matrix"
+    },
+    {
+        "kind":  "h1",
+        "page":  33,
+        "style":  "Heading 1",
+        "text":  "9. Target Users / Stakeholders"
+    },
+    {
+        "kind":  "caption",
+        "page":  33,
+        "style":  "Caption",
+        "text":  "Table 11: Stakeholder Analysis Matrix"
+    },
+    {
+        "kind":  "h1",
+        "page":  35,
+        "style":  "Heading 1",
+        "text":  "10. Technology Stack"
+    },
+    {
+        "kind":  "caption",
+        "page":  35,
+        "style":  "Caption",
+        "text":  "Table 12: Technology Stack and Development Toolchain"
+    },
+    {
+        "kind":  "h1",
+        "page":  37,
+        "style":  "Heading 1",
+        "text":  "11. Methodology \u0026 Development Plan"
+    },
+    {
+        "kind":  "h2",
+        "page":  37,
+        "style":  "Heading 2",
+        "text":  "11.1. Agile Scrum Development Methodology"
+    },
+    {
+        "kind":  "h2",
+        "page":  37,
+        "style":  "Heading 2",
+        "text":  "11.2. Official Capstone Timeline \u0026 Sprint Roadmap"
+    },
+    {
+        "kind":  "caption",
+        "page":  38,
+        "style":  "Caption",
+        "text":  "Table 13: Official Capstone Plan and Agile Scrum Schedule"
+    },
+    {
+        "kind":  "caption",
+        "page":  42,
+        "style":  "Caption",
+        "text":  "Figure 1: Agile delivery roadmap and official faculty milestones"
+    },
+    {
+        "kind":  "h2",
+        "page":  42,
+        "style":  "Heading 2",
+        "text":  "11.3. Team Role Assignment \u0026 RACI Matrix"
+    },
+    {
+        "kind":  "caption",
+        "page":  42,
+        "style":  "Caption",
+        "text":  "Table 14: RACI Responsibility Assignment Matrix across Major Workstreams"
+    },
+    {
+        "kind":  "h1",
+        "page":  43,
+        "style":  "Heading 1",
+        "text":  "12. System Architecture Overview"
+    },
+    {
+        "kind":  "h2",
+        "page":  43,
+        "style":  "Heading 2",
+        "text":  "12.1. System Context Diagram"
+    },
+    {
+        "kind":  "caption",
+        "page":  44,
+        "style":  "Caption",
+        "text":  "Figure 2: DBCAS System Context Diagram"
+    },
+    {
+        "kind":  "h2",
+        "page":  47,
+        "style":  "Heading 2",
+        "text":  "12.2. Multi-Tier Logical System Architecture"
+    },
+    {
+        "kind":  "caption",
+        "page":  47,
+        "style":  "Caption",
+        "text":  "Figure 3: DBCAS Logical System Architecture Diagram"
+    },
+    {
+        "kind":  "h2",
+        "page":  48,
+        "style":  "Heading 2",
+        "text":  "12.3. Evidence-Based Competency \u0026 Gap Evaluation Pipeline"
+    },
+    {
+        "kind":  "caption",
+        "page":  49,
+        "style":  "Caption",
+        "text":  "Figure 4: Evidence-based Competency \u0026 Gap Evaluation Pipeline"
+    },
+    {
+        "kind":  "h2",
+        "page":  50,
+        "style":  "Heading 2",
+        "text":  "12.4. Multi-Format Practice \u0026 How Scores Are Calculated"
+    },
+    {
+        "kind":  "h2",
+        "page":  51,
+        "style":  "Heading 2",
+        "text":  "12.5. AI Integration \u0026 Prompt Engineering"
+    },
+    {
+        "kind":  "caption",
+        "page":  51,
+        "style":  "Caption",
+        "text":  "Table 15: AI Evaluation Guardrails and Prompt Design Rules"
+    },
+    {
+        "kind":  "h1",
+        "page":  52,
+        "style":  "Heading 1",
+        "text":  "13. Potential Risks and Mitigation Strategies"
+    },
+    {
+        "kind":  "caption",
+        "page":  52,
+        "style":  "Caption",
+        "text":  "Table 16: Project Risk Assessment Matrix and Mitigation Strategies"
+    },
+    {
+        "kind":  "h1",
+        "page":  54,
+        "style":  "Heading 1",
+        "text":  "14. Expected Outcomes / Deliverables"
+    },
+    {
+        "kind":  "caption",
+        "page":  55,
+        "style":  "Caption",
+        "text":  "Table 17: Capstone Project Deliverables and Expected Outcomes"
+    },
+    {
+        "kind":  "h1",
+        "page":  58,
+        "style":  "Heading 1",
+        "text":  "15. References"
+    },
+    {
+        "kind":  "h1",
+        "page":  59,
+        "style":  "Heading 1",
+        "text":  "Appendix A. Open owner decisions"
+    },
+    {
+        "kind":  "h1",
+        "page":  60,
+        "style":  "Heading 1",
+        "text":  "Appendix B. Figure sources"
+    },
+    {
+        "kind":  "caption",
+        "page":  60,
+        "style":  "Normal",
+        "text":  "Figure 1\r\u0007"
+    },
+    {
+        "kind":  "caption",
+        "page":  60,
+        "style":  "Normal",
+        "text":  "Figure 2\r\u0007"
+    },
+    {
+        "kind":  "caption",
+        "page":  60,
+        "style":  "Normal",
+        "text":  "Figure 3\r\u0007"
+    },
+    {
+        "kind":  "caption",
+        "page":  60,
+        "style":  "Normal",
+        "text":  "Figure 4\r\u0007"
+    }
+]

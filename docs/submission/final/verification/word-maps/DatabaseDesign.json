@@ -1,0 +1,980 @@
+[
+    {
+        "kind":  "h1",
+        "page":  11,
+        "style":  "Heading 1",
+        "text":  "Introduction"
+    },
+    {
+        "kind":  "h2",
+        "page":  11,
+        "style":  "Heading 2",
+        "text":  "Purpose"
+    },
+    {
+        "kind":  "h2",
+        "page":  11,
+        "style":  "Heading 2",
+        "text":  "Scope"
+    },
+    {
+        "kind":  "h2",
+        "page":  11,
+        "style":  "Heading 2",
+        "text":  "Introduction about PostgreSQL"
+    },
+    {
+        "kind":  "h1",
+        "page":  12,
+        "style":  "Heading 1",
+        "text":  "Database Diagram"
+    },
+    {
+        "kind":  "h2",
+        "page":  12,
+        "style":  "Heading 2",
+        "text":  "Table Overview"
+    },
+    {
+        "kind":  "caption",
+        "page":  12,
+        "style":  "Caption",
+        "text":  "Table 1: Table Overview"
+    },
+    {
+        "kind":  "h2",
+        "page":  16,
+        "style":  "Heading 2",
+        "text":  "Entity Relationship Diagram"
+    },
+    {
+        "kind":  "caption",
+        "page":  17,
+        "style":  "Caption",
+        "text":  "Figure 1: Entity relationship overview (1/2)"
+    },
+    {
+        "kind":  "caption",
+        "page":  18,
+        "style":  "Caption",
+        "text":  "Figure 1: Entity relationship index (2/2)"
+    },
+    {
+        "kind":  "caption",
+        "page":  19,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — Identity and access (1/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  20,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — Curriculum and concepts (2/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  21,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — Question bank and generation (3/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  22,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — Assessment and attempts (4/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  23,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — Grading, results and competency (5/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  24,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — Review workflow (6/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  25,
+        "style":  "Caption",
+        "text":  "Figure 2: Entity relationship diagram — AI audit and retention (7/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  26,
+        "style":  "Caption",
+        "text":  "Figure 2: Foreign-key ledger — rows 1–31 of 122 (8/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  27,
+        "style":  "Caption",
+        "text":  "Figure 2: Foreign-key ledger — rows 32–62 of 122 (9/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  28,
+        "style":  "Caption",
+        "text":  "Figure 2: Foreign-key ledger — rows 63–92 of 122 (10/11)"
+    },
+    {
+        "kind":  "caption",
+        "page":  29,
+        "style":  "Caption",
+        "text":  "Figure 2: Foreign-key ledger — rows 93–122 of 122 (11/11)"
+    },
+    {
+        "kind":  "h1",
+        "page":  30,
+        "style":  "Heading 1",
+        "text":  "Database Design for Sprint"
+    },
+    {
+        "kind":  "h2",
+        "page":  30,
+        "style":  "Heading 2",
+        "text":  "Account"
+    },
+    {
+        "kind":  "caption",
+        "page":  30,
+        "style":  "Caption",
+        "text":  "Table 2: Database Design (Account)"
+    },
+    {
+        "kind":  "h2",
+        "page":  30,
+        "style":  "Heading 2",
+        "text":  "Role"
+    },
+    {
+        "kind":  "caption",
+        "page":  30,
+        "style":  "Caption",
+        "text":  "Table 3: Database Design (Role)"
+    },
+    {
+        "kind":  "h2",
+        "page":  30,
+        "style":  "Heading 2",
+        "text":  "AccountRole"
+    },
+    {
+        "kind":  "caption",
+        "page":  30,
+        "style":  "Caption",
+        "text":  "Table 4: Database Design (AccountRole)"
+    },
+    {
+        "kind":  "h2",
+        "page":  31,
+        "style":  "Heading 2",
+        "text":  "UserProfile"
+    },
+    {
+        "kind":  "caption",
+        "page":  31,
+        "style":  "Caption",
+        "text":  "Table 5: Database Design (UserProfile)"
+    },
+    {
+        "kind":  "h2",
+        "page":  31,
+        "style":  "Heading 2",
+        "text":  "CourseLearningOutcome"
+    },
+    {
+        "kind":  "caption",
+        "page":  31,
+        "style":  "Caption",
+        "text":  "Table 6: Database Design (CourseLearningOutcome)"
+    },
+    {
+        "kind":  "h2",
+        "page":  32,
+        "style":  "Heading 2",
+        "text":  "Concept"
+    },
+    {
+        "kind":  "caption",
+        "page":  32,
+        "style":  "Caption",
+        "text":  "Table 7: Database Design (Concept)"
+    },
+    {
+        "kind":  "h2",
+        "page":  32,
+        "style":  "Heading 2",
+        "text":  "CLOConcept"
+    },
+    {
+        "kind":  "caption",
+        "page":  32,
+        "style":  "Caption",
+        "text":  "Table 8: Database Design (CLOConcept)"
+    },
+    {
+        "kind":  "h2",
+        "page":  33,
+        "style":  "Heading 2",
+        "text":  "Question"
+    },
+    {
+        "kind":  "caption",
+        "page":  33,
+        "style":  "Caption",
+        "text":  "Table 9: Database Design (Question)"
+    },
+    {
+        "kind":  "h2",
+        "page":  35,
+        "style":  "Heading 2",
+        "text":  "QuestionConcept"
+    },
+    {
+        "kind":  "caption",
+        "page":  35,
+        "style":  "Caption",
+        "text":  "Table 10: Database Design (QuestionConcept)"
+    },
+    {
+        "kind":  "h2",
+        "page":  35,
+        "style":  "Heading 2",
+        "text":  "MCQOption"
+    },
+    {
+        "kind":  "caption",
+        "page":  35,
+        "style":  "Caption",
+        "text":  "Table 11: Database Design (MCQOption)"
+    },
+    {
+        "kind":  "h2",
+        "page":  35,
+        "style":  "Heading 2",
+        "text":  "SQLTestDataset"
+    },
+    {
+        "kind":  "caption",
+        "page":  35,
+        "style":  "Caption",
+        "text":  "Table 12: Database Design (SQLTestDataset)"
+    },
+    {
+        "kind":  "h2",
+        "page":  36,
+        "style":  "Heading 2",
+        "text":  "Rubric"
+    },
+    {
+        "kind":  "caption",
+        "page":  36,
+        "style":  "Caption",
+        "text":  "Table 13: Database Design (Rubric)"
+    },
+    {
+        "kind":  "h2",
+        "page":  36,
+        "style":  "Heading 2",
+        "text":  "Assessment"
+    },
+    {
+        "kind":  "caption",
+        "page":  36,
+        "style":  "Caption",
+        "text":  "Table 14: Database Design (Assessment)"
+    },
+    {
+        "kind":  "h2",
+        "page":  37,
+        "style":  "Heading 2",
+        "text":  "AssessmentConcept"
+    },
+    {
+        "kind":  "caption",
+        "page":  37,
+        "style":  "Caption",
+        "text":  "Table 15: Database Design (AssessmentConcept)"
+    },
+    {
+        "kind":  "h2",
+        "page":  37,
+        "style":  "Heading 2",
+        "text":  "AssessmentSession"
+    },
+    {
+        "kind":  "caption",
+        "page":  37,
+        "style":  "Caption",
+        "text":  "Table 16: Database Design (AssessmentSession)"
+    },
+    {
+        "kind":  "h2",
+        "page":  39,
+        "style":  "Heading 2",
+        "text":  "Attempt"
+    },
+    {
+        "kind":  "caption",
+        "page":  39,
+        "style":  "Caption",
+        "text":  "Table 17: Database Design (Attempt)"
+    },
+    {
+        "kind":  "h2",
+        "page":  40,
+        "style":  "Heading 2",
+        "text":  "SelectionLog"
+    },
+    {
+        "kind":  "caption",
+        "page":  40,
+        "style":  "Caption",
+        "text":  "Table 18: Database Design (SelectionLog)"
+    },
+    {
+        "kind":  "h2",
+        "page":  41,
+        "style":  "Heading 2",
+        "text":  "ConceptCompetency"
+    },
+    {
+        "kind":  "caption",
+        "page":  41,
+        "style":  "Caption",
+        "text":  "Table 19: Database Design (ConceptCompetency)"
+    },
+    {
+        "kind":  "h2",
+        "page":  41,
+        "style":  "Heading 2",
+        "text":  "CompetencyGap"
+    },
+    {
+        "kind":  "caption",
+        "page":  41,
+        "style":  "Caption",
+        "text":  "Table 20: Database Design (CompetencyGap)"
+    },
+    {
+        "kind":  "h2",
+        "page":  42,
+        "style":  "Heading 2",
+        "text":  "LLMCache"
+    },
+    {
+        "kind":  "caption",
+        "page":  42,
+        "style":  "Caption",
+        "text":  "Table 21: Database Design (LLMCache)"
+    },
+    {
+        "kind":  "h2",
+        "page":  42,
+        "style":  "Heading 2",
+        "text":  "QuestionCandidate"
+    },
+    {
+        "kind":  "caption",
+        "page":  42,
+        "style":  "Caption",
+        "text":  "Table 22: Database Design (QuestionCandidate)"
+    },
+    {
+        "kind":  "h2",
+        "page":  43,
+        "style":  "Heading 2",
+        "text":  "AccountIdentity"
+    },
+    {
+        "kind":  "caption",
+        "page":  43,
+        "style":  "Caption",
+        "text":  "Table 23: Database Design (AccountIdentity)"
+    },
+    {
+        "kind":  "h2",
+        "page":  43,
+        "style":  "Heading 2",
+        "text":  "AccountRoleAudit"
+    },
+    {
+        "kind":  "caption",
+        "page":  43,
+        "style":  "Caption",
+        "text":  "Table 24: Database Design (AccountRoleAudit)"
+    },
+    {
+        "kind":  "h2",
+        "page":  44,
+        "style":  "Heading 2",
+        "text":  "OAuthHandoff"
+    },
+    {
+        "kind":  "caption",
+        "page":  44,
+        "style":  "Caption",
+        "text":  "Table 25: Database Design (OAuthHandoff)"
+    },
+    {
+        "kind":  "h2",
+        "page":  44,
+        "style":  "Heading 2",
+        "text":  "LoginThrottle"
+    },
+    {
+        "kind":  "caption",
+        "page":  44,
+        "style":  "Caption",
+        "text":  "Table 26: Database Design (LoginThrottle)"
+    },
+    {
+        "kind":  "h2",
+        "page":  44,
+        "style":  "Heading 2",
+        "text":  "ConceptDependency"
+    },
+    {
+        "kind":  "caption",
+        "page":  44,
+        "style":  "Caption",
+        "text":  "Table 27: Database Design (ConceptDependency)"
+    },
+    {
+        "kind":  "h2",
+        "page":  45,
+        "style":  "Heading 2",
+        "text":  "QuestionTranslation"
+    },
+    {
+        "kind":  "caption",
+        "page":  45,
+        "style":  "Caption",
+        "text":  "Table 28: Database Design (QuestionTranslation)"
+    },
+    {
+        "kind":  "h2",
+        "page":  45,
+        "style":  "Heading 2",
+        "text":  "SessionQuestionPlan"
+    },
+    {
+        "kind":  "caption",
+        "page":  45,
+        "style":  "Caption",
+        "text":  "Table 29: Database Design (SessionQuestionPlan)"
+    },
+    {
+        "kind":  "h2",
+        "page":  45,
+        "style":  "Heading 2",
+        "text":  "SessionStartRequest"
+    },
+    {
+        "kind":  "caption",
+        "page":  45,
+        "style":  "Caption",
+        "text":  "Table 30: Database Design (SessionStartRequest)"
+    },
+    {
+        "kind":  "h2",
+        "page":  46,
+        "style":  "Heading 2",
+        "text":  "GradingJob"
+    },
+    {
+        "kind":  "caption",
+        "page":  46,
+        "style":  "Caption",
+        "text":  "Table 31: Database Design (GradingJob)"
+    },
+    {
+        "kind":  "h2",
+        "page":  46,
+        "style":  "Heading 2",
+        "text":  "GradeReview"
+    },
+    {
+        "kind":  "caption",
+        "page":  46,
+        "style":  "Caption",
+        "text":  "Table 32: Database Design (GradeReview)"
+    },
+    {
+        "kind":  "h2",
+        "page":  47,
+        "style":  "Heading 2",
+        "text":  "ResultReleaseEvent"
+    },
+    {
+        "kind":  "caption",
+        "page":  47,
+        "style":  "Caption",
+        "text":  "Table 33: Database Design (ResultReleaseEvent)"
+    },
+    {
+        "kind":  "h2",
+        "page":  47,
+        "style":  "Heading 2",
+        "text":  "AssessmentBlueprint"
+    },
+    {
+        "kind":  "caption",
+        "page":  47,
+        "style":  "Caption",
+        "text":  "Table 34: Database Design (AssessmentBlueprint)"
+    },
+    {
+        "kind":  "h2",
+        "page":  48,
+        "style":  "Heading 2",
+        "text":  "AdaptiveEvent"
+    },
+    {
+        "kind":  "caption",
+        "page":  48,
+        "style":  "Caption",
+        "text":  "Table 35: Database Design (AdaptiveEvent)"
+    },
+    {
+        "kind":  "h2",
+        "page":  49,
+        "style":  "Heading 2",
+        "text":  "PasswordResetToken"
+    },
+    {
+        "kind":  "caption",
+        "page":  49,
+        "style":  "Caption",
+        "text":  "Table 36: Database Design (PasswordResetToken)"
+    },
+    {
+        "kind":  "h2",
+        "page":  49,
+        "style":  "Heading 2",
+        "text":  "PasswordResetAudit"
+    },
+    {
+        "kind":  "caption",
+        "page":  49,
+        "style":  "Caption",
+        "text":  "Table 37: Database Design (PasswordResetAudit)"
+    },
+    {
+        "kind":  "h2",
+        "page":  49,
+        "style":  "Heading 2",
+        "text":  "AssessmentQuestion"
+    },
+    {
+        "kind":  "caption",
+        "page":  49,
+        "style":  "Caption",
+        "text":  "Table 38: Database Design (AssessmentQuestion)"
+    },
+    {
+        "kind":  "h2",
+        "page":  49,
+        "style":  "Heading 2",
+        "text":  "EvaluationRecord"
+    },
+    {
+        "kind":  "caption",
+        "page":  49,
+        "style":  "Caption",
+        "text":  "Table 39: Database Design (EvaluationRecord)"
+    },
+    {
+        "kind":  "h2",
+        "page":  50,
+        "style":  "Heading 2",
+        "text":  "GradeEditAudit"
+    },
+    {
+        "kind":  "caption",
+        "page":  50,
+        "style":  "Caption",
+        "text":  "Table 40: Database Design (GradeEditAudit)"
+    },
+    {
+        "kind":  "h2",
+        "page":  51,
+        "style":  "Heading 2",
+        "text":  "RefreshSession"
+    },
+    {
+        "kind":  "caption",
+        "page":  51,
+        "style":  "Caption",
+        "text":  "Table 41: Database Design (RefreshSession)"
+    },
+    {
+        "kind":  "h2",
+        "page":  52,
+        "style":  "Heading 2",
+        "text":  "SystemSetting"
+    },
+    {
+        "kind":  "caption",
+        "page":  52,
+        "style":  "Caption",
+        "text":  "Table 42: Database Design (SystemSetting)"
+    },
+    {
+        "kind":  "h2",
+        "page":  52,
+        "style":  "Heading 2",
+        "text":  "A.1 ai_prompt_content"
+    },
+    {
+        "kind":  "caption",
+        "page":  52,
+        "style":  "Caption",
+        "text":  "Table A.1: Database Design (ai_prompt_content)"
+    },
+    {
+        "kind":  "h2",
+        "page":  53,
+        "style":  "Heading 2",
+        "text":  "A.2 ai_prompt_record"
+    },
+    {
+        "kind":  "caption",
+        "page":  53,
+        "style":  "Caption",
+        "text":  "Table A.2: Database Design (ai_prompt_record)"
+    },
+    {
+        "kind":  "h2",
+        "page":  53,
+        "style":  "Heading 2",
+        "text":  "A.3 ai_stage_attempt"
+    },
+    {
+        "kind":  "caption",
+        "page":  53,
+        "style":  "Caption",
+        "text":  "Table A.3: Database Design (ai_stage_attempt)"
+    },
+    {
+        "kind":  "h2",
+        "page":  54,
+        "style":  "Heading 2",
+        "text":  "A.4 ai_stage_run"
+    },
+    {
+        "kind":  "caption",
+        "page":  54,
+        "style":  "Caption",
+        "text":  "Table A.4: Database Design (ai_stage_run)"
+    },
+    {
+        "kind":  "h2",
+        "page":  55,
+        "style":  "Heading 2",
+        "text":  "A.5 ai_stage_validation"
+    },
+    {
+        "kind":  "caption",
+        "page":  56,
+        "style":  "Caption",
+        "text":  "Table A.5: Database Design (ai_stage_validation)"
+    },
+    {
+        "kind":  "h2",
+        "page":  56,
+        "style":  "Heading 2",
+        "text":  "A.6 attempt_rubric_criterion"
+    },
+    {
+        "kind":  "caption",
+        "page":  56,
+        "style":  "Caption",
+        "text":  "Table A.6: Database Design (attempt_rubric_criterion)"
+    },
+    {
+        "kind":  "h2",
+        "page":  57,
+        "style":  "Heading 2",
+        "text":  "A.7 course_document"
+    },
+    {
+        "kind":  "caption",
+        "page":  57,
+        "style":  "Caption",
+        "text":  "Table A.7: Database Design (course_document)"
+    },
+    {
+        "kind":  "h2",
+        "page":  58,
+        "style":  "Heading 2",
+        "text":  "A.8 document_chunk"
+    },
+    {
+        "kind":  "caption",
+        "page":  58,
+        "style":  "Caption",
+        "text":  "Table A.8: Database Design (document_chunk)"
+    },
+    {
+        "kind":  "h2",
+        "page":  59,
+        "style":  "Heading 2",
+        "text":  "A.9 document_clo"
+    },
+    {
+        "kind":  "caption",
+        "page":  59,
+        "style":  "Caption",
+        "text":  "Table A.9: Database Design (document_clo)"
+    },
+    {
+        "kind":  "h2",
+        "page":  59,
+        "style":  "Heading 2",
+        "text":  "A.10 prompt_access_audit"
+    },
+    {
+        "kind":  "caption",
+        "page":  59,
+        "style":  "Caption",
+        "text":  "Table A.10: Database Design (prompt_access_audit)"
+    },
+    {
+        "kind":  "h2",
+        "page":  60,
+        "style":  "Heading 2",
+        "text":  "A.11 question_clo"
+    },
+    {
+        "kind":  "caption",
+        "page":  60,
+        "style":  "Caption",
+        "text":  "Table A.11: Database Design (question_clo)"
+    },
+    {
+        "kind":  "h2",
+        "page":  60,
+        "style":  "Heading 2",
+        "text":  "A.12 question_evidence"
+    },
+    {
+        "kind":  "caption",
+        "page":  60,
+        "style":  "Caption",
+        "text":  "Table A.12: Database Design (question_evidence)"
+    },
+    {
+        "kind":  "h2",
+        "page":  61,
+        "style":  "Heading 2",
+        "text":  "A.13 question_report"
+    },
+    {
+        "kind":  "caption",
+        "page":  61,
+        "style":  "Caption",
+        "text":  "Table A.13: Database Design (question_report)"
+    },
+    {
+        "kind":  "h2",
+        "page":  62,
+        "style":  "Heading 2",
+        "text":  "A.14 question_rubric_criterion"
+    },
+    {
+        "kind":  "caption",
+        "page":  62,
+        "style":  "Caption",
+        "text":  "Table A.14: Database Design (question_rubric_criterion)"
+    },
+    {
+        "kind":  "h2",
+        "page":  63,
+        "style":  "Heading 2",
+        "text":  "A.15 question_rubric_profile"
+    },
+    {
+        "kind":  "caption",
+        "page":  63,
+        "style":  "Caption",
+        "text":  "Table A.15: Database Design (question_rubric_profile)"
+    },
+    {
+        "kind":  "h2",
+        "page":  63,
+        "style":  "Heading 2",
+        "text":  "A.16 retention_purge_audit"
+    },
+    {
+        "kind":  "caption",
+        "page":  64,
+        "style":  "Caption",
+        "text":  "Table A.16: Database Design (retention_purge_audit)"
+    },
+    {
+        "kind":  "h2",
+        "page":  64,
+        "style":  "Heading 2",
+        "text":  "A.17 review_deviation"
+    },
+    {
+        "kind":  "caption",
+        "page":  64,
+        "style":  "Caption",
+        "text":  "Table A.17: Database Design (review_deviation)"
+    },
+    {
+        "kind":  "h2",
+        "page":  65,
+        "style":  "Heading 2",
+        "text":  "A.18 review_deviation_confirmation"
+    },
+    {
+        "kind":  "caption",
+        "page":  65,
+        "style":  "Caption",
+        "text":  "Table A.18: Database Design (review_deviation_confirmation)"
+    },
+    {
+        "kind":  "h2",
+        "page":  66,
+        "style":  "Heading 2",
+        "text":  "A.19 review_request"
+    },
+    {
+        "kind":  "caption",
+        "page":  66,
+        "style":  "Caption",
+        "text":  "Table A.19: Database Design (review_request)"
+    },
+    {
+        "kind":  "h2",
+        "page":  68,
+        "style":  "Heading 2",
+        "text":  "A.20 session_final_result"
+    },
+    {
+        "kind":  "caption",
+        "page":  68,
+        "style":  "Caption",
+        "text":  "Table A.20: Database Design (session_final_result)"
+    },
+    {
+        "kind":  "h2",
+        "page":  68,
+        "style":  "Heading 2",
+        "text":  "A.21 session_result_analysis"
+    },
+    {
+        "kind":  "caption",
+        "page":  69,
+        "style":  "Caption",
+        "text":  "Table A.21: Database Design (session_result_analysis)"
+    },
+    {
+        "kind":  "h2",
+        "page":  69,
+        "style":  "Heading 2",
+        "text":  "A.22 session_result_criterion_score"
+    },
+    {
+        "kind":  "caption",
+        "page":  69,
+        "style":  "Caption",
+        "text":  "Table A.22: Database Design (session_result_criterion_score)"
+    },
+    {
+        "kind":  "h2",
+        "page":  70,
+        "style":  "Heading 2",
+        "text":  "A.23 session_result_publication"
+    },
+    {
+        "kind":  "caption",
+        "page":  70,
+        "style":  "Caption",
+        "text":  "Table A.23: Database Design (session_result_publication)"
+    },
+    {
+        "kind":  "h2",
+        "page":  70,
+        "style":  "Heading 2",
+        "text":  "A.24 session_result_version"
+    },
+    {
+        "kind":  "caption",
+        "page":  71,
+        "style":  "Caption",
+        "text":  "Table A.24: Database Design (session_result_version)"
+    },
+    {
+        "kind":  "h2",
+        "page":  71,
+        "style":  "Heading 2",
+        "text":  "A.25 session_result_version_score"
+    },
+    {
+        "kind":  "caption",
+        "page":  71,
+        "style":  "Caption",
+        "text":  "Table A.25: Database Design (session_result_version_score)"
+    },
+    {
+        "kind":  "h2",
+        "page":  72,
+        "style":  "Heading 2",
+        "text":  "A.26 tab_leave_interval"
+    },
+    {
+        "kind":  "caption",
+        "page":  72,
+        "style":  "Caption",
+        "text":  "Table A.26: Database Design (tab_leave_interval)"
+    },
+    {
+        "kind":  "h1",
+        "page":  73,
+        "style":  "Heading 1",
+        "text":  "Hardware and Software Requirements"
+    },
+    {
+        "kind":  "caption",
+        "page":  73,
+        "style":  "Caption",
+        "text":  "Table 23: Hardware and Software Requirements"
+    },
+    {
+        "kind":  "h1",
+        "page":  74,
+        "style":  "Heading 1",
+        "text":  "Appendix B. Open owner decisions"
+    },
+    {
+        "kind":  "h1",
+        "page":  75,
+        "style":  "Heading 1",
+        "text":  "Appendix C. Figure sources"
+    },
+    {
+        "kind":  "caption",
+        "page":  75,
+        "style":  "Normal",
+        "text":  "Figure 1\r\u0007"
+    },
+    {
+        "kind":  "caption",
+        "page":  75,
+        "style":  "Normal",
+        "text":  "Figure 2\r\u0007"
+    },
+    {
+        "kind":  "caption",
+        "page":  75,
+        "style":  "Normal",
+        "text":  "Figure 2\r\u0007"
+    }
+]
