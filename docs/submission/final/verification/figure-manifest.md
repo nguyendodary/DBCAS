@@ -11,7 +11,7 @@ lists the document, caption, file and pixel size.
 | ProposalDocument | Figure 4: Evidence-based Competency & Gap Evaluation Pipeline | `ProposalDocument-Figure-4-Evidence-based-Competency-Gap-Evaluation-Pipeline-fa0e6f2179.png` | 3200×3160 |
 | ArchitectureDesign | Figure 1. Use Case Diagram | `ArchitectureDesign-Figure-1-Use-Case-Diagram-b720c69de7.png` | 3120×3300 |
 | ArchitectureDesign | Figure 2. System Context Diagram | `ArchitectureDesign-Figure-2-System-Context-Diagram-aa428705a3.png` | 3600×2440 |
-| ArchitectureDesign | Figure 3. Container Diagram | `ArchitectureDesign-Figure-3-Container-Diagram-678caa08e0.png` | 3600×2560 |
+| ArchitectureDesign | Figure 3. Container Diagram | `ArchitectureDesign-Figure-3-Container-Diagram-67e55be232.png` | 1780×1645 |
 | ArchitectureDesign | Figure 4 (1/2). Component Diagram — controllers, services and repositories: Auth, Practice, Curriculum and Question Bank | `ArchitectureDesign-Figure-4-1-2-Component-Diagram-controllers-services-and-repositories-Auth-Practi-80cfe9208a.png` | 1400×980 |
 | ArchitectureDesign | Figure 4 (2/2). Component Diagram — Analytics/Competency & Gap, Grading and Accounts/Admin & Settings. The Database cyli | `ArchitectureDesign-Figure-4-2-2-Component-Diagram-Analytics-Competency-Gap-Grading-and-Accounts-Adm-c261e2f01b.png` | 1400×980 |
 | ArchitectureDesign | Figure 5. Module View | `ArchitectureDesign-Figure-5-Module-View-46468d9525.png` | 3300×2050 |
