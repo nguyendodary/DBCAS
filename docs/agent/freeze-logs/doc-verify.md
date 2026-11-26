@@ -1,30 +1,32 @@
 # ver1.3 submission document verification (2026-11-26)
 
-This is the current verification record for the five owner documents. The
-2026-11-25 record described the condensed generated set (20/22/40/12/13 pages);
-that set was rejected and is preserved byte-for-byte in
-`Archive/rejected-final-20261126/`. The submission set now consists of in-place
-revisions of the content-complete baseline (Proposal, Architecture, Database)
-and the best surviving DBCAS Code Standards and Technical Report.
+This is the current verification record for the five owner documents rebuilt
+from the **owner-confirmed baselines**: Proposal
+`C1SE.70_ProposalDocument_DBCAS_ver1.4.docx` (52 pages), Architecture
+`docs/academic/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx` (70 pages),
+Database `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` (21 pages), FITAI Code
+Standard `C1SE.56_CodeStandard_SHFA_ver2.0.docx` (14 pages) and FITAI AI
+Documentation `C1SE.56_FitnessAI_FNAI_ver2.0.docx` (12 pages). The earlier
+attempt is archived byte-for-byte in `Archive/rejected-final-2-20261126/`
+(81 files + `MANIFEST.sha256`).
 
 ## 1. Files and page counts
 
 | Document | File | Baseline pages | Final pages | Change |
 |---|---|---:|---:|---:|
-| Proposal | `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx` | 61 | 62 | +1 |
-| Architecture Design | `C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx` | 78 | 79 | +1 |
-| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 72 | 75 | +3 |
-| Code Standards | `C1SE.70_CodeStandards_DBCAS_ver1.3.docx` | 12 | 14 | +2 |
-| Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 13 | 15 | +2 |
-| **Total** | | **236** | **245** | **+9** |
+| Proposal | `C1SE.70_ProposalDocument_DBCAS_ver1.3.docx` | 52 | 61 | +9 |
+| Architecture Design | `C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx` | 70 | 80 | +10 |
+| Database Design | `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` | 21 | 75 | +54 |
+| Code Standards | `C1SE.70_CodeStandards_DBCAS_ver1.3.docx` | 14 | 17 | +3 |
+| Technical Report | `C1SE.70_TechnicalReport_DBCAS_ver1.3.docx` | 12 | 18 | +6 |
+| **Total** | | **169** | **251** | **+82** |
 
 Page counts are from Word (`ComputeStatistics(2)`) and agree with PyMuPDF on the
-exported PDFs. The deltas are explained: each document gains two uniform
-appendices (owner decisions, figure sources); the Proposal gains the explicit
-Mode 1/Mode 2 paragraph; Architecture/Database replace 13 low-detail ERD/TRD
-pages with 13 rebuilt ERD/ledger pages and reflow their 11 pt captions; Code
-Standards gains a legible layering figure and the appendices; the Technical
-Report gains the appendices. No baseline section was deleted to shorten a
+exported PDFs. The Database baseline is a 21-page design skeleton; the final
+adds the 67-table dictionary and the 13-page ERD/ledger set, so its growth is
+expected. The Proposal and Architecture gain the confirmed sections, appendices
+and measured figures; Code Standards and the Technical Report gain the DBCAS
+body, appendices and figures. No baseline section was deleted to shorten a
 document.
 
 ## 2. Visual inspection
@@ -36,10 +38,10 @@ also opened at full size and inspected:
 
 | Document | Page | What was checked | Result |
 |---|---:|---|---|
-| Architecture | 5 | Table of Contents | Entries, dot leaders and page numbers fit; no overflow |
-| Architecture | 8 | List of Figures | 20 entries, correct titles and pages, no clipping |
-| Architecture | 60 | Landscape ERD overview | Header/footer, 20.5 cm figure, 11 pt caption, legible labels |
-| Database | 22 | Landscape module ERD | Image title and caption both `(2/11)`; key columns legible; no overflow |
+| Architecture | 6 | Table of Contents | Entries, dot leaders and page numbers fit; no overflow |
+| Architecture | 9 | List of Figures | 20 entries, correct titles and pages, no clipping |
+| Architecture | 61 | Landscape ERD overview | Header/footer, 20.5 cm figure, 11 pt caption, legible labels |
+| Database | 19 | Landscape module ERD | Image title and caption both `(2/11)`; key columns legible; no overflow |
 | Proposal | 43 | Gantt roadmap page | 13 dated rows; final submission before defence; caption and image agree |
 
 Code Standards' new layering figure is 15.2 × 6.99 cm and the page passes the
@@ -52,7 +54,7 @@ The ERD set is generated from `docs/diagrams/schema-028/schema-introspection.jso
 document has an overview page, an index page, seven module ERDs with
 intra-module relationship lines, and four ledgers that enumerate every foreign
 key with cardinality and delete/update rules. The full column dictionary remains
-in §3 and Appendix A, so the ERD cards show keys only and stay legible.
+in Section 3 and Appendix A, so the ERD cards show keys only and stay legible.
 
 ## 3. XML-reading checks
 
@@ -82,7 +84,7 @@ structure and styles. Result: **5 documents, 148 assertions, 0 failures**.
 | Figure and table captions | 11 pt italic, centred |
 | Code blocks | Consolas 9 pt |
 | Header and footer | 9 pt |
-| TOC / List of Tables / List of Figures | as produced by Word, aligned from the rendered PDF |
+| TOC / List of Tables / List of Figures | as produced by Word, aligned from Word paragraph pagination (0 mismatches) |
 
 ## 4. Number comparison
 
@@ -97,7 +99,7 @@ structure and styles. Result: **5 documents, 148 assertions, 0 failures**.
 | Backend tests | 1 940 passed, 7 skipped in 23:54 | `docs/agent/freeze-logs/backend-pytest-final.log:35` |
 | Frontend unit tests | 54 files, 463 tests | `docs/agent/freeze-logs/frontend-test.log:16-17` |
 | Browser tests | 152 passed (11 + 72 + 12 + 3 + 54) | six baseline shard logs; no saved skip |
-| Secret scan | Whole tree, 0 findings | `npm run secrets:scan` on 2026-11-26 (3 298 files at that run) |
+| Secret scan | Whole tree, 0 findings | `npm run secrets:scan` on 2026-11-26 (3 402 files at that run) |
 
 The live database reports 68 tables and 564 columns because it also holds the
 runtime `schema_migration` ledger; the documents state this exclusion.
@@ -156,8 +158,8 @@ The same ten items are listed in Appendix A of every document.
 
 - Word cannot update the TOC fields on this baseline without hanging (the
   global `Fields.Update()` path stalls). The DOCX is shipped with
-  `updateFields` disabled; the TOC and both lists were aligned from the rendered
-  PDF (0 mismatches). A future Word session may update them manually.
+  `updateFields` disabled; the TOC and both lists were aligned from Word paragraph pagination;
+  scripts/check_toc_from_word.py reports 0 mismatches across 360 entries.
 - The two-stage AI audit and the writable DML path were not re-executed for this
   document set; the numbers quoted come from the saved freeze logs.
 - No learner study, usability test, provider-retention decision or public

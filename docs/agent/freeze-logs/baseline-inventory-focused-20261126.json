@@ -1,0 +1,4154 @@
+[
+ {
+  "sha256": "d80be1f4513ceef3",
+  "representative": "Archive\\extracts\\docread\\backup_docs\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Documents\\Archive\\root-old-revisions\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1792679608.9592438,
+  "size": 2264448,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "58fb037e9c5a06da",
+  "representative": "Archive\\extracts\\docread\\backup_docs\\C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+  "also_at": [
+   "Documents\\Archive\\root-old-revisions\\C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx"
+  ],
+  "copies": 2,
+  "modified": 1792679608.9699464,
+  "size": 982250,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "69d467e599a45a2e",
+  "representative": "Archive\\extracts\\docread\\backup_docs\\C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+  "also_at": [
+   "Documents\\Archive\\root-old-revisions\\C1SE.70_ProposalDocument_DBCAS_ver1.5.docx"
+  ],
+  "copies": 2,
+  "modified": 1792679608.946008,
+  "size": 2723459,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "7160977975fb1e6f",
+  "representative": "Archive\\extracts\\docread\\backup_docs\\C1SE.70_UserStoryDocument_DBCAS_ver1.4.docx",
+  "also_at": [
+   "Documents\\Other\\C1SE.70_UserStoryDocument_DBCAS_ver1.4.docx"
+  ],
+  "copies": 2,
+  "modified": 1792679608.9808912,
+  "size": 65297,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2058,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-22 13:40:53+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "433a8ba8711049dd",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792676127.0797276,
+  "size": 65023,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+   "CORE: title='DBCAS Architecture Design Document' author='C1SE.70' created=datetime.datetime(2026, 9, 30, 6, 3, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 15, 10, tzinfo=datetime.timezone.utc) revision=33 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "797b09910c30242a",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792712927.1045609,
+  "size": 82751,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+   "CORE: title='DBCAS Architecture Design Document' author='C1SE.70' created=datetime.datetime(2026, 9, 30, 6, 3, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 15, 10, tzinfo=datetime.timezone.utc) revision=33 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "595ca538034d4670",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792676127.207653,
+  "size": 23964,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+   "CORE: title='' author='Dung Phan' created=datetime.datetime(2025, 12, 3, 7, 5, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 15, 4, tzinfo=datetime.timezone.utc) revision=155 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "7e52f749de2151c8",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_DatabaseDesign_DBCAS_ver1.4.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792712927.30294,
+  "size": 36178,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+   "CORE: title='' author='Dung Phan' created=datetime.datetime(2025, 12, 3, 7, 5, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 15, 4, tzinfo=datetime.timezone.utc) revision=155 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "101241a6469a662e",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_ProposalDocument_DBCAS_ver1.4.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792676127.3200173,
+  "size": 68137,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+   "CORE: title='Design Project Proposal Format' author='Tu,Tran Van' created=datetime.datetime(2026, 9, 20, 4, 27, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 15, 33, tzinfo=datetime.timezone.utc) revision=55 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "b2d44319d5f695e9",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_ProposalDocument_DBCAS_ver1.5.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792712927.4365597,
+  "size": 75087,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+   "CORE: title='Design Project Proposal Format' author='Tu,Tran Van' created=datetime.datetime(2026, 9, 20, 4, 27, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 15, 33, tzinfo=datetime.timezone.utc) revision=55 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "c67f94be67ce1c73",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_UserStoryDocument_DBCAS_ver1.1.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792676127.3543353,
+  "size": 15835,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx",
+   "CORE: title='Design Project Proposal Format' author='tranvantu' created=datetime.datetime(2025, 12, 17, 20, 48, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 13, 18, 2, tzinfo=datetime.timezone.utc) revision=33 last_modified_by='thư nguyễn'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "05e32f4274db5953",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792676127.398627,
+  "size": 16405,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_UserStoryDocument_DBCAS_ver1.3.docx",
+   "CORE: title='Design Project Proposal Format' author='tranvantu' created=datetime.datetime(2025, 12, 17, 20, 48, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 2, 13, 5, tzinfo=datetime.timezone.utc) revision=39 last_modified_by='Do Nguyen'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "80dfac874e33eaaa",
+  "representative": "Archive\\extracts\\docread\\C1SE.70_UserStoryDocument_DBCAS_ver1.4.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792712927.4909017,
+  "size": 19902,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "FILE: C1SE.70_UserStoryDocument_DBCAS_ver1.4.docx",
+   "CORE: title='DBCAS User Story Document' author='tranvantu' created=datetime.datetime(2025, 12, 17, 20, 48, tzinfo=datetime.timezone.utc) modified=datetime.datetime(2026, 10, 22, 13, 40, 53, tzinfo=datetime.timezone.utc) revision=39 last_modified_by='C1SE.70 Project Team'",
+   "================================================================================"
+  ]
+ },
+ {
+  "sha256": "b9c42b7a3a6b9964",
+  "representative": "Archive\\extracts\\docread\\controlled_20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793123502.203224,
+  "size": 2388789,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 10917,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-27 17:51:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "cb8eb0cb18f5117a",
+  "representative": "Archive\\extracts\\docread\\controlled_20261028\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793123514.2866333,
+  "size": 1055953,
+  "pages": 33,
+  "pdf_pages": null,
+  "words": 4242,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-27 17:51:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "da9a911e7fa68370",
+  "representative": "Archive\\extracts\\docread\\controlled_20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793123492.6355166,
+  "size": 2851560,
+  "pages": 57,
+  "pdf_pages": null,
+  "words": 9622,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-27 17:51:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "6d151eadc9fae1c8",
+  "representative": "Archive\\extracts\\docread\\controlled_20261028\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793123504.461838,
+  "size": 72431,
+  "pages": 23,
+  "pdf_pages": null,
+  "words": 2773,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-27 17:51:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose2",
+   "1.2. Scope2"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "d06e7de235e4724c",
+  "representative": "Archive\\extracts\\docread\\pre_caption_backup_20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793121943.473197,
+  "size": 2257198,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "005ec525aa62d79b",
+  "representative": "Archive\\extracts\\docread\\pre_caption_backup_20261028\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Archive\\extracts\\docread\\pre_refresh_backup_20261028\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793121943.6599658,
+  "size": 991800,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "1f700a0c9392e9ed",
+  "representative": "Archive\\extracts\\docread\\pre_caption_backup_20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Archive\\extracts\\docread\\pre_refresh_backup_20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793121943.3145893,
+  "size": 2719526,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "ae2e7f13e9f0c1af",
+  "representative": "Archive\\extracts\\docread\\pre_caption_backup_20261028\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Archive\\extracts\\docread\\pre_refresh_backup_20261028\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793121943.5244734,
+  "size": 65392,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2058,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-22 13:40:53+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "c9150dc07e81cc68",
+  "representative": "Archive\\extracts\\docread\\pre_format_backup_20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793119140.02086,
+  "size": 2257489,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "aa350f53ca9f03dc",
+  "representative": "Archive\\extracts\\docread\\pre_format_backup_20261028\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793115791.261756,
+  "size": 992124,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "f0831f05ca708da6",
+  "representative": "Archive\\extracts\\docread\\pre_format_backup_20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793115791.0844848,
+  "size": 2719778,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "30d3a74a6f0c10ea",
+  "representative": "Archive\\extracts\\docread\\pre_format_backup_20261028\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Archive\\extracts\\docread\\pre_media_backup_20261027\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793101347.9691,
+  "size": 65645,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2058,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-22 13:40:53+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "3393b95f7f0629e4",
+  "representative": "Archive\\extracts\\docread\\pre_labels_backup_20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Archive\\extracts\\docread\\render_labels_20261028\\src_before.docx"
+  ],
+  "copies": 2,
+  "modified": 1793159529.179925,
+  "size": 2238299,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 10917,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "5754fa8d8aff0fa4",
+  "representative": "Archive\\extracts\\docread\\pre_labels_backup_20261028\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Documents\\Archive\\root-v1.2-20261028\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793159529.2012691,
+  "size": 996457,
+  "pages": 33,
+  "pdf_pages": null,
+  "words": 4242,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "efabc6f8db968de3",
+  "representative": "Archive\\extracts\\docread\\pre_labels_backup_20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Documents\\Archive\\root-v1.2-20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793159529.164634,
+  "size": 2710000,
+  "pages": 57,
+  "pdf_pages": null,
+  "words": 9622,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "abb68f78b2baa6ef",
+  "representative": "Archive\\extracts\\docread\\pre_labels_backup_20261028\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Documents\\Other\\C1SE.70_UserStoryDocument_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1793159529.1890042,
+  "size": 66489,
+  "pages": 23,
+  "pdf_pages": null,
+  "words": 2773,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-22 13:40:53+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose2",
+   "1.2. Scope2"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "5d87e17d442ffa27",
+  "representative": "Archive\\extracts\\docread\\pre_media_backup_20261027\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793101347.9423306,
+  "size": 2265623,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "6e700a8bb8103e3a",
+  "representative": "Archive\\extracts\\docread\\pre_media_backup_20261027\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793101348.6718562,
+  "size": 985173,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "f21dae997cb9237d",
+  "representative": "Archive\\extracts\\docread\\pre_media_backup_20261027\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793101347.8010519,
+  "size": 2723346,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "8a64dd456933e519",
+  "representative": "Archive\\extracts\\docread\\pre_refresh_backup_20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793123591.3055944,
+  "size": 2257115,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "a42f5d5efd7a06f5",
+  "representative": "Archive\\extracts\\docread\\pre_roadmap_backup_20261028\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793123598.6189697,
+  "size": 2719906,
+  "pages": 57,
+  "pdf_pages": null,
+  "words": 9622,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "04116cefecee1ede",
+  "representative": "Archive\\extracts\\docread\\pre_typography_backup_20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [
+   "Archive\\extracts\\docread\\render_typo_20261028\\src_before.docx"
+  ],
+  "copies": 2,
+  "modified": 1793123598.6995103,
+  "size": 2258629,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 10917,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "a64bb781d6686843",
+  "representative": "Archive\\extracts\\docread\\prose_backup_20261027\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793115791.192487,
+  "size": 2257452,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "1d667737c52dbb85",
+  "representative": "Archive\\extracts\\docread\\rejected_versions\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792680308.5335946,
+  "size": 2128180,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "e49dba82abee5590",
+  "representative": "Archive\\extracts\\docread\\rejected_versions\\C1SE.70_DatabaseDesign_DBCAS_ver1.4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792680275.201662,
+  "size": 745931,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "a635118d224b93ad",
+  "representative": "Archive\\extracts\\docread\\rejected_versions\\C1SE.70_ProposalDocument_DBCAS_ver1.5.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1792680275.0834157,
+  "size": 2959855,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "f97299e0d5eb3665",
+  "representative": "Archive\\extracts\\extract\\backup\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [
+   "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx"
+  ],
+  "copies": 2,
+  "modified": 1790934954.1248558,
+  "size": 2245518,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 8690,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 06:41:00+00:00",
+  "toc": [],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "270fb54711e16b7c",
+  "representative": "Archive\\extracts\\extract\\backup\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1790934954.1330223,
+  "size": 961122,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3253,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 08:02:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "50437c93c5081ec4",
+  "representative": "Archive\\extracts\\extract\\backup\\C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+  "also_at": [
+   "C1SE.70_ProposalDocument_DBCAS_ver1.4.docx"
+  ],
+  "copies": 2,
+  "modified": 1790934954.1330223,
+  "size": 2717612,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 10132,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 08:05:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 3,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "e71e0f44a0696ae3",
+  "representative": "Archive\\extracts\\extract\\backup\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790934954.1538403,
+  "size": 60464,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2225,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-10-02 03:36:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "d6f27253e3eac1d0",
+  "representative": "Archive\\extracts\\extract\\backup\\final\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790938861.6469986,
+  "size": 2245836,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 8690,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 06:41:00+00:00",
+  "toc": [],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "b9672211ff9cfb71",
+  "representative": "Archive\\extracts\\extract\\backup\\final\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790938861.6597526,
+  "size": 961109,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3253,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 08:02:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "899db7b3faa2ba89",
+  "representative": "Archive\\extracts\\extract\\backup\\final\\C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790938861.6700878,
+  "size": 2717091,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 10132,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 08:05:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 1,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "5a7b8aadc1799287",
+  "representative": "Archive\\extracts\\extract\\backup\\final\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790938861.6802251,
+  "size": 60428,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2225,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-10-02 03:36:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "26cdf364c376bb89",
+  "representative": "Archive\\extracts\\extract\\backup\\pre_align_fix\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Archive\\extracts\\extract\\ref_backup\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1791258892.6266472,
+  "size": 1024645,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "e452f1004e169056",
+  "representative": "Archive\\extracts\\extract\\backup\\pre_align_fix\\C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1791258892.6402948,
+  "size": 2851211,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "d3d29c99c3b53dee",
+  "representative": "Archive\\extracts\\extract\\forensic_backup\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790945964.2098744,
+  "size": 2384646,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 12:59:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "85b01f4e43572f87",
+  "representative": "Archive\\extracts\\extract\\forensic_backup\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790945160.9575734,
+  "size": 1023547,
+  "pages": 21,
+  "pdf_pages": null,
+  "words": 3458,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 12:46:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "0a54d13b35417888",
+  "representative": "Archive\\extracts\\extract\\forensic_backup\\C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790943263.3472457,
+  "size": 2845442,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 9438,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 12:14:00+00:00",
+  "toc": [
+   "1. Project Title9",
+   "2. Team Members10",
+   "3. Supervisor(s)11"
+  ],
+  "sections": 1,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "606380228d803275",
+  "representative": "Archive\\extracts\\extract\\forensic_backup\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790943268.6016307,
+  "size": 70007,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2029,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-10-02 12:14:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "07235350e8108031",
+  "representative": "Archive\\extracts\\extract\\ref_backup\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790953821.1390412,
+  "size": 2386267,
+  "pages": 52,
+  "pdf_pages": null,
+  "words": 9591,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "b018f704a23dd730",
+  "representative": "Archive\\extracts\\extract\\ref_backup\\C1SE.70_ProposalDocument_DBCAS_ver1.4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790954774.3820324,
+  "size": 2852066,
+  "pages": 53,
+  "pdf_pages": null,
+  "words": 10067,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:26:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "c8f3629d438d7588",
+  "representative": "Archive\\extracts\\extract\\ref_backup\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1790946334.5443838,
+  "size": 69676,
+  "pages": 16,
+  "pdf_pages": null,
+  "words": 2058,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-10-02 13:05:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "2fbfe66f39804bee",
+  "representative": "Archive\\quality-pass-20261125-before\\final\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Archive\\rejected-final-20261126\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795622137.0001438,
+  "size": 1283046,
+  "pages": 22,
+  "pdf_pages": null,
+  "words": 4232,
+  "title": "Architecture Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 15:44:00+00:00",
+  "toc": [
+   "1. Introduction6",
+   "1.1 Purpose and Scope6",
+   "1.2 How this Document Was Measured6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 6
+ },
+ {
+  "sha256": "c3864b46e135fcf2",
+  "representative": "Archive\\quality-pass-20261125-before\\final\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Archive\\rejected-final-20261126\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795622137.0289173,
+  "size": 57383,
+  "pages": 12,
+  "pdf_pages": null,
+  "words": 2215,
+  "title": "Code Standards Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 15:45:00+00:00",
+  "toc": [
+   "1. Purpose and Scope5",
+   "2. Repository Structure5",
+   "3. Naming Conventions5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "e7ae9fd6759be804",
+  "representative": "Archive\\quality-pass-20261125-before\\final\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Archive\\rejected-final-20261126\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795622137.1213458,
+  "size": 1057112,
+  "pages": 40,
+  "pdf_pages": null,
+  "words": 6025,
+  "title": "Database Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 15:55:00+00:00",
+  "toc": [
+   "1. Introduction5",
+   "1.1 Scope5",
+   "1.2 How This Document Was Measured5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "540ff23f5bb035b3",
+  "representative": "Archive\\quality-pass-20261125-before\\final\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Archive\\rejected-final-20261126\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795622137.1953232,
+  "size": 1454652,
+  "pages": 20,
+  "pdf_pages": null,
+  "words": 4158,
+  "title": "Project Proposal",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 15:44:00+00:00",
+  "toc": [
+   "1. Project Title5",
+   "2. Team Members5",
+   "3. Supervisor(s)6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 4
+ },
+ {
+  "sha256": "1dd64e511072cabc",
+  "representative": "Archive\\quality-pass-20261125-before\\final\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx",
+  "also_at": [
+   "Archive\\rejected-final-20261126\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795622137.234753,
+  "size": 214346,
+  "pages": 13,
+  "pdf_pages": null,
+  "words": 2883,
+  "title": "Technical Report",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 15:45:00+00:00",
+  "toc": [
+   "Abstract5",
+   "1. Introduction5",
+   "2. Related Work6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "6847ffb26c769c93",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\architecture.docx",
+  "also_at": [
+   "DBCAS\\_review\\academic-version-history-20261030\\backups\\C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx"
+  ],
+  "copies": 2,
+  "modified": 1793327433.6870337,
+  "size": 2401571,
+  "pages": 65,
+  "pdf_pages": null,
+  "words": 13517,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-30 02:30:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "6e3121e83a90f4da",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\database.docx",
+  "also_at": [
+   "Archive\\review\\root-review\\academic-v1.1\\pre-final-fix-backup\\database.docx",
+   "DBCAS\\_review\\academic-version-history-20261030\\backups\\C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx"
+  ],
+  "copies": 3,
+  "modified": 1793326773.1793954,
+  "size": 1054937,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "d3a9840a3274afd9",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-final-fix-backup\\architecture.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793326759.5114286,
+  "size": 2401462,
+  "pages": 65,
+  "pdf_pages": null,
+  "words": 13530,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "3ca0e6e25f5430fe",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-final-fix-backup\\proposal.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793326924.3249836,
+  "size": 2858100,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 12149,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-30 02:22:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "a4964ddf53b336e2",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-final-fix-backup\\userstory.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793327005.1709287,
+  "size": 74549,
+  "pages": 27,
+  "pdf_pages": null,
+  "words": 3270,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-30 02:23:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "7150b211de77afc3",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-fix-backup\\architecture.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793326633.725821,
+  "size": 2401681,
+  "pages": 64,
+  "pdf_pages": null,
+  "words": 13380,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-30 01:53:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "6efc2f9e49709318",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-fix-backup\\database.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793326633.7370093,
+  "size": 1054807,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5714,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 01:53:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "db5a459fa3d0a925",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-fix-backup\\proposal.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793326633.7004237,
+  "size": 2858186,
+  "pages": 61,
+  "pdf_pages": null,
+  "words": 12060,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-30 01:53:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "159a894dac272e63",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\pre-fix-backup\\userstory.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793326633.7133613,
+  "size": 73832,
+  "pages": 26,
+  "pdf_pages": null,
+  "words": 2883,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-30 01:53:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "5bf591a9034f21d4",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\proposal.docx",
+  "also_at": [
+   "DBCAS\\_review\\academic-version-history-20261030\\backups\\C1SE.70_ProposalDocument_DBCAS_ver1.1.docx"
+  ],
+  "copies": 2,
+  "modified": 1793327411.4521909,
+  "size": 2858166,
+  "pages": 61,
+  "pdf_pages": null,
+  "words": 12143,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-30 02:30:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "dc0a0e7555a4cc3f",
+  "representative": "Archive\\review\\root-review\\academic-v1.1\\userstory.docx",
+  "also_at": [
+   "DBCAS\\_review\\academic-version-history-20261030\\backups\\C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx"
+  ],
+  "copies": 2,
+  "modified": 1793327420.059316,
+  "size": 74559,
+  "pages": 27,
+  "pdf_pages": null,
+  "words": 3044,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-30 02:30:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "30ef1bd003298800",
+  "representative": "Archive\\review\\root-review\\final-owner-review-20261014\\docs\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1791984104.9759529,
+  "size": 58713,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "5d8829162847874c",
+  "representative": "Archive\\review\\root-review\\final-owner-review-20261014\\docs\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1791984105.0459766,
+  "size": 21964,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.3 Date: October 2nd, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date    International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.3 Date: October 2nd, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "276ffe54481aa1c9",
+  "representative": "Archive\\review\\root-review\\final-owner-review-20261014\\docs\\C1SE.70_ProposalDocument_DBCAS_ver1.4.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1791984105.0929377,
+  "size": 64164,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "a04d1d73a77a5810",
+  "representative": "Archive\\review\\root-review\\final-owner-review-20261014\\docs\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1791984105.1262317,
+  "size": 14259,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "72fd56b311778851",
+  "representative": "Archive\\review\\root-review\\functional-completion-20261029\\documents\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793266235.4982362,
+  "size": 2323839,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 10917,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "2223100d6fb34571",
+  "representative": "Archive\\review\\root-review\\functional-completion-20261029\\documents\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793266235.6504207,
+  "size": 997938,
+  "pages": 33,
+  "pdf_pages": null,
+  "words": 4242,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-02 15:04:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "27d5cbcf00927ba5",
+  "representative": "Archive\\review\\root-review\\functional-completion-20261029\\documents\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793266233.6980698,
+  "size": 2711644,
+  "pages": 57,
+  "pdf_pages": null,
+  "words": 9622,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-02 15:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "4bd11bec4be03b36",
+  "representative": "Archive\\review\\root-review\\functional-completion-20261029\\documents\\C1SE.70_UserStoryDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793266235.7036874,
+  "size": 69124,
+  "pages": 23,
+  "pdf_pages": null,
+  "words": 2773,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-22 13:40:53+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose2",
+   "1.2. Scope2"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "8aacfe6d2a345857",
+  "representative": "C1SE.70_ArchitectureDesign_DBCAS_ver1.2.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795353987.2315176,
+  "size": 82865,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "1b0edf5dbbb41ca4",
+  "representative": "C1SE.70_DatabaseDesign_DBCAS_ver1.2.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795353987.3276577,
+  "size": 40045,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date    International School  Capstone Project 1 CMU-SE 450_C1SE.70  Database Design Document Version 1.2 Date: November 8th, 2026         DBCAS – AI-Assisted Database Competency Assessment and Skill Gap Analysis Submitted by C1SE.70                Thu, Nguyen Ngoc Anh - 29209245799Nguyen, Nguyen Nhat - 26211227029Truong, Nguyen Quang - 29212730635Do, Nguyen Quoc - 29211156881Han, Nguyen Ngoc - 29204423268      Approved by  MSc. Huynh Duc Viet Review Panel Representative:                                               Name     Signature    Date  Capstone Project 1Mentor:            Name MSc Viet, Huynh Duc    Signature    Date",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "a5f4ef62adc287c8",
+  "representative": "C1SE.70_ProposalDocument_DBCAS_ver1.2.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795353987.1734912,
+  "size": 75915,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "7152c3a4135ae8bf",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\backup\\C1SE.70_DatabaseDesign_DBCAS_ver1.1.original.docx",
+  "also_at": [
+   "DBCAS\\_review\\dbdesign-layout-20261030\\work\\orig2.docx",
+   "DBCAS\\docs\\academic\\C1SE.70_DatabaseDesign_DBCAS_ver1.1.docx"
+  ],
+  "copies": 3,
+  "modified": 1793330516.2254112,
+  "size": 992429,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "6045072fb629feeb",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\work\\pre-word.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793339389.5893383,
+  "size": 992476,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "71aabb15be12ecdc",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\work\\t2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793337752.7252064,
+  "size": 992472,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "8e7026220a41fbe0",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\work\\t3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793337753.1281264,
+  "size": 992476,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "e726b6b6ff7f8a1f",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\work\\t4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793337753.5501547,
+  "size": 992473,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "8bc4224de1caf006",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\work\\t5.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793337753.9588523,
+  "size": 992470,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "9d63def5f9a0ff1b",
+  "representative": "DBCAS\\_review\\dbdesign-layout-20261030\\work\\test1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793337645.5848188,
+  "size": 992469,
+  "pages": 34,
+  "pdf_pages": null,
+  "words": 5768,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-30 02:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "8f72a2789b148fda",
+  "representative": "DBCAS\\_review\\fitai-edition-20261125\\backup\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "DBCAS\\docs\\submission\\recovery\\backups\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795612287.2574515,
+  "size": 1362159,
+  "pages": 22,
+  "pdf_pages": null,
+  "words": 4623,
+  "title": "Architecture Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:11:00+00:00",
+  "toc": [
+   "1. Introduction6",
+   "1.1 Purpose and Scope6",
+   "1.2 How this Document Was Measured6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 6
+ },
+ {
+  "sha256": "b43ceabb192c0517",
+  "representative": "DBCAS\\_review\\fitai-edition-20261125\\backup\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx",
+  "also_at": [
+   "DBCAS\\docs\\submission\\recovery\\backups\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795612311.886685,
+  "size": 57535,
+  "pages": 12,
+  "pdf_pages": null,
+  "words": 2402,
+  "title": "Code Standards Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:11:00+00:00",
+  "toc": [
+   "1. Purpose and Scope5",
+   "2. Repository Structure5",
+   "3. Naming Conventions5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "aa009b2f5ac3e1d0",
+  "representative": "DBCAS\\_review\\fitai-edition-20261125\\backup\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [
+   "DBCAS\\docs\\submission\\recovery\\backups\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795613033.9454818,
+  "size": 1120508,
+  "pages": 39,
+  "pdf_pages": null,
+  "words": 7043,
+  "title": "Database Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:23:00+00:00",
+  "toc": [
+   "1. Introduction5",
+   "1.1 Scope5",
+   "1.2 How This Document Was Measured5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "1a50115d8b2be071",
+  "representative": "DBCAS\\_review\\fitai-edition-20261125\\backup\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [
+   "DBCAS\\docs\\submission\\recovery\\backups\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx"
+  ],
+  "copies": 2,
+  "modified": 1795612277.3054764,
+  "size": 1513124,
+  "pages": 20,
+  "pdf_pages": null,
+  "words": 4547,
+  "title": "Project Proposal",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:11:00+00:00",
+  "toc": [
+   "1. Project Title5",
+   "2. Team Members5",
+   "3. Supervisor(s)6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 4
+ },
+ {
+  "sha256": "fac7a8f0226ebf4c",
+  "representative": "DBCAS\\_review\\fitai-edition-20261125\\backup\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx",
+  "also_at": [
+   "DBCAS\\_review\\recovery-20261125-2054\\corrected-report.docx",
+   "DBCAS\\docs\\submission\\recovery\\backups\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx"
+  ],
+  "copies": 3,
+  "modified": 1795615290.9298437,
+  "size": 220122,
+  "pages": 13,
+  "pdf_pages": null,
+  "words": 3023,
+  "title": "Technical Report",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:30:00+00:00",
+  "toc": [
+   "Abstract5",
+   "1. Introduction5",
+   "2. Related Work6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "7a6da182308a9c81",
+  "representative": "DBCAS\\_review\\originals\\Architecture.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795393073.1067476,
+  "size": 3890625,
+  "pages": 70,
+  "pdf_pages": null,
+  "words": 13387,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 14
+ },
+ {
+  "sha256": "2eb5a7937caa538b",
+  "representative": "DBCAS\\_review\\originals\\Database.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795393073.1364408,
+  "size": 2343460,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 6
+ },
+ {
+  "sha256": "3b68e918b51e53c0",
+  "representative": "DBCAS\\_review\\originals\\Proposal.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795393073.1628613,
+  "size": 2937973,
+  "pages": 60,
+  "pdf_pages": null,
+  "words": 11977,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "82fb4b03dc6e8db8",
+  "representative": "DBCAS\\_review\\originals\\SRS.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795393073.17037,
+  "size": 612297,
+  "pages": 23,
+  "pdf_pages": null,
+  "words": 2965,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-01-06 05:09:00+00:00",
+  "toc": [],
+  "sections": 1,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "f0cda71027c77383",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\build\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795610024.0372953,
+  "size": 1367501,
+  "pages": 22,
+  "pdf_pages": 22,
+  "words": 4459,
+  "title": "Architecture Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:33:00+00:00",
+  "toc": [
+   "1. Introduction6",
+   "1.1 Purpose and Scope6",
+   "1.2 How this Document Was Measured6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 6
+ },
+ {
+  "sha256": "505585f317e938c0",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\build\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795610033.6319318,
+  "size": 63591,
+  "pages": 12,
+  "pdf_pages": 12,
+  "words": 2402,
+  "title": "Code Standards Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:33:00+00:00",
+  "toc": [
+   "1. Purpose and Scope5",
+   "2. Repository Structure5",
+   "3. Naming Conventions5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "410b18a9e51970e5",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\build\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795610243.9118307,
+  "size": 1131592,
+  "pages": 39,
+  "pdf_pages": 39,
+  "words": 7034,
+  "title": "Database Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:37:00+00:00",
+  "toc": [
+   "1. Introduction5",
+   "1.1 Scope5",
+   "1.2 How This Document Was Measured5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "69521e87cd0548ce",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\build\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795610058.4498315,
+  "size": 1519898,
+  "pages": 20,
+  "pdf_pages": 20,
+  "words": 4547,
+  "title": "Project Proposal",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:34:00+00:00",
+  "toc": [
+   "1. Project Title5",
+   "2. Team Members5",
+   "3. Supervisor(s)6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 4
+ },
+ {
+  "sha256": "e38ad8175dc9eb57",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\build\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795610067.9887738,
+  "size": 225025,
+  "pages": 13,
+  "pdf_pages": 13,
+  "words": 3021,
+  "title": "Technical Report",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:34:00+00:00",
+  "toc": [
+   "Abstract5",
+   "1. Introduction5",
+   "2. Related Work6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "243e63f9e25e6e2c",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\extract\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795607754.639144,
+  "size": 90055,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "be063c38d4c8cb01",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\extract\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795607755.0401,
+  "size": 73659,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "PROJECT INFORMATION",
+   "| Project acronym | DBCAS | DBCAS | DBCAS |",
+   "|---|---|---|---|"
+  ]
+ },
+ {
+  "sha256": "0b215b07d270e031",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\extract\\C1SE.70_ProposalDocument_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795607754.4332669,
+  "size": 79771,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "7ca1fa711d6c1e5f",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\extract\\C1SE.70_SRS_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795607755.1425943,
+  "size": 20826,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "International School",
+   "Capstone Project 1",
+   "CMU-SE 450_C1SE.70"
+  ]
+ },
+ {
+  "sha256": "a6a99fb180fbf498",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\prop-test.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795609219.6729848,
+  "size": 1519751,
+  "pages": 20,
+  "pdf_pages": 20,
+  "words": 4547,
+  "title": "Project Proposal",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:20:00+00:00",
+  "toc": [
+   "1. Project Title5",
+   "2. Team Members5",
+   "3. Supervisor(s)6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 4
+ },
+ {
+  "sha256": "322f1d56d55b9a5e",
+  "representative": "DBCAS\\_review\\owner-docs-20261125\\test-style.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795608176.9460907,
+  "size": 533201,
+  "pages": 5,
+  "pdf_pages": 5,
+  "words": 392,
+  "title": "Architecture Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 12:02:00+00:00",
+  "toc": [
+   "1. Introduction5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "3601fca47b20c4b3",
+  "representative": "DBCAS\\_review\\work\\Architecture-restored.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795415816.5973737,
+  "size": 5414236,
+  "pages": 70,
+  "pdf_pages": null,
+  "words": 13387,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "56dc6ca74a175d60",
+  "representative": "DBCAS\\_review\\work\\Architecture.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795415802.9963996,
+  "size": 5607956,
+  "pages": 77,
+  "pdf_pages": 77,
+  "words": 13593,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-11-23 06:36:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "a1114b30c77e8249",
+  "representative": "DBCAS\\_review\\work\\Database-restored.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795415816.7903569,
+  "size": 3856051,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "5f54e6a6823a7f3d",
+  "representative": "DBCAS\\_review\\work\\Database.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795415815.868604,
+  "size": 4059893,
+  "pages": 70,
+  "pdf_pages": 70,
+  "words": 10664,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-23 06:36:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "7d9edbb73f29f77e",
+  "representative": "DBCAS\\_review\\work\\SRS-restored.docx",
+  "also_at": [
+   "DBCAS\\docs\\submission\\SRS.docx"
+  ],
+  "copies": 2,
+  "modified": 1795415816.9165757,
+  "size": 610840,
+  "pages": 23,
+  "pdf_pages": null,
+  "words": 2965,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-01-06 05:09:00+00:00",
+  "toc": [],
+  "sections": 1,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "75f846fd6a663652",
+  "representative": "DBCAS\\_review\\work\\SRS.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795415784.3418307,
+  "size": 610840,
+  "pages": 23,
+  "pdf_pages": 7,
+  "words": 2965,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-01-06 05:09:00+00:00",
+  "toc": [],
+  "sections": 1,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "cd57e89d3f0b3498",
+  "representative": "DBCAS\\docs\\academic\\C1SE.70_ArchitectureDesign_DBCAS_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793330515.9162903,
+  "size": 2268194,
+  "pages": 65,
+  "pdf_pages": null,
+  "words": 13517,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-30 02:30:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "ba359c6ffa5e1770",
+  "representative": "DBCAS\\docs\\academic\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580018.2350507,
+  "size": 3772704,
+  "pages": 70,
+  "pdf_pages": null,
+  "words": 13265,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-11-09 15:26:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 14
+ },
+ {
+  "sha256": "84fc137b533aa795",
+  "representative": "DBCAS\\docs\\academic\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580018.2410724,
+  "size": 2151930,
+  "pages": 40,
+  "pdf_pages": null,
+  "words": 6594,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-09 15:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 6
+ },
+ {
+  "sha256": "32b8ac763c4a6c90",
+  "representative": "DBCAS\\docs\\academic\\C1SE.70_ProposalDocument_DBCAS_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793330516.4208467,
+  "size": 2725950,
+  "pages": 61,
+  "pdf_pages": null,
+  "words": 12143,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-30 02:30:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "8685a674bd2aaea2",
+  "representative": "DBCAS\\docs\\academic\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580018.2481196,
+  "size": 2708065,
+  "pages": 59,
+  "pdf_pages": null,
+  "words": 11776,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-11-09 15:25:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "ea7c9157b8512b37",
+  "representative": "DBCAS\\docs\\academic\\C1SE.70_UserStoryDocument_DBCAS_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793330516.4858737,
+  "size": 67690,
+  "pages": 27,
+  "pdf_pages": null,
+  "words": 3044,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-30 02:30:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "c48ac703f6d4524c",
+  "representative": "DBCAS\\docs\\submission\\Architecture.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580018.4847255,
+  "size": 5414222,
+  "pages": 70,
+  "pdf_pages": null,
+  "words": 13387,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "b7c184fd7a952b26",
+  "representative": "DBCAS\\docs\\submission\\before\\SRS-base.docx",
+  "also_at": [
+   "Software Requiremen Specification Template.docx"
+  ],
+  "copies": 2,
+  "modified": 1795580018.9782248,
+  "size": 1216503,
+  "pages": 20,
+  "pdf_pages": 20,
+  "words": 3039,
+  "title": "",
+  "author": "caobinh",
+  "core_modified": "2025-10-16 14:57:00+00:00",
+  "toc": [
+   "Revision History4",
+   "1.Introduction5",
+   "1.1.Purpose5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 10
+ },
+ {
+  "sha256": "ed3b4e0303dd3d12",
+  "representative": "DBCAS\\docs\\submission\\before\\text\\SRS-base.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580019.1732469,
+  "size": 38593,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "[P001] [Normal] SOFTWARE REQUIREMENT SPECIFICATION",
+   "[P002] [Normal] DOCUMENT",
+   "[P006] [Normal] STUDENT MANAGEMENT"
+  ]
+ },
+ {
+  "sha256": "1f4431d5202c719a",
+  "representative": "DBCAS\\docs\\submission\\Database.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580018.4920416,
+  "size": 3856039,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "39a4d7b7df40ac77",
+  "representative": "DBCAS\\docs\\submission\\final\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632767.8001325,
+  "size": 17536186,
+  "pages": 78,
+  "pdf_pages": null,
+  "words": 13846,
+  "title": "Architecture Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-26 12:00:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "5a12c13e6aba0832",
+  "representative": "DBCAS\\docs\\submission\\final\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632767.8043232,
+  "size": 194261,
+  "pages": 12,
+  "pdf_pages": null,
+  "words": 2215,
+  "title": "Code Standards Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-26 12:00:00+00:00",
+  "toc": [
+   "1. Purpose and Scope4",
+   "2. Repository Structure4",
+   "3. Naming Conventions4"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "6e378bbd55a60984",
+  "representative": "DBCAS\\docs\\submission\\final\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632767.8275397,
+  "size": 15486790,
+  "pages": 72,
+  "pdf_pages": null,
+  "words": 10696,
+  "title": "Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-26 12:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "e7fcf007990806e5",
+  "representative": "DBCAS\\docs\\submission\\final\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632767.8339868,
+  "size": 1089972,
+  "pages": 61,
+  "pdf_pages": null,
+  "words": 12672,
+  "title": "Proposal Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 17:56:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "b46cf6bb71b9fa8a",
+  "representative": "DBCAS\\docs\\submission\\final\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632767.8368306,
+  "size": 217059,
+  "pages": 13,
+  "pdf_pages": null,
+  "words": 2883,
+  "title": "Technical Report — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-26 12:00:00+00:00",
+  "toc": [
+   "Abstract4",
+   "1. Introduction4",
+   "2. Related Work5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "ee3db51e594e08d2",
+  "representative": "DBCAS\\docs\\submission\\Proposal.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795580018.510348,
+  "size": 2929226,
+  "pages": 60,
+  "pdf_pages": null,
+  "words": 11977,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "4697b41d42861add",
+  "representative": "DBCAS\\docs\\submission\\recovery\\qa\\text\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2376184,
+  "size": 30840,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "DUY TAN UNIVERSITY",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "20a110512212ad90",
+  "representative": "DBCAS\\docs\\submission\\recovery\\qa\\text\\C1SE.70_CodeStandards_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2376184,
+  "size": 17030,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "DUY TAN UNIVERSITY",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "bb1205f4d82c444a",
+  "representative": "DBCAS\\docs\\submission\\recovery\\qa\\text\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2386613,
+  "size": 52860,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "DUY TAN UNIVERSITY",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "a1f414721a4ae45b",
+  "representative": "DBCAS\\docs\\submission\\recovery\\qa\\text\\C1SE.70_ProposalDocument_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2396598,
+  "size": 31394,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "DUY TAN UNIVERSITY",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "e78a8b9384424fc7",
+  "representative": "DBCAS\\docs\\submission\\recovery\\qa\\text\\C1SE.70_TechnicalReport_DBCAS_ver1.3.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2411096,
+  "size": 20053,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "DUY TAN UNIVERSITY",
+   "International School",
+   "Capstone Project 1"
+  ]
+ },
+ {
+  "sha256": "decdf80b21e3dee6",
+  "representative": "DBCAS\\docs\\submission\\recovery\\staging\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2461932,
+  "size": 1283108,
+  "pages": 22,
+  "pdf_pages": null,
+  "words": 4623,
+  "title": "Architecture Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:11:00+00:00",
+  "toc": [
+   "1. Introduction6",
+   "1.1 Purpose and Scope6",
+   "1.2 How this Document Was Measured6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 6
+ },
+ {
+  "sha256": "75c606989986ec60",
+  "representative": "DBCAS\\docs\\submission\\recovery\\staging\\C1SE.70_CodeStandards_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2486663,
+  "size": 57420,
+  "pages": 12,
+  "pdf_pages": null,
+  "words": 2402,
+  "title": "Code Standards Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:11:00+00:00",
+  "toc": [
+   "1. Purpose and Scope5",
+   "2. Repository Structure5",
+   "3. Naming Conventions5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "6d9d77d9e7256eb9",
+  "representative": "DBCAS\\docs\\submission\\recovery\\staging\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2514534,
+  "size": 1057086,
+  "pages": 39,
+  "pdf_pages": null,
+  "words": 7043,
+  "title": "Database Design Document",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:23:00+00:00",
+  "toc": [
+   "1. Introduction5",
+   "1.1 Scope5",
+   "1.2 How This Document Was Measured5"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "07600c96f621000b",
+  "representative": "DBCAS\\docs\\submission\\recovery\\staging\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2574692,
+  "size": 1454726,
+  "pages": 20,
+  "pdf_pages": null,
+  "words": 4547,
+  "title": "Project Proposal",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:11:00+00:00",
+  "toc": [
+   "1. Project Title5",
+   "2. Team Members5",
+   "3. Supervisor(s)6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 4
+ },
+ {
+  "sha256": "0ba2aefe400346e9",
+  "representative": "DBCAS\\docs\\submission\\recovery\\staging\\C1SE.70_TechnicalReport_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795632768.2584715,
+  "size": 214398,
+  "pages": 13,
+  "pdf_pages": null,
+  "words": 3023,
+  "title": "Technical Report",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 13:30:00+00:00",
+  "toc": [
+   "Abstract5",
+   "1. Introduction5",
+   "2. Related Work6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "e005c5a751ac675b",
+  "representative": "Documents\\Archive\\C1SE.70_SRS_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795611712.082007,
+  "size": 55569,
+  "pages": 9,
+  "pdf_pages": null,
+  "words": 3046,
+  "title": "DBCAS Software Requirements Specification — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1. REVISION HISTORY2",
+   "2. Table of Contents2",
+   "3. Introduction3"
+  ],
+  "sections": 1,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "a66d4af2b549a00f",
+  "representative": "Documents\\Archive\\root-old-revisions\\C1SE.70_ArchitectureDesign_DBCAS_ver1.4.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793286365.9214861,
+  "size": 2399322,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 10741,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-29 15:06:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "055004c5ddbf30b1",
+  "representative": "Documents\\Archive\\root-old-revisions\\C1SE.70_DatabaseDesign_DBCAS_ver1.5.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793286378.2519362,
+  "size": 1046475,
+  "pages": 32,
+  "pdf_pages": null,
+  "words": 3971,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-10-29 15:06:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 2
+ },
+ {
+  "sha256": "abc2198335bb64af",
+  "representative": "Documents\\Archive\\root-old-revisions\\C1SE.70_ProposalDocument_DBCAS_ver1.6.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793286350.6202526,
+  "size": 2856798,
+  "pages": 59,
+  "pdf_pages": null,
+  "words": 10162,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-10-29 15:05:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "034d91c9c1d09e40",
+  "representative": "Documents\\Archive\\root-v1.2-20261028\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793161314.2436144,
+  "size": 2320232,
+  "pages": 62,
+  "pdf_pages": null,
+  "words": 10917,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-10-02 15:10:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases1"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "8a982c3c5759596d",
+  "representative": "Documents\\Archive\\srs-verification-20261125\\refreshed-baseline\\C1SE.70_SRS_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795599587.1904109,
+  "size": 45538,
+  "pages": 9,
+  "pdf_pages": null,
+  "words": 3046,
+  "title": "DBCAS Software Requirements Specification — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 09:39:00+00:00",
+  "toc": [
+   "1. REVISION HISTORY2",
+   "2. Table of Contents2",
+   "3. Introduction3"
+  ],
+  "sections": 1,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "a3a7c101ce6d470c",
+  "representative": "Documents\\Archive\\srs-verification-20261125\\refreshed-logo\\C1SE.70_SRS_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795601011.0268526,
+  "size": 60947,
+  "pages": 9,
+  "pdf_pages": null,
+  "words": 3046,
+  "title": "DBCAS Software Requirements Specification — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 10:03:00+00:00",
+  "toc": [
+   "1. REVISION HISTORY2",
+   "2. Table of Contents2",
+   "3. Introduction3"
+  ],
+  "sections": 1,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "77fdd2729c754967",
+  "representative": "Documents\\Archive\\srs-verification-20261125\\refreshed\\C1SE.70_SRS_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795599201.5637085,
+  "size": 45544,
+  "pages": 9,
+  "pdf_pages": null,
+  "words": 3046,
+  "title": "DBCAS Software Requirements Specification — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 09:33:00+00:00",
+  "toc": [
+   "1. REVISION HISTORY2",
+   "2. Table of Contents2",
+   "3. Introduction3"
+  ],
+  "sections": 1,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "4f38a753da43ba9d",
+  "representative": "Documents\\Archive\\srs-verification-20261125\\repro-check\\C1SE.70_SRS_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795602746.7219262,
+  "size": 629957,
+  "pages": 23,
+  "pdf_pages": null,
+  "words": 2965,
+  "title": "DBCAS Software Requirements Specification — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [],
+  "sections": 1,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "1914e650c07e8f47",
+  "representative": "Documents\\Final-ver1.3\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795601849.735193,
+  "size": 5151772,
+  "pages": 78,
+  "pdf_pages": null,
+  "words": 13846,
+  "title": "DBCAS Architecture Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "918b3919685dd3b6",
+  "representative": "Documents\\Final-ver1.3\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795601849.8757489,
+  "size": 3709183,
+  "pages": 72,
+  "pdf_pages": null,
+  "words": 10696,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "119b9be0214b1ddd",
+  "representative": "Documents\\Final-ver1.3\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795601849.5829015,
+  "size": 2773752,
+  "pages": 61,
+  "pdf_pages": null,
+  "words": 12169,
+  "title": "DBCAS Project Proposal Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "1f26669ae26e779e",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\content-only\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597802.7230613,
+  "size": 3709849,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-22 17:17:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "8e6eaff3379c0bfa",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\no-run-normalization\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597804.2689104,
+  "size": 3720809,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "fbe8d83a04844aef",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\no-style-normalization\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597803.7348843,
+  "size": 3724446,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "50b54f3a9f434777",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\no-table-normalization\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597803.1556542,
+  "size": 3715228,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "f93df70aa1abcbf3",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-caption\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597925.4729714,
+  "size": 3720810,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "8044f2849e289ba6",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-docdefaults\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597923.6250794,
+  "size": 3720782,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "8e48594cf21e29f8",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-headings\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597924.9018595,
+  "size": 3720812,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "2172e119b801bcd9",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-list\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597926.173206,
+  "size": 3720816,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "6b750c6d52ef1609",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-none\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597926.9574058,
+  "size": 3720795,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "9a4a666538d39b5e",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-normal\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597924.3025136,
+  "size": 3720798,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "70ad60739c7bf5dc",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\style-theme\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795597927.7814198,
+  "size": 3720790,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "4c88033c7cbca885",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\tables-layout-only-bare\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795598685.3069043,
+  "size": 3710264,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "37bbbae64d85faee",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\tables-layout-only-full\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795598683.1461773,
+  "size": 3715165,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "3892fb50f712a50d",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\tables-runprops-only-bare\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795598686.200859,
+  "size": 3720915,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "ae8cc1f1ee65d7fa",
+  "representative": "Documents\\Final-ver1.3\\verification\\layout-diagnostics\\tables-runprops-only-full\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795598684.520491,
+  "size": 3724494,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "e18af76aff941021",
+  "representative": "Documents\\Final-ver1.3\\verification\\refreshed-final\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795601812.1542282,
+  "size": 5609428,
+  "pages": 78,
+  "pdf_pages": null,
+  "words": 13846,
+  "title": "DBCAS Architecture Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 10:16:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "51e4f275cc596277",
+  "representative": "Documents\\Final-ver1.3\\verification\\refreshed-final\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795601804.6582103,
+  "size": 2938042,
+  "pages": 61,
+  "pdf_pages": null,
+  "words": 12169,
+  "title": "DBCAS Project Proposal Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 10:16:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "3c0d36bc6b1298f2",
+  "representative": "Documents\\Final-ver1.3\\verification\\refreshed\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795599173.1871064,
+  "size": 5610098,
+  "pages": 78,
+  "pdf_pages": null,
+  "words": 13845,
+  "title": "DBCAS Architecture Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 09:32:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "2c4be2a40c7f35a5",
+  "representative": "Documents\\Final-ver1.3\\verification\\refreshed\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795599189.2277222,
+  "size": 4060908,
+  "pages": 72,
+  "pdf_pages": null,
+  "words": 10696,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 09:33:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "b16772d68c94b7ea",
+  "representative": "Documents\\Final-ver1.3\\verification\\refreshed\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795599197.9018393,
+  "size": 2938001,
+  "pages": 60,
+  "pdf_pages": null,
+  "words": 12149,
+  "title": "DBCAS Project Proposal Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 09:33:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "4ccfde8b7ab59007",
+  "representative": "Documents\\Final-ver1.3\\verification\\repro-check\\C1SE.70_ArchitectureDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795602746.0308337,
+  "size": 5158110,
+  "pages": 70,
+  "pdf_pages": null,
+  "words": 13387,
+  "title": "DBCAS Architecture Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 21
+ },
+ {
+  "sha256": "ec5207ec193329be",
+  "representative": "Documents\\Final-ver1.3\\verification\\repro-check\\C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795602746.583133,
+  "size": 3724238,
+  "pages": 63,
+  "pdf_pages": null,
+  "words": 10455,
+  "title": "DBCAS Database Design Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 13
+ },
+ {
+  "sha256": "35bb54b957c8aada",
+  "representative": "Documents\\Final-ver1.3\\verification\\repro-check\\C1SE.70_ProposalDocument_DBCAS_ver1.3.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795602745.5556393,
+  "size": 2779880,
+  "pages": 60,
+  "pdf_pages": null,
+  "words": 11977,
+  "title": "DBCAS Project Proposal Document — ver1.3",
+  "author": "Do, Nguyen Quoc",
+  "core_modified": "2026-11-25 00:00:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "9da81648dbd54bf7",
+  "representative": "Documents\\Final\\C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1794368688.497883,
+  "size": 4020592,
+  "pages": 70,
+  "pdf_pages": null,
+  "words": 13265,
+  "title": "DBCAS Architecture Design Document",
+  "author": "C1SE.70",
+  "core_modified": "2026-11-09 15:26:00+00:00",
+  "toc": [
+   "1. Actor, Use Case and UC Diagram1",
+   "1.1. Actors1",
+   "1.2. Use Cases2"
+  ],
+  "sections": 10,
+  "landscape": 3,
+  "images": 14
+ },
+ {
+  "sha256": "390723782cb9c2ec",
+  "representative": "Documents\\Final\\C1SE.70_DatabaseDesign_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1794366716.55883,
+  "size": 2278780,
+  "pages": 40,
+  "pdf_pages": null,
+  "words": 6594,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-11-09 15:19:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1.Purpose1",
+   "1.2.Scope1"
+  ],
+  "sections": 7,
+  "landscape": 1,
+  "images": 6
+ },
+ {
+  "sha256": "ec7d20982a096946",
+  "representative": "Documents\\Final\\C1SE.70_ProposalDocument_DBCAS_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1794366702.1271846,
+  "size": 2832300,
+  "pages": 59,
+  "pdf_pages": null,
+  "words": 11776,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-11-09 15:25:00+00:00",
+  "toc": [
+   "1. Project Title1",
+   "2. Team Members2",
+   "3. Supervisor(s)3"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 5
+ },
+ {
+  "sha256": "1e8cf361aedd69f1",
+  "representative": "Documents\\Other\\C1SE.70_UserStoryDocument_DBCAS_ver1.5.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1793286356.938825,
+  "size": 72788,
+  "pages": 25,
+  "pdf_pages": null,
+  "words": 2815,
+  "title": "DBCAS User Story Document",
+  "author": "tranvantu",
+  "core_modified": "2026-10-29 15:05:00+00:00",
+  "toc": [
+   "1. Introduction1",
+   "1.1. Purpose1",
+   "1.2. Scope1"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "732bf65bfa5ed6e2",
+  "representative": "FITAI - Documents\\1. Proposal Document\\C1SE.56_ProposalDocument_SHFA_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767596946.0,
+  "size": 655514,
+  "pages": 23,
+  "pdf_pages": 23,
+  "words": 2965,
+  "title": "Design Project Proposal Format",
+  "author": "Tu,Tran Van",
+  "core_modified": "2026-01-06 05:09:00+00:00",
+  "toc": [
+   "1. Project Title9",
+   "2. Project background and motivation9",
+   "3. Proposed Solution9"
+  ],
+  "sections": 3,
+  "landscape": 0,
+  "images": 4
+ },
+ {
+  "sha256": "be098f8a4d41a4a7",
+  "representative": "FITAI - Documents\\10. Sprint Backlog Document\\CS1SE.56_ProductBacklog_SprintBacklog_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767647718.0,
+  "size": 4690573,
+  "pages": 21,
+  "pdf_pages": 22,
+  "words": 1730,
+  "title": "",
+  "author": "Phạm Minh Thiện",
+  "core_modified": "2026-01-06 09:45:00+00:00",
+  "toc": [],
+  "sections": 5,
+  "landscape": 5,
+  "images": 13
+ },
+ {
+  "sha256": "de3448bf71a58c36",
+  "representative": "FITAI - Documents\\11. Code Standard\\C1SE.56_CodeStandard_SHFA_ver2.0.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767598116.0,
+  "size": 170969,
+  "pages": 14,
+  "pdf_pages": 14,
+  "words": 2018,
+  "title": "",
+  "author": "Tuan Doan",
+  "core_modified": "2026-01-06 05:28:00+00:00",
+  "toc": [
+   "1.Introduction6",
+   "1.1 Purpose6",
+   "1.2 Scope6"
+  ],
+  "sections": 5,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "05ce3a4788915d41",
+  "representative": "FITAI - Documents\\12. Meeting Document\\C1SE.56_Meeting_Minutes_Document_SHFA_ver2.0.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767349218.0,
+  "size": 2782466,
+  "pages": 30,
+  "pdf_pages": 30,
+  "words": 3667,
+  "title": "",
+  "author": "Duc Man Nguyen",
+  "core_modified": "2026-01-03 08:20:00+00:00",
+  "toc": [
+   "1.Meeting 017",
+   "2.Meeting 028",
+   "3.Meeting 039"
+  ],
+  "sections": 5,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "08f93d678181ebb2",
+  "representative": "FITAI - Documents\\13. Reflection\\C1SE.56_Reflection_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767349958.0,
+  "size": 143827,
+  "pages": 13,
+  "pdf_pages": 13,
+  "words": 2199,
+  "title": "",
+  "author": "Nguyễn Phú Thạch",
+  "core_modified": "2026-01-03 08:32:00+00:00",
+  "toc": [],
+  "sections": 4,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "d4300ffff399d52f",
+  "representative": "FITAI - Documents\\14. Technologies Stack Document\\C1SE.56_TechnologiesStack_SHFA_ver2.0.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767598348.0,
+  "size": 141948,
+  "pages": 12,
+  "pdf_pages": 12,
+  "words": 1823,
+  "title": "",
+  "author": "Minh Quan",
+  "core_modified": "2026-01-06 05:32:00+00:00",
+  "toc": [
+   "1.Introduction1",
+   "1.1. Purpose of document1",
+   "1.2. Document objectives1"
+  ],
+  "sections": 4,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "add39c6d715ba85d",
+  "representative": "FITAI - Documents\\15. AI Documentation\\C1SE.56_FitnessAI_FNAI_ver2.0.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767598632.0,
+  "size": 2561231,
+  "pages": 12,
+  "pdf_pages": 12,
+  "words": 2114,
+  "title": "",
+  "author": "Phạm Minh Thiện",
+  "core_modified": "2026-01-06 05:37:00+00:00",
+  "toc": [],
+  "sections": 3,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "3b7d5509c9f8c4c7",
+  "representative": "FITAI - Documents\\2. Project Plan Document\\C1SE56_ProjectPlanDocument_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767647746.0,
+  "size": 191355,
+  "pages": 22,
+  "pdf_pages": 22,
+  "words": 2980,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-01-06 08:24:00+00:00",
+  "toc": [
+   "1. Introduction7",
+   "1.1. Purpose7",
+   "1.2. Project Overview7"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 2
+ },
+ {
+  "sha256": "091904330cdab9a7",
+  "representative": "FITAI - Documents\\3. Product Backlog Document\\C1SE.56_ProductBacklogDocument_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767647754.0,
+  "size": 72267,
+  "pages": 10,
+  "pdf_pages": 10,
+  "words": 1045,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-01-06 08:26:00+00:00",
+  "toc": [
+   "1. Introduction6",
+   "1.1. Purpose6",
+   "1.2. Scope6"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "7b9649e2de7f22f1",
+  "representative": "FITAI - Documents\\4. User Stories Document\\C1SE.56_UserStoryDocument_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767597422.0,
+  "size": 67488,
+  "pages": 13,
+  "pdf_pages": 13,
+  "words": 1447,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-01-06 05:17:00+00:00",
+  "toc": [
+   "1. Introduction8",
+   "1.1. Purpose8",
+   "1.2. Scope8"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 1
+ },
+ {
+  "sha256": "7f131f50307559db",
+  "representative": "FITAI - Documents\\5. Architecture Design Document\\C1SE.56_ArchitectureDesign_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767639764.0,
+  "size": 3217153,
+  "pages": 35,
+  "pdf_pages": 35,
+  "words": 5164,
+  "title": "",
+  "author": "tranvantu",
+  "core_modified": "2026-01-06 10:02:00+00:00",
+  "toc": [],
+  "sections": 8,
+  "landscape": 3,
+  "images": 9
+ },
+ {
+  "sha256": "63f6f2db4269c85e",
+  "representative": "FITAI - Documents\\6. Database Design Document\\C1SE56_DatabaseDesign_SHFA_ver1.2.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767647700.0,
+  "size": 732923,
+  "pages": 21,
+  "pdf_pages": 21,
+  "words": 2385,
+  "title": "",
+  "author": "Dung Phan",
+  "core_modified": "2026-01-06 08:45:00+00:00",
+  "toc": [
+   "1.Introduction7",
+   "1.1.Purpose7",
+   "1.2.Scope7"
+  ],
+  "sections": 9,
+  "landscape": 1,
+  "images": 1
+ },
+ {
+  "sha256": "d3934f1f3275cb7a",
+  "representative": "FITAI - Documents\\7. User Interface Document\\C1SE.56_UserInterfaceDesignDocument_SHFA_ver1.1.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767584328.0,
+  "size": 9817985,
+  "pages": 41,
+  "pdf_pages": 41,
+  "words": 2828,
+  "title": "Design Project Proposal Format",
+  "author": "tranvantu",
+  "core_modified": "2026-01-06 01:38:00+00:00",
+  "toc": [
+   "1. Introduction8",
+   "1.1. Purpose8",
+   "1.2. Scope8"
+  ],
+  "sections": 2,
+  "landscape": 0,
+  "images": 38
+ },
+ {
+  "sha256": "a5a0a4b934b4007a",
+  "representative": "FITAI - Documents\\8. Test Plan Document\\C1SE.56_TestPlan_SHFA_ver2.0.docx",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1767347736.0,
+  "size": 172234,
+  "pages": 16,
+  "pdf_pages": 16,
+  "words": 2076,
+  "title": "",
+  "author": "Minh Quan",
+  "core_modified": "2026-01-03 07:55:00+00:00",
+  "toc": [
+   "1.Quality Objectives6",
+   "2.Scope of test6",
+   "2.1.Functions6"
+  ],
+  "sections": 4,
+  "landscape": 0,
+  "images": 0
+ },
+ {
+  "sha256": "01960b3f6be7ef98",
+  "representative": "README.txt",
+  "also_at": [],
+  "copies": 1,
+  "modified": 1795501612.8309238,
+  "size": 2815,
+  "pages": null,
+  "pdf_pages": null,
+  "toc": [
+   "DBCAS workspace — proposal test",
+   "================================",
+   "Folder map"
+  ]
+ }
+]

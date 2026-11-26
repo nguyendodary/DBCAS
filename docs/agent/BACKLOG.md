@@ -17,23 +17,25 @@ Priorities and owners live here; the current snapshot is in [STATUS](STATUS.md).
   changed.
 - The `ver1.3` set is **five** documents (Proposal, Architecture, Database,
   Code Standards, Technical Report) under `docs/submission/final`.
-  [Verification](freeze-logs/doc-verify.md) records 62/79/75/14/15 pages, 148 XML
+  [Verification](freeze-logs/doc-verify.md) records 61/80/75/17/18 pages, 148 XML
   assertions / 0 failures, 67-table traceability, the measured
   [FITAI specification](freeze-logs/doc-style-spec.md), 0 near-empty and 0
-  overflow PDF pages, and 0 TOC/list page mismatches. `npm run docs:verify-word`
-  is the gate.
-- 2026-11-26 baseline replacement: the condensed generated set was rejected and
-  archived to `Archive/rejected-final-20261126/` (49 files + `MANIFEST.sha256`).
-  The owner set was rebuilt by **in-place revision** of the content-complete
-  `Documents/Final-ver1.3` Proposal/Architecture/Database and the best surviving
-  DBCAS Code Standards/Technical Report. The 13-page ERD/ledger set was rebuilt
-  from introspection (67/561/122; 58 intra-domain + 64 cross-domain FKs), the
-  Gantt from Table 13, and a legible layering figure was added to Code Standards.
-  Evidence: [baseline-selection.md](freeze-logs/baseline-selection.md),
-  [doc-verify.md](freeze-logs/doc-verify.md), `verification/proposal-sections.md`.
-  Ten owner facts remain O1–O10 in Appendix A of every document. CI
-  `Local quality gate` run `45679605273` passed all 14 jobs at
-  `94bb39901d11f255ac12bde97bad8fb704e7658f`.
+  overflow PDF pages, and 360 TOC/list entries with 0 mismatches against Word
+  pagination. `npm run docs:verify-word` is the gate.
+- 2026-11-26 baseline rebuild: the owner-confirmed baselines (Proposal v1.4,
+  academic Architecture v1.2, Database v1.3, FITAI Code Standard v2.0 and FITAI
+  AI Documentation v2.0) replaced the earlier attempt; the previous 81-file set
+  is archived under `Archive/rejected-final-2-20261126/` with `MANIFEST.sha256`.
+  The 13-page ERD/ledger set was rebuilt from introspection (67/561/122; 58
+  intra-domain + 64 cross-domain FKs), the Gantt from Table 13, and the layering
+  and pipeline figures were restored.
+  Evidence: [focused inventory](freeze-logs/baseline-inventory-focused-20261126.md),
+  [duplicate audit](freeze-logs/baseline-duplicates-20261126.md),
+  [baseline selection](freeze-logs/baseline-selection-proposal-20261126.md),
+  [doc verification](freeze-logs/doc-verify.md), `verification/diffs/` and
+  `verification/figure-manifest.md`.
+  Ten owner facts remain O1–O10 in Appendix A of every document. The
+  exact-commit CI result is recorded after the push.
 - The stale practice count in `scripts/doc_facts.py` was corrected from
   `public_config()` and verified against the current public configuration
   without changing validators or application validation.

@@ -106,3 +106,24 @@ restores the required metadata afterwards. LibreOffice and Poppler are not
 installed; the PDF page images are produced with PyMuPDF from the Word exports.
 The rendered PDFs and every page image are inspected as contact sheets and at
 full size for covers, TOC, table pages and figure pages.
+
+## 5. Confirmed baseline frames (2026-11-26)
+
+The owner confirmed a different baseline set from the 2026-11-25 attempt:
+Proposal `C1SE.70_ProposalDocument_DBCAS_ver1.4.docx` (52 pages), Architecture
+`C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx` (the 70-page academic copy),
+Database `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx` (21 pages), Code Standards
+from `FITAI - Documents/11. Code Standard/C1SE.56_CodeStandard_SHFA_ver2.0.docx`
+(14 pages), and Technical Report from
+`FITAI - Documents/15. AI Documentation/C1SE.56_FitnessAI_FNAI_ver2.0.docx`
+(12 pages). `Documents/Final-ver1.3/` is the content reference, not the
+baseline.
+
+The applied values remain: A4, left 3.5 cm, right/top/bottom 2 cm, body Times
+New Roman 13 pt at 1.5, Heading 1 18 pt navy, Heading 2 14 pt navy, captions
+11 pt italic grey, tables 9–11 pt, code Consolas 9 pt, header/footer 9 pt,
+author/creator/lastModifiedBy `Do, Nguyen Quoc`. The final PDFs are 61 / 80 / 75
+/ 17 / 18 pages respectively. Word cannot refresh the TOC fields on these
+frames without hanging, so `updateFields` is disabled and the TOC/lists are
+aligned from Word's own paragraph pagination (`scripts/word_page_map.ps1`);
+the PDFs and Word agree on the physical pages.

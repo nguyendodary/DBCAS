@@ -35,16 +35,24 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 
 ## Last done
 
-- Baseline replacement (2026-11-26): the interrupted quality pass was committed
-  (`932ee76`), its condensed set archived, `docs/submission/final` recreated and
-  filled with in-place revisions of the content-complete baseline. Final pages
-  62/79/75/14/15; `docs:verify-word` 148/148; `docs:check` 48/48;
-  `inventory:check` PASS; `secrets:scan` 3 296 files / 0 findings; PDF checks
-  0 near-empty and 0 overflow; TOC/list page numbers 0 mismatches. The SRS
-  deliverable line was removed and Mode 1/Mode 2, the OpenAI-compatible `.env`
-  provider, the 13/50/25 limits, Free/Pro gating and V1/V2 results are explicit.
-  CI `Local quality gate` run [45679605273](https://github.com/nguyendodary/DBCAS/actions/runs/45679605273) passed all 14 jobs at
-  `94bb39901d11f255ac12bde97bad8fb704e7658f`. Production remains **HOLD**.
+- Baseline rebuild (2026-11-26): the owner-confirmed baselines — Proposal
+  `C1SE.70_ProposalDocument_DBCAS_ver1.4.docx`, Architecture
+  `docs/academic/C1SE.70_ArchitectureDesign_DBCAS_ver1.2.docx`, Database
+  `C1SE.70_DatabaseDesign_DBCAS_ver1.3.docx`, FITAI Code Standard
+  `C1SE.56_CodeStandard_SHFA_ver2.0.docx` and FITAI AI Documentation
+  `C1SE.56_FitnessAI_FNAI_ver2.0.docx` - were rebuilt in place on branch
+  `docs/baseline-rebuild-20261126`. The previous 81-file set is archived
+  byte-for-byte with `MANIFEST.sha256` under
+  `Archive/rejected-final-2-20261126/`. Final pages 61/80/75/17/18;
+  `docs:verify-word` 148/148; `docs:check` 48/48 (diagram, schema, docx and
+  figure checks PASS); `inventory:check` PASS; `secrets:scan` 3 402 files /
+  0 findings; PDF checks 0 near-empty and 0 overflow; TOC/List 360 entries,
+  0 mismatches against Word pagination. The 67-table ERD/ledger set,
+  owner-decision appendices, measured figures, Mode 1/Mode 2, the
+  OpenAI-compatible `.env` provider, the 13/50/25 limits,
+  Free/Pro gating and V1/V2 results are explicit; no SRS deliverable remains.
+  The exact-commit CI result is recorded after the push; production remains
+  **HOLD**.
 - Handover (2026-11-25): [release notes v1.1](../RELEASE_NOTES_v1.1.md), [submission summary](../submission-pack/SUMMARY.md), [demo checklist](../submission-pack/DEMO_CHECKLIST.md), README Windows Docker GID fallback, and [handover gates](freeze-logs/handover-gates.md); clean-clone `npm start` verified with fake keys; local tag `arch-freeze-v1.2` (not pushed). `main` unchanged.
 - [#96](https://github.com/nguyendodary/DBCAS/pull/96): freeze decisions and bloat register — merge `598e409c02a8630778ab3db5dd89430e6d50fee8`.
 - [#97](https://github.com/nguyendodary/DBCAS/pull/97): aligned demo runbook and README — merge `187c7e07f17363c02aa57b74c5580cdc796e6b07`.
@@ -60,7 +68,7 @@ Production: **HOLD**; release prerequisites are in [BACKLOG](BACKLOG.md).
 - [#109](https://github.com/nguyendodary/DBCAS/pull/109): test-only capability-forgery fix — merge `333e8c4518c217eae1d1aaf65813bdb84b4e050b`; exact-commit CI [run `45188946962`](https://github.com/nguyendodary/DBCAS/actions/runs/45188946962) green, backend 1914.
 - Earlier 3x on `14ffdead`: run [`45173345463`](https://github.com/nguyendodary/DBCAS/actions/runs/45173345463) attempts 1-2 green; attempt 3 failed in `test_capability_peer_identity_and_replay` because the old `xy` forgery changed only base64url padding bits (~1/1024). #109 makes the forgery deterministic; no production change.
 - New 3x on `333e8c45`: run [`45192055379`](https://github.com/nguyendodary/DBCAS/actions/runs/45192055379) attempts 1-3 green; backend 1914, frontend 459, all browser shards green.
-- Earlier v1.2 package (history, not the submission): `Architecture.docx` (77 pages), `Database.docx` (70), `Proposal.docx` (60); no SRS remains in the owner set. The current ver1.3 set is 62/79/75/14/15 pages under `docs/submission/final`.
+- Earlier v1.2 package (history, not the submission): `Architecture.docx` (77 pages), `Database.docx` (70), `Proposal.docx` (60); no SRS remains in the owner set. The current ver1.3 set is 61/80/75/17/18 pages under `docs/submission/final`.
 - Branch integration (2026-11-24, owner request): `feat/broker-runtime` merged as `23d4d65`; `demo/rehearsal` and `docs/submission-final` recorded as `aceb0d0` and `e541495`; `feat/demo-seed-snapshot` was already an ancestor of `develop2`. All four branches were deleted locally and on `origin`, and the broker worktree was removed.
 - Accepted freeze work T1–T8 (one commit each): `efb15e1` upload limit, `59a41df` i18n, `39f1d36` AI adaptive questions, `25ac1b3` AI candidates, `2b0641a` mixed AI types, `ac74ed1` mode UI, `3a16152` DML state grading, `974b92b` Free/Pro demo gating. T9 is documentation/freeze verification.
 - Post-freeze owner-approved fixes: `27c3e14` ephemeral exec + writable job, `3aec0b8` grade-visibility test, `ab06d14` final all-green suite. Model trials are recorded in `freeze-logs/model-trials.md` (uncommitted running log).
