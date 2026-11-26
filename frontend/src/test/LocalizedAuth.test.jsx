@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
@@ -138,6 +138,11 @@ it('localizes the real role-aware shell without exposing admin navigation to lea
   expect(screen.getAllByRole('link', { name: 'Tổng quan' })).toHaveLength(2)
   expect(screen.queryByRole('link', { name: 'Tài khoản' })).not.toBeInTheDocument()
   expect(screen.getByText('Original name')).toBeInTheDocument()
+  const accountMenu = screen.getByRole('button', { name: 'Original name' }).parentElement
+  expect(within(accountMenu).getByRole('link', { name: 'Nâng cấp' })).toHaveAttribute(
+    'href',
+    '/upgrade',
+  )
   expect(screen.getByRole('link', { name: 'Chuyển đến nội dung' })).toHaveAttribute(
     'href',
     '#main-content',
